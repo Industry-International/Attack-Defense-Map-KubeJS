@@ -71,24 +71,24 @@ function getProfConfig(id) {
 
 // ========== 2. 武器解析 ==========
 
-/** 主武器 id -> 物品 */
+/** 主武器 id -> 物品（JS对象格式，与GUI代码保持一致） */
 function resolveMainWeapon(id) {
   switch (id) {
     case 'sword':    return Item.of('minecraft:iron_sword')
     case 'bow':      return Item.of('minecraft:bow')
     case 'crossbow': return Item.of('minecraft:crossbow')
     case 'trident':  return Item.of('minecraft:trident')
-    case 'ak47':     return Item.of('tacz:modern_kinetic_gun', '{custom_data:{GunId:"tacz:ak47"}}')
+    case 'ak47':     return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: 'tacz:ak47' } })
     default:         return null
   }
 }
 
-/** 副武器 id -> 物品 */
+/** 副武器 id -> 物品（JS对象格式，与GUI代码保持一致） */
 function resolveOffhandWeapon(id) {
   switch (id) {
     case 'shield': return Item.of('minecraft:shield')
     case 'totem':  return Item.of('minecraft:totem_of_undying')
-    case 'mars':   return Item.of('tacz:modern_kinetic_gun', '{custom_data:{GunId:"lavender:mars"}}')
+    case 'mars':   return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: 'lavender:mars' } })
     default:       return null
   }
 }
@@ -97,14 +97,16 @@ function resolveOffhandWeapon(id) {
 
 function giveTaczAmmo(player, weaponId) {
   var ammoMap = {
-    ak47: { ammo: 'tacz:ammo', tag: '{AmmoId:"tacz:762x39",AmmoCount:30}', count: 6 },
-    mars: { ammo: 'tacz:ammo', tag: '{AmmoId:"tacz:45acp",AmmoCount:20}',  count: 6 },
+    ak47: { ammo: 'tacz:ammo', tag: { custom_data: { AmmoId: 'tacz:762x39', AmmoCount: 30 } }, count: 6 },
+    mars: { ammo: 'tacz:ammo', tag: { custom_data: { AmmoId: 'tacz:45acp',  AmmoCount: 20 } }, count: 6 },
   }
 
   var entry = ammoMap[weaponId]
   if (!entry) return
 
-  var stack = Item.of(entry.ammo, entry.tag)
+  var stack = entry.tag
+    ? Item.of(entry.ammo, entry.tag)
+    : Item.of(entry.ammo)
   stack.setCount(entry.count)
   player.give(stack)
 }
