@@ -1,9 +1,0 @@
-export * as util from "@package/com/sighs/apricityui/util";
-export * as style from "@package/com/sighs/apricityui/style";
-export * as instance from "@package/com/sighs/apricityui/instance";
-export * as mixin from "@package/com/sighs/apricityui/mixin";
-export * as render from "@package/com/sighs/apricityui/render";
-export * as init from "@package/com/sighs/apricityui/init";
-export * as element from "@package/com/sighs/apricityui/element";
-export * as task from "@package/com/sighs/apricityui/task";
-export * as resource from "@package/com/sighs/apricityui/resource";

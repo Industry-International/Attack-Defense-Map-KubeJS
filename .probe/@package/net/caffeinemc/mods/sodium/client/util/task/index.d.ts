@@ -1,9 +1,0 @@
-
-declare module "@package/net/caffeinemc/mods/sodium/client/util/task" {
-    export class $CancellationToken {
-    }
-    export interface $CancellationToken {
-        isCancelled(): boolean;
-        setCancelled(): void;
-    }
-}
