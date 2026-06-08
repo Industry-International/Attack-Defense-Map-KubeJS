@@ -1,0 +1,28 @@
+import { $Level_, $Level } from "@package/net/minecraft/world/level";
+import { $SubLevelPhysicsSystem } from "@package/dev/ryanhcode/sable/sublevel/system";
+import { $Event } from "@package/net/neoforged/bus/api";
+import { $SubLevelContainer } from "@package/dev/ryanhcode/sable/api/sublevel";
+
+declare module "@package/dev/ryanhcode/sable/neoforge/event" {
+    export class $ForgeSablePrePhysicsTickEvent extends $Event {
+        getTimeStep(): number;
+        getPhysicsSystem(): $SubLevelPhysicsSystem;
+        constructor(arg0: $SubLevelPhysicsSystem, arg1: number);
+        get timeStep(): number;
+        get physicsSystem(): $SubLevelPhysicsSystem;
+    }
+    export class $ForgeSableSubLevelContainerReadyEvent extends $Event {
+        getLevel(): $Level;
+        getContainer(): $SubLevelContainer;
+        constructor(arg0: $Level_, arg1: $SubLevelContainer);
+        get level(): $Level;
+        get container(): $SubLevelContainer;
+    }
+    export class $ForgeSablePostPhysicsTickEvent extends $Event {
+        getTimeStep(): number;
+        getPhysicsSystem(): $SubLevelPhysicsSystem;
+        constructor(arg0: $SubLevelPhysicsSystem, arg1: number);
+        get timeStep(): number;
+        get physicsSystem(): $SubLevelPhysicsSystem;
+    }
+}

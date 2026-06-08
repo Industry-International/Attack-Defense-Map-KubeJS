@@ -1,0 +1,9 @@
+export * as animation from "@package/software/bernie/geckolib/animation";
+export * as event from "@package/software/bernie/geckolib/event";
+export * as cache from "@package/software/bernie/geckolib/cache";
+export * as loading from "@package/software/bernie/geckolib/loading";
+export * as util from "@package/software/bernie/geckolib/util";
+export * as renderer from "@package/software/bernie/geckolib/renderer";
+export * as animatable from "@package/software/bernie/geckolib/animatable";
+export * as model from "@package/software/bernie/geckolib/model";
+export * as constant from "@package/software/bernie/geckolib/constant";

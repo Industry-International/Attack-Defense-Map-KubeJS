@@ -1,0 +1,9 @@
+export * as graph from "@package/com/simibubi/create/content/trains/graph";
+export * as entity from "@package/com/simibubi/create/content/trains/entity";
+export * as display from "@package/com/simibubi/create/content/trains/display";
+export * as schedule from "@package/com/simibubi/create/content/trains/schedule";
+export * as station from "@package/com/simibubi/create/content/trains/station";
+export * as bogey from "@package/com/simibubi/create/content/trains/bogey";
+export * as track from "@package/com/simibubi/create/content/trains/track";
+export * as signal from "@package/com/simibubi/create/content/trains/signal";
+export * as observer from "@package/com/simibubi/create/content/trains/observer";
