@@ -55,7 +55,7 @@ jobs:
       - name: 复制白名单根目录文件
         run: |
           # ⭐ 在此添加需要打包的根目录文件（用空格分隔）
-          FILES="README.txt LICENSE"
+          FILES="README.txt LICENSE 海战参数迁移更新日志.md 更新日志.md README.txt"
           for file in $FILES; do
             if [ -f "$file" ]; then
               echo "添加文件: $file"
