@@ -1,0 +1,83 @@
+import { $GlBufferArena } from "@package/net/caffeinemc/mods/sodium/client/gl/arena";
+import { $CommandList } from "@package/net/caffeinemc/mods/sodium/client/gl/device";
+import { $GlTessellation } from "@package/net/caffeinemc/mods/sodium/client/gl/tessellation";
+import { $RenderSection } from "@package/net/caffeinemc/mods/sodium/client/render/chunk";
+import { $SectionRenderDataStorage } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/data";
+import { $ChunkRenderList } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/lists";
+import { $StagingBuffer } from "@package/net/caffeinemc/mods/sodium/client/gl/arena/staging";
+import { $GlBuffer } from "@package/net/caffeinemc/mods/sodium/client/gl/buffer";
+import { $TerrainRenderPass } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/terrain";
+import { $RenderRegionExtension } from "@package/foundry/veil/forge/ext";
+
+declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/region" {
+    export class $RenderRegion$DeviceResources {
+        getIndexedTessellation(): $GlTessellation;
+        updateIndexedTessellation(arg0: $CommandList, arg1: $GlTessellation): void;
+        getGeometryBuffer(): $GlBuffer;
+        getTessellation(): $GlTessellation;
+        updateTessellation(arg0: $CommandList, arg1: $GlTessellation): void;
+        getIndexArena(): $GlBufferArena;
+        "delete"(arg0: $CommandList): void;
+        shouldDelete(): boolean;
+        getIndexBuffer(): $GlBuffer;
+        getGeometryArena(): $GlBufferArena;
+        deleteTessellation(arg0: $CommandList): void;
+        deleteIndexedTessellation(arg0: $CommandList): void;
+        constructor(arg0: $CommandList, arg1: $StagingBuffer);
+        get indexedTessellation(): $GlTessellation;
+        get geometryBuffer(): $GlBuffer;
+        get tessellation(): $GlTessellation;
+        get indexArena(): $GlBufferArena;
+        get indexBuffer(): $GlBuffer;
+        get geometryArena(): $GlBufferArena;
+    }
+    export class $RenderRegion implements $RenderRegionExtension {
+        refreshIndexedTesselation(arg0: $CommandList): void;
+        refreshTesselation(arg0: $CommandList): void;
+        createResources(arg0: $CommandList): $RenderRegion$DeviceResources;
+        addSection(arg0: $RenderSection): void;
+        getY(): number;
+        getX(): number;
+        update(arg0: $CommandList): void;
+        isEmpty(): boolean;
+        getResources(): $RenderRegion$DeviceResources;
+        static key(arg0: number, arg1: number, arg2: number): number;
+        "delete"(arg0: $CommandList): void;
+        getRenderList(): $ChunkRenderList;
+        getZ(): number;
+        createStorage(arg0: $TerrainRenderPass): $SectionRenderDataStorage;
+        getChunkY(): number;
+        getChunkZ(): number;
+        getChunkX(): number;
+        getStorage(arg0: $TerrainRenderPass): $SectionRenderDataStorage;
+        getSection(arg0: number): $RenderSection;
+        removeSection(arg0: $RenderSection): void;
+        veil$getPerspectiveRenderList(): $ChunkRenderList;
+        getOriginY(): number;
+        getOriginZ(): number;
+        getOriginX(): number;
+        static REGION_LENGTH: number;
+        static REGION_WIDTH: number;
+        static REGION_LENGTH_SH: number;
+        static REGION_WIDTH_M: number;
+        static REGION_HEIGHT_M: number;
+        static REGION_WIDTH_SH: number;
+        static REGION_LENGTH_M: number;
+        static REGION_HEIGHT_SH: number;
+        static REGION_SIZE: number;
+        static REGION_HEIGHT: number;
+        constructor(arg0: number, arg1: number, arg2: number, arg3: $StagingBuffer);
+        get y(): number;
+        get x(): number;
+        get empty(): boolean;
+        get resources(): $RenderRegion$DeviceResources;
+        get renderList(): $ChunkRenderList;
+        get z(): number;
+        get chunkY(): number;
+        get chunkZ(): number;
+        get chunkX(): number;
+        get originY(): number;
+        get originZ(): number;
+        get originX(): number;
+    }
+}

@@ -1,0 +1,37 @@
+import { $SectionPos } from "@package/net/minecraft/core";
+import { $RenderType } from "@package/net/minecraft/client/renderer";
+import { $XaeroMinimapSession } from "@package/xaero/common";
+
+declare module "@package/xaero/common/core" {
+    export class $IXaeroMinimapSMultiBlockChangePacket {
+    }
+    export interface $IXaeroMinimapSMultiBlockChangePacket {
+        xaero_mm_getSectionPos(): $SectionPos;
+    }
+    /**
+     * Values that may be interpreted as {@link $IXaeroMinimapSMultiBlockChangePacket}.
+     */
+    export type $IXaeroMinimapSMultiBlockChangePacket_ = (() => $SectionPos);
+    export class $IBufferSource {
+    }
+    export interface $IBufferSource {
+        setXaero_lastRenderType(arg0: $RenderType): void;
+        getXaero_lastRenderType(): $RenderType;
+    }
+    export class $IXaeroMinimapClientPlayNetHandler {
+    }
+    export interface $IXaeroMinimapClientPlayNetHandler {
+        getXaero_minimapSession(): $XaeroMinimapSession;
+        setXaero_minimapSession(arg0: $XaeroMinimapSession): void;
+    }
+    export class $IXaeroMinimapMinecraftClient {
+    }
+    export interface $IXaeroMinimapMinecraftClient {
+        getXaeroMinimap_fps(): number;
+        get xaeroMinimap_fps(): number;
+    }
+    /**
+     * Values that may be interpreted as {@link $IXaeroMinimapMinecraftClient}.
+     */
+    export type $IXaeroMinimapMinecraftClient_ = (() => number);
+}

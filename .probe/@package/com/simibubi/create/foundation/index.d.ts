@@ -1,0 +1,10 @@
+export * as mixin from "@package/com/simibubi/create/foundation/mixin";
+export * as blockEntity from "@package/com/simibubi/create/foundation/blockEntity";
+export * as utility from "@package/com/simibubi/create/foundation/utility";
+export * as gui from "@package/com/simibubi/create/foundation/gui";
+export * as block from "@package/com/simibubi/create/foundation/block";
+export * as item from "@package/com/simibubi/create/foundation/item";
+export * as collision from "@package/com/simibubi/create/foundation/collision";
+export * as virtualWorld from "@package/com/simibubi/create/foundation/virtualWorld";
+export * as advancement from "@package/com/simibubi/create/foundation/advancement";
+export * as fluid from "@package/com/simibubi/create/foundation/fluid";
