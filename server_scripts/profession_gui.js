@@ -4,6 +4,8 @@
 // 单页面设计：主界面（三个入口居中）→ 职业选 → 主武器 → 副武器
 // 翻译定义在 assets/kubejs/lang/{en_us,zh_cn}.json 中
 // ============================================================
+const $ByteTag = Java.loadClass("net.minecraft.nbt.ByteTag")
+const $IntTag = Java.loadClass("net.minecraft.nbt.IntTag")
 
 // ========== 数据定义 ==========
 
@@ -15,7 +17,7 @@ const MAIN_WEAPONS = [
   { id: 'bow',      display: 'minecraft:bow' },
   { id: 'crossbow', display: 'minecraft:crossbow' },
   { id: 'trident',  display: 'minecraft:trident' },
-  { id: 'ak47',     display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:ak47' } } },
+  { id: 'ak47',     display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:ak47', GunCurrentAmmoCount: $IntTag.valueOf(30) } } },
 ]
 const OFFHAND_WEAPONS = [
   { id: 'shield', display: 'minecraft:shield' },

@@ -81,10 +81,10 @@ function resolveMainWeapon(id) {
     case 'ak47':
       return Item.of('tacz:modern_kinetic_gun', {
         custom_data: {
-          HasBulletInBarrel: 1,
+          HasBulletInBarrel: $ByteTag.valueOf(1),
           GunId: 'tacz:ak47',
           GunFireMode: 'AUTO',
-          GunCurrentAmmoCount: 30,
+          GunCurrentAmmoCount: $IntTag.valueOf(30),
         },
       })
     default:         return null
@@ -99,6 +99,7 @@ function resolveOffhandWeapon(id) {
     case 'mars':
       return Item.of('tacz:modern_kinetic_gun', {
         custom_data: {
+          HasBulletInBarrel: $ByteTag.valueOf(1),
           GunId: 'lavender:mars',
         },
       })
