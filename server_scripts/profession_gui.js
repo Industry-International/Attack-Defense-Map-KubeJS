@@ -11,11 +11,15 @@ const PROFESSIONS = [
   { id: 'assault' }, { id: 'scout' }, { id: 'medic' }, { id: 'support' },
 ]
 const MAIN_WEAPONS = [
-  { id: 'sword'    }, { id: 'bow'      }, { id: 'crossbow' },
-  { id: 'trident'  },
+  { id: 'sword',    display: 'minecraft:iron_sword' },
+  { id: 'bow',      display: 'minecraft:bow' },
+  { id: 'crossbow', display: 'minecraft:crossbow' },
+  { id: 'trident',  display: 'minecraft:trident' },
+  { id: 'ak47',     display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:ak47' } } },
 ]
 const OFFHAND_WEAPONS = [
-  { id: 'shield' }, { id: 'totem'  },
+  { id: 'shield', display: 'minecraft:shield' },
+  { id: 'totem',  display: 'minecraft:totem_of_undying' },
 ]
 
 // ========== 辅助工具 ==========
@@ -136,7 +140,8 @@ function renderWeapon(gui, player, openPage) {
   const start = Math.floor((9 - MAIN_WEAPONS.length) / 2)
   MAIN_WEAPONS.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
-      slot.setItem(Item.of('minecraft:iron_sword').withCustomName(Text.translate('weapon.kubejs.' + wp.id)))
+      var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
+      slot.setItem(wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id)))
       slot.setLeftClicked(() => {
         player.persistentData.mainWeapon = wp.id
         player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', Text.translate('weapon.kubejs.' + wp.id)))
@@ -151,7 +156,7 @@ function renderOffhand(gui, player, openPage) {
   const start = Math.floor((9 - OFFHAND_WEAPONS.length) / 2)
   OFFHAND_WEAPONS.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
-      slot.setItem(Item.of('minecraft:shield').withCustomName(Text.translate('offhand.kubejs.' + wp.id)))
+      slot.setItem(Item.of(wp.display).withCustomName(Text.translate('offhand.kubejs.' + wp.id)))
       slot.setLeftClicked(() => {
         player.persistentData.offhandWeapon = wp.id
         player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', Text.translate('offhand.kubejs.' + wp.id)))
