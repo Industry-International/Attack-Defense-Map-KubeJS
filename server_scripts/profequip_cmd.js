@@ -110,44 +110,42 @@ function resolveOffhandWeapon(id) {
 // ========== 3. TACZ 弹药配置 ==========
 
 /**
- * 弹药配置（支持特殊武器覆盖）
+ * 弹药配置
  *   ammoId      — 弹药类型
- *   main        — 主武器总发数
- *   offhand     — 副武器总发数
- *   boxCapacity — 每个弹药盒容量
+ *   main        — 主武器弹药盒装弹量
+ *   offhand     — 副武器弹药盒装弹量
  *   level       — 弹药盒等级（2=钻石）
  */
 const TACZ_AMMO = {
-  ak47: { ammoId: 'tacz:762x39', main: 210, offhand: 50, boxCapacity: 60, level: 2 },
-  mars: { ammoId: 'tacz:45acp',  main: 210, offhand: 50, boxCapacity: 60, level: 2 },
+  ak47: { ammoId: 'tacz:762x39', main: 210, level: 2 },
+  mars: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
 }
 
-/** 给玩家发放弹药盒（按需拆分多盒） */
-function giveTaczAmmo(player, weaponId, slot) {
-  var cfg = TACZ_AMMO[weaponId]
-  if (!cfg) return
+/** 给玩家发放一个弹药盒（主手/副手各一盒） */
+function giveAmmoBox(player, weaponId, slot) {
+  // 1. 强制转字符串 + 清除首尾空白
+  let pureId = String(weaponId || "").trim();
+  // 2. 移除 首尾英文双引号 " （核心修复）
+  pureId = pureId.replace(/^"|"$/g, "");
+  var cfg = TACZ_AMMO[pureId]
+
+  if (!cfg) {
+    player.tell(Component.string(`§c❌ 匹配失败：在 TACZ_AMMO 中未找到该武器配置`));
+    player.tell(Component.string(`§7==============================`));
+    return
+  }
 
   var total = slot === 'main' ? cfg.main : cfg.offhand
-  var remaining = total
-
-  while (remaining > 0) {
-    var boxAmount = Math.min(remaining, cfg.boxCapacity)
-    var box = Item.of('tacz:ammo_box', {
-      custom_data: {
-        AmmoCount: boxAmount,
-        AmmoId: cfg.ammoId,
-        Level: cfg.level,
-      },
-    })
-    player.give(box)
-    remaining -= boxAmount
-  }
+  var box = Item.of('tacz:ammo_box', {
+    custom_data: {
+      AmmoCount: $IntTag.valueOf(total),
+      AmmoId: cfg.ammoId,
+      Level: $IntTag.valueOf(cfg.level)
+    },
+  })
+  player.give(box)
 }
-
 // ========== 4. 装备发放核心 ==========
-
-/** 护甲槽位名（靴裤胸盔） */
-var ARMOR_SLOTS = ['feet', 'legs', 'chest', 'head']
 
 /**
  * 给单个玩家发放职业装备
@@ -178,33 +176,30 @@ function giveLoadout(target) {
     return false
   }
 
-  // -------- ① 清空全身 + 背包 --------
-  ARMOR_SLOTS.forEach(function(slot) {
+  // -------- ① 清空全身(护甲槽) + 背包 --------
+  var armorSlots = ['feet', 'legs', 'chest', 'head']
+  armorSlots.forEach(function(slot) {
     target.setItemSlot(slot, Item.of('minecraft:air'))
   })
-  target.setItemSlot('mainhand', Item.of('minecraft:air'))
-  target.setItemSlot('offhand',  Item.of('minecraft:air'))
   target.getInventory().clear()
   // 保留职业选择器
   target.give(Item.of('kubejs:profession_selector'))
 
-  // -------- ② 护甲直接穿戴到身上 --------
+  // -------- ② 护甲直接装备到身上 --------
   for (var i = 0; i < 4; i++) {
-    target.setItemSlot(ARMOR_SLOTS[i], Item.of(config.armor[i]))
+    target.setItemSlot(armorSlots[i], Item.of(config.armor[i]))
   }
 
-  // -------- ③ 主武器 (直接装备主手 + 背包备用) --------
+  // -------- ③ 主武器（给到背包） --------
   var mainItem = resolveMainWeapon(mainWp)
   if (mainItem) {
-    target.setItemSlot('mainhand', mainItem)
-    target.give(mainItem.copy())
+    target.give(mainItem)
   }
 
-  // -------- ④ 副武器 (直接装备副手 + 背包备用) --------
+  // -------- ④ 副武器（给到背包） --------
   var offhandItem = resolveOffhandWeapon(offWp)
   if (offhandItem) {
-    target.setItemSlot('offhand', offhandItem)
-    target.give(offhandItem.copy())
+    target.give(offhandItem)
   }
 
   // -------- ⑤ 兵种额外物品 --------
@@ -216,9 +211,9 @@ function giveLoadout(target) {
     target.give(stack)
   })
 
-  // -------- ⑥ TACZ 弹药补给（主手210发 / 副手50发） --------
-  giveTaczAmmo(target, mainWp, 'main')
-  giveTaczAmmo(target, offWp, 'offhand')
+  // -------- ⑥ 弹药盒（给到背包） --------
+  giveAmmoBox(target, mainWp, 'main')
+  giveAmmoBox(target, offWp, 'offhand')
 
   target.tell(Component.string('§a✔ 装备已发放完毕！'))
   return true
