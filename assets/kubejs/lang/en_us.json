@@ -1,3 +1,11 @@
 {
-    "item.kubejs.menu": "Menu"
+    "item.kubejs.menu": "§6Menu",
+    "menu.title": "§6Team Selection",
+    "menu.back": "§7← Back",
+    "menu.status": "§eCurrent",
+    "team.attack": "§c§l⚔ ATTACK",
+    "team.defense": "§9§l🛡 DEFENSE",
+    "team.none": "§7None",
+    "team.joined_attack": "§a✔ Joined §c§lATTACK§a!",
+    "team.joined_defense": "§a✔ Joined §9§lDEFENSE§a!"
 }

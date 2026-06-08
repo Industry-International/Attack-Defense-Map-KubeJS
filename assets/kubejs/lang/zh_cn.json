@@ -1,3 +1,11 @@
 {
-    "item.kubejs.menu": "菜单"
+    "item.kubejs.menu": "§6菜 单",
+    "menu.title": "§6队伍选择",
+    "menu.back": "§7← 返回",
+    "menu.status": "§e当前",
+    "team.attack": "§c§l⚔ 进 攻 方",
+    "team.defense": "§9§l🛡 防 守 方",
+    "team.none": "§7未选择",
+    "team.joined_attack": "§a✔ 已加入 §c§l进攻方§a！",
+    "team.joined_defense": "§a✔ 已加入 §9§l防守方§a！"
 }
