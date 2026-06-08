@@ -31,5 +31,14 @@
 
   "msg.kubejs.profession_select.selected": "\u00a7a[Profession] Selected: %s",
   "msg.kubejs.profession_select.main_weapon": "\u00a7a[Profession] Main weapon: %s",
-  "msg.kubejs.profession_select.offhand_weapon": "\u00a7a[Profession] Offhand: %s"
+  "msg.kubejs.profession_select.offhand_weapon": "\u00a7a[Profession] Offhand: %s",
+  "item.kubejs.menu": "§6Menu",
+  "menu.title": "§6Team Selection",
+  "menu.back": "§7← Back",
+  "menu.status": "§eCurrent",
+  "team.attack": "§c§l⚔ ATTACK",
+  "team.defense": "§9§l🛡 DEFENSE",
+  "team.none": "§7None",
+  "team.joined_attack": "§a✔ Joined §c§lATTACK§a!",
+  "team.joined_defense": "§a✔ Joined §9§lDEFENSE§a!"
 }
