@@ -14,107 +14,82 @@
 name: KubeJS 发版打包
 
 on:
-  # 发布 Release 时自动触发
   release:
     types: [published, created, edited]
-
-  # 支持手动触发（方便测试）
   workflow_dispatch:
     inputs:
       tag:
-        description: '要上传到的 Release 标签（留空则使用 latest）'
+        description: 要上传到的 Release 标签（留空则使用 latest）
         required: false
         type: string
 
 # ============================================================
-# 白名单配置区（在此修改需要打包的文件夹/文件）
+# 白名单配置区 ⬇️ 在此修改需要打包的文件夹/文件
 # ============================================================
 env:
-  # 输出的压缩包名称（不含后缀）
   PACKAGE_NAME: "KubeJS-脚本包"
 
-  # ===== 打包白名单 =====
-  # 格式：每行一个路径，支持：
-  #   - 文件夹（自动递归包含所有内容）
-  #   - 单个文件
-  #
-  # 白名单中的文件夹：
-  WHITELIST_DIRS: >
-    startup_scripts
-    server_scripts
-    client_scripts
-    assets
-    data
-    config
-
-  # 白名单中的根目录文件：
-  WHITELIST_FILES: >
-    README.txt
-    LICENSE
-
-# ============================================================
-# 工作流
-# ============================================================
 jobs:
   package-and-upload:
     name: 打包并上传到 Release
     runs-on: ubuntu-latest
 
     steps:
-      # ---- 检出代码 ----
       - name: 检出仓库代码
         uses: actions/checkout@v4
 
-      # ---- 创建临时打包目录 ----
       - name: 创建打包暂存目录
         run: mkdir -p build
 
-      # ---- 复制白名单文件夹 ----
-      - name: 复制白名单文件夹到打包目录
+      # ===== 复制白名单文件夹 =====
+      - name: 复制白名单文件夹
         run: |
-          for dir in ${{ env.WHITELIST_DIRS }}; do
+          # ⭐ 在此添加需要打包的文件夹（用空格分隔）
+          DIRS="startup_scripts server_scripts client_scripts assets data config"
+          for dir in $DIRS; do
             if [ -d "$dir" ]; then
-              echo "✅ 添加文件夹: $dir"
+              echo "添加文件夹: $dir"
               cp -r "$dir" "build/$dir"
             else
-              echo "⚠️ 文件夹不存在，跳过: $dir"
+              echo "文件夹不存在，跳过: $dir"
             fi
           done
 
-      # ---- 复制白名单文件 ----
-      - name: 复制白名单文件到打包目录
+      # ===== 复制白名单文件 =====
+      - name: 复制白名单根目录文件
         run: |
-          for file in ${{ env.WHITELIST_FILES }}; do
+          # ⭐ 在此添加需要打包的根目录文件（用空格分隔）
+          FILES="README.txt LICENSE"
+          for file in $FILES; do
             if [ -f "$file" ]; then
-              echo "✅ 添加文件: $file"
+              echo "添加文件: $file"
               cp "$file" "build/$file"
             else
-              echo "⚠️ 文件不存在，跳过: $file"
+              echo "文件不存在，跳过: $file"
             fi
           done
 
-      # ---- 生成版本信息文件 ----
+      # ===== 生成版本信息 =====
       - name: 生成版本信息
         run: |
           echo "version=${{ github.event.release.tag_name || github.ref_name }}" > build/version.txt
           echo "date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> build/version.txt
           echo "commit=${{ github.sha }}" >> build/version.txt
-          echo "✅ 已生成 build/version.txt"
+          echo "已生成 build/version.txt"
 
-      # ---- 压缩打包 ----
+      # ===== 压缩打包 =====
       - name: 压缩为 ZIP
         run: |
           cd build
           zip -r "../${{ env.PACKAGE_NAME }}.zip" ./*
           cd ..
-          echo "✅ 压缩完成: ${{ env.PACKAGE_NAME }}.zip"
-          echo "   大小: $(du -h ${{ env.PACKAGE_NAME }}.zip | cut -f1)"
+          echo "压缩完成: ${{ env.PACKAGE_NAME }}.zip"
+          echo "大小: $(du -h ${{ env.PACKAGE_NAME }}.zip | cut -f1)"
 
-      # ---- 上传到 Release ----
+      # ===== 上传到 Release =====
       - name: 上传到 Release 附件
         uses: softprops/action-gh-release@v2
         with:
-          # 如果手动触发时指定了 tag，则上传到那个 Release
           tag_name: ${{ inputs.tag || github.event.release.tag_name }}
           files: ${{ env.PACKAGE_NAME }}.zip
         env:
