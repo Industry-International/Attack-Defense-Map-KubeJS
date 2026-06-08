@@ -1,11 +1,31 @@
 {
   "item.kubejs.profession_selector": "Profession Selector",
-  "item.kubejs.profession_selector.tooltip": "Right-click to open the profession selection GUI",
-  "item.kubejs.profession_selector.tooltip2": "Choose your profession, main weapon and offhand weapon",
 
-  "gui.kubejs.profession_select.title": "Profession Selection",
-  "gui.kubejs.profession_select.choose_main": "Select Main Weapon",
-  "gui.kubejs.profession_select.choose_offhand": "Select Offhand Weapon",
+  "gui.kubejs.profession_select.title": "\u00a78Profession Selection",
+  "gui.kubejs.profession_select.locked": "\u00a7c\u00a7lLOCKED",
+  "gui.kubejs.profession_select.lock_profession": "\u00a77Select a profession first",
+  "gui.kubejs.profession_select.lock_weapon": "\u00a77Select a main weapon first",
+  "gui.kubejs.profession_select.hint_click": "\u00a7eClick to select",
+
+  "gui.kubejs.profession_select.entry_profession": "\u00a7aProfession",
+  "gui.kubejs.profession_select.entry_profession_done": "\u00a7a\u2714 Profession",
+  "gui.kubejs.profession_select.entry_weapon": "\u00a7bMain Weapon",
+  "gui.kubejs.profession_select.entry_weapon_done": "\u00a7a\u2714 Main Weapon",
+  "gui.kubejs.profession_select.entry_offhand": "\u00a7eOffhand Weapon",
+  "gui.kubejs.profession_select.entry_offhand_done": "\u00a7a\u2714 Offhand Weapon",
+
+  "gui.kubejs.profession_select.status_profession": "\u00a7aProfession",
+  "gui.kubejs.profession_select.status_weapon": "\u00a7bMain Weapon",
+  "gui.kubejs.profession_select.status_offhand": "\u00a7eOffhand Weapon",
+  "gui.kubejs.profession_select.none": "\u00a77None",
+
+  "gui.kubejs.profession_select.sub_profession": "\u00a78Select Profession",
+  "gui.kubejs.profession_select.sub_main_weapon": "\u00a78Select Main Weapon",
+  "gui.kubejs.profession_select.sub_offhand": "\u00a78Select Offhand Weapon",
+  "gui.kubejs.profession_select.choose_profession": "\u00a7a\u00a7lChoose Your Profession",
+  "gui.kubejs.profession_select.choose_main": "\u00a7b\u00a7lChoose Main Weapon",
+  "gui.kubejs.profession_select.choose_offhand": "\u00a7e\u00a7lChoose Offhand Weapon",
+  "gui.kubejs.profession_select.back": "\u00a7c\u2190 Back",
 
   "profession.kubejs.warrior": "\u00a7cWarrior",
   "profession.kubejs.warrior.desc": "\u00a77Melee DPS, High survivability",
@@ -30,6 +50,5 @@
 
   "msg.kubejs.profession_select.selected": "\u00a7a[Profession] Selected: %s",
   "msg.kubejs.profession_select.main_weapon": "\u00a7a[Profession] Main weapon: %s",
-  "msg.kubejs.profession_select.offhand_weapon": "\u00a7a[Profession] Offhand: %s",
-  "msg.kubejs.profession_select.closed": "\u00a77[Profession] GUI closed"
+  "msg.kubejs.profession_select.offhand_weapon": "\u00a7a[Profession] Offhand: %s"
 }
