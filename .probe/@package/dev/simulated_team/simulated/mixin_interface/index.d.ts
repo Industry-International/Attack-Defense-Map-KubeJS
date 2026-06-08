@@ -1,0 +1,45 @@
+import { $LaunchedPlungerEntity } from "@package/dev/simulated_team/simulated/content/entities/launched_plunger";
+import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
+import { $ResourceLocation, $ResourceLocation_ } from "@package/net/minecraft/resources";
+import { $SpriteContents$Ticker } from "@package/net/minecraft/client/renderer/texture";
+import { $EndDragonFight$Data_ } from "@package/net/minecraft/world/level/dimension/end";
+export * as diagram from "@package/dev/simulated_team/simulated/mixin_interface/diagram";
+export * as extra_kinetics from "@package/dev/simulated_team/simulated/mixin_interface/extra_kinetics";
+export * as ponder from "@package/dev/simulated_team/simulated/mixin_interface/ponder";
+export * as tooltip_flag from "@package/dev/simulated_team/simulated/mixin_interface/tooltip_flag";
+export * as assembly_preventer from "@package/dev/simulated_team/simulated/mixin_interface/assembly_preventer";
+
+declare module "@package/dev/simulated_team/simulated/mixin_interface" {
+    export class $PlayerLaunchedPlungerExtension {
+    }
+    export interface $PlayerLaunchedPlungerExtension {
+        simulated$getLaunchedPlunger(): $LaunchedPlungerEntity;
+        simulated$setLaunchedPlunger(arg0: $LaunchedPlungerEntity): void;
+    }
+    export class $SpriteContentsExtension {
+    }
+    export interface $SpriteContentsExtension {
+        simulated$getTicker(): $SpriteContents$Ticker;
+        simulated$setTicker(arg0: $SpriteContents$Ticker): void;
+    }
+    export class $TickerExtension {
+    }
+    export interface $TickerExtension {
+        simulated$isPlaying(): boolean;
+        simulated$setPlaying(arg0: boolean): void;
+    }
+    export class $PlayerTypewriterExtension {
+    }
+    export interface $PlayerTypewriterExtension {
+        simulated$setCurrentTypewriter(arg0: $BlockPos_): void;
+        simulated$getCurrentTypewriter(): $BlockPos;
+    }
+    export class $PrimaryLevelDataExtension {
+    }
+    export interface $PrimaryLevelDataExtension {
+        setEndDragonFight(arg0: $EndDragonFight$Data_): void;
+        getPreset(): $ResourceLocation;
+        setPreset(arg0: $ResourceLocation_): void;
+        set endDragonFight(value: $EndDragonFight$Data_);
+    }
+}

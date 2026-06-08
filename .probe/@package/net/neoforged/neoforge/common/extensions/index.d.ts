@@ -1,0 +1,828 @@
+import { $RecipeType_, $Recipe, $RecipeManager } from "@package/net/minecraft/world/item/crafting";
+import { $CompoundTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
+import { $Either } from "@package/com/mojang/datafixers/util";
+import { $EntityType_, $EquipmentSlot_, $EquipmentSlot, $LivingEntity, $Mob, $MobCategory, $Entity } from "@package/net/minecraft/world/entity";
+import { $FluidType_, $FluidType } from "@package/net/neoforged/neoforge/fluids";
+import { $CallbackInfoReturnable } from "@package/org/spongepowered/asm/mixin/injection/callback";
+import { $RecipeOutput } from "@package/net/minecraft/data/recipes";
+import { $CustomPacketPayload_, $CustomPacketPayload$Type_, $CustomPacketPayload } from "@package/net/minecraft/network/protocol/common/custom";
+import { $LogicalSide } from "@package/net/neoforged/fml";
+import { $RandomSource } from "@package/net/minecraft/util";
+import { $AdvancementHolder, $AdvancementHolder_ } from "@package/net/minecraft/advancements";
+import { $InteractionResult, $MenuProvider, $InteractionHand_ } from "@package/net/minecraft/world";
+import { $DecimalFormat } from "@package/java/text";
+import { $TriState, $INBTSerializable } from "@package/net/neoforged/neoforge/common/util";
+import { $SoundEvent } from "@package/net/minecraft/sounds";
+import { $BlockState_, $BlockState } from "@package/net/minecraft/world/level/block/state";
+import { $PacketSendListener, $Connection, $RegistryFriendlyByteBuf, $PacketListener, $FriendlyByteBuf } from "@package/net/minecraft/network";
+import { $MenuType, $AbstractContainerMenu } from "@package/net/minecraft/world/inventory";
+import { $DataComponentType, $DataComponentType_, $DataComponentMap$Builder } from "@package/net/minecraft/core/component";
+import { $IBlockStateExtensionMixin, $IBlockExtensionMixin } from "@package/net/fabricmc/fabric/mixin/block";
+import { $SoundAction, $ItemAbility_, $EffectCure } from "@package/net/neoforged/neoforge/common";
+import { $IWithData } from "@package/net/neoforged/neoforge/registries/datamaps";
+import { $IContainerFactory_ } from "@package/net/neoforged/neoforge/network";
+import { $Item, $Item$Properties, $Item$TooltipContext, $TooltipFlag, $ItemStack_, $ItemStack, $ArmorMaterial$Layer } from "@package/net/minecraft/world/item";
+import { $MutableComponent, $Component_, $TextColor, $TextColor_, $Component } from "@package/net/minecraft/network/chat";
+import { $PartEntity } from "@package/net/neoforged/neoforge/entity";
+import { $MobEffectInstance } from "@package/net/minecraft/world/effect";
+import { $ConfigurationTask$Type_ } from "@package/net/minecraft/server/network";
+import { $Player, $Inventory } from "@package/net/minecraft/world/entity/player";
+import { $ModelDataManager, $ModelData } from "@package/net/neoforged/neoforge/client/model/data";
+import { $DamageContainer } from "@package/net/neoforged/neoforge/common/damagesource";
+import { $RailShape, $RailShape_ } from "@package/net/minecraft/world/level/block/state/properties";
+import { $UseOnContext } from "@package/net/minecraft/world/item/context";
+import { $ReentrantBlockableEventLoop } from "@package/net/minecraft/util/thread";
+import { $EnderMan } from "@package/net/minecraft/world/entity/monster";
+import { $SoundType, $Rotation_ } from "@package/net/minecraft/world/level/block";
+import { $Transformation } from "@package/com/mojang/math";
+import { $Boat, $AbstractMinecart } from "@package/net/minecraft/world/entity/vehicle";
+import { $HitResult, $AABB, $Vec3_, $BlockHitResult } from "@package/net/minecraft/world/phys";
+import { $FabricItem } from "@package/net/fabricmc/fabric/api/item/v1";
+import { $ItemCapability, $BlockCapability } from "@package/net/neoforged/neoforge/capabilities";
+import { $Vector3f, $Vector4f } from "@package/org/joml";
+import { $TreeConfiguration } from "@package/net/minecraft/world/level/levelgen/feature/configurations";
+import { $TagsProvider$TagAppender, $IntrinsicHolderTagsProvider$IntrinsicTagAppender } from "@package/net/minecraft/data/tags";
+import { $ConnectionType } from "@package/net/neoforged/neoforge/network/connection";
+import { $AttributeModifier$Operation_, $AttributeModifier_ } from "@package/net/minecraft/world/entity/ai/attributes";
+import { $Set_, $Map, $OptionalInt, $Map_, $Collection_, $List_, $Collection } from "@package/java/util";
+import { $FabricBlockState, $FabricBlock } from "@package/net/fabricmc/fabric/api/block/v1";
+import { $IntFunction_, $Supplier_, $Consumer_, $BiConsumer_, $BiPredicate_, $BiFunction_ } from "@package/java/util/function";
+import { $PathType, $PathType_ } from "@package/net/minecraft/world/level/pathfinder";
+import { $ServerPlayer$RespawnPosAngle, $ServerChunkCache, $ServerLevel, $ServerPlayer } from "@package/net/minecraft/server/level";
+import { $BlockPos, $HolderLookup$RegistryLookup, $BlockPos_, $Holder$Reference, $HolderLookup$Provider, $Holder_, $Holder, $Direction_, $Direction } from "@package/net/minecraft/core";
+import { $Enchantment, $EnchantmentInstance, $Enchantment_, $ItemEnchantments } from "@package/net/minecraft/world/item/enchantment";
+import { $ICondition } from "@package/net/neoforged/neoforge/common/conditions";
+import { $PacketFlow, $Packet } from "@package/net/minecraft/network/protocol";
+import { $Enum, $Iterable_, $Runnable_ } from "@package/java/lang";
+import { $BlockAndTintGetter, $Explosion, $LevelAccessor, $LevelReader, $ChunkPos, $BlockGetter, $SignalGetter, $Level, $Level_ } from "@package/net/minecraft/world/level";
+import { $TagBuilder, $TagEntry, $TagKey_ } from "@package/net/minecraft/tags";
+import { $ExistingFileHelper } from "@package/net/neoforged/neoforge/common/data";
+import { $FluidState, $PushReaction, $MapColor } from "@package/net/minecraft/world/level/material";
+import { $ItemAttributeModifiers, $TooltipProvider } from "@package/net/minecraft/world/item/component";
+import { $PlayerList } from "@package/net/minecraft/server/players";
+import { $ClientboundBlockEntityDataPacket } from "@package/net/minecraft/network/protocol/game";
+import { $ItemEntity } from "@package/net/minecraft/world/entity/item";
+import { $FoodProperties } from "@package/net/minecraft/world/food";
+import { $ResourceKey_, $ResourceKey, $ResourceLocation, $ResourceLocation_ } from "@package/net/minecraft/resources";
+import { $Scoreboard } from "@package/net/minecraft/world/scores";
+import { $AuxiliaryLightManager } from "@package/net/neoforged/neoforge/common/world";
+import { $BlockEntity } from "@package/net/minecraft/world/level/block/entity";
+import { $BubbleColumnDirection } from "@package/net/neoforged/neoforge/common/enums";
+import { $DamageSource_ } from "@package/net/minecraft/world/damagesource";
+import { $StreamEncoder_, $StreamDecoder_ } from "@package/net/minecraft/network/codec";
+import { $TriConsumer_ } from "@package/org/apache/commons/lang3/function";
+
+declare module "@package/net/neoforged/neoforge/common/extensions" {
+    export class $IServerCommonPacketListenerExtension {
+    }
+    export interface $IServerCommonPacketListenerExtension extends $ICommonPacketListener {
+        send(arg0: $CustomPacketPayload_): void;
+        send(arg0: $Packet<never>, arg1: $PacketSendListener): void;
+        send(arg0: $CustomPacketPayload_, arg1: $PacketSendListener): void;
+    }
+    export class $IEnchantmentExtension {
+    }
+    export interface $IEnchantmentExtension {
+    }
+    export class $ILevelExtension {
+        static TRANSLATION_PREFIX: string;
+    }
+    export interface $ILevelExtension {
+        getDescription(): $Component;
+        getCapability<T>(arg0: $BlockCapability<T, void>, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockEntity): T;
+        getCapability<T, C>(arg0: $BlockCapability<T, C>, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockEntity, arg4: C): T;
+        getCapability<T, C>(arg0: $BlockCapability<T, C>, arg1: $BlockPos_, arg2: C): T;
+        getCapability<T>(arg0: $BlockCapability<T, void>, arg1: $BlockPos_): T;
+        invalidateCapabilities(arg0: $BlockPos_): void;
+        invalidateCapabilities(arg0: $ChunkPos): void;
+        getModelDataManager(): $ModelDataManager;
+        getDescriptionKey(): string;
+        getMaxEntityRadius(): number;
+        getPartEntities(): $Collection<$PartEntity<never>>;
+        increaseMaxEntityRadius(arg0: number): number;
+        get description(): $Component;
+        get modelDataManager(): $ModelDataManager;
+        get descriptionKey(): string;
+        get maxEntityRadius(): number;
+        get partEntities(): $Collection<$PartEntity<never>>;
+    }
+    export class $IPackResourcesExtension {
+    }
+    export interface $IPackResourcesExtension {
+        isHidden(): boolean;
+        get hidden(): boolean;
+    }
+    export class $IAttributeExtension {
+        static isNullOrAddition(arg0: $AttributeModifier$Operation_): boolean;
+        static FORMAT: $DecimalFormat;
+    }
+    export interface $IAttributeExtension {
+        getMergedStyle(arg0: boolean): $TextColor;
+        toBaseComponent(arg0: number, arg1: number, arg2: boolean, arg3: $TooltipFlag): $MutableComponent;
+        toComponent(arg0: $AttributeModifier_, arg1: $TooltipFlag): $MutableComponent;
+        getDebugInfo(arg0: $AttributeModifier_, arg1: $TooltipFlag): $Component;
+        getBaseId(): $ResourceLocation;
+        toValueComponent(arg0: $AttributeModifier$Operation_, arg1: number, arg2: $TooltipFlag): $MutableComponent;
+        get baseId(): $ResourceLocation;
+    }
+    /**
+     * Values that may be interpreted as {@link $IAttributeExtension}.
+     */
+    export type $IAttributeExtension_ = ((arg0: boolean) => $TextColor_);
+    export class $IItemPropertiesExtensions {
+    }
+    export interface $IItemPropertiesExtensions {
+        component<T>(arg0: $Supplier_<$DataComponentType<T>>, arg1: T): $Item$Properties;
+    }
+    export class $IBlockExtension {
+    }
+    export interface $IBlockExtension extends $FabricBlock, $IBlockExtensionMixin {
+        isEmpty(arg0: $BlockState_): boolean;
+        rotate(arg0: $BlockState_, arg1: $LevelAccessor, arg2: $BlockPos_, arg3: $Rotation_): $BlockState;
+        addRunningEffects(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Entity): boolean;
+        canConnectRedstone(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Direction_): boolean;
+        hidesNeighborFace(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockState_, arg4: $Direction_): boolean;
+        ignitedByLava(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Direction_): boolean;
+        getRespawnPosition(arg0: $BlockState_, arg1: $EntityType_<never>, arg2: $LevelReader, arg3: $BlockPos_, arg4: number): ($ServerPlayer$RespawnPosAngle) | undefined;
+        canHarvestBlock(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Player): boolean;
+        isPortalFrame(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_): boolean;
+        onNeighborChange(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $BlockPos_): void;
+        getWeakChanges(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_): boolean;
+        isSlimeBlock(arg0: $BlockState_): boolean;
+        isStickyBlock(arg0: $BlockState_): boolean;
+        canSustainPlant(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Direction_, arg4: $BlockState_): $TriState;
+        getFlammability(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Direction_): number;
+        isFlammable(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Direction_): boolean;
+        onCaughtFire(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Direction_, arg4: $LivingEntity): void;
+        getFireSpreadSpeed(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Direction_): number;
+        isFireSource(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $Direction_): boolean;
+        canEntityDestroy(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Entity): boolean;
+        getLightEmission(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_): number;
+        getBlockPathType(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Mob): $PathType;
+        onBlockExploded(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Explosion): void;
+        isConduitFrame(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $BlockPos_): boolean;
+        isLadder(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $LivingEntity): boolean;
+        canStickTo(arg0: $BlockState_, arg1: $BlockState_): boolean;
+        onTreeGrow(arg0: $BlockState_, arg1: $LevelReader, arg2: $BiConsumer_<$BlockPos, $BlockState>, arg3: $RandomSource, arg4: $BlockPos_, arg5: $TreeConfiguration): boolean;
+        isFertile(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_): boolean;
+        getExpDrop(arg0: $BlockState_, arg1: $LevelAccessor, arg2: $BlockPos_, arg3: $BlockEntity, arg4: $Entity, arg5: $ItemStack_): number;
+        isBurning(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_): boolean;
+        collisionExtendsVertically(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Entity): boolean;
+        getPistonPushReaction(arg0: $BlockState_): $PushReaction;
+        getStateAtViewpoint(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Vec3_): $BlockState;
+        onDestroyedByPlayer(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Player, arg4: boolean, arg5: $FluidState): boolean;
+        shouldCheckWeakPower(arg0: $BlockState_, arg1: $SignalGetter, arg2: $BlockPos_, arg3: $Direction_): boolean;
+        supportsExternalFaceHiding(arg0: $BlockState_): boolean;
+        getToolModifiedState(arg0: $BlockState_, arg1: $UseOnContext, arg2: $ItemAbility_, arg3: boolean): $BlockState;
+        onDestroyedByPushReaction(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Direction_, arg4: $FluidState): void;
+        getBeaconColorMultiplier(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $BlockPos_): number;
+        canDropFromExplosion(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Explosion): boolean;
+        getAdjacentBlockPathType(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Mob, arg4: $PathType_): $PathType;
+        getExplosionResistance(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Explosion): number;
+        hasDynamicLightEmission(arg0: $BlockState_): boolean;
+        getEnchantPowerBonus(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_): number;
+        getBubbleColumnDirection(arg0: $BlockState_): $BubbleColumnDirection;
+        shouldDisplayFluidOverlay(arg0: $BlockState_, arg1: $BlockAndTintGetter, arg2: $BlockPos_, arg3: $FluidState): boolean;
+        getCloneItemStack(arg0: $BlockState_, arg1: $HitResult, arg2: $LevelReader, arg3: $BlockPos_, arg4: $Player): $ItemStack;
+        isBed(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $LivingEntity): boolean;
+        getSoundType(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $Entity): $SoundType;
+        getFriction(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $Entity): number;
+        isScaffolding(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $LivingEntity): boolean;
+        getBedDirection(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_): $Direction;
+        setBedOccupied(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $LivingEntity, arg4: boolean): void;
+        addLandingEffects(arg0: $BlockState_, arg1: $ServerLevel, arg2: $BlockPos_, arg3: $BlockState_, arg4: $LivingEntity, arg5: number): boolean;
+        getAppearance(arg0: $BlockState_, arg1: $BlockAndTintGetter, arg2: $BlockPos_, arg3: $Direction_, arg4: $BlockState_, arg5: $BlockPos_): $BlockState;
+        getMapColor(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $MapColor): $MapColor;
+        canBeHydrated(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $FluidState, arg4: $BlockPos_): boolean;
+        onBlockStateChange(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockState_): void;
+        shouldHideAdjacentFluidFace(arg0: $BlockState_, arg1: $Direction_, arg2: $FluidState): boolean;
+        makesOpenTrapdoorAboveClimbable(arg0: $BlockState_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $BlockState_): boolean;
+    }
+    export class $IHolderExtension<T> {
+    }
+    export interface $IHolderExtension<T> extends $IWithData<T> {
+        getKey(): $ResourceKey<T>;
+        getDelegate(): $Holder<T>;
+        unwrapLookup(): $HolderLookup$RegistryLookup<T>;
+        get key(): $ResourceKey<T>;
+        get delegate(): $Holder<T>;
+    }
+    export class $IAbstractMinecartExtension {
+        static DEFAULT_AIR_DRAG: number;
+        static DEFAULT_MAX_SPEED_AIR_VERTICAL: number;
+        static DEFAULT_MAX_SPEED_AIR_LATERAL: number;
+    }
+    export interface $IAbstractMinecartExtension {
+        moveMinecartOnRail(arg0: $BlockPos_): void;
+        canBeRidden(): boolean;
+        setCanUseRail(arg0: boolean): void;
+        isPoweredCart(): boolean;
+        getSlopeAdjustment(): number;
+        getComparatorLevel(): number;
+        setCurrentCartSpeedCapOnRail(arg0: number): void;
+        getCurrentCartSpeedCapOnRail(): number;
+        getMaxSpeedAirLateral(): number;
+        setMaxSpeedAirLateral(arg0: number): void;
+        shouldDoRailFunctions(): boolean;
+        getMaxSpeedAirVertical(): number;
+        getMaxCartSpeedOnRail(): number;
+        getCurrentRailPosition(): $BlockPos;
+        getMaxSpeedWithRail(): number;
+        setMaxSpeedAirVertical(arg0: number): void;
+        canUseRail(): boolean;
+        getDragAir(): number;
+        setDragAir(arg0: number): void;
+        get poweredCart(): boolean;
+        get slopeAdjustment(): number;
+        get comparatorLevel(): number;
+        get maxCartSpeedOnRail(): number;
+        get currentRailPosition(): $BlockPos;
+        get maxSpeedWithRail(): number;
+    }
+    export class $IPacketFlowExtension {
+    }
+    export interface $IPacketFlowExtension {
+        self(): $PacketFlow;
+        isServerbound(): boolean;
+        getReceptionSide(): $LogicalSide;
+        isClientbound(): boolean;
+        get serverbound(): boolean;
+        get receptionSide(): $LogicalSide;
+        get clientbound(): boolean;
+    }
+    export class $IBaseRailBlockExtension {
+    }
+    export interface $IBaseRailBlockExtension {
+        onMinecartPass(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $AbstractMinecart): void;
+        isValidRailShape(arg0: $RailShape_): boolean;
+        canMakeSlopes(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_): boolean;
+        getRailDirection(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $AbstractMinecart): $RailShape;
+        getRailMaxSpeed(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $AbstractMinecart): number;
+        isFlexibleRail(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_): boolean;
+    }
+    export class $IDispensibleContainerItemExtension {
+    }
+    export interface $IDispensibleContainerItemExtension {
+        emptyContents(arg0: $Player, arg1: $Level_, arg2: $BlockPos_, arg3: $BlockHitResult, arg4: $ItemStack_): boolean;
+    }
+    export class $ITagBuilderExtension {
+    }
+    export interface $ITagBuilderExtension {
+        /**
+         * @deprecated
+         */
+        remove(arg0: $TagEntry, arg1: string): $TagBuilder;
+        /**
+         * @deprecated
+         */
+        removeElement(arg0: $ResourceLocation_, arg1: string): $TagBuilder;
+        removeElement(arg0: $ResourceLocation_): $TagBuilder;
+        /**
+         * @deprecated
+         */
+        removeTag(arg0: $ResourceLocation_, arg1: string): $TagBuilder;
+        removeTag(arg0: $ResourceLocation_): $TagBuilder;
+        getRawBuilder(): $TagBuilder;
+        get rawBuilder(): $TagBuilder;
+    }
+    export class $IEntityExtension {
+    }
+    export interface $IEntityExtension extends $INBTSerializable<$CompoundTag> {
+        getFluidFallDistanceModifier(arg0: $FluidType_): number;
+        canFluidExtinguish(arg0: $FluidType_): boolean;
+        getEyeInFluidType(): $FluidType;
+        canSwimInFluidType(arg0: $FluidType_): boolean;
+        isPushedByFluid(arg0: $FluidType_): boolean;
+        /**
+         * @deprecated
+         */
+        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
+        getPersistentData(): $CompoundTag;
+        isMultipartEntity(): boolean;
+        isAddedToLevel(): boolean;
+        sendPairingData(arg0: $ServerPlayer, arg1: $Consumer_<$CustomPacketPayload>): void;
+        isEyeInFluidType(arg0: $FluidType_): boolean;
+        canStartSwimming(): boolean;
+        onAddedToLevel(): void;
+        getClassification(arg0: boolean): $MobCategory;
+        shouldRiderSit(): boolean;
+        onRemovedFromLevel(): void;
+        canRiderInteract(): boolean;
+        getMaxHeightFluidType(): $FluidType;
+        getFluidMotionScale(arg0: $FluidType_): number;
+        canHydrateInFluidType(arg0: $FluidType_): boolean;
+        canBeRiddenUnderFluidType(arg0: $FluidType_, arg1: $Entity): boolean;
+        hasCustomOutlineRendering(arg0: $Player): boolean;
+        copyAttachmentsFrom(arg0: $Entity, arg1: boolean): void;
+        getSoundFromFluidType(arg0: $FluidType_, arg1: $SoundAction): $SoundEvent;
+        getPickedResult(arg0: $HitResult): $ItemStack;
+        canTrample(arg0: $BlockState_, arg1: $BlockPos_, arg2: number): boolean;
+        getParts(): $PartEntity<never>[];
+        getFluidTypeHeight(arg0: $FluidType_): number;
+        isInFluidType(arg0: $FluidState): boolean;
+        isInFluidType(arg0: $BiPredicate_<$FluidType, number>): boolean;
+        isInFluidType(): boolean;
+        isInFluidType(arg0: $FluidType_): boolean;
+        isInFluidType(arg0: $BiPredicate_<$FluidType, number>, arg1: boolean): boolean;
+        captureDrops(): $Collection<$ItemEntity>;
+        captureDrops(arg0: $Collection_<$ItemEntity>): $Collection<$ItemEntity>;
+        revive(): void;
+        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
+        get persistentData(): $CompoundTag;
+        get multipartEntity(): boolean;
+        get addedToLevel(): boolean;
+        get maxHeightFluidType(): $FluidType;
+        get parts(): $PartEntity<never>[];
+    }
+    export class $IClientCommonPacketListenerExtension {
+    }
+    export interface $IClientCommonPacketListenerExtension extends $ICommonPacketListener {
+        disconnect(arg0: $Component_): void;
+        send(arg0: $CustomPacketPayload_): void;
+        getMainThreadEventLoop(): $ReentrantBlockableEventLoop<never>;
+        get mainThreadEventLoop(): $ReentrantBlockableEventLoop<never>;
+    }
+    export class $IAdvancementBuilderExtension {
+    }
+    export interface $IAdvancementBuilderExtension {
+        save(arg0: $Consumer_<$AdvancementHolder>, arg1: $ResourceLocation_, arg2: $ExistingFileHelper): $AdvancementHolder;
+    }
+    export class $IOwnedSpawner {
+    }
+    export interface $IOwnedSpawner {
+        getOwner(): $Either<$BlockEntity, $Entity>;
+        get owner(): $Either<$BlockEntity, $Entity>;
+    }
+    /**
+     * Values that may be interpreted as {@link $IOwnedSpawner}.
+     */
+    export type $IOwnedSpawner_ = (() => $Either<$BlockEntity, $Entity>);
+    export class $IMobEffectExtension {
+    }
+    export interface $IMobEffectExtension {
+        fillEffectCures(arg0: $Set_<$EffectCure>, arg1: $MobEffectInstance): void;
+        getSortOrder(arg0: $MobEffectInstance): number;
+    }
+    export class $IFluidExtension {
+    }
+    export interface $IFluidExtension {
+        move(arg0: $FluidState, arg1: $LivingEntity, arg2: $Vec3_, arg3: number): boolean;
+        canExtinguish(arg0: $FluidState, arg1: $BlockGetter, arg2: $BlockPos_): boolean;
+        getBlockPathType(arg0: $FluidState, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Mob, arg4: boolean): $PathType;
+        getAdjacentBlockPathType(arg0: $FluidState, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Mob, arg4: $PathType_): $PathType;
+        getExplosionResistance(arg0: $FluidState, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $Explosion): number;
+        canHydrate(arg0: $FluidState, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $BlockState_, arg4: $BlockPos_): boolean;
+        getFluidType(): $FluidType;
+        canConvertToSource(arg0: $FluidState, arg1: $Level_, arg2: $BlockPos_): boolean;
+        supportsBoating(arg0: $FluidState, arg1: $Boat): boolean;
+        get fluidType(): $FluidType;
+    }
+    /**
+     * Values that may be interpreted as {@link $IFluidExtension}.
+     */
+    export type $IFluidExtension_ = (() => $FluidType_);
+    export class $IHolderLookupProviderExtension {
+    }
+    export interface $IHolderLookupProviderExtension {
+        holder<T>(arg0: $ResourceKey_<T>): ($Holder$Reference<T>) | undefined;
+        holderOrThrow<T>(arg0: $ResourceKey_<T>): $Holder<T>;
+    }
+    export class $IRecipeOutputExtension {
+    }
+    export interface $IRecipeOutputExtension {
+        accept(arg0: $ResourceLocation_, arg1: $Recipe<never>, arg2: $AdvancementHolder_, ...arg3: $ICondition[]): void;
+        withConditions(...arg0: $ICondition[]): $RecipeOutput;
+    }
+    /**
+     * Values that may be interpreted as {@link $IRecipeOutputExtension}.
+     */
+    export type $IRecipeOutputExtension_ = ((arg0: $ResourceLocation, arg1: $Recipe<never>, arg2: $AdvancementHolder, arg3: $ICondition[]) => void);
+    export class $ILevelReaderExtension {
+    }
+    export interface $ILevelReaderExtension {
+        holder<T>(arg0: $ResourceKey_<T>): ($Holder$Reference<T>) | undefined;
+        holderOrThrow<T>(arg0: $ResourceKey_<T>): $Holder<T>;
+        isAreaLoaded(arg0: $BlockPos_, arg1: number): boolean;
+    }
+    export class $IServerConfigurationPacketListenerExtension {
+    }
+    export interface $IServerConfigurationPacketListenerExtension extends $IServerCommonPacketListenerExtension {
+        finishCurrentTask(arg0: $ConfigurationTask$Type_): void;
+    }
+    export class $IItemExtension {
+    }
+    export interface $IItemExtension extends $FabricItem {
+        createEntity(arg0: $Level_, arg1: $Entity, arg2: $ItemStack_): $Entity;
+        canDisableShield(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $LivingEntity, arg3: $LivingEntity): boolean;
+        getMaxStackSize(arg0: $ItemStack_): number;
+        getMaxDamage(arg0: $ItemStack_): number;
+        isRepairable(arg0: $ItemStack_): boolean;
+        onDestroyed(arg0: $ItemEntity, arg1: $DamageSource_): void;
+        isEnderMask(arg0: $ItemStack_, arg1: $Player, arg2: $EnderMan): boolean;
+        isPrimaryItemFor(arg0: $ItemStack_, arg1: $Holder_<$Enchantment>): boolean;
+        onDroppedByPlayer(arg0: $ItemStack_, arg1: $Player): boolean;
+        applyEnchantments(arg0: $ItemStack_, arg1: $List_<$EnchantmentInstance>): $ItemStack;
+        isDamageable(arg0: $ItemStack_): boolean;
+        getXpRepairRatio(arg0: $ItemStack_): number;
+        onLeftClickEntity(arg0: $ItemStack_, arg1: $Player, arg2: $Entity): boolean;
+        canBeHurtBy(arg0: $ItemStack_, arg1: $DamageSource_): boolean;
+        getEntityLifespan(arg0: $ItemStack_, arg1: $Level_): number;
+        isPiglinCurrency(arg0: $ItemStack_): boolean;
+        getBurnTime(arg0: $ItemStack_, arg1: $RecipeType_<never>): number;
+        getArmorTexture(arg0: $ItemStack_, arg1: $Entity, arg2: $EquipmentSlot_, arg3: $ArmorMaterial$Layer, arg4: boolean): $ResourceLocation;
+        onItemUseFirst(arg0: $ItemStack_, arg1: $UseOnContext): $InteractionResult;
+        getCreatorModId(arg0: $ItemStack_): string;
+        getHighlightTip(arg0: $ItemStack_, arg1: $Component_): $Component;
+        hasCustomEntity(arg0: $ItemStack_): boolean;
+        getAllEnchantments(arg0: $ItemStack_, arg1: $HolderLookup$RegistryLookup<$Enchantment_>): $ItemEnchantments;
+        onEntityItemUpdate(arg0: $ItemStack_, arg1: $ItemEntity): boolean;
+        isBookEnchantable(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
+        onAnimalArmorTick(arg0: $ItemStack_, arg1: $Level_, arg2: $Mob): void;
+        doesSneakBypassUse(arg0: $ItemStack_, arg1: $LevelReader, arg2: $BlockPos_, arg3: $Player): boolean;
+        getEnchantmentValue(arg0: $ItemStack_): number;
+        hasCraftingRemainingItem(arg0: $ItemStack_): boolean;
+        getCraftingRemainingItem(arg0: $ItemStack_): $ItemStack;
+        canFitInsideContainerItems(arg0: $ItemStack_): boolean;
+        canGrindstoneRepair(arg0: $ItemStack_): boolean;
+        getEnchantmentLevel(arg0: $ItemStack_, arg1: $Holder_<$Enchantment>): number;
+        supportsEnchantment(arg0: $ItemStack_, arg1: $Holder_<$Enchantment>): boolean;
+        shouldCauseBlockBreakReset(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
+        canWalkOnPowderedSnow(arg0: $ItemStack_, arg1: $LivingEntity): boolean;
+        makesPiglinsNeutral(arg0: $ItemStack_, arg1: $LivingEntity): boolean;
+        getSweepHitBox(arg0: $ItemStack_, arg1: $Player, arg2: $Entity): $AABB;
+        getDamage(arg0: $ItemStack_): number;
+        /**
+         * @deprecated
+         */
+        onEntitySwing(arg0: $ItemStack_, arg1: $LivingEntity): boolean;
+        onEntitySwing(arg0: $ItemStack_, arg1: $LivingEntity, arg2: $InteractionHand_): boolean;
+        getFoodProperties(arg0: $ItemStack_, arg1: $LivingEntity): $FoodProperties;
+        canPerformAction(arg0: $ItemStack_, arg1: $ItemAbility_): boolean;
+        onStopUsing(arg0: $ItemStack_, arg1: $LivingEntity, arg2: number): void;
+        canContinueUsing(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
+        canElytraFly(arg0: $ItemStack_, arg1: $LivingEntity): boolean;
+        elytraFlightTick(arg0: $ItemStack_, arg1: $LivingEntity, arg2: number): boolean;
+        getEquipmentSlot(arg0: $ItemStack_): $EquipmentSlot;
+        handler$eam000$fabric_item_api_v1$shouldCauseBlockBreakReset(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $CallbackInfoReturnable<any>): void;
+        handler$eah000$fabric_item_api_v1$hasCraftingRemainingItem(arg0: $ItemStack_, arg1: $CallbackInfoReturnable<any>): void;
+        handler$eah000$fabric_item_api_v1$getCraftingRemainingItem(arg0: $ItemStack_, arg1: $CallbackInfoReturnable<any>): void;
+        handler$fan000$connector$redirectIsPiglinCurrency(arg0: $ItemStack_, arg1: $CallbackInfoReturnable<any>): void;
+        handler$eah000$fabric_item_api_v1$getEquipmentSlot(arg0: $ItemStack_, arg1: $CallbackInfoReturnable<any>): void;
+        modifyReturnValue$eam000$fabric_item_api_v1$shouldCauseReequipAnimation(arg0: boolean, arg1: $ItemStack_, arg2: $ItemStack_, arg3: boolean): boolean;
+        isDamaged(arg0: $ItemStack_): boolean;
+        canEquip(arg0: $ItemStack_, arg1: $EquipmentSlot_, arg2: $LivingEntity): boolean;
+        setDamage(arg0: $ItemStack_, arg1: number): void;
+        damageItem<T extends $LivingEntity>(arg0: $ItemStack_, arg1: number, arg2: T, arg3: $Consumer_<$Item>): number;
+        shouldCauseReequipAnimation(arg0: $ItemStack_, arg1: $ItemStack_, arg2: boolean): boolean;
+        getDefaultAttributeModifiers(arg0: $ItemStack_): $ItemAttributeModifiers;
+        isNotReplaceableByPickAction(arg0: $ItemStack_, arg1: $Player, arg2: number): boolean;
+    }
+    /**
+     * Values that may be interpreted as {@link $IItemExtension}.
+     */
+    export type $IItemExtension_ = ((arg0: $ItemStack) => boolean);
+    export class $IDataComponentMapBuilderExtensions {
+    }
+    export interface $IDataComponentMapBuilderExtensions {
+        set<T>(arg0: $Supplier_<$DataComponentType<T>>, arg1: T): $DataComponentMap$Builder;
+    }
+    export class $IDataComponentHolderExtension {
+    }
+    export interface $IDataComponentHolderExtension {
+        get<T>(arg0: $Supplier_<$DataComponentType<T>>): T;
+        getOrDefault<T>(arg0: $Supplier_<$DataComponentType<T>>, arg1: T): T;
+        has(arg0: $Supplier_<$DataComponentType<never>>): boolean;
+        addToTooltip<T extends $TooltipProvider>(arg0: $DataComponentType_<T>, arg1: $Item$TooltipContext, arg2: $Consumer_<$Component>, arg3: $TooltipFlag): void;
+        addToTooltip<T extends $TooltipProvider>(arg0: $Supplier_<$DataComponentType<T>>, arg1: $Item$TooltipContext, arg2: $Consumer_<$Component>, arg3: $TooltipFlag): void;
+    }
+    export class $IBlockEntityExtension {
+    }
+    export interface $IBlockEntityExtension {
+        onLoad(): void;
+        getPersistentData(): $CompoundTag;
+        onDataPacket(arg0: $Connection, arg1: $ClientboundBlockEntityDataPacket, arg2: $HolderLookup$Provider): void;
+        handleUpdateTag(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
+        onChunkUnloaded(): void;
+        getModelData(): $ModelData;
+        hasCustomOutlineRendering(arg0: $Player): boolean;
+        invalidateCapabilities(): void;
+        requestModelDataUpdate(): void;
+        get persistentData(): $CompoundTag;
+        get modelData(): $ModelData;
+    }
+    /**
+     * Values that may be interpreted as {@link $IBlockEntityExtension}.
+     */
+    export type $IBlockEntityExtension_ = (() => $CompoundTag_);
+    export class $IItemStackExtension {
+    }
+    export interface $IItemStackExtension {
+        canDisableShield(arg0: $ItemStack_, arg1: $LivingEntity, arg2: $LivingEntity): boolean;
+        isRepairable(): boolean;
+        onDestroyed(arg0: $ItemEntity, arg1: $DamageSource_): void;
+        isEnderMask(arg0: $Player, arg1: $EnderMan): boolean;
+        isPrimaryItemFor(arg0: $Holder_<$Enchantment>): boolean;
+        onDroppedByPlayer(arg0: $Player): boolean;
+        getXpRepairRatio(): number;
+        getEntityLifespan(arg0: $Level_): number;
+        isPiglinCurrency(): boolean;
+        getBurnTime(arg0: $RecipeType_<never>): number;
+        onItemUseFirst(arg0: $UseOnContext): $InteractionResult;
+        getHighlightTip(arg0: $Component_): $Component;
+        getAllEnchantments(arg0: $HolderLookup$RegistryLookup<$Enchantment_>): $ItemEnchantments;
+        onEntityItemUpdate(arg0: $ItemEntity): boolean;
+        isBookEnchantable(arg0: $ItemStack_): boolean;
+        onAnimalArmorTick(arg0: $Level_, arg1: $Mob): void;
+        doesSneakBypassUse(arg0: $LevelReader, arg1: $BlockPos_, arg2: $Player): boolean;
+        getCapability<T, C>(arg0: $ItemCapability<T, C>, arg1: C): T;
+        getCapability<T>(arg0: $ItemCapability<T, void>): T;
+        getEnchantmentValue(): number;
+        hasCraftingRemainingItem(): boolean;
+        getCraftingRemainingItem(): $ItemStack;
+        canFitInsideContainerItems(): boolean;
+        canGrindstoneRepair(): boolean;
+        getEnchantmentLevel(arg0: $Holder_<$Enchantment>): number;
+        supportsEnchantment(arg0: $Holder_<$Enchantment>): boolean;
+        shouldCauseBlockBreakReset(arg0: $ItemStack_): boolean;
+        canWalkOnPowderedSnow(arg0: $LivingEntity): boolean;
+        makesPiglinsNeutral(arg0: $LivingEntity): boolean;
+        getSweepHitBox(arg0: $Player, arg1: $Entity): $AABB;
+        /**
+         * @deprecated
+         */
+        onEntitySwing(arg0: $LivingEntity): boolean;
+        onEntitySwing(arg0: $LivingEntity, arg1: $InteractionHand_): boolean;
+        getFoodProperties(arg0: $LivingEntity): $FoodProperties;
+        canPerformAction(arg0: $ItemAbility_): boolean;
+        onStopUsing(arg0: $LivingEntity, arg1: number): void;
+        canElytraFly(arg0: $LivingEntity): boolean;
+        elytraFlightTick(arg0: $LivingEntity, arg1: number): boolean;
+        getEquipmentSlot(): $EquipmentSlot;
+        handler$cfl000$fabric_entity_events_v1$canElytraFly(arg0: $LivingEntity, arg1: $CallbackInfoReturnable<any>): void;
+        canEquip(arg0: $EquipmentSlot_, arg1: $LivingEntity): boolean;
+        isNotReplaceableByPickAction(arg0: $Player, arg1: number): boolean;
+        getAttributeModifiers(): $ItemAttributeModifiers;
+        get repairable(): boolean;
+        get xpRepairRatio(): number;
+        get piglinCurrency(): boolean;
+        get enchantmentValue(): number;
+        get craftingRemainingItem(): $ItemStack;
+        get equipmentSlot(): $EquipmentSlot;
+        get attributeModifiers(): $ItemAttributeModifiers;
+    }
+    export class $IBoatExtension {
+    }
+    export interface $IBoatExtension {
+        canBoatInFluid(arg0: $FluidState): boolean;
+        canBoatInFluid(arg0: $FluidType_): boolean;
+    }
+    export class $IFriendlyByteBufExtension {
+    }
+    export interface $IFriendlyByteBufExtension {
+        writeByte(arg0: number): $FriendlyByteBuf;
+        writeMap<K, V>(arg0: $Map_<K, V>, arg1: $StreamEncoder_<$FriendlyByteBuf, K>, arg2: $TriConsumer_<$FriendlyByteBuf, K, V>): void;
+        readMap<K, V>(arg0: $StreamDecoder_<$FriendlyByteBuf, K>, arg1: $BiFunction_<$FriendlyByteBuf, K, V>): $Map<K, V>;
+        readArray<T>(arg0: $IntFunction_<T[]>, arg1: $StreamDecoder_<$FriendlyByteBuf, T>): T[];
+        writeArray<T>(arg0: T[], arg1: $StreamEncoder_<$FriendlyByteBuf, T>): $FriendlyByteBuf;
+        writeObjectCollection<T>(arg0: $Collection_<T>, arg1: $BiConsumer_<T, $FriendlyByteBuf>): void;
+    }
+    export class $IPlayerListExtension {
+    }
+    export interface $IPlayerListExtension {
+        self(): $PlayerList;
+        broadcast(arg0: number, arg1: number, arg2: number, arg3: number, arg4: $ResourceKey_<$Level>, arg5: $CustomPacketPayload_): void;
+        broadcast(arg0: $Player, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $ResourceKey_<$Level>, arg6: $CustomPacketPayload_): void;
+        broadcastAll(arg0: $CustomPacketPayload_): void;
+        broadcastAll(arg0: $CustomPacketPayload_, arg1: $ResourceKey_<$Level>): void;
+    }
+    export class $ITagAppenderExtension<T> {
+    }
+    export interface $ITagAppenderExtension<T> {
+        remove(arg0: $TagKey_<T>, ...arg1: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
+        remove(arg0: $ResourceLocation_, ...arg1: $ResourceLocation_[]): $TagsProvider$TagAppender<T>;
+        remove(arg0: $ResourceKey_<T>): $TagsProvider$TagAppender<T>;
+        remove(arg0: $ResourceKey_<T>, ...arg1: $ResourceKey_<T>[]): $TagsProvider$TagAppender<T>;
+        remove(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
+        remove(arg0: $ResourceLocation_): $TagsProvider$TagAppender<T>;
+        replace(arg0: boolean): $TagsProvider$TagAppender<T>;
+        replace(): $TagsProvider$TagAppender<T>;
+        addTags(...arg0: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
+        addOptionalTags(...arg0: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
+        addOptionalTag(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
+    }
+    export class $IFluidStateExtension {
+    }
+    export interface $IFluidStateExtension {
+        move(arg0: $LivingEntity, arg1: $Vec3_, arg2: number): boolean;
+        canExtinguish(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
+        getBlockPathType(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Mob, arg3: boolean): $PathType;
+        getAdjacentBlockPathType(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Mob, arg3: $PathType_): $PathType;
+        getExplosionResistance(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Explosion): number;
+        canHydrate(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockPos_): boolean;
+        getFluidType(): $FluidType;
+        canConvertToSource(arg0: $Level_, arg1: $BlockPos_): boolean;
+        supportsBoating(arg0: $Boat): boolean;
+        get fluidType(): $FluidType;
+    }
+    export class $ILivingEntityExtension {
+    }
+    export interface $ILivingEntityExtension extends $IEntityExtension {
+        self(): $LivingEntity;
+        canSwimInFluidType(arg0: $FluidType_): boolean;
+        canDrownInFluidType(arg0: $FluidType_): boolean;
+        onDamageTaken(arg0: $DamageContainer): void;
+        moveInFluid(arg0: $FluidState, arg1: $Vec3_, arg2: number): boolean;
+        jumpInFluid(arg0: $FluidType_): void;
+        sinkInFluid(arg0: $FluidType_): void;
+    }
+    export class $IPlayerExtension {
+    }
+    export interface $IPlayerExtension {
+        mayFly(): boolean;
+        openMenu(arg0: $MenuProvider, arg1: $BlockPos_): $OptionalInt;
+        openMenu(arg0: $MenuProvider, arg1: $Consumer_<$RegistryFriendlyByteBuf>): $OptionalInt;
+        handler$fgf000$create_hypertube$createHypertube$mayFly(arg0: $CallbackInfoReturnable<any>): void;
+        isCloseEnough(arg0: $Entity, arg1: number): boolean;
+        isFakePlayer(): boolean;
+        get fakePlayer(): boolean;
+    }
+    export class $IServerGamePacketListenerExtension {
+    }
+    export interface $IServerGamePacketListenerExtension extends $IServerCommonPacketListenerExtension {
+        sendBundled(...arg0: $CustomPacketPayload_[]): void;
+        sendBundled(arg0: $Iterable_<$CustomPacketPayload>): void;
+    }
+    export class $IHolderSetExtension<T> {
+    }
+    export interface $IHolderSetExtension<T> {
+        addInvalidationListener(arg0: $Runnable_): void;
+        serializationType(): $IHolderSetExtension$SerializationType;
+    }
+    export class $IServerChunkCacheExtension {
+    }
+    export interface $IServerChunkCacheExtension {
+        self(): $ServerChunkCache;
+        broadcast(arg0: $Entity, arg1: $CustomPacketPayload_): void;
+        broadcastAndSend(arg0: $Entity, arg1: $CustomPacketPayload_): void;
+    }
+    export class $ICommonPacketListener {
+    }
+    export interface $ICommonPacketListener extends $PacketListener {
+        getConnection(): $Connection;
+        hasChannel(arg0: $CustomPacketPayload$Type_<never>): boolean;
+        hasChannel(arg0: $CustomPacketPayload_): boolean;
+        hasChannel(arg0: $ResourceLocation_): boolean;
+        disconnect(arg0: $Component_): void;
+        send(arg0: $CustomPacketPayload_): void;
+        send(arg0: $Packet<never>): void;
+        getConnectionType(): $ConnectionType;
+        getMainThreadEventLoop(): $ReentrantBlockableEventLoop<never>;
+        get connection(): $Connection;
+        get connectionType(): $ConnectionType;
+        get mainThreadEventLoop(): $ReentrantBlockableEventLoop<never>;
+    }
+    export class $IBlockGetterExtension {
+    }
+    export interface $IBlockGetterExtension {
+        getModelData(arg0: $BlockPos_): $ModelData;
+        getAuxLightManager(arg0: $ChunkPos): $AuxiliaryLightManager;
+        getAuxLightManager(arg0: $BlockPos_): $AuxiliaryLightManager;
+    }
+    export class $IIntrinsicHolderTagAppenderExtension<T> {
+    }
+    export interface $IIntrinsicHolderTagAppenderExtension<T> extends $ITagAppenderExtension<T> {
+        remove(arg0: $ResourceKey_<T>, ...arg1: $ResourceKey_<T>[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        remove(arg0: $ResourceKey_<T>): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        remove(arg0: T): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        remove(arg0: T, ...arg1: T[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        replace(arg0: boolean): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        getKey(arg0: T): $ResourceKey<T>;
+        addTags(...arg0: $TagKey_<T>[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        replace(): $TagsProvider$TagAppender<T>;
+    }
+    /**
+     * Values that may be interpreted as {@link $IIntrinsicHolderTagAppenderExtension}.
+     */
+    export type $IIntrinsicHolderTagAppenderExtension_<T> = ((arg0: T) => $ResourceKey_<T>);
+    export class $IBlockStateExtension {
+    }
+    export interface $IBlockStateExtension extends $IBlockStateExtensionMixin, $FabricBlockState {
+        isEmpty(): boolean;
+        rotate(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $Rotation_): $BlockState;
+        addRunningEffects(arg0: $Level_, arg1: $BlockPos_, arg2: $Entity): boolean;
+        hidesNeighborFace(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $BlockState_, arg3: $Direction_): boolean;
+        ignitedByLava(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): boolean;
+        getRespawnPosition(arg0: $EntityType_<never>, arg1: $LevelReader, arg2: $BlockPos_, arg3: number): ($ServerPlayer$RespawnPosAngle) | undefined;
+        canHarvestBlock(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Player): boolean;
+        isPortalFrame(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
+        onNeighborChange(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): void;
+        getWeakChanges(arg0: $LevelReader, arg1: $BlockPos_): boolean;
+        isSlimeBlock(): boolean;
+        isStickyBlock(): boolean;
+        canSustainPlant(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_, arg3: $BlockState_): $TriState;
+        getFlammability(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): number;
+        isFlammable(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): boolean;
+        onCaughtFire(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $LivingEntity): void;
+        getFireSpreadSpeed(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): number;
+        isFireSource(arg0: $LevelReader, arg1: $BlockPos_, arg2: $Direction_): boolean;
+        canEntityDestroy(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Entity): boolean;
+        getLightEmission(arg0: $BlockGetter, arg1: $BlockPos_): number;
+        getBlockPathType(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Mob): $PathType;
+        onBlockExploded(arg0: $Level_, arg1: $BlockPos_, arg2: $Explosion): void;
+        isConduitFrame(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): boolean;
+        isLadder(arg0: $LevelReader, arg1: $BlockPos_, arg2: $LivingEntity): boolean;
+        canStickTo(arg0: $BlockState_): boolean;
+        onTreeGrow(arg0: $LevelReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): boolean;
+        isFertile(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
+        getExpDrop(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $BlockEntity, arg3: $Entity, arg4: $ItemStack_): number;
+        isBurning(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
+        collisionExtendsVertically(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Entity): boolean;
+        getStateAtViewpoint(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Vec3_): $BlockState;
+        onDestroyedByPlayer(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: boolean, arg4: $FluidState): boolean;
+        shouldCheckWeakPower(arg0: $SignalGetter, arg1: $BlockPos_, arg2: $Direction_): boolean;
+        supportsExternalFaceHiding(): boolean;
+        getToolModifiedState(arg0: $UseOnContext, arg1: $ItemAbility_, arg2: boolean): $BlockState;
+        onDestroyedByPushReaction(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $FluidState): void;
+        getBeaconColorMultiplier(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): number;
+        canDropFromExplosion(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Explosion): boolean;
+        canRedstoneConnectTo(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): boolean;
+        getAdjacentBlockPathType(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Mob, arg3: $PathType_): $PathType;
+        getExplosionResistance(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Explosion): number;
+        hasDynamicLightEmission(): boolean;
+        getEnchantPowerBonus(arg0: $LevelReader, arg1: $BlockPos_): number;
+        getBubbleColumnDirection(): $BubbleColumnDirection;
+        shouldDisplayFluidOverlay(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState): boolean;
+        getCloneItemStack(arg0: $HitResult, arg1: $LevelReader, arg2: $BlockPos_, arg3: $Player): $ItemStack;
+        isBed(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $LivingEntity): boolean;
+        getSoundType(arg0: $LevelReader, arg1: $BlockPos_, arg2: $Entity): $SoundType;
+        getFriction(arg0: $LevelReader, arg1: $BlockPos_, arg2: $Entity): number;
+        isScaffolding(arg0: $LivingEntity): boolean;
+        getBedDirection(arg0: $LevelReader, arg1: $BlockPos_): $Direction;
+        setBedOccupied(arg0: $Level_, arg1: $BlockPos_, arg2: $LivingEntity, arg3: boolean): void;
+        addLandingEffects(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: $LivingEntity, arg4: number): boolean;
+        handler$zjg000$fabric_rendering_fluids_v1$shouldDisplayFluidOverlay(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState, arg3: $CallbackInfoReturnable<any>): void;
+        getAppearance(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $Direction_, arg3: $BlockState_, arg4: $BlockPos_): $BlockState;
+        canBeHydrated(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $FluidState, arg3: $BlockPos_): boolean;
+        onBlockStateChange(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockState_): void;
+        shouldHideAdjacentFluidFace(arg0: $Direction_, arg1: $FluidState): boolean;
+        get empty(): boolean;
+        get slimeBlock(): boolean;
+        get stickyBlock(): boolean;
+        get bubbleColumnDirection(): $BubbleColumnDirection;
+    }
+    export class $ITransformationExtension {
+    }
+    export interface $ITransformationExtension {
+        isIdentity(): boolean;
+        applyOrigin(arg0: $Vector3f): $Transformation;
+        rotateTransform(arg0: $Direction_): $Direction;
+        transformNormal(arg0: $Vector3f): void;
+        transformPosition(arg0: $Vector4f): void;
+        blockCornerToCenter(): $Transformation;
+        blockCenterToCorner(): $Transformation;
+        get identity(): boolean;
+    }
+    export class $IBucketPickupExtension {
+    }
+    export interface $IBucketPickupExtension {
+        getPickupSound(arg0: $BlockState_): ($SoundEvent) | undefined;
+    }
+    export class $ICommandSourceStackExtension {
+    }
+    export interface $ICommandSourceStackExtension {
+        getUnsidedLevel(): $Level;
+        getAdvancement(arg0: $ResourceLocation_): $AdvancementHolder;
+        getScoreboard(): $Scoreboard;
+        getRecipeManager(): $RecipeManager;
+        get unsidedLevel(): $Level;
+        get scoreboard(): $Scoreboard;
+        get recipeManager(): $RecipeManager;
+    }
+    export class $IBlockAndTintGetterExtension {
+    }
+    export interface $IBlockAndTintGetterExtension {
+        getShade(arg0: number, arg1: number, arg2: number, arg3: boolean): number;
+    }
+    export class $IHolderSetExtension$SerializationType extends $Enum<$IHolderSetExtension$SerializationType> {
+        static values(): $IHolderSetExtension$SerializationType[];
+        static valueOf(arg0: string): $IHolderSetExtension$SerializationType;
+        static STRING: $IHolderSetExtension$SerializationType;
+        static UNKNOWN: $IHolderSetExtension$SerializationType;
+        static OBJECT: $IHolderSetExtension$SerializationType;
+        static LIST: $IHolderSetExtension$SerializationType;
+    }
+    /**
+     * Values that may be interpreted as {@link $IHolderSetExtension$SerializationType}.
+     */
+    export type $IHolderSetExtension$SerializationType_ = "unknown" | "string" | "list" | "object";
+    export class $IMenuTypeExtension<T> {
+        static create<T extends $AbstractContainerMenu>(arg0: $IContainerFactory_<T>): $MenuType<T>;
+    }
+    export interface $IMenuTypeExtension<T> {
+        create(arg0: number, arg1: $Inventory, arg2: $RegistryFriendlyByteBuf): T;
+    }
+    /**
+     * Values that may be interpreted as {@link $IMenuTypeExtension}.
+     */
+    export type $IMenuTypeExtension_<T> = ((arg0: number, arg1: $Inventory, arg2: $RegistryFriendlyByteBuf) => T);
+}
