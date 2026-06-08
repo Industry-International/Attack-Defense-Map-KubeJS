@@ -69,6 +69,16 @@ function openTeamMenu(player) {
         // === 状态显示 (第3行) ===
         gui.button(4, 3, menuItem('minecraft:compass'),
             Component.translatable('menu.status').append(Component.string(' ')).append(selected), function() {})
+
+        // === 开发测试用 —— 仅 OP 可见的退出队伍按钮 ===
+        if (player.isOp()) {
+            gui.button(4, 4, menuItem('minecraft:barrier'),
+                Component.translatable('menu.clear'), function() {
+                    setTeam(player, NONE)
+                    player.tell(Component.translatable('team.cleared'))
+                    openTeamMenu(player)
+                })
+        }
     })
 }
 
