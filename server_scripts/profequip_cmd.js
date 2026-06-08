@@ -71,44 +71,76 @@ function getProfConfig(id) {
 
 // ========== 2. 武器解析 ==========
 
-/** 主武器 id -> 物品（JS对象格式，与GUI代码保持一致） */
+/** 主武器 id -> 物品（Java类型保证NBT正确） */
 function resolveMainWeapon(id) {
   switch (id) {
     case 'sword':    return Item.of('minecraft:iron_sword')
     case 'bow':      return Item.of('minecraft:bow')
     case 'crossbow': return Item.of('minecraft:crossbow')
     case 'trident':  return Item.of('minecraft:trident')
-    case 'ak47':     return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: 'tacz:ak47' } })
+    case 'ak47':
+      return Item.of('tacz:modern_kinetic_gun', {
+        custom_data: {
+          HasBulletInBarrel: 1,
+          GunId: 'tacz:ak47',
+          GunFireMode: 'AUTO',
+          GunCurrentAmmoCount: 30,
+        },
+      })
     default:         return null
   }
 }
 
-/** 副武器 id -> 物品（JS对象格式，与GUI代码保持一致） */
+/** 副武器 id -> 物品 */
 function resolveOffhandWeapon(id) {
   switch (id) {
     case 'shield': return Item.of('minecraft:shield')
     case 'totem':  return Item.of('minecraft:totem_of_undying')
-    case 'mars':   return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: 'lavender:mars' } })
+    case 'mars':
+      return Item.of('tacz:modern_kinetic_gun', {
+        custom_data: {
+          GunId: 'lavender:mars',
+        },
+      })
     default:       return null
   }
 }
 
-// ========== 3. TACZ 弹药补给 ==========
+// ========== 3. TACZ 弹药配置 ==========
 
-function giveTaczAmmo(player, weaponId) {
-  var ammoMap = {
-    ak47: { ammo: 'tacz:ammo', tag: { custom_data: { AmmoId: 'tacz:762x39', AmmoCount: 30 } }, count: 6 },
-    mars: { ammo: 'tacz:ammo', tag: { custom_data: { AmmoId: 'tacz:45acp',  AmmoCount: 20 } }, count: 6 },
+/**
+ * 弹药配置（支持特殊武器覆盖）
+ *   ammoId      — 弹药类型
+ *   main        — 主武器总发数
+ *   offhand     — 副武器总发数
+ *   boxCapacity — 每个弹药盒容量
+ *   level       — 弹药盒等级（2=钻石）
+ */
+const TACZ_AMMO = {
+  ak47: { ammoId: 'tacz:762x39', main: 210, offhand: 50, boxCapacity: 60, level: 2 },
+  mars: { ammoId: 'tacz:45acp',  main: 210, offhand: 50, boxCapacity: 60, level: 2 },
+}
+
+/** 给玩家发放弹药盒（按需拆分多盒） */
+function giveTaczAmmo(player, weaponId, slot) {
+  var cfg = TACZ_AMMO[weaponId]
+  if (!cfg) return
+
+  var total = slot === 'main' ? cfg.main : cfg.offhand
+  var remaining = total
+
+  while (remaining > 0) {
+    var boxAmount = Math.min(remaining, cfg.boxCapacity)
+    var box = Item.of('tacz:ammo_box', {
+      custom_data: {
+        AmmoCount: boxAmount,
+        AmmoId: cfg.ammoId,
+        Level: cfg.level,
+      },
+    })
+    player.give(box)
+    remaining -= boxAmount
   }
-
-  var entry = ammoMap[weaponId]
-  if (!entry) return
-
-  var stack = entry.tag
-    ? Item.of(entry.ammo, entry.tag)
-    : Item.of(entry.ammo)
-  stack.setCount(entry.count)
-  player.give(stack)
 }
 
 // ========== 4. 装备发放核心 ==========
@@ -183,9 +215,9 @@ function giveLoadout(target) {
     target.give(stack)
   })
 
-  // -------- ⑥ TACZ 弹药补给 --------
-  giveTaczAmmo(target, mainWp)
-  giveTaczAmmo(target, offWp)
+  // -------- ⑥ TACZ 弹药补给（主手210发 / 副手50发） --------
+  giveTaczAmmo(target, mainWp, 'main')
+  giveTaczAmmo(target, offWp, 'offhand')
 
   target.tell(Component.string('§a✔ 装备已发放完毕！'))
   return true
