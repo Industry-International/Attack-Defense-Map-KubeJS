@@ -6,7 +6,7 @@
 
 StartupEvents.registry('item', event => {
   event.create('profession_selector')
-    // displayName 也可用 translatable，但这里直接用翻译键更简洁
     .translationKey('item.kubejs.profession_selector')
     .maxStackSize(1)
+    .texture('kubejs:item/profession_selector')
 })
