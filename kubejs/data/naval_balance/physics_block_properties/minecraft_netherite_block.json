@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "sable:mass": 50,
+    "sable:friction": 0.3
+  },
+  "selector": "minecraft:netherite_block"
+}

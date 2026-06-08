@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "sable:floating_material": "sable:adventure_floater",
+    "sable:mass": 0.25,
+    "sable:friction": 0.3
+  },
+  "selector": "taov_returned:adventure_floater"
+}

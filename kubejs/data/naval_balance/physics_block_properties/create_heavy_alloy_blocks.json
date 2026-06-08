@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "sable:mass": 4,
+    "sable:friction": 0.3
+  },
+  "selector": "#create:naval_heavy_alloy_blocks"
+}
