@@ -8,8 +8,7 @@
 // ========== 数据定义 ==========
 
 const PROFESSIONS = [
-  { id: 'warrior'  }, { id: 'archer'   }, { id: 'mage'     },
-  { id: 'medic'    }, { id: 'engineer' }, { id: 'assassin' },
+  { id: 'assault' }, { id: 'scout' }, { id: 'medic' }, { id: 'support' },
 ]
 const MAIN_WEAPONS = [
   { id: 'sword'    }, { id: 'bow'      }, { id: 'crossbow' },
