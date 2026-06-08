@@ -1,0 +1,35 @@
+{
+  "item.kubejs.profession_selector": "\u00a76\u804c\u4e1a\u9009\u62e9\u5668",
+  "item.kubejs.profession_selector.tooltip": "\u00a7e\u53f3\u952e\u6253\u5f00\u804c\u4e1a\u9009\u62e9\u754c\u9762",
+  "item.kubejs.profession_selector.tooltip2": "\u00a77\u9009\u62e9\u4f60\u7684\u804c\u4e1a\u3001\u4e3b\u6b66\u5668\u548c\u526f\u6b66\u5668",
+
+  "gui.kubejs.profession_select.title": "\u00a78\u804c\u4e1a\u9009\u62e9",
+  "gui.kubejs.profession_select.choose_main": "\u00a7b\u00a7l\u2190 \u9009\u62e9\u4e3b\u6b66\u5668 \u2192",
+  "gui.kubejs.profession_select.choose_offhand": "\u00a7e\u00a7l\u2190 \u9009\u62e9\u526f\u6b66\u5668 \u2192",
+
+  "profession.kubejs.warrior": "\u00a7c\u6218\u58eb",
+  "profession.kubejs.warrior.desc": "\u00a77\u8fd1\u6218\u8f93\u51fa\uff0c\u9ad8\u751f\u5b58",
+  "profession.kubejs.archer": "\u00a7b\u5f13\u7bad\u624b",
+  "profession.kubejs.archer.desc": "\u00a77\u8fdc\u7a0b\u8f93\u51fa\uff0c\u654f\u6377",
+  "profession.kubejs.mage": "\u00a7d\u6cd5\u5e08",
+  "profession.kubejs.mage.desc": "\u00a77\u9b54\u6cd5\u8f93\u51fa\uff0cAOE",
+  "profession.kubejs.medic": "\u00a7a\u533b\u7597\u5175",
+  "profession.kubejs.medic.desc": "\u00a77\u6cbb\u7597\u4e0e\u652f\u63f4",
+  "profession.kubejs.engineer": "\u00a76\u5de5\u7a0b\u5e08",
+  "profession.kubejs.engineer.desc": "\u00a77\u5efa\u9020\u4e0e\u673a\u68b0",
+  "profession.kubejs.assassin": "\u00a78\u523a\u5ba2",
+  "profession.kubejs.assassin.desc": "\u00a77\u9ad8\u7206\u53d1\uff0c\u6f5c\u884c",
+
+  "weapon.kubejs.sword": "\u00a7f\u94c1\u5251",
+  "weapon.kubejs.bow": "\u00a7f\u5f13",
+  "weapon.kubejs.crossbow": "\u00a7f\u5f29",
+  "weapon.kubejs.trident": "\u00a7b\u4e09\u53c9\u621f",
+
+  "offhand.kubejs.shield": "\u00a76\u76fe\u724c",
+  "offhand.kubejs.totem": "\u00a7e\u4e0d\u6b7b\u56fe\u817e",
+
+  "msg.kubejs.profession_select.selected": "\u00a7a[\u804c\u4e1a\u9009\u62e9] \u5df2\u9009\u62e9: %s",
+  "msg.kubejs.profession_select.main_weapon": "\u00a7a[\u804c\u4e1a\u9009\u62e9] \u4e3b\u6b66\u5668: %s",
+  "msg.kubejs.profession_select.offhand_weapon": "\u00a7a[\u804c\u4e1a\u9009\u62e9] \u526f\u6b66\u5668: %s",
+  "msg.kubejs.profession_select.closed": "\u00a77[\u804c\u4e1a\u9009\u62e9] \u754c\u9762\u5df2\u5173\u95ed"
+}

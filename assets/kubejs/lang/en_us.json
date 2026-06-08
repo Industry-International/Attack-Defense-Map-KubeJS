@@ -1,0 +1,35 @@
+{
+  "item.kubejs.profession_selector": "Profession Selector",
+  "item.kubejs.profession_selector.tooltip": "Right-click to open the profession selection GUI",
+  "item.kubejs.profession_selector.tooltip2": "Choose your profession, main weapon and offhand weapon",
+
+  "gui.kubejs.profession_select.title": "Profession Selection",
+  "gui.kubejs.profession_select.choose_main": "Select Main Weapon",
+  "gui.kubejs.profession_select.choose_offhand": "Select Offhand Weapon",
+
+  "profession.kubejs.warrior": "\u00a7cWarrior",
+  "profession.kubejs.warrior.desc": "\u00a77Melee DPS, High survivability",
+  "profession.kubejs.archer": "\u00a7bArcher",
+  "profession.kubejs.archer.desc": "\u00a77Ranged DPS, Agile",
+  "profession.kubejs.mage": "\u00a7dMage",
+  "profession.kubejs.mage.desc": "\u00a77Magic DPS, AoE",
+  "profession.kubejs.medic": "\u00a7aMedic",
+  "profession.kubejs.medic.desc": "\u00a77Healing & Support",
+  "profession.kubejs.engineer": "\u00a76Engineer",
+  "profession.kubejs.engineer.desc": "\u00a77Building & Machinery",
+  "profession.kubejs.assassin": "\u00a78Assassin",
+  "profession.kubejs.assassin.desc": "\u00a77High Burst, Stealth",
+
+  "weapon.kubejs.sword": "\u00a7fIron Sword",
+  "weapon.kubejs.bow": "\u00a7fBow",
+  "weapon.kubejs.crossbow": "\u00a7fCrossbow",
+  "weapon.kubejs.trident": "\u00a7bTrident",
+
+  "offhand.kubejs.shield": "\u00a76Shield",
+  "offhand.kubejs.totem": "\u00a7eTotem of Undying",
+
+  "msg.kubejs.profession_select.selected": "\u00a7a[Profession] Selected: %s",
+  "msg.kubejs.profession_select.main_weapon": "\u00a7a[Profession] Main weapon: %s",
+  "msg.kubejs.profession_select.offhand_weapon": "\u00a7a[Profession] Offhand: %s",
+  "msg.kubejs.profession_select.closed": "\u00a77[Profession] GUI closed"
+}
