@@ -4,6 +4,8 @@
 // 单页面设计：主界面（三个入口居中）→ 职业选 → 主武器 → 副武器
 // 翻译定义在 assets/kubejs/lang/{en_us,zh_cn}.json 中
 // ============================================================
+const $ByteTag = Java.loadClass("net.minecraft.nbt.ByteTag")
+const $IntTag = Java.loadClass("net.minecraft.nbt.IntTag")
 
 // ========== 数据定义 ==========
 
@@ -11,11 +13,16 @@ const PROFESSIONS = [
   { id: 'assault' }, { id: 'scout' }, { id: 'medic' }, { id: 'support' },
 ]
 const MAIN_WEAPONS = [
-  { id: 'sword'    }, { id: 'bow'      }, { id: 'crossbow' },
-  { id: 'trident'  },
+  { id: 'sword',    display: 'minecraft:iron_sword' },
+  { id: 'bow',      display: 'minecraft:bow' },
+  { id: 'crossbow', display: 'minecraft:crossbow' },
+  { id: 'trident',  display: 'minecraft:trident' },
+  { id: 'ak47',     display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:ak47', GunCurrentAmmoCount: $IntTag.valueOf(30) } } },
 ]
 const OFFHAND_WEAPONS = [
-  { id: 'shield' }, { id: 'totem'  },
+  { id: 'shield', display: 'minecraft:shield' },
+  { id: 'totem',  display: 'minecraft:totem_of_undying' },
+  { id: 'mars',   display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'lavender:mars' } } },
 ]
 
 // ========== 辅助工具 ==========
@@ -136,10 +143,15 @@ function renderWeapon(gui, player, openPage) {
   const start = Math.floor((9 - MAIN_WEAPONS.length) / 2)
   MAIN_WEAPONS.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
-      slot.setItem(Item.of('minecraft:iron_sword').withCustomName(Text.translate('weapon.kubejs.' + wp.id)))
+      var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
+      // TACZ 枪械使用内置名称，不覆盖
+      if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id))
+      slot.setItem(wpItem)
       slot.setLeftClicked(() => {
         player.persistentData.mainWeapon = wp.id
-        player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', Text.translate('weapon.kubejs.' + wp.id)))
+        // TACZ 枪械聊天提示使用内置名称
+        var wpName = wp.tag ? (function() { var p = wp.tag.custom_data.GunId.split(':'); return Text.translate(p[0] + '.gun.' + p[1] + '.name') })() : Text.translate('weapon.kubejs.' + wp.id)
+        player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
         openPage(player, 'main')
       })
     })
@@ -151,10 +163,15 @@ function renderOffhand(gui, player, openPage) {
   const start = Math.floor((9 - OFFHAND_WEAPONS.length) / 2)
   OFFHAND_WEAPONS.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
-      slot.setItem(Item.of('minecraft:shield').withCustomName(Text.translate('offhand.kubejs.' + wp.id)))
+      var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
+      // TACZ 枪械使用内置名称，不覆盖
+      if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
+      slot.setItem(wpItem)
       slot.setLeftClicked(() => {
         player.persistentData.offhandWeapon = wp.id
-        player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', Text.translate('offhand.kubejs.' + wp.id)))
+        // TACZ 枪械聊天提示使用内置名称
+        var wpName = wp.tag ? (function() { var p = wp.tag.custom_data.GunId.split(':'); return Text.translate(p[0] + '.gun.' + p[1] + '.name') })() : Text.translate('offhand.kubejs.' + wp.id)
+        player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
         openPage(player, 'main')
       })
     })
