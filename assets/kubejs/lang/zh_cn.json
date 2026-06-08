@@ -2,29 +2,10 @@
   "item.kubejs.profession_selector": "\u00a76\u804c\u4e1a\u9009\u62e9\u5668",
 
   "gui.kubejs.profession_select.title": "\u00a78\u804c\u4e1a\u9009\u62e9",
-  "gui.kubejs.profession_select.locked": "\u00a7c\u00a7l\u9501\u5b9a",
-  "gui.kubejs.profession_select.lock_profession": "\u00a77\u8bf7\u5148\u9009\u62e9\u804c\u4e1a",
-  "gui.kubejs.profession_select.lock_weapon": "\u00a77\u8bf7\u5148\u9009\u62e9\u4e3b\u6b66\u5668",
-  "gui.kubejs.profession_select.hint_click": "\u00a7e\u70b9\u51fb\u9009\u62e9",
-
-  "gui.kubejs.profession_select.entry_profession": "\u00a7a\u804c\u4e1a\u9009\u62e9",
-  "gui.kubejs.profession_select.entry_profession_done": "\u00a7a\u2714 \u804c\u4e1a",
-  "gui.kubejs.profession_select.entry_weapon": "\u00a7b\u4e3b\u6b66\u5668\u9009\u62e9",
-  "gui.kubejs.profession_select.entry_weapon_done": "\u00a7a\u2714 \u4e3b\u6b66\u5668",
-  "gui.kubejs.profession_select.entry_offhand": "\u00a7e\u526f\u6b66\u5668\u9009\u62e9",
-  "gui.kubejs.profession_select.entry_offhand_done": "\u00a7a\u2714 \u526f\u6b66\u5668",
-
   "gui.kubejs.profession_select.status_profession": "\u00a7a\u804c\u4e1a",
   "gui.kubejs.profession_select.status_weapon": "\u00a7b\u4e3b\u6b66\u5668",
   "gui.kubejs.profession_select.status_offhand": "\u00a7e\u526f\u6b66\u5668",
   "gui.kubejs.profession_select.none": "\u00a77\u672a\u9009\u62e9",
-
-  "gui.kubejs.profession_select.sub_profession": "\u00a78\u9009\u62e9\u804c\u4e1a",
-  "gui.kubejs.profession_select.sub_main_weapon": "\u00a78\u9009\u62e9\u4e3b\u6b66\u5668",
-  "gui.kubejs.profession_select.sub_offhand": "\u00a78\u9009\u62e9\u526f\u6b66\u5668",
-  "gui.kubejs.profession_select.choose_profession": "\u00a7a\u00a7l\u9009\u62e9\u4f60\u7684\u804c\u4e1a",
-  "gui.kubejs.profession_select.choose_main": "\u00a7b\u00a7l\u9009\u62e9\u4e3b\u6b66\u5668",
-  "gui.kubejs.profession_select.choose_offhand": "\u00a7e\u00a7l\u9009\u62e9\u526f\u6b66\u5668",
   "gui.kubejs.profession_select.back": "\u00a7c\u2190 \u8fd4\u56de",
 
   "profession.kubejs.warrior": "\u00a7c\u6218\u58eb",
