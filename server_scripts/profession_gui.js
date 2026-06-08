@@ -20,6 +20,7 @@ const MAIN_WEAPONS = [
 const OFFHAND_WEAPONS = [
   { id: 'shield', display: 'minecraft:shield' },
   { id: 'totem',  display: 'minecraft:totem_of_undying' },
+  { id: 'mars',   display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'lavender:mars' } } },
 ]
 
 // ========== 辅助工具 ==========
@@ -141,10 +142,14 @@ function renderWeapon(gui, player, openPage) {
   MAIN_WEAPONS.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
       var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
-      slot.setItem(wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id)))
+      // TACZ 枪械使用内置名称，不覆盖
+      if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id))
+      slot.setItem(wpItem)
       slot.setLeftClicked(() => {
         player.persistentData.mainWeapon = wp.id
-        player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', Text.translate('weapon.kubejs.' + wp.id)))
+        // TACZ 枪械聊天提示使用内置名称
+        var wpName = wp.tag ? (function() { var p = wp.tag.custom_data.GunId.split(':'); return Text.translate(p[0] + '.gun.' + p[1] + '.name') })() : Text.translate('weapon.kubejs.' + wp.id)
+        player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
         openPage(player, 'main')
       })
     })
@@ -156,10 +161,15 @@ function renderOffhand(gui, player, openPage) {
   const start = Math.floor((9 - OFFHAND_WEAPONS.length) / 2)
   OFFHAND_WEAPONS.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
-      slot.setItem(Item.of(wp.display).withCustomName(Text.translate('offhand.kubejs.' + wp.id)))
+      var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
+      // TACZ 枪械使用内置名称，不覆盖
+      if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
+      slot.setItem(wpItem)
       slot.setLeftClicked(() => {
         player.persistentData.offhandWeapon = wp.id
-        player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', Text.translate('offhand.kubejs.' + wp.id)))
+        // TACZ 枪械聊天提示使用内置名称
+        var wpName = wp.tag ? (function() { var p = wp.tag.custom_data.GunId.split(':'); return Text.translate(p[0] + '.gun.' + p[1] + '.name') })() : Text.translate('offhand.kubejs.' + wp.id)
+        player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
         openPage(player, 'main')
       })
     })
