@@ -1,27 +1,20 @@
 # ============================================================
 # KubeJS 发版打包工作流
 # ============================================================
-# 触发方式：
-#   1. GitHub Release 发布时自动触发
-#   2. 手动触发（workflow_dispatch）
+# 触发时机：GitHub Release 正式发布时（仅一次）
 #
 # 功能：
 #   - 按白名单过滤需要打包的文件夹/文件
 #   - 压缩为 KubeJS-脚本包.zip
-#   - 上传到 Release 附件
+#   - 自动上传到当前 Release 的附件
 # ============================================================
 
 name: KubeJS 发版打包
 
 on:
+  # 仅在 Release 正式发布时触发一次（draft/edit 不会触发）
   release:
-    types: [published, created, edited]
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 要上传到的 Release 标签（留空则使用 latest）
-        required: false
-        type: string
+    types: [published]
 
 # ============================================================
 # 白名单配置区 ⬇️ 在此修改需要打包的文件夹/文件
@@ -33,6 +26,9 @@ jobs:
   package-and-upload:
     name: 打包并上传到 Release
     runs-on: ubuntu-latest
+    # 必须显式声明写入权限，否则 GITHUB_TOKEN 无法上传 Release 附件
+    permissions:
+      contents: write
 
     steps:
       - name: 检出仓库代码
@@ -90,7 +86,4 @@ jobs:
       - name: 上传到 Release 附件
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ inputs.tag || github.event.release.tag_name }}
           files: ${{ env.PACKAGE_NAME }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
