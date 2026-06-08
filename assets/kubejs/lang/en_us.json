@@ -40,5 +40,10 @@
   "team.none": "§7None",
   "team.cleared": "§e✔ Left the team",
   "team.joined_attack": "§a✔ Joined §c§lATTACK§a!",
-  "team.joined_defense": "§a✔ Joined §9§lDEFENSE§a!"
+  "team.joined_defense": "§a✔ Joined §9§lDEFENSE§a!",
+
+  "msg.kubejsadmin.clear.profession": "§aCleared profession selection for %s player(s)",
+  "msg.kubejsadmin.clear.menu": "§aCleared team config for %s player(s)",
+  "msg.kubejsadmin.no_target": "§cNo valid target players found",
+  "msg.kubejsadmin.usage": "§cUsage: /kubejsadmin <profession|menu> <targets>"
 }

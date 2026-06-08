@@ -40,5 +40,10 @@
   "team.none": "§7未选择",
   "team.cleared": "§e✔ 已退出队伍",
   "team.joined_attack": "§a✔ 已加入 §c§l进攻方§a！",
-  "team.joined_defense": "§a✔ 已加入 §9§l防守方§a！"
+  "team.joined_defense": "§a✔ 已加入 §9§l防守方§a！",
+
+  "msg.kubejsadmin.clear.profession": "§a已清空 %s 名玩家的职业选择",
+  "msg.kubejsadmin.clear.menu": "§a已清空 %s 名玩家的队伍配置",
+  "msg.kubejsadmin.no_target": "§c未找到有效的目标玩家",
+  "msg.kubejsadmin.usage": "§c用法: /kubejsadmin <profession|menu> <targets>"
 }
