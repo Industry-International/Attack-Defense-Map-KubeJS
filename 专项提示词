@@ -16,5 +16,7 @@ tacz 枪械配置中包含配件配置
 
 tacz的相关物品除非特殊要求，否则一律不需要额外的i18n
 
+阅读日志,并尝试分析问题,然后向我提问,得到我允许之后再尝试修复问题
+
 原始值输出
 player.tell(Component.string('§e[DEBUG] installed = ' + installed));

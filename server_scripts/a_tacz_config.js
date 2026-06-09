@@ -80,26 +80,58 @@ const GUN_TACZ_CONFIG = {
 // ========== 持久化 ==========
 
 function getGunAttachments(player, weaponId) {
-  var raw = player.persistentData.taczAttachments
-  if (!raw) return {}
-  try { return JSON.parse(raw)[weaponId] || {} } catch(e) { return {} }
+  var raw
+  try {
+    raw = player.persistentData.getString('taczAttachments')
+  } catch(e) {
+    console.info('[GET_ATTACH] getString error: ' + e)
+    raw = null
+  }
+  console.info('[GET_ATTACH] raw="' + raw + '" weaponId="' + weaponId + '"')
+  if (!raw || raw === '') { console.info('[GET_ATTACH] raw empty, return {}'); return {} }
+  try {
+    var parsed = JSON.parse(raw)
+    console.info('[GET_ATTACH] parsed=' + JSON.stringify(parsed))
+    var result = parsed[weaponId] || {}
+    console.info('[GET_ATTACH] result=' + JSON.stringify(result))
+    return result
+  } catch(e) {
+    console.info('[GET_ATTACH] JSON.parse error: ' + e)
+    return {}
+  }
 }
 
 function setGunAttachment(player, weaponId, slotKey, attachmentId) {
+  console.info('[SET_ATTACH] START weaponId="' + weaponId + '" slotKey="' + slotKey + '" id="' + attachmentId + '"')
+  var existing = ''
+  try {
+    existing = player.persistentData.getString('taczAttachments')
+  } catch(e) {}
   var all = {}
-  try { all = JSON.parse(player.persistentData.taczAttachments || '{}') } catch(e) {}
+  try { all = JSON.parse(existing || '{}') } catch(e) { console.info('[SET_ATTACH] parse existing error: ' + e) }
+  console.info('[SET_ATTACH] existing all=' + JSON.stringify(all))
   if (!all[weaponId]) all[weaponId] = {}
   if (attachmentId) all[weaponId][slotKey] = attachmentId
   else delete all[weaponId][slotKey]
-  player.persistentData.taczAttachments = JSON.stringify(all)
+  var toStore = JSON.stringify(all)
+  console.info('[SET_ATTACH] storing: ' + toStore)
+  try {
+    player.persistentData.putString('taczAttachments', toStore)
+    console.info('[SET_ATTACH] putString success')
+  } catch(e) {
+    console.info('[SET_ATTACH] putString error: ' + e)
+  }
 }
 
 function clearGunAttachments(player, weaponId) {
   try {
-    var all = JSON.parse(player.persistentData.taczAttachments || '{}')
+    var existing = player.persistentData.getString('taczAttachments')
+    var all = JSON.parse(existing || '{}')
     delete all[weaponId]
-    player.persistentData.taczAttachments = JSON.stringify(all)
-  } catch(e) {}
+    player.persistentData.putString('taczAttachments', JSON.stringify(all))
+  } catch(e) {
+    console.info('[CLEAR_ATTACH] error: ' + e)
+  }
 }
 
 // ========== 帮助函数 ==========
@@ -129,7 +161,8 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
     6,
     function(gui) {
       var attachments = getGunAttachments(player, weaponId)
-
+      console.info('[ATTACH_MENU] loaded attachments: ' + JSON.stringify(attachments))
+  
       // 行0
       gui.slot(0, 0, function(slot) {
         slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
@@ -264,6 +297,10 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
                 slot.setLeftClicked(function() {
                   setGunAttachment(player, weaponId, slotKey, att.id)
                   player.tell(Component.translatable('msg.kubejs.attach.installed', Component.translatable(SLOT_TRANSLATE_KEY[slotKey])))
+                  // 校验：安装后立即读取
+                  var check = getGunAttachments(player, weaponId)
+                  console.info('[ATTACH_INSTALL] saved ' + att.id + ' -> ' + JSON.stringify(check))
+                  player.tell(Component.literal('§e[DEBUG] saved: ' + JSON.stringify(check)))
                   openAttachmentMenu(player, weaponId, gunId, returnPage)
                 })
               })
