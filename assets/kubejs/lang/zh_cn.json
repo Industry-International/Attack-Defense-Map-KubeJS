@@ -15,6 +15,8 @@
   "gui.kubejs.profession_select.subtitle.offhand": "§8副武器配置界面",
   "gui.kubejs.profession_select.subtitle.tertiary": "§8特殊武器配置界面",
 
+  "gui.kubejs.profession_select.hint": "§7左键进入选择，右键清空武器选择",
+
   "profession.kubejs.assault": "§c突击兵",
   "profession.kubejs.assault.desc": "§7近距离作战，高机动",
   "profession.kubejs.scout": "§b侦察兵",
@@ -39,6 +41,9 @@
   "msg.kubejs.profession_select.offhand_weapon": "§a[职业选择] 副武器: %s",
   "msg.kubejs.profession_select.special_weapon": "§a[职业选择] 特殊武器: %s",
   "msg.kubejs.profession_select.cleared": "§c[职业选择] 已清除所有选择",
+  "msg.kubejs.profession_select.main_cleared": "§e已清空主武器选择",
+  "msg.kubejs.profession_select.offhand_cleared": "§e已清空副武器选择",
+  "msg.kubejs.profession_select.special_cleared": "§e已清空特殊武器选择",
   "item.kubejs.menu": "§6菜 单",
   "menu.title": "§6队伍选择",
   "menu.back": "§7← 返回",

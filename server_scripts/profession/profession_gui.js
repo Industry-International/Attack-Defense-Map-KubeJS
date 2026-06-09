@@ -36,6 +36,17 @@ function getWeaponName(id, category) {
   return Text.translate(category + '.kubejs.' + pureId)
 }
 
+/** 根据武器 ID 解析为实际物品（TACZ 生成枪械，非 TACZ 从 VANILLA_WEAPON_DISPLAY 查表） */
+function resolveWeaponItem(id) {
+  var pureId = cleanId(id)
+  if (!pureId) return null
+  var taczCfg = getTaczConfig(pureId)
+  if (taczCfg) return resolveTaczGun(taczCfg)
+  var dispCfg = VANILLA_WEAPON_DISPLAY[pureId]
+  if (dispCfg) return Item.of(dispCfg.item)
+  return null
+}
+
 /** 子页面左右竖边框（第 2~5 行、第 0/8 列） */
 function drawSubPageFrame(gui) {
   for (let r = 2; r < 6; r++) {
@@ -92,49 +103,82 @@ function renderWeaponConfig(gui, player, openPage) {
     })
   })
 
+  // Row 1: 操作提示（居中置顶）
+  gui.slot(4, 1, slot => {
+    slot.setItem(Item.of('minecraft:feather')
+      .withCustomName(Text.translate('gui.kubejs.profession_select.hint')))
+  })
+
   // Row 2: 三个长方形顶部边框
   for (let x = 1; x < 8; x++) gui.slot(x, 2, s => { s.setItem(PANE.gray) })
 
   // Row 3: 三个长方形左右边框
   for (let x of [1, 3, 5, 7]) gui.slot(x, 3, s => { s.setItem(PANE.gray) })
 
-  // col 2: 主武器入口
+  // col 2: 主武器入口（已选则显示实际武器）
   gui.slot(2, 3, slot => {
-    var item = Item.of('minecraft:crossbow')
-      .withCustomName(Text.translate('gui.kubejs.profession_select.status_weapon'))
+    var item
     if (wp) {
-      item = item.withLore([getWeaponName(wp, 'weapon')])
+      item = resolveWeaponItem(wp)
+      if (!item) item = Item.of('minecraft:crossbow')
+      item = item.withCustomName(Text.translate('gui.kubejs.profession_select.status_weapon'))
+        .withLore([getWeaponName(wp, 'weapon')])
     } else {
-      item = item.withLore([Text.translate('gui.kubejs.profession_select.none')])
+      item = Item.of('minecraft:crossbow')
+        .withCustomName(Text.translate('gui.kubejs.profession_select.status_weapon'))
+        .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
     slot.setLeftClicked(() => openPage(player, 'weapon'))
+    if (wp) slot.setRightClicked(() => {
+      delete player.persistentData.mainWeapon
+      player.tell(Text.translate('msg.kubejs.profession_select.main_cleared'))
+      openPage(player, 'weapon_config')
+    })
   })
 
-  // col 4: 副武器入口
+  // col 4: 副武器入口（已选则显示实际武器）
   gui.slot(4, 3, slot => {
-    var item = Item.of('minecraft:shield')
-      .withCustomName(Text.translate('gui.kubejs.profession_select.status_offhand'))
+    var item
     if (off) {
-      item = item.withLore([getWeaponName(off, 'offhand')])
+      item = resolveWeaponItem(off)
+      if (!item) item = Item.of('minecraft:shield')
+      item = item.withCustomName(Text.translate('gui.kubejs.profession_select.status_offhand'))
+        .withLore([getWeaponName(off, 'offhand')])
     } else {
-      item = item.withLore([Text.translate('gui.kubejs.profession_select.none')])
+      item = Item.of('minecraft:shield')
+        .withCustomName(Text.translate('gui.kubejs.profession_select.status_offhand'))
+        .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
     slot.setLeftClicked(() => openPage(player, 'offhand'))
+    if (off) slot.setRightClicked(() => {
+      delete player.persistentData.offhandWeapon
+      player.tell(Text.translate('msg.kubejs.profession_select.offhand_cleared'))
+      openPage(player, 'weapon_config')
+    })
   })
 
-  // col 6: 特殊武器入口
+  // col 6: 特殊武器入口（已选则显示实际武器）
   gui.slot(6, 3, slot => {
-    var item = Item.of('minecraft:snowball')
-      .withCustomName(Text.translate('gui.kubejs.profession_select.status_special'))
+    var item
     if (sp) {
-      item = item.withLore([getWeaponName(sp, 'offhand')])
+      item = resolveWeaponItem(sp)
+      if (!item) item = Item.of('minecraft:snowball')
+      item = item.withCustomName(Text.translate('gui.kubejs.profession_select.status_special'))
+        .withLore([getWeaponName(sp, 'offhand')])
     } else {
-      item = item.withLore([Text.translate('gui.kubejs.profession_select.none')])
+      item = Item.of('minecraft:snowball')
+        .withCustomName(Text.translate('gui.kubejs.profession_select.status_special'))
+        .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
     slot.setLeftClicked(() => openPage(player, 'tertiary'))
+    if (sp) slot.setRightClicked(() => {
+      delete player.persistentData.specialWeapon
+      player.tell(Text.translate('msg.kubejs.profession_select.special_cleared'))
+      openPage(player, 'weapon_config')
+    })
   })
 
   // Row 4: 三个长方形底部边框
