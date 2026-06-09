@@ -316,8 +316,8 @@ function openPage(player, page) {
 ItemEvents.rightClicked('kubejs:profession_selector', event => {
   const { player, hand } = event
   if (hand !== 'main_hand') return
-  // 直接进入职业选择页
-  openPage(player, 'prof')
+  // 已选择职业则直接进入武器配置页，否则进入职业选择页
+  openPage(player, player.persistentData.profession ? 'weapon_config' : 'prof')
 })
 
 // ========== GUI 打开时禁用物品拾取 ==========
