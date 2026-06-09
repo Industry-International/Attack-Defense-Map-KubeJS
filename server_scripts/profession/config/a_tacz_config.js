@@ -51,7 +51,9 @@ const VANILLA_WEAPON_DISPLAY = {
   totem:    'minecraft:totem_of_undying',
 }
 
-// 武器配置拆分到独立文件: b_tacz_prof_assault.js / _medic.js / _scout.js / _support.js
+// 武器配置在 prof_configs/ 目录下:
+//   b_tacz_prof_assault.js / _medic.js / _scout.js / _support.js
+// 构建在 prof_configs/z_tacz_config_build.js
 // 各文件通过 PROF_CONFIGS.xxx = { guns:..., weapons:... } 注入数据
 
 // ========== 持久化 ==========
