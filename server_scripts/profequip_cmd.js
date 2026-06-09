@@ -156,24 +156,23 @@ function attachmentKey(slotKey) {
  */
 function applySavedAttachments(gunStack, player, weaponId) {
   var pureId = cleanId(weaponId)
-  var raw = player.persistentData.taczAttachments
-  if (!raw) return
+  var raw
+  try { raw = player.persistentData.getString('taczAttachments') } catch(e) { raw = null }
+  if (!raw || raw === '') return
   var all
   try { all = JSON.parse(raw) } catch(e) { return }
   var attMap = all[pureId]
   if (!attMap || Object.keys(attMap).length === 0) return
 
-  // 读取现有 NBT
-  var nbt = gunStack.getNbt()
-  if (!nbt) nbt = new $CompoundTag()
-  var custom = nbt.getCompound('custom_data')
-  if (custom.isEmpty()) custom = new $CompoundTag()
+  // KubeJS 7 (MC 1.21): 使用 Data Component API 替代旧的 getNbt/setNbt
+  var custom = gunStack.getCustomData()
+  if (custom === null) custom = new $CompoundTag()
 
   for (var slotKey in attMap) {
     if (!attMap.hasOwnProperty(slotKey)) continue
     var attId = attMap[slotKey]
 
-    // 构造配件 NBT
+    // 构造配件 NBT（格式与 TACZ 要求一致）
     var attCompound = new $CompoundTag()
     var components = new $CompoundTag()
     var mcCustomData = new $CompoundTag()
@@ -186,8 +185,8 @@ function applySavedAttachments(gunStack, player, weaponId) {
     custom.put(attachmentKey(slotKey), attCompound)
   }
 
-  nbt.put('custom_data', custom)
-  gunStack.setNbt(nbt)
+  // 通过 Data Component 设置 custom_data
+  gunStack.setCustomData(custom)
 }
 
 // ========== 5. 装备发放核心 ==========
