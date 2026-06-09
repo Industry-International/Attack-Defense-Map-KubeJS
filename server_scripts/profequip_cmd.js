@@ -170,7 +170,7 @@ function applySavedAttachments(gunStack, player, weaponId) {
 
   for (var slotKey in attMap) {
     if (!attMap.hasOwnProperty(slotKey)) continue
-    var attId = 'tacz:' + attMap[slotKey]
+    var attId = attMap[slotKey]
 
     // 构造配件 NBT
     var attCompound = new $CompoundTag()

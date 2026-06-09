@@ -74,22 +74,22 @@ const GUN_TACZ_CONFIG = {
     ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
     attachments: {
       scope: [
-        { id: 'scope_elcan_4x' }, { id: 'scope_acog_ta31' },
-        { id: 'scope_hamr' },      { id: 'scope_lpvo_1_6' },
-        { id: 'scope_retro_2x' },  { id: 'scope_standard_8x' },
-        { id: 'scope_uh1' },       { id: 'scope_reflex' },
+        { id: 'lavender:scope_rifles_x4' }, { id: 'tacz:scope_acog_ta31' },
+        { id: 'tacz:scope_hamr' },      { id: 'tacz:scope_lpvo_1_6' },
+        { id: 'tacz:scope_retro_2x' },  { id: 'tacz:scope_standard_8x' },
+        { id: 'tacz:scope_uh1' },       { id: 'tacz:scope_reflex' },
       ],
       muzzle: [
-        { id: 'muzzle_silencer_knight_qd' }, { id: 'muzzle_silencer_mirage' },
-        { id: 'muzzle_brake_cthulhu' },      { id: 'muzzle_brake_cyclone_d2' },
-        { id: 'muzzle_brake_pioneer' },      { id: 'muzzle_compensator_trident' },
-        { id: 'muzzle_brake_trex' },
+        { id: 'tacz:muzzle_silencer_knight_qd' }, { id: 'tacz:muzzle_silencer_mirage' },
+        { id: 'tacz:muzzle_brake_cthulhu' },      { id: 'tacz:muzzle_brake_cyclone_d2' },
+        { id: 'tacz:muzzle_brake_pioneer' },      { id: 'tacz:muzzle_compensator_trident' },
+        { id: 'tacz:muzzle_brake_trex' },
       ],
       stock: [
-        { id: 'stock_heavy' }, { id: 'stock_light' }, { id: 'stock_tactical' },
+        { id: 'tacz:stock_heavy' }, { id: 'tacz:stock_light' }, { id: 'tacz:stock_tactical' },
       ],
       extended_mag: [
-        { id: 'extended_mag_1' }, { id: 'extended_mag_2' }, { id: 'extended_mag_3' },
+        { id: 'tacz:extended_mag_1' }, { id: 'tacz:extended_mag_2' }, { id: 'tacz:extended_mag_3' },
       ],
     },
   },
@@ -98,10 +98,10 @@ const GUN_TACZ_CONFIG = {
     ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
     attachments: {
       scope: [
-        { id: 'scope_reflex' }, { id: 'scope_uh1' },
+        { id: 'tacz:scope_reflex' }, { id: 'tacz:scope_uh1' },
       ],
       muzzle: [
-        { id: 'muzzle_silencer_knight_qd' }, { id: 'muzzle_silencer_mirage' },
+        { id: 'tacz:muzzle_silencer_knight_qd' }, { id: 'tacz:muzzle_silencer_mirage' },
       ],
     },
   },
@@ -170,7 +170,7 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
         gui.slot(pos.col, pos.row, function(slot) {
           if (installed) {
             slot.setItem(
-              Item.of('tacz:attachment', { AttachmentId: 'tacz:' + installed })
+              Item.of('tacz:attachment', { AttachmentId: installed })
                 .withLore([Component.translatable('gui.kubejs.attach.remove_hint')])
             )
             slot.setLeftClicked(function() {
@@ -230,7 +230,7 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
         var row = 1 + Math.floor(i / 7)
         gui.slot(col, row, function(slot) {
           slot.setItem(
-            Item.of('tacz:attachment', { AttachmentId: 'tacz:' + att.id })
+            Item.of('tacz:attachment', { AttachmentId: att.id })
           )
           slot.setLeftClicked(function() {
             setGunAttachment(player, weaponId, slotKey, att.id)
