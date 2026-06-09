@@ -71,40 +71,32 @@ function getProfConfig(id) {
 
 // ========== 2. 武器解析 ==========
 
-/** 主武器 id -> 物品（Java类型保证NBT正确） */
+/** 主武器 id -> 物品（TACZ 武器通过 getTaczConfig 查表生成） */
 function resolveMainWeapon(id) {
+  // TACZ 武器: 通过全局函数 getTaczConfig 查表（自带 cleanId）
+  var taczCfg = getTaczConfig(id)
+  if (taczCfg) return resolveTaczGun(taczCfg)
+
+  // 非 TACZ 武器
   switch (id) {
     case 'sword':    return Item.of('minecraft:iron_sword')
     case 'bow':      return Item.of('minecraft:bow')
     case 'crossbow': return Item.of('minecraft:crossbow')
     case 'trident':  return Item.of('minecraft:trident')
-    case 'ak47':
-      return Item.of('tacz:modern_kinetic_gun', {
-        custom_data: {
-          HasBulletInBarrel: $ByteTag.valueOf(1),
-          GunId: 'tacz:ak47',
-          GunFireMode: 'AUTO',
-          GunCurrentAmmoCount: $IntTag.valueOf(30),
-        },
-      })
     default:         return null
   }
 }
 
-/** 副武器 id -> 物品 */
+/** 副武器 id -> 物品（TACZ 武器通过 getTaczConfig 查表生成） */
 function resolveOffhandWeapon(id) {
+  // TACZ 武器: 通过全局函数 getTaczConfig 查表（自带 cleanId）
+  var taczCfg = getTaczConfig(id)
+  if (taczCfg) return resolveTaczGun(taczCfg)
+
+  // 非 TACZ 武器
   switch (id) {
     case 'shield': return Item.of('minecraft:shield')
     case 'totem':  return Item.of('minecraft:totem_of_undying')
-    case 'mars':
-      return Item.of('tacz:modern_kinetic_gun', {
-        custom_data: {
-          HasBulletInBarrel: $ByteTag.valueOf(1),
-          GunId: 'lavender:mars',
-          GunFireMode: 'SEMI',
-          GunCurrentAmmoCount: $IntTag.valueOf(7),
-        },
-      })
     default:       return null
   }
 }
