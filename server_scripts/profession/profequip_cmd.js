@@ -34,7 +34,6 @@ function getProfConfig(id) {
         ],
         extras: [
           { item: 'minecraft:cooked_beef', count: 16 },
-          { item: 'minecraft:arrow', count: 128 },
         ],
       }
     case 'medic':
@@ -47,8 +46,8 @@ function getProfConfig(id) {
         ],
         extras: [
           { item: 'minecraft:cooked_beef', count: 16 },
-          { item: 'minecraft:splash_potion', count: 6, tag: '{Potion:"minecraft:healing"}' },
-          { item: 'minecraft:potion',        count: 3, tag: '{Potion:"minecraft:regeneration"}' },
+          { item: 'minecraft:splash_potion', count: 6, tag: { 'minecraft:potion_contents': { potion: 'minecraft:healing' } } },
+          { item: 'minecraft:potion',        count: 3, tag: { 'minecraft:potion_contents': { potion: 'minecraft:regeneration' } } },
         ],
       }
     case 'support':
@@ -61,7 +60,6 @@ function getProfConfig(id) {
         ],
         extras: [
           { item: 'minecraft:cooked_beef', count: 32 },
-          { item: 'minecraft:arrow', count: 256 },
         ],
       }
     default:
