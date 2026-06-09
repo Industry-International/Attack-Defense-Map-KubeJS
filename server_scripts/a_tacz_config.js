@@ -7,7 +7,7 @@ const $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
 const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 
 function filler(color) {
-  return Item.of(color).withCustomName(Text.of(''))
+  return Item.of(color).withCustomName(Component.literal(''))
 }
 const PANE = {
   black: filler('minecraft:black_stained_glass_pane'),
@@ -106,7 +106,7 @@ function clearGunAttachments(player, weaponId) {
 
 /** weaponId 清洗：去空白、去首尾引号 */
 function cleanId(raw) {
-  return String(raw || '').trim().replace(/^"|"$/g, '')
+  return String(raw || '').trim().replace(/^['"]|['"]$/g, '')
 }
 
 function isTaczGun(wp) {
@@ -121,11 +121,11 @@ function getTaczConfig(weaponId) {
 
 function openAttachmentMenu(player, weaponId, gunId, returnPage) {
   var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
-  if (!cfg) { player.tell(Component.string('§c未找到枪械配置')); return }
+  if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var gunName = Text.translate(gunId.split(':')[0] + '.gun.' + gunId.split(':')[1] + '.name')
 
   player.openChestGUI(
-    Component.string('§8').append(gunName).append(Component.string(' §7')).append(Component.translatable('gui.kubejs.attach.title_suffix')),
+    Component.literal('§8').append(gunName).append(Component.literal(' §7')).append(Component.translatable('gui.kubejs.attach.title_suffix')),
     6,
     function(gui) {
       var attachments = getGunAttachments(player, weaponId)
@@ -198,10 +198,10 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
 
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
   var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
-  if (!cfg) { player.tell(Component.string('§c未找到枪械配置')); return }
+  if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var list = cfg.attachments[slotKey] || []
   if (list.length === 0) {
-    player.tell(Component.string('§c').append(Component.translatable('gui.kubejs.attach.no_available')))
+    player.tell(Component.literal('§c').append(Component.translatable('gui.kubejs.attach.no_available')))
     return
   }
 
