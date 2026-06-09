@@ -47,10 +47,7 @@ const GUN_TACZ_CONFIG = {
     ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
     attachments: {
       scope: [
-        { id: 'lavender:scope_rifles_x4' }, { id: 'tacz:scope_acog_ta31' },
-        { id: 'tacz:scope_hamr' },      { id: 'tacz:scope_lpvo_1_6' },
-        { id: 'tacz:scope_retro_2x' },  { id: 'tacz:scope_standard_8x' },
-        { id: 'tacz:scope_uh1' },       { id: 'tacz:scope_reflex' },
+        { id: 'lavender:scope_rifles_x4' }
       ],
       muzzle: [
         { id: 'tacz:muzzle_silencer_knight_qd' }, { id: 'tacz:muzzle_silencer_mirage' },
@@ -107,18 +104,23 @@ function clearGunAttachments(player, weaponId) {
 
 // ========== 帮助函数 ==========
 
+/** weaponId 清洗：去空白、去首尾引号 */
+function cleanId(raw) {
+  return String(raw || '').trim().replace(/^"|"$/g, '')
+}
+
 function isTaczGun(wp) {
   return wp && wp.tag && wp.display === 'tacz:modern_kinetic_gun'
 }
 
 function getTaczConfig(weaponId) {
-  return GUN_TACZ_CONFIG[weaponId] || null
+  return GUN_TACZ_CONFIG[cleanId(weaponId)] || null
 }
 
 // ========== 配件改装主菜单 ==========
 
 function openAttachmentMenu(player, weaponId, gunId, returnPage) {
-  var cfg = GUN_TACZ_CONFIG[weaponId]
+  var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
   if (!cfg) { player.tell(Component.string('§c未找到枪械配置')); return }
   var gunName = Text.translate(gunId.split(':')[0] + '.gun.' + gunId.split(':')[1] + '.name')
 
@@ -177,30 +179,25 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
     if (ins) {
       slot.setItem(
         Item.of('tacz:attachment', { AttachmentId: ins })
-          .withLore([Component.translatable('gui.kubejs.attach.remove_hint')])
       )
-      slot.setLeftClicked(function() {
-        setGunAttachment(player, weaponId, sk, null)
-        player.tell(Component.translatable('msg.kubejs.attach.removed', Component.translatable(SLOT_TRANSLATE_KEY[sk])))
-        openAttachmentMenu(player, weaponId, gunId, returnPage)
-      })
     } else {
       slot.setItem(
         Item.of('minecraft:barrier')
           .withCustomName(Component.translatable('gui.kubejs.attach.select_prefix').append(Component.translatable(SLOT_TRANSLATE_KEY[sk])))
           .withLore([Component.translatable('gui.kubejs.attach.select_hint')])
       )
-      slot.setLeftClicked(function() {
-        openAttachmentSelect(player, weaponId, gunId, sk, returnPage)
-      })
     }
+    // 无论槽位状态，左键一律打开配件选择子页面
+    slot.setLeftClicked(function() {
+      openAttachmentSelect(player, weaponId, gunId, sk, returnPage)
+    })
   }
 }
 
 // ========== 配件选择列表（二级界面）==========
 
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
-  var cfg = GUN_TACZ_CONFIG[weaponId]
+  var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
   if (!cfg) { player.tell(Component.string('§c未找到枪械配置')); return }
   var list = cfg.attachments[slotKey] || []
   if (list.length === 0) {

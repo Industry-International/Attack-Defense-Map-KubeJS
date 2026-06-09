@@ -114,7 +114,7 @@ function resolveOffhandWeapon(id) {
 
 /** 给玩家发放一个弹药盒（主手/副手各一盒） */
 function giveAmmoBox(player, weaponId, slot) {
-  var pureId = String(weaponId || '').trim().replace(/^"|"$/g, '')
+  var pureId = cleanId(weaponId)
   var cfg = getTaczConfig(pureId)
   if (!cfg || !cfg.ammo) {
     player.tell(Component.string('§c❌ 未找到 [' + pureId + '] 的弹药配置'))
@@ -155,11 +155,12 @@ function attachmentKey(slotKey) {
  * @param {string} weaponId - 武器 id (如 'ak47')
  */
 function applySavedAttachments(gunStack, player, weaponId) {
+  var pureId = cleanId(weaponId)
   var raw = player.persistentData.taczAttachments
   if (!raw) return
   var all
   try { all = JSON.parse(raw) } catch(e) { return }
-  var attMap = all[weaponId]
+  var attMap = all[pureId]
   if (!attMap || Object.keys(attMap).length === 0) return
 
   // 读取现有 NBT
