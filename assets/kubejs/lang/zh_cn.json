@@ -72,5 +72,9 @@
   "gui.kubejs.attach.selected": "§e已选择",
   "gui.kubejs.attach.none_selected": "§7未选择",
   "msg.kubejs.attach.select_first": "§c请先选择一个配件",
-  "gui.kubejs.attach.selected_mark": "§a✔ 当前选中"
+  "gui.kubejs.attach.selected_mark": "§a✔ 当前选中",
+
+  "msg.kubejs.profession_select.select_first": "§c请先选择兵种！",
+  "msg.kubejs.profession_select.no_weapons": "§c该兵种暂无可用武器！",
+  "msg.kubejs.profession_select.select_main_first": "§c请先选择主武器！"
 }

@@ -1,5 +1,5 @@
 // ============================================================
-// TACZ 枪械配置 + 配件改装 GUI（独立模块，需最先加载）
+// TACZ 共享工具 + 配件改装 GUI（独立模块，需最先加载）
 // ============================================================
 
 const $ByteTag = Java.loadClass('net.minecraft.nbt.ByteTag')
@@ -13,6 +13,9 @@ const PANE = {
   black: filler('minecraft:black_stained_glass_pane'),
   gray:  filler('minecraft:gray_stained_glass_pane'),
 }
+
+// ========== 职业标签列表 ==========
+const PROF_TAG_LIST = ['assault', 'scout', 'medic', 'support']
 
 // ========== 布局 ==========
 
@@ -39,105 +42,17 @@ const SLOT_TRANSLATE_KEY = {
   ammo_mod:     'gui.kubejs.attach.slot.ammo_mod',//弹药
 }
 
-// ========== 枪械配置总表（按主/副武器分类）=========
-
-const GUN_TACZ_CONFIG = {
-  /** 主武器分类 */
-  primary: {
-    ak47: {
-      gunId: 'tacz:ak47',
-      GunFireMode: 'AUTO',
-      GunCurrentAmmoCount: 30,
-      HasBulletInBarrel: $ByteTag.valueOf(1),
-      ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
-      attachments: {
-        scope: [
-          { id: 'lavender:scope_rifles_x4' },
-          { id: 'lavender:scope_rifles_x2' },
-          { id: 'tacz:scope_reflex' },
-          { id: 'tacz:scope_uh1' },
-        ],
-        muzzle: [
-          { id: 'tacz:muzzle_silencer_knight_qd' },
-          { id: 'tacz:muzzle_silencer_mirage' },
-          { id: 'tacz:muzzle_brake_cthulhu' },
-          { id: 'tacz:muzzle_brake_cyclone_d2' },
-          { id: 'tacz:muzzle_brake_pioneer' },
-          { id: 'tacz:muzzle_compensator_trident' },
-          { id: 'tacz:muzzle_brake_trex' },
-        ],
-        stock: [
-          { id: 'tacz:stock_heavy' },
-          { id: 'tacz:stock_light' },
-          { id: 'tacz:stock_tactical' },
-        ],
-        extended_mag: [
-          { id: 'tacz:extended_mag_1' },
-          { id: 'tacz:extended_mag_2' },
-          { id: 'tacz:extended_mag_3' },
-        ],
-        laser: [
-          { id: 'tacz:laser_compact' },
-          { id: 'tacz:laser_nightstick' },
-          { id: 'tacz:laser_lopro' },
-        ],
-      },
-    },
-    scar_l: {
-      gunId: 'tacz:scar_l',
-      GunFireMode: 'AUTO',
-      GunCurrentAmmoCount: 30,
-      HasBulletInBarrel: $ByteTag.valueOf(1),
-      ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
-      attachments: {
-        scope: [
-          { id: 'tacz:scope_reflex' },
-          { id: 'tacz:scope_uh1' },
-        ],
-        muzzle: [
-          { id: 'tacz:muzzle_silencer_knight_qd' },
-          { id: 'tacz:muzzle_silencer_mirage' },
-        ],
-        stock: [
-          { id: 'tacz:stock_heavy' },
-          { id: 'tacz:stock_light' },
-          { id: 'tacz:stock_tactical' },
-        ],
-        extended_mag: [
-          { id: 'tacz:extended_mag_1' },
-          { id: 'tacz:extended_mag_2' },
-          { id: 'tacz:extended_mag_3' },
-        ],
-        laser: [
-          { id: 'tacz:laser_compact' },
-          { id: 'tacz:laser_nightstick' },
-          { id: 'tacz:laser_lopro' },
-        ],
-      },
-    },
-    // 在此添加其他主武器:  m4a1: { ... },
-  },
-
-  /** 副武器分类 */
-  secondary: {
-    mars: {
-      gunId: 'lavender:mars',
-      GunFireMode: 'SEMI',
-      GunCurrentAmmoCount: 7,
-      ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
-      attachments: {
-        scope: [
-          { id: 'tacz:scope_reflex' },
-          { id: 'tacz:scope_uh1' },
-        ],
-        muzzle: [
-          { id: 'tacz:muzzle_silencer_knight_qd' },
-          { id: 'tacz:muzzle_silencer_mirage' },
-        ],
-      },
-    },
-    // 在此添加其他副武器:  glock: { ... },
-  },
+/**
+ * 非 TACZ 武器展示表（后面将逐步替换为枪械）
+ * key = weapon id, value = 物品 ID
+ */
+const VANILLA_WEAPON_DISPLAY = {
+  sword:    'minecraft:iron_sword',
+  bow:      'minecraft:bow',
+  crossbow: 'minecraft:crossbow',
+  trident:  'minecraft:trident',
+  shield:   'minecraft:shield',
+  totem:    'minecraft:totem_of_undying',
 }
 
 // ========== 持久化 ==========
@@ -182,12 +97,6 @@ function cleanId(raw) {
 
 function isTaczGun(wp) {
   return wp && wp.tag && wp.display === 'tacz:modern_kinetic_gun'
-}
-
-/** 从 GUN_TACZ_CONFIG 中按 weaponId 查找枪械配置（遍历 primary / secondary） */
-function getTaczConfig(weaponId) {
-  var id = cleanId(weaponId)
-  return GUN_TACZ_CONFIG.primary[id] || GUN_TACZ_CONFIG.secondary[id] || null
 }
 
 /** 根据 GUN_TACZ_CONFIG 中的枪械条目创建 tacz:modern_kinetic_gun 物品 */

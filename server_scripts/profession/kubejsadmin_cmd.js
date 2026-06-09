@@ -8,8 +8,7 @@
 // 权限:     仅 OP
 // ============================================================
 
-/** 职业标签列表 */
-var PROF_TAG_LIST = ['assault', 'scout', 'medic', 'support']
+// PROF_TAG_LIST 已迁移至 config/a_tacz_config.js（共享定义）
 
 ServerEvents.basicCommand('kubejsadmin', event => {
     var player = event.getPlayer()

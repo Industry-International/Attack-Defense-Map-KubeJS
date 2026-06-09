@@ -11,19 +11,9 @@
 const PROFESSIONS = [
   { id: 'assault' }, { id: 'scout' }, { id: 'medic' }, { id: 'support' },
 ]
-const MAIN_WEAPONS = [
-  { id: 'sword',    display: 'minecraft:iron_sword' },
-  { id: 'bow',      display: 'minecraft:bow' },
-  { id: 'crossbow', display: 'minecraft:crossbow' },
-  { id: 'trident',  display: 'minecraft:trident' },
-  { id: 'ak47',     display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:ak47', GunCurrentAmmoCount: $IntTag.valueOf(30) } } },
-  { id: 'scar_l', display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:scar_l' } } },
-]
-const OFFHAND_WEAPONS = [
-  { id: 'shield', display: 'minecraft:shield' },
-  { id: 'totem',  display: 'minecraft:totem_of_undying' },
-  { id: 'mars',   display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'lavender:mars' } } },
-]
+// 静态武器列表已迁移至按职业动态配置
+// 改用 getProfessionWeaponList(profession, category) 动态获取
+// 参见 z_tacz_config_merge.js
 
 // ========== TACZ 枪械配置与配件改装 ==========
 // 已提取到独立文件 a_tacz_config.js（需最先加载）
@@ -156,8 +146,12 @@ function renderProf(gui, player, openPage) {
 
 function renderWeapon(gui, player, openPage) {
   drawBackButton(gui, player, openPage)
-  const start = Math.floor((9 - MAIN_WEAPONS.length) / 2)
-  MAIN_WEAPONS.forEach((wp, i) => {
+  var prof = player.persistentData.profession
+  if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'main'); return }
+  var wpList = getProfessionWeaponList(prof, 'primary')
+  if (wpList.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'main'); return }
+  const start = Math.floor((9 - wpList.length) / 2)
+  wpList.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
       var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
       // TACZ 枪械使用内置名称，不覆盖
@@ -189,8 +183,14 @@ function renderWeapon(gui, player, openPage) {
 
 function renderOffhand(gui, player, openPage) {
   drawBackButton(gui, player, openPage)
-  const start = Math.floor((9 - OFFHAND_WEAPONS.length) / 2)
-  OFFHAND_WEAPONS.forEach((wp, i) => {
+  var prof = player.persistentData.profession
+  var mainWp = player.persistentData.mainWeapon
+  if (!mainWp) { player.tell(Text.translate('msg.kubejs.profession_select.select_main_first')); openPage(player, 'main'); return }
+  if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'main'); return }
+  var offList = getProfessionWeaponList(prof, 'secondary')
+  if (offList.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'main'); return }
+  const start = Math.floor((9 - offList.length) / 2)
+  offList.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
       var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
       // TACZ 枪械使用内置名称，不覆盖
