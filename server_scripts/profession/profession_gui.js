@@ -54,9 +54,9 @@ function drawBackButton(gui, player, returnPage) {
  */
 function renderWeaponConfig(gui, player, openPage) {
   var prof = player.persistentData.profession
-  var wp   = player.persistentData.mainWeapon
-  var off  = player.persistentData.offhandWeapon
-  var sp   = player.persistentData.specialWeapon
+  var wp   = cleanId(player.persistentData.mainWeapon)
+  var off  = cleanId(player.persistentData.offhandWeapon)
+  var sp   = player.persistentData.specialWeapon ? cleanId(player.persistentData.specialWeapon) : null
 
   // Row 0: 取消选择职业按钮
   gui.slot(0, 0, slot => {
