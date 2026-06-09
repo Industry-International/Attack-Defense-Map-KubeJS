@@ -6,6 +6,7 @@
 // ============================================================
 const $ByteTag = Java.loadClass("net.minecraft.nbt.ByteTag")
 const $IntTag = Java.loadClass("net.minecraft.nbt.IntTag")
+const $CompoundTag = Java.loadClass("net.minecraft.nbt.CompoundTag")
 
 // ========== 数据定义 ==========
 
@@ -33,6 +34,307 @@ function filler(color) {
 const PANE = {
   black: filler('minecraft:black_stained_glass_pane'),
   gray:  filler('minecraft:gray_stained_glass_pane'),
+}
+
+// ========== TACZ 配件配置系统 ==========
+
+/**
+ * 配件槽位在 6×9 GUI 中的位置 (col, row)
+ */
+const ATTACH_SLOT_POS = {
+  scope:        { col: 2, row: 1, nameKey: 'gui.kubejs.attach.slot.scope' },
+  muzzle:       { col: 4, row: 1, nameKey: 'gui.kubejs.attach.slot.muzzle' },
+  stock:        { col: 6, row: 1, nameKey: 'gui.kubejs.attach.slot.stock' },
+  grip:         { col: 1, row: 3, nameKey: 'gui.kubejs.attach.slot.grip' },
+  laser:        { col: 7, row: 3, nameKey: 'gui.kubejs.attach.slot.laser' },
+  extended_mag: { col: 4, row: 4, nameKey: 'gui.kubejs.attach.slot.extended_mag' },
+  bayonet:      { col: 6, row: 4, nameKey: 'gui.kubejs.attach.slot.bayonet' },
+  ammo_mod:     { col: 4, row: 5, nameKey: 'gui.kubejs.attach.slot.ammo_mod' },
+}
+
+/**
+ * 每把 TACZ 枪械支持的配件槽
+ * 取自枪械 data 中的 allow_attachment_types
+ * weaponId -> [slotKey, ...]
+ */
+const GUN_ALLOWED_ATTACHMENTS = {
+  ak47: ['scope', 'stock', 'muzzle', 'extended_mag'],
+  mars: ['scope', 'muzzle'],  // 手枪类通常只支持瞄具和枪口
+}
+
+/**
+ * 各类别可用配件列表（完整取自 tacz_default_gun）
+ */
+const ALL_ATTACHMENTS = {
+  scope: [
+    { id: 'scope_elcan_4x',  nameKey: 'tacz.attachment.scope_elcan_4x.name' },
+    { id: 'scope_acog_ta31', nameKey: 'tacz.attachment.scope_acog_ta31.name' },
+    { id: 'scope_hamr',      nameKey: 'tacz.attachment.scope_hamr.name' },
+    { id: 'scope_lpvo_1_6',  nameKey: 'tacz.attachment.scope_lpvo_1_6.name' },
+    { id: 'scope_retro_2x',  nameKey: 'tacz.attachment.scope_retro_2x.name' },
+    { id: 'scope_standard_8x', nameKey: 'tacz.attachment.scope_standard_8x.name' },
+    { id: 'scope_uh1',       nameKey: 'tacz.attachment.scope_uh1.name' },
+    { id: 'scope_reflex',    nameKey: 'tacz.attachment.scope_reflex.name' },
+  ],
+  muzzle: [
+    { id: 'muzzle_silencer_knight_qd', nameKey: 'tacz.attachment.muzzle_silencer_knight_qd.name' },
+    { id: 'muzzle_silencer_mirage',    nameKey: 'tacz.attachment.muzzle_silencer_mirage.name' },
+    { id: 'muzzle_brake_cthulhu',      nameKey: 'tacz.attachment.muzzle_brake_cthulhu.name' },
+    { id: 'muzzle_brake_cyclone_d2',   nameKey: 'tacz.attachment.muzzle_brake_cyclone_d2.name' },
+    { id: 'muzzle_brake_pioneer',      nameKey: 'tacz.attachment.muzzle_brake_pioneer.name' },
+    { id: 'muzzle_compensator_trident', nameKey: 'tacz.attachment.muzzle_compensator_trident.name' },
+    { id: 'muzzle_brake_trex',         nameKey: 'tacz.attachment.muzzle_brake_trex.name' },
+  ],
+  stock: [
+    { id: 'stock_heavy',    nameKey: 'tacz.attachment.stock_heavy.name' },
+    { id: 'stock_light',    nameKey: 'tacz.attachment.stock_light.name' },
+    { id: 'stock_tactical', nameKey: 'tacz.attachment.stock_tactical.name' },
+  ],
+  extended_mag: [
+    { id: 'extended_mag_1', nameKey: 'tacz.attachment.extended_mag_1.name' },
+    { id: 'extended_mag_2', nameKey: 'tacz.attachment.extended_mag_2.name' },
+    { id: 'extended_mag_3', nameKey: 'tacz.attachment.extended_mag_3.name' },
+  ],
+  grip: [
+    { id: 'grip_vertical_military', nameKey: 'tacz.attachment.grip_vertical_military.name' },
+    { id: 'grip_vertical_ranger',   nameKey: 'tacz.attachment.grip_vertical_ranger.name' },
+    { id: 'grip_magpul_afg_2',     nameKey: 'tacz.attachment.grip_magpul_afg_2.name' },
+    { id: 'grip_rk0',              nameKey: 'tacz.attachment.grip_rk0.name' },
+    { id: 'grip_rk6',              nameKey: 'tacz.attachment.grip_rk6.name' },
+    { id: 'grip_cobra',            nameKey: 'tacz.attachment.grip_cobra.name' },
+    { id: 'grip_cqr',              nameKey: 'tacz.attachment.grip_cqr.name' },
+    { id: 'grip_td',               nameKey: 'tacz.attachment.grip_td.name' },
+  ],
+  laser: [
+    { id: 'laser_compact',    nameKey: 'tacz.attachment.laser_compact.name' },
+    { id: 'laser_lopro',      nameKey: 'tacz.attachment.laser_lopro.name' },
+    { id: 'laser_peq15',      nameKey: 'tacz.attachment.laser_peq15.name' },
+    { id: 'laser_nightstick', nameKey: 'tacz.attachment.laser_nightstick.name' },
+  ],
+  bayonet: [
+    { id: 'bayonet_6h3', nameKey: 'tacz.attachment.bayonet_6h3.name' },
+    { id: 'bayonet_m9',  nameKey: 'tacz.attachment.bayonet_m9.name' },
+  ],
+  ammo_mod: [
+    { id: 'ammo_mod_fmj',  nameKey: 'tacz.attachment.ammo_mod_fmj.name' },
+    { id: 'ammo_mod_hp',   nameKey: 'tacz.attachment.ammo_mod_hp.name' },
+    { id: 'ammo_mod_i',    nameKey: 'tacz.attachment.ammo_mod_i.name' },
+    { id: 'ammo_mod_slug', nameKey: 'tacz.attachment.ammo_mod_slug.name' },
+  ],
+}
+
+// ========== 配件配置存储辅助 ==========
+
+/** 读取某武器的配件配置，返回 { slotKey: 'tacz:attachment_id', ... } */
+function getGunAttachments(player, weaponId) {
+  var raw = player.persistentData.taczAttachments
+  if (!raw) return {}
+  try {
+    var all = JSON.parse(raw)
+    return all[weaponId] || {}
+  } catch(e) {
+    return {}
+  }
+}
+
+/** 写入某个配件配置 */
+function setGunAttachment(player, weaponId, slotKey, attachmentId) {
+  var raw = player.persistentData.taczAttachments
+  var all = {}
+  if (raw) {
+    try { all = JSON.parse(raw) } catch(e) { all = {} }
+  }
+  if (!all[weaponId]) all[weaponId] = {}
+  if (attachmentId) {
+    all[weaponId][slotKey] = attachmentId
+  } else {
+    delete all[weaponId][slotKey]
+  }
+  player.persistentData.taczAttachments = JSON.stringify(all)
+}
+
+/** 移除某武器的所有配件配置 */
+function clearGunAttachments(player, weaponId) {
+  var raw = player.persistentData.taczAttachments
+  if (!raw) return
+  try {
+    var all = JSON.parse(raw)
+    delete all[weaponId]
+    player.persistentData.taczAttachments = JSON.stringify(all)
+  } catch(e) {}
+}
+
+// ========== 配件菜单 GUI ==========
+
+/**
+ * 打开枪械配件配置菜单
+ * @param {Internal.ServerPlayer} player
+ * @param {string} weaponId - 武器 id (如 'ak47')
+ * @param {string} gunId - TACZ GunId (如 'tacz:ak47')
+ * @param {string} returnPage - 返回时的页面 ('weapon'|'offhand')
+ */
+function openAttachmentMenu(player, weaponId, gunId, returnPage) {
+  var gunName = Text.translate(gunId.split(':')[0] + '.gun.' + gunId.split(':')[1] + '.name')
+
+  player.openChestGUI(
+    Component.string('§8').append(gunName).append(Component.string(' §7配件配置')),
+    6,
+    function(gui) {
+      var attachments = getGunAttachments(player, weaponId)
+      var allowed = GUN_ALLOWED_ATTACHMENTS[weaponId] || []
+
+      // --- 行0: 标题栏 ---
+      // 返回按钮
+      gui.slot(0, 0, function(slot) {
+        slot.setItem(
+          Item.of('minecraft:barrier')
+            .withCustomName(Component.translatable('gui.kubejs.attach.back'))
+        )
+        slot.setLeftClicked(function() {
+          openPage(player, returnPage)
+        })
+      })
+      // 标题
+      gui.slot(4, 0, function(slot) {
+        slot.setItem(
+          Item.of('minecraft:knowledge_book')
+            .withCustomName(gunName)
+            .withLore([Component.translatable('gui.kubejs.attach.hint')])
+        )
+      })
+      // 退出
+      gui.slot(8, 0, function(slot) {
+        slot.setItem(
+          Item.of('minecraft:barrier')
+            .withCustomName(Component.translatable('gui.kubejs.attach.exit'))
+        )
+        slot.setLeftClicked(function() { player.closeGUI() })
+      })
+
+      // --- 行2: 分隔线 ---
+      for (var x = 1; x < 8; x++) {
+        gui.slot(x, 2, function(s) { s.setItem(PANE.gray) })
+      }
+
+      // --- 枪械本体 (4, 3) ---
+      gui.slot(4, 3, function(slot) {
+        var gunItem = Item.of('tacz:modern_kinetic_gun', {
+          custom_data: { GunId: gunId, GunCurrentAmmoCount: $IntTag.valueOf(30) }
+        })
+        slot.setItem(gunItem)
+      })
+
+      // --- 配件槽位 ---
+      allowed.forEach(function(slotKey) {
+        var pos = ATTACH_SLOT_POS[slotKey]
+        if (!pos) return
+        var col = pos.col
+        var row = pos.row
+        var installed = attachments[slotKey]
+
+        gui.slot(col, row, function(slot) {
+          if (installed) {
+            // 已安装 — 显示配件图标，左键拆卸
+            var attItem = Item.of('tacz:' + installed)
+              .withCustomName(Component.translatable('tacz.attachment.' + installed + '.name'))
+              .withLore([Component.translatable('gui.kubejs.attach.remove_hint')])
+            slot.setItem(attItem)
+            slot.setLeftClicked(function() {
+              setGunAttachment(player, weaponId, slotKey, null)
+              player.tell(Component.translatable('msg.kubejs.attach.removed', Component.translatable(pos.nameKey)))
+              openAttachmentMenu(player, weaponId, gunId, returnPage)
+            })
+          } else {
+            // 空槽 — 显示占位，左键选择
+            slot.setItem(
+              Item.of('minecraft:barrier')
+                .withCustomName(Component.translatable(pos.nameKey))
+                .withLore([Component.translatable('gui.kubejs.attach.select_hint')])
+            )
+            slot.setLeftClicked(function() {
+              openAttachmentSelect(player, weaponId, gunId, slotKey, pos, returnPage)
+            })
+          }
+        })
+      })
+
+      // --- 清空所有配件按钮 (8, 5) ---
+      gui.slot(8, 5, function(slot) {
+        slot.setItem(
+          Item.of('minecraft:barrier')
+            .withCustomName(Component.translatable('gui.kubejs.attach.clear_all'))
+        )
+        slot.setLeftClicked(function() {
+          clearGunAttachments(player, weaponId)
+          player.tell(Component.translatable('msg.kubejs.attach.cleared'))
+          openAttachmentMenu(player, weaponId, gunId, returnPage)
+        })
+      })
+    }
+  )
+}
+
+/**
+ * 打开配件选择列表
+ */
+function openAttachmentSelect(player, weaponId, gunId, slotKey, slotInfo, returnPage) {
+  var list = ALL_ATTACHMENTS[slotKey] || []
+  if (list.length === 0) {
+    player.tell(Component.string('§c该类型无可用配件'))
+    return
+  }
+
+  var rows = Math.max(3, Math.ceil(list.length / 7) + 2)
+
+  player.openChestGUI(
+    Component.translatable('gui.kubejs.attach.select_title').append(Component.translatable(slotInfo.nameKey)),
+    rows,
+    function(gui) {
+      // 边框
+      for (var x = 0; x < 9; x++) {
+        gui.slot(x, 0, function(s) { s.setItem(PANE.gray) })
+        gui.slot(x, rows - 1, function(s) { s.setItem(PANE.gray) })
+      }
+
+      // 返回按钮
+      gui.slot(0, 0, function(slot) {
+        slot.setItem(
+          Item.of('minecraft:barrier')
+            .withCustomName(Component.translatable('gui.kubejs.attach.back'))
+        )
+        slot.setLeftClicked(function() {
+          openAttachmentMenu(player, weaponId, gunId, returnPage)
+        })
+      })
+
+      // 配件列表
+      list.forEach(function(att, i) {
+        var col = 1 + (i % 7)
+        var row = 1 + Math.floor(i / 7)
+        gui.slot(col, row, function(slot) {
+          var item = Item.of('tacz:' + att.id)
+            .withCustomName(Component.translatable(att.nameKey))
+          slot.setItem(item)
+          slot.setLeftClicked(function() {
+            setGunAttachment(player, weaponId, slotKey, att.id)
+            player.tell(
+              Component.translatable('msg.kubejs.attach.installed',
+                Component.translatable(att.nameKey),
+                Component.translatable(slotInfo.nameKey))
+            )
+            openAttachmentMenu(player, weaponId, gunId, returnPage)
+          })
+        })
+      })
+    }
+  )
+}
+
+/**
+ * 检查武器是否为 TACZ 枪械
+ */
+function isTaczGun(wp) {
+  return wp && wp.tag && wp.display === 'tacz:modern_kinetic_gun'
 }
 
 // ========== 公共 UI 组件 ==========
@@ -154,6 +456,13 @@ function renderWeapon(gui, player, openPage) {
         player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
         openPage(player, 'main')
       })
+      // TACZ 枪械：右键打开配件配置菜单
+      if (isTaczGun(wp)) {
+        slot.setRightClicked(() => {
+          var gunId = wp.tag.custom_data.GunId
+          openAttachmentMenu(player, wp.id, gunId, 'weapon')
+        })
+      }
     })
   })
 }
@@ -174,6 +483,13 @@ function renderOffhand(gui, player, openPage) {
         player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
         openPage(player, 'main')
       })
+      // TACZ 枪械：右键打开配件配置菜单
+      if (isTaczGun(wp)) {
+        slot.setRightClicked(() => {
+          var gunId = wp.tag.custom_data.GunId
+          openAttachmentMenu(player, wp.id, gunId, 'offhand')
+        })
+      }
     })
   })
 }

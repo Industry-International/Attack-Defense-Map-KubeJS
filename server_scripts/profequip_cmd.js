@@ -145,7 +145,42 @@ function giveAmmoBox(player, weaponId, slot) {
   })
   player.give(box)
 }
-// ========== 4. 装备发放核心 ==========
+
+// ========== 4. 配件配置应用 ==========
+
+/**
+ * 将玩家保存的配件配置写入枪械物品 NBT
+ * @param {Internal.ItemStack} gunStack
+ * @param {Internal.ServerPlayer} player
+ * @param {string} weaponId - 武器 id (如 'ak47')
+ */
+function applySavedAttachments(gunStack, player, weaponId) {
+  var raw = player.persistentData.taczAttachments
+  if (!raw) return
+  var all
+  try { all = JSON.parse(raw) } catch(e) { return }
+  var attMap = all[weaponId]
+  if (!attMap || Object.keys(attMap).length === 0) return
+
+  // 读取现有 NBT，写入 attachments
+  var nbt = gunStack.getNbt()
+  if (!nbt) nbt = new $CompoundTag()
+  var custom = nbt.getCompound('custom_data')
+  if (custom.isEmpty()) custom = new $CompoundTag()
+  var att = new $CompoundTag()
+
+  for (var slotKey in attMap) {
+    if (attMap.hasOwnProperty(slotKey)) {
+      att.putString(slotKey, 'tacz:' + attMap[slotKey])
+    }
+  }
+
+  custom.put('attachments', att)
+  nbt.put('custom_data', custom)
+  gunStack.setNbt(nbt)
+}
+
+// ========== 5. 装备发放核心 ==========
 
 /**
  * 给单个玩家发放职业装备
@@ -193,12 +228,14 @@ function giveLoadout(target) {
   // -------- ③ 主武器（给到背包） --------
   var mainItem = resolveMainWeapon(mainWp)
   if (mainItem) {
+    applySavedAttachments(mainItem, target, mainWp)
     target.give(mainItem)
   }
 
   // -------- ④ 副武器（给到背包） --------
   var offhandItem = resolveOffhandWeapon(offWp)
   if (offhandItem) {
+    applySavedAttachments(offhandItem, target, offWp)
     target.give(offhandItem)
   }
 
@@ -219,7 +256,7 @@ function giveLoadout(target) {
   return true
 }
 
-// ========== 5. 目标解析 ==========
+// ========== 6. 目标解析 ==========
 
 /**
  * 解析选择器字符串为玩家列表
@@ -259,7 +296,7 @@ function getPlayerSummary(target) {
   return '§e' + pName + ' §7→ 职业: §f' + prof + ' §7| 主手: §f' + mainWp + ' §7| 副手: §f' + offWp
 }
 
-// ========== 6. 命令入口 ==========
+// ========== 7. 命令入口 ==========
 
 ServerEvents.basicCommand('profequip', event => {
   var player = event.getPlayer()

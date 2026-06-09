@@ -45,5 +45,24 @@
   "msg.kubejsadmin.clear.profession": "§a已清空 %s 名玩家的职业选择",
   "msg.kubejsadmin.clear.menu": "§a已清空 %s 名玩家的队伍配置",
   "msg.kubejsadmin.no_target": "§c未找到有效的目标玩家",
-  "msg.kubejsadmin.usage": "§c用法: /kubejsadmin <profession|menu> <targets>"
+  "msg.kubejsadmin.usage": "§c用法: /kubejsadmin <profession|menu> <targets>",
+
+  "gui.kubejs.attach.back": "§c← 返回",
+  "gui.kubejs.attach.exit": "§c✖ 退出",
+  "gui.kubejs.attach.hint": "§7左键空槽选择配件，左键已装拆卸",
+  "gui.kubejs.attach.select_hint": "§7点击选择配件",
+  "gui.kubejs.attach.remove_hint": "§7点击拆卸",
+  "gui.kubejs.attach.clear_all": "§c✖ 清空所有配件",
+  "gui.kubejs.attach.select_title": "§8选择 ",
+  "gui.kubejs.attach.slot.scope": "瞄具",
+  "gui.kubejs.attach.slot.muzzle": "枪口",
+  "gui.kubejs.attach.slot.stock": "枪托",
+  "gui.kubejs.attach.slot.grip": "握把",
+  "gui.kubejs.attach.slot.laser": "镭射",
+  "gui.kubejs.attach.slot.extended_mag": "弹匣",
+  "gui.kubejs.attach.slot.bayonet": "刺刀",
+  "gui.kubejs.attach.slot.ammo_mod": "弹药",
+  "msg.kubejs.attach.installed": "§a✔ 已安装 %s 到 %s",
+  "msg.kubejs.attach.removed": "§e已拆下 %s",
+  "msg.kubejs.attach.cleared": "§c已清空该枪械所有配件"
 }
