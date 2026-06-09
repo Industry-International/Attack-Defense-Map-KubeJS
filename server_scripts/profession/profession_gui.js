@@ -25,6 +25,17 @@ const PROFESSIONS = [
 
 // ========== 公共 UI 组件 ==========
 
+/** 根据武器 ID 获取显示名（TACZ 用模组内置名，非 TACZ 用 KubeJS 翻译键） */
+function getWeaponName(id, category) {
+  var pureId = cleanId(id)
+  var taczCfg = getTaczConfig(pureId)
+  if (taczCfg) {
+    var p = taczCfg.gunId.split(':')
+    return Text.translate(p[0] + '.gun.' + p[1] + '.name')
+  }
+  return Text.translate(category + '.kubejs.' + pureId)
+}
+
 /** 子页面左右竖边框（第 2~5 行、第 0/8 列） */
 function drawSubPageFrame(gui) {
   for (let r = 2; r < 6; r++) {
@@ -92,7 +103,7 @@ function renderWeaponConfig(gui, player, openPage) {
     var item = Item.of('minecraft:crossbow')
       .withCustomName(Text.translate('gui.kubejs.profession_select.status_weapon'))
     if (wp) {
-      item = item.withLore([Text.translate('weapon.kubejs.' + wp)])
+      item = item.withLore([getWeaponName(wp, 'weapon')])
     } else {
       item = item.withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
@@ -105,7 +116,7 @@ function renderWeaponConfig(gui, player, openPage) {
     var item = Item.of('minecraft:shield')
       .withCustomName(Text.translate('gui.kubejs.profession_select.status_offhand'))
     if (off) {
-      item = item.withLore([Text.translate('offhand.kubejs.' + off)])
+      item = item.withLore([getWeaponName(off, 'offhand')])
     } else {
       item = item.withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
@@ -118,7 +129,7 @@ function renderWeaponConfig(gui, player, openPage) {
     var item = Item.of('minecraft:snowball')
       .withCustomName(Text.translate('gui.kubejs.profession_select.status_special'))
     if (sp) {
-      item = item.withLore([Text.translate('offhand.kubejs.' + sp)])
+      item = item.withLore([getWeaponName(sp, 'offhand')])
     } else {
       item = item.withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
