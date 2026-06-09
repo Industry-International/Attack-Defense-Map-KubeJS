@@ -43,6 +43,12 @@ const SLOT_TRANSLATE_KEY = {
 }
 
 /**
+ * 跨文件共享容器（空对象，各职业配置通过 PROF_CONFIGS.xxx = ... 向其添加数据）
+ * 由于 a_tacz_config.js 最先加载，此 const 全局可见，后续文件可读写其属性
+ */
+const PROF_CONFIGS = {}
+
+/**
  * 非 TACZ 武器展示表（后面将逐步替换为枪械）
  * key = weapon id, value = 物品 ID
  */
@@ -249,4 +255,205 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
       }
     }
   })
+}
+
+// ============================================================
+// 各职业武器配置（集中管理，方便维护）
+// 按职业分块（依字母序），每块包含：
+//   guns:    枪械配置（getTaczConfig 查表 + 配件改装 + 弹药发放）
+//   weapons: GUI 武器 ID 列表（由 merge 文件自动解析展示项）
+// 所有数据定义在此文件，因为 KubeJS 7 仅保证此文件的
+// const 变量在其他 server_scripts 中全局可见
+// 新增/修改武器时，请按块编辑对应 section 即可
+// ============================================================
+
+// ==================== 突击兵 Assault ====================
+// 特色: CQB 高机动 全自动压制
+// 主武器: ak47 (762x39/30rds/AUTO)  scar_l (556x45/30rds/AUTO)
+// 副武器: mars (.455/7rds/SEMI)
+PROF_CONFIGS.assault = {
+  guns: {
+    primary: {
+      ak47: {
+        gunId: 'tacz:ak47', GunFireMode: 'AUTO', GunCurrentAmmoCount: 30,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
+        attachments: {
+          scope: [{id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x2'},{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_cthulhu'},{id:'tacz:muzzle_brake_cyclone_d2'},{id:'tacz:muzzle_brake_pioneer'},{id:'tacz:muzzle_compensator_trident'},{id:'tacz:muzzle_brake_trex'}],
+          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_nightstick'},{id:'tacz:laser_lopro'}],
+        },
+      },
+      scar_l: {
+        gunId: 'tacz:scar_l', GunFireMode: 'AUTO', GunCurrentAmmoCount: 30,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
+        attachments: {
+          scope: [{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'}],
+          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_nightstick'},{id:'tacz:laser_lopro'}],
+        },
+      },
+    },
+    secondary: {
+      mars: {
+        gunId: 'lavender:mars', GunFireMode: 'SEMI', GunCurrentAmmoCount: 7,
+        ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
+        attachments: {
+          scope: [{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'}],
+        },
+      },
+    },
+  },
+  weapons: { primary: ['ak47','scar_l'], secondary: ['mars'] },
+}
+
+// ==================== 医疗兵 Medic ====================
+// 特色: 中近距离火力支援，紧凑可靠
+// 主武器: hk_mp5a5 (9mm/30rds/AUTO)  aug (556x45/30rds/AUTO)
+// 副武器: glock_17 (9mm/17rds/SEMI)
+PROF_CONFIGS.medic = {
+  guns: {
+    primary: {
+      hk_mp5a5: {
+        gunId: 'tacz:hk_mp5a5', GunFireMode: 'AUTO', GunCurrentAmmoCount: 30,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:9mm', main: 210, level: 1 },
+        attachments: {
+          scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_reflex'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_pioneer'}],
+          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'},{id:'tacz:stock_hk_slim_line'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
+          grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_cqr'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'},{id:'tacz:laser_nightstick'}],
+        },
+      },
+      aug: {
+        gunId: 'tacz:aug', GunFireMode: 'AUTO', GunCurrentAmmoCount: 30,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
+        attachments: {
+          scope: [{id:'tacz:scope_aug_default'},{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_cthulhu'},{id:'tacz:muzzle_compensator_trident'}],
+          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
+          grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_magpul_afg_2'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'}],
+        },
+      },
+    },
+    secondary: {
+      glock_17: {
+        gunId: 'tacz:glock_17', GunFireMode: 'SEMI', GunCurrentAmmoCount: 17,
+        ammo: { ammoId: 'tacz:9mm', offhand: 50, level: 1 },
+        attachments: {
+          scope: [{id:'tacz:sight_rmr_dot'},{id:'tacz:sight_acro_pistol'},{id:'tacz:sight_fastfire_pistol'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'},{id:'tacz:laser_nightstick'}],
+        },
+      },
+    },
+  },
+  weapons: { primary: ['hk_mp5a5','aug'], secondary: ['glock_17'] },
+}
+
+// ==================== 侦察兵 Scout ====================
+// 特色: 精准射击，中远距离，高机动
+// 主武器: m4a1 (556x45/30rds/AUTO)  sks_tactical (762x39/20rds/SEMI)
+// 副武器: p320 (45acp/12rds/SEMI)
+PROF_CONFIGS.scout = {
+  guns: {
+    primary: {
+      m4a1: {
+        gunId: 'tacz:m4a1', GunFireMode: 'AUTO', GunCurrentAmmoCount: 30,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
+        attachments: {
+          scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_acog_ta31'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_silencer_phantom_s1'},{id:'tacz:muzzle_brake_pioneer'},{id:'tacz:muzzle_compensator_trident'}],
+          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'},{id:'tacz:stock_m4ss'},{id:'tacz:stock_moe'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
+          grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_magpul_afg_2'},{id:'tacz:grip_cqr'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_nightstick'},{id:'tacz:laser_lopro'},{id:'tacz:laser_peq15'}],
+        },
+      },
+      sks_tactical: {
+        gunId: 'tacz:sks_tactical', GunFireMode: 'SEMI', GunCurrentAmmoCount: 20,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:762x39', main: 140, level: 2 },
+        attachments: {
+          scope: [{id:'tacz:scope_lpvo_1_6'},{id:'tacz:scope_acog_ta31'},{id:'tacz:scope_elcan_4x'},{id:'tacz:scope_mk5hd'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_cthulhu'},{id:'tacz:muzzle_brake_pioneer'}],
+          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'}],
+          grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_cqr'}],
+        },
+      },
+    },
+    secondary: {
+      p320: {
+        gunId: 'tacz:p320', GunFireMode: 'SEMI', GunCurrentAmmoCount: 12,
+        ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 1 },
+        attachments: {
+          scope: [{id:'tacz:sight_rmr_dot'},{id:'tacz:sight_acro_pistol'},{id:'tacz:sight_fastfire_pistol'}],
+          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'}],
+        },
+      },
+    },
+  },
+  weapons: { primary: ['m4a1','sks_tactical'], secondary: ['p320'] },
+}
+
+// ==================== 支援兵 Support ====================
+// 特色: 重火力压制，大弹容量
+// 主武器: m249 (556x45/75rds/AUTO)  rpk (762x39/40rds/AUTO)
+// 副武器: deagle (50ae/7rds/SEMI)
+PROF_CONFIGS.support = {
+  guns: {
+    primary: {
+      m249: {
+        gunId: 'tacz:m249', GunFireMode: 'AUTO', GunCurrentAmmoCount: 75,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:556x45', main: 525, level: 3 },
+        attachments: {
+          scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_reflex'}],
+          muzzle: [{id:'tacz:muzzle_brake_cthulhu'},{id:'tacz:muzzle_brake_cyclone_d2'},{id:'tacz:muzzle_brake_pioneer'},{id:'tacz:muzzle_compensator_trident'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
+          grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_cqr'}],
+        },
+      },
+      rpk: {
+        gunId: 'tacz:rpk', GunFireMode: 'AUTO', GunCurrentAmmoCount: 40,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:762x39', main: 280, level: 3 },
+        attachments: {
+          scope: [{id:'tacz:sight_t1'},{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
+          muzzle: [{id:'tacz:muzzle_brake_cthulhu'},{id:'tacz:muzzle_brake_cyclone_d2'},{id:'tacz:muzzle_brake_pioneer'},{id:'tacz:muzzle_compensator_trident'}],
+          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'}],
+          extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
+        },
+      },
+    },
+    secondary: {
+      deagle: {
+        gunId: 'tacz:deagle', GunFireMode: 'SEMI', GunCurrentAmmoCount: 7,
+        ammo: { ammoId: 'tacz:50ae', offhand: 30, level: 2 },
+        attachments: {
+          scope: [{id:'tacz:sight_rmr_dot'},{id:'tacz:sight_acro_pistol'}],
+          muzzle: [{id:'tacz:muzzle_brake_trex'}],
+          extended_mag: [{id:'tacz:extended_mag_1'}],
+          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'}],
+        },
+      },
+    },
+  },
+  weapons: { primary: ['m249','rpk'], secondary: ['deagle'] },
 }

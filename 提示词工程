@@ -8,6 +8,8 @@ Wiki[1](https://www.mcmod.cn/post/6142.html)
 ProbeJS 百科主页 https://www.mcmod.cn/class/6486.html
 在项目根目录的 /.probe 有生成的提示文件 在需要时才进行阅读 (可以用来参考)
 在项目根目录的 /documentation/index.html 是kubejs离线文档生成的提示 在需要时才进行阅读 (可以用来参考)
+log 文件夹在 ../log
+Kubjeslog在../logs/kubejs
 Tacz相关提示的在未使用时可以不阅读{
     tacz的枪包在 项目根目录的 ../tacz (理解前请去阅读tacz 1.1.7 枪包格式 用来分析物品ID) Tace的物品是特殊的枪械实际上都是同一个物品tacz:modern_kinetic_gun 然后通过 Gunld: "tacz:ak47" 这种格式来区分
     比如说一把AK47他的nbt就这样 Gunid:custom_data={HasBulletinBarrel: 1b, Gunld: "tacz:ak47", GunFireMode: "AUTO"GunCurrentAmmoCount: 30} 

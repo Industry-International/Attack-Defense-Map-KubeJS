@@ -1,23 +1,28 @@
 // ============================================================
 // TACZ 配置汇总聚合
 // 从各职业配置文件中收集数据，构建：
-//   1. GUN_TACZ_CONFIG   — 按职业分类的结构化配置
-//   2. GUN_TACZ_FLAT     — 扁平查表（weaponId → config）
-//   3. getTaczConfig()   — 全局查表函数
-//   4. getProfessionWeaponList() — 按职业获取 GUI 武器列表
+//   1. GUN_TACZ_FLAT     — 扁平查表（weaponId → config）
+//   2. GUN_TACZ_CONFIG   — 按职业分类的结构化配置
+//   3. PROF_WEAPONS_MAP  — 按职业的武器ID列表
+//   4. getTaczConfig()   — 全局查表函数
+//   5. getProfessionWeaponList() — 按职业获取 GUI 武器列表
 // ============================================================
 // 本文件必须在所有 b_tacz_prof_*.js 之后加载（通过 z_ 前缀保证）
+//
+// 注意：使用直接引用（try/catch）而非 eval() 获取跨文件变量，
+//       避免 Rhino 引擎中 eval 在函数内找不到全局 var 变量的问题
 
 
 // ========== 1. 构建扁平查表（用于 getTaczConfig）==========
+// 从 PROF_CONFIGS（定义在 a_tacz_config.js，由各 b_tacz_prof_*.js 填充）读取数据
 
 var GUN_TACZ_FLAT = {}
+
 for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
   var prof = PROF_TAG_LIST[pi]
-  var guns = null
-  try {
-    guns = eval('PROF_' + prof.toUpperCase() + '_GUNS')
-  } catch(e) { guns = null }
+  var profCfg = PROF_CONFIGS[prof]
+  if (!profCfg) continue
+  var guns = profCfg.guns
   if (!guns) continue
 
   for (var ci = 0; ci < 2; ci++) {
@@ -41,10 +46,9 @@ var GUN_TACZ_CONFIG = {
 }
 for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
   var prof = PROF_TAG_LIST[pi]
-  var guns = null
-  try {
-    guns = eval('PROF_' + prof.toUpperCase() + '_GUNS')
-  } catch(e) { guns = null }
+  var profCfg = PROF_CONFIGS[prof]
+  if (!profCfg) continue
+  var guns = profCfg.guns
   if (!guns) continue
 
   for (var ci = 0; ci < 2; ci++) {
@@ -61,7 +65,19 @@ for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
 }
 
 
-// ========== 3. 全局查表函数 ==========
+// ========== 3. 构建按职业的武器ID列表（供 GUI 使用）==========
+
+var PROF_WEAPONS_MAP = {}
+for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
+  var prof = PROF_TAG_LIST[pi]
+  var profCfg = PROF_CONFIGS[prof]
+  if (!profCfg) continue
+  var pw = profCfg.weapons
+  if (pw) PROF_WEAPONS_MAP[prof] = pw
+}
+
+
+// ========== 4. 全局查表函数 ==========
 
 /**
  * 从扁平查表中按 weaponId 查找枪械配置
@@ -74,7 +90,7 @@ function getTaczConfig(weaponId) {
 }
 
 
-// ========== 4. 按职业获取 GUI 武器列表 ==========
+// ========== 5. 按职业获取 GUI 武器列表 ==========
 
 /**
  * 获取指定职业可用的武器展示列表
@@ -83,14 +99,13 @@ function getTaczConfig(weaponId) {
  * @returns {Array<{id:string, display:string, tag?:object}>}
  */
 function getProfessionWeaponList(profession, category) {
-  var profWeapons = null
-  try {
-    profWeapons = eval('PROF_' + profession.toUpperCase() + '_WEAPONS')
-  } catch(e) { profWeapons = null }
-  if (!profWeapons || !profWeapons[category]) return []
+  var pw = PROF_WEAPONS_MAP[profession]
+  if (!pw || !pw[category]) return []
+
+  var ids = pw[category]
+  if (ids.length === 0) return []
 
   var result = []
-  var ids = profWeapons[category]
   for (var i = 0; i < ids.length; i++) {
     var id = ids[i]
     // 检查是否为 TACZ 武器
