@@ -1,0 +1,11 @@
+这是加了一个扩容弹夹之后的ak47 nbt
+GunId: "tacz:ak47"
+custom_data={AttachmentEXTENDED_MAG: {components: {"minecraft:custom_data":{
+AttachmentId: "tacz:extended_mag_3"}}}, count: 1, id: "tacz:attachment"}, HasBulletInBarrel: 1b
+, GunId: "tacz:ak47", GunFireMode: "AUTO", GunCurrentAmmoCount: 40 }
+
+tacz 配件实际上用的是同一个注册名，然后用nbt区分 
+比如说下面这个就是一个扩容弹夹
+tacz:attachment
+AttachmentId: "tacz:extended_mag_3"
+custom_data={AttachmentId: "tacz:extended_mag_3"}

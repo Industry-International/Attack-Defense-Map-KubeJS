@@ -148,8 +148,19 @@ function giveAmmoBox(player, weaponId, slot) {
 
 // ========== 4. 配件配置应用 ==========
 
+/** slotKey 转 TACZ NBT 中的 Attachment 键名 (e.g. extended_mag → AttachmentEXTENDED_MAG) */
+function attachmentKey(slotKey) {
+  return 'Attachment' + slotKey.toUpperCase()
+}
+
 /**
  * 将玩家保存的配件配置写入枪械物品 NBT
+ * TACZ 实际 NBT 格式:
+ *   custom_data.Attachment{大写槽名} = {
+ *     components: { "minecraft:custom_data": { AttachmentId: "tacz:xxx" } },
+ *     count: 1,
+ *     id: "tacz:attachment"
+ *   }
  * @param {Internal.ItemStack} gunStack
  * @param {Internal.ServerPlayer} player
  * @param {string} weaponId - 武器 id (如 'ak47')
@@ -162,20 +173,29 @@ function applySavedAttachments(gunStack, player, weaponId) {
   var attMap = all[weaponId]
   if (!attMap || Object.keys(attMap).length === 0) return
 
-  // 读取现有 NBT，写入 attachments
+  // 读取现有 NBT
   var nbt = gunStack.getNbt()
   if (!nbt) nbt = new $CompoundTag()
   var custom = nbt.getCompound('custom_data')
   if (custom.isEmpty()) custom = new $CompoundTag()
-  var att = new $CompoundTag()
 
   for (var slotKey in attMap) {
-    if (attMap.hasOwnProperty(slotKey)) {
-      att.putString(slotKey, 'tacz:' + attMap[slotKey])
-    }
+    if (!attMap.hasOwnProperty(slotKey)) continue
+    var attId = 'tacz:' + attMap[slotKey]
+
+    // 构造配件 NBT
+    var attCompound = new $CompoundTag()
+    var components = new $CompoundTag()
+    var mcCustomData = new $CompoundTag()
+    mcCustomData.putString('AttachmentId', attId)
+    components.put('minecraft:custom_data', mcCustomData)
+    attCompound.put('components', components)
+    attCompound.putInt('count', 1)
+    attCompound.putString('id', 'tacz:attachment')
+
+    custom.put(attachmentKey(slotKey), attCompound)
   }
 
-  custom.put('attachments', att)
   nbt.put('custom_data', custom)
   gunStack.setNbt(nbt)
 }

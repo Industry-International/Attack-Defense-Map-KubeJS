@@ -235,7 +235,8 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
         gui.slot(col, row, function(slot) {
           if (installed) {
             // 已安装 — 显示配件图标，左键拆卸
-            var attItem = Item.of('tacz:' + installed)
+            player.tell(Component.string('§e[DEBUG] installed = ' + installed));
+            var attItem = Item.of('tacz:attachment', `{AttachmentId:"tacz:${installed}"}`)
               .withCustomName(Component.translatable('tacz.attachment.' + installed + '.name'))
               .withLore([Component.translatable('gui.kubejs.attach.remove_hint')])
             slot.setItem(attItem)
@@ -312,7 +313,7 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, slotInfo, return
         var col = 1 + (i % 7)
         var row = 1 + Math.floor(i / 7)
         gui.slot(col, row, function(slot) {
-          var item = Item.of('tacz:' + att.id)
+          var item = Item.of('tacz:attachment', `{AttachmentId:"tacz:${att.id}"}`)
             .withCustomName(Component.translatable(att.nameKey))
           slot.setItem(item)
           slot.setLeftClicked(function() {
