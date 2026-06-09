@@ -29,14 +29,14 @@ const ATTACH_SLOT_POS = {
 
 /** slotKey → KubeJS 自定义翻译键 */
 const SLOT_TRANSLATE_KEY = {
-  scope:        'gui.kubejs.attach.slot.scope',
-  muzzle:       'gui.kubejs.attach.slot.muzzle',
-  stock:        'gui.kubejs.attach.slot.stock',
-  grip:         'gui.kubejs.attach.slot.grip',
-  laser:        'gui.kubejs.attach.slot.laser',
-  extended_mag: 'gui.kubejs.attach.slot.extended_mag',
-  bayonet:      'gui.kubejs.attach.slot.bayonet',
-  ammo_mod:     'gui.kubejs.attach.slot.ammo_mod',
+  scope:        'gui.kubejs.attach.slot.scope', //瞄具
+  muzzle:       'gui.kubejs.attach.slot.muzzle', //枪口
+  stock:        'gui.kubejs.attach.slot.stock',//枪托
+  grip:         'gui.kubejs.attach.slot.grip',//握把
+  laser:        'gui.kubejs.attach.slot.laser',//激光
+  extended_mag: 'gui.kubejs.attach.slot.extended_mag',//弹匣
+  bayonet:      'gui.kubejs.attach.slot.bayonet',//刺刀
+  ammo_mod:     'gui.kubejs.attach.slot.ammo_mod',//弹药
 }
 
 // ========== 枪械配置总表 ==========
@@ -47,7 +47,7 @@ const GUN_TACZ_CONFIG = {
     ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
     attachments: {
       scope: [
-        { id: 'lavender:scope_rifles_x4' }
+        { id: 'lavender:scope_rifles_x4' }, { id: 'lavender:scope_rifles_x2' }, { id: 'tacz:scope_reflex' }, { id: 'tacz:scope_uh1' },
       ],
       muzzle: [
         { id: 'tacz:muzzle_silencer_knight_qd' }, { id: 'tacz:muzzle_silencer_mirage' },
@@ -60,6 +60,9 @@ const GUN_TACZ_CONFIG = {
       ],
       extended_mag: [
         { id: 'tacz:extended_mag_1' }, { id: 'tacz:extended_mag_2' }, { id: 'tacz:extended_mag_3' },
+      ],
+      laser: [
+        { id: 'tacz:laser_compact' }, { id: 'tacz:laser_nightstick' }, { id: 'tacz:laser_lopro' },
       ],
     },
   },
