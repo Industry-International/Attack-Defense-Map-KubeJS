@@ -52,16 +52,16 @@ const ATTACH_SLOT_POS = {
   ammo_mod:     { col: 4, row: 5 },
 }
 
-/** slotKey → TACZ 内置翻译键 */
+/** slotKey → KubeJS 自定义翻译键（由语言文件独立 i18n） */
 const SLOT_TRANSLATE_KEY = {
-  scope:        'tacz.attachment.type.scope',
-  muzzle:       'tacz.attachment.type.muzzle',
-  stock:        'tacz.attachment.type.stock',
-  grip:         'tacz.attachment.type.grip',
-  laser:        'tacz.attachment.type.laser',
-  extended_mag: 'tacz.attachment.type.extended_mag',
-  bayonet:      'tacz.attachment.type.bayonet',
-  ammo_mod:     'tacz.attachment.type.ammo_mod',
+  scope:        'gui.kubejs.attach.slot.scope',
+  muzzle:       'gui.kubejs.attach.slot.muzzle',
+  stock:        'gui.kubejs.attach.slot.stock',
+  grip:         'gui.kubejs.attach.slot.grip',
+  laser:        'gui.kubejs.attach.slot.laser',
+  extended_mag: 'gui.kubejs.attach.slot.extended_mag',
+  bayonet:      'gui.kubejs.attach.slot.bayonet',
+  ammo_mod:     'gui.kubejs.attach.slot.ammo_mod',
 }
 
 /**
