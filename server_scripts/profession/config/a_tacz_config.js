@@ -86,6 +86,22 @@ function clearGunAttachments(player, weaponId) {
     player.persistentData.putString('taczAttachments', JSON.stringify(all))
   } catch(e) {}
 }
+function saveGunAttachments(player, weaponId) {
+  var pureId = cleanId(weaponId)
+  try {
+    var raw = player.persistentData.getString('taczAttachments')
+    if (!raw || raw === '') { player.tell(Component.translatable('msg.kubejs.attach.nothing_to_save')); return }
+    var all = JSON.parse(raw)
+    if (all[pureId] && Object.keys(all[pureId]).length > 0) {
+      player.persistentData.putString('taczAttachments', JSON.stringify(all))
+      player.tell(Component.translatable('msg.kubejs.attach.saved'))
+    } else {
+      player.tell(Component.translatable('msg.kubejs.attach.nothing_to_save'))
+    }
+  } catch(e) {
+    player.tell(Component.literal('§cSave failed'))
+  }
+}
 
 // ========== 帮助函数 ==========
 function cleanId(raw) {
@@ -144,13 +160,18 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
           openAttachmentMenu(player, weaponId, gunId, returnPage)
         })
       })
+      // 左下角保存按钮（保底存档）
+      gui.slot(0, 5, function(slot) {
+        slot.setItem(Item.of('minecraft:written_book').withCustomName(Component.translatable('gui.kubejs.attach.save')))
+        slot.setLeftClicked(function() { saveGunAttachments(player, weaponId) })
+      })
     }
   )
 }
 function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
   return function(slot) {
     if (ins) {
-      slot.setItem(Item.of('tacz:attachment', { custom_data: { AttachmentId: ins } }))
+      slot.setItem(Item.of('tacz:attachment', { custom_data: { AttachmentId: ins } }).withLore([Component.translatable('gui.kubejs.attach.right_click_remove')]))
     } else {
       slot.setItem(
         Item.of('minecraft:barrier')
@@ -159,6 +180,13 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
       )
     }
     slot.setLeftClicked(function() { openAttachmentSelect(player, weaponId, gunId, sk, returnPage) })
+    slot.setRightClicked(function() {
+      if (ins) {
+        setGunAttachment(player, weaponId, sk, null)
+        player.tell(Component.translatable('msg.kubejs.attach.removed', Component.translatable(SLOT_TRANSLATE_KEY[sk])))
+        openAttachmentMenu(player, weaponId, gunId, returnPage)
+      }
+    })
   }
 }
 
