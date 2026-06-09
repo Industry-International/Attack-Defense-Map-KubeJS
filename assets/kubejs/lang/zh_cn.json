@@ -67,5 +67,10 @@
   "gui.kubejs.attach.slot.ammo_mod": "弹药",
   "msg.kubejs.attach.installed": "§a✔ 配件已安装到 %s",
   "msg.kubejs.attach.removed": "§e已拆下 %s",
-  "msg.kubejs.attach.cleared": "§c已清空该枪械所有配件"
+  "msg.kubejs.attach.cleared": "§c已清空该枪械所有配件",
+  "gui.kubejs.attach.confirm": "§a✔ 确认",
+  "gui.kubejs.attach.selected": "§e已选择",
+  "gui.kubejs.attach.none_selected": "§7未选择",
+  "msg.kubejs.attach.select_first": "§c请先选择一个配件",
+  "gui.kubejs.attach.selected_mark": "§a✔ 当前选中"
 }

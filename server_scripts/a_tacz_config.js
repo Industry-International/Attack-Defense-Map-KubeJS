@@ -195,6 +195,7 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
 }
 
 // ========== 配件选择列表（二级界面）==========
+// 显示该槽位可用配件，依次排列，空位用屏障填充，点击即安装
 
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
   var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
@@ -206,36 +207,50 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
   }
 
   var rows = Math.max(3, Math.ceil(list.length / 7) + 2)
-  player.openChestGUI(
-    Component.translatable('gui.kubejs.attach.select_title').append(Component.translatable(SLOT_TRANSLATE_KEY[slotKey])),
-    rows,
-    function(gui) {
-      for (var x = 0; x < 9; x++) {
-        gui.slot(x, 0, function(s) { s.setItem(PANE.gray) })
-        gui.slot(x, rows - 1, function(s) { s.setItem(PANE.gray) })
-      }
-      gui.slot(0, 0, function(slot) {
-        slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
-        slot.setLeftClicked(function() { openAttachmentMenu(player, weaponId, gunId, returnPage) })
-      })
+  var title = Component.translatable('gui.kubejs.attach.select_title').append(Component.translatable(SLOT_TRANSLATE_KEY[slotKey]))
 
-      for (var i = 0; i < list.length; i++) {
-        var att = list[i]
-        var col = 1 + (i % 7)
-        var row = 1 + Math.floor(i / 7)
-        gui.slot(col, row, makeAttCb(att, player, weaponId, gunId, slotKey, returnPage))
+  player.openChestGUI(title, rows, function(gui) {
+    // 顶部边框
+    for (var x = 0; x < 9; x++) {
+      gui.slot(x, 0, function(s) { s.setItem(PANE.gray) })
+    }
+    // 底部边框
+    for (var x = 0; x < 9; x++) {
+      gui.slot(x, rows - 1, function(s) { s.setItem(PANE.gray) })
+    }
+
+    // [← 返回] 按钮 (col 0, row 0)
+    gui.slot(0, 0, function(slot) {
+      slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
+      slot.setLeftClicked(function() { openAttachmentMenu(player, weaponId, gunId, returnPage) })
+    })
+
+    // 配件网格：从左到右依次排列，点击即安装并返回主菜单
+    for (var i = 0; i < list.length; i++) {
+      (function(att, col, row) {
+        gui.slot(col, row, function(slot) {
+          slot.setItem(Item.of('tacz:attachment', { AttachmentId: att.id }))
+          slot.setLeftClicked(function() {
+            setGunAttachment(player, weaponId, slotKey, att.id)
+            player.tell(Component.translatable('msg.kubejs.attach.installed', Component.translatable(SLOT_TRANSLATE_KEY[slotKey])))
+            openAttachmentMenu(player, weaponId, gunId, returnPage)
+          })
+        })
+      })(list[i], 1 + (i % 7), 1 + Math.floor(i / 7))
+    }
+
+    // 空位填充屏障：每行第1~7列中未被配件占据的位置放黑色玻璃板
+    for (var r = 1; r < rows - 1; r++) {
+      for (var c = 1; c <= 7; c++) {
+        var idx = (r - 1) * 7 + (c - 1)
+        if (idx >= list.length) {
+          (function(col, row) {
+            gui.slot(col, row, function(slot) {
+              slot.setItem(PANE.black)
+            })
+          })(c, r)
+        }
       }
     }
-  )
-}
-
-function makeAttCb(att, player, weaponId, gunId, slotKey, returnPage) {
-  return function(slot) {
-    slot.setItem(Item.of('tacz:attachment', { AttachmentId: att.id }))
-    slot.setLeftClicked(function() {
-      setGunAttachment(player, weaponId, slotKey, att.id)
-      player.tell(Component.translatable('msg.kubejs.attach.installed', Component.translatable(SLOT_TRANSLATE_KEY[slotKey])))
-      openAttachmentMenu(player, weaponId, gunId, returnPage)
-    })
-  }
+  })
 }

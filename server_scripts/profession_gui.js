@@ -144,14 +144,14 @@ function renderWeapon(gui, player, openPage) {
       // TACZ 枪械使用内置名称，不覆盖
       if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id))
       slot.setItem(wpItem)
-      // TACZ 枪械：左键选中武器并直接进入配件菜单；普通武器左键选中后返回主页
+      // TACZ 枪械：左键选中武器返回主页；右键打开配件菜单
       if (isTaczGun(wp)) {
         slot.setLeftClicked(() => {
           player.persistentData.mainWeapon = wp.id
           var p = wp.tag.custom_data.GunId.split(':')
           var wpName = Text.translate(p[0] + '.gun.' + p[1] + '.name')
           player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
-          openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'weapon')
+          openPage(player, 'main')
         })
         slot.setRightClicked(() => {
           openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'weapon')
@@ -177,14 +177,14 @@ function renderOffhand(gui, player, openPage) {
       // TACZ 枪械使用内置名称，不覆盖
       if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
       slot.setItem(wpItem)
-      // TACZ 枪械：左键选中武器并直接进入配件菜单；普通武器左键选中后返回主页
+      // TACZ 枪械：左键选中武器返回主页；右键打开配件菜单
       if (isTaczGun(wp)) {
         slot.setLeftClicked(() => {
           player.persistentData.offhandWeapon = wp.id
           var p = wp.tag.custom_data.GunId.split(':')
           var wpName = Text.translate(p[0] + '.gun.' + p[1] + '.name')
           player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
-          openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'offhand')
+          openPage(player, 'main')
         })
         slot.setRightClicked(() => {
           openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'offhand')
