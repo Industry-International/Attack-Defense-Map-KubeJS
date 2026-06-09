@@ -32,6 +32,7 @@
   "offhand.kubejs.shield": "§6盾牌",
   "offhand.kubejs.totem": "§e不死图腾",
   "offhand.kubejs.snowball": "§f雪球",
+  "offhand.kubejs.sentinel": "§d哨兵狙击步枪",
 
   "msg.kubejs.profession_select.selected": "§a[职业选择] 已选择: %s",
   "msg.kubejs.profession_select.main_weapon": "§a[职业选择] 主武器: %s",

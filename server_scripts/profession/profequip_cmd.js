@@ -1,15 +1,24 @@
 // ============================================================
-// 职业装备发放命令 - profequip
+// 职业装备发放命令 - profequip（重构版）
 // 指令: /profequip give [<targets>]
 //       /profequip help
 //       /profequip list
 // 目标: @a @p @s @r <玩家名> (留空 = 自己)
 // 权限: OP 2 级
 // ============================================================
+// 模块划分:
+//   1. 兵种基础配置（护甲 + 额外物品）
+//   2. 武器解析器（TACZ / 非 TACZ）
+//   3. 弹药发放（TACZ 弹药盒 / 非 TACZ 物品）
+//   4. 配件应用（仅 TACZ）
+//   5. 装备发放核心（主武器 + 副武器 + 特殊武器 + 护甲 + 弹药）
+//   6. 目标解析
+//   7. 命令入口
+// ============================================================
 
-// ========== 1. 兵种装备配置 ==========
+// ========== 1. 兵种基础配置 ==========
 
-/** 根据兵种ID获取装备配置（用switch确保精准匹配） */
+/** 根据兵种ID获取护甲与额外物品 */
 function getProfConfig(id) {
   switch (id) {
     case 'assault':
@@ -67,49 +76,58 @@ function getProfConfig(id) {
   }
 }
 
-// ========== 2. 武器解析 ==========
+// ========== 2. 武器解析器 ==========
 
-/** 主武器 id -> 物品（TACZ 武器通过 getTaczConfig 查表生成） */
-function resolveMainWeapon(id) {
-  // TACZ 武器: 通过全局函数 getTaczConfig 查表（自带 cleanId）
-  var taczCfg = getTaczConfig(id)
-  if (taczCfg) return resolveTaczGun(taczCfg)
-
-  // 非 TACZ 武器
-  switch (id) {
-    case 'sword':    return Item.of('minecraft:iron_sword')
-    case 'bow':      return Item.of('minecraft:bow')
-    case 'crossbow': return Item.of('minecraft:crossbow')
-    case 'trident':  return Item.of('minecraft:trident')
-    default:         return null
-  }
+/** 判断武器是否为 TACZ 枪械（通过 getTaczConfig 查表） */
+function isTaczWeapon(id) {
+  return getTaczConfig(id) !== null
 }
 
-/** 副武器 id -> 物品（TACZ 武器通过 getTaczConfig 查表生成） */
-function resolveOffhandWeapon(id) {
-  // TACZ 武器: 通过全局函数 getTaczConfig 查表（自带 cleanId）
-  var taczCfg = getTaczConfig(id)
-  if (taczCfg) return resolveTaczGun(taczCfg)
-
-  // 非 TACZ 武器
-  switch (id) {
-    case 'shield': return Item.of('minecraft:shield')
-    case 'totem':  return Item.of('minecraft:totem_of_undying')
-    default:       return null
-  }
+/** 解析 TACZ 枪械为物品 */
+function resolveTaczWeapon(id) {
+  var cfg = getTaczConfig(id)
+  return cfg ? resolveTaczGun(cfg) : null
 }
 
-// ========== 3. TACZ 弹药发放 ==========
-// 弹药配置统一在 profession_gui.js 的 GUN_TACZ_CONFIG 中管理
+/** 解析非 TACZ 武器为物品（从 VANILLA_WEAPON_DISPLAY 查表） */
+function resolveVanillaWeapon(id) {
+  var display = VANILLA_WEAPON_DISPLAY[id]
+  return display ? Item.of(display) : null
+}
 
-/** 给玩家发放一个弹药盒（主手/副手各一盒） */
-function giveAmmoBox(player, weaponId, slot) {
+/**
+ * 通用武器解析（自动判断 TACZ / 非 TACZ）
+ * @param {string} id - 武器 ID
+ * @returns {Internal.ItemStack|null}
+ */
+function resolveWeapon(id) {
+  var pureId = cleanId(id)
+  // 先尝试 TACZ
+  var taczItem = resolveTaczWeapon(pureId)
+  if (taczItem) return taczItem
+  // 再尝试非 TACZ
+  return resolveVanillaWeapon(pureId)
+}
+
+// ========== 3. 弹药发放 ==========
+
+/** 优先放入背包（9~35号槽），背包满则回退到 give */
+function giveToBackpack(player, stack) {
+  var inv = player.getInventory()
+  for (var i = 9; i <= 35; i++) {
+    if (inv.getItem(i).isEmpty()) {
+      inv.setItem(i, stack)
+      return
+    }
+  }
+  player.give(stack)
+}
+
+/** 给玩家发放 TACZ 弹药盒（主手/副手用） */
+function giveTaczAmmo(player, weaponId, slot) {
   var pureId = cleanId(weaponId)
   var cfg = getTaczConfig(pureId)
-  if (!cfg || !cfg.ammo) {
-    player.tell(Component.string('§c❌ 未找到 [' + pureId + '] 的弹药配置'))
-    return
-  }
+  if (!cfg || !cfg.ammo) return
 
   var ammo = cfg.ammo
   var total = slot === 'main' ? ammo.main : ammo.offhand
@@ -122,27 +140,44 @@ function giveAmmoBox(player, weaponId, slot) {
       Level: $IntTag.valueOf(ammo.level),
     },
   })
-  player.give(box)
+  giveToBackpack(player, box)
 }
 
-// ========== 4. 配件配置应用 ==========
+/** 给玩家发放非 TACZ 武器弹药（从 VANILLA_WEAPON_AMMO 查表） */
+function giveVanillaAmmo(player, weaponId) {
+  var pureId = cleanId(weaponId)
+  var ammoCfg = VANILLA_WEAPON_AMMO[pureId]
+  if (!ammoCfg) return
 
-/** slotKey 转 TACZ NBT 中的 Attachment 键名 (e.g. extended_mag → AttachmentEXTENDED_MAG) */
+  var stack = Item.of(ammoCfg.item)
+  stack.setCount(ammoCfg.count)
+  giveToBackpack(player, stack)
+}
+
+/**
+ * 通用弹药发放（自动判断 TACZ / 非 TACZ）
+ * @param {Internal.ServerPlayer} player
+ * @param {string} weaponId - 武器 ID
+ * @param {string} [slot] - TACZ 用：'main' 或 'offhand'（非 TACZ 忽略此参数）
+ */
+function giveWeaponAmmo(player, weaponId, slot) {
+  var pureId = cleanId(weaponId)
+  if (isTaczWeapon(pureId)) {
+    giveTaczAmmo(player, pureId, slot || 'main')
+  } else {
+    giveVanillaAmmo(player, pureId)
+  }
+}
+
+// ========== 4. 配件配置应用（仅 TACZ）==========
+
+/** slotKey 转 TACZ NBT 中的 Attachment 键名 */
 function attachmentKey(slotKey) {
   return 'Attachment' + slotKey.toUpperCase()
 }
 
 /**
- * 将玩家保存的配件配置写入枪械物品 NBT
- * TACZ 实际 NBT 格式:
- *   custom_data.Attachment{大写槽名} = {
- *     components: { "minecraft:custom_data": { AttachmentId: "tacz:xxx" } },
- *     count: 1,
- *     id: "tacz:attachment"
- *   }
- * @param {Internal.ItemStack} gunStack
- * @param {Internal.ServerPlayer} player
- * @param {string} weaponId - 武器 id (如 'ak47')
+ * 将玩家保存的配件配置写入 TACZ 枪械物品 NBT
  */
 function applySavedAttachments(gunStack, player, weaponId) {
   var pureId = cleanId(weaponId)
@@ -154,7 +189,6 @@ function applySavedAttachments(gunStack, player, weaponId) {
   var attMap = all[pureId]
   if (!attMap || Object.keys(attMap).length === 0) return
 
-  // KubeJS 7 (MC 1.21): 使用 Data Component API 替代旧的 getNbt/setNbt
   var custom = gunStack.getCustomData()
   if (custom === null) custom = new $CompoundTag()
 
@@ -162,7 +196,6 @@ function applySavedAttachments(gunStack, player, weaponId) {
     if (!attMap.hasOwnProperty(slotKey)) continue
     var attId = attMap[slotKey]
 
-    // 构造配件 NBT（格式与 TACZ 要求一致）
     var attCompound = new $CompoundTag()
     var components = new $CompoundTag()
     var mcCustomData = new $CompoundTag()
@@ -175,7 +208,6 @@ function applySavedAttachments(gunStack, player, weaponId) {
     custom.put(attachmentKey(slotKey), attCompound)
   }
 
-  // 通过 Data Component 设置 custom_data
   gunStack.setCustomData(custom)
 }
 
@@ -183,14 +215,15 @@ function applySavedAttachments(gunStack, player, weaponId) {
 
 /**
  * 给单个玩家发放职业装备
- * @param {Internal.ServerPlayer} target
- * @returns {boolean} 是否成功
+ * 流程: 清空背包 → 护甲 → 主武器 + 弹药 → 副武器 + 弹药 → 特殊武器 + 弹药 → 额外物品
  */
 function giveLoadout(target) {
   var prof   = target.persistentData.profession
   var mainWp = target.persistentData.mainWeapon
   var offWp  = target.persistentData.offhandWeapon
+  var spWp   = target.persistentData.specialWeapon
 
+  // -------- 前置检查（职业 / 主武器 / 副武器 为必选）--------
   if (!prof) {
     target.tell(Component.string('§c[装备发放] 请先使用职业选择器选择兵种！'))
     return false
@@ -210,13 +243,16 @@ function giveLoadout(target) {
     return false
   }
 
-  // -------- ① 清空全身(护甲槽) + 背包 --------
+  var pureMain = cleanId(mainWp)
+  var pureOff  = cleanId(offWp)
+  var pureSp   = spWp ? cleanId(spWp) : null
+
+  // -------- ① 清空全身(护甲槽) + 背包（保留职业选择器）--------
   var armorSlots = ['feet', 'legs', 'chest', 'head']
   armorSlots.forEach(function(slot) {
     target.setItemSlot(slot, Item.of('minecraft:air'))
   })
   target.getInventory().clear()
-  // 保留职业选择器
   target.give(Item.of('kubejs:profession_selector'))
 
   // -------- ② 护甲直接装备到身上 --------
@@ -224,21 +260,39 @@ function giveLoadout(target) {
     target.setItemSlot(armorSlots[i], Item.of(config.armor[i]))
   }
 
-  // -------- ③ 主武器（给到背包） --------
-  var mainItem = resolveMainWeapon(mainWp)
+  // -------- ③ 主武器（TACZ → 带配件 + 弹药盒）--------
+  var mainItem = resolveWeapon(pureMain)
   if (mainItem) {
-    applySavedAttachments(mainItem, target, mainWp)
+    if (isTaczWeapon(pureMain)) {
+      applySavedAttachments(mainItem, target, pureMain)
+    }
     target.give(mainItem)
+    giveWeaponAmmo(target, pureMain, 'main')
   }
 
-  // -------- ④ 副武器（给到背包） --------
-  var offhandItem = resolveOffhandWeapon(offWp)
-  if (offhandItem) {
-    applySavedAttachments(offhandItem, target, offWp)
-    target.give(offhandItem)
+  // -------- ④ 副武器（TACZ → 带配件 + 弹药盒）--------
+  var offItem = resolveWeapon(pureOff)
+  if (offItem) {
+    if (isTaczWeapon(pureOff)) {
+      applySavedAttachments(offItem, target, pureOff)
+    }
+    target.give(offItem)
+    giveWeaponAmmo(target, pureOff, 'offhand')
   }
 
-  // -------- ⑤ 兵种额外物品 --------
+  // -------- ⑤ 特殊武器（可选，支持 TACZ / 非 TACZ）--------
+  if (pureSp) {
+    var spItem = resolveWeapon(pureSp)
+    if (spItem) {
+      if (isTaczWeapon(pureSp)) {
+        applySavedAttachments(spItem, target, pureSp)
+      }
+      target.give(spItem)
+      giveWeaponAmmo(target, pureSp, 'main')
+    }
+  }
+
+  // -------- ⑥ 兵种额外物品 --------
   config.extras.forEach(function(entry) {
     var stack = entry.tag
       ? Item.of(entry.item, entry.tag)
@@ -247,19 +301,12 @@ function giveLoadout(target) {
     target.give(stack)
   })
 
-  // -------- ⑥ 弹药盒（给到背包） --------
-  giveAmmoBox(target, mainWp, 'main')
-  giveAmmoBox(target, offWp, 'offhand')
-
   target.tell(Component.string('§a✔ 装备已发放完毕！'))
   return true
 }
 
 // ========== 6. 目标解析 ==========
 
-/**
- * 解析选择器字符串为玩家列表
- */
 function parseTargets(selector, executor, server) {
   var all = server.getPlayers()
   var list = []
@@ -284,15 +331,16 @@ function parseTargets(selector, executor, server) {
 }
 
 /**
- * 获取玩家当前职业选择的摘要字符串
+ * 获取玩家当前职业选择的摘要字符串（含特殊武器）
  */
 function getPlayerSummary(target) {
   var prof   = target.persistentData.profession || '§7无'
   var mainWp = target.persistentData.mainWeapon  || '§7无'
   var offWp  = target.persistentData.offhandWeapon || '§7无'
+  var spWp   = target.persistentData.specialWeapon || '§7无'
   var pName  = target.getName().getString()
 
-  return '§e' + pName + ' §7→ 职业: §f' + prof + ' §7| 主手: §f' + mainWp + ' §7| 副手: §f' + offWp
+  return '§e' + pName + ' §7→ 职业: §f' + prof + ' §7| 主手: §f' + mainWp + ' §7| 副手: §f' + offWp + ' §7| 特殊: §f' + spWp
 }
 
 // ========== 7. 命令入口 ==========

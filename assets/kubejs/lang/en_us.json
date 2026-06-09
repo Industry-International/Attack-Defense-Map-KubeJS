@@ -25,6 +25,7 @@
   "offhand.kubejs.shield": "\u00a76Shield",
   "offhand.kubejs.totem": "\u00a7eTotem of Undying",
   "offhand.kubejs.snowball": "\u00a7fSnowball",
+  "offhand.kubejs.sentinel": "\u00a7dSentinel Sniper Rifle",
 
   "msg.kubejs.profession_select.selected": "\u00a7a[Profession] Selected: %s",
   "msg.kubejs.profession_select.main_weapon": "\u00a7a[Profession] Main weapon: %s",
