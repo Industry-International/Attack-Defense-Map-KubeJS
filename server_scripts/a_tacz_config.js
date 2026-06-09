@@ -178,7 +178,7 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
   return function(slot) {
     if (ins) {
       slot.setItem(
-        Item.of('tacz:attachment', { AttachmentId: ins })
+        Item.of('tacz:attachment', { custom_data: { AttachmentId: ins } })
       )
     } else {
       slot.setItem(
@@ -189,6 +189,8 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
     }
     // 无论槽位状态，左键一律打开配件选择子页面
     slot.setLeftClicked(function() {
+      console.info('[SLOT_CLICK] slotKey: ' + sk + ' weaponId: ' + weaponId)
+      player.tell(Component.literal('§a[DEBUG] slot clicked: ' + sk))
       openAttachmentSelect(player, weaponId, gunId, sk, returnPage)
     })
   }
@@ -196,61 +198,103 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
 
 // ========== 配件选择列表（二级界面）==========
 // 显示该槽位可用配件，依次排列，空位用屏障填充，点击即安装
+// 任何 ID 错误都不会阻止界面打开，错误ID用屏障显示
 
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
+  console.info('[ATTACH_SELECT] START ' + weaponId + ' ' + gunId + ' ' + slotKey)
+  player.tell(Component.literal('§e[DEBUG] openAttachmentSelect START'))
+
   var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
-  if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
+  if (!cfg) {
+    console.info('[ATTACH_SELECT] cfg not found for: ' + weaponId)
+    player.tell(Component.literal('§c[DEBUG] cfg not found:' + weaponId))
+    return
+  }
   var list = cfg.attachments[slotKey] || []
+  console.info('[ATTACH_SELECT] list count: ' + list.length)
+
   if (list.length === 0) {
     player.tell(Component.literal('§c').append(Component.translatable('gui.kubejs.attach.no_available')))
     return
   }
 
   var rows = Math.max(3, Math.ceil(list.length / 7) + 2)
-  var title = Component.translatable('gui.kubejs.attach.select_title').append(Component.translatable(SLOT_TRANSLATE_KEY[slotKey]))
+  console.info('[ATTACH_SELECT] rows: ' + rows)
 
-  player.openChestGUI(title, rows, function(gui) {
-    // 顶部边框
-    for (var x = 0; x < 9; x++) {
-      gui.slot(x, 0, function(s) { s.setItem(PANE.gray) })
-    }
-    // 底部边框
-    for (var x = 0; x < 9; x++) {
-      gui.slot(x, rows - 1, function(s) { s.setItem(PANE.gray) })
-    }
+  var title
+  try {
+    title = Component.translatable('gui.kubejs.attach.select_title').append(Component.translatable(SLOT_TRANSLATE_KEY[slotKey]))
+  } catch(e) {
+    console.error('[ATTACH_SELECT] title error: ' + e)
+    title = Component.literal('Select ' + slotKey)
+  }
 
-    // [← 返回] 按钮 (col 0, row 0)
-    gui.slot(0, 0, function(slot) {
-      slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
-      slot.setLeftClicked(function() { openAttachmentMenu(player, weaponId, gunId, returnPage) })
-    })
+  player.tell(Component.literal('§e[DEBUG] opening GUI rows=' + rows + ' items=' + list.length))
+  console.info('[ATTACH_SELECT] calling openChestGUI')
 
-    // 配件网格：从左到右依次排列，点击即安装并返回主菜单
-    for (var i = 0; i < list.length; i++) {
-      (function(att, col, row) {
-        gui.slot(col, row, function(slot) {
-          slot.setItem(Item.of('tacz:attachment', { AttachmentId: att.id }))
-          slot.setLeftClicked(function() {
-            setGunAttachment(player, weaponId, slotKey, att.id)
-            player.tell(Component.translatable('msg.kubejs.attach.installed', Component.translatable(SLOT_TRANSLATE_KEY[slotKey])))
-            openAttachmentMenu(player, weaponId, gunId, returnPage)
-          })
-        })
-      })(list[i], 1 + (i % 7), 1 + Math.floor(i / 7))
-    }
-
-    // 空位填充屏障：每行第1~7列中未被配件占据的位置放黑色玻璃板
-    for (var r = 1; r < rows - 1; r++) {
-      for (var c = 1; c <= 7; c++) {
-        var idx = (r - 1) * 7 + (c - 1)
-        if (idx >= list.length) {
-          (function(col, row) {
-            gui.slot(col, row, function(slot) {
-              slot.setItem(PANE.black)
-            })
-          })(c, r)
+  try {
+    player.openChestGUI(title, rows, function(gui) {
+      console.info('[ATTACH_SELECT] GUI callback begin')
+      try {
+        // 顶部和底部边框
+        for (var x = 0; x < 9; x++) {
+          gui.slot(x, 0, function(s) { s.setItem(PANE.gray) })
+          gui.slot(x, rows - 1, function(s) { s.setItem(PANE.gray) })
         }
+
+        // [← 返回] 按钮
+        gui.slot(0, 0, function(slot) {
+          slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
+          slot.setLeftClicked(function() { openAttachmentMenu(player, weaponId, gunId, returnPage) })
+        })
+
+        // 配件网格：每个item独立try-catch，失败用屏障显示ID
+        for (var i = 0; i < list.length; i++) {
+          (function(att, col, row) {
+            try {
+              var displayItem
+              try {
+                displayItem = Item.of('tacz:attachment', { custom_data: { AttachmentId: att.id } })
+              } catch(e) {
+                console.error('[ATTACH_SELECT] Item.of failed: ' + att.id + ' ' + e)
+                displayItem = Item.of('minecraft:barrier').withCustomName(Component.literal('§cERR:' + att.id))
+              }
+              gui.slot(col, row, function(slot) {
+                slot.setItem(displayItem)
+                slot.setLeftClicked(function() {
+                  setGunAttachment(player, weaponId, slotKey, att.id)
+                  player.tell(Component.translatable('msg.kubejs.attach.installed', Component.translatable(SLOT_TRANSLATE_KEY[slotKey])))
+                  openAttachmentMenu(player, weaponId, gunId, returnPage)
+                })
+              })
+            } catch(e2) {
+              console.error('[ATTACH_SELECT] slot crash: ' + i + ' ' + e2)
+              gui.slot(col, row, function(slot) {
+                slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.literal('§cERR:' + (att && att.id || '?'))))
+              })
+            }
+          })(list[i], 1 + (i % 7), 1 + Math.floor(i / 7))
+        }
+
+        // 空位填充屏障
+        for (var r = 1; r < rows - 1; r++) {
+          for (var c = 1; c <= 7; c++) {
+            var idx = (r - 1) * 7 + (c - 1)
+            if (idx >= list.length) {
+              (function(col, row) {
+                gui.slot(col, row, function(slot) { slot.setItem(PANE.black) })
+              })(c, r)
+            }
+          }
+        }
+        console.info('[ATTACH_SELECT] GUI callback SUCCESS')
+      } catch(e) {
+        console.error('[ATTACH_SELECT] GUI callback crash: ' + e)
       }
-    }
-  })
+    })
+    console.info('[ATTACH_SELECT] openChestGUI returned')
+  } catch(e) {
+    console.error('[ATTACH_SELECT] openChestGUI crash: ' + e)
+    player.tell(Component.literal('§c[DEBUG] openChestGUI failed: ' + e))
+  }
 }
