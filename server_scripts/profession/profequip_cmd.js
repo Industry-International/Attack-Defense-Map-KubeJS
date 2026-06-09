@@ -123,7 +123,7 @@ function giveToBackpack(player, stack) {
   player.give(stack)
 }
 
-/** 给玩家发放 TACZ 弹药盒（主手/副手用） */
+/** 给玩家发放 TACZ 弹药（有 level 给弹药盒，无 level 给散装弹药） */
 function giveTaczAmmo(player, weaponId, slot) {
   var pureId = cleanId(weaponId)
   var cfg = getTaczConfig(pureId)
@@ -133,14 +133,22 @@ function giveTaczAmmo(player, weaponId, slot) {
   var total = slot === 'main' ? ammo.main : ammo.offhand
   if (!total) return
 
-  var box = Item.of('tacz:ammo_box', {
-    custom_data: {
-      AmmoCount: $IntTag.valueOf(total),
-      AmmoId: ammo.ammoId,
-      Level: $IntTag.valueOf(ammo.level),
-    },
-  })
-  giveToBackpack(player, box)
+  if (ammo.level != null) {
+    // 有等级 → 弹药盒
+    var box = Item.of('tacz:ammo_box', {
+      custom_data: {
+        AmmoCount: $IntTag.valueOf(total),
+        AmmoId: ammo.ammoId,
+        Level: $IntTag.valueOf(ammo.level),
+      },
+    })
+    giveToBackpack(player, box)
+  } else {
+    // 无等级 → 直接发弹药物品
+    var stack = Item.of(ammo.ammoId)
+    stack.setCount(total)
+    giveToBackpack(player, stack)
+  }
 }
 
 /** 给玩家发放非 TACZ 武器弹药（从 VANILLA_WEAPON_AMMO 查表） */
