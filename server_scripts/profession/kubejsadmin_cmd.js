@@ -1,12 +1,15 @@
 // ============================================================
 // KubeJSAdmin - 管理指令（i18n 规范）
-// 清空所有玩家的职业选择或队伍配置
+// 清空玩家的职业选择/队伍配置 + 职业标签
 // ============================================================
 // 指令格式: /kubejsadmin <profession|menu> <targets>
-// 示例:     /kubejsadmin profession @a   — 清空所有在线玩家的职业选择
-//           /kubejsadmin menu @a        — 清空所有在线玩家的队伍配置
+// 示例:     /kubejsadmin profession @a   — 清空职业选择 + 移除标签
+//           /kubejsadmin menu @a        — 清空队伍配置
 // 权限:     仅 OP
 // ============================================================
+
+/** 职业标签列表 */
+var PROF_TAG_LIST = ['assault', 'scout', 'medic', 'support']
 
 ServerEvents.basicCommand('kubejsadmin', event => {
     var player = event.getPlayer()
@@ -60,6 +63,9 @@ ServerEvents.basicCommand('kubejsadmin', event => {
 
     if (type === 'profession') {
         targets.forEach(function(p) {
+            // 移除职业标签（通过原版指令确保 /tag 可见）
+            PROF_TAG_LIST.forEach(function(tag) { server.runCommandSilent('tag ' + p.username + ' remove ' + tag) })
+            // 清除选中状态
             delete p.persistentData.profession
             delete p.persistentData.mainWeapon
             delete p.persistentData.offhandWeapon
