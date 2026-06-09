@@ -177,8 +177,8 @@ function renderWeapon(gui, player, openPage) {
   wpList.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
       var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
-      // TACZ 枪械使用内置名称，不覆盖
-      if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id))
+      // TACZ 枪械使用内置名称，非 TACZ 仅在 i18n 白名单中覆写
+      if (!wp.tag && wp.i18n) wpItem = wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id))
       slot.setItem(wpItem)
       // TACZ 枪械：左键选中武器返回配置页；右键打开配件菜单
       if (isTaczGun(wp)) {
@@ -218,8 +218,8 @@ function renderOffhand(gui, player, openPage) {
   offList.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
       var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
-      // TACZ 枪械使用内置名称，不覆盖
-      if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
+      // TACZ 枪械使用内置名称，非 TACZ 仅在 i18n 白名单中覆写
+      if (!wp.tag && wp.i18n) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
       slot.setItem(wpItem)
       // TACZ 枪械：左键选中武器返回配置页；右键打开配件菜单
       if (isTaczGun(wp)) {
@@ -259,7 +259,7 @@ function renderTertiary(gui, player, openPage) {
   spList.forEach((wp, i) => {
     gui.slot(start + i, 2, slot => {
       var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
-      if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
+      if (!wp.tag && wp.i18n) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
       slot.setItem(wpItem)
       // TACZ 特殊武器：左键选中返回配置页；右键打开配件菜单
       if (isTaczGun(wp)) {

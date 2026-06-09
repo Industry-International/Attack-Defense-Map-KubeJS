@@ -91,8 +91,8 @@ function resolveTaczWeapon(id) {
 
 /** 解析非 TACZ 武器为物品（从 VANILLA_WEAPON_DISPLAY 查表） */
 function resolveVanillaWeapon(id) {
-  var display = VANILLA_WEAPON_DISPLAY[id]
-  return display ? Item.of(display) : null
+  var cfg = VANILLA_WEAPON_DISPLAY[id]
+  return cfg ? Item.of(cfg.item) : null
 }
 
 /**

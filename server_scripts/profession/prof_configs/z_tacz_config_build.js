@@ -66,8 +66,8 @@ function getProfessionWeaponList(profession, category) {
       })
       continue
     }
-    var display = VANILLA_WEAPON_DISPLAY[id]
-    if (display) { result.push({ id: id, display: display }); continue }
+    var displayCfg = VANILLA_WEAPON_DISPLAY[id]
+    if (displayCfg) { result.push({ id: id, display: displayCfg.item, i18n: displayCfg.i18n }); continue }
     console.error('[TACZ] 未找到武器 [' + id + '] 的展示配置')
     result.push({ id: id, display: 'minecraft:barrier' })
   }

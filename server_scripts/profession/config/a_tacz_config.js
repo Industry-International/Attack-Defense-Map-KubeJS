@@ -43,14 +43,14 @@ const SLOT_TRANSLATE_KEY = {
 
 const PROF_CONFIGS = {}
 const VANILLA_WEAPON_DISPLAY = {
-  sword:    'minecraft:iron_sword',
-  bow:      'minecraft:bow',
-  crossbow: 'minecraft:crossbow',
-  trident:  'minecraft:trident',
-  shield:   'minecraft:shield',
-  totem:    'minecraft:totem_of_undying',
-  snowball: 'minecraft:snowball',
-  sentinel: 'superbwarfare:sentinel',
+  sword:    { item: 'minecraft:iron_sword' },
+  bow:      { item: 'minecraft:bow' },
+  crossbow: { item: 'minecraft:crossbow' },
+  trident:  { item: 'minecraft:trident' },
+  shield:   { item: 'minecraft:shield' },
+  totem:    { item: 'minecraft:totem_of_undying' },
+  snowball: { item: 'minecraft:snowball', i18n: true },
+  sentinel: { item: 'superbwarfare:sentinel' },
 }
 
 // ========== 非 TACZ 武器弹药配置 ==========
