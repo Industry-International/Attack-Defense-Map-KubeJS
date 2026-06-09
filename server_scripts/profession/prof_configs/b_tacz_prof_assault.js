@@ -53,5 +53,5 @@ PROF_CONFIGS.assault = {
     },
     tertiary: {},
   },
-  weapons: { primary: ['ak47','scar_l'], secondary: ['mars'], tertiary: ['rpk', 'm_79', 'sks'] },
+  weapons: { primary: ['ak47','scar_l'], secondary: ['mars'], tertiary: ['snowball'] },
 }
