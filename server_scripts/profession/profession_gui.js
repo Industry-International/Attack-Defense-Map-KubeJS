@@ -111,9 +111,11 @@ function renderMain(gui, player, openPage) {
         var server = player.server
         var name = player.username
         // 移除所有职业标签
-        ['assault', 'scout', 'medic', 'support'].forEach(function(t) {
-          server.runCommandSilent('tag ' + name + ' remove ' + t)
-        })
+        // 先移除所有职业标签，再添加本职业（防止累加）
+          server.runCommandSilent('tag ' + name + ' remove assault')
+          server.runCommandSilent('tag ' + name + ' remove scout')
+          server.runCommandSilent('tag ' + name + ' remove medic')
+          server.runCommandSilent('tag ' + name + ' remove support')
         // 清除选中状态
         delete player.persistentData.profession
         delete player.persistentData.mainWeapon
