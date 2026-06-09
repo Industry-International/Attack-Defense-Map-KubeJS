@@ -101,51 +101,96 @@ function resolveOffhandWeapon(id) {
         custom_data: {
           HasBulletInBarrel: $ByteTag.valueOf(1),
           GunId: 'lavender:mars',
+          GunFireMode: 'SEMI',
+          GunCurrentAmmoCount: $IntTag.valueOf(7),
         },
       })
     default:       return null
   }
 }
 
-// ========== 3. TACZ 弹药配置 ==========
-
-/**
- * 弹药配置
- *   ammoId      — 弹药类型
- *   main        — 主武器弹药盒装弹量
- *   offhand     — 副武器弹药盒装弹量
- *   level       — 弹药盒等级（2=钻石）
- */
-const TACZ_AMMO = {
-  ak47: { ammoId: 'tacz:762x39', main: 210, level: 2 },
-  mars: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
-}
+// ========== 3. TACZ 弹药发放 ==========
+// 弹药配置统一在 profession_gui.js 的 GUN_TACZ_CONFIG 中管理
 
 /** 给玩家发放一个弹药盒（主手/副手各一盒） */
 function giveAmmoBox(player, weaponId, slot) {
-  // 1. 强制转字符串 + 清除首尾空白
-  let pureId = String(weaponId || "").trim();
-  // 2. 移除 首尾英文双引号 " （核心修复）
-  pureId = pureId.replace(/^"|"$/g, "");
-  var cfg = TACZ_AMMO[pureId]
-
-  if (!cfg) {
-    player.tell(Component.string(`§c❌ 匹配失败：在 TACZ_AMMO 中未找到该武器配置`));
-    player.tell(Component.string(`§7==============================`));
+  var pureId = cleanId(weaponId)
+  var cfg = getTaczConfig(pureId)
+  if (!cfg || !cfg.ammo) {
+    player.tell(Component.string('§c❌ 未找到 [' + pureId + '] 的弹药配置'))
     return
   }
 
-  var total = slot === 'main' ? cfg.main : cfg.offhand
+  var ammo = cfg.ammo
+  var total = slot === 'main' ? ammo.main : ammo.offhand
+  if (!total) return
+
   var box = Item.of('tacz:ammo_box', {
     custom_data: {
       AmmoCount: $IntTag.valueOf(total),
-      AmmoId: cfg.ammoId,
-      Level: $IntTag.valueOf(cfg.level)
+      AmmoId: ammo.ammoId,
+      Level: $IntTag.valueOf(ammo.level),
     },
   })
   player.give(box)
 }
-// ========== 4. 装备发放核心 ==========
+
+// ========== 4. 配件配置应用 ==========
+
+/** slotKey 转 TACZ NBT 中的 Attachment 键名 (e.g. extended_mag → AttachmentEXTENDED_MAG) */
+function attachmentKey(slotKey) {
+  return 'Attachment' + slotKey.toUpperCase()
+}
+
+/**
+ * 将玩家保存的配件配置写入枪械物品 NBT
+ * TACZ 实际 NBT 格式:
+ *   custom_data.Attachment{大写槽名} = {
+ *     components: { "minecraft:custom_data": { AttachmentId: "tacz:xxx" } },
+ *     count: 1,
+ *     id: "tacz:attachment"
+ *   }
+ * @param {Internal.ItemStack} gunStack
+ * @param {Internal.ServerPlayer} player
+ * @param {string} weaponId - 武器 id (如 'ak47')
+ */
+function applySavedAttachments(gunStack, player, weaponId) {
+  var pureId = cleanId(weaponId)
+  var raw = player.persistentData.taczAttachments
+  if (!raw) return
+  var all
+  try { all = JSON.parse(raw) } catch(e) { return }
+  var attMap = all[pureId]
+  if (!attMap || Object.keys(attMap).length === 0) return
+
+  // 读取现有 NBT
+  var nbt = gunStack.getNbt()
+  if (!nbt) nbt = new $CompoundTag()
+  var custom = nbt.getCompound('custom_data')
+  if (custom.isEmpty()) custom = new $CompoundTag()
+
+  for (var slotKey in attMap) {
+    if (!attMap.hasOwnProperty(slotKey)) continue
+    var attId = attMap[slotKey]
+
+    // 构造配件 NBT
+    var attCompound = new $CompoundTag()
+    var components = new $CompoundTag()
+    var mcCustomData = new $CompoundTag()
+    mcCustomData.putString('AttachmentId', attId)
+    components.put('minecraft:custom_data', mcCustomData)
+    attCompound.put('components', components)
+    attCompound.putInt('count', 1)
+    attCompound.putString('id', 'tacz:attachment')
+
+    custom.put(attachmentKey(slotKey), attCompound)
+  }
+
+  nbt.put('custom_data', custom)
+  gunStack.setNbt(nbt)
+}
+
+// ========== 5. 装备发放核心 ==========
 
 /**
  * 给单个玩家发放职业装备
@@ -193,12 +238,14 @@ function giveLoadout(target) {
   // -------- ③ 主武器（给到背包） --------
   var mainItem = resolveMainWeapon(mainWp)
   if (mainItem) {
+    applySavedAttachments(mainItem, target, mainWp)
     target.give(mainItem)
   }
 
   // -------- ④ 副武器（给到背包） --------
   var offhandItem = resolveOffhandWeapon(offWp)
   if (offhandItem) {
+    applySavedAttachments(offhandItem, target, offWp)
     target.give(offhandItem)
   }
 
@@ -219,7 +266,7 @@ function giveLoadout(target) {
   return true
 }
 
-// ========== 5. 目标解析 ==========
+// ========== 6. 目标解析 ==========
 
 /**
  * 解析选择器字符串为玩家列表
@@ -259,7 +306,7 @@ function getPlayerSummary(target) {
   return '§e' + pName + ' §7→ 职业: §f' + prof + ' §7| 主手: §f' + mainWp + ' §7| 副手: §f' + offWp
 }
 
-// ========== 6. 命令入口 ==========
+// ========== 7. 命令入口 ==========
 
 ServerEvents.basicCommand('profequip', event => {
   var player = event.getPlayer()

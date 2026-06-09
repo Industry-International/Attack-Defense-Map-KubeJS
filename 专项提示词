@@ -1,0 +1,22 @@
+这是加了一个扩容弹夹之后的ak47 nbt
+GunId: "tacz:ak47"
+custom_data={AttachmentEXTENDED_MAG: {components: {"minecraft:custom_data":{
+AttachmentId: "tacz:extended_mag_3"}}}, count: 1, id: "tacz:attachment"}, HasBulletInBarrel: 1b
+, GunId: "tacz:ak47", GunFireMode: "AUTO", GunCurrentAmmoCount: 40 }
+
+tacz 配件实际上用的是同一个注册名，然后用nbt区分 
+比如说下面这个就是一个扩容弹夹
+tacz:attachment
+AttachmentId: "tacz:extended_mag_3"
+custom_data={AttachmentId: "tacz:extended_mag_3"}
+
+配件逻辑
+tacz 枪械配置中包含配件配置
+以表的形式存储 每把枪都单独配置
+
+tacz的相关物品除非特殊要求，否则一律不需要额外的i18n
+
+阅读日志,并尝试分析问题,然后向我提问,得到我允许之后再尝试修复问题
+
+原始值输出
+player.tell(Component.string('§e[DEBUG] installed = ' + installed));

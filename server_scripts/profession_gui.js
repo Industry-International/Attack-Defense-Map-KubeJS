@@ -3,9 +3,8 @@
 // ============================================================
 // 单页面设计：主界面（三个入口居中）→ 职业选 → 主武器 → 副武器
 // 翻译定义在 assets/kubejs/lang/{en_us,zh_cn}.json 中
+// 注：$ByteTag / $IntTag / $CompoundTag / PANE 由 a_tacz_config.js 优先定义
 // ============================================================
-const $ByteTag = Java.loadClass("net.minecraft.nbt.ByteTag")
-const $IntTag = Java.loadClass("net.minecraft.nbt.IntTag")
 
 // ========== 数据定义 ==========
 
@@ -25,15 +24,13 @@ const OFFHAND_WEAPONS = [
   { id: 'mars',   display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'lavender:mars' } } },
 ]
 
-// ========== 辅助工具 ==========
-
-function filler(color) {
-  return Item.of(color).withCustomName(Text.of(''))
-}
-const PANE = {
-  black: filler('minecraft:black_stained_glass_pane'),
-  gray:  filler('minecraft:gray_stained_glass_pane'),
-}
+// ========== TACZ 枪械配置与配件改装 ==========
+// 已提取到独立文件 a_tacz_config.js（需最先加载）
+// 本文件通过全局函数调用：
+//   isTaczGun(wp)         判断 TACZ 枪械
+//   openAttachmentMenu()   打开配件改装界面
+//   getTaczConfig(id)     获取枪械配置
+// ============================================
 
 // ========== 公共 UI 组件 ==========
 
@@ -147,13 +144,26 @@ function renderWeapon(gui, player, openPage) {
       // TACZ 枪械使用内置名称，不覆盖
       if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id))
       slot.setItem(wpItem)
-      slot.setLeftClicked(() => {
-        player.persistentData.mainWeapon = wp.id
-        // TACZ 枪械聊天提示使用内置名称
-        var wpName = wp.tag ? (function() { var p = wp.tag.custom_data.GunId.split(':'); return Text.translate(p[0] + '.gun.' + p[1] + '.name') })() : Text.translate('weapon.kubejs.' + wp.id)
-        player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
-        openPage(player, 'main')
-      })
+      // TACZ 枪械：左键选中武器返回主页；右键打开配件菜单
+      if (isTaczGun(wp)) {
+        slot.setLeftClicked(() => {
+          player.persistentData.mainWeapon = wp.id
+          var p = wp.tag.custom_data.GunId.split(':')
+          var wpName = Text.translate(p[0] + '.gun.' + p[1] + '.name')
+          player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
+          openPage(player, 'main')
+        })
+        slot.setRightClicked(() => {
+          openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'weapon')
+        })
+      } else {
+        slot.setLeftClicked(() => {
+          player.persistentData.mainWeapon = wp.id
+          var wpName = Text.translate('weapon.kubejs.' + wp.id)
+          player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
+          openPage(player, 'main')
+        })
+      }
     })
   })
 }
@@ -167,13 +177,26 @@ function renderOffhand(gui, player, openPage) {
       // TACZ 枪械使用内置名称，不覆盖
       if (!wp.tag) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
       slot.setItem(wpItem)
-      slot.setLeftClicked(() => {
-        player.persistentData.offhandWeapon = wp.id
-        // TACZ 枪械聊天提示使用内置名称
-        var wpName = wp.tag ? (function() { var p = wp.tag.custom_data.GunId.split(':'); return Text.translate(p[0] + '.gun.' + p[1] + '.name') })() : Text.translate('offhand.kubejs.' + wp.id)
-        player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
-        openPage(player, 'main')
-      })
+      // TACZ 枪械：左键选中武器返回主页；右键打开配件菜单
+      if (isTaczGun(wp)) {
+        slot.setLeftClicked(() => {
+          player.persistentData.offhandWeapon = wp.id
+          var p = wp.tag.custom_data.GunId.split(':')
+          var wpName = Text.translate(p[0] + '.gun.' + p[1] + '.name')
+          player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
+          openPage(player, 'main')
+        })
+        slot.setRightClicked(() => {
+          openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'offhand')
+        })
+      } else {
+        slot.setLeftClicked(() => {
+          player.persistentData.offhandWeapon = wp.id
+          var wpName = Text.translate('offhand.kubejs.' + wp.id)
+          player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
+          openPage(player, 'main')
+        })
+      }
     })
   })
 }
