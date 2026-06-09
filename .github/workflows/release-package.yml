@@ -20,7 +20,7 @@ on:
 # 白名单配置区 ⬇️ 在此修改需要打包的文件夹/文件
 # ============================================================
 env:
-  PACKAGE_NAME: "KubeJS-脚本包"
+  PACKAGE_NAME: "KubeJS-$published_release_tag"
 
 jobs:
   package-and-upload:
