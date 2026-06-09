@@ -47,6 +47,7 @@ PROF_CONFIGS.medic = {
         },
       },
     },
+    tertiary: {},
   },
-  weapons: { primary: ['hk_mp5a5','aug'], secondary: ['glock_17'] },
+  weapons: { primary: ['hk_mp5a5','aug'], secondary: ['glock_17'], tertiary: ['snowball'] },
 }

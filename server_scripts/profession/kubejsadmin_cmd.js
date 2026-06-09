@@ -68,6 +68,7 @@ ServerEvents.basicCommand('kubejsadmin', event => {
             delete p.persistentData.profession
             delete p.persistentData.mainWeapon
             delete p.persistentData.offhandWeapon
+            delete p.persistentData.specialWeapon
             count++
         })
         player.tell(Component.translatable('msg.kubejsadmin.clear.profession', count))

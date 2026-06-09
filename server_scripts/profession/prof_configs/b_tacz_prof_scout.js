@@ -46,6 +46,7 @@ PROF_CONFIGS.scout = {
         },
       },
     },
+    tertiary: {},
   },
-  weapons: { primary: ['m4a1','sks_tactical'], secondary: ['p320'] },
+  weapons: { primary: ['m4a1','sks_tactical'], secondary: ['p320'], tertiary: ['snowball'] },
 }

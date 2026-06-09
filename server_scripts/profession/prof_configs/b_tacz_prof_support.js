@@ -43,6 +43,7 @@ PROF_CONFIGS.support = {
         },
       },
     },
+    tertiary: {},
   },
-  weapons: { primary: ['m249','rpk'], secondary: ['deagle'] },
+  weapons: { primary: ['m249','rpk'], secondary: ['deagle'], tertiary: ['snowball'] },
 }

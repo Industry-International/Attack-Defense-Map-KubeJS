@@ -49,6 +49,7 @@ const VANILLA_WEAPON_DISPLAY = {
   trident:  'minecraft:trident',
   shield:   'minecraft:shield',
   totem:    'minecraft:totem_of_undying',
+  snowball: 'minecraft:snowball',
 }
 
 // 武器配置在 prof_configs/ 目录下:

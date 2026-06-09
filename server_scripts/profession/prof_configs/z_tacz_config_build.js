@@ -19,13 +19,13 @@ for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
 }
 
 // 2. 结构化配置 (按职业)
-var GUN_TACZ_CONFIG = { primary: {}, secondary: {} }
+var GUN_TACZ_CONFIG = { primary: {}, secondary: {}, tertiary: {} }
 for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
   var prof = PROF_TAG_LIST[pi], profCfg = PROF_CONFIGS[prof]
   if (!profCfg) continue
   var guns = profCfg.guns; if (!guns) continue
-  for (var ci = 0; ci < 2; ci++) {
-    var cat = ci === 0 ? 'primary' : 'secondary', catGuns = guns[cat]
+  for (var ci = 0; ci < 3; ci++) {
+    var cat = ci === 0 ? 'primary' : (ci === 1 ? 'secondary' : 'tertiary'), catGuns = guns[cat]
     if (!catGuns) continue
     GUN_TACZ_CONFIG[cat][prof] = {}
     for (var id in catGuns) {

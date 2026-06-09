@@ -43,6 +43,7 @@ PROF_CONFIGS.assault = {
         },
       },
     },
+    tertiary: {},
   },
-  weapons: { primary: ['ak47','scar_l'], secondary: ['mars'] },
+  weapons: { primary: ['ak47','scar_l'], secondary: ['mars'], tertiary: ['snowball'] },
 }
