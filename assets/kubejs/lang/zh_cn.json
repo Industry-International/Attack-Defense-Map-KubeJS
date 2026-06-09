@@ -58,7 +58,7 @@
   "gui.kubejs.attach.back": "§c← 返回",
   "gui.kubejs.attach.exit": "§c✖ 退出",
   "gui.kubejs.attach.title_suffix": "配件配置",
-  "gui.kubejs.attach.hint": "§7左键空槽选择配件，左键已装拆卸",
+  "gui.kubejs.attach.hint": "§7左键空槽选择配件，右键已装拆卸",
   "gui.kubejs.attach.select_hint": "§7点击选择配件",
   "gui.kubejs.attach.select_prefix": "§8选择 ",
   "gui.kubejs.attach.remove_hint": "§7点击拆卸",

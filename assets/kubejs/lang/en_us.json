@@ -58,7 +58,7 @@
   "gui.kubejs.attach.back": "§c← Back",
   "gui.kubejs.attach.exit": "§c✖ Exit",
   "gui.kubejs.attach.title_suffix": "Attachment Config",
-  "gui.kubejs.attach.hint": "§7Left-click empty slot to select, installed to remove",
+  "gui.kubejs.attach.hint": "§7Left-click empty slot to select, right-click installed to remove",
   "gui.kubejs.attach.select_hint": "§7Click to select attachment",
   "gui.kubejs.attach.select_prefix": "§8Select ",
   "gui.kubejs.attach.remove_hint": "§7Click to remove",
