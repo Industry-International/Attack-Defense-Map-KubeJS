@@ -48,6 +48,7 @@ const GUN_TACZ_CONFIG = {
       gunId: 'tacz:ak47',
       GunFireMode: 'AUTO',
       GunCurrentAmmoCount: 30,
+      HasBulletInBarrel: $ByteTag.valueOf(1),
       ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
       attachments: {
         scope: [
@@ -64,6 +65,38 @@ const GUN_TACZ_CONFIG = {
           { id: 'tacz:muzzle_brake_pioneer' },
           { id: 'tacz:muzzle_compensator_trident' },
           { id: 'tacz:muzzle_brake_trex' },
+        ],
+        stock: [
+          { id: 'tacz:stock_heavy' },
+          { id: 'tacz:stock_light' },
+          { id: 'tacz:stock_tactical' },
+        ],
+        extended_mag: [
+          { id: 'tacz:extended_mag_1' },
+          { id: 'tacz:extended_mag_2' },
+          { id: 'tacz:extended_mag_3' },
+        ],
+        laser: [
+          { id: 'tacz:laser_compact' },
+          { id: 'tacz:laser_nightstick' },
+          { id: 'tacz:laser_lopro' },
+        ],
+      },
+    },
+    scar_l: {
+      gunId: 'tacz:scar_l',
+      GunFireMode: 'AUTO',
+      GunCurrentAmmoCount: 30,
+      HasBulletInBarrel: $ByteTag.valueOf(1),
+      ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
+      attachments: {
+        scope: [
+          { id: 'tacz:scope_reflex' },
+          { id: 'tacz:scope_uh1' },
+        ],
+        muzzle: [
+          { id: 'tacz:muzzle_silencer_knight_qd' },
+          { id: 'tacz:muzzle_silencer_mirage' },
         ],
         stock: [
           { id: 'tacz:stock_heavy' },

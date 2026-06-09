@@ -17,6 +17,7 @@ const MAIN_WEAPONS = [
   { id: 'crossbow', display: 'minecraft:crossbow' },
   { id: 'trident',  display: 'minecraft:trident' },
   { id: 'ak47',     display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:ak47', GunCurrentAmmoCount: $IntTag.valueOf(30) } } },
+  { id: 'scar_l', display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:scar_l' } } },
 ]
 const OFFHAND_WEAPONS = [
   { id: 'shield', display: 'minecraft:shield' },
