@@ -209,6 +209,9 @@ function renderOffhand(gui, player, openPage) {
  * @param {'main'|'prof'|'weapon'|'offhand'} page
  */
 function openPage(player, page) {
+  // 标记 GUI 已打开，禁用物品拾取
+  player.persistentData.guiOpen = true
+
   player.openChestGUI(Text.translate('gui.kubejs.profession_select.title'), 6, gui => {
 
     // ----- 子页面加竖边框（主页面按固定布局，不额外加框） -----
@@ -229,4 +232,22 @@ ItemEvents.rightClicked('kubejs:profession_selector', event => {
   const { player, hand } = event
   if (hand !== 'main_hand') return
   openPage(player, 'main')
+})
+
+// ========== GUI 打开时禁用物品拾取 ==========
+
+/** 关闭 GUI 或退出时清除标记 */
+PlayerEvents.inventoryClosed(event => {
+  event.getPlayer().persistentData.guiOpen = false
+})
+
+PlayerEvents.loggedOut(event => {
+  event.getPlayer().persistentData.guiOpen = false
+})
+
+/** 当 GUI 打开时阻止拾取地上的物品 */
+ItemEvents.pickedUp(event => {
+  if (event.getEntity().persistentData.guiOpen) {
+    event.cancel()
+  }
 })

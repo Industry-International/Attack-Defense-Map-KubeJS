@@ -131,6 +131,9 @@ function getTaczConfig(weaponId) {
 // ========== 配件改装主菜单 ==========
 
 function openAttachmentMenu(player, weaponId, gunId, returnPage) {
+  // 标记 GUI 已打开，禁用物品拾取
+  player.persistentData.guiOpen = true
+
   var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var gunName = Text.translate(gunId.split(':')[0] + '.gun.' + gunId.split(':')[1] + '.name')
@@ -210,6 +213,9 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
 // 任何 ID 错误都不会阻止界面打开，错误ID用屏障显示
 
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
+  // 标记 GUI 已打开，禁用物品拾取
+  player.persistentData.guiOpen = true
+
   var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var list = cfg.attachments[slotKey] || []
