@@ -17,6 +17,7 @@ const MAIN_WEAPONS = [
   { id: 'crossbow', display: 'minecraft:crossbow' },
   { id: 'trident',  display: 'minecraft:trident' },
   { id: 'ak47',     display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:ak47', GunCurrentAmmoCount: $IntTag.valueOf(30) } } },
+  { id: 'scar_l', display: 'tacz:modern_kinetic_gun', tag: { custom_data: { GunId: 'tacz:scar_l' } } },
 ]
 const OFFHAND_WEAPONS = [
   { id: 'shield', display: 'minecraft:shield' },
@@ -107,6 +108,13 @@ function renderMain(gui, player, openPage) {
         Item.of('minecraft:barrier')
           .withCustomName(Text.translate('gui.kubejs.profession_select.clear')))
       slot.setLeftClicked(() => {
+        var server = player.server
+        var name = player.username
+        // 移除所有职业标签
+        ['assault', 'scout', 'medic', 'support'].forEach(function(t) {
+          server.runCommandSilent('tag ' + name + ' remove ' + t)
+        })
+        // 清除选中状态
         delete player.persistentData.profession
         delete player.persistentData.mainWeapon
         delete player.persistentData.offhandWeapon
@@ -127,7 +135,16 @@ function renderProf(gui, player, openPage) {
           .withCustomName(Text.translate('profession.kubejs.' + prof.id))
           .withLore([Text.translate('profession.kubejs.' + prof.id + '.desc')]))
       slot.setLeftClicked(() => {
+        var server = player.server
+        var name = player.username
+        // 先移除所有职业标签，再添加本职业（防止累加）
+          server.runCommandSilent('tag ' + name + ' remove assault')
+          server.runCommandSilent('tag ' + name + ' remove scout')
+          server.runCommandSilent('tag ' + name + ' remove medic')
+          server.runCommandSilent('tag ' + name + ' remove support')
+        // 设置新职业 + 添加本职业标签
         player.persistentData.profession = prof.id
+        server.runCommandSilent('tag ' + name + ' add ' + prof.id)
         player.tell(Text.translate('msg.kubejs.profession_select.selected', Text.translate('profession.kubejs.' + prof.id)))
         openPage(player, 'main')
       })

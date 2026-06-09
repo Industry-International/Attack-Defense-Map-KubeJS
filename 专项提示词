@@ -18,5 +18,7 @@ tacz的相关物品除非特殊要求，否则一律不需要额外的i18n
 
 阅读日志,并尝试分析问题,然后向我提问,得到我允许之后再尝试修复问题
 
+GUN_TACZ_CONFIG[cleanId(weaponId)] 中 cleanId 的作用是 消去 "" 等特殊字符，得到纯净的id字符串
+
 原始值输出
 player.tell(Component.string('§e[DEBUG] installed = ' + installed));

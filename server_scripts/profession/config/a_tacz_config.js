@@ -39,44 +39,104 @@ const SLOT_TRANSLATE_KEY = {
   ammo_mod:     'gui.kubejs.attach.slot.ammo_mod',//弹药
 }
 
-// ========== 枪械配置总表 ==========
+// ========== 枪械配置总表（按主/副武器分类）=========
 
 const GUN_TACZ_CONFIG = {
-  ak47: {
-    gunId: 'tacz:ak47',
-    ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
-    attachments: {
-      scope: [
-        { id: 'lavender:scope_rifles_x4' }, { id: 'lavender:scope_rifles_x2' }, { id: 'tacz:scope_reflex' }, { id: 'tacz:scope_uh1' },
-      ],
-      muzzle: [
-        { id: 'tacz:muzzle_silencer_knight_qd' }, { id: 'tacz:muzzle_silencer_mirage' },
-        { id: 'tacz:muzzle_brake_cthulhu' },      { id: 'tacz:muzzle_brake_cyclone_d2' },
-        { id: 'tacz:muzzle_brake_pioneer' },      { id: 'tacz:muzzle_compensator_trident' },
-        { id: 'tacz:muzzle_brake_trex' },
-      ],
-      stock: [
-        { id: 'tacz:stock_heavy' }, { id: 'tacz:stock_light' }, { id: 'tacz:stock_tactical' },
-      ],
-      extended_mag: [
-        { id: 'tacz:extended_mag_1' }, { id: 'tacz:extended_mag_2' }, { id: 'tacz:extended_mag_3' },
-      ],
-      laser: [
-        { id: 'tacz:laser_compact' }, { id: 'tacz:laser_nightstick' }, { id: 'tacz:laser_lopro' },
-      ],
+  /** 主武器分类 */
+  primary: {
+    ak47: {
+      gunId: 'tacz:ak47',
+      GunFireMode: 'AUTO',
+      GunCurrentAmmoCount: 30,
+      HasBulletInBarrel: $ByteTag.valueOf(1),
+      ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
+      attachments: {
+        scope: [
+          { id: 'lavender:scope_rifles_x4' },
+          { id: 'lavender:scope_rifles_x2' },
+          { id: 'tacz:scope_reflex' },
+          { id: 'tacz:scope_uh1' },
+        ],
+        muzzle: [
+          { id: 'tacz:muzzle_silencer_knight_qd' },
+          { id: 'tacz:muzzle_silencer_mirage' },
+          { id: 'tacz:muzzle_brake_cthulhu' },
+          { id: 'tacz:muzzle_brake_cyclone_d2' },
+          { id: 'tacz:muzzle_brake_pioneer' },
+          { id: 'tacz:muzzle_compensator_trident' },
+          { id: 'tacz:muzzle_brake_trex' },
+        ],
+        stock: [
+          { id: 'tacz:stock_heavy' },
+          { id: 'tacz:stock_light' },
+          { id: 'tacz:stock_tactical' },
+        ],
+        extended_mag: [
+          { id: 'tacz:extended_mag_1' },
+          { id: 'tacz:extended_mag_2' },
+          { id: 'tacz:extended_mag_3' },
+        ],
+        laser: [
+          { id: 'tacz:laser_compact' },
+          { id: 'tacz:laser_nightstick' },
+          { id: 'tacz:laser_lopro' },
+        ],
+      },
     },
+    scar_l: {
+      gunId: 'tacz:scar_l',
+      GunFireMode: 'AUTO',
+      GunCurrentAmmoCount: 30,
+      HasBulletInBarrel: $ByteTag.valueOf(1),
+      ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
+      attachments: {
+        scope: [
+          { id: 'tacz:scope_reflex' },
+          { id: 'tacz:scope_uh1' },
+        ],
+        muzzle: [
+          { id: 'tacz:muzzle_silencer_knight_qd' },
+          { id: 'tacz:muzzle_silencer_mirage' },
+        ],
+        stock: [
+          { id: 'tacz:stock_heavy' },
+          { id: 'tacz:stock_light' },
+          { id: 'tacz:stock_tactical' },
+        ],
+        extended_mag: [
+          { id: 'tacz:extended_mag_1' },
+          { id: 'tacz:extended_mag_2' },
+          { id: 'tacz:extended_mag_3' },
+        ],
+        laser: [
+          { id: 'tacz:laser_compact' },
+          { id: 'tacz:laser_nightstick' },
+          { id: 'tacz:laser_lopro' },
+        ],
+      },
+    },
+    // 在此添加其他主武器:  m4a1: { ... },
   },
-  mars: {
-    gunId: 'lavender:mars',
-    ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
-    attachments: {
-      scope: [
-        { id: 'tacz:scope_reflex' }, { id: 'tacz:scope_uh1' },
-      ],
-      muzzle: [
-        { id: 'tacz:muzzle_silencer_knight_qd' }, { id: 'tacz:muzzle_silencer_mirage' },
-      ],
+
+  /** 副武器分类 */
+  secondary: {
+    mars: {
+      gunId: 'lavender:mars',
+      GunFireMode: 'SEMI',
+      GunCurrentAmmoCount: 7,
+      ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
+      attachments: {
+        scope: [
+          { id: 'tacz:scope_reflex' },
+          { id: 'tacz:scope_uh1' },
+        ],
+        muzzle: [
+          { id: 'tacz:muzzle_silencer_knight_qd' },
+          { id: 'tacz:muzzle_silencer_mirage' },
+        ],
+      },
     },
+    // 在此添加其他副武器:  glock: { ... },
   },
 }
 
@@ -124,8 +184,22 @@ function isTaczGun(wp) {
   return wp && wp.tag && wp.display === 'tacz:modern_kinetic_gun'
 }
 
+/** 从 GUN_TACZ_CONFIG 中按 weaponId 查找枪械配置（遍历 primary / secondary） */
 function getTaczConfig(weaponId) {
-  return GUN_TACZ_CONFIG[cleanId(weaponId)] || null
+  var id = cleanId(weaponId)
+  return GUN_TACZ_CONFIG.primary[id] || GUN_TACZ_CONFIG.secondary[id] || null
+}
+
+/** 根据 GUN_TACZ_CONFIG 中的枪械条目创建 tacz:modern_kinetic_gun 物品 */
+function resolveTaczGun(cfg) {
+  return Item.of('tacz:modern_kinetic_gun', {
+    custom_data: {
+      HasBulletInBarrel: $ByteTag.valueOf(1),
+      GunId: cfg.gunId,
+      GunFireMode: cfg.GunFireMode,
+      GunCurrentAmmoCount: $IntTag.valueOf(cfg.GunCurrentAmmoCount),
+    },
+  })
 }
 
 // ========== 配件改装主菜单 ==========
@@ -134,7 +208,7 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
   // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
 
-  var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
+  var cfg = getTaczConfig(weaponId)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var gunName = Text.translate(gunId.split(':')[0] + '.gun.' + gunId.split(':')[1] + '.name')
 
@@ -154,7 +228,7 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
       })
       gui.slot(8, 0, function(slot) {
         slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.exit')))
-        slot.setLeftClicked(function() { player.closeGUI() })
+        slot.setLeftClicked(function() { player.closeMenu() })
       })
 
       // 行2: 分隔
@@ -216,7 +290,7 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
   // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
 
-  var cfg = GUN_TACZ_CONFIG[cleanId(weaponId)]
+  var cfg = getTaczConfig(weaponId)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var list = cfg.attachments[slotKey] || []
   if (list.length === 0) {
