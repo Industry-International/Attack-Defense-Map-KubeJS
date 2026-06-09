@@ -65,81 +65,45 @@ const SLOT_TRANSLATE_KEY = {
 }
 
 /**
- * 共享配件池（按类型分组，多把枪可共用）
- */
-const ATTACH_POOL = {
-  scope: [
-    { id: 'scope_elcan_4x',  nameKey: 'tacz.attachment.scope_elcan_4x.name' },
-    { id: 'scope_acog_ta31', nameKey: 'tacz.attachment.scope_acog_ta31.name' },
-    { id: 'scope_hamr',      nameKey: 'tacz.attachment.scope_hamr.name' },
-    { id: 'scope_lpvo_1_6',  nameKey: 'tacz.attachment.scope_lpvo_1_6.name' },
-    { id: 'scope_retro_2x',  nameKey: 'tacz.attachment.scope_retro_2x.name' },
-    { id: 'scope_standard_8x', nameKey: 'tacz.attachment.scope_standard_8x.name' },
-    { id: 'scope_uh1',       nameKey: 'tacz.attachment.scope_uh1.name' },
-    { id: 'scope_reflex',    nameKey: 'tacz.attachment.scope_reflex.name' },
-  ],
-  muzzle: [
-    { id: 'muzzle_silencer_knight_qd', nameKey: 'tacz.attachment.muzzle_silencer_knight_qd.name' },
-    { id: 'muzzle_silencer_mirage',    nameKey: 'tacz.attachment.muzzle_silencer_mirage.name' },
-    { id: 'muzzle_brake_cthulhu',      nameKey: 'tacz.attachment.muzzle_brake_cthulhu.name' },
-    { id: 'muzzle_brake_cyclone_d2',   nameKey: 'tacz.attachment.muzzle_brake_cyclone_d2.name' },
-    { id: 'muzzle_brake_pioneer',      nameKey: 'tacz.attachment.muzzle_brake_pioneer.name' },
-    { id: 'muzzle_compensator_trident', nameKey: 'tacz.attachment.muzzle_compensator_trident.name' },
-    { id: 'muzzle_brake_trex',         nameKey: 'tacz.attachment.muzzle_brake_trex.name' },
-  ],
-  stock: [
-    { id: 'stock_heavy',    nameKey: 'tacz.attachment.stock_heavy.name' },
-    { id: 'stock_light',    nameKey: 'tacz.attachment.stock_light.name' },
-    { id: 'stock_tactical', nameKey: 'tacz.attachment.stock_tactical.name' },
-  ],
-  extended_mag: [
-    { id: 'extended_mag_1', nameKey: 'tacz.attachment.extended_mag_1.name' },
-    { id: 'extended_mag_2', nameKey: 'tacz.attachment.extended_mag_2.name' },
-    { id: 'extended_mag_3', nameKey: 'tacz.attachment.extended_mag_3.name' },
-  ],
-  grip: [
-    { id: 'grip_vertical_military', nameKey: 'tacz.attachment.grip_vertical_military.name' },
-    { id: 'grip_vertical_ranger',   nameKey: 'tacz.attachment.grip_vertical_ranger.name' },
-    { id: 'grip_magpul_afg_2',     nameKey: 'tacz.attachment.grip_magpul_afg_2.name' },
-    { id: 'grip_rk0',              nameKey: 'tacz.attachment.grip_rk0.name' },
-    { id: 'grip_rk6',              nameKey: 'tacz.attachment.grip_rk6.name' },
-    { id: 'grip_cobra',            nameKey: 'tacz.attachment.grip_cobra.name' },
-    { id: 'grip_cqr',              nameKey: 'tacz.attachment.grip_cqr.name' },
-    { id: 'grip_td',               nameKey: 'tacz.attachment.grip_td.name' },
-  ],
-  laser: [
-    { id: 'laser_compact',    nameKey: 'tacz.attachment.laser_compact.name' },
-    { id: 'laser_lopro',      nameKey: 'tacz.attachment.laser_lopro.name' },
-    { id: 'laser_peq15',      nameKey: 'tacz.attachment.laser_peq15.name' },
-    { id: 'laser_nightstick', nameKey: 'tacz.attachment.laser_nightstick.name' },
-  ],
-  bayonet: [
-    { id: 'bayonet_6h3', nameKey: 'tacz.attachment.bayonet_6h3.name' },
-    { id: 'bayonet_m9',  nameKey: 'tacz.attachment.bayonet_m9.name' },
-  ],
-  ammo_mod: [
-    { id: 'ammo_mod_fmj',  nameKey: 'tacz.attachment.ammo_mod_fmj.name' },
-    { id: 'ammo_mod_hp',   nameKey: 'tacz.attachment.ammo_mod_hp.name' },
-    { id: 'ammo_mod_i',    nameKey: 'tacz.attachment.ammo_mod_i.name' },
-    { id: 'ammo_mod_slug', nameKey: 'tacz.attachment.ammo_mod_slug.name' },
-  ],
-}
-
-/**
  * TACZ 枪械配置总表（weaponId → 配置）
- * slots: 允许的配件槽列表（引用 ATTACH_POOL）
- * ammo:  弹药配置（用于装备发放）
+ * 每把枪独立管理：配件槽白名单 + 可选配件列表 + 弹药
  */
 const GUN_TACZ_CONFIG = {
   ak47: {
     gunId: 'tacz:ak47',
-    slots: ['scope', 'stock', 'muzzle', 'extended_mag'],
     ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
+    attachments: {
+      scope: [
+        { id: 'scope_elcan_4x' }, { id: 'scope_acog_ta31' },
+        { id: 'scope_hamr' },      { id: 'scope_lpvo_1_6' },
+        { id: 'scope_retro_2x' },  { id: 'scope_standard_8x' },
+        { id: 'scope_uh1' },       { id: 'scope_reflex' },
+      ],
+      muzzle: [
+        { id: 'muzzle_silencer_knight_qd' }, { id: 'muzzle_silencer_mirage' },
+        { id: 'muzzle_brake_cthulhu' },      { id: 'muzzle_brake_cyclone_d2' },
+        { id: 'muzzle_brake_pioneer' },      { id: 'muzzle_compensator_trident' },
+        { id: 'muzzle_brake_trex' },
+      ],
+      stock: [
+        { id: 'stock_heavy' }, { id: 'stock_light' }, { id: 'stock_tactical' },
+      ],
+      extended_mag: [
+        { id: 'extended_mag_1' }, { id: 'extended_mag_2' }, { id: 'extended_mag_3' },
+      ],
+    },
   },
   mars: {
     gunId: 'lavender:mars',
-    slots: ['scope', 'muzzle'],
     ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
+    attachments: {
+      scope: [
+        { id: 'scope_reflex' }, { id: 'scope_uh1' },
+      ],
+      muzzle: [
+        { id: 'muzzle_silencer_knight_qd' }, { id: 'muzzle_silencer_mirage' },
+      ],
+    },
   },
 }
 
@@ -199,7 +163,7 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
         slot.setItem(Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: gunId, GunCurrentAmmoCount: $IntTag.valueOf(30) } }))
       })
       // 配件槽位（从配置表读取）
-      cfg.slots.forEach(function(slotKey) {
+      Object.keys(cfg.attachments).forEach(function(slotKey) {
         var pos = ATTACH_SLOT_POS[slotKey]
         if (!pos) return
         var installed = attachments[slotKey]
@@ -207,7 +171,6 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
           if (installed) {
             slot.setItem(
               Item.of('tacz:attachment', { AttachmentId: 'tacz:' + installed })
-                .withCustomName(Component.translatable('tacz.attachment.' + installed + '.name'))
                 .withLore([Component.translatable('gui.kubejs.attach.remove_hint')])
             )
             slot.setLeftClicked(function() {
@@ -243,7 +206,7 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
   var cfg = GUN_TACZ_CONFIG[weaponId]
   if (!cfg) { player.tell(Component.string('§c未找到枪械配置')); return }
-  var list = ATTACH_POOL[slotKey] || []
+  var list = cfg.attachments[slotKey] || []
   if (list.length === 0) {
     player.tell(Component.string('§c') + Component.translatable('gui.kubejs.attach.no_available'))
     return
@@ -268,11 +231,10 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
         gui.slot(col, row, function(slot) {
           slot.setItem(
             Item.of('tacz:attachment', { AttachmentId: 'tacz:' + att.id })
-              .withCustomName(Component.translatable(att.nameKey))
           )
           slot.setLeftClicked(function() {
             setGunAttachment(player, weaponId, slotKey, att.id)
-            player.tell(Component.translatable('msg.kubejs.attach.installed', Component.translatable(att.nameKey), Component.translatable(SLOT_TRANSLATE_KEY[slotKey])))
+            player.tell(Component.translatable('msg.kubejs.attach.installed', Component.translatable(SLOT_TRANSLATE_KEY[slotKey])))
             openAttachmentMenu(player, weaponId, gunId, returnPage)
           })
         })

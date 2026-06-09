@@ -101,6 +101,8 @@ function resolveOffhandWeapon(id) {
         custom_data: {
           HasBulletInBarrel: $ByteTag.valueOf(1),
           GunId: 'lavender:mars',
+          GunFireMode: 'SEMI',
+          GunCurrentAmmoCount: $IntTag.valueOf(7),
         },
       })
     default:       return null

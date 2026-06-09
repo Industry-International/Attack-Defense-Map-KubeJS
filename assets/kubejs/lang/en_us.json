@@ -57,7 +57,7 @@
   "gui.kubejs.attach.clear_all": "§c✖ Clear All Attachments",
   "gui.kubejs.attach.select_title": "§8Select ",
   "gui.kubejs.attach.no_available": "No attachments available",
-  "msg.kubejs.attach.installed": "§a✔ Installed %s on %s",
+  "msg.kubejs.attach.installed": "§a✔ Attachment installed on %s",
   "msg.kubejs.attach.removed": "§eRemoved %s",
   "msg.kubejs.attach.cleared": "§cCleared all attachments for this gun"
 }

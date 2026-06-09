@@ -57,7 +57,7 @@
   "gui.kubejs.attach.clear_all": "§c✖ 清空所有配件",
   "gui.kubejs.attach.select_title": "§8选择 ",
   "gui.kubejs.attach.no_available": "无可用配件",
-  "msg.kubejs.attach.installed": "§a✔ 已安装 %s 到 %s",
+  "msg.kubejs.attach.installed": "§a✔ 配件已安装到 %s",
   "msg.kubejs.attach.removed": "§e已拆下 %s",
   "msg.kubejs.attach.cleared": "§c已清空该枪械所有配件"
 }
