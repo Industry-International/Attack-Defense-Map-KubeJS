@@ -10,6 +10,10 @@
   "gui.kubejs.profession_select.clear": "§c✖ 取消选择",
   "gui.kubejs.profession_select.cancel_profession": "§c← 取消选择职业",
   "gui.kubejs.profession_select.status_special": "§d特殊武器",
+  "gui.kubejs.profession_select.subtitle.weapon_config": "§8武器配置",
+  "gui.kubejs.profession_select.subtitle.weapon": "§8主武器配置界面",
+  "gui.kubejs.profession_select.subtitle.offhand": "§8副武器配置界面",
+  "gui.kubejs.profession_select.subtitle.tertiary": "§8特殊武器配置界面",
 
   "profession.kubejs.assault": "§c突击兵",
   "profession.kubejs.assault.desc": "§7近距离作战，高机动",

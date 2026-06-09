@@ -296,7 +296,17 @@ function openPage(player, page) {
   // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
 
-  player.openChestGUI(Text.translate('gui.kubejs.profession_select.title'), 6, gui => {
+  // 根据页面与当前职业动态构建标题
+  var prof = cleanId(player.persistentData.profession)
+  var title
+  if (page === 'prof' || !prof) {
+    title = Text.translate('gui.kubejs.profession_select.title')
+  } else {
+    title = Text.translate('profession.kubejs.' + prof).copy()
+      .append(Text.translate('gui.kubejs.profession_select.subtitle.' + page))
+  }
+
+  player.openChestGUI(title, 6, gui => {
 
     // ----- 子页面加竖边框（武器配置页按固定布局，不额外加框） -----
     if (page !== 'prof' && page !== 'weapon_config') {
