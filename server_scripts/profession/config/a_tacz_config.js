@@ -50,7 +50,9 @@ const VANILLA_WEAPON_DISPLAY = {
   shield:   { item: 'minecraft:shield' },
   totem:    { item: 'minecraft:totem_of_undying' },
   snowball: { item: 'minecraft:snowball', i18n: true },
-  sentinel: { item: 'superbwarfare:sentinel' },
+  rpk: { item: 'superbwarfare:rpk' },
+  m_79: { item: 'superbwarfare:m_79' },
+  sks: { item: 'superbwarfare:sks' },
 }
 
 // ========== 非 TACZ 武器弹药配置 ==========
@@ -58,8 +60,11 @@ const VANILLA_WEAPON_DISPLAY = {
 // value: { item: 物品ID, count: 数量 }
 // TACZ 武器的弹药在 b_tacz_prof_*.js 的 ammo 字段中配置
 const VANILLA_WEAPON_AMMO = {
-  sentinel: { item: 'superbwarfare:ammo_sniper', count: 30 },
+  sentinel: { item: 'superbwarfare:sniper_ammo', count: 30 },
   snowball: { item: 'minecraft:snowball',        count: 16 },
+  rpk: { item: 'superbwarfare:heavy_ammo', count: 210 },
+  m_79: { item: 'superbwarfare:grenade_40mm', count: 8 },
+  sks: { item: 'superbwarfare:rifle_ammo', count: 120 },
 }
 
 // 武器配置在 prof_configs/ 目录下:

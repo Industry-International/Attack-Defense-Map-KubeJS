@@ -25,13 +25,18 @@ const PROFESSIONS = [
 
 // ========== 公共 UI 组件 ==========
 
-/** 根据武器 ID 获取显示名（TACZ 用模组内置名，非 TACZ 用 KubeJS 翻译键） */
+/** 根据武器 ID 获取显示名（TACZ 用模组内置名，非 TACZ 有 i18n 用 KubeJS 翻译键，否则用物品自身名） */
 function getWeaponName(id, category) {
   var pureId = cleanId(id)
   var taczCfg = getTaczConfig(pureId)
   if (taczCfg) {
     var p = taczCfg.gunId.split(':')
     return Text.translate(p[0] + '.gun.' + p[1] + '.name')
+  }
+  // 非 TACZ：有 i18n 标记则用 KubeJS 翻译，否则用物品自身名称
+  var dispCfg = VANILLA_WEAPON_DISPLAY[pureId]
+  if (dispCfg && !dispCfg.i18n) {
+    return Component.literal('').append(Item.of(dispCfg.item).displayName)
   }
   return Text.translate(category + '.kubejs.' + pureId)
 }
@@ -250,7 +255,7 @@ function renderWeapon(gui, player, openPage) {
       } else {
         slot.setLeftClicked(() => {
           player.persistentData.mainWeapon = wp.id
-          var wpName = Text.translate('weapon.kubejs.' + wp.id)
+          var wpName = getWeaponName(wp.id, 'weapon')
           player.tell(Text.translate('msg.kubejs.profession_select.main_weapon', wpName))
           openPage(player, 'weapon_config')
         })
@@ -291,7 +296,7 @@ function renderOffhand(gui, player, openPage) {
       } else {
         slot.setLeftClicked(() => {
           player.persistentData.offhandWeapon = wp.id
-          var wpName = Text.translate('offhand.kubejs.' + wp.id)
+          var wpName = getWeaponName(wp.id, 'offhand')
           player.tell(Text.translate('msg.kubejs.profession_select.offhand_weapon', wpName))
           openPage(player, 'weapon_config')
         })
@@ -331,7 +336,7 @@ function renderTertiary(gui, player, openPage) {
       } else {
         slot.setLeftClicked(() => {
           player.persistentData.specialWeapon = wp.id
-          var wpName = Text.translate('offhand.kubejs.' + wp.id)
+          var wpName = getWeaponName(wp.id, 'offhand')
           player.tell(Text.translate('msg.kubejs.profession_select.special_weapon', wpName))
           openPage(player, 'weapon_config')
         })

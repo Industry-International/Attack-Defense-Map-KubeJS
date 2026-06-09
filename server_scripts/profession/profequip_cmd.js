@@ -151,15 +151,22 @@ function giveTaczAmmo(player, weaponId, slot) {
   }
 }
 
-/** 给玩家发放非 TACZ 武器弹药（从 VANILLA_WEAPON_AMMO 查表） */
+/** 给玩家发放非 TACZ 武器弹药（从 VANILLA_WEAPON_AMMO 查表，超堆叠上限自动拆分） */
 function giveVanillaAmmo(player, weaponId) {
   var pureId = cleanId(weaponId)
   var ammoCfg = VANILLA_WEAPON_AMMO[pureId]
   if (!ammoCfg) return
 
-  var stack = Item.of(ammoCfg.item)
-  stack.setCount(ammoCfg.count)
-  giveToBackpack(player, stack)
+  var template = Item.of(ammoCfg.item)
+  var max = template.getMaxStackSize()
+  var remaining = ammoCfg.count
+  while (remaining > 0) {
+    var stack = template.copy()
+    var take = Math.min(remaining, max)
+    stack.setCount(take)
+    giveToBackpack(player, stack)
+    remaining -= take
+  }
 }
 
 /**
