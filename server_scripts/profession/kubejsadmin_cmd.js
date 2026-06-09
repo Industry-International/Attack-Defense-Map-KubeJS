@@ -8,8 +8,7 @@
 // 权限:     仅 OP
 // ============================================================
 
-/** 职业标签列表 */
-var PROF_TAG_LIST = ['assault', 'scout', 'medic', 'support']
+// PROF_TAG_LIST 已迁移至 config/a_tacz_config.js（共享定义）
 
 ServerEvents.basicCommand('kubejsadmin', event => {
     var player = event.getPlayer()
@@ -69,6 +68,7 @@ ServerEvents.basicCommand('kubejsadmin', event => {
             delete p.persistentData.profession
             delete p.persistentData.mainWeapon
             delete p.persistentData.offhandWeapon
+            delete p.persistentData.specialWeapon
             count++
         })
         player.tell(Component.translatable('msg.kubejsadmin.clear.profession', count))

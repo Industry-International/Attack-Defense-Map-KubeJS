@@ -1,5 +1,5 @@
 // ============================================================
-// TACZ 枪械配置 + 配件改装 GUI（独立模块，需最先加载）
+// TACZ 共享工具 + 配件改装 GUI + 武器配置总表
 // ============================================================
 
 const $ByteTag = Java.loadClass('net.minecraft.nbt.ByteTag')
@@ -14,8 +14,10 @@ const PANE = {
   gray:  filler('minecraft:gray_stained_glass_pane'),
 }
 
-// ========== 布局 ==========
+// ========== 职业标签列表 ==========
+const PROF_TAG_LIST = ['assault', 'scout', 'medic', 'support']
 
+// ========== 布局 ==========
 const ATTACH_SLOT_POS = {
   scope:        { col: 2, row: 1 },
   muzzle:       { col: 4, row: 1 },
@@ -39,109 +41,31 @@ const SLOT_TRANSLATE_KEY = {
   ammo_mod:     'gui.kubejs.attach.slot.ammo_mod',//弹药
 }
 
-// ========== 枪械配置总表（按主/副武器分类）=========
-
-const GUN_TACZ_CONFIG = {
-  /** 主武器分类 */
-  primary: {
-    ak47: {
-      gunId: 'tacz:ak47',
-      GunFireMode: 'AUTO',
-      GunCurrentAmmoCount: 30,
-      HasBulletInBarrel: $ByteTag.valueOf(1),
-      ammo: { ammoId: 'tacz:762x39', main: 210, level: 2 },
-      attachments: {
-        scope: [
-          { id: 'lavender:scope_rifles_x4' },
-          { id: 'lavender:scope_rifles_x2' },
-          { id: 'tacz:scope_reflex' },
-          { id: 'tacz:scope_uh1' },
-        ],
-        muzzle: [
-          { id: 'tacz:muzzle_silencer_knight_qd' },
-          { id: 'tacz:muzzle_silencer_mirage' },
-          { id: 'tacz:muzzle_brake_cthulhu' },
-          { id: 'tacz:muzzle_brake_cyclone_d2' },
-          { id: 'tacz:muzzle_brake_pioneer' },
-          { id: 'tacz:muzzle_compensator_trident' },
-          { id: 'tacz:muzzle_brake_trex' },
-        ],
-        stock: [
-          { id: 'tacz:stock_heavy' },
-          { id: 'tacz:stock_light' },
-          { id: 'tacz:stock_tactical' },
-        ],
-        extended_mag: [
-          { id: 'tacz:extended_mag_1' },
-          { id: 'tacz:extended_mag_2' },
-          { id: 'tacz:extended_mag_3' },
-        ],
-        laser: [
-          { id: 'tacz:laser_compact' },
-          { id: 'tacz:laser_nightstick' },
-          { id: 'tacz:laser_lopro' },
-        ],
-      },
-    },
-    scar_l: {
-      gunId: 'tacz:scar_l',
-      GunFireMode: 'AUTO',
-      GunCurrentAmmoCount: 30,
-      HasBulletInBarrel: $ByteTag.valueOf(1),
-      ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
-      attachments: {
-        scope: [
-          { id: 'tacz:scope_reflex' },
-          { id: 'tacz:scope_uh1' },
-        ],
-        muzzle: [
-          { id: 'tacz:muzzle_silencer_knight_qd' },
-          { id: 'tacz:muzzle_silencer_mirage' },
-        ],
-        stock: [
-          { id: 'tacz:stock_heavy' },
-          { id: 'tacz:stock_light' },
-          { id: 'tacz:stock_tactical' },
-        ],
-        extended_mag: [
-          { id: 'tacz:extended_mag_1' },
-          { id: 'tacz:extended_mag_2' },
-          { id: 'tacz:extended_mag_3' },
-        ],
-        laser: [
-          { id: 'tacz:laser_compact' },
-          { id: 'tacz:laser_nightstick' },
-          { id: 'tacz:laser_lopro' },
-        ],
-      },
-    },
-    // 在此添加其他主武器:  m4a1: { ... },
-  },
-
-  /** 副武器分类 */
-  secondary: {
-    mars: {
-      gunId: 'lavender:mars',
-      GunFireMode: 'SEMI',
-      GunCurrentAmmoCount: 7,
-      ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
-      attachments: {
-        scope: [
-          { id: 'tacz:scope_reflex' },
-          { id: 'tacz:scope_uh1' },
-        ],
-        muzzle: [
-          { id: 'tacz:muzzle_silencer_knight_qd' },
-          { id: 'tacz:muzzle_silencer_mirage' },
-        ],
-      },
-    },
-    // 在此添加其他副武器:  glock: { ... },
-  },
+const PROF_CONFIGS = {}
+const VANILLA_WEAPON_DISPLAY = {
+  sword:    { item: 'minecraft:iron_sword' },
+  bow:      { item: 'minecraft:bow' },
+  crossbow: { item: 'minecraft:crossbow' },
+  trident:  { item: 'minecraft:trident' },
+  shield:   { item: 'minecraft:shield' },
+  totem:    { item: 'minecraft:totem_of_undying' },
+  snowball: { item: 'minecraft:snowball', i18n: true },
 }
 
-// ========== 持久化 ==========
+// ========== 非 TACZ 武器弹药配置 ==========
+// key: 武器 ID (与 VANILLA_WEAPON_DISPLAY 一致)
+// value: { item: 物品ID, count: 数量 }
+// TACZ 武器的弹药在 b_tacz_prof_*.js 的 ammo 字段中配置
+const VANILLA_WEAPON_AMMO = {
+  snowball: { item: 'minecraft:snowball', count: 16 },
+}
 
+// 武器配置在 prof_configs/ 目录下:
+//   b_tacz_prof_assault.js / _medic.js / _scout.js / _support.js
+// 构建在 prof_configs/z_tacz_config_build.js
+// 各文件通过 PROF_CONFIGS.xxx = { guns:..., weapons:... } 注入数据
+
+// ========== 持久化 ==========
 function getGunAttachments(player, weaponId) {
   var raw
   try { raw = player.persistentData.getString('taczAttachments') } catch(e) { raw = null }
@@ -152,7 +76,6 @@ function getGunAttachments(player, weaponId) {
     return {}
   }
 }
-
 function setGunAttachment(player, weaponId, slotKey, attachmentId) {
   var existing = ''
   try { existing = player.persistentData.getString('taczAttachments') } catch(e) {}
@@ -163,7 +86,6 @@ function setGunAttachment(player, weaponId, slotKey, attachmentId) {
   else delete all[weaponId][slotKey]
   try { player.persistentData.putString('taczAttachments', JSON.stringify(all)) } catch(e) {}
 }
-
 function clearGunAttachments(player, weaponId) {
   try {
     var existing = player.persistentData.getString('taczAttachments')
@@ -172,53 +94,51 @@ function clearGunAttachments(player, weaponId) {
     player.persistentData.putString('taczAttachments', JSON.stringify(all))
   } catch(e) {}
 }
-
-// ========== 帮助函数 ==========
-
-/** weaponId 清洗：去空白、去首尾引号 */
-function cleanId(raw) {
-  return String(raw || '').trim().replace(/^['"]|['"]$/g, '')
+function saveGunAttachments(player, weaponId) {
+  var pureId = cleanId(weaponId)
+  try {
+    var raw = player.persistentData.getString('taczAttachments')
+    if (!raw || raw === '') { player.tell(Component.translatable('msg.kubejs.attach.nothing_to_save')); return }
+    var all = JSON.parse(raw)
+    if (all[pureId] && Object.keys(all[pureId]).length > 0) {
+      player.persistentData.putString('taczAttachments', JSON.stringify(all))
+      player.tell(Component.translatable('msg.kubejs.attach.saved'))
+    } else {
+      player.tell(Component.translatable('msg.kubejs.attach.nothing_to_save'))
+    }
+  } catch(e) {
+    player.tell(Component.literal('§cSave failed'))
+  }
 }
 
+// ========== 帮助函数 ==========
+function cleanId(raw) {
+  return String(raw || '').trim().replace(/^['\"]|['\"]$/g, '')
+}
 function isTaczGun(wp) {
   return wp && wp.tag && wp.display === 'tacz:modern_kinetic_gun'
 }
-
-/** 从 GUN_TACZ_CONFIG 中按 weaponId 查找枪械配置（遍历 primary / secondary） */
-function getTaczConfig(weaponId) {
-  var id = cleanId(weaponId)
-  return GUN_TACZ_CONFIG.primary[id] || GUN_TACZ_CONFIG.secondary[id] || null
-}
-
-/** 根据 GUN_TACZ_CONFIG 中的枪械条目创建 tacz:modern_kinetic_gun 物品 */
 function resolveTaczGun(cfg) {
   return Item.of('tacz:modern_kinetic_gun', {
     custom_data: {
       HasBulletInBarrel: $ByteTag.valueOf(1),
-      GunId: cfg.gunId,
-      GunFireMode: cfg.GunFireMode,
+      GunId: cfg.gunId, GunFireMode: cfg.GunFireMode,
       GunCurrentAmmoCount: $IntTag.valueOf(cfg.GunCurrentAmmoCount),
     },
   })
 }
 
 // ========== 配件改装主菜单 ==========
-
 function openAttachmentMenu(player, weaponId, gunId, returnPage) {
-  // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
-
   var cfg = getTaczConfig(weaponId)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var gunName = Text.translate(gunId.split(':')[0] + '.gun.' + gunId.split(':')[1] + '.name')
-
   player.openChestGUI(
     Component.literal('§8').append(gunName).append(Component.literal(' §7')).append(Component.translatable('gui.kubejs.attach.title_suffix')),
     6,
     function(gui) {
       var attachments = getGunAttachments(player, weaponId)
-
-      // 行0
       gui.slot(0, 0, function(slot) {
         slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
         slot.setLeftClicked(function() { openPage(player, returnPage) })
@@ -230,26 +150,16 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
         slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.exit')))
         slot.setLeftClicked(function() { player.closeMenu() })
       })
-
-      // 行2: 分隔
       for (var x = 1; x < 8; x++) gui.slot(x, 2, function(s) { s.setItem(PANE.gray) })
-
-      // 枪械本体
       gui.slot(4, 3, function(slot) {
         slot.setItem(Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: gunId, GunCurrentAmmoCount: $IntTag.valueOf(30) } }))
       })
-
-      // 配件槽位
       var slotKeys = Object.keys(cfg.attachments)
       for (var s = 0; s < slotKeys.length; s++) {
-        var sk = slotKeys[s]
-        var pos = ATTACH_SLOT_POS[sk]
+        var sk = slotKeys[s]; var pos = ATTACH_SLOT_POS[sk]
         if (!pos) continue
-        var ins = attachments[sk]
-        gui.slot(pos.col, pos.row, makeSlotCb(sk, ins, player, weaponId, gunId, returnPage))
+        gui.slot(pos.col, pos.row, makeSlotCb(sk, attachments[sk], player, weaponId, gunId, returnPage))
       }
-
-      // 清空全部
       gui.slot(8, 5, function(slot) {
         slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.clear_all')))
         slot.setLeftClicked(function() {
@@ -258,16 +168,18 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
           openAttachmentMenu(player, weaponId, gunId, returnPage)
         })
       })
+      // 左下角保存按钮（保底存档）
+      gui.slot(0, 5, function(slot) {
+        slot.setItem(Item.of('minecraft:written_book').withCustomName(Component.translatable('gui.kubejs.attach.save')))
+        slot.setLeftClicked(function() { saveGunAttachments(player, weaponId) })
+      })
     }
   )
 }
-
 function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
   return function(slot) {
     if (ins) {
-      slot.setItem(
-        Item.of('tacz:attachment', { custom_data: { AttachmentId: ins } })
-      )
+      slot.setItem(Item.of('tacz:attachment', { custom_data: { AttachmentId: ins } }).withLore([Component.translatable('gui.kubejs.attach.right_click_remove')]))
     } else {
       slot.setItem(
         Item.of('minecraft:barrier')
@@ -275,21 +187,20 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
           .withLore([Component.translatable('gui.kubejs.attach.select_hint')])
       )
     }
-    // 无论槽位状态，左键一律打开配件选择子页面
-    slot.setLeftClicked(function() {
-      openAttachmentSelect(player, weaponId, gunId, sk, returnPage)
+    slot.setLeftClicked(function() { openAttachmentSelect(player, weaponId, gunId, sk, returnPage) })
+    slot.setRightClicked(function() {
+      if (ins) {
+        setGunAttachment(player, weaponId, sk, null)
+        player.tell(Component.translatable('msg.kubejs.attach.removed', Component.translatable(SLOT_TRANSLATE_KEY[sk])))
+        openAttachmentMenu(player, weaponId, gunId, returnPage)
+      }
     })
   }
 }
 
 // ========== 配件选择列表（二级界面）==========
-// 显示该槽位可用配件，依次排列，空位用屏障填充，点击即安装
-// 任何 ID 错误都不会阻止界面打开，错误ID用屏障显示
-
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
-  // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
-
   var cfg = getTaczConfig(weaponId)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var list = cfg.attachments[slotKey] || []
@@ -297,24 +208,17 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
     player.tell(Component.literal('§c').append(Component.translatable('gui.kubejs.attach.no_available')))
     return
   }
-
   var rows = Math.max(3, Math.ceil(list.length / 7) + 2)
   var title = Component.translatable('gui.kubejs.attach.select_title').append(Component.translatable(SLOT_TRANSLATE_KEY[slotKey]))
-
   player.openChestGUI(title, rows, function(gui) {
-    // 顶部和底部边框
     for (var x = 0; x < 9; x++) {
       gui.slot(x, 0, function(s) { s.setItem(PANE.gray) })
       gui.slot(x, rows - 1, function(s) { s.setItem(PANE.gray) })
     }
-
-    // [← 返回] 按钮
     gui.slot(0, 0, function(slot) {
       slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
       slot.setLeftClicked(function() { openAttachmentMenu(player, weaponId, gunId, returnPage) })
     })
-
-    // 配件网格：点击即安装
     for (var i = 0; i < list.length; i++) {
       (function(att, col, row) {
         gui.slot(col, row, function(slot) {
@@ -327,8 +231,6 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
         })
       })(list[i], 1 + (i % 7), 1 + Math.floor(i / 7))
     }
-
-    // 空位填充屏障
     for (var r = 1; r < rows - 1; r++) {
       for (var c = 1; c <= 7; c++) {
         var idx = (r - 1) * 7 + (c - 1)
@@ -341,3 +243,5 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
     }
   })
 }
+
+// 汇总构建 + 查表函数已移至 z_tacz_config_build.js（最后加载）

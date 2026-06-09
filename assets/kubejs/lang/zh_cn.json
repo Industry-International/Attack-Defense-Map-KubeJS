@@ -8,6 +8,14 @@
   "gui.kubejs.profession_select.none": "§7未选择",
   "gui.kubejs.profession_select.back": "§c← 返回",
   "gui.kubejs.profession_select.clear": "§c✖ 取消选择",
+  "gui.kubejs.profession_select.cancel_profession": "§c← 取消选择职业",
+  "gui.kubejs.profession_select.status_special": "§d特殊武器",
+  "gui.kubejs.profession_select.subtitle.weapon_config": "§8武器配置",
+  "gui.kubejs.profession_select.subtitle.weapon": "§8主武器配置界面",
+  "gui.kubejs.profession_select.subtitle.offhand": "§8副武器配置界面",
+  "gui.kubejs.profession_select.subtitle.tertiary": "§8特殊武器配置界面",
+
+  "gui.kubejs.profession_select.hint": "§7左键进入选择，右键清空武器选择",
 
   "profession.kubejs.assault": "§c突击兵",
   "profession.kubejs.assault.desc": "§7近距离作战，高机动",
@@ -25,11 +33,17 @@
 
   "offhand.kubejs.shield": "§6盾牌",
   "offhand.kubejs.totem": "§e不死图腾",
+  "offhand.kubejs.snowball": "§f雪球",
+  "offhand.kubejs.sentinel": "§d哨兵狙击步枪",
 
   "msg.kubejs.profession_select.selected": "§a[职业选择] 已选择: %s",
   "msg.kubejs.profession_select.main_weapon": "§a[职业选择] 主武器: %s",
   "msg.kubejs.profession_select.offhand_weapon": "§a[职业选择] 副武器: %s",
+  "msg.kubejs.profession_select.special_weapon": "§a[职业选择] 特殊武器: %s",
   "msg.kubejs.profession_select.cleared": "§c[职业选择] 已清除所有选择",
+  "msg.kubejs.profession_select.main_cleared": "§e已清空主武器选择",
+  "msg.kubejs.profession_select.offhand_cleared": "§e已清空副武器选择",
+  "msg.kubejs.profession_select.special_cleared": "§e已清空特殊武器选择",
   "item.kubejs.menu": "§6菜 单",
   "menu.title": "§6队伍选择",
   "menu.back": "§7← 返回",
@@ -50,7 +64,7 @@
   "gui.kubejs.attach.back": "§c← 返回",
   "gui.kubejs.attach.exit": "§c✖ 退出",
   "gui.kubejs.attach.title_suffix": "配件配置",
-  "gui.kubejs.attach.hint": "§7左键空槽选择配件，左键已装拆卸",
+  "gui.kubejs.attach.hint": "§7左键空槽选择配件，右键已装拆卸",
   "gui.kubejs.attach.select_hint": "§7点击选择配件",
   "gui.kubejs.attach.select_prefix": "§8选择 ",
   "gui.kubejs.attach.remove_hint": "§7点击拆卸",
@@ -68,9 +82,17 @@
   "msg.kubejs.attach.installed": "§a✔ 配件已安装到 %s",
   "msg.kubejs.attach.removed": "§e已拆下 %s",
   "msg.kubejs.attach.cleared": "§c已清空该枪械所有配件",
+  "msg.kubejs.attach.saved": "§a✔ 配件配置已保存！",
+  "msg.kubejs.attach.nothing_to_save": "§e没有需要保存的配件",
+  "gui.kubejs.attach.save": "§a✔ 保存配件",
+  "gui.kubejs.attach.right_click_remove": "§7右键卸载",
   "gui.kubejs.attach.confirm": "§a✔ 确认",
   "gui.kubejs.attach.selected": "§e已选择",
   "gui.kubejs.attach.none_selected": "§7未选择",
   "msg.kubejs.attach.select_first": "§c请先选择一个配件",
-  "gui.kubejs.attach.selected_mark": "§a✔ 当前选中"
+  "gui.kubejs.attach.selected_mark": "§a✔ 当前选中",
+
+  "msg.kubejs.profession_select.select_first": "§c请先选择兵种！",
+  "msg.kubejs.profession_select.no_weapons": "§c该兵种暂无可用武器！",
+  "msg.kubejs.profession_select.select_main_first": "§c请先选择主武器！"
 }
