@@ -107,40 +107,27 @@ function resolveOffhandWeapon(id) {
   }
 }
 
-// ========== 3. TACZ 弹药配置 ==========
-
-/**
- * 弹药配置
- *   ammoId      — 弹药类型
- *   main        — 主武器弹药盒装弹量
- *   offhand     — 副武器弹药盒装弹量
- *   level       — 弹药盒等级（2=钻石）
- */
-const TACZ_AMMO = {
-  ak47: { ammoId: 'tacz:762x39', main: 210, level: 2 },
-  mars: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
-}
+// ========== 3. TACZ 弹药发放 ==========
+// 弹药配置统一在 profession_gui.js 的 GUN_TACZ_CONFIG 中管理
 
 /** 给玩家发放一个弹药盒（主手/副手各一盒） */
 function giveAmmoBox(player, weaponId, slot) {
-  // 1. 强制转字符串 + 清除首尾空白
-  let pureId = String(weaponId || "").trim();
-  // 2. 移除 首尾英文双引号 " （核心修复）
-  pureId = pureId.replace(/^"|"$/g, "");
-  var cfg = TACZ_AMMO[pureId]
-
-  if (!cfg) {
-    player.tell(Component.string(`§c❌ 匹配失败：在 TACZ_AMMO 中未找到该武器配置`));
-    player.tell(Component.string(`§7==============================`));
+  var pureId = String(weaponId || '').trim().replace(/^"|"$/g, '')
+  var cfg = getTaczConfig(pureId)
+  if (!cfg || !cfg.ammo) {
+    player.tell(Component.string('§c❌ 未找到 [' + pureId + '] 的弹药配置'))
     return
   }
 
-  var total = slot === 'main' ? cfg.main : cfg.offhand
+  var ammo = cfg.ammo
+  var total = slot === 'main' ? ammo.main : ammo.offhand
+  if (!total) return
+
   var box = Item.of('tacz:ammo_box', {
     custom_data: {
       AmmoCount: $IntTag.valueOf(total),
-      AmmoId: cfg.ammoId,
-      Level: $IntTag.valueOf(cfg.level)
+      AmmoId: ammo.ammoId,
+      Level: $IntTag.valueOf(ammo.level),
     },
   })
   player.give(box)

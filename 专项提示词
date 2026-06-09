@@ -9,3 +9,9 @@ tacz 配件实际上用的是同一个注册名，然后用nbt区分
 tacz:attachment
 AttachmentId: "tacz:extended_mag_3"
 custom_data={AttachmentId: "tacz:extended_mag_3"}
+
+配件逻辑
+tacz 枪械配置中包含配件配置
+以表的形式存储 每把枪都单独配置
+
+tacz的相关物品除非特殊要求，否则一律不需要额外的i18n
