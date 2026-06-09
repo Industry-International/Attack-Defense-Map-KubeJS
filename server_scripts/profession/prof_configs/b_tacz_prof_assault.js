@@ -5,6 +5,14 @@
 // scar_l:  ●     ●     ●    ○    ●      ●            ○      ○
 // mars:    ●     ●     ○    ○    ○      ○            ○      ○
 // ============================================================
+  // scope：瞄具
+  // muzzle：枪口
+  // stock：枪托
+  // grip：握把
+  // laser：激光
+  // extended_mag：弹匣
+  // bayonet：刺刀
+  // ammo_mod：弹药
 PROF_CONFIGS.assault = {
   guns: {
     primary: {
