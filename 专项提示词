@@ -15,3 +15,6 @@ tacz 枪械配置中包含配件配置
 以表的形式存储 每把枪都单独配置
 
 tacz的相关物品除非特殊要求，否则一律不需要额外的i18n
+
+原始值输出
+player.tell(Component.string('§e[DEBUG] installed = ' + installed));
