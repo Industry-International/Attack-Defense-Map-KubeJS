@@ -297,7 +297,6 @@ function renderOffhand(gui, player, openPage) {
   drawBackButton(gui, player, 'weapon_config')
   var prof = player.persistentData.profession
   if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'prof'); return }
-  if (!player.persistentData.mainWeapon) { player.tell(Text.translate('msg.kubejs.profession_select.select_main_first')); openPage(player, 'weapon_config'); return }
   var offList = getProfessionWeaponList(prof, 'secondary')
   if (offList.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'weapon_config'); return }
   const start = Math.floor((9 - offList.length) / 2)
