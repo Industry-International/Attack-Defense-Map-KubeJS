@@ -122,5 +122,21 @@
 
   "gui.kubejs.profession_select.subtitle.backpack_load": "§8Load Backpack",
   "gui.kubejs.profession_select.subtitle.backpack_save": "§8Save Backpack",
-  "gui.kubejs.profession_select.subtitle.backpack_delete": "§8Delete Backpack"
+  "gui.kubejs.profession_select.subtitle.backpack_delete": "§8Delete Backpack",
+
+  "item.kubejs.team_selector": "§6Team Selector",
+
+  "gui.kubejs.team_select.title": "§8Team Selection",
+  "gui.kubejs.team_select.back": "§c← Back",
+  "gui.kubejs.team_select.exit": "§c✖ Exit",
+  "gui.kubejs.team_select.attack": "§c§l⚔ ATTACK",
+  "gui.kubejs.team_select.defense": "§9§l🛡 DEFENSE",
+  "gui.kubejs.team_select.current": "§eCurrent Team",
+  "gui.kubejs.team_select.spectator": "§7👁 SPECTATOR",
+  "gui.kubejs.team_select.none": "§7None",
+  "gui.kubejs.team_select.leave": "§c✖ Leave Team",
+
+  "msg.kubejs.team_select.joined_attack": "§a✔ Joined §c§lATTACK§a!",
+  "msg.kubejs.team_select.joined_defense": "§a✔ Joined §9§lDEFENSE§a!",
+  "msg.kubejs.team_select.cleared": "§e✔ Left the team"
 }

@@ -44,7 +44,7 @@
   "msg.kubejs.profession_select.main_cleared": "§e已清空主武器选择",
   "msg.kubejs.profession_select.offhand_cleared": "§e已清空副武器选择",
   "msg.kubejs.profession_select.special_cleared": "§e已清空特殊武器选择",
-  "item.kubejs.menu": "§6菜 单",
+  "item.kubejs.team_selector": "§6队伍选择器",
   "menu.title": "§6队伍选择",
   "menu.back": "§7← 返回",
   "menu.clear": "§c✖ 退出队伍",
@@ -122,5 +122,19 @@
 
   "gui.kubejs.profession_select.subtitle.backpack_load": "§8加载背包",
   "gui.kubejs.profession_select.subtitle.backpack_save": "§8保存背包",
-  "gui.kubejs.profession_select.subtitle.backpack_delete": "§8删除背包"
+  "gui.kubejs.profession_select.subtitle.backpack_delete": "§8删除背包",
+
+  "gui.kubejs.team_select.title": "§8队伍选择",
+  "gui.kubejs.team_select.back": "§c← 返回",
+  "gui.kubejs.team_select.exit": "§c✖ 退出",
+  "gui.kubejs.team_select.attack": "§c§l⚔ 进 攻 方",
+  "gui.kubejs.team_select.defense": "§9§l🛡 防 守 方",
+  "gui.kubejs.team_select.current": "§e当前队伍",
+  "gui.kubejs.team_select.spectator": "§7👁 观 战",
+  "gui.kubejs.team_select.none": "§7未选择",
+  "gui.kubejs.team_select.leave": "§c✖ 退出队伍",
+
+  "msg.kubejs.team_select.joined_attack": "§a✔ 已加入 §c§l进攻方§a！",
+  "msg.kubejs.team_select.joined_defense": "§a✔ 已加入 §9§l防守方§a！",
+  "msg.kubejs.team_select.cleared": "§e✔ 已退出队伍"
 }
