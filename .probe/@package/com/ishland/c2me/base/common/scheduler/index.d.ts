@@ -8,10 +8,10 @@ declare module "@package/com/ishland/c2me/base/common/scheduler" {
         enqueue(task: $AbstractPosAwarePrioritizedTask): void;
         enqueue(pos: number, command: $Runnable_): void;
         getId(): number;
-        setConsolidatingLevelUpdates(value: boolean): void;
-        positionedExecutor(pos: number): $Executor;
-        setCurrentSyncLoad(pos: $ChunkPos): void;
         updatePriorityFromLevelOnMain(pos: number, level: number): void;
+        setConsolidatingLevelUpdates(value: boolean): void;
+        setCurrentSyncLoad(pos: $ChunkPos): void;
+        positionedExecutor(pos: number): $Executor;
         updatePriorityFromLevel(pos: number, level: number): void;
         static MAX_LEVEL: number;
         constructor(executor: $Executor_);

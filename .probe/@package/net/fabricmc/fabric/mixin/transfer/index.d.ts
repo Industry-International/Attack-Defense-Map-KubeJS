@@ -21,7 +21,7 @@ declare module "@package/net/fabricmc/fabric/mixin/transfer" {
     export class $DoubleInventoryAccessor {
     }
     export interface $DoubleInventoryAccessor {
-        fabric_getFirst(): $Container;
         fabric_getSecond(): $Container;
+        fabric_getFirst(): $Container;
     }
 }

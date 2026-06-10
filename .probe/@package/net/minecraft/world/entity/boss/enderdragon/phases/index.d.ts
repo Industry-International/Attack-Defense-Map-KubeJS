@@ -14,18 +14,18 @@ declare module "@package/net/minecraft/world/entity/boss/enderdragon/phases" {
         end(): void;
         getPhase(): $EnderDragonPhase<$DragonPhaseInstance>;
         getFlyTargetLocation(): $Vec3;
+        onCrystalDestroyed(arg0: $EndCrystal, arg1: $BlockPos_, arg2: $DamageSource_, arg3: $Player): void;
+        getTurnSpeed(): number;
+        doClientTick(): void;
+        getFlySpeed(): number;
+        doServerTick(): void;
         onHurt(arg0: $DamageSource_, arg1: number): number;
         isSitting(): boolean;
-        onCrystalDestroyed(arg0: $EndCrystal, arg1: $BlockPos_, arg2: $DamageSource_, arg3: $Player): void;
-        getFlySpeed(): number;
-        getTurnSpeed(): number;
-        doServerTick(): void;
-        doClientTick(): void;
         get phase(): $EnderDragonPhase<$DragonPhaseInstance>;
         get flyTargetLocation(): $Vec3;
-        get sitting(): boolean;
-        get flySpeed(): number;
         get turnSpeed(): number;
+        get flySpeed(): number;
+        get sitting(): boolean;
     }
     export class $DragonLandingPhase extends $AbstractDragonPhaseInstance {
         dragon: $EnderDragon;
@@ -51,8 +51,8 @@ declare module "@package/net/minecraft/world/entity/boss/enderdragon/phases" {
         constructor(arg0: $EnderDragon);
     }
     export class $EnderDragonPhaseManager {
-        getPhase<T extends $DragonPhaseInstance>(arg0: $EnderDragonPhase<T>): T;
         getCurrentPhase(): $DragonPhaseInstance;
+        getPhase<T extends $DragonPhaseInstance>(arg0: $EnderDragonPhase<T>): T;
         setPhase(arg0: $EnderDragonPhase<never>): void;
         constructor(arg0: $EnderDragon);
         get currentPhase(): $DragonPhaseInstance;
@@ -112,18 +112,18 @@ declare module "@package/net/minecraft/world/entity/boss/enderdragon/phases" {
         begin(): void;
         end(): void;
         getFlyTargetLocation(): $Vec3;
+        onCrystalDestroyed(arg0: $EndCrystal, arg1: $BlockPos_, arg2: $DamageSource_, arg3: $Player): void;
+        getTurnSpeed(): number;
+        doClientTick(): void;
+        getFlySpeed(): number;
+        doServerTick(): void;
         onHurt(arg0: $DamageSource_, arg1: number): number;
         isSitting(): boolean;
-        onCrystalDestroyed(arg0: $EndCrystal, arg1: $BlockPos_, arg2: $DamageSource_, arg3: $Player): void;
-        getFlySpeed(): number;
-        getTurnSpeed(): number;
-        doServerTick(): void;
-        doClientTick(): void;
         dragon: $EnderDragon;
         constructor(arg0: $EnderDragon);
         get flyTargetLocation(): $Vec3;
-        get sitting(): boolean;
-        get flySpeed(): number;
         get turnSpeed(): number;
+        get flySpeed(): number;
+        get sitting(): boolean;
     }
 }

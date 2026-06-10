@@ -1,6 +1,6 @@
 import { $Comparable } from "@package/java/lang";
 import { $Pointer_, $CustomBuffer } from "@package/org/lwjgl/system";
-import { $FloatBuffer, $DoubleBuffer, $ByteBuffer, $ShortBuffer, $IntBuffer, $LongBuffer } from "@package/java/nio";
+import { $DoubleBuffer, $FloatBuffer, $ByteBuffer, $ShortBuffer, $IntBuffer, $LongBuffer } from "@package/java/nio";
 export * as util from "@package/org/lwjgl/util";
 export * as system from "@package/org/lwjgl/system";
 export * as glfw from "@package/org/lwjgl/glfw";
@@ -58,25 +58,25 @@ declare module "@package/org/lwjgl" {
         getByteBuffer(arg0: number, arg1: number): $ByteBuffer;
         getByteBuffer(arg0: number): $ByteBuffer;
         static allocateDirect(arg0: number): $PointerBuffer;
-        getShortBuffer(arg0: number): $ShortBuffer;
-        getShortBuffer(arg0: number, arg1: number): $ShortBuffer;
-        getDoubleBuffer(arg0: number, arg1: number): $DoubleBuffer;
-        getDoubleBuffer(arg0: number): $DoubleBuffer;
         getPointerBuffer(arg0: number, arg1: number): $PointerBuffer;
         getPointerBuffer(arg0: number): $PointerBuffer;
-        getStringUTF8(arg0: number): string;
-        getStringUTF8(): string;
         getStringUTF16(): string;
         getStringUTF16(arg0: number): string;
-        putAddressOf(arg0: $CustomBuffer<never>): $PointerBuffer;
-        putAddressOf(arg0: number, arg1: $CustomBuffer<never>): $PointerBuffer;
+        getStringASCII(arg0: number): string;
+        getStringASCII(): string;
         getFloatBuffer(arg0: number): $FloatBuffer;
         getFloatBuffer(arg0: number, arg1: number): $FloatBuffer;
-        getStringASCII(): string;
-        getStringASCII(arg0: number): string;
+        getDoubleBuffer(arg0: number): $DoubleBuffer;
+        getDoubleBuffer(arg0: number, arg1: number): $DoubleBuffer;
+        getLongBuffer(arg0: number, arg1: number): $LongBuffer;
+        getLongBuffer(arg0: number): $LongBuffer;
+        putAddressOf(arg0: number, arg1: $CustomBuffer<never>): $PointerBuffer;
+        putAddressOf(arg0: $CustomBuffer<never>): $PointerBuffer;
+        getShortBuffer(arg0: number, arg1: number): $ShortBuffer;
+        getShortBuffer(arg0: number): $ShortBuffer;
+        getStringUTF8(): string;
+        getStringUTF8(arg0: number): string;
         getIntBuffer(arg0: number): $IntBuffer;
         getIntBuffer(arg0: number, arg1: number): $IntBuffer;
-        getLongBuffer(arg0: number): $LongBuffer;
-        getLongBuffer(arg0: number, arg1: number): $LongBuffer;
     }
 }

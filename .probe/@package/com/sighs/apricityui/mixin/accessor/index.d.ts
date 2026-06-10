@@ -6,19 +6,19 @@ declare module "@package/com/sighs/apricityui/mixin/accessor" {
     export class $AbstractContainerScreenAccessor {
     }
     export interface $AbstractContainerScreenAccessor {
+        apricityui$getClickedSlot(): $Slot;
+        apricityui$getDraggingItem(): $ItemStack;
+        apricityui$isQuickCrafting(): boolean;
         apricityui$getQuickCraftingType(): number;
         apricityui$isSplittingStack(): boolean;
         apricityui$getQuickCraftSlots(): $Set<$Slot>;
-        apricityui$getDraggingItem(): $ItemStack;
-        apricityui$getClickedSlot(): $Slot;
-        apricityui$isQuickCrafting(): boolean;
     }
     export class $SlotAccessor {
     }
     export interface $SlotAccessor {
-        setY(arg0: number): void;
         setX(arg0: number): void;
-        set y(value: number);
+        setY(arg0: number): void;
         set x(value: number);
+        set y(value: number);
     }
 }

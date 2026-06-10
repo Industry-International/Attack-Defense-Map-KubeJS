@@ -43,9 +43,9 @@ declare module "@package/net/minecraft/world/entity/ai/gossip" {
         update(arg0: $Dynamic<never>): void;
         store<T>(arg0: $DynamicOps<T>): T;
         add(arg0: $UUID_, arg1: $GossipType_, arg2: number): void;
+        getReputation(arg0: $UUID_, arg1: $Predicate_<$GossipType>): number;
         transferFrom(arg0: $GossipContainer, arg1: $RandomSource, arg2: number): void;
         decay(): void;
-        getReputation(arg0: $UUID_, arg1: $Predicate_<$GossipType>): number;
         getGossipEntries(): $Map<$UUID, $Object2IntMap<$GossipType>>;
         getCountForType(arg0: $GossipType_, arg1: $DoublePredicate_): number;
         static DISCARD_THRESHOLD: number;

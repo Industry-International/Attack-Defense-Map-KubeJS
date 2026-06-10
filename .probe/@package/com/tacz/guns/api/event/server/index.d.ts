@@ -11,9 +11,9 @@ declare module "@package/com/tacz/guns/api/event/server" {
         getLevel(): $Level;
         getHitResult(): $BlockHitResult;
         getAmmo(): $EntityKineticBullet;
-        postEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
         postClientEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
         postServerEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
+        postEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $Level_, arg1: $BlockHitResult, arg2: $BlockState_, arg3: $EntityKineticBullet);

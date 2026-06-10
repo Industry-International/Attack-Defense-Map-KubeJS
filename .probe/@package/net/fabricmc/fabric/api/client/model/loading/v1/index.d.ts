@@ -13,18 +13,18 @@ declare module "@package/net/fabricmc/fabric/api/client/model/loading/v1" {
     export interface $ModelModifier$BeforeBake$Context {
         loader(): $ModelBakery;
         settings(): $ModelState;
-        baker(): $ModelBaker;
         resourceId(): $ResourceLocation;
-        topLevelId(): $ModelResourceLocation;
+        baker(): $ModelBaker;
         textureGetter(): $Function<$Material, $TextureAtlasSprite>;
+        topLevelId(): $ModelResourceLocation;
     }
     export class $ModelModifier$OnLoad$Context {
     }
     export interface $ModelModifier$OnLoad$Context {
         loader(): $ModelBakery;
         resourceId(): $ResourceLocation;
-        topLevelId(): $ModelResourceLocation;
         getOrLoadModel(arg0: $ResourceLocation_): $UnbakedModel;
+        topLevelId(): $ModelResourceLocation;
     }
     export class $ModelLoadingPlugin {
         static register(arg0: $ModelLoadingPlugin_): void;
@@ -50,11 +50,11 @@ declare module "@package/net/fabricmc/fabric/api/client/model/loading/v1" {
     export interface $ModelModifier$AfterBake$Context {
         loader(): $ModelBakery;
         settings(): $ModelState;
-        baker(): $ModelBaker;
         resourceId(): $ResourceLocation;
-        topLevelId(): $ModelResourceLocation;
+        baker(): $ModelBaker;
         textureGetter(): $Function<$Material, $TextureAtlasSprite>;
         sourceModel(): $UnbakedModel;
+        topLevelId(): $ModelResourceLocation;
     }
     export class $ModelResolver {
     }
@@ -103,8 +103,8 @@ declare module "@package/net/fabricmc/fabric/api/client/model/loading/v1" {
     export interface $ModelLoadingPlugin$Context {
         addModels(...arg0: $ResourceLocation_[]): void;
         addModels(arg0: $Collection_<$ResourceLocation_>): void;
-        modifyModelBeforeBake(): $Event<$ModelModifier$BeforeBake>;
         modifyModelAfterBake(): $Event<$ModelModifier$AfterBake>;
+        modifyModelBeforeBake(): $Event<$ModelModifier$BeforeBake>;
         resolveModel(): $Event<$ModelResolver>;
         modifyModelOnLoad(): $Event<$ModelModifier$OnLoad>;
         registerBlockStateResolver(arg0: $Block_, arg1: $BlockStateResolver_): void;

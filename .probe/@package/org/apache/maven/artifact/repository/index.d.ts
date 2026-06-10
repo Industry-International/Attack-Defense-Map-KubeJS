@@ -10,11 +10,11 @@ declare module "@package/org/apache/maven/artifact/repository" {
         isEnabled(): boolean;
         merge(arg0: $ArtifactRepositoryPolicy): void;
         setEnabled(arg0: boolean): void;
-        setChecksumPolicy(arg0: string): void;
-        getChecksumPolicy(): string;
-        checkOutOfDate(arg0: $Date): boolean;
         setUpdatePolicy(arg0: string): void;
         getUpdatePolicy(): string;
+        getChecksumPolicy(): string;
+        setChecksumPolicy(arg0: string): void;
+        checkOutOfDate(arg0: $Date): boolean;
         static CHECKSUM_POLICY_IGNORE: string;
         static UPDATE_POLICY_DAILY: string;
         static CHECKSUM_POLICY_FAIL: string;
@@ -27,11 +27,11 @@ declare module "@package/org/apache/maven/artifact/repository" {
         constructor();
     }
     export class $Authentication {
-        getPassword(): string;
         setPassword(arg0: string): void;
-        getUsername(): string;
+        getPassword(): string;
         setUsername(arg0: string): void;
         getPrivateKey(): string;
+        getUsername(): string;
         getPassphrase(): string;
         setPrivateKey(arg0: string): void;
         setPassphrase(arg0: string): void;
@@ -44,24 +44,24 @@ declare module "@package/org/apache/maven/artifact/repository" {
         find(arg0: $Artifact): $Artifact;
         getId(): string;
         getProtocol(): string;
-        pathOf(arg0: $Artifact): string;
-        getLayout(): $ArtifactRepositoryLayout;
-        setId(arg0: string): void;
-        setLayout(arg0: $ArtifactRepositoryLayout): void;
-        getUrl(): string;
-        getReleases(): $ArtifactRepositoryPolicy;
-        getSnapshots(): $ArtifactRepositoryPolicy;
-        getProxy(): $Proxy;
-        setProxy(arg0: $Proxy): void;
-        isBlocked(): boolean;
-        setBlocked(arg0: boolean): void;
         /**
          * @deprecated
          */
         isBlacklisted(): boolean;
+        getUrl(): string;
+        getLayout(): $ArtifactRepositoryLayout;
+        setLayout(arg0: $ArtifactRepositoryLayout): void;
+        setId(arg0: string): void;
+        setProxy(arg0: $Proxy): void;
+        getSnapshots(): $ArtifactRepositoryPolicy;
+        getReleases(): $ArtifactRepositoryPolicy;
+        setBlocked(arg0: boolean): void;
+        getProxy(): $Proxy;
+        isBlocked(): boolean;
         setUrl(arg0: string): void;
-        isProjectAware(): boolean;
-        setAuthentication(arg0: $Authentication): void;
+        pathOf(arg0: $Artifact): string;
+        pathOfRemoteRepositoryMetadata(arg0: $ArtifactMetadata): string;
+        pathOfLocalRepositoryMetadata(arg0: $ArtifactMetadata, arg1: $ArtifactRepository): string;
         /**
          * @deprecated
          */
@@ -71,20 +71,20 @@ declare module "@package/org/apache/maven/artifact/repository" {
          */
         setBlacklisted(arg0: boolean): void;
         findVersions(arg0: $Artifact): $List<string>;
+        setAuthentication(arg0: $Authentication): void;
         getAuthentication(): $Authentication;
-        pathOfRemoteRepositoryMetadata(arg0: $ArtifactMetadata): string;
-        pathOfLocalRepositoryMetadata(arg0: $ArtifactMetadata, arg1: $ArtifactRepository): string;
+        isProjectAware(): boolean;
         getBasedir(): string;
-        setMirroredRepositories(arg0: $List_<$ArtifactRepository>): void;
         setReleaseUpdatePolicy(arg0: $ArtifactRepositoryPolicy): void;
         getMirroredRepositories(): $List<$ArtifactRepository>;
         setSnapshotUpdatePolicy(arg0: $ArtifactRepositoryPolicy): void;
+        setMirroredRepositories(arg0: $List_<$ArtifactRepository>): void;
         get key(): string;
         get protocol(): string;
-        get releases(): $ArtifactRepositoryPolicy;
         get snapshots(): $ArtifactRepositoryPolicy;
-        get projectAware(): boolean;
+        get releases(): $ArtifactRepositoryPolicy;
         get uniqueVersion(): boolean;
+        get projectAware(): boolean;
         get basedir(): string;
         set releaseUpdatePolicy(value: $ArtifactRepositoryPolicy);
         set snapshotUpdatePolicy(value: $ArtifactRepositoryPolicy);

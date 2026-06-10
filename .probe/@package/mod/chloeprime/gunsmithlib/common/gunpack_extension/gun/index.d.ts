@@ -14,12 +14,12 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/gun
     export class $EnhancedGunData {
     }
     export interface $EnhancedGunData {
-        gunsmith$getArcanaExtras(): ($ArcanaExtras) | undefined;
         /**
          * @deprecated
          */
         gunsmith$getOldFireControlSystemData(): ($OldFireControlData) | undefined;
         gunsmith$getGunsmithLibExtension(): ($GunsmithLibGunDataExtension) | undefined;
+        gunsmith$getArcanaExtras(): ($ArcanaExtras) | undefined;
     }
     export class $GunsmithLibGunDataExtension extends $GunsmithLibSharedDataExtension {
         isHidden(): boolean;
@@ -29,6 +29,9 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/gun
         getShieldData(): $ShieldData;
         enableOverheatFeedback(): boolean;
         battery(): $EnergyWeaponData;
+        /**
+         * @deprecated
+         */
         isChargeable(): boolean;
         getFireControlData(): $FireControlData;
         constructor();

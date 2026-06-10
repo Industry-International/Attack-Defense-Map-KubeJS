@@ -1,6 +1,6 @@
 import { $File_ } from "@package/java/io";
 import { $MinecraftServer } from "@package/net/minecraft/server";
-import { $RecipeManager, $RecipeHolder_ } from "@package/net/minecraft/world/item/crafting";
+import { $RecipeHolder_, $RecipeManager } from "@package/net/minecraft/world/item/crafting";
 import { $Item } from "@package/net/minecraft/world/item";
 import { $CompoundTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
 import { $Component_, $Component } from "@package/net/minecraft/network/chat";
@@ -25,10 +25,10 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/net/minecraft/stats" {
     export class $ServerRecipeBook extends $RecipeBook {
         removeRecipes(arg0: $Collection_<$RecipeHolder_<never>>, arg1: $ServerPlayer): number;
+        sendInitialRecipeBook(arg0: $ServerPlayer): void;
         fromNbt(arg0: $CompoundTag_, arg1: $RecipeManager): void;
         toNbt(): $CompoundTag;
         addRecipes(arg0: $Collection_<$RecipeHolder_<never>>, arg1: $ServerPlayer): number;
-        sendInitialRecipeBook(arg0: $ServerPlayer): void;
         highlight: $Set<$ResourceLocation>;
         known: $Set<$ResourceLocation>;
         static RECIPE_BOOK_TAG: string;
@@ -130,32 +130,32 @@ declare module "@package/net/minecraft/stats" {
         static read(arg0: $FriendlyByteBuf): $RecipeBookSettings;
         static read(arg0: $CompoundTag_): $RecipeBookSettings;
         copy(): $RecipeBookSettings;
-        setOpen(arg0: $RecipeBookType_, arg1: boolean): void;
-        isFiltering(arg0: $RecipeBookType_): boolean;
-        setFiltering(arg0: $RecipeBookType_, arg1: boolean): void;
         replaceFrom(arg0: $RecipeBookSettings): void;
+        setFiltering(arg0: $RecipeBookType_, arg1: boolean): void;
+        isFiltering(arg0: $RecipeBookType_): boolean;
+        setOpen(arg0: $RecipeBookType_, arg1: boolean): void;
         constructor();
     }
     export class $RecipeBook {
         remove(arg0: $ResourceLocation_): void;
         remove(arg0: $RecipeHolder_<never>): void;
-        add(arg0: $RecipeHolder_<never>): void;
         add(arg0: $ResourceLocation_): void;
-        contains(arg0: $RecipeHolder_<never>): boolean;
+        add(arg0: $RecipeHolder_<never>): void;
         contains(arg0: $ResourceLocation_): boolean;
+        contains(arg0: $RecipeHolder_<never>): boolean;
         isOpen(arg0: $RecipeBookType_): boolean;
-        setOpen(arg0: $RecipeBookType_, arg1: boolean): void;
-        isFiltering(arg0: $RecipeBookMenu<never, never>): boolean;
-        isFiltering(arg0: $RecipeBookType_): boolean;
+        copyOverData(arg0: $RecipeBook): void;
         setFiltering(arg0: $RecipeBookType_, arg1: boolean): void;
         setBookSettings(arg0: $RecipeBookSettings): void;
         getBookSettings(): $RecipeBookSettings;
-        addHighlight(arg0: $ResourceLocation_): void;
-        addHighlight(arg0: $RecipeHolder_<never>): void;
         setBookSetting(arg0: $RecipeBookType_, arg1: boolean, arg2: boolean): void;
+        addHighlight(arg0: $RecipeHolder_<never>): void;
+        addHighlight(arg0: $ResourceLocation_): void;
+        isFiltering(arg0: $RecipeBookType_): boolean;
+        isFiltering(arg0: $RecipeBookMenu<never, never>): boolean;
+        setOpen(arg0: $RecipeBookType_, arg1: boolean): void;
         willHighlight(arg0: $RecipeHolder_<never>): boolean;
         removeHighlight(arg0: $RecipeHolder_<never>): void;
-        copyOverData(arg0: $RecipeBook): void;
         highlight: $Set<$ResourceLocation>;
         known: $Set<$ResourceLocation>;
         constructor();
@@ -198,10 +198,10 @@ declare module "@package/net/minecraft/stats" {
     export interface $StatType extends RegistryMarked<RegistryTypes.StatTypeTag, RegistryTypes.StatType> {}
     export class $ServerStatsCounter extends $StatsCounter {
         save(): void;
-        markAllDirty(): void;
         toJson(): string;
         sendStats(arg0: $ServerPlayer): void;
         parseLocal(arg0: $DataFixer, arg1: string): void;
+        markAllDirty(): void;
         stats: $Object2IntMap<$Stat<never>>;
         constructor(arg0: $MinecraftServer, arg1: $File_);
     }
@@ -225,8 +225,8 @@ declare module "@package/net/minecraft/stats" {
         iterator(): $Iterator<$Stat<$Stat<T>>>;
         contains(arg0: $Stat_<T>): boolean;
         getDisplayName(): $Component;
-        getRegistry(): $Registry<$Stat<T>>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, $Stat<$Stat<T>>>;
+        getRegistry(): $Registry<$Stat<T>>;
         spliterator(): $Spliterator<$Stat<T>>;
         forEach(arg0: $Consumer_<$Stat<T>>): void;
         constructor(arg0: $Registry<$Stat_<T>>, arg1: $Component_);

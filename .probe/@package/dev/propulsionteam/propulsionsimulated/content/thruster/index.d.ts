@@ -12,10 +12,10 @@ declare module "@package/dev/propulsionteam/propulsionsimulated/content/thruster
         static decode(arg0: $FriendlyByteBuf): $FluidThrusterProperties;
         encode(arg0: $FriendlyByteBuf): void;
         particleType(): $ThrusterParticleType;
-        thrustMultiplier(): number;
         overrideColor(): number;
         useFluidColor(): boolean;
         overrideTextures(): $List<$ResourceLocation>;
+        thrustMultiplier(): number;
         consumptionMultiplier(): number;
         static DEFAULT: $FluidThrusterProperties;
         constructor(thrustMultiplier: number, consumptionMultiplier: number, particleType: $ThrusterParticleType_, overrideTextures: $List_<$ResourceLocation_>, overrideColor: number, useFluidColor: boolean);
@@ -39,14 +39,14 @@ declare module "@package/dev/propulsionteam/propulsionsimulated/content/thruster
     export class $ThrusterFuelManager extends $SimpleJsonResourceReloadListener {
         static getProperties(arg0: $Fluid_): $FluidThrusterProperties;
         static getEfficiency(arg0: $Fluid_): number;
+        static getRemovedFuelIds(): $Set<$ResourceLocation>;
+        static updateClient(arg0: $Map_<$ResourceLocation_, $FluidThrusterProperties_>, arg1: $Set_<$ResourceLocation_>): void;
+        static clearScriptedFuels(): void;
+        static overrideFuel(arg0: string, arg1: $Map_<string, $Object>): boolean;
         static removeFuel(arg0: string): boolean;
         static rebuildThrusterFuelsAfterCommonConfigReload(): void;
-        static getRemovedFuelIds(): $Set<$ResourceLocation>;
-        static clearScriptedFuels(): void;
-        static updateClient(arg0: $Map_<$ResourceLocation_, $FluidThrusterProperties_>, arg1: $Set_<$ResourceLocation_>): void;
-        static overrideFuel(arg0: string, arg1: $Map_<string, $Object>): boolean;
-        static registerScriptedFuel(arg0: string, arg1: $Map_<string, $Object>): boolean;
         static getFuelPropertiesMap(): $Map<$Fluid, $FluidThrusterProperties>;
+        static registerScriptedFuel(arg0: string, arg1: $Map_<string, $Object>): boolean;
         static DIRECTORY: string;
         constructor();
         static get removedFuelIds(): $Set<$ResourceLocation>;

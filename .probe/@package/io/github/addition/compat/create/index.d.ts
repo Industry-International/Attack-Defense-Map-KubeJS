@@ -4,8 +4,8 @@ declare module "@package/io/github/addition/compat/create" {
     export class $DeployerWorldMode {
     }
     export interface $DeployerWorldMode {
-        aero_addition$setWorldMode(arg0: boolean): void;
         aero_addition$isWorldMode(): boolean;
+        aero_addition$setWorldMode(arg0: boolean): void;
     }
     export class $DeployerWorldPlacementContext {
     }

@@ -1,8 +1,8 @@
 import { $GoalSelector } from "@package/net/minecraft/world/entity/ai/goal";
-import { $MoveControl, $LookControl, $JumpControl } from "@package/net/minecraft/world/entity/ai/control";
+import { $JumpControl, $MoveControl, $LookControl } from "@package/net/minecraft/world/entity/ai/control";
 import { $SensorType, $Sensor } from "@package/net/minecraft/world/entity/ai/sensing";
 import { $CompoundTag } from "@package/net/minecraft/nbt";
-import { $EntityType_, $Pose, $PortalProcessor, $Entity, $EntityDimensions, $Entity$RemovalReason, $AgeableMob, $WalkAnimationState, $MobSpawnType_ } from "@package/net/minecraft/world/entity";
+import { $EntityDimensions, $EntityType_, $Entity$RemovalReason, $Pose, $PortalProcessor, $WalkAnimationState, $Entity, $MobSpawnType_ } from "@package/net/minecraft/world/entity";
 import { $FluidType } from "@package/net/neoforged/neoforge/fluids";
 import { $AttributeSupplier$Builder } from "@package/net/minecraft/world/entity/ai/attributes";
 import { $UUID, $Stack } from "@package/java/util";
@@ -11,7 +11,6 @@ import { $RandomSource } from "@package/net/minecraft/util";
 import { $InteractionHand } from "@package/net/minecraft/world";
 import { $Predicate } from "@package/java/util/function";
 import { $SoundEvent } from "@package/net/minecraft/sounds";
-import { $ServerLevel } from "@package/net/minecraft/server/level";
 import { $Object2DoubleMap } from "@package/it/unimi/dsi/fastutil/objects";
 import { $HolderLookup$Provider, $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
 import { $OBB$Part } from "@package/com/atsuishio/superbwarfare/tools";
@@ -25,7 +24,7 @@ import { $Fluid } from "@package/net/minecraft/world/level/material";
 import { $Player } from "@package/net/minecraft/world/entity/player";
 import { $ImmutableList } from "@package/com/google/common/collect";
 import { $MemoryModuleType } from "@package/net/minecraft/world/entity/ai/memory";
-import { $EntityDataAccessor, $SynchedEntityData } from "@package/net/minecraft/network/syncher";
+import { $SynchedEntityData, $EntityDataAccessor } from "@package/net/minecraft/network/syncher";
 import { $DamageContainer } from "@package/net/neoforged/neoforge/common/damagesource";
 import { $AtomicInteger } from "@package/java/util/concurrent/atomic";
 import { $ResourceLocation } from "@package/net/minecraft/resources";
@@ -35,8 +34,8 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 declare module "@package/net/minecraft/world/entity/animal/goat" {
     export class $GoatAi {
         static updateActivity(arg0: $Goat): void;
-        static initMemories(arg0: $Goat, arg1: $RandomSource): void;
         static makeBrain(arg0: $Brain<$Goat>): $Brain<never>;
+        static initMemories(arg0: $Goat, arg1: $RandomSource): void;
         static getTemptations(): $Predicate<$ItemStack>;
         static MAX_LONG_JUMP_WIDTH: number;
         static RAM_PREPARE_TIME: number;
@@ -51,18 +50,17 @@ declare module "@package/net/minecraft/world/entity/animal/goat" {
     }
     export class $Goat extends $Animal {
         static createAttributes(): $AttributeSupplier$Builder;
-        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Goat;
         static checkGoatSpawnRules(arg0: $EntityType_<$Animal>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        dropHorn(): boolean;
+        setScreamingGoat(arg0: boolean): void;
+        hasRightHorn(): boolean;
+        removeHorns(): void;
+        isScreamingGoat(): boolean;
+        getRammingXHeadRot(): number;
+        hasLeftHorn(): boolean;
+        getMilkingSound(): $SoundEvent;
         createHorn(): $ItemStack;
         addHorns(): void;
-        hasRightHorn(): boolean;
-        getRammingXHeadRot(): number;
-        removeHorns(): void;
-        getMilkingSound(): $SoundEvent;
-        setScreamingGoat(arg0: boolean): void;
-        hasLeftHorn(): boolean;
-        isScreamingGoat(): boolean;
+        dropHorn(): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;

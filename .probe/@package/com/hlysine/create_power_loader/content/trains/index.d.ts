@@ -18,8 +18,8 @@ declare module "@package/com/hlysine/create_power_loader/content/trains" {
         tick(arg0: $Level_): void;
         onRemove(): void;
         getForcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
-        getLoaderType(): $LoaderType;
         getLoaderMode(): $LoaderMode;
+        getLoaderType(): $LoaderType;
         addToManager(): void;
         removeFromManager(): void;
         carriage: $Carriage;
@@ -29,8 +29,8 @@ declare module "@package/com/hlysine/create_power_loader/content/trains" {
         andesite: boolean;
         constructor(arg0: $Carriage, arg1: boolean, arg2: boolean, arg3: boolean);
         get location(): $Pair<$ResourceLocation, $BlockPos>;
-        get loaderType(): $LoaderType;
         get loaderMode(): $LoaderMode;
+        get loaderType(): $LoaderType;
     }
     export class $TrainChunkLoader implements $ChunkLoader {
         getLocation(): $Pair<$ResourceLocation, $BlockPos>;
@@ -39,16 +39,16 @@ declare module "@package/com/hlysine/create_power_loader/content/trains" {
         tick(arg0: $Level_): void;
         onRemove(): void;
         getForcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
-        getLoaderType(): $LoaderType;
         addToManager(): void;
         getLoaderMode(): $LoaderMode;
+        getLoaderType(): $LoaderType;
         removeFromManager(): void;
         carriageLoaders: $List<$CarriageChunkLoader>;
         constructor(arg0: $Train);
         get location(): $Pair<$ResourceLocation, $BlockPos>;
         get forcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
-        get loaderType(): $LoaderType;
         get loaderMode(): $LoaderMode;
+        get loaderType(): $LoaderType;
     }
     export class $StationChunkLoader implements $ChunkLoader {
         getLocation(): $Pair<$ResourceLocation, $BlockPos>;
@@ -57,19 +57,19 @@ declare module "@package/com/hlysine/create_power_loader/content/trains" {
         tick(arg0: $TrackGraph, arg1: boolean): void;
         onRemove(): void;
         getForcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
-        getLoaderType(): $LoaderType;
-        removeAttachment(arg0: $BlockPos_): void;
         addToManager(): void;
-        getLoaderMode(): $LoaderMode;
         addAttachment(arg0: $LoaderType_, arg1: $BlockPos_): void;
+        getLoaderMode(): $LoaderMode;
+        removeAttachment(arg0: $BlockPos_): void;
+        getLoaderType(): $LoaderType;
         static isEnabledForStation(arg0: $LoaderType_): boolean;
         removeFromManager(): void;
         attachments: $Set<$StationChunkLoader$AttachedLoader>;
         forcedChunks: $Set<$ChunkLoadManager$LoadedChunkPos>;
         constructor(arg0: $GlobalStation);
         get location(): $Pair<$ResourceLocation, $BlockPos>;
-        get loaderType(): $LoaderType;
         get loaderMode(): $LoaderMode;
+        get loaderType(): $LoaderType;
     }
     export class $CPLGlobalStation {
     }

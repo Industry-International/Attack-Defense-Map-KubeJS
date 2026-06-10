@@ -1,4 +1,4 @@
-import { $Level_, $Level } from "@package/net/minecraft/world/level";
+import { $Level_, $Level, $EntityGetter } from "@package/net/minecraft/world/level";
 import { $Codec } from "@package/com/mojang/serialization";
 import { $VisualizationLevel } from "@package/dev/engine_room/flywheel/api/visualization";
 import { $LevelChunk, $ChunkAccess } from "@package/net/minecraft/world/level/chunk";
@@ -16,15 +16,16 @@ import { $BlockEntity, $TickingBlockEntity } from "@package/net/minecraft/world/
 declare module "@package/com/simibubi/create/foundation/virtualWorld" {
     export class $VirtualRenderWorld extends $Level implements $VisualizationLevel {
         clear(): void;
-        getBlockState(arg0: number, arg1: number, arg2: number): $BlockState;
-        setBlockEntities(arg0: $Collection_<$BlockEntity>): void;
-        runLightEngine(): void;
         static nextMultipleOf16(arg0: number): number;
+        getBlockState(arg0: number, arg1: number, arg2: number): $BlockState;
+        runLightEngine(): void;
+        setBlockEntities(arg0: $Collection_<$BlockEntity>): void;
+        resetExternalLight(): void;
+        setExternalLight(arg0: number): void;
         getChunkAtImmediately(arg0: number, arg1: number): $LevelChunk;
         getAnyChunkImmediately(arg0: number, arg1: number): $ChunkAccess;
-        setExternalLight(arg0: number): void;
-        resetExternalLight(): void;
         supportsVisualization(): boolean;
+        self(): $EntityGetter;
         getChunk(arg0: number, arg1: number): $ChunkAccess;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;

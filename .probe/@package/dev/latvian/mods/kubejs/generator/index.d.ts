@@ -24,8 +24,8 @@ declare module "@package/dev/latvian/mods/kubejs/generator" {
         flush(): void;
         add(data: $GeneratedData_): void;
         text(id: $ResourceLocation_, content: string): void;
-        json(id: $ResourceLocation_, json: $JsonElement_): void;
         getRegistries(): $RegistryAccessContainer;
+        json(id: $ResourceLocation_, json: $JsonElement_): void;
         getGenerated(id: $ResourceLocation_): $GeneratedData;
         get registries(): $RegistryAccessContainer;
     }
@@ -33,17 +33,17 @@ declare module "@package/dev/latvian/mods/kubejs/generator" {
     }
     export interface $KubeDataGenerator extends $KubeResourceGenerator {
         dataMap<R, T>(type: $DataMapType<R, T>, consumer: $Consumer_<$VirtualDataMapFile<R, T>>): void;
-        setWaxable(from: $Block_, to: $Block_): void;
         setVibrationFrequency(gameEvent: $GameEvent_, frequency: number): void;
-        removeCompostable(items: $ItemPredicate_): void;
-        setFurnaceFuel(items: $ItemPredicate_, ticks: $TickDuration_): void;
-        setCompostable(items: $ItemPredicate_, chance: number, canVillagerCompost: boolean): void;
         removeFurnaceFuel(items: $ItemPredicate_): void;
-        setOxidizable(from: $Block_, to: $Block_): void;
-        setParrotImitation(type: $EntityType_<never>, sound: $SoundEvent_): void;
+        setMonsterRoomMobs(entityType: $EntityType_<never>, weight: number): void;
+        setFurnaceFuel(items: $ItemPredicate_, ticks: $TickDuration_): void;
         setRaidHeroGifts(profession: $VillagerProfession_, lootTable: $ResourceKey_<$LootTable>): void;
         setVillagerType(biome: $ResourceKey_<$Biome>, villagerType: $VillagerType_): void;
-        setMonsterRoomMobs(entityType: $EntityType_<never>, weight: number): void;
+        setOxidizable(from: $Block_, to: $Block_): void;
+        setParrotImitation(type: $EntityType_<never>, sound: $SoundEvent_): void;
+        setCompostable(items: $ItemPredicate_, chance: number, canVillagerCompost: boolean): void;
+        removeCompostable(items: $ItemPredicate_): void;
+        setWaxable(from: $Block_, to: $Block_): void;
     }
     export class $KubeAssetGenerator {
         static HANDHELD_ITEM_MODEL: $ResourceLocation;
@@ -54,15 +54,15 @@ declare module "@package/dev/latvian/mods/kubejs/generator" {
     export interface $KubeAssetGenerator extends $KubeResourceGenerator {
         mask(target: $ResourceLocation_, mask: $ResourceLocation_, input: $ResourceLocation_): boolean;
         texture(target: $ResourceLocation_, texture: $LoadedTexture): void;
+        defaultHandheldItemModel(id: $ResourceLocation_): void;
+        blockState(id: $ResourceLocation_, consumer: $Consumer_<$VariantBlockStateGenerator>): void;
         itemModel(id: $ResourceLocation_, consumer: $Consumer_<$ModelGenerator>): void;
         blockModel(id: $ResourceLocation_, consumer: $Consumer_<$ModelGenerator>): void;
         sounds(namespace: string, consumer: $Consumer_<$SoundsGenerator>): void;
-        blockState(id: $ResourceLocation_, consumer: $Consumer_<$VariantBlockStateGenerator>): void;
         particle(id: $ResourceLocation_, consumer: $Consumer_<$ParticleGenerator>): void;
-        multipartState(id: $ResourceLocation_, consumer: $Consumer_<$MultipartBlockStateGenerator>): void;
-        defaultItemModel(id: $ResourceLocation_): void;
         loadTexture(id: $ResourceLocation_): $LoadedTexture;
+        defaultItemModel(id: $ResourceLocation_): void;
+        multipartState(id: $ResourceLocation_, consumer: $Consumer_<$MultipartBlockStateGenerator>): void;
         stencil(target: $ResourceLocation_, stencil: $ResourceLocation_, colors: $Map_<$KubeColor_, $KubeColor_>): void;
-        defaultHandheldItemModel(id: $ResourceLocation_): void;
     }
 }

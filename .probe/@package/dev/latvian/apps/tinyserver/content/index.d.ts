@@ -11,8 +11,8 @@ declare module "@package/dev/latvian/apps/tinyserver/content" {
         toBytes(): number[];
         write(out: $OutputStream): void;
         transferTo(connection: $HTTPConnection<never>): void;
-        hasData(): boolean;
         bodyPublisher(): $HttpRequest$BodyPublisher;
+        hasData(): boolean;
     }
     /**
      * Values that may be interpreted as {@link $ResponseContent}.

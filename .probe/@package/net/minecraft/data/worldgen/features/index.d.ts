@@ -208,11 +208,11 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         static register(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>, arg1: $ResourceKey_<$ConfiguredFeature<never, never>>, arg2: $Feature_<$NoneFeatureConfiguration>): void;
         static register<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>, arg1: $ResourceKey_<$ConfiguredFeature<never, never>>, arg2: F, arg3: FC): void;
         static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static createKey(arg0: string): $ResourceKey<$ConfiguredFeature<never, never>>;
         static simpleRandomPatchConfiguration(arg0: number, arg1: $Holder_<$PlacedFeature>): $RandomPatchConfiguration;
         static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC, arg2: $List_<$Block_>): $RandomPatchConfiguration;
         static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC): $RandomPatchConfiguration;
         static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC, arg2: $List_<$Block_>, arg3: number): $RandomPatchConfiguration;
-        static createKey(arg0: string): $ResourceKey<$ConfiguredFeature<never, never>>;
         constructor();
     }
     export class $OreFeatures {

@@ -17,13 +17,13 @@ declare module "@package/org/apache/logging/log4j/message" {
     export class $FlowMessageFactory {
     }
     export interface $FlowMessageFactory {
-        newEntryMessage(message: string, ...params: $Object[]): $EntryMessage;
-        newEntryMessage(message: $Message): $EntryMessage;
         newExitMessage(message: $EntryMessage): $ExitMessage;
         newExitMessage(result: $Object, message: $Message): $ExitMessage;
         newExitMessage(result: $Object, message: $EntryMessage): $ExitMessage;
         newExitMessage(message: $Message): $ExitMessage;
         newExitMessage(format: string, result: $Object): $ExitMessage;
+        newEntryMessage(message: $Message): $EntryMessage;
+        newEntryMessage(message: string, ...params: $Object[]): $EntryMessage;
     }
     export class $MessageFactory {
     }
@@ -37,12 +37,12 @@ declare module "@package/org/apache/logging/log4j/message" {
     export interface $Message extends $Serializable {
         getParameters(): $Object[];
         getFormat(): string;
-        getFormattedMessage(): string;
         getThrowable(): $Throwable;
+        getFormattedMessage(): string;
         get parameters(): $Object[];
         get format(): string;
-        get formattedMessage(): string;
         get throwable(): $Throwable;
+        get formattedMessage(): string;
     }
     export class $ExitMessage {
     }

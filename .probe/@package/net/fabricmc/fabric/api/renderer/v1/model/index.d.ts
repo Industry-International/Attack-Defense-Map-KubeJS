@@ -23,9 +23,9 @@ declare module "@package/net/fabricmc/fabric/api/renderer/v1/model" {
     export class $FabricBakedModel {
     }
     export interface $FabricBakedModel {
+        isVanillaAdapter(): boolean;
         emitBlockQuads(arg0: $BlockAndTintGetter, arg1: $BlockState_, arg2: $BlockPos_, arg3: $Supplier_<$RandomSource>, arg4: $RenderContext): void;
         emitItemQuads(arg0: $ItemStack_, arg1: $Supplier_<$RandomSource>, arg2: $RenderContext): void;
-        isVanillaAdapter(): boolean;
         get vanillaAdapter(): boolean;
     }
 }

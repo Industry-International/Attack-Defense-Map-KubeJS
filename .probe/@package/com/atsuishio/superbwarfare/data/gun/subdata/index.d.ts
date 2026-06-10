@@ -1,8 +1,8 @@
 import { $DeferredHolder } from "@package/net/neoforged/neoforge/registries";
 import { $DefaultConstructorMarker } from "@package/kotlin/jvm/internal";
 import { $GunData } from "@package/com/atsuishio/superbwarfare/data/gun";
-import { $ListTag, $CompoundTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
-import { $ReloadState, $IntValue, $AttachmentType_, $ReloadState_, $Timer, $BooleanValue, $Starter } from "@package/com/atsuishio/superbwarfare/data/gun/value";
+import { $CompoundTag, $ListTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
+import { $ReloadState, $IntValue, $AttachmentType_, $Timer, $ReloadState_, $BooleanValue, $Starter } from "@package/com/atsuishio/superbwarfare/data/gun/value";
 import { $PerkItem } from "@package/com/atsuishio/superbwarfare/item/misc";
 import { $Perk$Type_, $Perk, $PerkInstance_, $PerkInstance, $Perk_ } from "@package/com/atsuishio/superbwarfare/perk";
 import { $List } from "@package/java/util";
@@ -45,8 +45,8 @@ declare module "@package/com/atsuishio/superbwarfare/data/gun/subdata" {
         getTag(arg0: $DeferredHolder<$Perk_, $Perk_>): $CompoundTag;
         getTag(arg0: $Perk_): $CompoundTag;
         getInstances(arg0: $Perk$Type_): $List<$PerkInstance>;
-        getOrCreateTag(arg0: $Perk_): $CompoundTag;
         getOrCreateList(arg0: $Perk$Type_): $ListTag;
+        getOrCreateTag(arg0: $Perk_): $CompoundTag;
         reduceCooldown(arg0: $Perk_, arg1: string): void;
         constructor(arg0: $GunData);
     }

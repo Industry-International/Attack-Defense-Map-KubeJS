@@ -14,8 +14,8 @@ declare module "@package/com/moulberry/axiomclientapi/regions" {
         clear(): void;
         isEmpty(): boolean;
         count(): number;
-        addBlock(arg0: number, arg1: number, arg2: number, arg3: $BlockState_): void;
         render(arg0: $Camera, arg1: $Vec3_, arg2: $PoseStack, arg3: $Matrix4f, arg4: number, arg5: number): void;
+        addBlock(arg0: number, arg1: number, arg2: number, arg3: $BlockState_): void;
         addBlockIfNotPresent(arg0: number, arg1: number, arg2: number, arg3: $BlockState_): void;
         get empty(): boolean;
     }

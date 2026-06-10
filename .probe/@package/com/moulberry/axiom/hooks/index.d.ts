@@ -34,10 +34,10 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $CreativeModeInventoryScreenExt {
     }
     export interface $CreativeModeInventoryScreenExt {
-        axiom$selectTab(arg0: $CreativeModeTab_): void;
         axiom$renderTabButton(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: $CreativeModeTab_, arg4: boolean): void;
-        axiom$checkTabHovering(arg0: $GuiGraphics, arg1: $CreativeModeTab_, arg2: number, arg3: number): boolean;
         axiom$checkTabClicked(arg0: $CreativeModeTab_, arg1: number, arg2: number): boolean;
+        axiom$checkTabHovering(arg0: $GuiGraphics, arg1: $CreativeModeTab_, arg2: number, arg3: number): boolean;
+        axiom$selectTab(arg0: $CreativeModeTab_): void;
     }
     export class $NativeImageExt {
     }
@@ -60,14 +60,14 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $LevelRendererExt {
     }
     export interface $LevelRendererExt {
-        axiom$pushTranslucentRenderTarget(arg0: $RenderTarget): void;
         axiom$popTranslucentRenderTarget(): void;
+        axiom$pushTranslucentRenderTarget(arg0: $RenderTarget): void;
     }
     export class $PalettedContainerExt {
     }
     export interface $PalettedContainerExt {
-        axiom$lock(): void;
         axiom$unlock(): void;
+        axiom$lock(): void;
     }
     export class $GameRendererExt {
     }
@@ -76,17 +76,17 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $ThreadedLevelLightEngineExt {
     }
     export interface $ThreadedLevelLightEngineExt {
-        axiom$waitForPendingTasks(arg0: number, arg1: number): $CompletableFuture<never>;
         axiom$checkSectionBlocks(arg0: number, arg1: number, arg2: number, arg3: number[]): void;
+        axiom$waitForPendingTasks(arg0: number, arg1: number): $CompletableFuture<never>;
     }
     export class $MinecraftExt {
     }
     export interface $MinecraftExt {
-        axiom$addCustomNbtData(arg0: $ItemStack_, arg1: $BlockEntity, arg2: $RegistryAccess): void;
-        axiom$pushMainRenderTarget(arg0: $RenderTarget): void;
         axiom$popMainRenderTarget(): void;
-        axiom$setRightClickDelay(arg0: number): void;
+        axiom$addCustomNbtData(arg0: $ItemStack_, arg1: $BlockEntity, arg2: $RegistryAccess): void;
         axiom$getRightClickDelay(): number;
+        axiom$pushMainRenderTarget(arg0: $RenderTarget): void;
+        axiom$setRightClickDelay(arg0: number): void;
     }
     export class $ServerPlayerExt {
     }
@@ -113,11 +113,11 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $ServerLevelExt {
     }
     export interface $ServerLevelExt {
+        axiom$markChunkDirty(arg0: number, arg1: number): void;
+        axiom$getWorldProperties(): $ServerWorldPropertiesRegistry;
         axiom$getPendingLightUpdates(arg0: number, arg1: number, arg2: number): number[];
         axiom$relightChunkStarlight(arg0: number, arg1: number): void;
         axiom$processTasks(): void;
-        axiom$markChunkDirty(arg0: number, arg1: number): void;
-        axiom$getWorldProperties(): $ServerWorldPropertiesRegistry;
     }
     export class $MarkerEntityExt {
     }

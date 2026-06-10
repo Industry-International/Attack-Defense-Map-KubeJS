@@ -4,12 +4,12 @@ import { $List_, $Map_, $List } from "@package/java/util";
 declare module "@package/xaero/hud/minimap/common/config/info/config" {
     export class $InfoDisplayConfigData {
         getState(): string;
-        getBackgroundColor(): number;
         getTextColor(): number;
+        getBackgroundColor(): number;
         constructor(arg0: number, arg1: number, arg2: string);
         get state(): string;
-        get backgroundColor(): number;
         get textColor(): number;
+        get backgroundColor(): number;
     }
     export class $InfoDisplayManagerConfigData {
         get(arg0: string): $InfoDisplayConfigData;

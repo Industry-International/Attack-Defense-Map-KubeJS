@@ -10,25 +10,25 @@ declare module "@package/mezz/jei/api/recipe/vanilla" {
         /**
          * @deprecated
          */
-        createAnvilRecipe(arg0: $ItemStack_, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>): $IJeiAnvilRecipe;
+        createAnvilRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>): $IJeiAnvilRecipe;
         /**
          * @deprecated
          */
-        createAnvilRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>): $IJeiAnvilRecipe;
+        createAnvilRecipe(arg0: $ItemStack_, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>): $IJeiAnvilRecipe;
         createAnvilRecipe(arg0: $ItemStack_, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>, arg3: $ResourceLocation_): $IJeiAnvilRecipe;
         createAnvilRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>, arg3: $ResourceLocation_): $IJeiAnvilRecipe;
-        /**
-         * @deprecated
-         */
-        createBrewingRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $ItemStack_): $IJeiBrewingRecipe;
+        createGrindstoneRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>, arg3: number, arg4: number, arg5: $ResourceLocation_): $IJeiGrindstoneRecipe;
         /**
          * @deprecated
          */
         createBrewingRecipe(arg0: $List_<$ItemStack_>, arg1: $ItemStack_, arg2: $ItemStack_): $IJeiBrewingRecipe;
-        createBrewingRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $ItemStack_, arg3: $ResourceLocation_): $IJeiBrewingRecipe;
         createBrewingRecipe(arg0: $List_<$ItemStack_>, arg1: $ItemStack_, arg2: $ItemStack_, arg3: $ResourceLocation_): $IJeiBrewingRecipe;
+        createBrewingRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $ItemStack_, arg3: $ResourceLocation_): $IJeiBrewingRecipe;
+        /**
+         * @deprecated
+         */
+        createBrewingRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $ItemStack_): $IJeiBrewingRecipe;
         createShapedRecipeBuilder(arg0: $CraftingBookCategory_, arg1: $List_<$ItemStack_>): $IJeiShapedRecipeBuilder;
-        createGrindstoneRecipe(arg0: $List_<$ItemStack_>, arg1: $List_<$ItemStack_>, arg2: $List_<$ItemStack_>, arg3: number, arg4: number, arg5: $ResourceLocation_): $IJeiGrindstoneRecipe;
     }
     export class $IJeiShapedRecipeBuilder {
     }
@@ -43,15 +43,15 @@ declare module "@package/mezz/jei/api/recipe/vanilla" {
     export interface $IJeiGrindstoneRecipe {
         getUid(): $ResourceLocation;
         getOutputs(): $List<$ItemStack>;
-        getTopInputs(): $List<$ItemStack>;
         getBottomInputs(): $List<$ItemStack>;
+        getTopInputs(): $List<$ItemStack>;
         getMinXpReward(): number;
         getMaxXpReward(): number;
         isOutputRenderOnly(): boolean;
         get uid(): $ResourceLocation;
         get outputs(): $List<$ItemStack>;
-        get topInputs(): $List<$ItemStack>;
         get bottomInputs(): $List<$ItemStack>;
+        get topInputs(): $List<$ItemStack>;
         get minXpReward(): number;
         get maxXpReward(): number;
         get outputRenderOnly(): boolean;
@@ -59,16 +59,16 @@ declare module "@package/mezz/jei/api/recipe/vanilla" {
     export class $IJeiBrewingRecipe {
     }
     export interface $IJeiBrewingRecipe {
-        getIngredients(): $List<$ItemStack>;
         getUid(): $ResourceLocation;
+        getIngredients(): $List<$ItemStack>;
         getBrewingSteps(): number;
-        getPotionInputs(): $List<$ItemStack>;
         getPotionOutput(): $ItemStack;
-        get ingredients(): $List<$ItemStack>;
+        getPotionInputs(): $List<$ItemStack>;
         get uid(): $ResourceLocation;
+        get ingredients(): $List<$ItemStack>;
         get brewingSteps(): number;
-        get potionInputs(): $List<$ItemStack>;
         get potionOutput(): $ItemStack;
+        get potionInputs(): $List<$ItemStack>;
     }
     export class $IJeiAnvilRecipe {
     }

@@ -1,6 +1,6 @@
 import { $InputStream, $OutputStream } from "@package/java/io";
 import { $Function_, $BiFunction_, $BiConsumer_ } from "@package/java/util/function";
-import { $Map_, $Map, $Map$Entry, $Collection, $Set } from "@package/java/util";
+import { $Map_, $Map, $Collection, $Map$Entry, $Set } from "@package/java/util";
 import { $Object, $Cloneable } from "@package/java/lang";
 
 declare module "@package/java/util/jar" {

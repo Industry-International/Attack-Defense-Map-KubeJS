@@ -22,18 +22,18 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
         getCause(): $Entity;
         getLevel(): $Level;
         getBlock(): $LevelBlock;
-        getBlockState(): $BlockState;
-        getRadius(): number;
         getExplosion(): $Explosion;
+        getRadius(): number;
+        getBlockState(): $BlockState;
         getAffectedPlayers(): $List<$Player>;
         getIgniter(): $LivingEntity;
         constructor(level: $Level_, pos: $BlockPos_, explosion: $Explosion);
         get cause(): $Entity;
         get level(): $Level;
         get block(): $LevelBlock;
-        get blockState(): $BlockState;
-        get radius(): number;
         get explosion(): $Explosion;
+        get radius(): number;
+        get blockState(): $BlockState;
         get affectedPlayers(): $List<$Player>;
         get igniter(): $LivingEntity;
     }
@@ -75,14 +75,6 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
          */
         rotate(rotation: $Rotation_): $BlockStateModifyCallback;
         /**
-         * Mirror the block using the specified Mirror
-         */
-        mirror(mirror: $Mirror_): $BlockStateModifyCallback;
-        /**
-         * Get a map of this blocks properties to it's value
-         */
-        getValues(): $Map<$Property<never>, $Comparable<never>>;
-        /**
          * Checks if this block has the specified property
          */
         hasProperty<T extends $Comparable<T>>(property: $Property<T>): boolean;
@@ -91,14 +83,22 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
          */
         cycle<T extends $Comparable<T>>(property: $Property<T>): $BlockStateModifyCallback;
         /**
-         * Updates the shape of this block. Mostly used in waterloggable blocks to update the water flow
+         * Mirror the block using the specified Mirror
          */
-        updateShape(direction: $Direction_, blockState: $BlockState_, levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockPos2: $BlockPos_): $BlockStateModifyCallback;
-        populateNeighbours(map: $Map_<$Map_<$Property<never>, $Comparable_<never>>, $BlockState_>): $BlockStateModifyCallback;
+        mirror(mirror: $Mirror_): $BlockStateModifyCallback;
+        /**
+         * Get a map of this blocks properties to it's value
+         */
+        getValues(): $Map<$Property<never>, $Comparable<never>>;
         /**
          * Gets the value of the passed in property as an Optional. If the property does not exist in this block the Optional will be empty
          */
         getOptionalValue<T extends $Comparable<T>>(property: $Property<T>): (T) | undefined;
+        /**
+         * Updates the shape of this block. Mostly used in waterloggable blocks to update the water flow
+         */
+        updateShape(direction: $Direction_, blockState: $BlockState_, levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockPos2: $BlockPos_): $BlockStateModifyCallback;
+        populateNeighbours(map: $Map_<$Map_<$Property<never>, $Comparable_<never>>, $BlockState_>): $BlockStateModifyCallback;
         constructor(state: $BlockState_);
         get properties(): $Collection<$Property<never>>;
         get state(): $BlockState;
@@ -106,10 +106,9 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
     }
     export class $EntityFallenOnBlockCallback extends $EntityBlockCallback {
         /**
-         * Applies fall damage to the entity, multiplier by the multiplier.
-         * Note this does not force it, so entities that do not take fall damage are not affected.
+         * Get the height the entity has fallen
          */
-        applyFallDamage(multiplier: number): boolean;
+        getFallHeight(): number;
         /**
          * Applies fall damage to the entity as if they had fallen from the provided height, and multiplies it by the provided multiplier.
          * Note this does not force it, so entities that do not take fall damage are not affected.
@@ -121,18 +120,23 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
          */
         applyFallDamage(fallHeight: number, multiplier: number, damageSource: $DamageSource_): boolean;
         /**
+         * Applies fall damage to the entity, multiplier by the multiplier.
+         * Note this does not force it, so entities that do not take fall damage are not affected.
+         */
+        applyFallDamage(multiplier: number): boolean;
+        /**
          * Applies default fall damage to the entity.
          * Note this does not force it, so entities that do not take fall damage are not affected.
          */
         applyFallDamage(): boolean;
-        /**
-         * Get the height the entity has fallen
-         */
-        getFallHeight(): number;
         constructor(level: $Level_, entity: $Entity, pos: $BlockPos_, state: $BlockState_, fallHeight: number);
         get fallHeight(): number;
     }
     export class $BlockStateMirrorCallback extends $BlockStateModifyCallback {
+        /**
+         * Gets the Mirror
+         */
+        getMirror(): $Mirror;
         /**
          * Mirrors the direction passed in
          */
@@ -141,10 +145,6 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
          * Gets the rotation of the direction passed in relative to this mirror
          */
         getRotation(dir: $Direction_): $Rotation;
-        /**
-         * Gets the Mirror
-         */
-        getMirror(): $Mirror;
         constructor(state: $BlockState_, mirror: $Mirror_);
     }
     export class $BlockStateModifyPlacementCallback extends $BlockStateModifyCallback {
@@ -157,18 +157,6 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
          */
         getItem(): $ItemStack;
         /**
-         * Returns if the block being placed is replacing the block clicked
-         */
-        replacingClickedOnBlock(): boolean;
-        /**
-         * Gets the position in the block-space of where it was clicked
-         */
-        getClickLocation(): $Vec3;
-        /**
-         * Returns if the block being placed thinks it can be placed here. This is used for replacement checks, like placing blocks in water or tall grass
-         */
-        canPlace(): boolean;
-        /**
          * Gets the facing direction of the clicked block face
          */
         getClickedFace(): $Direction;
@@ -176,18 +164,6 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
          * Gets the clicked position in world
          */
         getClickedPos(): $BlockPos;
-        /**
-         * Get the horizontal rotation of the player
-         */
-        getRotation(): number;
-        /**
-         * Returns if the hit posiiton in the block-space is inside the 1x1x1 cube of the block
-         */
-        isInside(): boolean;
-        /**
-         * Gets the player placing the block, if available
-         */
-        getPlayer(): $Player;
         /**
          * Gets the direction closes to where the player is currently looking
          */
@@ -197,72 +173,96 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
          */
         getHorizontalDirection(): $Direction;
         /**
-         * Gets the vertical direction (UP/DOWN) closest to where the player is currently looking
+         * Returns if the block being placed is replacing the block clicked
          */
-        getNearestLookingVerticalDirection(): $Direction;
-        /**
-         * Checks if this block is in water
-         */
-        isInWater(): boolean;
-        /**
-         * Gets the hand that is placing the block
-         */
-        getHand(): $InteractionHand;
-        /**
-         * Gets an array of all directions, ordered by which the player is looking closest to
-         */
-        getNearestLookingDirections(): $Direction[];
-        /**
-         * Set if this block is waterlogged or not
-         */
-        waterlogged(waterlogged: boolean): $BlockStateModifyPlacementCallback;
+        replacingClickedOnBlock(): boolean;
         /**
          * Set this block as waterlogged if it is in water
          */
         waterlogged(): $BlockStateModifyPlacementCallback;
         /**
+         * Set if this block is waterlogged or not
+         */
+        waterlogged(waterlogged: boolean): $BlockStateModifyPlacementCallback;
+        /**
+         * Gets an array of all directions, ordered by which the player is looking closest to
+         */
+        getNearestLookingDirections(): $Direction[];
+        /**
+         * Gets the vertical direction (UP/DOWN) closest to where the player is currently looking
+         */
+        getNearestLookingVerticalDirection(): $Direction;
+        /**
+         * Get the horizontal rotation of the player
+         */
+        getRotation(): number;
+        /**
+         * Gets the position in the block-space of where it was clicked
+         */
+        getClickLocation(): $Vec3;
+        /**
+         * Checks if this block is in water
+         */
+        isInWater(): boolean;
+        /**
+         * Gets the player placing the block, if available
+         */
+        getPlayer(): $Player;
+        /**
+         * Returns if the hit posiiton in the block-space is inside the 1x1x1 cube of the block
+         */
+        isInside(): boolean;
+        /**
          * Returns if the player is using the 'secondary' function of this item. Basically checks if they are holding shift
          */
         isSecondaryUseActive(): boolean;
+        /**
+         * Gets the hand that is placing the block
+         */
+        getHand(): $InteractionHand;
+        /**
+         * Returns if the block being placed thinks it can be placed here. This is used for replacement checks, like placing blocks in water or tall grass
+         */
+        canPlace(): boolean;
         /**
          * Gets the clicked block
          */
         getClickedBlock(): $LevelBlock;
         /**
-         * Gets the FluidSate at the clicked position
+         * Checks if the position clicked has a specified fluid there
          */
-        getFluidStateAtClickedPos(): $FluidState;
+        isClickedPosIn(fluid: $Fluid_): boolean;
         /**
          * Checks if the block currently occupying the position this is being placed in is the same block type.
          * Used for things like candles, where multiple can be in the same block-space.
          */
         isReplacingSelf(): boolean;
         /**
-         * Checks if the position clicked has a specified fluid there
+         * Gets the FluidSate at the clicked position
          */
-        isClickedPosIn(fluid: $Fluid_): boolean;
+        getFluidStateAtClickedPos(): $FluidState;
         minecraftBlock: $Block;
         context: $BlockPlaceContext;
         block: $LevelBlock;
         constructor(context: $BlockPlaceContext, block: $Block_);
         get level(): $Level;
         get item(): $ItemStack;
-        get clickLocation(): $Vec3;
         get clickedFace(): $Direction;
         get clickedPos(): $BlockPos;
-        get rotation(): number;
-        get inside(): boolean;
-        get player(): $Player;
         get nearestLookingDirection(): $Direction;
         get horizontalDirection(): $Direction;
-        get nearestLookingVerticalDirection(): $Direction;
-        get inWater(): boolean;
-        get hand(): $InteractionHand;
         get nearestLookingDirections(): $Direction[];
+        get nearestLookingVerticalDirection(): $Direction;
+        get rotation(): number;
+        get clickLocation(): $Vec3;
+        get inWater(): boolean;
+        get player(): $Player;
+        get inside(): boolean;
         get secondaryUseActive(): boolean;
+        get hand(): $InteractionHand;
         get clickedBlock(): $LevelBlock;
-        get fluidStateAtClickedPos(): $FluidState;
         get replacingSelf(): boolean;
+        get fluidStateAtClickedPos(): $FluidState;
     }
     export class $RandomTickCallback {
         getLevel(): $Level;
@@ -309,37 +309,37 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
     export class $CanBeReplacedCallback {
         getLevel(): $Level;
         getItem(): $ItemStack;
-        getClickLocation(): $Vec3;
         getClickedFace(): $Direction;
         getClickedPos(): $BlockPos;
-        getRotation(): number;
-        isInside(): boolean;
-        getPlayer(): $Player;
         getNearestLookingDirection(): $Direction;
         getHorizontalDirection(): $Direction;
-        getNearestLookingVerticalDirection(): $Direction;
-        getHand(): $InteractionHand;
         getNearestLookingDirections(): $Direction[];
+        getNearestLookingVerticalDirection(): $Direction;
+        getRotation(): number;
+        getClickLocation(): $Vec3;
         canBeReplaced(): boolean;
+        getPlayer(): $Player;
+        isInside(): boolean;
         isSecondaryUseActive(): boolean;
+        getHand(): $InteractionHand;
         getClickedBlock(): $LevelBlock;
-        getFluidStateAtClickedPos(): $FluidState;
         isClickedPosIn(fluid: $Fluid_): boolean;
+        getFluidStateAtClickedPos(): $FluidState;
         constructor(blockPlaceContext: $BlockPlaceContext, state: $BlockState_);
         get level(): $Level;
         get item(): $ItemStack;
-        get clickLocation(): $Vec3;
         get clickedFace(): $Direction;
         get clickedPos(): $BlockPos;
-        get rotation(): number;
-        get inside(): boolean;
-        get player(): $Player;
         get nearestLookingDirection(): $Direction;
         get horizontalDirection(): $Direction;
-        get nearestLookingVerticalDirection(): $Direction;
-        get hand(): $InteractionHand;
         get nearestLookingDirections(): $Direction[];
+        get nearestLookingVerticalDirection(): $Direction;
+        get rotation(): number;
+        get clickLocation(): $Vec3;
+        get player(): $Player;
+        get inside(): boolean;
         get secondaryUseActive(): boolean;
+        get hand(): $InteractionHand;
         get clickedBlock(): $LevelBlock;
         get fluidStateAtClickedPos(): $FluidState;
     }
@@ -357,14 +357,14 @@ declare module "@package/dev/latvian/mods/kubejs/block/callback" {
     }
     export class $AfterEntityFallenOnBlockCallback extends $EntityBlockCallback {
         /**
-         * Returns the Vec3 of the entity's velocity. Use .x, .y and .z to get the respective components of that
-         */
-        getVelocity(): $Vec3;
-        /**
          * Bounce the entity upwards by bounciness * their fall velocity.
          * Do not make bounciness negative, as that is a recipe for a long and laggy trip to the void
          */
         bounce(bounciness: number): void;
+        /**
+         * Returns the Vec3 of the entity's velocity. Use .x, .y and .z to get the respective components of that
+         */
+        getVelocity(): $Vec3;
         /**
          * Sets the entity's velocity
          */

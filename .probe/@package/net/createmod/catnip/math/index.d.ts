@@ -6,16 +6,16 @@ declare module "@package/net/createmod/catnip/math" {
     export class $Pointing extends $Enum<$Pointing> implements $StringRepresentable {
         static values(): $Pointing[];
         static valueOf(arg0: string): $Pointing;
+        getXRotation(): number;
         getCombinedDirection(arg0: $Direction_): $Direction;
         getSerializedName(): string;
-        getXRotation(): number;
         getRemappedEnumConstantName(): string;
         static DOWN: $Pointing;
         static LEFT: $Pointing;
         static RIGHT: $Pointing;
         static UP: $Pointing;
-        get serializedName(): string;
         get XRotation(): number;
+        get serializedName(): string;
         get remappedEnumConstantName(): string;
     }
     /**

@@ -78,14 +78,14 @@ declare module "@package/net/neoforged/neoforge/event/level" {
     }
     export class $ChunkTicketLevelUpdatedEvent extends $Event {
         getLevel(): $ServerLevel;
-        getChunkHolder(): $ChunkHolder;
         getChunkPos(): number;
+        getChunkHolder(): $ChunkHolder;
         getOldTicketLevel(): number;
         getNewTicketLevel(): number;
         constructor(arg0: $ServerLevel, arg1: number, arg2: number, arg3: number, arg4: $ChunkHolder);
         get level(): $ServerLevel;
-        get chunkHolder(): $ChunkHolder;
         get chunkPos(): number;
+        get chunkHolder(): $ChunkHolder;
         get oldTicketLevel(): number;
         get newTicketLevel(): number;
     }
@@ -100,9 +100,9 @@ declare module "@package/net/neoforged/neoforge/event/level" {
     export class $LevelEvent$PotentialSpawns extends $LevelEvent implements $ICancellableEvent {
         getPos(): $BlockPos;
         getSpawnerDataList(): $List<$MobSpawnSettings$SpawnerData>;
-        removeSpawnerData(arg0: $MobSpawnSettings$SpawnerData): boolean;
         getMobCategory(): $MobCategory;
         addSpawnerData(arg0: $MobSpawnSettings$SpawnerData): void;
+        removeSpawnerData(arg0: $MobSpawnSettings$SpawnerData): boolean;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $LevelAccessor, arg1: $MobCategory_, arg2: $BlockPos_, arg3: $WeightedRandomList<$MobSpawnSettings$SpawnerData>);
@@ -112,17 +112,17 @@ declare module "@package/net/neoforged/neoforge/event/level" {
     }
     export class $ChunkWatchEvent extends $Event {
         getLevel(): $ServerLevel;
-        getPlayer(): $ServerPlayer;
         getPos(): $ChunkPos;
+        getPlayer(): $ServerPlayer;
         constructor(arg0: $ServerPlayer, arg1: $ChunkPos, arg2: $ServerLevel);
         get level(): $ServerLevel;
-        get player(): $ServerPlayer;
         get pos(): $ChunkPos;
+        get player(): $ServerPlayer;
     }
     export class $LevelEvent extends $Event implements $EventHandlerImplCommon$LevelEventAttachment {
         getLevel(): $LevelAccessor;
-        architectury$getAttachedLevel(): $LevelAccessor;
         architectury$attachLevel(level: $LevelAccessor): void;
+        architectury$getAttachedLevel(): $LevelAccessor;
         constructor(arg0: $LevelAccessor);
         get level(): $LevelAccessor;
     }
@@ -148,9 +148,9 @@ declare module "@package/net/neoforged/neoforge/event/level" {
     }
     export class $BlockDropsEvent extends $BlockEvent implements $ICancellableEvent {
         getLevel(): $ServerLevel;
-        setDroppedExperience(arg0: number): void;
-        getDroppedExperience(): number;
         getDrops(): $List<$ItemEntity>;
+        getDroppedExperience(): number;
+        setDroppedExperience(arg0: number): void;
         setCanceled(arg0: boolean): void;
         getBreaker(): $Entity;
         getTool(): $ItemStack;
@@ -164,13 +164,13 @@ declare module "@package/net/neoforged/neoforge/event/level" {
         get blockEntity(): $BlockEntity;
     }
     export class $BlockEvent$NeighborNotifyEvent extends $BlockEvent implements $ICancellableEvent {
-        getForceRedstoneUpdate(): boolean;
         getNotifiedSides(): $EnumSet<$Direction>;
+        getForceRedstoneUpdate(): boolean;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $EnumSet<$Direction_>, arg4: boolean);
-        get forceRedstoneUpdate(): boolean;
         get notifiedSides(): $EnumSet<$Direction>;
+        get forceRedstoneUpdate(): boolean;
     }
     export class $LevelEvent$CreateSpawnPosition extends $LevelEvent implements $ICancellableEvent {
         getSettings(): $ServerLevelData;
@@ -190,20 +190,20 @@ declare module "@package/net/neoforged/neoforge/event/level" {
     }
     export class $BlockEvent$EntityPlaceEvent extends $BlockEvent implements $ICancellableEvent {
         getEntity(): $Entity;
-        getBlockSnapshot(): $BlockSnapshot;
         getPlacedBlock(): $BlockState;
+        getBlockSnapshot(): $BlockSnapshot;
         getPlacedAgainst(): $BlockState;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $BlockSnapshot, arg1: $BlockState_, arg2: $Entity);
         get entity(): $Entity;
-        get blockSnapshot(): $BlockSnapshot;
         get placedBlock(): $BlockState;
+        get blockSnapshot(): $BlockSnapshot;
         get placedAgainst(): $BlockState;
     }
     export class $NoteBlockEvent$Play extends $NoteBlockEvent implements $ICancellableEvent {
-        setInstrument(arg0: $NoteBlockInstrument_): void;
         getInstrument(): $NoteBlockInstrument;
+        setInstrument(arg0: $NoteBlockInstrument_): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: number, arg4: $NoteBlockInstrument_);
@@ -262,8 +262,8 @@ declare module "@package/net/neoforged/neoforge/event/level" {
         constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $PistonEvent$PistonMoveType_);
     }
     export class $BlockEvent$BreakEvent extends $BlockEvent implements $ICancellableEvent {
-        getPlayer(): $Player;
         setCanceled(arg0: boolean): void;
+        getPlayer(): $Player;
         isCanceled(): boolean;
         constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $Player);
         get player(): $Player;
@@ -273,8 +273,8 @@ declare module "@package/net/neoforged/neoforge/event/level" {
         setFeature(arg0: $Holder_<$ConfiguredFeature<never, never>>): void;
         setFeature(arg0: $ResourceKey_<$ConfiguredFeature<never, never>>): void;
         getPos(): $BlockPos;
-        getRandom(): $RandomSource;
         setCanceled(arg0: boolean): void;
+        getRandom(): $RandomSource;
         isCanceled(): boolean;
         constructor(arg0: $LevelAccessor, arg1: $RandomSource, arg2: $BlockPos_, arg3: $Holder_<$ConfiguredFeature<never, never>>);
         get pos(): $BlockPos;
@@ -287,14 +287,14 @@ declare module "@package/net/neoforged/neoforge/event/level" {
     }
     export class $PistonEvent extends $BlockEvent {
         getDirection(): $Direction;
-        getPistonMoveType(): $PistonEvent$PistonMoveType;
-        getFaceOffsetPos(): $BlockPos;
         getStructureHelper(): $PistonStructureResolver;
+        getFaceOffsetPos(): $BlockPos;
+        getPistonMoveType(): $PistonEvent$PistonMoveType;
         constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $PistonEvent$PistonMoveType_);
         get direction(): $Direction;
-        get pistonMoveType(): $PistonEvent$PistonMoveType;
-        get faceOffsetPos(): $BlockPos;
         get structureHelper(): $PistonStructureResolver;
+        get faceOffsetPos(): $BlockPos;
+        get pistonMoveType(): $PistonEvent$PistonMoveType;
     }
     export class $ChunkWatchEvent$Sent extends $ChunkWatchEvent {
         getChunk(): $LevelChunk;
@@ -308,17 +308,17 @@ declare module "@package/net/neoforged/neoforge/event/level" {
         get chunk(): $ChunkAccess;
     }
     export class $NoteBlockEvent extends $BlockEvent {
-        getVanillaNoteId(): number;
-        getOctave(): $NoteBlockEvent$Octave;
-        setNote(arg0: $NoteBlockEvent$Note_, arg1: $NoteBlockEvent$Octave_): void;
         getNote(): $NoteBlockEvent$Note;
-        get vanillaNoteId(): number;
+        setNote(arg0: $NoteBlockEvent$Note_, arg1: $NoteBlockEvent$Octave_): void;
+        getOctave(): $NoteBlockEvent$Octave;
+        getVanillaNoteId(): number;
         get octave(): $NoteBlockEvent$Octave;
+        get vanillaNoteId(): number;
     }
     export class $ExplosionKnockbackEvent extends $ExplosionEvent {
-        getAffectedBlocks(): $List<$BlockPos>;
-        getKnockbackVelocity(): $Vec3;
         setKnockbackVelocity(arg0: $Vec3_): void;
+        getKnockbackVelocity(): $Vec3;
+        getAffectedBlocks(): $List<$BlockPos>;
         getAffectedEntity(): $Entity;
         constructor(arg0: $Level_, arg1: $Explosion, arg2: $Entity, arg3: $Vec3_);
         get affectedBlocks(): $List<$BlockPos>;
@@ -335,20 +335,20 @@ declare module "@package/net/neoforged/neoforge/event/level" {
     }
     export class $BlockEvent$BlockToolModificationEvent extends $BlockEvent implements $ICancellableEvent {
         getContext(): $UseOnContext;
-        getFinalState(): $BlockState;
         isSimulated(): boolean;
-        setFinalState(arg0: $BlockState_): void;
         getPlayer(): $Player;
-        getHeldItemStack(): $ItemStack;
+        setFinalState(arg0: $BlockState_): void;
+        getFinalState(): $BlockState;
         getItemAbility(): $ItemAbility;
+        getHeldItemStack(): $ItemStack;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $BlockState_, arg1: $UseOnContext, arg2: $ItemAbility_, arg3: boolean);
         get context(): $UseOnContext;
         get simulated(): boolean;
         get player(): $Player;
-        get heldItemStack(): $ItemStack;
         get itemAbility(): $ItemAbility;
+        get heldItemStack(): $ItemStack;
     }
     export class $LevelEvent$Unload extends $LevelEvent {
         constructor(arg0: $LevelAccessor);
@@ -372,11 +372,11 @@ declare module "@package/net/neoforged/neoforge/event/level" {
      */
     export type $AlterGroundEvent$StateProvider_ = ((arg0: $RandomSource, arg1: $BlockPos) => $BlockState_);
     export class $ExplosionEvent$Detonate extends $ExplosionEvent {
-        getAffectedEntities(): $List<$Entity>;
         getAffectedBlocks(): $List<$BlockPos>;
+        getAffectedEntities(): $List<$Entity>;
         constructor(arg0: $Level_, arg1: $Explosion, arg2: $List_<$Entity>);
-        get affectedEntities(): $List<$Entity>;
         get affectedBlocks(): $List<$BlockPos>;
+        get affectedEntities(): $List<$Entity>;
     }
     export class $BlockEvent$FluidPlaceBlockEvent extends $BlockEvent implements $ICancellableEvent {
         getOriginalState(): $BlockState;

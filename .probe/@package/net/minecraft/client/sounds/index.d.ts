@@ -10,6 +10,7 @@ import { $Minecraft, $Camera, $Options } from "@package/net/minecraft/client";
 import { $ResourceManager, $SimplePreparableReloadListener, $ResourceProvider_ } from "@package/net/minecraft/server/packs/resources";
 import { $List, $Collection_, $Collection, $Map } from "@package/java/util";
 import { $ByteBuffer } from "@package/java/nio";
+import { $ChannelHandleAccessor } from "@package/me/muksc/tacztweaks/mixin/accessor";
 import { $RandomSource } from "@package/net/minecraft/util";
 import { $FloatConsumer_, $FloatConsumer } from "@package/it/unimi/dsi/fastutil/floats";
 import { $MusicManagerAccessor } from "@package/dev/eriksonn/aeronautics/mixin/custom_situational_music";
@@ -55,31 +56,31 @@ declare module "@package/net/minecraft/client/sounds" {
     export class $SoundManager extends $SimplePreparableReloadListener<$SoundManager$Preparations> implements $IdentifiableResourceReloadListener {
         apply(arg0: $SoundManager$Preparations, arg1: $ResourceManager, arg2: $ProfilerFiller): void;
         stop(arg0: $ResourceLocation_, arg1: $SoundSource_): void;
-        stop(arg0: $SoundInstance): void;
         stop(): void;
+        stop(arg0: $SoundInstance): void;
         resume(): void;
         destroy(): void;
         prepare(arg0: $ResourceManager, arg1: $ProfilerFiller): $SoundManager$Preparations;
         isActive(arg0: $SoundInstance): boolean;
         tick(arg0: boolean): void;
         reload(): void;
-        play(arg0: $SoundInstance): void;
-        getSoundEvent(arg0: $ResourceLocation_): $WeighedSoundEvents;
-        addListener(arg0: $SoundEventListener_): void;
         removeListener(arg0: $SoundEventListener_): void;
-        pause(): void;
+        addListener(arg0: $SoundEventListener_): void;
         getAvailableSounds(): $Collection<$ResourceLocation>;
+        play(arg0: $SoundInstance): void;
+        getFabricDependencies(): $Collection<any>;
+        getAvailableSoundDevices(): $List<string>;
+        updateSource(arg0: $Camera): void;
+        emergencyShutdown(): void;
         getFabricId(): $ResourceLocation;
+        pause(): void;
+        updateSourceVolume(arg0: $SoundSource_, arg1: number): void;
+        getSoundEvent(arg0: $ResourceLocation_): $WeighedSoundEvents;
         playDelayed(arg0: $SoundInstance, arg1: number): void;
         queueTickingSound(arg0: $TickableSoundInstance): void;
-        getFabricDependencies(): $Collection<any>;
-        emergencyShutdown(): void;
-        updateSource(arg0: $Camera): void;
-        updateSourceVolume(arg0: $SoundSource_, arg1: number): void;
-        getAvailableSoundDevices(): $List<string>;
-        getDebugString(): string;
-        static validateSoundResource(arg0: $Sound, arg1: $ResourceLocation_, arg2: $ResourceProvider_): boolean;
         getListenerTransform(): $ListenerTransform;
+        static validateSoundResource(arg0: $Sound, arg1: $ResourceLocation_, arg2: $ResourceProvider_): boolean;
+        getDebugString(): string;
         static EMPTY_SOUND: $Sound;
         static INTENTIONALLY_EMPTY_SOUND_EVENT: $WeighedSoundEvents;
         static EMPTY_SOUND_LOCATION: $ResourceLocation;
@@ -89,11 +90,11 @@ declare module "@package/net/minecraft/client/sounds" {
         static INTENTIONALLY_EMPTY_SOUND: $Sound;
         constructor(arg0: $Options);
         get availableSounds(): $Collection<$ResourceLocation>;
-        get fabricId(): $ResourceLocation;
         get fabricDependencies(): $Collection<any>;
         get availableSoundDevices(): $List<string>;
-        get debugString(): string;
+        get fabricId(): $ResourceLocation;
         get listenerTransform(): $ListenerTransform;
+        get debugString(): string;
     }
     export class $LoopingAudioStream implements $AudioStream {
         read(arg0: number): $ByteBuffer;
@@ -102,10 +103,11 @@ declare module "@package/net/minecraft/client/sounds" {
         constructor(arg0: $LoopingAudioStream$AudioStreamProvider_, arg1: $InputStream);
         get format(): $AudioFormat;
     }
-    export class $ChannelAccess$ChannelHandle {
+    export class $ChannelAccess$ChannelHandle implements $ChannelHandleAccessor {
         execute(arg0: $Consumer_<$Channel>): void;
         release(): void;
         isStopped(): boolean;
+        tacztweaks$getChannel(): $Channel;
         this$0: $ChannelAccess;
         channel: $Channel;
         constructor(arg0: $ChannelAccess, arg1: $Channel);
@@ -119,28 +121,28 @@ declare module "@package/net/minecraft/client/sounds" {
         get format(): $AudioFormat;
     }
     export class $SoundEngine {
-        stop(arg0: $SoundInstance): void;
         stop(arg0: $ResourceLocation_, arg1: $SoundSource_): void;
+        stop(arg0: $SoundInstance): void;
         resume(): void;
         destroy(): void;
         isActive(arg0: $SoundInstance): boolean;
         tick(arg0: boolean): void;
         reload(): void;
-        play(arg0: $SoundInstance): void;
         removeEventListener(arg0: $SoundEventListener_): void;
         addEventListener(arg0: $SoundEventListener_): void;
+        play(arg0: $SoundInstance): void;
+        getAvailableSoundDevices(): $List<string>;
+        updateSource(arg0: $Camera): void;
+        emergencyShutdown(): void;
         pause(): void;
+        stopAll(): void;
         playDelayed(arg0: $SoundInstance, arg1: number): void;
         queueTickingSound(arg0: $TickableSoundInstance): void;
-        stopAll(): void;
-        emergencyShutdown(): void;
-        updateSource(arg0: $Camera): void;
-        getAvailableSoundDevices(): $List<string>;
-        modifyReturnValue$dge000$immersiveengineering$adjustVolumeForEarmuffs(arg0: number, arg1: $SoundInstance): number;
-        modifyExpressionValue$dge000$immersiveengineering$adjustVolumeAtStart(arg0: number, arg1: $SoundInstance): number;
-        getDebugString(): string;
-        updateCategoryVolume(arg0: $SoundSource_, arg1: number): void;
         getListenerTransform(): $ListenerTransform;
+        updateCategoryVolume(arg0: $SoundSource_, arg1: number): void;
+        getDebugString(): string;
+        modifyExpressionValue$dgd000$immersiveengineering$adjustVolumeAtStart(arg0: number, arg1: $SoundInstance): number;
+        modifyReturnValue$dgd000$immersiveengineering$adjustVolumeForEarmuffs(arg0: number, arg1: $SoundInstance): number;
         requestPreload(arg0: $Sound): void;
         tickingSounds: $List<$TickableSoundInstance>;
         static MISSING_SOUND: string;
@@ -150,8 +152,8 @@ declare module "@package/net/minecraft/client/sounds" {
         static OPEN_AL_SOFT_PREFIX_LENGTH: number;
         constructor(arg0: $SoundManager, arg1: $Options, arg2: $ResourceProvider_);
         get availableSoundDevices(): $List<string>;
-        get debugString(): string;
         get listenerTransform(): $ListenerTransform;
+        get debugString(): string;
     }
     export class $SoundBufferLibrary {
         clear(): void;
@@ -182,8 +184,8 @@ declare module "@package/net/minecraft/client/sounds" {
     export class $Weighted<T> {
     }
     export interface $Weighted<T> {
-        getWeight(): number;
         getSound(arg0: $RandomSource): T;
+        getWeight(): number;
         preloadIfRequired(arg0: $SoundEngine): void;
         get weight(): number;
     }
@@ -205,8 +207,8 @@ declare module "@package/net/minecraft/client/sounds" {
         stopPlaying(arg0: $Music): void;
         startPlaying(arg0: $Music): void;
         getCurrentMusic(): $SoundInstance;
-        setNextSongDelay(arg0: number): void;
         getNextSongDelay(): number;
+        setNextSongDelay(arg0: number): void;
         constructor(arg0: $Minecraft);
         get currentMusic(): $SoundInstance;
     }
@@ -220,8 +222,8 @@ declare module "@package/net/minecraft/client/sounds" {
     }
     export interface $FloatSampleSource extends $FiniteAudioStream {
         read(arg0: number): $ByteBuffer;
-        readAll(): $ByteBuffer;
         readChunk(arg0: $FloatConsumer_): boolean;
+        readAll(): $ByteBuffer;
     }
     export class $ChannelAccess {
         clear(): void;
@@ -234,9 +236,9 @@ declare module "@package/net/minecraft/client/sounds" {
     }
     export class $WeighedSoundEvents implements $Weighted<$Sound> {
         getWeight(): number;
-        addSound(arg0: $Weighted<$Sound>): void;
         getSubtitle(): $Component;
         preloadIfRequired(arg0: $SoundEngine): void;
+        addSound(arg0: $Weighted<$Sound>): void;
         getSound(arg0: $RandomSource): $Sound;
         constructor(arg0: $ResourceLocation_, arg1: string);
         get weight(): number;

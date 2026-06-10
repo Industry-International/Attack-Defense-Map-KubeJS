@@ -1,4 +1,4 @@
-import { $CreativeModeTab$ItemDisplayParameters_, $CreativeModeTab$ItemDisplayParameters } from "@package/net/minecraft/world/item";
+import { $CreativeModeTab$ItemDisplayParameters, $CreativeModeTab$ItemDisplayParameters_ } from "@package/net/minecraft/world/item";
 
 declare module "@package/com/hlysine/create_connected/mixin/featuretoggle" {
     export class $CreativeModeTabsAccessor {

@@ -16,8 +16,8 @@ declare module "@package/net/minecraft/world/level/block/state/predicate" {
     export class $BlockStatePredicate implements $Predicate<$BlockState> {
         test(arg0: $BlockState_): boolean;
         where<V extends $Comparable<V>>(arg0: $Property<V>, arg1: $Predicate_<$Object>): $BlockStatePredicate;
-        static forBlock(arg0: $Block_): $BlockStatePredicate;
         applies<T extends $Comparable<T>>(arg0: $BlockState_, arg1: $Property<T>, arg2: $Predicate_<$Object>): boolean;
+        static forBlock(arg0: $Block_): $BlockStatePredicate;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;

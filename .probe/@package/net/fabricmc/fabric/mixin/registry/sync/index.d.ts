@@ -19,12 +19,12 @@ declare module "@package/net/fabricmc/fabric/mixin/registry/sync" {
      * @deprecated
      */
     export class $DebugChunkGeneratorAccessor {
+        static setX_SIDE_LENGTH(arg0: number): void;
         static setZ_SIDE_LENGTH(arg0: number): void;
         static setBLOCK_STATES(arg0: $List_<$BlockState_>): void;
-        static setX_SIDE_LENGTH(arg0: number): void;
+        static set x_SIDE_LENGTH(value: number);
         static set z_SIDE_LENGTH(value: number);
         static set BLOCK_STATES(value: $List_<$BlockState_>);
-        static set x_SIDE_LENGTH(value: number);
     }
     export interface $DebugChunkGeneratorAccessor {
     }

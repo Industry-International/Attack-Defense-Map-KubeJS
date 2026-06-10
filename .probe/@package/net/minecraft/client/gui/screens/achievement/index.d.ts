@@ -14,26 +14,26 @@ import { $Stat_, $StatsCounter } from "@package/net/minecraft/stats";
 
 declare module "@package/net/minecraft/client/gui/screens/achievement" {
     export class $StatsScreen extends $Screen {
-        static access$100(arg0: $StatsScreen): $Font;
         static access$000(arg0: $StatsScreen): $Font;
-        static access$300(arg0: $StatsScreen): $Font;
         static access$200(arg0: $StatsScreen): $Font;
+        static access$300(arg0: $StatsScreen): $Font;
+        static access$100(arg0: $StatsScreen): $Font;
         static access$700(arg0: $StatsScreen): $Font;
-        static access$500(arg0: $StatsScreen): $Font;
-        static access$900(arg0: $StatsScreen): $Font;
         static access$800(arg0: $StatsScreen): $Font;
+        static access$900(arg0: $StatsScreen): $Font;
+        static access$500(arg0: $StatsScreen): $Font;
         static access$400(arg0: $StatsScreen): $Font;
         static access$600(arg0: $StatsScreen): $Font;
         static access$1100(arg0: $StatsScreen): $Font;
         static access$1000(arg0: $StatsScreen): $Font;
         static access$1200(arg0: $StatsScreen): $Font;
+        static access$1300(arg0: $StatsScreen): $Font;
         static access$1400(arg0: $StatsScreen): $Font;
         static access$1500(arg0: $StatsScreen): $Font;
-        static access$1300(arg0: $StatsScreen): $Font;
-        initLists(): void;
-        initButtons(): void;
         static getTranslationKey(arg0: $Stat_<$ResourceLocation_>): string;
         onStatsUpdated(): void;
+        initButtons(): void;
+        initLists(): void;
         setActiveList(arg0: $ObjectSelectionList<never>): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;

@@ -18,32 +18,32 @@ import { $AttachmentCacheProperty } from "@package/com/tacz/guns/resource/modifi
 
 declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export class $GunKubeJSEvents$GunFireSelectEventJS extends $GunKubeJSEvents$GunEventJS<$GunFireSelectEvent> implements $TimelessForgeEventWrappers$GunFireSelectWrapper {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         constructor(arg0: $GunFireSelectEvent);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $TimelessForgeEventWrappers$AttachmentPropertyWrapper {
     }
     export interface $TimelessForgeEventWrappers$AttachmentPropertyWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$AttachmentPropertyEvent> {
-        getGunItem(): $ItemStack;
         getCacheProperty(): $AttachmentCacheProperty;
-        get gunItem(): $ItemStack;
+        getGunItem(): $ItemStack;
         get cacheProperty(): $AttachmentCacheProperty;
+        get gunItem(): $ItemStack;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$AttachmentPropertyWrapper}.
      */
     export type $TimelessForgeEventWrappers$AttachmentPropertyWrapper_ = (() => void);
     export class $GunKubeJSEvents$AttachmentPropertyEventJS extends $GunKubeJSEvents$GunEventJS<$AttachmentPropertyEvent> implements $TimelessForgeEventWrappers$AttachmentPropertyWrapper {
-        getGunItem(): $ItemStack;
         getCacheProperty(): $AttachmentCacheProperty;
+        getGunItem(): $ItemStack;
         constructor(arg0: $AttachmentPropertyEvent);
-        get gunItem(): $ItemStack;
         get cacheProperty(): $AttachmentCacheProperty;
+        get gunItem(): $ItemStack;
     }
     export class $GunKubeJSEvents$BeforeRenderHandEventJS extends $GunKubeJSEvents$GunEventJS<$BeforeRenderHandEvent> implements $TimelessForgeEventWrappers$BeforeRenderHandWrapper {
         getPoseStack(): $PoseStack;
@@ -53,23 +53,23 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export class $TimelessForgeEventWrappers$EntityHurtByGunWrapper<E extends $EntityHurtByGunEvent> {
     }
     export interface $TimelessForgeEventWrappers$EntityHurtByGunWrapper<E extends $EntityHurtByGunEvent> extends $TimelessForgeEventWrappers$ForgeEventWrapper<E> {
-        getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
-        getLogicalSide(): $LogicalSide;
-        getBaseAmount(): number;
-        getAttacker(): $LivingEntity;
-        getGunId(): $ResourceLocation;
-        getHeadshotMultiplier(): number;
-        getBullet(): $Entity;
-        getHurtEntity(): $Entity;
         isHeadShot(): boolean;
-        get logicalSide(): $LogicalSide;
-        get baseAmount(): number;
-        get attacker(): $LivingEntity;
-        get gunId(): $ResourceLocation;
-        get headshotMultiplier(): number;
-        get bullet(): $Entity;
-        get hurtEntity(): $Entity;
+        getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
+        getBullet(): $Entity;
+        getGunId(): $ResourceLocation;
+        getBaseAmount(): number;
+        getLogicalSide(): $LogicalSide;
+        getAttacker(): $LivingEntity;
+        getHurtEntity(): $Entity;
+        getHeadshotMultiplier(): number;
         get headShot(): boolean;
+        get bullet(): $Entity;
+        get gunId(): $ResourceLocation;
+        get baseAmount(): number;
+        get logicalSide(): $LogicalSide;
+        get attacker(): $LivingEntity;
+        get hurtEntity(): $Entity;
+        get headshotMultiplier(): number;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$EntityHurtByGunWrapper}.
@@ -78,19 +78,19 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export class $TimelessForgeEventWrappers$EntityHurtByGunPreWrapper {
     }
     export interface $TimelessForgeEventWrappers$EntityHurtByGunPreWrapper extends $TimelessForgeEventWrappers$EntityHurtByGunWrapper<$EntityHurtByGunEvent$Pre> {
-        setBaseAmount(arg0: number): void;
-        setHeadshotMultiplier(arg0: number): void;
         setGunId(arg0: $ResourceLocation_): void;
+        setBaseAmount(arg0: number): void;
         setAttacker(arg0: $LivingEntity): void;
-        setHeadshot(arg0: boolean): void;
         setHurtEntity(arg0: $Entity): void;
         setDamageSource(arg0: $GunDamageSourcePart_, arg1: $DamageSource_): void;
-        set baseAmount(value: number);
-        set headshotMultiplier(value: number);
+        setHeadshot(arg0: boolean): void;
+        setHeadshotMultiplier(arg0: number): void;
         set gunId(value: $ResourceLocation_);
+        set baseAmount(value: number);
         set attacker(value: $LivingEntity);
-        set headshot(value: boolean);
         set hurtEntity(value: $Entity);
+        set headshot(value: boolean);
+        set headshotMultiplier(value: number);
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$EntityHurtByGunPreWrapper}.
@@ -99,96 +99,96 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export class $TimelessForgeEventWrappers$GunFireSelectWrapper {
     }
     export interface $TimelessForgeEventWrappers$GunFireSelectWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$GunFireSelectEvent> {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$GunFireSelectWrapper}.
      */
     export type $TimelessForgeEventWrappers$GunFireSelectWrapper_ = (() => void);
     export class $GunKubeJSEvents$EntityHurtByGunPreEventJS extends $GunKubeJSEvents$GunEventJS<$EntityHurtByGunEvent$Pre> implements $TimelessForgeEventWrappers$EntityHurtByGunPreWrapper {
-        setBaseAmount(arg0: number): void;
-        setHeadshotMultiplier(arg0: number): void;
         setGunId(arg0: $ResourceLocation_): void;
+        setBaseAmount(arg0: number): void;
         setAttacker(arg0: $LivingEntity): void;
-        setHeadshot(arg0: boolean): void;
         setHurtEntity(arg0: $Entity): void;
         setDamageSource(arg0: $GunDamageSourcePart_, arg1: $DamageSource_): void;
-        getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
-        getLogicalSide(): $LogicalSide;
-        getBaseAmount(): number;
-        getAttacker(): $LivingEntity;
-        getGunId(): $ResourceLocation;
-        getHeadshotMultiplier(): number;
-        getBullet(): $Entity;
-        getHurtEntity(): $Entity;
+        setHeadshot(arg0: boolean): void;
+        setHeadshotMultiplier(arg0: number): void;
         isHeadShot(): boolean;
+        getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
+        getBullet(): $Entity;
+        getGunId(): $ResourceLocation;
+        getBaseAmount(): number;
+        getLogicalSide(): $LogicalSide;
+        getAttacker(): $LivingEntity;
+        getHurtEntity(): $Entity;
+        getHeadshotMultiplier(): number;
         constructor(arg0: $EntityHurtByGunEvent$Pre);
         set headshot(value: boolean);
-        get logicalSide(): $LogicalSide;
-        get bullet(): $Entity;
         get headShot(): boolean;
+        get bullet(): $Entity;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunKubeJSEvents$GunDrawEventJS extends $GunKubeJSEvents$GunEventJS<$GunDrawEvent> implements $TimelessForgeEventWrappers$GunDrawWrapper {
         getEntity(): $LivingEntity;
         getLogicalSide(): $LogicalSide;
-        getCurrentGunItem(): $ItemStack;
         getPreviousGunItem(): $ItemStack;
+        getCurrentGunItem(): $ItemStack;
         constructor(arg0: $GunDrawEvent);
         get entity(): $LivingEntity;
         get logicalSide(): $LogicalSide;
-        get currentGunItem(): $ItemStack;
         get previousGunItem(): $ItemStack;
+        get currentGunItem(): $ItemStack;
     }
     export class $TimelessForgeEventWrappers$GunMeleeWrapper {
     }
     export interface $TimelessForgeEventWrappers$GunMeleeWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$GunMeleeEvent> {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$GunMeleeWrapper}.
      */
     export type $TimelessForgeEventWrappers$GunMeleeWrapper_ = (() => void);
     export class $GunKubeJSEvents$EntityKillByGunEventJS extends $GunKubeJSEvents$GunEventJS<$EntityKillByGunEvent> implements $TimelessForgeEventWrappers$EntityKillByGunWrapper {
+        isHeadShot(): boolean;
         getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
+        getBullet(): $Entity;
+        getGunId(): $ResourceLocation;
+        getBaseDamage(): number;
         getLogicalSide(): $LogicalSide;
         getAttacker(): $LivingEntity;
-        getBaseDamage(): number;
-        getGunId(): $ResourceLocation;
-        getHeadshotMultiplier(): number;
-        getBullet(): $Entity;
-        getKilledEntity(): $LivingEntity;
         getGunDisplayId(): $ResourceLocation;
-        isHeadShot(): boolean;
+        getHeadshotMultiplier(): number;
+        getKilledEntity(): $LivingEntity;
         constructor(arg0: $EntityKillByGunEvent);
+        get headShot(): boolean;
+        get bullet(): $Entity;
+        get gunId(): $ResourceLocation;
+        get baseDamage(): number;
         get logicalSide(): $LogicalSide;
         get attacker(): $LivingEntity;
-        get baseDamage(): number;
-        get gunId(): $ResourceLocation;
-        get headshotMultiplier(): number;
-        get bullet(): $Entity;
-        get killedEntity(): $LivingEntity;
         get gunDisplayId(): $ResourceLocation;
-        get headShot(): boolean;
+        get headshotMultiplier(): number;
+        get killedEntity(): $LivingEntity;
     }
     export class $TimelessForgeEventWrappers$GunReloadWrapper {
     }
     export interface $TimelessForgeEventWrappers$GunReloadWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$GunReloadEvent> {
         getEntity(): $LivingEntity;
-        getLogicalSide(): $LogicalSide;
         getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         get entity(): $LivingEntity;
-        get logicalSide(): $LogicalSide;
         get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$GunReloadWrapper}.
@@ -197,12 +197,12 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export class $TimelessForgeEventWrappers$GunFireWrapper {
     }
     export interface $TimelessForgeEventWrappers$GunFireWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$GunFireEvent> {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$GunFireWrapper}.
@@ -211,10 +211,10 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export class $TimelessForgeEventWrappers$GunFinishReloadWrapper {
     }
     export interface $TimelessForgeEventWrappers$GunFinishReloadWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$GunFinishReloadEvent> {
-        getLogicalSide(): $LogicalSide;
         getGunItemStack(): $ItemStack;
-        get logicalSide(): $LogicalSide;
+        getLogicalSide(): $LogicalSide;
         get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$GunFinishReloadWrapper}.
@@ -252,12 +252,12 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export class $TimelessForgeEventWrappers$GunShootWrapper {
     }
     export interface $TimelessForgeEventWrappers$GunShootWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$GunShootEvent> {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$GunShootWrapper}.
@@ -277,33 +277,33 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
         constructor(arg0: $SwapItemWithOffHand);
     }
     export class $GunKubeJSEvents$GunShootEventJS extends $GunKubeJSEvents$GunEventJS<$GunShootEvent> implements $TimelessForgeEventWrappers$GunShootWrapper {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         constructor(arg0: $GunShootEvent);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunKubeJSEvents$EntityHurtByGunPostEventJS extends $GunKubeJSEvents$GunEventJS<$EntityHurtByGunEvent$Post> implements $TimelessForgeEventWrappers$EntityHurtByGunWrapper<$EntityHurtByGunEvent$Post> {
-        getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
-        getLogicalSide(): $LogicalSide;
-        getBaseAmount(): number;
-        getAttacker(): $LivingEntity;
-        getGunId(): $ResourceLocation;
-        getHeadshotMultiplier(): number;
-        getBullet(): $Entity;
-        getHurtEntity(): $Entity;
         isHeadShot(): boolean;
+        getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
+        getBullet(): $Entity;
+        getGunId(): $ResourceLocation;
+        getBaseAmount(): number;
+        getLogicalSide(): $LogicalSide;
+        getAttacker(): $LivingEntity;
+        getHurtEntity(): $Entity;
+        getHeadshotMultiplier(): number;
         constructor(arg0: $EntityHurtByGunEvent$Post);
-        get logicalSide(): $LogicalSide;
-        get baseAmount(): number;
-        get attacker(): $LivingEntity;
-        get gunId(): $ResourceLocation;
-        get headshotMultiplier(): number;
-        get bullet(): $Entity;
-        get hurtEntity(): $Entity;
         get headShot(): boolean;
+        get bullet(): $Entity;
+        get gunId(): $ResourceLocation;
+        get baseAmount(): number;
+        get logicalSide(): $LogicalSide;
+        get attacker(): $LivingEntity;
+        get hurtEntity(): $Entity;
+        get headshotMultiplier(): number;
     }
     export class $GunKubeJSEvents$GunEventJS<E extends $Event> implements $KubeEvent, $TimelessForgeEventWrappers$ForgeEventWrapper<E> {
         cancel(arg1: $Object): $Object;
@@ -361,65 +361,65 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
         constructor(arg0: $RenderLevelBobEvent$BobHurt);
     }
     export class $GunKubeJSEvents$GunFinishReloadEventJS extends $GunKubeJSEvents$GunEventJS<$GunFinishReloadEvent> implements $TimelessForgeEventWrappers$GunFinishReloadWrapper {
-        getLogicalSide(): $LogicalSide;
         getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         constructor(arg0: $GunFinishReloadEvent);
-        get logicalSide(): $LogicalSide;
         get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunKubeJSEvents$GunReloadEventJS extends $GunKubeJSEvents$GunEventJS<$GunReloadEvent> implements $TimelessForgeEventWrappers$GunReloadWrapper {
         getEntity(): $LivingEntity;
-        getLogicalSide(): $LogicalSide;
         getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         constructor(arg0: $GunReloadEvent);
         get entity(): $LivingEntity;
-        get logicalSide(): $LogicalSide;
         get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunKubeJSEvents$GunFireEventJS extends $GunKubeJSEvents$GunEventJS<$GunFireEvent> implements $TimelessForgeEventWrappers$GunFireWrapper {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         constructor(arg0: $GunFireEvent);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $TimelessForgeEventWrappers$EntityKillByGunWrapper {
     }
     export interface $TimelessForgeEventWrappers$EntityKillByGunWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$EntityKillByGunEvent> {
+        isHeadShot(): boolean;
         getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
+        getBullet(): $Entity;
+        getGunId(): $ResourceLocation;
+        getBaseDamage(): number;
         getLogicalSide(): $LogicalSide;
         getAttacker(): $LivingEntity;
-        getBaseDamage(): number;
-        getGunId(): $ResourceLocation;
-        getHeadshotMultiplier(): number;
-        getBullet(): $Entity;
-        getKilledEntity(): $LivingEntity;
         getGunDisplayId(): $ResourceLocation;
-        isHeadShot(): boolean;
+        getHeadshotMultiplier(): number;
+        getKilledEntity(): $LivingEntity;
+        get headShot(): boolean;
+        get bullet(): $Entity;
+        get gunId(): $ResourceLocation;
+        get baseDamage(): number;
         get logicalSide(): $LogicalSide;
         get attacker(): $LivingEntity;
-        get baseDamage(): number;
-        get gunId(): $ResourceLocation;
-        get headshotMultiplier(): number;
-        get bullet(): $Entity;
-        get killedEntity(): $LivingEntity;
         get gunDisplayId(): $ResourceLocation;
-        get headShot(): boolean;
+        get headshotMultiplier(): number;
+        get killedEntity(): $LivingEntity;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$EntityKillByGunWrapper}.
      */
     export type $TimelessForgeEventWrappers$EntityKillByGunWrapper_ = (() => void);
     export class $GunKubeJSEvents$GunMeleeEventJS extends $GunKubeJSEvents$GunEventJS<$GunMeleeEvent> implements $TimelessForgeEventWrappers$GunMeleeWrapper {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         constructor(arg0: $GunMeleeEvent);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunKubeJSEvents$RenderItemInHandBobHurtEventJS extends $GunKubeJSEvents$GunEventJS<$RenderItemInHandBobEvent$BobHurt> {
         constructor(arg0: $RenderItemInHandBobEvent$BobHurt);
@@ -429,12 +429,12 @@ declare module "@package/com/tacz/guns/compat/kubejs/events" {
     export interface $TimelessForgeEventWrappers$GunDrawWrapper extends $TimelessForgeEventWrappers$ForgeEventWrapper<$GunDrawEvent> {
         getEntity(): $LivingEntity;
         getLogicalSide(): $LogicalSide;
-        getCurrentGunItem(): $ItemStack;
         getPreviousGunItem(): $ItemStack;
+        getCurrentGunItem(): $ItemStack;
         get entity(): $LivingEntity;
         get logicalSide(): $LogicalSide;
-        get currentGunItem(): $ItemStack;
         get previousGunItem(): $ItemStack;
+        get currentGunItem(): $ItemStack;
     }
     /**
      * Values that may be interpreted as {@link $TimelessForgeEventWrappers$GunDrawWrapper}.

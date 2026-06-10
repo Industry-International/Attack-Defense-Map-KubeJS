@@ -14,9 +14,9 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui" {
         static values(): $ColorPattern[];
         static valueOf(arg0: string): $ColorPattern;
         rectTexture(): $ColorRectTexture;
+        borderTexture(arg0: number): $ColorBorderTexture;
         static rainbowRectTexture(arg0: number): $ColorBorderTexture;
         static rainbowRectTexture(): $ColorRectTexture;
-        borderTexture(arg0: number): $ColorBorderTexture;
         static generateRainbowColor(): number;
         static generateRainbowColor(arg0: number): number;
         colorName: string;

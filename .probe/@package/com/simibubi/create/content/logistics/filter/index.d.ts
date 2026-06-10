@@ -15,8 +15,8 @@ declare module "@package/com/simibubi/create/content/logistics/filter" {
         static of(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): $FilterItemStack;
         static empty(): $FilterItemStack;
         item(): $ItemStack;
-        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         fluid(arg0: $Level_): $FluidStack;
+        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         isFilterItem(): boolean;
         get filterItem(): boolean;
     }

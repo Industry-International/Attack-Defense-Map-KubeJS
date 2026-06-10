@@ -7,19 +7,19 @@ import { $NavTableBlockEntity } from "@package/dev/simulated_team/simulated/cont
 
 declare module "@package/dev/simulated_team/simulated/content/blocks/nav_table/navigation_target" {
     export class $NavigationTarget {
-        static getPlaneProjectedPos(arg0: $Vec3_, arg1: $Vec3i): $Vec3;
         static ofStack(arg0: $ItemStack_): $NavigationTarget;
+        static getPlaneProjectedPos(arg0: $Vec3_, arg1: $Vec3i): $Vec3;
     }
     export interface $NavigationTarget {
         getTarget(arg0: $NavTableBlockEntity, arg1: $ItemStack_): $Vec3;
-        calculateModulatingStrength(arg0: $NavTableBlockEntity, arg1: $ItemStack_): number;
+        onInsert(arg0: $ItemStack_, arg1: $NavTableBlockEntity, arg2: $Player): void;
         getRedstoneStrength(arg0: $NavTableBlockEntity, arg1: $Direction_, arg2: $ItemStack_): number;
-        getModulatingRange(): number;
+        calculateModulatingStrength(arg0: $NavTableBlockEntity, arg1: $ItemStack_): number;
+        calculateSideStrength(arg0: $NavTableBlockEntity, arg1: $Direction_, arg2: $ItemStack_): number;
         distanceToTarget(arg0: $NavTableBlockEntity): number;
+        getModulatingRange(): number;
         getDeadzone(): number;
         getMaxRange(): number;
-        calculateSideStrength(arg0: $NavTableBlockEntity, arg1: $Direction_, arg2: $ItemStack_): number;
-        onInsert(arg0: $ItemStack_, arg1: $NavTableBlockEntity, arg2: $Player): void;
         get modulatingRange(): number;
         get deadzone(): number;
         get maxRange(): number;

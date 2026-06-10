@@ -20,24 +20,24 @@ declare module "@package/net/minecraft/network/protocol/cookie" {
         type(): $PacketType<$ClientboundCookieRequestPacket>;
         key(): $ResourceLocation;
         handle(arg0: $ClientCookiePacketListener): void;
-        isTerminal(): boolean;
         isSkippable(): boolean;
+        isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientboundCookieRequestPacket>;
         constructor(arg0: $ResourceLocation_);
-        get terminal(): boolean;
         get skippable(): boolean;
+        get terminal(): boolean;
     }
     export class $ServerboundCookieResponsePacket extends $Record implements $Packet<$ServerCookiePacketListener> {
         payload(): number[];
         type(): $PacketType<$ServerboundCookieResponsePacket>;
         key(): $ResourceLocation;
         handle(arg0: $ServerCookiePacketListener): void;
-        isTerminal(): boolean;
         isSkippable(): boolean;
+        isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ServerboundCookieResponsePacket>;
         constructor(arg0: $ResourceLocation_, arg1: number[]);
-        get terminal(): boolean;
         get skippable(): boolean;
+        get terminal(): boolean;
     }
     export class $ClientCookiePacketListener {
     }

@@ -17,22 +17,22 @@ declare module "@package/net/fabricmc/loader/api/metadata/version" {
         not(): $List<$VersionInterval>;
         getMin(): $Version;
         getMax(): $Version;
-        isMaxInclusive(): boolean;
-        isMinInclusive(): boolean;
         isSemantic(): boolean;
+        isMinInclusive(): boolean;
+        isMaxInclusive(): boolean;
         get min(): $Version;
         get max(): $Version;
-        get maxInclusive(): boolean;
-        get minInclusive(): boolean;
         get semantic(): boolean;
+        get minInclusive(): boolean;
+        get maxInclusive(): boolean;
     }
     export class $VersionPredicate$PredicateTerm {
     }
     export interface $VersionPredicate$PredicateTerm {
-        getReferenceVersion(): $Version;
         getOperator(): $VersionComparisonOperator;
-        get referenceVersion(): $Version;
+        getReferenceVersion(): $Version;
         get operator(): $VersionComparisonOperator;
+        get referenceVersion(): $Version;
     }
     export class $VersionPredicate {
         static parse(predicates: $Collection_<string>): $Collection<$VersionPredicate>;

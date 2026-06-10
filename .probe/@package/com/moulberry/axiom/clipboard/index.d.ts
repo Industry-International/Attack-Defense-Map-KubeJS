@@ -13,11 +13,11 @@ declare module "@package/com/moulberry/axiom/clipboard" {
     export interface $ClipboardObject {
         name(): string;
         entities(): $List<$CompoundTag>;
-        placementDescription(): string;
         blockEntities(): $Long2ObjectMap<$CompressedBlockEntity>;
-        thumbnailTextureId(): number;
+        blockRegion(): $ChunkedBlockRegion;
         containsAir(): boolean;
         preferredYaw(): number;
-        blockRegion(): $ChunkedBlockRegion;
+        thumbnailTextureId(): number;
+        placementDescription(): string;
     }
 }

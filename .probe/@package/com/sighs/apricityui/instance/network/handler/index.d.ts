@@ -5,15 +5,15 @@ import { $Entity } from "@package/net/minecraft/world/entity";
 
 declare module "@package/com/sighs/apricityui/instance/network/handler" {
     export class $BindingBuilder {
-        entity(arg0: string): $BindingBuilder;
         entity(arg0: $Entity): $BindingBuilder;
+        entity(arg0: string): $BindingBuilder;
+        player(): $BindingBuilder;
+        blockEntity(arg0: $BlockPos_): $BindingBuilder;
+        blockEntity(arg0: $BlockPos_, arg1: $Direction_): $BindingBuilder;
         savedData(arg0: string, arg1: string, arg2: number): $BindingBuilder;
         savedData(): $BindingBuilder;
         savedData(arg0: string): $BindingBuilder;
         savedData(arg0: string, arg1: number): $BindingBuilder;
-        player(): $BindingBuilder;
-        blockEntity(arg0: $BlockPos_): $BindingBuilder;
-        blockEntity(arg0: $BlockPos_, arg1: $Direction_): $BindingBuilder;
         saveddata(arg0: string): $BindingBuilder;
         saveddata(): $BindingBuilder;
         saveddata(arg0: string, arg1: number): $BindingBuilder;

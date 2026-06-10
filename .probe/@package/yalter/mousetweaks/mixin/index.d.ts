@@ -4,11 +4,11 @@ declare module "@package/yalter/mousetweaks/mixin" {
     export class $AbstractContainerScreenAccessor {
     }
     export interface $AbstractContainerScreenAccessor {
-        mousetweaks$setSkipNextRelease(arg0: boolean): void;
-        mousetweaks$invokeSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_): void;
+        mousetweaks$invokeFindSlot(arg0: number, arg1: number): $Slot;
         mousetweaks$getIsQuickCrafting(): boolean;
+        mousetweaks$invokeSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_): void;
         mousetweaks$setIsQuickCrafting(arg0: boolean): void;
         mousetweaks$getQuickCraftingButton(): number;
-        mousetweaks$invokeFindSlot(arg0: number, arg1: number): $Slot;
+        mousetweaks$setSkipNextRelease(arg0: boolean): void;
     }
 }

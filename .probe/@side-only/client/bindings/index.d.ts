@@ -26,6 +26,7 @@ import { $FluidWrapper } from "@package/dev/latvian/mods/kubejs/fluid";
 import { $LocalSlot, $ItemHandlerSlot } from "@package/com/lowdragmc/lowdraglib2/gui/slot";
 import { $ClipboardManager } from "@package/com/lowdragmc/lowdraglib2/editor";
 import { $TreeBuilder, $TreeBuilder$Menu } from "@package/com/lowdragmc/lowdraglib2/gui/util";
+import { $TaCZJSUtils } from "@package/dev/aika/taczjs/neoforge";
 import { $KMath, $TextWrapper, $IngredientWrapper, $SizedIngredientWrapper, $UUIDWrapper, $ParticleOptionsWrapper, $RegistryWrapper, $EntitySelectorWrapper, $NBTWrapper, $BlockWrapper, $DirectionWrapper, $NativeEventWrapper, $JavaWrapper, $UtilsWrapper, $TextIcons, $ColorWrapper, $AABBWrapper, $StringUtilsWrapper, $ItemWrapper, $DataMapWrapper } from "@package/dev/latvian/mods/kubejs/plugin/builtin/wrapper";
 import { $ScrollDataSource, $DataBindingBuilder, $SupplierDataSource } from "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings/impl";
 import { $ColorPattern } from "@package/com/lowdragmc/lowdraglib2/gui";
@@ -195,6 +196,7 @@ declare global {
     let TradeItem: typeof $TradeItem;
     let MoreUtils: typeof $MoreJSBinding;
     let EnchantmentInstance: typeof $EnchantmentInstance;
+    let TaCZJSUtils: typeof $TaCZJSUtils;
     let PonderPalette: typeof $PonderPalette;
     let ParrotElement: typeof $ParrotElement;
     let PonderInputWindowElement: typeof $InputWindowElement;

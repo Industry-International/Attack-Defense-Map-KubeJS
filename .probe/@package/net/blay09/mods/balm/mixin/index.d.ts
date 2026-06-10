@@ -12,18 +12,18 @@ declare module "@package/net/blay09/mods/balm/mixin" {
     export class $AbstractContainerScreenAccessor {
     }
     export interface $AbstractContainerScreenAccessor {
-        getTopPos(): number;
         getLeftPos(): number;
-        getImageWidth(): number;
-        getHoveredSlot(): $Slot;
-        getImageHeight(): number;
-        callRenderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
+        getTopPos(): number;
         callIsHovering(arg0: $Slot, arg1: number, arg2: number): boolean;
-        get topPos(): number;
+        getImageWidth(): number;
+        getImageHeight(): number;
+        getHoveredSlot(): $Slot;
+        callRenderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
         get leftPos(): number;
+        get topPos(): number;
         get imageWidth(): number;
-        get hoveredSlot(): $Slot;
         get imageHeight(): number;
+        get hoveredSlot(): $Slot;
     }
     export class $KeyMappingAccessor {
     }
@@ -38,10 +38,10 @@ declare module "@package/net/blay09/mods/balm/mixin" {
     export class $MouseHandlerAccessor {
     }
     export interface $MouseHandlerAccessor {
-        getMouseY(): number;
         getMouseX(): number;
-        get mouseY(): number;
+        getMouseY(): number;
         get mouseX(): number;
+        get mouseY(): number;
     }
     export class $CheckboxAccessor {
     }
@@ -66,17 +66,17 @@ declare module "@package/net/blay09/mods/balm/mixin" {
     export class $SlotAccessor {
     }
     export interface $SlotAccessor {
-        setY(arg0: number): void;
         setX(arg0: number): void;
-        set y(value: number);
+        setY(arg0: number): void;
         set x(value: number);
+        set y(value: number);
     }
     export class $ScreenAccessor {
     }
     export interface $ScreenAccessor {
+        balm$addRenderableWidget<T extends $GuiEventListener>(arg0: T): T;
         balm_getNarratables(): $List<$NarratableEntry>;
         balm_getRenderables(): $List<$Renderable>;
-        balm$addRenderableWidget<T extends $GuiEventListener>(arg0: T): T;
         balm_getChildren(): $List<$GuiEventListener>;
     }
     export class $ModelBakeryAccessor {

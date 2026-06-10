@@ -10,59 +10,59 @@ declare module "@package/io/github/reserveword/imblocker/common/gui" {
     }
     export interface $FocusableObject {
         lostFocus(): void;
-        isTrulyFocused(): boolean;
         getFontHeight(): number;
-        getPreferredState(): boolean;
-        getBoundsAbs(): $Rectangle;
         getCaretPos(): $Point;
-        updateIMState(): void;
+        getBoundsAbs(): $Rectangle;
+        isTrulyFocused(): boolean;
+        getPreferredState(): boolean;
         updateEnglishState(): void;
+        updateIMState(): void;
         deliverFocus(): void;
         getGuiScale(): number;
         getPreferredEnglishState(): boolean;
-        get trulyFocused(): boolean;
         get fontHeight(): number;
-        get preferredState(): boolean;
-        get boundsAbs(): $Rectangle;
         get caretPos(): $Point;
+        get boundsAbs(): $Rectangle;
+        get trulyFocused(): boolean;
+        get preferredState(): boolean;
         get guiScale(): number;
         get preferredEnglishState(): boolean;
     }
     export class $FocusContainer implements $FocusableObject {
         requestFocus(arg0: $FocusableWidget): void;
-        checkFocusCandidatesVisibility(arg0: number): void;
         lostFocus(): void;
-        getPreferredState(): boolean;
-        getBoundsAbs(): $Rectangle;
         getCaretPos(): $Point;
+        getBoundsAbs(): $Rectangle;
+        getPreferredState(): boolean;
         removeFocus(arg0: $FocusableWidget): void;
         deliverFocus(): void;
         switchFocus(arg0: $FocusableWidget): void;
         locateRealFocus(): void;
+        setGuiScaleFactor(arg0: number): void;
         clearFocus(): void;
         getGuiScale(): number;
         setPreferredState(arg0: boolean): void;
-        setGuiScaleFactor(arg0: number): void;
-        isTrulyFocused(): boolean;
+        checkFocusCandidatesVisibility(arg0: number): void;
         getFontHeight(): number;
-        updateIMState(): void;
+        isTrulyFocused(): boolean;
         updateEnglishState(): void;
+        updateIMState(): void;
         getPreferredEnglishState(): boolean;
         static MINECRAFT: $FocusContainer;
         static IMGUI: $FocusContainer;
-        get boundsAbs(): $Rectangle;
         get caretPos(): $Point;
-        get guiScale(): number;
+        get boundsAbs(): $Rectangle;
         set guiScaleFactor(value: number);
-        get trulyFocused(): boolean;
+        get guiScale(): number;
         get fontHeight(): number;
+        get trulyFocused(): boolean;
         get preferredEnglishState(): boolean;
     }
     export class $MinecraftMultilineEditBoxWidget {
     }
     export interface $MinecraftMultilineEditBoxWidget extends $MinecraftAbstractTextInputWidget<$MultilineCursorInfo> {
-        imblocker$getContentOffsetY(): number;
         imblocker$getContentOffsetX(): number;
+        imblocker$getContentOffsetY(): number;
         getCaretPos(): $Point;
         get caretPos(): $Point;
     }
@@ -98,22 +98,22 @@ declare module "@package/io/github/reserveword/imblocker/common/gui" {
     }
     export interface $MinecraftFocusableWidget extends $FocusableWidget {
         getFocusContainer(): $FocusContainer;
-        imblocker$onFocusChanged(arg0: boolean): void;
         imblocker$onFocusLost(): void;
-        imblocker$onFocusGained(): void;
         imblocker$onBoundsChanged(): void;
+        imblocker$onFocusChanged(arg0: boolean): void;
+        imblocker$onFocusGained(): void;
         get focusContainer(): $FocusContainer;
     }
     export class $FocusableWidget {
     }
     export interface $FocusableWidget extends $FocusableObject {
-        getPreferredState(): boolean;
         getFocusContainer(): $FocusContainer;
         isRenderable(): boolean;
+        getPreferredState(): boolean;
         getGuiScale(): number;
-        get preferredState(): boolean;
         get focusContainer(): $FocusContainer;
         get renderable(): boolean;
+        get preferredState(): boolean;
         get guiScale(): number;
     }
     export class $Point {
@@ -128,8 +128,8 @@ declare module "@package/io/github/reserveword/imblocker/common/gui" {
     }
     export interface $MinecraftAbstractTextInputWidget<CI extends $CursorInfo> extends $MinecraftFocusableWidget {
         deliverFocus(): void;
-        updateCursorInfo(): boolean;
         getCursorInfo(): CI;
+        updateCursorInfo(): boolean;
         imblocker$onCursorChanged(): void;
         get cursorInfo(): CI;
     }

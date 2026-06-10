@@ -10,9 +10,9 @@ declare module "@package/com/mojang/authlib/minecraft/report" {
         static skin(arg0: string, arg1: string, arg2: string, arg3: $ReportedEntity_, arg4: $Instant): $AbuseReport;
         static chat(arg0: string, arg1: string, arg2: $ReportEvidence_, arg3: $ReportedEntity_, arg4: $Instant): $AbuseReport;
         createdTime(): $Instant;
-        skinUrl(): string;
         opinionComments(): string;
         reportedEntity(): $ReportedEntity;
+        skinUrl(): string;
         evidence(): $ReportEvidence;
         constructor(opinionComments: string, reason: string, evidence: $ReportEvidence_, skinUrl: string, reportedEntity: $ReportedEntity_, createdTime: $Instant);
     }
@@ -25,11 +25,11 @@ declare module "@package/com/mojang/authlib/minecraft/report" {
         index(): number;
         message(): string;
         timestamp(): $Instant;
+        salt(): number;
+        profileId(): $UUID;
         lastSeen(): $List<$ByteBuffer>;
         sessionId(): $UUID;
-        salt(): number;
         messageReported(): boolean;
-        profileId(): $UUID;
         constructor(index: number, profileId: $UUID_, sessionId: $UUID_, timestamp: $Instant, salt: number, lastSeen: $List_<$ByteBuffer>, message: string, signature: $ByteBuffer, messageReported: boolean);
     }
     export class $ReportEvidence extends $Record {
@@ -37,10 +37,10 @@ declare module "@package/com/mojang/authlib/minecraft/report" {
         constructor(messages: $List_<$ReportChatMessage_>);
     }
     export class $AbuseReportLimits extends $Record {
-        maxOpinionCommentsLength(): number;
-        leadingContextMessageCount(): number;
         trailingContextMessageCount(): number;
         maxEvidenceMessageCount(): number;
+        leadingContextMessageCount(): number;
+        maxOpinionCommentsLength(): number;
         maxReportedMessageCount(): number;
         static DEFAULTS: $AbuseReportLimits;
         constructor(maxOpinionCommentsLength: number, maxReportedMessageCount: number, maxEvidenceMessageCount: number, leadingContextMessageCount: number, trailingContextMessageCount: number);

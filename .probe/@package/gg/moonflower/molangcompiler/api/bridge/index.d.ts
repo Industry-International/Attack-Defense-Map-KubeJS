@@ -25,9 +25,9 @@ declare module "@package/gg/moonflower/molangcompiler/api/bridge" {
         addQuery(arg0: string, arg1: number): void;
         addQuery(arg0: string, arg1: $MolangExpression_): void;
         addQuery(arg0: string, arg1: $Supplier_<number>): void;
-        addVariable(arg0: string, arg1: $MolangVariable): void;
         removeQuery(arg0: string): void;
         removeVariable(arg0: string): void;
+        addVariable(arg0: string, arg1: $MolangVariable): void;
     }
     export class $MolangVariableProvider {
     }

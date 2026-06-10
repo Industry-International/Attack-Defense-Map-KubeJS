@@ -10,63 +10,63 @@ import { $AttachmentCacheProperty } from "@package/com/tacz/guns/resource/modifi
 
 declare module "@package/com/tacz/guns/api/event/common" {
     export class $EntityHurtByGunEvent$Pre extends $EntityHurtByGunEvent implements $ICancellableEvent {
-        setBaseAmount(arg0: number): void;
-        setHeadshotMultiplier(arg0: number): void;
         setGunId(arg0: $ResourceLocation_): void;
+        setBaseAmount(arg0: number): void;
         setAttacker(arg0: $LivingEntity): void;
-        setHeadshot(arg0: boolean): void;
         setHurtEntity(arg0: $Entity): void;
         setDamageSource(arg0: $GunDamageSourcePart_, arg1: $DamageSource_): void;
+        setHeadshot(arg0: boolean): void;
+        setHeadshotMultiplier(arg0: number): void;
         constructor(arg0: $Entity, arg1: $Entity, arg2: $LivingEntity, arg3: $ResourceLocation_, arg4: $ResourceLocation_, arg5: number, arg6: $Pair<$DamageSource_, $DamageSource_>, arg7: boolean, arg8: number, arg9: $LogicalSide_);
-        set baseAmount(value: number);
-        set headshotMultiplier(value: number);
         set gunId(value: $ResourceLocation_);
+        set baseAmount(value: number);
         set attacker(value: $LivingEntity);
-        set headshot(value: boolean);
         set hurtEntity(value: $Entity);
+        set headshot(value: boolean);
+        set headshotMultiplier(value: number);
     }
     export class $GunFireSelectEvent extends $Event implements $KubeJSGunEventPoster<$GunFireSelectEvent>, $ICancellableEvent {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        postEventToKubeJS(arg0: $GunFireSelectEvent): void;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         postClientEventToKubeJS(arg0: $GunFireSelectEvent): void;
         postServerEventToKubeJS(arg0: $GunFireSelectEvent): void;
+        postEventToKubeJS(arg0: $GunFireSelectEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $LogicalSide_);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunFinishReloadEvent extends $Event implements $KubeJSGunEventPoster<$GunFinishReloadEvent>, $ICancellableEvent {
-        getLogicalSide(): $LogicalSide;
         getGunItemStack(): $ItemStack;
-        postEventToKubeJS(arg0: $GunFinishReloadEvent): void;
+        getLogicalSide(): $LogicalSide;
         postClientEventToKubeJS(arg0: $GunFinishReloadEvent): void;
         postServerEventToKubeJS(arg0: $GunFinishReloadEvent): void;
+        postEventToKubeJS(arg0: $GunFinishReloadEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $ItemStack_, arg1: $LogicalSide_);
-        get logicalSide(): $LogicalSide;
         get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $EntityHurtByGunEvent$Post extends $EntityHurtByGunEvent {
         constructor(arg0: $Entity, arg1: $Entity, arg2: $LivingEntity, arg3: $ResourceLocation_, arg4: $ResourceLocation_, arg5: number, arg6: $Pair<$DamageSource_, $DamageSource_>, arg7: boolean, arg8: number, arg9: $LogicalSide_);
     }
     export class $GunReloadEvent extends $Event implements $KubeJSGunEventPoster<$GunReloadEvent>, $ICancellableEvent {
         getEntity(): $LivingEntity;
-        getLogicalSide(): $LogicalSide;
         getGunItemStack(): $ItemStack;
-        postEventToKubeJS(arg0: $GunReloadEvent): void;
+        getLogicalSide(): $LogicalSide;
         postClientEventToKubeJS(arg0: $GunReloadEvent): void;
         postServerEventToKubeJS(arg0: $GunReloadEvent): void;
+        postEventToKubeJS(arg0: $GunReloadEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $LogicalSide_);
         get entity(): $LivingEntity;
-        get logicalSide(): $LogicalSide;
         get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunDamageSourcePart extends $Enum<$GunDamageSourcePart> {
         static values(): $GunDamageSourcePart[];
@@ -79,131 +79,131 @@ declare module "@package/com/tacz/guns/api/event/common" {
      */
     export type $GunDamageSourcePart_ = "non_armor_piercing" | "armor_piercing";
     export class $EntityHurtByGunEvent extends $Event implements $KubeJSGunEventPoster<$EntityHurtByGunEvent>, $ICancellableEvent {
+        isHeadShot(): boolean;
         getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
-        getAmount(): number;
-        getLogicalSide(): $LogicalSide;
-        getBaseAmount(): number;
-        getAttacker(): $LivingEntity;
-        getGunId(): $ResourceLocation;
-        getHeadshotMultiplier(): number;
         getBullet(): $Entity;
+        getGunId(): $ResourceLocation;
+        getBaseAmount(): number;
+        getLogicalSide(): $LogicalSide;
+        getAttacker(): $LivingEntity;
         getHurtEntity(): $Entity;
         getGunDisplayId(): $ResourceLocation;
-        isHeadShot(): boolean;
-        postEventToKubeJS(arg0: $EntityHurtByGunEvent): void;
+        getHeadshotMultiplier(): number;
+        getAmount(): number;
         postClientEventToKubeJS(arg0: $EntityHurtByGunEvent): void;
         postServerEventToKubeJS(arg0: $EntityHurtByGunEvent): void;
+        postEventToKubeJS(arg0: $EntityHurtByGunEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
-        get amount(): number;
-        get logicalSide(): $LogicalSide;
-        get baseAmount(): number;
-        get attacker(): $LivingEntity;
-        get gunId(): $ResourceLocation;
-        get headshotMultiplier(): number;
+        get headShot(): boolean;
         get bullet(): $Entity;
+        get gunId(): $ResourceLocation;
+        get baseAmount(): number;
+        get logicalSide(): $LogicalSide;
+        get attacker(): $LivingEntity;
         get hurtEntity(): $Entity;
         get gunDisplayId(): $ResourceLocation;
-        get headShot(): boolean;
+        get headshotMultiplier(): number;
+        get amount(): number;
     }
     export class $EntityKillByGunEvent extends $Event implements $KubeJSGunEventPoster<$EntityKillByGunEvent> {
+        isHeadShot(): boolean;
         getDamageSource(arg0: $GunDamageSourcePart_): $DamageSource;
+        getBullet(): $Entity;
+        getGunId(): $ResourceLocation;
+        getBaseDamage(): number;
         getLogicalSide(): $LogicalSide;
         getAttacker(): $LivingEntity;
-        getBaseDamage(): number;
-        getGunId(): $ResourceLocation;
-        getHeadshotMultiplier(): number;
-        getBullet(): $Entity;
-        getKilledEntity(): $LivingEntity;
         getGunDisplayId(): $ResourceLocation;
-        isHeadShot(): boolean;
-        postEventToKubeJS(arg0: $EntityKillByGunEvent): void;
+        getHeadshotMultiplier(): number;
+        getKilledEntity(): $LivingEntity;
         postClientEventToKubeJS(arg0: $EntityKillByGunEvent): void;
         postServerEventToKubeJS(arg0: $EntityKillByGunEvent): void;
+        postEventToKubeJS(arg0: $EntityKillByGunEvent): void;
         constructor(arg0: $Entity, arg1: $LivingEntity, arg2: $LivingEntity, arg3: $ResourceLocation_, arg4: $ResourceLocation_, arg5: number, arg6: $Pair<$DamageSource_, $DamageSource_>, arg7: boolean, arg8: number, arg9: $LogicalSide_);
+        get headShot(): boolean;
+        get bullet(): $Entity;
+        get gunId(): $ResourceLocation;
+        get baseDamage(): number;
         get logicalSide(): $LogicalSide;
         get attacker(): $LivingEntity;
-        get baseDamage(): number;
-        get gunId(): $ResourceLocation;
-        get headshotMultiplier(): number;
-        get bullet(): $Entity;
-        get killedEntity(): $LivingEntity;
         get gunDisplayId(): $ResourceLocation;
-        get headShot(): boolean;
+        get headshotMultiplier(): number;
+        get killedEntity(): $LivingEntity;
     }
     export class $GunShootEvent extends $Event implements $KubeJSGunEventPoster<$GunShootEvent>, $ICancellableEvent {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        postEventToKubeJS(arg0: $GunShootEvent): void;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         postClientEventToKubeJS(arg0: $GunShootEvent): void;
         postServerEventToKubeJS(arg0: $GunShootEvent): void;
+        postEventToKubeJS(arg0: $GunShootEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $LogicalSide_);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $KubeJSGunEventPoster<E extends $Event> {
     }
     export interface $KubeJSGunEventPoster<E extends $Event> {
-        postEventToKubeJS(arg0: E): void;
         postClientEventToKubeJS(arg0: E): void;
         postServerEventToKubeJS(arg0: E): void;
+        postEventToKubeJS(arg0: E): void;
     }
     export class $GunFireEvent extends $Event implements $KubeJSGunEventPoster<$GunFireEvent>, $ICancellableEvent {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        postEventToKubeJS(arg0: $GunFireEvent): void;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         postClientEventToKubeJS(arg0: $GunFireEvent): void;
         postServerEventToKubeJS(arg0: $GunFireEvent): void;
+        postEventToKubeJS(arg0: $GunFireEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $LogicalSide_);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $GunMeleeEvent extends $Event implements $KubeJSGunEventPoster<$GunMeleeEvent>, $ICancellableEvent {
-        getLogicalSide(): $LogicalSide;
-        getGunItemStack(): $ItemStack;
         getShooter(): $LivingEntity;
-        postEventToKubeJS(arg0: $GunMeleeEvent): void;
+        getGunItemStack(): $ItemStack;
+        getLogicalSide(): $LogicalSide;
         postClientEventToKubeJS(arg0: $GunMeleeEvent): void;
         postServerEventToKubeJS(arg0: $GunMeleeEvent): void;
+        postEventToKubeJS(arg0: $GunMeleeEvent): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $LogicalSide_);
-        get logicalSide(): $LogicalSide;
-        get gunItemStack(): $ItemStack;
         get shooter(): $LivingEntity;
+        get gunItemStack(): $ItemStack;
+        get logicalSide(): $LogicalSide;
     }
     export class $AttachmentPropertyEvent extends $Event implements $KubeJSGunEventPoster<$AttachmentPropertyEvent> {
-        getGunItem(): $ItemStack;
-        getCacheProperty(): $AttachmentCacheProperty;
         getShooter(): $LivingEntity;
-        postEventToKubeJS(arg0: $AttachmentPropertyEvent): void;
+        getCacheProperty(): $AttachmentCacheProperty;
+        getGunItem(): $ItemStack;
         postClientEventToKubeJS(arg0: $AttachmentPropertyEvent): void;
         postServerEventToKubeJS(arg0: $AttachmentPropertyEvent): void;
+        postEventToKubeJS(arg0: $AttachmentPropertyEvent): void;
         constructor(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $AttachmentCacheProperty);
-        get gunItem(): $ItemStack;
-        get cacheProperty(): $AttachmentCacheProperty;
         get shooter(): $LivingEntity;
+        get cacheProperty(): $AttachmentCacheProperty;
+        get gunItem(): $ItemStack;
     }
     export class $GunDrawEvent extends $Event implements $KubeJSGunEventPoster<$GunDrawEvent> {
         getEntity(): $LivingEntity;
         getLogicalSide(): $LogicalSide;
-        getCurrentGunItem(): $ItemStack;
         getPreviousGunItem(): $ItemStack;
-        postEventToKubeJS(arg0: $GunDrawEvent): void;
+        getCurrentGunItem(): $ItemStack;
         postClientEventToKubeJS(arg0: $GunDrawEvent): void;
         postServerEventToKubeJS(arg0: $GunDrawEvent): void;
+        postEventToKubeJS(arg0: $GunDrawEvent): void;
         constructor(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemStack_, arg3: $LogicalSide_);
         get entity(): $LivingEntity;
         get logicalSide(): $LogicalSide;
-        get currentGunItem(): $ItemStack;
         get previousGunItem(): $ItemStack;
+        get currentGunItem(): $ItemStack;
     }
 }

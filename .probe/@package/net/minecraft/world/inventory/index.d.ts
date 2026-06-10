@@ -56,8 +56,8 @@ declare module "@package/net/minecraft/world/inventory" {
         constructor(arg0: $AbstractFurnaceMenu, arg1: $Container, arg2: number, arg3: number, arg4: number);
     }
     export class $InventoryMenu extends $RecipeBookMenu<$CraftingInput, $CraftingRecipe> {
-        getCraftSlots(): $CraftingContainer;
         static isHotbarSlot(arg0: number): boolean;
+        getCraftSlots(): $CraftingContainer;
         quickcraftSlots: $Set<$Slot>;
         static CRAFT_SLOT_END: number;
         static BLOCK_ATLAS: $ResourceLocation;
@@ -118,8 +118,8 @@ declare module "@package/net/minecraft/world/inventory" {
     }
     export class $SlotRanges {
         static allNames(): $Stream<string>;
-        static singleSlotNames(): $Stream<string>;
         static nameToIds(arg0: string): $SlotRange;
+        static singleSlotNames(): $Stream<string>;
         static CODEC: $Codec<$SlotRange>;
         constructor();
     }
@@ -208,19 +208,19 @@ declare module "@package/net/minecraft/world/inventory" {
     }
     export class $MenuType<T extends $AbstractContainerMenu> implements $FeatureElement, $IMenuTypeExtension<T>, $MenuTypeKJS {
         create(arg0: number, arg1: $Inventory): T;
+        kjs$getId(): string;
         requiredFeatures(): $FeatureFlagSet;
         kjs$getKey(): $ResourceKey<any>;
-        kjs$getId(): string;
         isEnabled(arg0: $FeatureFlagSet): boolean;
-        kjs$getRegistry(): $Registry<$MenuType<never>>;
         kjs$getRegistryId(): $ResourceKey<$Registry<$MenuType<never>>>;
-        getMod(): string;
-        hasTag(tag: $ResourceLocation_): boolean;
-        asHolder(): $Holder<T>;
-        getTagKeys(): $List<$TagKey<T>>;
-        getIdLocation(): $ResourceLocation;
-        getTags(): $List<$ResourceLocation>;
+        kjs$getRegistry(): $Registry<$MenuType<never>>;
         specialEquals(o: $Object, shallow: boolean): boolean;
+        hasTag(tag: $ResourceLocation_): boolean;
+        getMod(): string;
+        getIdLocation(): $ResourceLocation;
+        asHolder(): $Holder<T>;
+        getTags(): $List<$ResourceLocation>;
+        getTagKeys(): $List<$TagKey<T>>;
         create(arg0: number, arg1: $Inventory, arg2: $RegistryFriendlyByteBuf): T;
         static ENCHANTMENT: $MenuType<$EnchantmentMenu>;
         static LOOM: $MenuType<$LoomMenu>;
@@ -249,9 +249,9 @@ declare module "@package/net/minecraft/world/inventory" {
         static SHULKER_BOX: $MenuType<$ShulkerBoxMenu>;
         constructor(arg0: $MenuType$MenuSupplier_<T>, arg1: $FeatureFlagSet);
         get mod(): string;
-        get tagKeys(): $List<$TagKey<T>>;
         get idLocation(): $ResourceLocation;
         get tags(): $List<$ResourceLocation>;
+        get tagKeys(): $List<$TagKey<T>>;
     }
     /**
      * Values that may be interpreted as {@link $MenuType}.
@@ -260,70 +260,70 @@ declare module "@package/net/minecraft/world/inventory" {
     export class $MerchantContainer implements $Container {
         isEmpty(): boolean;
         getItem(arg0: number): $ItemStack;
-        clearContent(): void;
         removeItem(arg0: number, arg1: number): $ItemStack;
-        setItem(arg0: number, arg1: $ItemStack_): void;
+        clearContent(): void;
+        setSelectionHint(arg0: number): void;
+        updateSellItem(): void;
+        getFutureXp(): number;
+        getActiveOffer(): $MerchantOffer;
         getContainerSize(): number;
         removeItemNoUpdate(arg0: number): $ItemStack;
-        stillValid(arg0: $Player): boolean;
         setChanged(): void;
-        getActiveOffer(): $MerchantOffer;
-        getFutureXp(): number;
-        updateSellItem(): void;
-        setSelectionHint(arg0: number): void;
-        getMaxStackSize(arg0: $ItemStack_): number;
-        getMaxStackSize(): number;
-        stopOpen(arg0: $Player): void;
-        countItem(arg0: $Item_): number;
-        startOpen(arg0: $Player): void;
-        hasAnyOf(arg0: $Set_<$Item_>): boolean;
-        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        stillValid(arg0: $Player): boolean;
+        setItem(arg0: number, arg1: $ItemStack_): void;
         canPlaceItem(arg0: number, arg1: $ItemStack_): boolean;
         hasAnyMatching(arg0: $Predicate_<$ItemStack>): boolean;
+        startOpen(arg0: $Player): void;
+        hasAnyOf(arg0: $Set_<$Item_>): boolean;
+        stopOpen(arg0: $Player): void;
+        countItem(arg0: $Item_): number;
+        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        getMaxStackSize(): number;
+        getMaxStackSize(arg0: $ItemStack_): number;
         getBlock(level: $Level_): $LevelBlock;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         setStackInSlot(slot: number, stack: $ItemStack_): void;
-        setChanged(): void;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
-        asContainer(): $Container;
-        getSlots(): number;
-        isMutable(): boolean;
-        getWidth(): number;
         getHeight(): number;
+        setChanged(): void;
+        getWidth(): number;
+        asContainer(): $Container;
+        isMutable(): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        clear(): void;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         self(): $Container;
+        clear(): void;
+        isEmpty(): boolean;
         insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        getAllItems(): $List<$ItemStack>;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
+        clear(match: $ItemPredicate_): void;
         constructor(arg0: $Merchant);
-        get containerSize(): number;
-        get activeOffer(): $MerchantOffer;
-        get futureXp(): number;
         set selectionHint(value: number);
-        get slots(): number;
-        get mutable(): boolean;
-        get width(): number;
+        get futureXp(): number;
+        get activeOffer(): $MerchantOffer;
+        get containerSize(): number;
         get height(): number;
+        get width(): number;
+        get mutable(): boolean;
+        get slots(): number;
         get allItems(): $List<$ItemStack>;
     }
     export class $BeaconMenu extends $AbstractContainerMenu {
-        getLevels(): number;
+        hasPayment(): boolean;
         getSecondaryEffect(): $Holder<$MobEffect>;
-        static decodeEffect(arg0: number): $Holder<$MobEffect>;
         getPrimaryEffect(): $Holder<$MobEffect>;
         updateEffects(arg0: ($Holder_<$MobEffect>) | undefined, arg1: ($Holder_<$MobEffect>) | undefined): void;
         static encodeEffect(arg0: $Holder_<$MobEffect>): number;
-        hasPayment(): boolean;
+        static decodeEffect(arg0: number): $Holder<$MobEffect>;
+        getLevels(): number;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -347,9 +347,9 @@ declare module "@package/net/minecraft/world/inventory" {
         static QUICKCRAFT_TYPE_CHARITABLE: number;
         constructor(arg0: number, arg1: $Container);
         constructor(arg0: number, arg1: $Container, arg2: $ContainerData, arg3: $ContainerLevelAccess_);
-        get levels(): number;
         get secondaryEffect(): $Holder<$MobEffect>;
         get primaryEffect(): $Holder<$MobEffect>;
+        get levels(): number;
     }
     export class $CraftingMenu extends $RecipeBookMenu<$CraftingInput, $CraftingRecipe> {
         static slotChangedCraftingGrid(arg0: $AbstractContainerMenu, arg1: $Level_, arg2: $Player, arg3: $CraftingContainer, arg4: $ResultContainer, arg5: $RecipeHolder_<$CraftingRecipe>): void;
@@ -388,12 +388,12 @@ declare module "@package/net/minecraft/world/inventory" {
     }
     export class $ChestMenu extends $AbstractContainerMenu {
         getContainer(): $Container;
-        static oneRow(arg0: number, arg1: $Inventory): $ChestMenu;
         static fourRows(arg0: number, arg1: $Inventory): $ChestMenu;
         static twoRows(arg0: number, arg1: $Inventory): $ChestMenu;
         static fiveRows(arg0: number, arg1: $Inventory): $ChestMenu;
         static sixRows(arg0: number, arg1: $Inventory): $ChestMenu;
         static sixRows(arg0: number, arg1: $Inventory, arg2: $Container): $ChestMenu;
+        static oneRow(arg0: number, arg1: $Inventory): $ChestMenu;
         getRowCount(): number;
         static threeRows(arg0: number, arg1: $Inventory, arg2: $Container): $ChestMenu;
         static threeRows(arg0: number, arg1: $Inventory): $ChestMenu;
@@ -464,8 +464,8 @@ declare module "@package/net/minecraft/world/inventory" {
      */
     export type $ClickAction_ = "primary" | "secondary";
     export class $BrewingStandMenu extends $AbstractContainerMenu {
-        getFuel(): number;
         getBrewingTicks(): number;
+        getFuel(): number;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -489,8 +489,8 @@ declare module "@package/net/minecraft/world/inventory" {
         static QUICKCRAFT_TYPE_CHARITABLE: number;
         constructor(arg0: number, arg1: $Inventory);
         constructor(arg0: number, arg1: $Inventory, arg2: $Container, arg3: $ContainerData);
-        get fuel(): number;
         get brewingTicks(): number;
+        get fuel(): number;
     }
     export class $BrewingStandMenu$PotionSlot extends $Slot {
         container: $Container;
@@ -508,8 +508,8 @@ declare module "@package/net/minecraft/world/inventory" {
      */
     export type $MenuType$MenuSupplier_<T> = ((arg0: number, arg1: $Inventory) => T);
     export class $LecternMenu extends $AbstractContainerMenu {
-        getBook(): $ItemStack;
         getPage(): number;
+        getBook(): $ItemStack;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -537,29 +537,29 @@ declare module "@package/net/minecraft/world/inventory" {
         quickcraftStatus: number;
         constructor(arg0: number);
         constructor(arg0: number, arg1: $Container, arg2: $ContainerData);
-        get book(): $ItemStack;
         get page(): number;
+        get book(): $ItemStack;
     }
     export class $CraftingContainer {
     }
     export interface $CraftingContainer extends $Container, $StackedContentsCompatible {
         getWidth(): number;
         asPositionedCraftInput(): $CraftingInput$Positioned;
+        asCraftInput(): $CraftingInput;
         getHeight(): number;
         getItems(): $List<$ItemStack>;
-        asCraftInput(): $CraftingInput;
         get width(): number;
         get height(): number;
         get items(): $List<$ItemStack>;
     }
     export class $LoomMenu extends $AbstractContainerMenu {
-        getSelectedBannerPatternIndex(): number;
+        getPatternSlot(): $Slot;
+        getBannerSlot(): $Slot;
+        getSelectablePatterns(): $List<$Holder<$BannerPattern>>;
+        registerUpdateListener(arg0: $Runnable_): void;
         getDyeSlot(): $Slot;
         getResultSlot(): $Slot;
-        getBannerSlot(): $Slot;
-        getPatternSlot(): $Slot;
-        registerUpdateListener(arg0: $Runnable_): void;
-        getSelectablePatterns(): $List<$Holder<$BannerPattern>>;
+        getSelectedBannerPatternIndex(): number;
         quickcraftSlots: $Set<$Slot>;
         slotUpdateListener: $Runnable;
         lastSoundTime: number;
@@ -588,9 +588,9 @@ declare module "@package/net/minecraft/world/inventory" {
         quickcraftStatus: number;
         constructor(arg0: number, arg1: $Inventory);
         constructor(arg0: number, arg1: $Inventory, arg2: $ContainerLevelAccess_);
-        get resultSlot(): $Slot;
         get patternSlot(): $Slot;
         get selectablePatterns(): $List<$Holder<$BannerPattern>>;
+        get resultSlot(): $Slot;
     }
     export class $DispenserMenu extends $AbstractContainerMenu {
         quickcraftSlots: $Set<$Slot>;
@@ -642,18 +642,18 @@ declare module "@package/net/minecraft/world/inventory" {
     export class $ItemCombinerMenuSlotDefinition {
         getSlot(arg0: number): $ItemCombinerMenuSlotDefinition$SlotDefinition;
         static create(): $ItemCombinerMenuSlotDefinition$Builder;
-        getSlots(): $List<$ItemCombinerMenuSlotDefinition$SlotDefinition>;
         hasSlot(arg0: number): boolean;
-        getNumOfInputSlots(): number;
-        getResultSlot(): $ItemCombinerMenuSlotDefinition$SlotDefinition;
-        getInputSlotIndexes(): $List<number>;
+        getSlots(): $List<$ItemCombinerMenuSlotDefinition$SlotDefinition>;
         getResultSlotIndex(): number;
+        getInputSlotIndexes(): $List<number>;
+        getResultSlot(): $ItemCombinerMenuSlotDefinition$SlotDefinition;
+        getNumOfInputSlots(): number;
         constructor(arg0: $List_<$ItemCombinerMenuSlotDefinition$SlotDefinition_>, arg1: $ItemCombinerMenuSlotDefinition$SlotDefinition_);
         get slots(): $List<$ItemCombinerMenuSlotDefinition$SlotDefinition>;
-        get numOfInputSlots(): number;
-        get resultSlot(): $ItemCombinerMenuSlotDefinition$SlotDefinition;
-        get inputSlotIndexes(): $List<number>;
         get resultSlotIndex(): number;
+        get inputSlotIndexes(): $List<number>;
+        get resultSlot(): $ItemCombinerMenuSlotDefinition$SlotDefinition;
+        get numOfInputSlots(): number;
     }
     export class $SlotRange {
         static of(arg0: string, arg1: $IntList): $SlotRange;
@@ -680,14 +680,14 @@ declare module "@package/net/minecraft/world/inventory" {
         get count(): number;
     }
     export class $EnchantmentMenu extends $AbstractContainerMenu implements $EnchantmentMenuExtension {
-        getEnchantmentSeed(): number;
-        getGoldCount(): number;
-        morejs$getState(): $Optional<any>;
         morejs$getCosts(): number[];
+        morejs$getState(): $Optional<any>;
+        getGoldCount(): number;
         morejs$getRandom(): $RandomSource;
-        morejs$getLevelClues(): number[];
+        getEnchantmentSeed(): number;
         morejs$getEnchantmentClues(): number[];
         morejs$getContainer(): $Container;
+        morejs$getLevelClues(): number[];
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -715,8 +715,8 @@ declare module "@package/net/minecraft/world/inventory" {
         quickcraftStatus: number;
         constructor(arg0: number, arg1: $Inventory);
         constructor(arg0: number, arg1: $Inventory, arg2: $ContainerLevelAccess_);
-        get enchantmentSeed(): number;
         get goldCount(): number;
+        get enchantmentSeed(): number;
     }
     export class $ContainerLevelAccess {
         static create(arg0: $Level_, arg1: $BlockPos_): $ContainerLevelAccess;
@@ -762,17 +762,17 @@ declare module "@package/net/minecraft/world/inventory" {
         constructor(arg0: number, arg1: $Inventory, arg2: $ContainerLevelAccess_);
     }
     export class $ItemCombinerMenu extends $AbstractContainerMenu {
+        getSlotToQuickMoveTo(arg0: $ItemStack_): number;
+        createInputSlotDefinitions(): $ItemCombinerMenuSlotDefinition;
+        canMoveIntoInputSlots(arg0: $ItemStack_): boolean;
+        createResult(): void;
+        isValidBlock(arg0: $BlockState_): boolean;
+        getResultSlot(): number;
+        createResultSlot(arg0: $ItemCombinerMenuSlotDefinition): void;
+        createInputSlots(arg0: $ItemCombinerMenuSlotDefinition): void;
+        createContainer(arg0: number): $SimpleContainer;
         mayPickup(arg0: $Player, arg1: boolean): boolean;
         onTake(arg0: $Player, arg1: $ItemStack_): void;
-        createContainer(arg0: number): $SimpleContainer;
-        isValidBlock(arg0: $BlockState_): boolean;
-        createResult(): void;
-        createInputSlots(arg0: $ItemCombinerMenuSlotDefinition): void;
-        createResultSlot(arg0: $ItemCombinerMenuSlotDefinition): void;
-        getResultSlot(): number;
-        canMoveIntoInputSlots(arg0: $ItemStack_): boolean;
-        createInputSlotDefinitions(): $ItemCombinerMenuSlotDefinition;
-        getSlotToQuickMoveTo(arg0: $ItemStack_): number;
         quickcraftSlots: $Set<$Slot>;
         access: $ContainerLevelAccess;
         remoteCarried: $ItemStack;
@@ -806,57 +806,57 @@ declare module "@package/net/minecraft/world/inventory" {
     export class $ResultContainer implements $Container, $RecipeCraftingHolder {
         isEmpty(): boolean;
         getItem(arg0: number): $ItemStack;
-        clearContent(): void;
         removeItem(arg0: number, arg1: number): $ItemStack;
-        setItem(arg0: number, arg1: $ItemStack_): void;
-        getContainerSize(): number;
-        removeItemNoUpdate(arg0: number): $ItemStack;
-        stillValid(arg0: $Player): boolean;
-        setChanged(): void;
+        clearContent(): void;
         setRecipeUsed(arg0: $RecipeHolder_<never>): void;
         getRecipeUsed(): $RecipeHolder<never>;
-        getMaxStackSize(arg0: $ItemStack_): number;
-        getMaxStackSize(): number;
-        stopOpen(arg0: $Player): void;
-        countItem(arg0: $Item_): number;
-        startOpen(arg0: $Player): void;
-        hasAnyOf(arg0: $Set_<$Item_>): boolean;
-        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        getContainerSize(): number;
+        removeItemNoUpdate(arg0: number): $ItemStack;
+        setChanged(): void;
+        stillValid(arg0: $Player): boolean;
+        setItem(arg0: number, arg1: $ItemStack_): void;
         canPlaceItem(arg0: number, arg1: $ItemStack_): boolean;
         hasAnyMatching(arg0: $Predicate_<$ItemStack>): boolean;
+        startOpen(arg0: $Player): void;
+        hasAnyOf(arg0: $Set_<$Item_>): boolean;
+        stopOpen(arg0: $Player): void;
+        countItem(arg0: $Item_): number;
+        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        getMaxStackSize(): number;
+        getMaxStackSize(arg0: $ItemStack_): number;
         setRecipeUsed(arg0: $Level_, arg1: $ServerPlayer, arg2: $RecipeHolder_<never>): boolean;
         awardUsedRecipes(arg0: $Player, arg1: $List_<$ItemStack_>): void;
         getBlock(level: $Level_): $LevelBlock;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         setStackInSlot(slot: number, stack: $ItemStack_): void;
-        setChanged(): void;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
-        asContainer(): $Container;
-        getSlots(): number;
-        isMutable(): boolean;
-        getWidth(): number;
         getHeight(): number;
+        setChanged(): void;
+        getWidth(): number;
+        asContainer(): $Container;
+        isMutable(): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        clear(): void;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         self(): $Container;
+        clear(): void;
+        isEmpty(): boolean;
         insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        getAllItems(): $List<$ItemStack>;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
+        clear(match: $ItemPredicate_): void;
         constructor();
         get containerSize(): number;
-        get slots(): number;
-        get mutable(): boolean;
-        get width(): number;
         get height(): number;
+        get width(): number;
+        get mutable(): boolean;
+        get slots(): number;
         get allItems(): $List<$ItemStack>;
     }
     export class $FurnaceMenu extends $AbstractFurnaceMenu {
@@ -891,11 +891,11 @@ declare module "@package/net/minecraft/world/inventory" {
         constructor(arg0: number, arg1: $Inventory, arg2: $Container, arg3: $ContainerData);
     }
     export class $AbstractFurnaceMenu extends $RecipeBookMenu<$SingleRecipeInput, $AbstractCookingRecipe> {
-        isFuel(arg0: $ItemStack_): boolean;
-        isLit(): boolean;
-        getLitProgress(): number;
-        getBurnProgress(): number;
         canSmelt(arg0: $ItemStack_): boolean;
+        getBurnProgress(): number;
+        getLitProgress(): number;
+        isLit(): boolean;
+        isFuel(arg0: $ItemStack_): boolean;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -925,9 +925,9 @@ declare module "@package/net/minecraft/world/inventory" {
         static FUEL_SLOT: number;
         constructor(arg0: $MenuType_<never>, arg1: $RecipeType_<$AbstractCookingRecipe>, arg2: $RecipeBookType_, arg3: number, arg4: $Inventory);
         constructor(arg0: $MenuType_<never>, arg1: $RecipeType_<$AbstractCookingRecipe>, arg2: $RecipeBookType_, arg3: number, arg4: $Inventory, arg5: $Container, arg6: $ContainerData);
-        get lit(): boolean;
-        get litProgress(): number;
         get burnProgress(): number;
+        get litProgress(): number;
+        get lit(): boolean;
     }
     export class $HopperMenu extends $AbstractContainerMenu {
         quickcraftSlots: $Set<$Slot>;
@@ -964,10 +964,10 @@ declare module "@package/net/minecraft/world/inventory" {
     }
     export class $StonecutterMenu extends $AbstractContainerMenu {
         setupResultSlot(): void;
-        getNumRecipes(): number;
-        hasInputItem(): boolean;
-        getRecipes(): $List<$RecipeHolder<$StonecutterRecipe>>;
         registerUpdateListener(arg0: $Runnable_): void;
+        getRecipes(): $List<$RecipeHolder<$StonecutterRecipe>>;
+        hasInputItem(): boolean;
+        getNumRecipes(): number;
         getSelectedRecipeIndex(): number;
         container: $Container;
         quickcraftSlots: $Set<$Slot>;
@@ -1000,8 +1000,8 @@ declare module "@package/net/minecraft/world/inventory" {
         quickcraftStatus: number;
         constructor(arg0: number, arg1: $Inventory);
         constructor(arg0: number, arg1: $Inventory, arg2: $ContainerLevelAccess_);
-        get numRecipes(): number;
         get recipes(): $List<$RecipeHolder<$StonecutterRecipe>>;
+        get numRecipes(): number;
         get selectedRecipeIndex(): number;
     }
     export class $ShulkerBoxMenu extends $AbstractContainerMenu {
@@ -1033,74 +1033,74 @@ declare module "@package/net/minecraft/world/inventory" {
         getType(): $MenuType<never>;
         getSlot(arg0: number): $Slot;
         removed(arg0: $Player): void;
-        addSlot(arg0: $Slot): $Slot;
-        canDragTo(arg0: $Slot): boolean;
-        doClick(arg0: number, arg1: number, arg2: $ClickType_, arg3: $Player): void;
-        clicked(arg0: number, arg1: number, arg2: $ClickType_, arg3: $Player): void;
-        getStateId(): number;
-        setData(arg0: number, arg1: number): void;
-        wrapOperation$dpm000$geckolib$removeGeckolibIdOnCopy(arg0: $ItemStack_, arg1: number, arg2: $Operation_<any>): $ItemStack;
-        wrapOperation$dpm000$geckolib$forceGeckolibSlotChange(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $Operation_<any>): boolean;
         transferState(arg0: $AbstractContainerMenu): void;
-        setSynchronizer(arg0: $ContainerSynchronizer): void;
         addSlotListener(arg0: $ContainerListener): void;
-        setRemoteSlot(arg0: number, arg1: $ItemStack_): void;
-        findSlot(arg0: $Container, arg1: number): $OptionalInt;
-        setItem(arg0: number, arg1: number, arg2: $ItemStack_): void;
-        wrapOperation$dpm000$geckolib$forceGeckolibIdSync(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $Operation_<any>): boolean;
-        broadcastChanges(): void;
-        static stillValid(arg0: $ContainerLevelAccess_, arg1: $Player, arg2: $Block_): boolean;
-        stillValid(arg0: $Player): boolean;
-        setCarried(arg0: $ItemStack_): void;
-        getCarried(): $ItemStack;
-        ldlib2$setModularUI(arg0: $ModularUI): void;
+        setSynchronizer(arg0: $ContainerSynchronizer): void;
+        setData(arg0: number, arg1: number): void;
+        static getRedstoneSignalFromBlockEntity(arg0: $BlockEntity): number;
+        static getRedstoneSignalFromContainer(arg0: $Container): number;
+        setRemoteSlotNoCopy(arg0: number, arg1: $ItemStack_): void;
+        static isValidQuickcraftType(arg0: number, arg1: $Player): boolean;
+        suppressRemoteUpdates(): void;
+        synchronizeCarriedToRemote(): void;
+        static canItemQuickReplace(arg0: $Slot, arg1: $ItemStack_, arg2: boolean): boolean;
+        static getQuickCraftPlaceCount(arg0: $Set_<$Slot>, arg1: number, arg2: $ItemStack_): number;
+        sendAllDataToRemote(): void;
+        canTakeItemForPickAll(arg0: $ItemStack_, arg1: $Slot): boolean;
+        static checkContainerDataCount(arg0: $ContainerData, arg1: number): void;
         ldlib2$getModularUI(): $ModularUI;
+        static getQuickcraftHeader(arg0: number): number;
         resumeRemoteUpdates(): void;
         createCarriedSlotAccess(): $SlotAccess;
-        canTakeItemForPickAll(arg0: $ItemStack_, arg1: $Slot): boolean;
-        static getQuickCraftPlaceCount(arg0: $Set_<$Slot>, arg1: number, arg2: $ItemStack_): number;
-        suppressRemoteUpdates(): void;
-        static checkContainerDataCount(arg0: $ContainerData, arg1: number): void;
-        sendAllDataToRemote(): void;
-        setRemoteSlotNoCopy(arg0: number, arg1: $ItemStack_): void;
-        synchronizeCarriedToRemote(): void;
-        static getQuickcraftHeader(arg0: number): number;
-        static isValidQuickcraftType(arg0: number, arg1: $Player): boolean;
-        static canItemQuickReplace(arg0: $Slot, arg1: $ItemStack_, arg2: boolean): boolean;
-        addDataSlots(arg0: $ContainerData): void;
+        ldlib2$setModularUI(arg0: $ModularUI): void;
         removeSlotListener(arg0: $ContainerListener): void;
-        incrementStateId(): number;
-        addDataSlot(arg0: $DataSlot): $DataSlot;
-        isValidSlotIndex(arg0: number): boolean;
+        clickMenuButton(arg0: $Player, arg1: number): boolean;
+        quickMoveStack(arg0: $Player, arg1: number): $ItemStack;
+        static getQuickcraftType(arg0: number): number;
         static checkContainerSize(arg0: $Container, arg1: number): void;
         setRemoteCarried(arg0: $ItemStack_): void;
-        broadcastFullState(): void;
-        clickMenuButton(arg0: $Player, arg1: number): boolean;
-        static getQuickcraftType(arg0: number): number;
         resetQuickCraft(): void;
-        quickMoveStack(arg0: $Player, arg1: number): $ItemStack;
-        moveItemStackTo(arg0: $ItemStack_, arg1: number, arg2: number, arg3: boolean): boolean;
-        ldlib2$getItemSlot(arg0: $Slot): $ItemSlot;
-        ldlib2$addSlot(arg0: $ItemSlot): void;
+        clearContainer(arg0: $Player, arg1: $Container): void;
         slotsChanged(arg0: $Container): void;
         initializeContents(arg0: number, arg1: $List_<$ItemStack_>, arg2: $ItemStack_): void;
-        clearContainer(arg0: $Player, arg1: $Container): void;
+        isValidSlotIndex(arg0: number): boolean;
+        addDataSlot(arg0: $DataSlot): $DataSlot;
+        addDataSlots(arg0: $ContainerData): void;
+        broadcastFullState(): void;
         static getQuickcraftMask(arg0: number, arg1: number): number;
-        static getRedstoneSignalFromContainer(arg0: $Container): number;
-        static getRedstoneSignalFromBlockEntity(arg0: $BlockEntity): number;
+        ldlib2$getItemSlot(arg0: $Slot): $ItemSlot;
+        moveItemStackTo(arg0: $ItemStack_, arg1: number, arg2: number, arg3: boolean): boolean;
+        incrementStateId(): number;
+        ldlib2$addSlot(arg0: $ItemSlot): void;
+        broadcastChanges(): void;
+        wrapOperation$dpm000$geckolib$forceGeckolibIdSync(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $Operation_<any>): boolean;
         getItems(): $NonNullList<$ItemStack>;
-        addSlot(arg0: $ItemSlot): void;
-        getItemSlot(arg0: $Slot): $ItemSlot;
+        wrapOperation$dpm000$geckolib$removeGeckolibIdOnCopy(arg0: $ItemStack_, arg1: number, arg2: $Operation_<any>): $ItemStack;
+        wrapOperation$dpm000$geckolib$forceGeckolibSlotChange(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $Operation_<any>): boolean;
+        setRemoteSlot(arg0: number, arg1: $ItemStack_): void;
+        setCarried(arg0: $ItemStack_): void;
+        getCarried(): $ItemStack;
+        static stillValid(arg0: $ContainerLevelAccess_, arg1: $Player, arg2: $Block_): boolean;
+        stillValid(arg0: $Player): boolean;
+        findSlot(arg0: $Container, arg1: number): $OptionalInt;
+        setItem(arg0: number, arg1: number, arg2: $ItemStack_): void;
+        addSlot(arg0: $Slot): $Slot;
+        clicked(arg0: number, arg1: number, arg2: $ClickType_, arg3: $Player): void;
+        doClick(arg0: number, arg1: number, arg2: $ClickType_, arg3: $Player): void;
+        canDragTo(arg0: $Slot): boolean;
+        getStateId(): number;
         setModularUI(arg0: $ModularUI): void;
+        getItemSlot(arg0: $Slot): $ItemSlot;
         getModularUI(): $ModularUI;
+        addSlot(arg0: $ItemSlot): void;
         getSyncManager(): $UISyncManager;
         hasModularUI(): boolean;
         self(): $AbstractContainerMenu;
         isItemSlot(arg0: $Slot): boolean;
-        writeInitialData(arg0: $RegistryFriendlyByteBuf): void;
         readInitialData(arg0: $RegistryFriendlyByteBuf): void;
-        getLastSlots(): $NonNullList<$ItemStack>;
+        writeInitialData(arg0: $RegistryFriendlyByteBuf): void;
         getRemoteSlots(): $NonNullList<$ItemStack>;
+        getLastSlots(): $NonNullList<$ItemStack>;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -1124,8 +1124,8 @@ declare module "@package/net/minecraft/world/inventory" {
         static QUICKCRAFT_TYPE_CHARITABLE: number;
         constructor(arg0: $MenuType_<never>, arg1: number);
         get type(): $MenuType<never>;
-        get stateId(): number;
         get items(): $NonNullList<$ItemStack>;
+        get stateId(): number;
         get syncManager(): $UISyncManager;
     }
     export class $Slot implements $SlotAccessor, $SlotAccessor$1, $SlotAccessor$2 {
@@ -1133,35 +1133,35 @@ declare module "@package/net/minecraft/world/inventory" {
         set(arg0: $ItemStack_): void;
         isActive(): boolean;
         getItem(): $ItemStack;
-        tryRemove(arg0: number, arg1: number, arg2: $Player): ($ItemStack) | undefined;
-        safeTake(arg0: number, arg1: number, arg2: $Player): $ItemStack;
-        mayPlace(arg0: $ItemStack_): boolean;
-        safeInsert(arg0: $ItemStack_, arg1: number): $ItemStack;
-        safeInsert(arg0: $ItemStack_): $ItemStack;
-        mayPickup(arg0: $Player): boolean;
-        onTake(arg0: $Player, arg1: $ItemStack_): void;
         hasItem(): boolean;
-        getMaxStackSize(arg0: $ItemStack_): number;
-        getMaxStackSize(): number;
-        setBackground(arg0: $ResourceLocation_, arg1: $ResourceLocation_): $Slot;
-        setChanged(): void;
-        allowModification(arg0: $Player): boolean;
-        setByPlayer(arg0: $ItemStack_, arg1: $ItemStack_): void;
-        setByPlayer(arg0: $ItemStack_): void;
-        getContainerSlot(): number;
-        onSwapCraft(arg0: number): void;
-        onQuickCraft(arg0: $ItemStack_, arg1: $ItemStack_): void;
-        onQuickCraft(arg0: $ItemStack_, arg1: number): void;
+        isFake(): boolean;
         checkTakeAchievements(arg0: $ItemStack_): void;
         isHighlightable(): boolean;
         isSameInventory(arg0: $Slot): boolean;
-        getSlotIndex(): number;
         getNoItemIcon(): $Pair<$ResourceLocation, $ResourceLocation>;
-        isFake(): boolean;
+        getSlotIndex(): number;
+        onSwapCraft(arg0: number): void;
+        setByPlayer(arg0: $ItemStack_, arg1: $ItemStack_): void;
+        setByPlayer(arg0: $ItemStack_): void;
+        onQuickCraft(arg0: $ItemStack_, arg1: number): void;
+        onQuickCraft(arg0: $ItemStack_, arg1: $ItemStack_): void;
+        getContainerSlot(): number;
+        setBackground(arg0: $ResourceLocation_, arg1: $ResourceLocation_): $Slot;
+        getMaxStackSize(): number;
+        getMaxStackSize(arg0: $ItemStack_): number;
+        setChanged(): void;
+        allowModification(arg0: $Player): boolean;
+        mayPlace(arg0: $ItemStack_): boolean;
+        mayPickup(arg0: $Player): boolean;
+        onTake(arg0: $Player, arg1: $ItemStack_): void;
+        safeTake(arg0: number, arg1: number, arg2: $Player): $ItemStack;
+        tryRemove(arg0: number, arg1: number, arg2: $Player): ($ItemStack) | undefined;
+        safeInsert(arg0: $ItemStack_): $ItemStack;
+        safeInsert(arg0: $ItemStack_, arg1: number): $ItemStack;
         getY(): number;
         getX(): number;
-        setY(arg0: number): void;
         setX(arg0: number): void;
+        setY(arg0: number): void;
         container: $Container;
         x: number;
         index: number;
@@ -1169,19 +1169,19 @@ declare module "@package/net/minecraft/world/inventory" {
         constructor(arg0: $Container, arg1: number, arg2: number, arg3: number);
         get active(): boolean;
         get item(): $ItemStack;
-        get containerSlot(): number;
-        get highlightable(): boolean;
-        get slotIndex(): number;
-        get noItemIcon(): $Pair<$ResourceLocation, $ResourceLocation>;
         get fake(): boolean;
+        get highlightable(): boolean;
+        get noItemIcon(): $Pair<$ResourceLocation, $ResourceLocation>;
+        get slotIndex(): number;
+        get containerSlot(): number;
     }
     export class $DataSlot {
         get(): number;
         set(arg0: number): void;
         static shared(arg0: number[], arg1: number): $DataSlot;
         static standalone(): $DataSlot;
-        static forContainer(arg0: $ContainerData, arg1: number): $DataSlot;
         checkAndClearUpdateFlag(): boolean;
+        static forContainer(arg0: $ContainerData, arg1: number): $DataSlot;
         constructor();
     }
     export class $BrewingStandMenu$FuelSlot extends $Slot {
@@ -1228,88 +1228,88 @@ declare module "@package/net/minecraft/world/inventory" {
      */
     export type $ClickType_ = "pickup" | "quick_move" | "swap" | "clone" | "throw" | "quick_craft" | "pickup_all";
     export class $TransientCraftingContainer implements $CraftingContainer, $CraftingContainerAccess, $AccessorTransientCraftingContainer {
+        getWidth(): number;
         isEmpty(): boolean;
         getItem(arg0: number): $ItemStack;
-        getWidth(): number;
-        clearContent(): void;
         removeItem(arg0: number, arg1: number): $ItemStack;
-        setItem(arg0: number, arg1: $ItemStack_): void;
+        fillStackedContents(arg0: $StackedContents): void;
+        clearContent(): void;
+        getHeight(): number;
         getContainerSize(): number;
         removeItemNoUpdate(arg0: number): $ItemStack;
-        stillValid(arg0: $Player): boolean;
-        setChanged(): void;
-        fillStackedContents(arg0: $StackedContents): void;
-        getHeight(): number;
         getItems(): $List<$ItemStack>;
+        setChanged(): void;
+        stillValid(arg0: $Player): boolean;
+        setItem(arg0: number, arg1: $ItemStack_): void;
         asPositionedCraftInput(): $CraftingInput$Positioned;
         asCraftInput(): $CraftingInput;
-        getMaxStackSize(arg0: $ItemStack_): number;
-        getMaxStackSize(): number;
-        stopOpen(arg0: $Player): void;
-        countItem(arg0: $Item_): number;
-        startOpen(arg0: $Player): void;
-        hasAnyOf(arg0: $Set_<$Item_>): boolean;
-        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
         canPlaceItem(arg0: number, arg1: $ItemStack_): boolean;
         hasAnyMatching(arg0: $Predicate_<$ItemStack>): boolean;
+        startOpen(arg0: $Player): void;
+        hasAnyOf(arg0: $Set_<$Item_>): boolean;
+        stopOpen(arg0: $Player): void;
+        countItem(arg0: $Item_): number;
+        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        getMaxStackSize(): number;
+        getMaxStackSize(arg0: $ItemStack_): number;
         getBlock(level: $Level_): $LevelBlock;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         setStackInSlot(slot: number, stack: $ItemStack_): void;
-        setChanged(): void;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
-        asContainer(): $Container;
-        getSlots(): number;
-        isMutable(): boolean;
-        getWidth(): number;
         getHeight(): number;
+        setChanged(): void;
+        getWidth(): number;
+        asContainer(): $Container;
+        isMutable(): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        clear(): void;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         self(): $Container;
+        clear(): void;
+        isEmpty(): boolean;
         insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        getAllItems(): $List<$ItemStack>;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
+        clear(match: $ItemPredicate_): void;
         setItems(arg0: $NonNullList<$ItemStack_>): void;
         framedblocks$getItems(): $NonNullList<$ItemStack>;
         menu: $AbstractContainerMenu;
         constructor(arg0: $AbstractContainerMenu, arg1: number, arg2: number);
         constructor(arg0: $AbstractContainerMenu, arg1: number, arg2: number, arg3: $NonNullList<$ItemStack_>);
         get containerSize(): number;
-        get slots(): number;
         get mutable(): boolean;
+        get slots(): number;
         get allItems(): $List<$ItemStack>;
     }
     export class $ContainerSynchronizer {
     }
     export interface $ContainerSynchronizer {
+        sendDataChange(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
+        sendSlotChange(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
         sendInitialData(arg0: $AbstractContainerMenu, arg1: $NonNullList<$ItemStack_>, arg2: $ItemStack_, arg3: number[]): void;
         sendCarriedChange(arg0: $AbstractContainerMenu, arg1: $ItemStack_): void;
-        sendSlotChange(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
-        sendDataChange(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
     }
     export class $MerchantMenu extends $AbstractContainerMenu {
-        tryMoveItems(arg0: number): void;
-        getOffers(): $MerchantOffers;
-        setOffers(arg0: $MerchantOffers): void;
-        canRestock(): boolean;
-        setShowProgressBar(arg0: boolean): void;
-        getTraderXp(): number;
-        setMerchantLevel(arg0: number): void;
-        setSelectionHint(arg0: number): void;
-        getFutureTraderXp(): number;
-        setCanRestock(arg0: boolean): void;
-        getTraderLevel(): number;
-        showProgressBar(): boolean;
-        setXp(arg0: number): void;
         handler$ebc000$morejs$invokeOpenTradeEvent(arg0: number, arg1: $Inventory, arg2: $Merchant, arg3: $CallbackInfo): void;
+        getOffers(): $MerchantOffers;
+        setXp(arg0: number): void;
+        showProgressBar(): boolean;
+        setSelectionHint(arg0: number): void;
+        setCanRestock(arg0: boolean): void;
+        getFutureTraderXp(): number;
+        getTraderXp(): number;
+        getTraderLevel(): number;
+        setShowProgressBar(arg0: boolean): void;
+        setMerchantLevel(arg0: number): void;
+        canRestock(): boolean;
+        tryMoveItems(arg0: number): void;
+        setOffers(arg0: $MerchantOffers): void;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -1336,12 +1336,12 @@ declare module "@package/net/minecraft/world/inventory" {
         quickcraftStatus: number;
         constructor(arg0: number, arg1: $Inventory);
         constructor(arg0: number, arg1: $Inventory, arg2: $Merchant);
-        get traderXp(): number;
-        set merchantLevel(value: number);
+        set xp(value: number);
         set selectionHint(value: number);
         get futureTraderXp(): number;
+        get traderXp(): number;
         get traderLevel(): number;
-        set xp(value: number);
+        set merchantLevel(value: number);
     }
     export class $GrindstoneMenu extends $AbstractContainerMenu {
         computeResult(arg0: $ItemStack_, arg1: $ItemStack_): $ItemStack;
@@ -1379,23 +1379,23 @@ declare module "@package/net/minecraft/world/inventory" {
     export interface $RecipeCraftingHolder {
         setRecipeUsed(arg0: $Level_, arg1: $ServerPlayer, arg2: $RecipeHolder_<never>): boolean;
         setRecipeUsed(arg0: $RecipeHolder_<never>): void;
-        awardUsedRecipes(arg0: $Player, arg1: $List_<$ItemStack_>): void;
         getRecipeUsed(): $RecipeHolder<never>;
+        awardUsedRecipes(arg0: $Player, arg1: $List_<$ItemStack_>): void;
     }
     export class $RecipeBookMenu<I extends $RecipeInput, R extends $Recipe<I>> extends $AbstractContainerMenu {
         getSize(): number;
-        fillCraftSlotsStackedContents(arg0: $StackedContents): void;
+        clearCraftingContent(): void;
+        finishPlacingRecipe(arg0: $RecipeHolder_<R>): void;
         shouldMoveToInventory(arg0: number): boolean;
         getRecipeBookCategories(): $List<$RecipeBookCategories>;
-        finishPlacingRecipe(arg0: $RecipeHolder_<R>): void;
-        clearCraftingContent(): void;
         getGridWidth(): number;
-        recipeMatches(arg0: $RecipeHolder_<R>): boolean;
-        handlePlacement(arg0: boolean, arg1: $RecipeHolder_<never>, arg2: $ServerPlayer): void;
-        beginPlacingRecipe(): void;
-        getRecipeBookType(): $RecipeBookType;
         getResultSlotIndex(): number;
+        handlePlacement(arg0: boolean, arg1: $RecipeHolder_<never>, arg2: $ServerPlayer): void;
+        getRecipeBookType(): $RecipeBookType;
+        beginPlacingRecipe(): void;
         getGridHeight(): number;
+        recipeMatches(arg0: $RecipeHolder_<R>): boolean;
+        fillCraftSlotsStackedContents(arg0: $StackedContents): void;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -1421,17 +1421,17 @@ declare module "@package/net/minecraft/world/inventory" {
         get size(): number;
         get recipeBookCategories(): $List<$RecipeBookCategories>;
         get gridWidth(): number;
-        get recipeBookType(): $RecipeBookType;
         get resultSlotIndex(): number;
+        get recipeBookType(): $RecipeBookType;
         get gridHeight(): number;
     }
     export class $CrafterMenu extends $AbstractContainerMenu implements $ContainerListener {
         getContainer(): $Container;
+        slotChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
+        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
+        isPowered(): boolean;
         isSlotDisabled(arg0: number): boolean;
         setSlotState(arg0: number, arg1: boolean): void;
-        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
-        slotChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
-        isPowered(): boolean;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
         static QUICKCRAFT_HEADER_START: number;
@@ -1505,12 +1505,12 @@ declare module "@package/net/minecraft/world/inventory" {
         constructor(arg0: number, arg1: $Inventory, arg2: $Container, arg3: $ContainerData);
     }
     export class $AnvilMenu extends $ItemCombinerMenu {
-        static calculateIncreasedRepairCost(arg0: number): number;
-        getCost(): number;
-        setMaximumCost(arg0: number): void;
-        setItemName(arg0: string): boolean;
         handler$fgp000$inventoryprofilesnext$onTakeOutputPre(arg0: $Player, arg1: $ItemStack_, arg2: $CallbackInfo): void;
         handler$fgp000$inventoryprofilesnext$onTakeOutputPost(arg0: $Player, arg1: $ItemStack_, arg2: $CallbackInfo): void;
+        getCost(): number;
+        setItemName(arg0: string): boolean;
+        setMaximumCost(arg0: number): void;
+        static calculateIncreasedRepairCost(arg0: number): number;
         quickcraftSlots: $Set<$Slot>;
         repairItemCountCost: number;
         access: $ContainerLevelAccess;
@@ -1553,8 +1553,8 @@ declare module "@package/net/minecraft/world/inventory" {
     export class $ContainerListener {
     }
     export interface $ContainerListener {
-        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
         slotChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
+        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
     }
     export class $ItemCombinerMenuSlotDefinition$Builder {
         build(): $ItemCombinerMenuSlotDefinition;

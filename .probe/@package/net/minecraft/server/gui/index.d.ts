@@ -26,9 +26,9 @@ declare module "@package/net/minecraft/server/gui" {
         start(): void;
         print(arg0: $JTextArea, arg1: $JScrollPane, arg2: string): void;
         close(): void;
+        static showFrameFor(arg0: $DedicatedServer): $MinecraftServerGui;
         runFinalizers(): void;
         addFinalizer(arg0: $Runnable_): void;
-        static showFrameFor(arg0: $DedicatedServer): $MinecraftServerGui;
         static WHEN_FOCUSED: number;
         static WHEN_ANCESTOR_OF_FOCUSED_COMPONENT: number;
         static CENTER_ALIGNMENT: number;

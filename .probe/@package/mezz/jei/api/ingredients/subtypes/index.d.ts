@@ -16,28 +16,28 @@ declare module "@package/mezz/jei/api/ingredients/subtypes" {
     export class $ISubtypeInterpreter<T> {
     }
     export interface $ISubtypeInterpreter<T> {
-        getSubtypeData(arg0: T, arg1: $UidContext_): $Object;
         /**
          * @deprecated
          */
         getLegacyStringSubtypeInfo(arg0: T, arg1: $UidContext_): string;
+        getSubtypeData(arg0: T, arg1: $UidContext_): $Object;
     }
     export class $ISubtypeManager {
     }
     export interface $ISubtypeManager {
         hasSubtypes<T, B>(arg0: $IIngredientTypeWithSubtypes<B, T>, arg1: T): boolean;
         hasSubtypes(arg0: $ItemStack_): boolean;
-        getSubtypeData(arg0: $ItemStack_, arg1: $UidContext_): $Object;
-        getSubtypeData<T>(arg0: $IIngredientTypeWithSubtypes<never, T>, arg1: T, arg2: $UidContext_): $Object;
-        getSubtypeData<B, T>(arg0: $IIngredientTypeWithSubtypes<B, T>, arg1: $ITypedIngredient<T>, arg2: $UidContext_): $Object;
-        /**
-         * @deprecated
-         */
-        getSubtypeInfo<T>(arg0: $IIngredientTypeWithSubtypes<never, T>, arg1: T, arg2: $UidContext_): string;
         /**
          * @deprecated
          */
         getSubtypeInfo(arg0: $ItemStack_, arg1: $UidContext_): string;
+        /**
+         * @deprecated
+         */
+        getSubtypeInfo<T>(arg0: $IIngredientTypeWithSubtypes<never, T>, arg1: T, arg2: $UidContext_): string;
+        getSubtypeData<B, T>(arg0: $IIngredientTypeWithSubtypes<B, T>, arg1: $ITypedIngredient<T>, arg2: $UidContext_): $Object;
+        getSubtypeData<T>(arg0: $IIngredientTypeWithSubtypes<never, T>, arg1: T, arg2: $UidContext_): $Object;
+        getSubtypeData(arg0: $ItemStack_, arg1: $UidContext_): $Object;
     }
     /**
      * @deprecated

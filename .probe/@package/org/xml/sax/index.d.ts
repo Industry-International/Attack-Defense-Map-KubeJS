@@ -25,6 +25,7 @@ declare module "@package/org/xml/sax" {
         isEmpty(): boolean;
         getEncoding(): string;
         setEncoding(arg0: string): void;
+        setSystemId(arg0: string): void;
         getSystemId(): string;
         setByteStream(arg0: $InputStream): void;
         setCharacterStream(arg0: $Reader): void;
@@ -32,7 +33,6 @@ declare module "@package/org/xml/sax" {
         getPublicId(): string;
         getByteStream(): $InputStream;
         getCharacterStream(): $Reader;
-        setSystemId(arg0: string): void;
         constructor(arg0: $Reader);
         constructor(arg0: $InputStream);
         constructor(arg0: string);
@@ -73,18 +73,18 @@ declare module "@package/org/xml/sax" {
     export class $ContentHandler {
     }
     export interface $ContentHandler {
-        declaration(arg0: string, arg1: string, arg2: string): void;
-        startElement(arg0: string, arg1: string, arg2: string, arg3: $Attributes): void;
-        endElement(arg0: string, arg1: string, arg2: string): void;
+        endPrefixMapping(arg0: string): void;
+        startPrefixMapping(arg0: string, arg1: string): void;
+        skippedEntity(arg0: string): void;
         processingInstruction(arg0: string, arg1: string): void;
         startDocument(): void;
         characters(arg0: string[], arg1: number, arg2: number): void;
         ignorableWhitespace(arg0: string[], arg1: number, arg2: number): void;
         endDocument(): void;
         setDocumentLocator(arg0: $Locator): void;
-        endPrefixMapping(arg0: string): void;
-        startPrefixMapping(arg0: string, arg1: string): void;
-        skippedEntity(arg0: string): void;
+        startElement(arg0: string, arg1: string, arg2: string, arg3: $Attributes): void;
+        endElement(arg0: string, arg1: string, arg2: string): void;
+        declaration(arg0: string, arg1: string, arg2: string): void;
         set documentLocator(value: $Locator);
     }
     export class $Attributes {

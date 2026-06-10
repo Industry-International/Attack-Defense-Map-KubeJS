@@ -29,9 +29,9 @@ declare module "@package/customskinloader/fake/itf" {
     export class $IFakeNativeImage {
     }
     export interface $IFakeNativeImage {
+        setPixel(arg0: number, arg1: number, arg2: number): void;
+        getPixel(arg0: number, arg1: number): number;
         setFakeImage(arg0: $FakeNativeImage): void;
         getFakeImage(): $FakeNativeImage;
-        getPixel(arg0: number, arg1: number): number;
-        setPixel(arg0: number, arg1: number, arg2: number): void;
     }
 }

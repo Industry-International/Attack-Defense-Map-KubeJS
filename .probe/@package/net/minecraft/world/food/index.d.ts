@@ -87,57 +87,57 @@ declare module "@package/net/minecraft/world/food" {
     }
     export class $FoodData {
         tick(arg0: $Player): void;
-        getSaturationLevel(): number;
-        setSaturation(arg0: number): void;
+        eat(arg0: $FoodProperties_): void;
+        eat(arg0: number, arg1: number): void;
+        addAdditionalSaveData(arg0: $CompoundTag_): void;
+        readAdditionalSaveData(arg0: $CompoundTag_): void;
         setFoodLevel(arg0: number): void;
         getFoodLevel(): number;
+        setSaturation(arg0: number): void;
+        getSaturationLevel(): number;
         addExhaustion(arg0: number): void;
         needsFood(): boolean;
-        eat(arg0: number, arg1: number): void;
-        eat(arg0: $FoodProperties_): void;
-        readAdditionalSaveData(arg0: $CompoundTag_): void;
-        addAdditionalSaveData(arg0: $CompoundTag_): void;
         getExhaustionLevel(): number;
-        getLastFoodLevel(): number;
         setExhaustion(arg0: number): void;
+        getLastFoodLevel(): number;
         constructor();
-        get saturationLevel(): number;
         set saturation(value: number);
+        get saturationLevel(): number;
         get exhaustionLevel(): number;
-        get lastFoodLevel(): number;
         set exhaustion(value: number);
+        get lastFoodLevel(): number;
     }
     export class $FoodProperties extends $Record {
-        saturation(): number;
-        nutrition(): number;
-        usingConvertsTo(): ($ItemStack) | undefined;
         effects(): $List<$FoodProperties$PossibleEffect>;
-        eatDurationTicks(): number;
         canAlwaysEat(): boolean;
+        eatDurationTicks(): number;
+        saturation(): number;
+        usingConvertsTo(): ($ItemStack) | undefined;
+        nutrition(): number;
         eatSeconds(): number;
         static DIRECT_CODEC: $Codec<$FoodProperties>;
         static DIRECT_STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $FoodProperties>;
         constructor(nutrition: number, saturation: number, canAlwaysEat: boolean, eatSeconds: number, usingConvertsTo: ($ItemStack_) | undefined, effects: $List_<$FoodProperties$PossibleEffect_>);
     }
     export class $FoodProperties$PossibleEffect extends $Record {
-        effectSupplier(): $Supplier<$MobEffectInstance>;
-        probability(): number;
         effect(): $MobEffectInstance;
+        probability(): number;
+        effectSupplier(): $Supplier<$MobEffectInstance>;
         static CODEC: $Codec<$FoodProperties$PossibleEffect>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $FoodProperties$PossibleEffect>;
         constructor(effectSupplier: $Supplier_<$MobEffectInstance>, probability: number);
     }
     export class $FoodProperties$Builder implements $InjectedFoodPropertiesBuilderExtension {
         build(): $FoodProperties;
-        nutrition(arg0: number): $FoodProperties$Builder;
-        usingConvertsTo(arg0: $ItemLike_): $FoodProperties$Builder;
         effect(arg0: $Supplier_<$MobEffectInstance>, arg1: number): $FoodProperties$Builder;
         /**
          * @deprecated
          */
         effect(arg0: $MobEffectInstance, arg1: number): $FoodProperties$Builder;
-        saturationModifier(arg0: number): $FoodProperties$Builder;
         alwaysEdible(): $FoodProperties$Builder;
+        saturationModifier(arg0: number): $FoodProperties$Builder;
+        usingConvertsTo(arg0: $ItemLike_): $FoodProperties$Builder;
+        nutrition(arg0: number): $FoodProperties$Builder;
         fast(): $FoodProperties$Builder;
         arch$effect(effectSupplier: $Supplier_<$MobEffectInstance>, chance: number): $FoodProperties$Builder;
         constructor();

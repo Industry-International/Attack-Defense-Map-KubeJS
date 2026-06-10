@@ -23,8 +23,8 @@ declare module "@package/com/almostreliable/morejs/features/enchantment" {
         addComponent(arg0: number, arg1: $Component_): void;
         getComponents(): $List<$Component>;
         removeComponent(arg0: number): void;
-        clearComponents(): void;
         getRequiredLevel(): number;
+        clearComponents(): void;
         getClueId(): $ResourceLocation;
         getClue(): $EnchantmentInstance;
         constructor(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $Level_, arg3: $Player, arg4: $EnchantmentMenu, arg5: number, arg6: $List_<$Component_>);
@@ -36,18 +36,18 @@ declare module "@package/com/almostreliable/morejs/features/enchantment" {
     }
     export class $EnchantmentData {
         getEnchantments(): $List<$EnchantmentInstance>;
-        addEnchantment(arg0: $Holder_<$Enchantment>, arg1: number): void;
         setRequiredLevel(arg0: number): void;
         getEnchantmentIds(): $List<$ResourceLocation>;
-        removeEnchantments(arg0: $BiPredicate_<$Holder<$Enchantment>, number>): void;
         getRequiredLevel(): number;
-        hasEnchantment(arg0: $ResourceLocation_): boolean;
         hasEnchantment(arg0: $ResourceLocation_, arg1: $IntRange): boolean;
-        clearClue(): void;
+        hasEnchantment(arg0: $ResourceLocation_): boolean;
+        addEnchantment(arg0: $Holder_<$Enchantment>, arg1: number): void;
+        removeEnchantments(arg0: $BiPredicate_<$Holder<$Enchantment>, number>): void;
+        getClue(): $EnchantmentInstance;
         randomClue(): void;
+        clearClue(): void;
         setClue(arg0: $Holder_<$Enchantment>, arg1: number): void;
         setClue(arg0: $EnchantmentInstance): void;
-        getClue(): $EnchantmentInstance;
         constructor(arg0: $List_<$EnchantmentInstance>, arg1: number, arg2: $EnchantmentMenu, arg3: $Level_);
         get enchantments(): $List<$EnchantmentInstance>;
         get enchantmentIds(): $List<$ResourceLocation>;
@@ -55,21 +55,21 @@ declare module "@package/com/almostreliable/morejs/features/enchantment" {
     export class $EnchantmentTableServerEventJS extends $EnchantmentTableEventJS {
         get(arg0: number): $EnchantmentData;
         getSize(): number;
-        setItem(arg0: $ItemStack_): void;
         getPosition(): $BlockPos;
+        setItem(arg0: $ItemStack_): void;
         itemWasChanged(): boolean;
         constructor(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_, arg4: $Player, arg5: $EnchantmentMenuState);
         get size(): number;
-        set item(value: $ItemStack_);
         get position(): $BlockPos;
+        set item(value: $ItemStack_);
     }
     export class $EnchantmentTableEventJS implements $KubeLevelEvent {
         getLevel(): $Level;
         getItem(): $ItemStack;
         getPlayer(): $Player;
         getSecondItem(): $ItemStack;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -111,28 +111,28 @@ declare module "@package/com/almostreliable/morejs/features/enchantment" {
         get item(): $ItemStack;
         get player(): $Player;
         get secondItem(): $ItemStack;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $EnchantmentMenuState {
         reset(arg0: $ItemStack_): void;
         getState(): $EnchantmentState;
         setState(arg0: $EnchantmentState_): void;
-        getMenu(): $EnchantmentMenu;
-        matchesCurrentItem(arg0: $ItemStack_): boolean;
-        setEnchantments(arg0: number, arg1: $List_<$EnchantmentInstance>): void;
-        getEnchantments(arg0: number): $List<$EnchantmentInstance>;
         prepareEvent(arg0: $ItemStack_): void;
+        setEnchantments(arg0: number, arg1: $List_<$EnchantmentInstance>): void;
+        matchesCurrentItem(arg0: $ItemStack_): boolean;
+        getEnchantments(arg0: number): $List<$EnchantmentInstance>;
         getPlayer(): $Player;
         storeItemIsEnchantable(arg0: boolean): boolean;
-        setFreezeBroadcast(arg0: boolean): void;
-        isFreezeBroadcast(): boolean;
-        clearEnchantments(): void;
+        getMenu(): $EnchantmentMenu;
         getCurrentItem(): $ItemStack;
         setCurrentItem(arg0: $ItemStack_): void;
+        setFreezeBroadcast(arg0: boolean): void;
+        clearEnchantments(): void;
+        isFreezeBroadcast(): boolean;
         constructor(arg0: $EnchantmentMenu, arg1: $Player);
-        get menu(): $EnchantmentMenu;
         get player(): $Player;
+        get menu(): $EnchantmentMenu;
     }
     export class $EnchantmentState extends $Enum<$EnchantmentState> {
         static values(): $EnchantmentState[];
@@ -146,13 +146,13 @@ declare module "@package/com/almostreliable/morejs/features/enchantment" {
      */
     export type $EnchantmentState_ = "idle" | "store_enchantments" | "use_stored_enchantments";
     export class $PlayerEnchantEventJS extends $EnchantmentTableEventJS {
-        getEnchantments(): $List<$EnchantmentInstance>;
         getPosition(): $BlockPos;
+        getEnchantments(): $List<$EnchantmentInstance>;
         getEnchantmentIds(): $List<$ResourceLocation>;
         getRequiredLevel(): number;
         constructor(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_, arg4: $Player, arg5: $EnchantmentMenuState, arg6: number, arg7: $List_<$EnchantmentInstance>);
-        get enchantments(): $List<$EnchantmentInstance>;
         get position(): $BlockPos;
+        get enchantments(): $List<$EnchantmentInstance>;
         get enchantmentIds(): $List<$ResourceLocation>;
         get requiredLevel(): number;
     }
@@ -165,11 +165,11 @@ declare module "@package/com/almostreliable/morejs/features/enchantment" {
         static morejs$cast(arg0: $EnchantmentMenu): $EnchantmentMenuExtension;
     }
     export interface $EnchantmentMenuExtension {
-        morejs$getState(): ($EnchantmentMenuState) | undefined;
         morejs$getCosts(): number[];
+        morejs$getState(): ($EnchantmentMenuState) | undefined;
         morejs$getRandom(): $RandomSource;
-        morejs$getLevelClues(): number[];
         morejs$getEnchantmentClues(): number[];
         morejs$getContainer(): $Container;
+        morejs$getLevelClues(): number[];
     }
 }

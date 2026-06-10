@@ -8,11 +8,11 @@ declare module "@package/org/appliedenergistics/yoga/numeric" {
         static of(arg0: number): $FloatOptional;
         unwrap(): number;
         isDefined(): boolean;
-        isUndefined(): boolean;
         isLessThan(arg0: $FloatOptional): boolean;
+        isUndefined(): boolean;
         unwrapOrDefault(arg0: number): number;
-        maxOrDefined(arg0: $FloatOptional): $FloatOptional;
         isGreaterThan(arg0: $FloatOptional): boolean;
+        maxOrDefined(arg0: $FloatOptional): $FloatOptional;
         inexactEquals(arg0: $FloatOptional): boolean;
         isLessThanOrEqual(arg0: $FloatOptional): boolean;
         isGreaterThanOrEqual(arg0: $FloatOptional): boolean;

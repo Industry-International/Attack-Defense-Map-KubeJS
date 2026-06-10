@@ -7,16 +7,16 @@ import { $Enum } from "@package/java/lang";
 declare module "@package/net/irisshaders/iris/pbr/texture" {
     export class $PBRAtlasHolder {
         cycleAnimationFrames(): void;
-        getNormalAtlas(): $PBRAtlasTexture;
         getSpecularAtlas(): $PBRAtlasTexture;
+        getNormalAtlas(): $PBRAtlasTexture;
         setNormalAtlas(arg0: $PBRAtlasTexture): void;
         setSpecularAtlas(arg0: $PBRAtlasTexture): void;
         constructor();
     }
     export class $PBRSpriteHolder {
         close(): void;
-        getSpecularSprite(): $TextureAtlasSprite;
         getNormalSprite(): $TextureAtlasSprite;
+        getSpecularSprite(): $TextureAtlasSprite;
         setNormalSprite(arg0: $TextureAtlasSprite): void;
         setSpecularSprite(arg0: $TextureAtlasSprite): void;
         constructor();
@@ -24,23 +24,23 @@ declare module "@package/net/irisshaders/iris/pbr/texture" {
     export class $PBRAtlasTexture extends $AbstractTexture implements $PBRDumpable {
         clear(): void;
         getType(): $PBRType;
-        tryUpload(arg0: number, arg1: number, arg2: number): boolean;
-        cycleAnimationFrames(): void;
-        upload(arg0: number, arg1: number, arg2: number): void;
-        getAtlasId(): $ResourceLocation;
-        dumpContents(arg0: $ResourceLocation_, arg1: $Path_): void;
-        getSprite(arg0: $ResourceLocation_): $AtlasPBRLoader$PBRTextureAtlasSprite;
-        getDefaultDumpLocation(): $ResourceLocation;
         addSprite(arg0: $AtlasPBRLoader$PBRTextureAtlasSprite): void;
+        cycleAnimationFrames(): void;
+        getSprite(arg0: $ResourceLocation_): $AtlasPBRLoader$PBRTextureAtlasSprite;
+        dumpContents(arg0: $ResourceLocation_, arg1: $Path_): void;
+        getDefaultDumpLocation(): $ResourceLocation;
+        upload(arg0: number, arg1: number, arg2: number): void;
+        tryUpload(arg0: number, arg1: number, arg2: number): boolean;
         static syncAnimation(arg0: $SpriteContents$Ticker, arg1: $SpriteContents$Ticker): void;
+        getAtlasId(): $ResourceLocation;
         static NOT_ASSIGNED: number;
         mipmap: boolean;
         blur: boolean;
         id: number;
         constructor(arg0: $TextureAtlas, arg1: $PBRType_);
         get type(): $PBRType;
-        get atlasId(): $ResourceLocation;
         get defaultDumpLocation(): $ResourceLocation;
+        get atlasId(): $ResourceLocation;
     }
     export class $SpriteContentsExtension {
     }

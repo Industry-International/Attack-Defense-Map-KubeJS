@@ -7,8 +7,8 @@ export * as floating_block from "@package/dev/ryanhcode/sable/physics/floating_b
 
 declare module "@package/dev/ryanhcode/sable/physics" {
     export class $ReactionWheelManager {
-        physicsTick(arg0: $RigidBodyHandle): void;
         needsTicking(): boolean;
+        physicsTick(arg0: $RigidBodyHandle): void;
         wheelChanged(arg0: $BlockPos_, arg1: $BlockEntitySubLevelReactionWheel, arg2: boolean): void;
         constructor(arg0: $ServerSubLevel);
     }

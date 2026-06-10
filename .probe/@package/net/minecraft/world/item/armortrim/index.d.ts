@@ -16,10 +16,10 @@ declare module "@package/net/minecraft/world/item/armortrim" {
     export class $TrimMaterial extends $Record {
         static create(arg0: string, arg1: $Item_, arg2: number, arg3: $Component_, arg4: $Map_<$Holder_<$ArmorMaterial>, string>): $TrimMaterial;
         description(): $Component;
-        itemModelIndex(): number;
-        ingredient(): $Holder<$Item>;
-        overrideArmorMaterials(): $Map<$Holder<$ArmorMaterial>, string>;
         assetName(): string;
+        overrideArmorMaterials(): $Map<$Holder<$ArmorMaterial>, string>;
+        ingredient(): $Holder<$Item>;
+        itemModelIndex(): number;
         static CODEC: $Codec<$Holder<$TrimMaterial>>;
         static DIRECT_CODEC: $Codec<$TrimMaterial>;
         static DIRECT_STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $TrimMaterial>;
@@ -32,10 +32,10 @@ declare module "@package/net/minecraft/world/item/armortrim" {
     export type $TrimMaterial_ = RegistryTypes.TrimMaterial;
     export class $TrimPattern extends $Record {
         description(): $Component;
-        copyWithStyle(arg0: $Holder_<$TrimMaterial>): $Component;
-        templateItem(): $Holder<$Item>;
-        decal(): boolean;
         assetId(): $ResourceLocation;
+        decal(): boolean;
+        templateItem(): $Holder<$Item>;
+        copyWithStyle(arg0: $Holder_<$TrimMaterial>): $Component;
         static CODEC: $Codec<$Holder<$TrimPattern>>;
         static DIRECT_CODEC: $Codec<$TrimPattern>;
         static DIRECT_STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $TrimPattern>;
@@ -73,12 +73,12 @@ declare module "@package/net/minecraft/world/item/armortrim" {
     export interface $TrimMaterial extends RegistryMarked<RegistryTypes.TrimMaterialTag, RegistryTypes.TrimMaterial> {}
     export class $ArmorTrim implements $TooltipProvider {
         pattern(): $Holder<$TrimPattern>;
-        innerTexture(arg0: $Holder_<$ArmorMaterial>): $ResourceLocation;
-        outerTexture(arg0: $Holder_<$ArmorMaterial>): $ResourceLocation;
-        withTooltip(arg0: boolean): $ArmorTrim;
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
         material(): $Holder<$TrimMaterial>;
+        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
         hasPatternAndMaterial(arg0: $Holder_<$TrimPattern>, arg1: $Holder_<$TrimMaterial>): boolean;
+        outerTexture(arg0: $Holder_<$ArmorMaterial>): $ResourceLocation;
+        innerTexture(arg0: $Holder_<$ArmorMaterial>): $ResourceLocation;
+        withTooltip(arg0: boolean): $ArmorTrim;
         static CODEC: $Codec<$ArmorTrim>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ArmorTrim>;
         constructor(arg0: $Holder_<$TrimMaterial>, arg1: $Holder_<$TrimPattern>);

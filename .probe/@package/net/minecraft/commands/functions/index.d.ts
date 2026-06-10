@@ -13,9 +13,9 @@ declare module "@package/net/minecraft/commands/functions" {
         constructor(arg0: $ResourceLocation_, arg1: $List_<$MacroFunction$Entry<T>>, arg2: $List_<string>);
     }
     export class $CommandFunction<T> {
+        static checkCommandLineLength(arg0: $CharSequence): void;
         static parseCommand<T extends $ExecutionCommandSource<T>>(arg0: $CommandDispatcher<T>, arg1: T, arg2: $StringReader): $UnboundEntryAction<T>;
         static fromLines<T extends $ExecutionCommandSource<T>>(arg0: $ResourceLocation_, arg1: $CommandDispatcher<T>, arg2: T, arg3: $List_<string>): $CommandFunction<T>;
-        static checkCommandLineLength(arg0: $CharSequence): void;
     }
     export interface $CommandFunction<T> {
         id(): $ResourceLocation;

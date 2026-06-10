@@ -1,7 +1,7 @@
 import { $GoalSelector } from "@package/net/minecraft/world/entity/ai/goal";
 import { $MoveControl, $MoveControl$Operation, $LookControl, $JumpControl, $BodyRotationControl } from "@package/net/minecraft/world/entity/ai/control";
 import { $CompoundTag } from "@package/net/minecraft/nbt";
-import { $EntityType_, $Pose, $PortalProcessor, $PlayerRideableJumping, $Entity, $AnimationState, $EntityDimensions, $Entity$RemovalReason, $Saddleable, $WalkAnimationState, $Mob } from "@package/net/minecraft/world/entity";
+import { $EntityType_, $Pose, $PortalProcessor, $PlayerRideableJumping, $Entity, $AnimationState, $EntityDimensions, $Entity$RemovalReason, $Saddleable, $AgeableMob, $WalkAnimationState, $Mob } from "@package/net/minecraft/world/entity";
 import { $FluidType } from "@package/net/neoforged/neoforge/fluids";
 import { $AttributeSupplier$Builder } from "@package/net/minecraft/world/entity/ai/attributes";
 import { $UUID, $Stack, $Map } from "@package/java/util";
@@ -58,9 +58,9 @@ declare module "@package/net/minecraft/world/entity/animal/camel" {
     }
     export class $CamelAi {
         static updateActivity(arg0: $Camel): void;
-        static brainProvider(): $Brain$Provider<$Camel>;
-        static initMemories(arg0: $Camel, arg1: $RandomSource): void;
         static makeBrain(arg0: $Brain<$Camel>): $Brain<never>;
+        static initMemories(arg0: $Camel, arg1: $RandomSource): void;
+        static brainProvider(): $Brain$Provider<$Camel>;
         static getTemptations(): $Predicate<$ItemStack>;
         constructor();
         static get temptations(): $Predicate<$ItemStack>;
@@ -79,17 +79,18 @@ declare module "@package/net/minecraft/world/entity/animal/camel" {
         constructor(arg0: number);
     }
     export class $Camel extends $AbstractHorse implements $PlayerRideableJumping, $Saddleable {
-        static createAttributes(): $AttributeSupplier$Builder;
-        isDashing(): boolean;
-        setDashing(arg0: boolean): void;
-        standUp(): void;
+        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Camel;
         sitDown(): void;
+        setDashing(arg0: boolean): void;
+        isDashing(): boolean;
+        standUp(): void;
         refuseToMove(): boolean;
         isCamelSitting(): boolean;
+        standUpInstantly(): void;
         isInPoseTransition(): boolean;
         canCamelChangePose(): boolean;
         getPoseTime(): number;
-        standUpInstantly(): void;
+        static createAttributes(): $AttributeSupplier$Builder;
         resetLastPoseChangeTick(arg0: number): void;
         isCamelVisuallySitting(): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;

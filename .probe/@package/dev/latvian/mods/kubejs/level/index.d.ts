@@ -28,21 +28,17 @@ export * as ruletest from "@package/dev/latvian/mods/kubejs/level/ruletest";
 declare module "@package/dev/latvian/mods/kubejs/level" {
     export class $ExplosionKubeEvent$After extends $ExplosionKubeEvent {
         /**
-         * Gets a list of all entities affected by the explosion.
-         */
-        getAffectedEntities(): $EntityArrayList;
-        /**
          * Gets a list of all blocks affected by the explosion.
          */
         getAffectedBlocks(): $List<$LevelBlock>;
         /**
+         * Gets a list of all entities affected by the explosion.
+         */
+        getAffectedEntities(): $EntityArrayList;
+        /**
          * Remove all knockback from all affected *players*.
          */
         removeKnockback(): void;
-        /**
-         * Remove all blocks from the list of affected blocks.
-         */
-        removeAllAffectedBlocks(): void;
         /**
          * Remove all entities from the list of affected entities.
          */
@@ -52,18 +48,22 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
          */
         removeAffectedEntity(entity: $Entity): void;
         /**
+         * Remove all blocks from the list of affected blocks.
+         */
+        removeAllAffectedBlocks(): void;
+        /**
          * Remove a block from the list of affected blocks.
          */
         removeAffectedBlock(block: $LevelBlock): void;
         constructor(level: $Level_, explosion: $Explosion, affectedEntities: $List_<$Entity>);
-        get affectedEntities(): $EntityArrayList;
         get affectedBlocks(): $List<$LevelBlock>;
+        get affectedEntities(): $EntityArrayList;
     }
     export class $WrappedSpawner extends $Record {
         static of(spawner: $Either<$BlockEntity, $Entity>): $WrappedSpawner;
         block(): $LevelBlock;
-        isWorldgen(): boolean;
         entity(): $Entity;
+        isWorldgen(): boolean;
         constructor(entity: $Entity, block: $LevelBlock);
         get worldgen(): boolean;
     }
@@ -71,11 +71,11 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
     }
     export interface $KubeLevelEvent extends $KubeEvent {
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     /**
      * Values that may be interpreted as {@link $KubeLevelEvent}.
@@ -85,9 +85,9 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
         clearCache(): void;
         getLevel(): $Level;
         getEntity(): $BlockEntity;
-        getBlockState(): $BlockState;
-        getPos(): $BlockPos;
         setBlockState(state: $BlockState_, flags: number): void;
+        getPos(): $BlockPos;
+        getBlockState(): $BlockState;
         offset(f: $Direction_, d: number): $LevelBlock;
         offset(x: number, y: number, z: number): $LevelBlock;
         offset(f: $Direction_): $LevelBlock;
@@ -96,59 +96,59 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
         set(block: $Block_): void;
         getProperties(): $Map<string, string>;
         getItem(): $ItemStack;
-        getDimension(): $ResourceLocation;
         createEntity(type: $EntityType_<never>): $Entity;
         getY(): number;
         getX(): number;
-        popItemFromFace(item: $ItemStack_, dir: $Direction_): void;
-        spawnLightning(effectOnly: boolean): void;
-        spawnLightning(effectOnly: boolean, player: $ServerPlayer): void;
-        spawnLightning(): void;
-        getEntityId(): string;
-        getPlayersInRadius(): $EntityArrayList;
-        getPlayersInRadius(radius: number): $EntityArrayList;
-        toBlockStateString(): string;
-        spawnFireworks(fireworks: $Fireworks_, lifetime: number): void;
-        getCanSeeSky(): boolean;
-        getBlockLight(): number;
-        setEntityData(tag: $CompoundTag_): void;
-        mergeEntityData(tag: $CompoundTag_): void;
-        getSkyLight(): number;
-        getBlock(): $Block;
-        getEntityData(): $CompoundTag;
-        canSeeSkyFromBelowWater(): boolean;
+        getDimension(): $ResourceLocation;
+        getZ(): number;
+        setBlockState(state: $BlockState_): void;
         getDrops(entity: $Entity, heldItem: $ItemStack_): $List<$ItemStack>;
         getDrops(): $List<$ItemStack>;
         explode(properties: $ExplosionProperties_): $Explosion;
-        getCenterZ(): number;
         getCenterX(): number;
-        getZ(): number;
-        getSouth(): $LevelBlock;
-        getWest(): $LevelBlock;
-        getEast(): $LevelBlock;
-        getDown(): $LevelBlock;
-        popItem(item: $ItemStack_): void;
-        getBiomeId(): $ResourceLocation;
+        getCenterZ(): number;
         getUp(): $LevelBlock;
         getNorth(): $LevelBlock;
-        getLight(): number;
         getCenterY(): number;
-        setBlockState(state: $BlockState_): void;
-        getDimensionKey(): $ResourceKey<$Level>;
-        getInventory(): $InventoryKJS;
+        getSouth(): $LevelBlock;
+        getWest(): $LevelBlock;
+        getBiomeId(): $ResourceLocation;
+        popItem(item: $ItemStack_): void;
+        getLight(): number;
+        getEast(): $LevelBlock;
+        getDown(): $LevelBlock;
+        canSeeSkyFromBelowWater(): boolean;
+        getEntityData(): $CompoundTag;
+        getBlock(): $Block;
         getInventory(facing: $Direction_): $InventoryKJS;
-        getTypeData(): $Map<string, $Object>;
-        getRegistry(): $Registry<$Block>;
-        asHolder(): $Holder<$Block>;
-        getRegistryId(): $ResourceKey<$Registry<$Block>>;
-        getKey(): $ResourceKey<$Block>;
+        getInventory(): $InventoryKJS;
+        getDimensionKey(): $ResourceKey<$Level>;
+        getEntityId(): string;
+        setEntityData(tag: $CompoundTag_): void;
+        getSkyLight(): number;
+        mergeEntityData(tag: $CompoundTag_): void;
+        popItemFromFace(item: $ItemStack_, dir: $Direction_): void;
+        getPlayersInRadius(): $EntityArrayList;
+        getPlayersInRadius(radius: number): $EntityArrayList;
+        getCanSeeSky(): boolean;
+        toBlockStateString(): string;
+        spawnLightning(effectOnly: boolean, player: $ServerPlayer): void;
+        spawnLightning(): void;
+        spawnLightning(effectOnly: boolean): void;
+        spawnFireworks(fireworks: $Fireworks_, lifetime: number): void;
+        getBlockLight(): number;
         getId(): string;
-        getMod(): string;
+        getTypeData(): $Map<string, $Object>;
+        getRegistryId(): $ResourceKey<$Registry<$Block>>;
+        asHolder(): $Holder<$Block>;
+        getRegistry(): $Registry<$Block>;
+        getKey(): $ResourceKey<$Block>;
+        specialEquals(o: $Object, shallow: boolean): boolean;
         hasTag(tag: $ResourceLocation_): boolean;
-        getTagKeys(): $List<$TagKey<$Block>>;
+        getMod(): string;
         getIdLocation(): $ResourceLocation;
         getTags(): $List<$ResourceLocation>;
-        specialEquals(o: $Object, shallow: boolean): boolean;
+        getTagKeys(): $List<$TagKey<$Block>>;
         minecraftLevel: $Level;
         constructor(w: $Level_, p: $BlockPos_);
         get level(): $Level;
@@ -156,55 +156,55 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
         get pos(): $BlockPos;
         get properties(): $Map<string, string>;
         get item(): $ItemStack;
-        get dimension(): $ResourceLocation;
         get y(): number;
         get x(): number;
-        get entityId(): string;
-        get canSeeSky(): boolean;
-        get blockLight(): number;
-        get skyLight(): number;
-        get block(): $Block;
-        get centerZ(): number;
-        get centerX(): number;
+        get dimension(): $ResourceLocation;
         get z(): number;
-        get south(): $LevelBlock;
-        get west(): $LevelBlock;
-        get east(): $LevelBlock;
-        get down(): $LevelBlock;
-        get biomeId(): $ResourceLocation;
+        get centerX(): number;
+        get centerZ(): number;
         get up(): $LevelBlock;
         get north(): $LevelBlock;
-        get light(): number;
         get centerY(): number;
+        get south(): $LevelBlock;
+        get west(): $LevelBlock;
+        get biomeId(): $ResourceLocation;
+        get light(): number;
+        get east(): $LevelBlock;
+        get down(): $LevelBlock;
+        get block(): $Block;
         get dimensionKey(): $ResourceKey<$Level>;
-        get typeData(): $Map<string, $Object>;
-        get registry(): $Registry<$Block>;
-        get registryId(): $ResourceKey<$Registry<$Block>>;
-        get key(): $ResourceKey<$Block>;
+        get entityId(): string;
+        get skyLight(): number;
+        get canSeeSky(): boolean;
+        get blockLight(): number;
         get id(): string;
+        get typeData(): $Map<string, $Object>;
+        get registryId(): $ResourceKey<$Registry<$Block>>;
+        get registry(): $Registry<$Block>;
+        get key(): $ResourceKey<$Block>;
         get mod(): string;
-        get tagKeys(): $List<$TagKey<$Block>>;
         get idLocation(): $ResourceLocation;
         get tags(): $List<$ResourceLocation>;
+        get tagKeys(): $List<$TagKey<$Block>>;
     }
     export class $ExplosionProperties extends $Record {
         mode(): $Level$ExplosionInteraction;
         source(): $Entity;
         damageCalculator(): $ExplosionDamageCalculator;
         explosionSound(): $Holder<$SoundEvent>;
-        damageSource(): $DamageSource;
-        explode(level: $Level_, x: number, y: number, z: number): $Explosion;
-        smallParticles(): $ParticleOptions;
-        largeParticles(): $ParticleOptions;
         strength(): (number) | undefined;
+        explode(level: $Level_, x: number, y: number, z: number): $Explosion;
+        damageSource(): $DamageSource;
         particles(): (boolean) | undefined;
         causesFire(): (boolean) | undefined;
+        largeParticles(): $ParticleOptions;
+        smallParticles(): $ParticleOptions;
         constructor(source: $Entity, damageSource: $DamageSource_, damageCalculator: $ExplosionDamageCalculator, strength: (number) | undefined, causesFire: (boolean) | undefined, mode: $Level$ExplosionInteraction_, particles: (boolean) | undefined, smallParticles: $ParticleOptions_, largeParticles: $ParticleOptions_, explosionSound: $Holder_<$SoundEvent>);
     }
     export class $SimpleLevelKubeEvent implements $KubeLevelEvent {
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -243,14 +243,14 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
         success(value: $Object): $Object;
         constructor(l: $Level_);
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $KubeJSWorldEventHandler {
         static serverTickEvent(event: $LevelTickEvent$Post): void;
-        static preExplosion(event: $ExplosionEvent$Start): void;
-        static serverLevelLoad(event: $LevelEvent$Load): void;
         static detonateExplosion(event: $ExplosionEvent$Detonate): void;
+        static serverLevelLoad(event: $LevelEvent$Load): void;
+        static preExplosion(event: $ExplosionEvent$Start): void;
         static serverLevelUnload(event: $LevelEvent$Unload): void;
         constructor();
     }
@@ -266,77 +266,77 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
         getProperties(): $Map<string, string>;
         getLevel(): $Level;
         getItem(): $ItemStack;
-        getDimension(): $ResourceLocation;
-        createEntity(type: $EntityType_<never>): $Entity;
         getEntity(): $BlockEntity;
+        createEntity(type: $EntityType_<never>): $Entity;
         getY(): number;
         getX(): number;
-        popItemFromFace(item: $ItemStack_, dir: $Direction_): void;
-        spawnLightning(effectOnly: boolean): void;
-        spawnLightning(effectOnly: boolean, player: $ServerPlayer): void;
-        spawnLightning(): void;
-        getEntityId(): string;
-        getPlayersInRadius(): $EntityArrayList;
-        getPlayersInRadius(radius: number): $EntityArrayList;
-        toBlockStateString(): string;
-        spawnFireworks(fireworks: $Fireworks_, lifetime: number): void;
-        getCanSeeSky(): boolean;
-        getBlockLight(): number;
-        setEntityData(tag: $CompoundTag_): void;
-        mergeEntityData(tag: $CompoundTag_): void;
-        getSkyLight(): number;
-        getBlockState(): $BlockState;
-        getBlock(): $Block;
-        getEntityData(): $CompoundTag;
-        canSeeSkyFromBelowWater(): boolean;
+        getDimension(): $ResourceLocation;
+        getZ(): number;
+        setBlockState(state: $BlockState_, flags: number): void;
+        setBlockState(state: $BlockState_): void;
         getDrops(entity: $Entity, heldItem: $ItemStack_): $List<$ItemStack>;
         getDrops(): $List<$ItemStack>;
-        explode(properties: $ExplosionProperties_): $Explosion;
         getPos(): $BlockPos;
-        getCenterZ(): number;
+        explode(properties: $ExplosionProperties_): $Explosion;
         getCenterX(): number;
-        getZ(): number;
-        getSouth(): $LevelBlock;
-        getWest(): $LevelBlock;
-        getEast(): $LevelBlock;
-        getDown(): $LevelBlock;
-        popItem(item: $ItemStack_): void;
-        getBiomeId(): $ResourceLocation;
+        getCenterZ(): number;
         getUp(): $LevelBlock;
         getNorth(): $LevelBlock;
-        getLight(): number;
         getCenterY(): number;
-        setBlockState(state: $BlockState_): void;
-        setBlockState(state: $BlockState_, flags: number): void;
-        getDimensionKey(): $ResourceKey<$Level>;
-        getInventory(): $InventoryKJS;
+        getSouth(): $LevelBlock;
+        getWest(): $LevelBlock;
+        getBiomeId(): $ResourceLocation;
+        popItem(item: $ItemStack_): void;
+        getLight(): number;
+        getEast(): $LevelBlock;
+        getDown(): $LevelBlock;
+        canSeeSkyFromBelowWater(): boolean;
+        getBlockState(): $BlockState;
+        getEntityData(): $CompoundTag;
+        getBlock(): $Block;
         getInventory(facing: $Direction_): $InventoryKJS;
+        getInventory(): $InventoryKJS;
+        getDimensionKey(): $ResourceKey<$Level>;
+        getEntityId(): string;
+        setEntityData(tag: $CompoundTag_): void;
+        getSkyLight(): number;
+        mergeEntityData(tag: $CompoundTag_): void;
+        popItemFromFace(item: $ItemStack_, dir: $Direction_): void;
+        getPlayersInRadius(): $EntityArrayList;
+        getPlayersInRadius(radius: number): $EntityArrayList;
+        getCanSeeSky(): boolean;
+        toBlockStateString(): string;
+        spawnLightning(effectOnly: boolean, player: $ServerPlayer): void;
+        spawnLightning(): void;
+        spawnLightning(effectOnly: boolean): void;
+        spawnFireworks(fireworks: $Fireworks_, lifetime: number): void;
+        getBlockLight(): number;
         get properties(): $Map<string, string>;
         get level(): $Level;
         get item(): $ItemStack;
-        get dimension(): $ResourceLocation;
         get entity(): $BlockEntity;
         get y(): number;
         get x(): number;
-        get entityId(): string;
-        get canSeeSky(): boolean;
-        get blockLight(): number;
-        get skyLight(): number;
-        get block(): $Block;
-        get pos(): $BlockPos;
-        get centerZ(): number;
-        get centerX(): number;
+        get dimension(): $ResourceLocation;
         get z(): number;
-        get south(): $LevelBlock;
-        get west(): $LevelBlock;
-        get east(): $LevelBlock;
-        get down(): $LevelBlock;
-        get biomeId(): $ResourceLocation;
+        get pos(): $BlockPos;
+        get centerX(): number;
+        get centerZ(): number;
         get up(): $LevelBlock;
         get north(): $LevelBlock;
-        get light(): number;
         get centerY(): number;
+        get south(): $LevelBlock;
+        get west(): $LevelBlock;
+        get biomeId(): $ResourceLocation;
+        get light(): number;
+        get east(): $LevelBlock;
+        get down(): $LevelBlock;
+        get block(): $Block;
         get dimensionKey(): $ResourceKey<$Level>;
+        get entityId(): string;
+        get skyLight(): number;
+        get canSeeSky(): boolean;
+        get blockLight(): number;
     }
     export class $ExplosionKubeEvent$Before extends $ExplosionKubeEvent {
         /**
@@ -351,14 +351,14 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
     }
     export class $ExplosionKubeEvent implements $KubeLevelEvent {
         getLevel(): $Level;
-        getBlock(): $LevelBlock;
         getY(): number;
         getX(): number;
+        getBlock(): $LevelBlock;
         getZ(): number;
         getPosition(): $Vec3;
         getExploder(): $LivingEntity;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -397,13 +397,13 @@ declare module "@package/dev/latvian/mods/kubejs/level" {
         success(value: $Object): $Object;
         constructor(level: $Level_, explosion: $Explosion);
         get level(): $Level;
-        get block(): $LevelBlock;
         get y(): number;
         get x(): number;
+        get block(): $LevelBlock;
         get z(): number;
         get position(): $Vec3;
         get exploder(): $LivingEntity;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
 }

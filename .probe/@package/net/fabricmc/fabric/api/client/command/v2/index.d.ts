@@ -12,19 +12,19 @@ declare module "@package/net/fabricmc/fabric/api/client/command/v2" {
     }
     export interface $FabricClientCommandSource extends $SharedSuggestionProvider {
         getEntity(): $Entity;
-        getRotation(): $Vec2;
-        sendError(arg0: $Component_): void;
-        getPlayer(): $LocalPlayer;
-        getPosition(): $Vec3;
         getMeta(arg0: string): $Object;
+        getRotation(): $Vec2;
         getWorld(): $ClientLevel;
-        sendFeedback(arg0: $Component_): void;
+        sendError(arg0: $Component_): void;
+        getPosition(): $Vec3;
         getClient(): $Minecraft;
+        getPlayer(): $LocalPlayer;
+        sendFeedback(arg0: $Component_): void;
         get entity(): $Entity;
         get rotation(): $Vec2;
-        get player(): $LocalPlayer;
-        get position(): $Vec3;
         get world(): $ClientLevel;
+        get position(): $Vec3;
         get client(): $Minecraft;
+        get player(): $LocalPlayer;
     }
 }

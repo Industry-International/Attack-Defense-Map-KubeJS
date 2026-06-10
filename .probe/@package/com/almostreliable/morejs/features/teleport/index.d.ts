@@ -13,13 +13,13 @@ declare module "@package/com/almostreliable/morejs/features/teleport" {
         getY(): number;
         getX(): number;
         getZ(): number;
-        setY(arg0: number): void;
         setX(arg0: number): void;
         setZ(arg0: number): void;
+        setY(arg0: number): void;
         getLevel(): $Level;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -62,8 +62,8 @@ declare module "@package/com/almostreliable/morejs/features/teleport" {
         get entity(): $Entity;
         get level(): $Level;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $TeleportType extends $Enum<$TeleportType> {
         static values(): $TeleportType[];

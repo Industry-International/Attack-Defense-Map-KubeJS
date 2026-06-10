@@ -68,15 +68,15 @@ declare module "@package/net/minecraft/world/level/chunk/storage" {
         read(arg0: $ChunkPos): $CompletableFuture<($CompoundTag) | undefined>;
         close(): void;
         static getVersion(arg0: $CompoundTag_): number;
-        chunkScanner(): $ChunkScanAccess;
         flushWorker(): void;
         storageInfo(): $RegionStorageInfo;
         upgradeChunkTag(arg0: $ResourceKey_<$Level>, arg1: $Supplier_<$DimensionDataStorage>, arg2: $CompoundTag_, arg3: ($ResourceKey_<$MapCodec<$ChunkGenerator>>) | undefined): $CompoundTag;
         isOldChunkAround(arg0: $ChunkPos, arg1: number): boolean;
+        chunkScanner(): $ChunkScanAccess;
         static injectDatafixingContext(arg0: $CompoundTag_, arg1: $ResourceKey_<$Level>, arg2: ($ResourceKey_<$MapCodec<$ChunkGenerator>>) | undefined): void;
         handleLegacyStructureIndex(arg0: $ChunkPos): void;
-        invokeGetStorageKey(): $RegionStorageInfo;
         getWorker(): $IOWorker;
+        invokeGetStorageKey(): $RegionStorageInfo;
         fixerUpper: $DataFixer;
         static LAST_MONOLYTH_STRUCTURE_DATA_VERSION: number;
         worker: $IOWorker;
@@ -93,11 +93,11 @@ declare module "@package/net/minecraft/world/level/chunk/storage" {
         store(arg0: $ChunkPos, arg1: $CompoundTag_): $CompletableFuture<void>;
         close(): void;
         loadAsync(arg0: $ChunkPos): $CompletableFuture<($CompoundTag) | undefined>;
-        synchronize(arg0: boolean): $CompletableFuture<void>;
+        scanChunk(arg0: $ChunkPos, arg1: $StreamTagVisitor): $CompletableFuture<void>;
         storageInfo(): $RegionStorageInfo;
         isOldChunkAround(arg0: $ChunkPos, arg1: number): boolean;
         setRawChunkData(pos: $ChunkPos, data: number[]): $CompletableFuture<any>;
-        scanChunk(arg0: $ChunkPos, arg1: $StreamTagVisitor): $CompletableFuture<void>;
+        synchronize(arg0: boolean): $CompletableFuture<void>;
         invokeGetOrComputeBlendingStatus(arg0: number, arg1: number): $CompletableFuture<$BitSet>;
         storage: $RegionFileStorage;
         constructor(arg0: $RegionStorageInfo_, arg1: $Path_, arg2: boolean);
@@ -149,10 +149,10 @@ declare module "@package/net/minecraft/world/level/chunk/storage" {
         flush(arg0: $ChunkPos): void;
         close(): void;
         tick(arg0: $BooleanSupplier_): void;
-        setDirty(arg0: number): void;
-        getOrLoad(arg0: number): (R) | undefined;
         hasWork(): boolean;
         getOrCreate(arg0: number): R;
+        getOrLoad(arg0: number): (R) | undefined;
+        setDirty(arg0: number): void;
         outsideStoredRange(arg0: number): boolean;
         onSectionLoad(arg0: number): void;
         c2me$unloadPoi(pos: $ChunkPos): void;
@@ -209,10 +209,10 @@ declare module "@package/net/minecraft/world/level/chunk/storage" {
         write(arg0: $ChunkPos, arg1: $CompoundTag_): $CompletableFuture<void>;
         read(arg0: $ChunkPos): $CompletableFuture<($CompoundTag) | undefined>;
         close(): void;
-        synchronize(arg0: boolean): $CompletableFuture<void>;
         storageInfo(): $RegionStorageInfo;
-        upgradeChunkTag(arg0: $Dynamic<$Tag_>, arg1: number): $Dynamic<$Tag>;
         upgradeChunkTag(arg0: $CompoundTag_, arg1: number): $CompoundTag;
+        upgradeChunkTag(arg0: $Dynamic<$Tag_>, arg1: number): $Dynamic<$Tag>;
+        synchronize(arg0: boolean): $CompletableFuture<void>;
         constructor(arg0: $RegionStorageInfo_, arg1: $Path_, arg2: $DataFixer, arg3: boolean, arg4: $DataFixTypes_);
     }
     export class $EntityStorage implements $EntityPersistentStorage<$Entity> {

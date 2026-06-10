@@ -11,8 +11,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/configurator" {
     export class $SerializableRecordAction<T extends $INBTSerializable<never>> implements $EditAction {
         static of<T extends $INBTSerializable<never>>(arg0: T): $SerializableRecordAction<T>;
         execute(): void;
-        undo(): void;
         setOnUndo(arg0: $Consumer_<T>): $SerializableRecordAction<T>;
+        undo(): void;
         setOnExecute(arg0: $Consumer_<T>): $SerializableRecordAction<T>;
         updateSnapshot(): void;
         setOnAction(arg0: $Consumer_<T>): $SerializableRecordAction<T>;
@@ -37,9 +37,9 @@ declare module "@package/com/lowdragmc/lowdraglib2/configurator" {
         static create(arg0: $Consumer_<$ConfiguratorGroup>): $IConfigurable;
     }
     export interface $IConfigurable {
-        createDirectConfigurator(): $Configurator;
-        getConfigurableName(): string;
         createHistoryRecorder(): $IConfigurableHistory;
+        getConfigurableName(): string;
+        createDirectConfigurator(): $Configurator;
         buildConfigurator(arg0: $ConfiguratorGroup): void;
         get configurableName(): string;
     }

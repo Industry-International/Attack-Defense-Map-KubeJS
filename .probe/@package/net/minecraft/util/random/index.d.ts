@@ -14,9 +14,9 @@ declare module "@package/net/minecraft/util/random" {
         static builder<E>(): $SimpleWeightedRandomList$Builder<E>;
         static single<E>(arg0: E): $SimpleWeightedRandomList<E>;
         static empty<E>(): $SimpleWeightedRandomList<E>;
-        getRandomValue(arg0: $RandomSource): ($WeightedEntry$Wrapper<E>) | undefined;
-        static wrappedCodec<E>(arg0: $Codec<E>): $Codec<$SimpleWeightedRandomList<E>>;
         static wrappedCodecAllowingEmpty<E>(arg0: $Codec<E>): $Codec<$SimpleWeightedRandomList<E>>;
+        static wrappedCodec<E>(arg0: $Codec<E>): $Codec<$SimpleWeightedRandomList<E>>;
+        getRandomValue(arg0: $RandomSource): ($WeightedEntry$Wrapper<E>) | undefined;
         constructor(arg0: $List_<$WeightedEntry$Wrapper_<$WeightedEntry$Wrapper_<E>>>);
     }
     export class $WeightedEntry {
@@ -48,21 +48,21 @@ declare module "@package/net/minecraft/util/random" {
         get empty(): boolean;
     }
     export class $Weight {
-        static of(arg0: number): $Weight;
         asInt(): number;
+        static of(arg0: number): $Weight;
         static CODEC: $Codec<$Weight>;
     }
     export class $WeightedEntry$Wrapper<T> extends $Record implements $WeightedEntry {
         data(): T;
-        getWeight(): $Weight;
         weight(): $Weight;
         static codec<E>(arg0: $Codec<E>): $Codec<$WeightedEntry$Wrapper<E>>;
+        getWeight(): $Weight;
         constructor(arg0: T, arg1: $Weight);
     }
     export class $WeightedRandom {
-        static getTotalWeight(arg0: $List_<$WeightedEntry_>): number;
-        static getWeightedItem<T extends $WeightedEntry>(arg0: $List_<T>, arg1: number): (T) | undefined;
         static getRandomItem<T extends $WeightedEntry>(arg0: $RandomSource, arg1: $List_<T>): (T) | undefined;
         static getRandomItem<T extends $WeightedEntry>(arg0: $RandomSource, arg1: $List_<T>, arg2: number): (T) | undefined;
+        static getWeightedItem<T extends $WeightedEntry>(arg0: $List_<T>, arg1: number): (T) | undefined;
+        static getTotalWeight(arg0: $List_<$WeightedEntry_>): number;
     }
 }

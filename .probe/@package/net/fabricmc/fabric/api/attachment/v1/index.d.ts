@@ -8,14 +8,14 @@ declare module "@package/net/fabricmc/fabric/api/attachment/v1" {
     }
     export interface $AttachmentTarget {
         removeAttached<A>(arg0: $AttachmentType<A>): A;
-        getAttachedOrThrow<A>(arg0: $AttachmentType<A>): A;
+        hasAttached(arg0: $AttachmentType<never>): boolean;
         getAttachedOrSet<A>(arg0: $AttachmentType<A>, arg1: A): A;
+        modifyAttached<A>(arg0: $AttachmentType<A>, arg1: $UnaryOperator_<A>): A;
         setAttached<A>(arg0: $AttachmentType<A>, arg1: A): A;
         getAttachedOrGet<A>(arg0: $AttachmentType<A>, arg1: $Supplier_<A>): A;
-        hasAttached(arg0: $AttachmentType<never>): boolean;
         getAttachedOrElse<A>(arg0: $AttachmentType<A>, arg1: A): A;
         getAttached<A>(arg0: $AttachmentType<A>): A;
-        modifyAttached<A>(arg0: $AttachmentType<A>, arg1: $UnaryOperator_<A>): A;
+        getAttachedOrThrow<A>(arg0: $AttachmentType<A>): A;
         getAttachedOrCreate<A>(arg0: $AttachmentType<A>): A;
         getAttachedOrCreate<A>(arg0: $AttachmentType<A>, arg1: $Supplier_<A>): A;
     }
@@ -23,11 +23,11 @@ declare module "@package/net/fabricmc/fabric/api/attachment/v1" {
     }
     export interface $AttachmentType<A> {
         identifier(): $ResourceLocation;
-        copyOnDeath(): boolean;
-        isPersistent(): boolean;
-        persistenceCodec(): $Codec<A>;
-        isSynced(): boolean;
         initializer(): $Supplier<A>;
+        isPersistent(): boolean;
+        isSynced(): boolean;
+        copyOnDeath(): boolean;
+        persistenceCodec(): $Codec<A>;
         get persistent(): boolean;
         get synced(): boolean;
     }

@@ -7,14 +7,14 @@ declare module "@package/xaero/pac/client/player/config/group/api" {
     export interface $IClientPlayerConfigGroupManagerAPI extends $ICustomPlayerConfigGroupDataManagerAPI {
         dataExists(arg0: string): boolean;
         getIds(): $Set<string>;
-        getGroupSpace(): number;
-        getAllIdsSorted(): $List<string>;
-        getMaxGroups(): number;
         isSyncInProgress(): boolean;
+        getMaxGroups(): number;
+        getAllIdsSorted(): $List<string>;
+        getGroupSpace(): number;
         get ids(): $Set<string>;
-        get groupSpace(): number;
-        get allIdsSorted(): $List<string>;
-        get maxGroups(): number;
         get syncInProgress(): boolean;
+        get maxGroups(): number;
+        get allIdsSorted(): $List<string>;
+        get groupSpace(): number;
     }
 }

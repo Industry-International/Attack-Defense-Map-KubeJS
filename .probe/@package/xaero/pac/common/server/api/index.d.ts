@@ -10,21 +10,21 @@ import { $IPartyManagerAPI } from "@package/xaero/pac/common/server/parties/part
 declare module "@package/xaero/pac/common/server/api" {
     export class $OpenPACServerAPI {
         static get(arg0: $MinecraftServer): $OpenPACServerAPI;
+        getPlayerConfigManager(): $IPlayerConfigManagerAPI;
+        getChunkProtection(): $IChunkProtectionAPI;
+        getServerClaimsManager(): $IServerClaimsManagerAPI;
         /**
          * @deprecated
          */
         getPlayerConfigs(): $IPlayerConfigManagerAPI$1;
         getPartyManager(): $IPartyManagerAPI;
-        getServerClaimsManager(): $IServerClaimsManagerAPI;
-        getChunkProtection(): $IChunkProtectionAPI;
-        getPlayerConfigManager(): $IPlayerConfigManagerAPI;
         getAdaptiveTextLocalizer(): $IAdaptiveLocalizerAPI;
         constructor(arg0: $IServerDataAPI);
+        get playerConfigManager(): $IPlayerConfigManagerAPI;
+        get chunkProtection(): $IChunkProtectionAPI;
+        get serverClaimsManager(): $IServerClaimsManagerAPI;
         get playerConfigs(): $IPlayerConfigManagerAPI$1;
         get partyManager(): $IPartyManagerAPI;
-        get serverClaimsManager(): $IServerClaimsManagerAPI;
-        get chunkProtection(): $IChunkProtectionAPI;
-        get playerConfigManager(): $IPlayerConfigManagerAPI;
         get adaptiveTextLocalizer(): $IAdaptiveLocalizerAPI;
     }
 }

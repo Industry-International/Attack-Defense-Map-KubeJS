@@ -19,13 +19,13 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/function" {
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setHeader(arg0: $GlslFunctionHeader): void;
         isField(): boolean;
-        isFunction(): boolean;
         isDeclaration(): boolean;
-        asFunction(): $GlslFunctionNode;
+        isFunction(): boolean;
         asField(): $GlslNewFieldNode;
         isStruct(): boolean;
-        asStruct(): $GlslStructDeclarationNode;
+        asFunction(): $GlslFunctionNode;
         asDeclaration(): $GlslVariableDeclarationNode;
+        asStruct(): $GlslStructDeclarationNode;
         toList(): $List<$GlslNode>;
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
@@ -35,8 +35,8 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/function" {
         get parameters(): $List<$GlslParameterDeclaration>;
         get nodeType(): $GlslNodeType;
         get field(): boolean;
-        get function(): boolean;
         get declaration(): boolean;
+        get function(): boolean;
         get struct(): boolean;
         get type(): $GlslSpecifiedType;
     }
@@ -51,8 +51,8 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/function" {
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
         getBody(): $GlslNodeList;
-        setBody(...arg0: $GlslNode[]): boolean;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
+        setBody(...arg0: $GlslNode[]): boolean;
         constructor(arg0: $GlslNode, arg1: $Collection_<$GlslNode>);
         get parameters(): $List<$GlslNode>;
         get nodeType(): $GlslNodeType;
@@ -68,8 +68,8 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/function" {
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
         getBody(): $GlslNodeList;
-        setBody(...arg0: $GlslNode[]): boolean;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
+        setBody(...arg0: $GlslNode[]): boolean;
         constructor(arg0: $GlslTypeSpecifier_);
         get nodeType(): $GlslNodeType;
         get type(): $GlslSpecifiedType;

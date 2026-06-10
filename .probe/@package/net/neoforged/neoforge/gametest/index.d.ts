@@ -6,14 +6,14 @@ import { $Class } from "@package/java/lang";
 
 declare module "@package/net/neoforged/neoforge/gametest" {
     export class $GameTestHooks {
-        static isGametestEnabled(): boolean;
-        static isGametestServer(): boolean;
         static registerGametests(): void;
+        static isGametestServer(): boolean;
+        static isGametestEnabled(): boolean;
         static getTemplateNamespace(arg0: $Method): string;
         static prefixGameTestTemplate(arg0: $Method): boolean;
         constructor();
-        static get gametestEnabled(): boolean;
         static get gametestServer(): boolean;
+        static get gametestEnabled(): boolean;
     }
     export class $GameTestHolder implements $Annotation {
         value(): string;

@@ -3,7 +3,7 @@ import { $SuggestionProvider_, $SuggestionProvider } from "@package/com/mojang/b
 import { $Command_, $SingleRedirectModifier_, $Command, $RedirectModifier, $RedirectModifier_ } from "@package/com/mojang/brigadier";
 import { $Collection } from "@package/java/util";
 import { $LiteralCommandNode, $CommandNode, $ArgumentCommandNode } from "@package/com/mojang/brigadier/tree";
-import { $ArgumentType_, $ArgumentType } from "@package/com/mojang/brigadier/arguments";
+import { $ArgumentType, $ArgumentType_ } from "@package/com/mojang/brigadier/arguments";
 
 declare module "@package/com/mojang/brigadier/builder" {
     export class $LiteralArgumentBuilder<S> extends $ArgumentBuilder<S, $LiteralArgumentBuilder<S>> {
@@ -17,20 +17,20 @@ declare module "@package/com/mojang/brigadier/builder" {
         fork(arg0: $CommandNode<S>, arg1: $RedirectModifier_<S>): T;
         redirect(arg0: $CommandNode<S>): T;
         redirect(arg0: $CommandNode<S>, arg1: $SingleRedirectModifier_<S>): T;
-        forward(arg0: $CommandNode<S>, arg1: $RedirectModifier_<S>, arg2: boolean): T;
-        executes(arg0: $Command_<S>): T;
         getArguments(): $Collection<$CommandNode<S>>;
         then(arg0: $CommandNode<S>): T;
         then(arg0: $ArgumentBuilder<S, never>): T;
+        forward(arg0: $CommandNode<S>, arg1: $RedirectModifier_<S>, arg2: boolean): T;
+        executes(arg0: $Command_<S>): T;
+        getCommand(): $Command<S>;
         getRedirectModifier(): $RedirectModifier<S>;
         isFork(): boolean;
-        getCommand(): $Command<S>;
-        getRedirect(): $CommandNode<S>;
         getRequirement(): $Predicate<S>;
+        getRedirect(): $CommandNode<S>;
         constructor();
         get arguments(): $Collection<$CommandNode<S>>;
-        get redirectModifier(): $RedirectModifier<S>;
         get command(): $Command<S>;
+        get redirectModifier(): $RedirectModifier<S>;
         get requirement(): $Predicate<S>;
     }
     export class $RequiredArgumentBuilder<S, T> extends $ArgumentBuilder<S, $RequiredArgumentBuilder<S, T>> {

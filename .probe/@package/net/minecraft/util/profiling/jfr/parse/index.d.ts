@@ -4,7 +4,7 @@ import { $Path_ } from "@package/java/nio/file";
 import { $ChunkStatus } from "@package/net/minecraft/world/level/chunk/status";
 import { $Record } from "@package/java/lang";
 import { $List, $List_ } from "@package/java/util";
-import { $TickTimeStat, $TickTimeStat_, $FileIOStat$Summary, $GcHeapStat$Summary, $ThreadAllocationStat$Summary, $PacketIdentification_, $GcHeapStat$Summary_, $IoSummary$CountAndSize, $ChunkGenStat, $CpuLoadStat, $ThreadAllocationStat$Summary_, $ChunkIdentification_, $FileIOStat$Summary_, $ChunkGenStat_, $ChunkIdentification, $CpuLoadStat_, $TimedStatSummary, $PacketIdentification, $IoSummary } from "@package/net/minecraft/util/profiling/jfr/stats";
+import { $TickTimeStat, $TickTimeStat_, $GcHeapStat$Summary, $FileIOStat$Summary, $ThreadAllocationStat$Summary, $GcHeapStat$Summary_, $PacketIdentification_, $IoSummary$CountAndSize, $ChunkGenStat, $ThreadAllocationStat$Summary_, $CpuLoadStat, $ChunkIdentification_, $FileIOStat$Summary_, $ChunkGenStat_, $ChunkIdentification, $CpuLoadStat_, $TimedStatSummary, $PacketIdentification, $IoSummary } from "@package/net/minecraft/util/profiling/jfr/stats";
 
 declare module "@package/net/minecraft/util/profiling/jfr/parse" {
     export class $JfrStatsParser {
@@ -13,18 +13,18 @@ declare module "@package/net/minecraft/util/profiling/jfr/parse" {
     export class $JfrStatsResult extends $Record {
         heapSummary(): $GcHeapStat$Summary;
         recordingDuration(): $Duration;
+        tickTimes(): $List<$TickTimeStat>;
         readChunks(): $IoSummary<$ChunkIdentification>;
         fileWrites(): $FileIOStat$Summary;
         fileReads(): $FileIOStat$Summary;
         asJson(): string;
         cpuLoadStats(): $List<$CpuLoadStat>;
         chunkGenSummary(): $List<$Pair<$ChunkStatus, $TimedStatSummary<$ChunkGenStat>>>;
-        sentPacketsSummary(): $IoSummary<$PacketIdentification>;
-        tickTimes(): $List<$TickTimeStat>;
-        writtenChunks(): $IoSummary<$ChunkIdentification>;
+        recordingStarted(): $Instant;
         recordingEnded(): $Instant;
         chunkGenStats(): $List<$ChunkGenStat>;
-        recordingStarted(): $Instant;
+        sentPacketsSummary(): $IoSummary<$PacketIdentification>;
+        writtenChunks(): $IoSummary<$ChunkIdentification>;
         threadAllocationSummary(): $ThreadAllocationStat$Summary;
         receivedPacketsSummary(): $IoSummary<$PacketIdentification>;
         worldCreationDuration(): $Duration;

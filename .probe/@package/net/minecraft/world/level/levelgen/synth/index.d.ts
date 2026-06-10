@@ -31,67 +31,67 @@ declare module "@package/net/minecraft/world/level/levelgen/synth" {
         parityConfigString(arg0: $StringBuilder): void;
         static createUnseeded(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): $BlendedNoise;
         withNewRandom(arg0: $RandomSource): $BlendedNoise;
-        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         getMaxValue(): number;
         getYScale(): number;
-        getScaledXzScale(): number;
-        getXzFactor(): number;
-        getScaledYScale(): number;
-        getXzScale(): number;
-        getYFactor(): number;
-        getUpperInterpolatedNoise(): $PerlinNoise;
         getSmearScaleMultiplier(): number;
         getInterpolationNoise(): $PerlinNoise;
+        getUpperInterpolatedNoise(): $PerlinNoise;
         getLowerInterpolatedNoise(): $PerlinNoise;
+        getScaledXzScale(): number;
+        getScaledYScale(): number;
+        getXzFactor(): number;
+        getXzScale(): number;
+        getYFactor(): number;
         static CODEC: $KeyDispatchDataCodec<$BlendedNoise>;
         constructor(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number);
         get YScale(): number;
-        get scaledXzScale(): number;
-        get xzFactor(): number;
-        get scaledYScale(): number;
-        get xzScale(): number;
-        get YFactor(): number;
-        get upperInterpolatedNoise(): $PerlinNoise;
         get smearScaleMultiplier(): number;
         get interpolationNoise(): $PerlinNoise;
+        get upperInterpolatedNoise(): $PerlinNoise;
         get lowerInterpolatedNoise(): $PerlinNoise;
+        get scaledXzScale(): number;
+        get scaledYScale(): number;
+        get xzFactor(): number;
+        get xzScale(): number;
+        get YFactor(): number;
     }
     export class $PerlinNoise implements $IOctavePerlinNoiseSampler {
         static wrap(value: number): number;
+        getValue(x: number, y: number, z: number): number;
         /**
          * @deprecated
          */
         getValue(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean): number;
-        getValue(x: number, y: number, z: number): number;
         static create(arg0: $RandomSource, arg1: number, arg2: $DoubleList): $PerlinNoise;
-        static create(arg0: $RandomSource, arg1: number, arg2: number, ...arg3: number[]): $PerlinNoise;
-        static create(arg0: $RandomSource, arg1: $List_<number>): $PerlinNoise;
         static create(arg0: $RandomSource, arg1: $IntStream): $PerlinNoise;
+        static create(arg0: $RandomSource, arg1: $List_<number>): $PerlinNoise;
+        static create(arg0: $RandomSource, arg1: number, arg2: number, ...arg3: number[]): $PerlinNoise;
         maxValue(): number;
-        /**
-         * @deprecated
-         */
-        static createLegacyForLegacyNetherBiome(arg0: $RandomSource, arg1: number, arg2: $DoubleList): $PerlinNoise;
+        amplitudes(): $DoubleList;
+        parityConfigString(arg0: $StringBuilder): void;
         /**
          * @deprecated
          */
         static createLegacyForBlendedNoise(arg0: $RandomSource, arg1: $IntStream): $PerlinNoise;
-        parityConfigString(arg0: $StringBuilder): void;
-        firstOctave(): number;
-        getOctaveNoise(arg0: number): $ImprovedNoise;
+        /**
+         * @deprecated
+         */
+        static createLegacyForLegacyNetherBiome(arg0: $RandomSource, arg1: number, arg2: $DoubleList): $PerlinNoise;
         maxBrokenValue(arg0: number): number;
-        amplitudes(): $DoubleList;
-        getAmplitudes(): $DoubleList;
+        getOctaveNoise(arg0: number): $ImprovedNoise;
+        firstOctave(): number;
         getPersistence(): number;
         getOctaveSamplers(): $ImprovedNoise[];
+        getAmplitudes(): $DoubleList;
         getLacunarity(): number;
         constructor(arg0: $RandomSource, arg1: $Pair<number, $DoubleList>, arg2: boolean);
         get persistence(): number;
@@ -100,12 +100,12 @@ declare module "@package/net/minecraft/world/level/levelgen/synth" {
     }
     export interface $NormalNoise$NoiseParameters extends RegistryMarked<RegistryTypes.WorldgenNoiseTag, RegistryTypes.WorldgenNoise> {}
     export class $ImprovedNoise implements $IPerlinNoiseSampler {
-        parityConfigString(arg0: $StringBuilder): void;
-        noise(arg0: number, arg1: number, arg2: number): number;
         /**
          * @deprecated
          */
         noise(x: number, y: number, z: number, yScale: number, yMax: number): number;
+        noise(arg0: number, arg1: number, arg2: number): number;
+        parityConfigString(arg0: $StringBuilder): void;
         noiseWithDerivative(arg0: number, arg1: number, arg2: number, arg3: number[]): number;
         getPermutation(): number[];
         zo: number;
@@ -119,8 +119,8 @@ declare module "@package/net/minecraft/world/level/levelgen/synth" {
         constructor(arg0: $RandomSource, arg1: $List_<number>);
     }
     export class $NormalNoise$NoiseParameters extends $Record {
-        firstOctave(): number;
         amplitudes(): $DoubleList;
+        firstOctave(): number;
         static CODEC: $Codec<$Holder<$NormalNoise$NoiseParameters>>;
         static DIRECT_CODEC: $Codec<$NormalNoise$NoiseParameters>;
         constructor(arg0: number, arg1: $DoubleList);

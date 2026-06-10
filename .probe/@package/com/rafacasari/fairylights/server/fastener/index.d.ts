@@ -40,29 +40,29 @@ declare module "@package/com/rafacasari/fairylights/server/fastener" {
         get world(): $Level;
     }
     export class $CreateBlockViewEvent extends $Event {
-        getView(): $BlockView;
         setView(arg0: $BlockView): void;
+        getView(): $BlockView;
         constructor(arg0: $BlockView);
     }
     export class $FastenerReference {
     }
     export interface $FastenerReference {
         setColor(arg0: number): boolean;
-        isMoving(): boolean;
         getPos(): $BlockPos;
+        resistSnap(arg0: $Vec3_): void;
         getWorld(): $Level;
         createAccessor(): $FastenerAccessor;
-        getConnectionPoint(): $Vec3;
         getFacing(): $Direction;
-        hasNoConnections(): boolean;
+        getConnectionPoint(): $Vec3;
+        isMoving(): boolean;
         removeConnection(arg0: $UUID_): boolean;
-        resistSnap(arg0: $Vec3_): void;
+        hasNoConnections(): boolean;
         set color(value: number);
-        get moving(): boolean;
         get pos(): $BlockPos;
         get world(): $Level;
-        get connectionPoint(): $Vec3;
         get facing(): $Direction;
+        get connectionPoint(): $Vec3;
+        get moving(): boolean;
     }
     export class $Fastener<F extends $FastenerAccessor> {
     }
@@ -74,37 +74,37 @@ declare module "@package/com/rafacasari/fairylights/server/fastener" {
         connect(arg0: $Level_, arg1: $Fastener<never>, arg2: $ConnectionType<never>, arg3: $CompoundTag_, arg4: boolean): $Connection;
         setColor(arg0: number): boolean;
         getColor(): number;
-        isMoving(): boolean;
-        setDirty(): void;
-        deserializeNBT(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
-        serializeNBT(): $CompoundTag;
-        getFirstConnection(): ($Connection) | undefined;
-        getWorld(): $Level;
-        createAccessor(): F;
+        createOutgoingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>, arg4: $CompoundTag_, arg5: boolean): $Connection;
+        createIncomingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>): void;
+        resistSnap(arg0: $Vec3_): void;
         getAllConnections(): $List<$Connection>;
-        getOwnConnections(): $List<$Connection>;
+        getWorld(): $Level;
+        setWorld(arg0: $Level_): void;
+        createAccessor(): F;
         reconnect(arg0: $Level_, arg1: $Connection, arg2: $Fastener<never>): boolean;
-        hasNoConnections(): boolean;
+        getFirstConnection(): ($Connection) | undefined;
+        serializeNBT(): $CompoundTag;
+        deserializeNBT(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
+        hasConnectionWith(arg0: $Fastener<never>): boolean;
+        dropItems(arg0: $Level_, arg1: $BlockPos_): void;
+        setDirty(): void;
+        isMoving(): boolean;
         removeConnection(arg0: $UUID_): boolean;
         removeConnection(arg0: $Connection): boolean;
-        setWorld(arg0: $Level_): void;
-        resistSnap(arg0: $Vec3_): void;
-        dropItems(arg0: $Level_, arg1: $BlockPos_): void;
+        hasNoConnections(): boolean;
+        getOwnConnections(): $List<$Connection>;
         getConnectionTo(arg0: $FastenerAccessor): $Connection;
-        createIncomingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>): void;
-        createOutgoingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>, arg4: $CompoundTag_, arg5: boolean): $Connection;
-        hasConnectionWith(arg0: $Fastener<never>): boolean;
         get bounds(): $AABB;
-        get moving(): boolean;
-        get firstConnection(): ($Connection) | undefined;
         get allConnections(): $List<$Connection>;
+        get firstConnection(): ($Connection) | undefined;
+        get moving(): boolean;
         get ownConnections(): $List<$Connection>;
     }
     export class $BlockView {
     }
     export interface $BlockView {
-        isMoving(arg0: $Level_, arg1: $BlockPos_): boolean;
-        getPosition(arg0: $Level_, arg1: $BlockPos_, arg2: $Vec3_): $Vec3;
         unrotate(arg0: $Level_, arg1: $BlockPos_, arg2: $Matrix, arg3: number): void;
+        getPosition(arg0: $Level_, arg1: $BlockPos_, arg2: $Vec3_): $Vec3;
+        isMoving(arg0: $Level_, arg1: $BlockPos_): boolean;
     }
 }

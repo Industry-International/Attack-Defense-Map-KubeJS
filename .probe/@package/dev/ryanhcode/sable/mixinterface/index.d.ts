@@ -20,8 +20,8 @@ declare module "@package/dev/ryanhcode/sable/mixinterface" {
     export class $EntityExtension {
     }
     export interface $EntityExtension {
-        sable$setPosSuperRaw(arg0: $Vec3_): void;
         sable$vanillaCollide(arg0: $Vec3_): $Vec3;
+        sable$setPosSuperRaw(arg0: $Vec3_): void;
     }
     export class $BlockEntityRenderDispatcherExtension {
     }

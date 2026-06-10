@@ -6,10 +6,10 @@ declare module "@package/dev/ftb/mods/ftblibrary/core" {
     export class $CompoundContainerFTBL {
     }
     export interface $CompoundContainerFTBL {
-        getContainer2FTBL(): $Container;
         getContainer1FTBL(): $Container;
-        get container2FTBL(): $Container;
+        getContainer2FTBL(): $Container;
         get container1FTBL(): $Container;
+        get container2FTBL(): $Container;
     }
     export class $ItemFTBL {
     }

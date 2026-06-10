@@ -23,8 +23,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/animation" {
     }
     export class $AnimationEngine {
         play(arg0: $KeyFrameAnimation_): $ISubscription;
-        getAppTime(): number;
         updateFrame(): void;
+        getAppTime(): number;
         constructor();
         get appTime(): number;
     }

@@ -19,21 +19,21 @@ declare module "@package/net/minecraft/world/level/levelgen/flat" {
     export class $FlatLevelGeneratorSettings {
         static getDefault(arg0: $HolderGetter<$Biome_>, arg1: $HolderGetter<$StructureSet_>, arg2: $HolderGetter<$PlacedFeature_>): $FlatLevelGeneratorSettings;
         updateLayers(): void;
-        getLayers(): $List<$BlockState>;
         getBiome(): $Holder<$Biome>;
-        setAddLakes(): void;
-        setDecoration(): void;
         withBiomeAndLayers(arg0: $List_<$FlatLayerInfo>, arg1: ($HolderSet_<$StructureSet>) | undefined, arg2: $Holder_<$Biome>): $FlatLevelGeneratorSettings;
-        getLayersInfo(): $List<$FlatLayerInfo>;
         static createLakesList(arg0: $HolderGetter<$PlacedFeature_>): $List<$Holder<$PlacedFeature>>;
+        setDecoration(): void;
+        setAddLakes(): void;
         static getDefaultBiome(arg0: $HolderGetter<$Biome_>): $Holder<$Biome>;
+        getLayersInfo(): $List<$FlatLayerInfo>;
         structureOverrides(): ($HolderSet<$StructureSet>) | undefined;
+        getLayers(): $List<$BlockState>;
         adjustGenerationSettings(arg0: $Holder_<$Biome>): $BiomeGenerationSettings;
         static CODEC: $Codec<$FlatLevelGeneratorSettings>;
         constructor(arg0: ($HolderSet_<$StructureSet>) | undefined, arg1: $Holder_<$Biome>, arg2: $List_<$Holder_<$PlacedFeature>>);
-        get layers(): $List<$BlockState>;
         get biome(): $Holder<$Biome>;
         get layersInfo(): $List<$FlatLayerInfo>;
+        get layers(): $List<$BlockState>;
     }
     export class $FlatLevelGeneratorPreset extends $Record {
         settings(): $FlatLevelGeneratorSettings;

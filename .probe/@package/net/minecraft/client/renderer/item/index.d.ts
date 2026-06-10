@@ -43,9 +43,9 @@ declare module "@package/net/minecraft/client/renderer/item" {
         static getProperty(arg0: $ItemStack_, arg1: $ResourceLocation_): $ItemPropertyFunction;
         static register(arg0: $Item_, arg1: $ResourceLocation_, arg2: $ItemPropertyFunction_): void;
         static register(arg0: $Item_, arg1: $ResourceLocation_, arg2: $ClampedItemPropertyFunction_): void;
-        static registerCustomModelData(arg0: $ItemPropertyFunction_): void;
-        static registerGeneric(arg0: $ResourceLocation_, arg1: $ItemPropertyFunction_): $ItemPropertyFunction;
         static registerGeneric(arg0: $ResourceLocation_, arg1: $ClampedItemPropertyFunction_): $ClampedItemPropertyFunction;
+        static registerGeneric(arg0: $ResourceLocation_, arg1: $ItemPropertyFunction_): $ItemPropertyFunction;
+        static registerCustomModelData(arg0: $ItemPropertyFunction_): void;
         constructor();
     }
     /**

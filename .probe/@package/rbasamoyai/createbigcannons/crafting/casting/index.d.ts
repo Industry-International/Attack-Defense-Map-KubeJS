@@ -14,8 +14,8 @@ declare module "@package/rbasamoyai/createbigcannons/crafting/casting" {
         matches(arg0: $Level_, arg1: $BlockPos_): boolean;
         getType(): $BlockRecipeType<never>;
         shape(): $CannonCastShape;
-        getSerializer(): $BlockRecipeSerializer<never>;
         ingredient(): $FluidIngredient;
+        getSerializer(): $BlockRecipeSerializer<never>;
         getResultBlock(): $Block;
         assembleInWorld(arg0: $Level_, arg1: $BlockPos_): void;
         constructor(arg0: $CannonCastShape_, arg1: $FluidIngredient_, arg2: $Block_);
@@ -26,11 +26,11 @@ declare module "@package/rbasamoyai/createbigcannons/crafting/casting" {
     export class $CannonCastShape {
         static register(): void;
         castMould(): $Block;
-        applyTo(arg0: $BlockState_): $BlockState;
         diameter(): number;
         isLarge(): boolean;
-        texturesCanConnect(): boolean;
+        applyTo(arg0: $BlockState_): $BlockState;
         fluidSize(): number;
+        texturesCanConnect(): boolean;
         static VERY_LARGE: $CannonCastShape;
         static AUTOCANNON_BARREL: $CannonCastShape;
         static VERY_SMALL: $CannonCastShape;

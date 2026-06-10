@@ -34,7 +34,7 @@ export * as windcharge from "@package/net/minecraft/world/entity/projectile/wind
 
 declare module "@package/net/minecraft/world/entity/projectile" {
     export class $ThrownPotion extends $ThrowableItemProjectile implements $ItemSupplier {
-        handler$gnb000$moonlight$extinguishILightables(arg0: $BlockPos_, arg1: $CallbackInfo, arg2: $BlockState_): void;
+        handler$god000$moonlight$extinguishILightables(arg0: $BlockPos_, arg1: $CallbackInfo, arg2: $BlockState_): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -202,18 +202,18 @@ declare module "@package/net/minecraft/world/entity/projectile" {
         get foil(): boolean;
     }
     export class $ProjectileUtil {
-        static getEntityHitResult(arg0: $Level_, arg1: $Entity, arg2: $Vec3_, arg3: $Vec3_, arg4: $AABB_, arg5: $Predicate_<$Entity>): $EntityHitResult;
-        static getEntityHitResult(arg0: $Level_, arg1: $Entity, arg2: $Vec3_, arg3: $Vec3_, arg4: $AABB_, arg5: $Predicate_<$Entity>, arg6: number): $EntityHitResult;
-        static getEntityHitResult(arg0: $Entity, arg1: $Vec3_, arg2: $Vec3_, arg3: $AABB_, arg4: $Predicate_<$Entity>, arg5: number): $EntityHitResult;
         static getMobArrow(arg0: $LivingEntity, arg1: $ItemStack_, arg2: number, arg3: $ItemStack_): $AbstractArrow;
         static getHitResultOnViewVector(arg0: $Entity, arg1: $Predicate_<$Entity>, arg2: number): $HitResult;
+        static getEntityHitResult(arg0: $Level_, arg1: $Entity, arg2: $Vec3_, arg3: $Vec3_, arg4: $AABB_, arg5: $Predicate_<$Entity>): $EntityHitResult;
+        static getEntityHitResult(arg0: $Entity, arg1: $Vec3_, arg2: $Vec3_, arg3: $AABB_, arg4: $Predicate_<$Entity>, arg5: number): $EntityHitResult;
+        static getEntityHitResult(arg0: $Level_, arg1: $Entity, arg2: $Vec3_, arg3: $Vec3_, arg4: $AABB_, arg5: $Predicate_<$Entity>, arg6: number): $EntityHitResult;
         static getHitResultOnMoveVector(arg0: $Entity, arg1: $Predicate_<$Entity>): $HitResult;
         static getHitResultOnMoveVector(arg0: $Entity, arg1: $Predicate_<$Entity>, arg2: $ClipContext$Block_): $HitResult;
+        static getWeaponHoldingHand(arg0: $LivingEntity, arg1: $Predicate_<$Item>): $InteractionHand;
         /**
          * @deprecated
          */
         static getWeaponHoldingHand(arg0: $LivingEntity, arg1: $Item_): $InteractionHand;
-        static getWeaponHoldingHand(arg0: $LivingEntity, arg1: $Predicate_<$Item>): $InteractionHand;
         static rotateTowardsMovement(arg0: $Entity, arg1: number): void;
         constructor();
     }
@@ -541,10 +541,10 @@ declare module "@package/net/minecraft/world/entity/projectile" {
     }
     export class $FishingHook extends $Projectile {
         retrieve(arg0: $ItemStack_): number;
-        handler$zdf000$openpartiesandclaims$onSetHookedEntity(arg0: $Entity, arg1: $CallbackInfo): void;
         getHookedIn(): $Entity;
-        isOpenWaterFishing(): boolean;
         getPlayerOwner(): $Player;
+        isOpenWaterFishing(): boolean;
+        handler$zdf000$openpartiesandclaims$onSetHookedEntity(arg0: $Entity, arg1: $CallbackInfo): void;
         pullEntity(arg0: $Entity): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
@@ -624,8 +624,8 @@ declare module "@package/net/minecraft/world/entity/projectile" {
         constructor(arg0: $EntityType_<$FishingHook>, arg1: $Level_);
         constructor(arg0: $EntityType_<$FishingHook>, arg1: $Level_, arg2: number, arg3: number);
         get hookedIn(): $Entity;
-        get openWaterFishing(): boolean;
         get playerOwner(): $Player;
+        get openWaterFishing(): boolean;
     }
     export class $ThrownEnderpearl extends $ThrowableItemProjectile {
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
@@ -804,8 +804,8 @@ declare module "@package/net/minecraft/world/entity/projectile" {
     }
     export class $ThrowableItemProjectile extends $ThrowableProjectile implements $ItemSupplier {
         getItem(): $ItemStack;
-        getDefaultItem(): $Item;
         setItem(arg0: $ItemStack_): void;
+        getDefaultItem(): $Item;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -886,8 +886,8 @@ declare module "@package/net/minecraft/world/entity/projectile" {
         get defaultItem(): $Item;
     }
     export class $WitherSkull extends $AbstractHurtingProjectile {
-        setDangerous(arg0: boolean): void;
         isDangerous(): boolean;
+        setDangerous(arg0: boolean): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -1387,29 +1387,29 @@ declare module "@package/net/minecraft/world/entity/projectile" {
      */
     export type $FishingHook$OpenWaterType_ = "above_water" | "inside_water" | "invalid";
     export class $AbstractArrow extends $Projectile implements $AbstractArrowAccess {
-        tryPickup(arg0: $Player): boolean;
-        getDefaultHitGroundSoundEvent(): $SoundEvent;
         getHitGroundSoundEvent(): $SoundEvent;
-        getPickupItemStackOrigin(): $ItemStack;
-        setBaseDamageFromMob(arg0: number): void;
         hitBlockEnchantmentEffects(arg0: $ServerLevel, arg1: $BlockHitResult, arg2: $ItemStack_): void;
+        getPickupItemStackOrigin(): $ItemStack;
         getDefaultPickupItem(): $ItemStack;
-        getPierceLevel(): number;
+        setBaseDamageFromMob(arg0: number): void;
+        setBaseDamage(arg0: number): void;
+        getWaterInertia(): number;
+        shotFromCrossbow(): boolean;
+        findHitEntity(arg0: $Vec3_, arg1: $Vec3_): $EntityHitResult;
+        doKnockback(arg0: $LivingEntity, arg1: $DamageSource_): void;
+        getPickupItem(): $ItemStack;
+        getBaseDamage(): number;
         setNoPhysics(arg0: boolean): void;
         setSoundEvent(arg0: $SoundEvent_): void;
-        getWaterInertia(): number;
-        setBaseDamage(arg0: number): void;
-        getBaseDamage(): number;
-        setPickupItemStack(arg0: $ItemStack_): void;
-        setCritArrow(arg0: boolean): void;
-        shotFromCrossbow(): boolean;
-        isCritArrow(): boolean;
-        getPickupItem(): $ItemStack;
-        isNoPhysics(): boolean;
-        tickDespawn(): void;
         doPostHurtEffects(arg0: $LivingEntity): void;
-        doKnockback(arg0: $LivingEntity, arg1: $DamageSource_): void;
-        findHitEntity(arg0: $Vec3_, arg1: $Vec3_): $EntityHitResult;
+        setCritArrow(arg0: boolean): void;
+        isNoPhysics(): boolean;
+        setPickupItemStack(arg0: $ItemStack_): void;
+        isCritArrow(): boolean;
+        tickDespawn(): void;
+        getPierceLevel(): number;
+        getDefaultHitGroundSoundEvent(): $SoundEvent;
+        tryPickup(arg0: $Player): boolean;
         invokeSetPierceLevel(arg0: number): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
@@ -1492,16 +1492,16 @@ declare module "@package/net/minecraft/world/entity/projectile" {
         constructor(arg0: $EntityType_<$AbstractArrow>, arg1: $LivingEntity, arg2: $Level_, arg3: $ItemStack_, arg4: $ItemStack_);
         constructor(arg0: $EntityType_<$AbstractArrow>, arg1: number, arg2: number, arg3: number, arg4: $Level_, arg5: $ItemStack_, arg6: $ItemStack_);
         constructor(arg0: $EntityType_<$AbstractArrow>, arg1: $Level_);
-        get defaultHitGroundSoundEvent(): $SoundEvent;
         get hitGroundSoundEvent(): $SoundEvent;
         get pickupItemStackOrigin(): $ItemStack;
-        set baseDamageFromMob(value: number);
         get defaultPickupItem(): $ItemStack;
-        get pierceLevel(): number;
-        set soundEvent(value: $SoundEvent_);
+        set baseDamageFromMob(value: number);
         get waterInertia(): number;
-        set pickupItemStack(value: $ItemStack_);
         get pickupItem(): $ItemStack;
+        set soundEvent(value: $SoundEvent_);
+        set pickupItemStack(value: $ItemStack_);
+        get pierceLevel(): number;
+        get defaultHitGroundSoundEvent(): $SoundEvent;
     }
     export class $ProjectileDeflection {
         static MOMENTUM_DEFLECT: $ProjectileDeflection;
@@ -1779,25 +1779,25 @@ declare module "@package/net/minecraft/world/entity/projectile" {
     export class $Projectile extends $Entity implements $TraceableEntity {
         getOwner(): $Entity;
         setOwner(arg0: $Entity): void;
-        onHitBlock(arg0: $BlockHitResult): void;
-        handler$zdo000$openpartiesandclaims$preHit(arg0: $CallbackInfoReturnable<any>): void;
-        ownedBy(arg0: $Entity): boolean;
-        handler$zdo000$openpartiesandclaims$postHit(arg0: $CallbackInfoReturnable<any>): void;
-        deflect(arg0: $ProjectileDeflection_, arg1: $Entity, arg2: $Entity, arg3: boolean): boolean;
+        shoot(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
         hitTargetOrDeflectSelf(arg0: $HitResult): $ProjectileDeflection;
-        mayBreak(arg0: $Level_): boolean;
-        canHitEntity(arg0: $Entity): boolean;
-        onHitEntity(arg0: $EntityHitResult): void;
-        getEffectSource(): $Entity;
         checkLeftOwner(): boolean;
-        getMovementToShoot(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): $Vec3;
         shootFromRotation(arg0: $Entity, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
         onDeflection(arg0: $Entity, arg1: boolean): void;
+        getMovementToShoot(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): $Vec3;
         updateRotation(): void;
+        getEffectSource(): $Entity;
         static lerpRotation(arg0: number, arg1: number): number;
-        shoot(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        onHit(arg0: $HitResult): void;
+        canHitEntity(arg0: $Entity): boolean;
         calculateHorizontalHurtKnockbackDirection(arg0: $LivingEntity, arg1: $DamageSource_): $DoubleDoubleImmutablePair;
+        handler$zdo000$openpartiesandclaims$postHit(arg0: $CallbackInfoReturnable<any>): void;
+        mayBreak(arg0: $Level_): boolean;
+        handler$zdo000$openpartiesandclaims$preHit(arg0: $CallbackInfoReturnable<any>): void;
+        onHit(arg0: $HitResult): void;
+        onHitEntity(arg0: $EntityHitResult): void;
+        deflect(arg0: $ProjectileDeflection_, arg1: $Entity, arg2: $Entity, arg3: boolean): boolean;
+        ownedBy(arg0: $Entity): boolean;
+        onHitBlock(arg0: $BlockHitResult): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;

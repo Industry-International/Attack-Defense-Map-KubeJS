@@ -6,13 +6,13 @@ declare module "@package/xaero/pac/common/parties/party/member/api" {
     export class $IPartyMemberAPI {
     }
     export interface $IPartyMemberAPI extends $IPartyPlayerInfoAPI {
+        getRank(): $PartyMemberRank;
+        getUUID(): $UUID;
         getUsername(): string;
         isOwner(): boolean;
-        getUUID(): $UUID;
-        getRank(): $PartyMemberRank;
+        get rank(): $PartyMemberRank;
+        get UUID(): $UUID;
         get username(): string;
         get owner(): boolean;
-        get UUID(): $UUID;
-        get rank(): $PartyMemberRank;
     }
 }

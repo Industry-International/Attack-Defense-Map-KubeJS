@@ -13,7 +13,7 @@ declare module "@package/net/fabricmc/fabric/impl/event/lifecycle" {
     export class $ChunkLevelTypeEventTracker {
     }
     export interface $ChunkLevelTypeEventTracker {
-        fabric_setCurrentEventLevelType(arg0: $FullChunkStatus_): void;
         fabric_getCurrentEventLevelType(): $FullChunkStatus;
+        fabric_setCurrentEventLevelType(arg0: $FullChunkStatus_): void;
     }
 }

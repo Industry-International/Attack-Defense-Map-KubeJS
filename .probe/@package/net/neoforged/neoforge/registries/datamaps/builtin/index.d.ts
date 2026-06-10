@@ -50,8 +50,8 @@ declare module "@package/net/neoforged/neoforge/registries/datamaps/builtin" {
         constructor(strippedBlock: $Block_);
     }
     export class $Compostable extends $Record {
-        chance(): number;
         canVillagerCompost(): boolean;
+        chance(): number;
         static CODEC: $Codec<$Compostable>;
         static CHANCE_CODEC: $Codec<$Compostable>;
         constructor(arg0: number);

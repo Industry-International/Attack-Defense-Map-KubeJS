@@ -64,8 +64,8 @@ declare module "@package/net/minecraft/world/entity/schedule" {
     }
     export class $Schedule {
         static register(arg0: string): $ScheduleBuilder;
-        getAllTimelinesExceptFor(arg0: $Activity_): $List<$Timeline>;
         ensureTimelineExistsFor(arg0: $Activity_): void;
+        getAllTimelinesExceptFor(arg0: $Activity_): $List<$Timeline>;
         getTimelineFor(arg0: $Activity_): $Timeline;
         getActivityAt(arg0: number): $Activity;
         static WORK_START_TIME: number;

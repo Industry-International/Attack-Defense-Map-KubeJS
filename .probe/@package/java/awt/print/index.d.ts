@@ -14,12 +14,12 @@ declare module "@package/java/awt/print" {
      */
     export type $Printable_ = ((arg0: $Graphics, arg1: $PageFormat, arg2: number) => number);
     export class $PageFormat implements $Cloneable {
-        clone(): $Object;
         getWidth(): number;
+        clone(): $Object;
         getOrientation(): number;
         setOrientation(arg0: number): void;
-        getHeight(): number;
         getMatrix(): number[];
+        getHeight(): number;
         getImageableY(): number;
         getImageableHeight(): number;
         getImageableX(): number;
@@ -31,23 +31,23 @@ declare module "@package/java/awt/print" {
         static PORTRAIT: number;
         constructor();
         get width(): number;
-        get height(): number;
         get matrix(): number[];
+        get height(): number;
         get imageableY(): number;
         get imageableHeight(): number;
         get imageableX(): number;
         get imageableWidth(): number;
     }
     export class $Paper implements $Cloneable {
+        getWidth(): number;
         clone(): $Object;
         setSize(arg0: number, arg1: number): void;
-        getWidth(): number;
         getHeight(): number;
-        setImageableArea(arg0: number, arg1: number, arg2: number, arg3: number): void;
         getImageableY(): number;
         getImageableHeight(): number;
         getImageableX(): number;
         getImageableWidth(): number;
+        setImageableArea(arg0: number, arg1: number, arg2: number, arg3: number): void;
         constructor();
         get width(): number;
         get height(): number;

@@ -170,10 +170,10 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         name(): $Component;
         option(): $OptionInstance<never>;
         any(): $Object;
+        undoable(): boolean;
         tooltip(): $Component;
         getWidget(arg0: $Options): $AbstractWidget;
         widget(): $AbstractWidget;
-        undoable(): boolean;
         constructor(arg0: $Component_, arg1: $Component_, arg2: $OptionInstance<never>, arg3: boolean);
         constructor(arg0: $Component_, arg1: $Component_, arg2: $OptionInstance<never>);
         constructor(arg0: $Component_, arg1: $Component_, arg2: $AbstractWidget, arg3: boolean);
@@ -279,8 +279,8 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         height: number;
     }
     export class $CreativeTabsScreenPage {
-        getColumn(arg0: $CreativeModeTab_): number;
         getDefaultTab(): $CreativeModeTab;
+        getColumn(arg0: $CreativeModeTab_): number;
         isTop(arg0: $CreativeModeTab_): boolean;
         getVisibleTabs(): $List<$CreativeModeTab>;
         constructor(arg0: $List_<$CreativeModeTab_>);
@@ -443,9 +443,9 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         static top(arg0: string, arg1: $Screen, arg2: $ModConfig, arg3: $ConfigurationScreen$ConfigurationSectionScreen$Filter_): $ConfigurationScreen$ConfigurationSectionScreen$Context;
         static section(arg0: $ConfigurationScreen$ConfigurationSectionScreen$Context_, arg1: $Screen, arg2: $Set_<$UnmodifiableConfig$Entry>, arg3: $Map_<string, $Object>, arg4: string): $ConfigurationScreen$ConfigurationSectionScreen$Context;
         modId(): string;
-        modConfig(): $ModConfig;
-        valueSpecs(): $Map<string, $Object>;
         modSpec(): $ModConfigSpec;
+        valueSpecs(): $Map<string, $Object>;
+        modConfig(): $ModConfig;
         keylist(): $List<string>;
         constructor(modId: string, parent: $Screen, modConfig: $ModConfig, modSpec: $ModConfigSpec, entries: $Set_<$UnmodifiableConfig$Entry>, valueSpecs: $Map_<string, $Object>, keylist: $List_<string>, filter: $ConfigurationScreen$ConfigurationSectionScreen$Filter_);
     }
@@ -482,14 +482,14 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         constructor(values: $List_<T>);
     }
     export class $ConfigurationScreen$UndoManager {
-        add(...arg0: $ConfigurationScreen$UndoManager$Step_<never>[]): void;
         add<T>(arg0: $Consumer_<T>, arg1: T, arg2: $Consumer_<T>, arg3: T): void;
+        add(...arg0: $ConfigurationScreen$UndoManager$Step_<never>[]): void;
         add(arg0: $List_<$ConfigurationScreen$UndoManager$Step_<never>>): void;
         step<T>(arg0: $Consumer_<T>, arg1: T, arg2: $Consumer_<T>, arg3: T): $ConfigurationScreen$UndoManager$Step<T>;
         undo(): void;
         redo(): void;
-        canRedo(): boolean;
         canUndo(): boolean;
+        canRedo(): boolean;
         addNoExecute<T>(arg0: $Consumer_<T>, arg1: T, arg2: $Consumer_<T>, arg3: T): void;
         constructor();
     }

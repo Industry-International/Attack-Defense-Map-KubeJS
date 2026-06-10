@@ -18,8 +18,8 @@ declare module "@package/net/mehvahdjukaar/vista/common/chunk_tracking" {
     export class $ExtraChunkViewData$Zone extends $Record {
         contains(arg0: number, arg1: number): boolean;
         center(): $ChunkPos;
-        radius(): number;
         chunks(): $Set<$ChunkPos>;
+        radius(): number;
         static CODEC: $Codec<$ExtraChunkViewData$Zone>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ExtraChunkViewData$Zone>;
         constructor(center: $ChunkPos, radius: number);
@@ -37,12 +37,12 @@ declare module "@package/net/mehvahdjukaar/vista/common/chunk_tracking" {
         vista$getExtraZones(): $ExtraChunkViewData;
     }
     export class $ExtraChunkViewData {
+        clearZones(): void;
+        addZone(arg0: $ChunkPos, arg1: number): void;
         removeZone(arg0: $ChunkPos): void;
         getZones(): $List<$ExtraChunkViewData$Zone>;
-        addZone(arg0: $ChunkPos, arg1: number): void;
-        getAllChunks(): $Set<$ChunkPos>;
         containsChunk(arg0: number, arg1: number): boolean;
-        clearZones(): void;
+        getAllChunks(): $Set<$ChunkPos>;
         static CODEC: $Codec<$ExtraChunkViewData>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ExtraChunkViewData>;
         constructor();

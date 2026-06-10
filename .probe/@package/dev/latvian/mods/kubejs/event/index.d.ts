@@ -12,13 +12,13 @@ import { $ScriptTypePredicate, $ScriptType_, $ScriptTypeHolder_, $ScriptTypePred
 
 declare module "@package/dev/latvian/mods/kubejs/event" {
     export class $EventHandler extends $BaseFunction {
-        listen(type: $ScriptType_, extraId: $Object, handler: $IEventHandler_): void;
-        post(event: $KubeEvent): $EventResult;
-        post(scriptType: $ScriptTypeHolder_, event: $KubeEvent): $EventResult;
         hasListeners(): boolean;
-        forEachListener(type: $ScriptType_, callback: $Consumer_<$EventHandlerContainer>): void;
+        listen(type: $ScriptType_, extraId: $Object, handler: $IEventHandler_): void;
+        post(scriptType: $ScriptTypeHolder_, event: $KubeEvent): $EventResult;
+        post(event: $KubeEvent): $EventResult;
         supportsTarget<E>(type: $EventTargetType<E>): $TargetedEventHandler<E>;
         requiredTarget<E>(type: $EventTargetType<E>): $TargetedEventHandler<E>;
+        forEachListener(type: $ScriptType_, callback: $Consumer_<$EventHandlerContainer>): void;
         hasResult(): $EventHandler;
         static DONTENUM: number;
         eventType: $Supplier<$Class<$KubeEvent>>;
@@ -37,9 +37,9 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         static create<T>(type: $Class<T>): $EventTargetType<T>;
         transformer(factory: $EventTargetType$Transformer_): $EventTargetType<T>;
         validator(validator: $Predicate_<$Object>): $EventTargetType<T>;
+        describeType(describeType: $TypeInfo_): $EventTargetType<T>;
         static registryKey<T>(registry: $ResourceKey_<$Registry<T>>, type: $Class<never>): $EventTargetType<$ResourceKey<T>>;
         static fromEnum<T extends $Enum<T>>(type: $Class<T>): $EventTargetType<T>;
-        describeType(describeType: $TypeInfo_): $EventTargetType<T>;
         static STRING: $EventTargetType<string>;
         static ID: $EventTargetType<$ResourceLocation>;
         type: $Class<T>;
@@ -56,8 +56,8 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         common(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
         getHandlers(): $Map<string, $EventHandler>;
         server(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
-        client(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
         startup(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
+        client(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
         name: string;
         get handlers(): $Map<string, $EventHandler>;
     }
@@ -92,9 +92,9 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         constructor(scriptType: $ScriptType_, group: $EventGroup);
     }
     export class $TargetedEventHandler<E> extends $EventHandler {
+        hasListeners(extraId: E): boolean;
         post(type: $ScriptTypeHolder_, extraId: E, event: $KubeEvent): $EventResult;
         post(event: $KubeEvent, extraId: E): $EventResult;
-        hasListeners(extraId: E): boolean;
         findUniqueExtraIds(type: $ScriptType_): $Set<E>;
         static DONTENUM: number;
         eventType: $Supplier<$Class<$KubeEvent>>;
@@ -162,10 +162,10 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         override(): boolean;
         pass(): boolean;
         cx(): $Context;
+        applyCancel(event: $ICancellableEvent): boolean;
         interruptFalse(): boolean;
         interruptTrue(): boolean;
         interruptDefault(): boolean;
-        applyCancel(event: $ICancellableEvent): boolean;
         applyTristate(consumer: $Consumer_<$TriState>): void;
         static PASS: $EventResult;
     }

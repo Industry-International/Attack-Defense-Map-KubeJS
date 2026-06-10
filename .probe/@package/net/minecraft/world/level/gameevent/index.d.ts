@@ -3,7 +3,7 @@ import { $MapCodec, $Codec } from "@package/com/mojang/serialization";
 import { $Entity } from "@package/net/minecraft/world/entity";
 import { $CallbackInfo } from "@package/org/spongepowered/asm/mixin/injection/callback";
 import { $ServerLevel } from "@package/net/minecraft/server/level";
-import { $BlockPos_, $Holder_, $Holder$Reference, $Registry, $Holder } from "@package/net/minecraft/core";
+import { $BlockPos_, $Holder_, $Registry, $Holder$Reference, $Holder } from "@package/net/minecraft/core";
 import { RegistryMarked, RegistryTypes } from "@special/types";
 import { $BlockState_, $BlockState } from "@package/net/minecraft/world/level/block/state";
 import { $RegistryFriendlyByteBuf } from "@package/net/minecraft/network";
@@ -46,13 +46,13 @@ declare module "@package/net/minecraft/world/level/gameevent" {
     export class $GameEventListener {
     }
     export interface $GameEventListener {
-        getListenerSource(): $PositionSource;
-        getListenerRadius(): number;
-        handleGameEvent(arg0: $ServerLevel, arg1: $Holder_<$GameEvent>, arg2: $GameEvent$Context_, arg3: $Vec3_): boolean;
         getDeliveryMode(): $GameEventListener$DeliveryMode;
+        getListenerSource(): $PositionSource;
+        handleGameEvent(arg0: $ServerLevel, arg1: $Holder_<$GameEvent>, arg2: $GameEvent$Context_, arg3: $Vec3_): boolean;
+        getListenerRadius(): number;
+        get deliveryMode(): $GameEventListener$DeliveryMode;
         get listenerSource(): $PositionSource;
         get listenerRadius(): number;
-        get deliveryMode(): $GameEventListener$DeliveryMode;
     }
     export class $EntityPositionSource$Type implements $PositionSourceType<$EntityPositionSource> {
         codec(): $MapCodec<$EntityPositionSource>;
@@ -142,8 +142,8 @@ declare module "@package/net/minecraft/world/level/gameevent" {
         context(): $GameEvent$Context;
         compareTo(arg0: $GameEvent$ListenerInfo): number;
         source(): $Vec3;
-        recipient(): $GameEventListener;
         gameEvent(): $Holder<$GameEvent>;
+        recipient(): $GameEventListener;
         constructor(arg0: $Holder_<$GameEvent>, arg1: $Vec3_, arg2: $GameEvent$Context_, arg3: $GameEventListener, arg4: $Vec3_);
     }
     export class $PositionSource {
@@ -228,7 +228,7 @@ declare module "@package/net/minecraft/world/level/gameevent" {
     export type $GameEvent_ = RegistryTypes.GameEvent;
     export class $GameEventDispatcher {
         post(arg0: $Holder_<$GameEvent>, arg1: $Vec3_, arg2: $GameEvent$Context_): void;
-        handler$imi000$axiom$post(ci: $CallbackInfo, context: $GameEvent$Context_): void;
+        handler$jga000$axiom$post(ci: $CallbackInfo, context: $GameEvent$Context_): void;
         constructor(arg0: $ServerLevel);
     }
 }

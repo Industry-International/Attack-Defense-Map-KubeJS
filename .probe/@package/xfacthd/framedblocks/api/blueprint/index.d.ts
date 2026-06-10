@@ -32,15 +32,15 @@ declare module "@package/xfacthd/framedblocks/api/blueprint" {
     export class $BlueprintData extends $Record {
         isEmpty(): boolean;
         block(): $Block;
-        camos(): $CamoList;
-        blockState(): $BlockItemStateProperties;
         glowing(): boolean;
+        blockState(): $BlockItemStateProperties;
         intangible(): boolean;
         reinforced(): boolean;
-        getAuxDataOrDefault<T extends $AuxBlueprintData<T>>(arg0: T): T;
-        auxData(): ($AuxBlueprintData<never>) | undefined;
+        camos(): $CamoList;
         withBlockState(arg0: $BlockItemStateProperties_): $BlueprintData;
+        auxData(): ($AuxBlueprintData<never>) | undefined;
         withAuxData(arg0: $AuxBlueprintData<never>): $BlueprintData;
+        getAuxDataOrDefault<T extends $AuxBlueprintData<T>>(arg0: T): T;
         static CODEC: $Codec<$BlueprintData>;
         static EMPTY: $BlueprintData;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $BlueprintData>;
@@ -70,15 +70,15 @@ declare module "@package/xfacthd/framedblocks/api/blueprint" {
     export class $BlueprintCopyBehaviour {
     }
     export interface $BlueprintCopyBehaviour {
-        getPropertiesToCopy(arg0: $BlockState_): $List<$Property<never>>;
-        getReinforcementCount(arg0: $BlueprintData_): number;
-        writeToBlueprint(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $FramedBlockEntity): $BlueprintData;
-        getAdditionalConsumedMaterials(arg0: $BlueprintData_): $List<$ItemStack>;
         attachDataToDummyRenderStack(arg0: $ItemStack_, arg1: $BlueprintData_): void;
-        getCamos(arg0: $BlueprintData_): $CamoList;
-        postProcessPaste(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $BlueprintData_, arg4: $ItemStack_): void;
-        getBlockItem(arg0: $BlueprintData_): $ItemStack;
+        getAdditionalConsumedMaterials(arg0: $BlueprintData_): $List<$ItemStack>;
         getIntangibleCount(arg0: $BlueprintData_): number;
+        getBlockItem(arg0: $BlueprintData_): $ItemStack;
+        postProcessPaste(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $BlueprintData_, arg4: $ItemStack_): void;
         getGlowstoneCount(arg0: $BlueprintData_): number;
+        getReinforcementCount(arg0: $BlueprintData_): number;
+        getPropertiesToCopy(arg0: $BlockState_): $List<$Property<never>>;
+        writeToBlueprint(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $FramedBlockEntity): $BlueprintData;
+        getCamos(arg0: $BlueprintData_): $CamoList;
     }
 }

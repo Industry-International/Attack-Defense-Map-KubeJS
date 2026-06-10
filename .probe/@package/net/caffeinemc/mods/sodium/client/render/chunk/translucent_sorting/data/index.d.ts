@@ -7,13 +7,13 @@ import { $Vector3dc, $Vector3fc } from "@package/org/joml";
 
 declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/translucent_sorting/data" {
     export class $TranslucentData {
-        prepareTrigger(arg0: boolean): void;
-        getSortType(): $SortType;
-        static quadCountToIndexBytes(arg0: number): number;
-        static writeQuadVertexIndexes(arg0: $IntBuffer, arg1: number[]): void;
         static writeQuadVertexIndexes(arg0: $IntBuffer, arg1: number): void;
-        static vertexCountToQuadCount(arg0: number): number;
+        static writeQuadVertexIndexes(arg0: $IntBuffer, arg1: number[]): void;
+        static quadCountToIndexBytes(arg0: number): number;
         static indexBytesToQuadCount(arg0: number): number;
+        static vertexCountToQuadCount(arg0: number): number;
+        getSortType(): $SortType;
+        prepareTrigger(arg0: boolean): void;
         static VERTICES_PER_QUAD: number;
         static BYTES_PER_QUAD: number;
         static BYTES_PER_INDEX: number;
@@ -36,10 +36,10 @@ declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/transluc
     export class $CombinedCameraPos {
     }
     export interface $CombinedCameraPos {
-        getAbsoluteCameraPos(): $Vector3dc;
         getRelativeCameraPos(): $Vector3fc;
-        get absoluteCameraPos(): $Vector3dc;
+        getAbsoluteCameraPos(): $Vector3dc;
         get relativeCameraPos(): $Vector3fc;
+        get absoluteCameraPos(): $Vector3dc;
     }
     export class $SortData {
     }

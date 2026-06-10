@@ -12,9 +12,9 @@ declare module "@package/net/irisshaders/iris/mixinterface" {
     export class $ExtendedBiome {
     }
     export interface $ExtendedBiome {
-        setBiomeCategory(arg0: number): void;
-        getBiomeCategory(): number;
         getDownfall(): number;
+        getBiomeCategory(): number;
+        setBiomeCategory(arg0: number): void;
         get downfall(): number;
     }
     export class $BiomeAmbienceInterface {

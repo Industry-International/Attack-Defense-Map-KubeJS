@@ -17,11 +17,11 @@ declare module "@package/net/minecraft/core/cauldron" {
         constructor(arg0: string, arg1: $Map_<$Item_, $CauldronInteraction_>);
     }
     export class $CauldronInteraction {
-        static fillBucket(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Player, arg4: $InteractionHand_, arg5: $ItemStack_, arg6: $ItemStack_, arg7: $Predicate_<$BlockState>, arg8: $SoundEvent_): $ItemInteractionResult;
-        static bootStrap(): void;
-        static newInteractionMap(arg0: string): $CauldronInteraction$InteractionMap;
         static emptyBucket(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $InteractionHand_, arg4: $ItemStack_, arg5: $BlockState_, arg6: $SoundEvent_): $ItemInteractionResult;
+        static newInteractionMap(arg0: string): $CauldronInteraction$InteractionMap;
+        static bootStrap(): void;
         static addDefaultInteractions(arg0: $Map_<$Item_, $CauldronInteraction_>): void;
+        static fillBucket(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Player, arg4: $InteractionHand_, arg5: $ItemStack_, arg6: $ItemStack_, arg7: $Predicate_<$BlockState>, arg8: $SoundEvent_): $ItemInteractionResult;
         static CODEC: $Codec<$CauldronInteraction$InteractionMap>;
         static LAVA: $CauldronInteraction$InteractionMap;
         static FILL_POWDER_SNOW: $CauldronInteraction;

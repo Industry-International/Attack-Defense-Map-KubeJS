@@ -52,8 +52,8 @@ declare module "@package/net/minecraft/client/multiplayer/resolver" {
     export class $ServerAddress {
         getHost(): string;
         getPort(): number;
-        static parsePort(arg0: string): number;
         static parseString(arg0: string): $ServerAddress;
+        static parsePort(arg0: string): number;
         static isValidAddress(arg0: string): boolean;
         constructor(arg0: string, arg1: number);
         get host(): string;

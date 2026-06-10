@@ -51,8 +51,8 @@ declare module "@package/cpw/mods/jarhandling" {
         getPath(arg0: string, ...arg1: string[]): $Path;
         moduleDataProvider(): $SecureJar$ModuleDataProvider;
         hasSecurityData(): boolean;
-        getFileStatus(arg0: string): $SecureJar$Status;
         getManifestSigners(): $CodeSigner[];
+        getFileStatus(arg0: string): $SecureJar$Status;
         getPrimaryPath(): $Path;
         getTrustedManifestEntries(arg0: string): $Attributes;
         verifyPath(arg0: $Path_): $SecureJar$Status;
@@ -69,9 +69,9 @@ declare module "@package/cpw/mods/jarhandling" {
         getPackages(): $Set<string>;
         getManifest(): $Manifest;
         findFile(arg0: string): ($URI) | undefined;
-        getPackagesExcluding(...arg0: string[]): $Set<string>;
         getPrimaryPath(): $Path;
         getMetaInfServices(): $List<$SecureJar$Provider>;
+        getPackagesExcluding(...arg0: string[]): $Set<string>;
         get packages(): $Set<string>;
         get manifest(): $Manifest;
         get primaryPath(): $Path;

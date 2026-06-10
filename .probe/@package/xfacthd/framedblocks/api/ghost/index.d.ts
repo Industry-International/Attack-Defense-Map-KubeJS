@@ -16,8 +16,8 @@ declare module "@package/xfacthd/framedblocks/api/ghost" {
     export class $RegisterGhostRenderBehavioursEvent extends $Event implements $IModBusEvent {
         registerBlocks(arg0: $GhostRenderBehaviour, arg1: $List_<$Holder_<$Block>>): void;
         registerBlocks(arg0: $GhostRenderBehaviour, ...arg1: $Block_[]): void;
-        registerBlock(arg0: $GhostRenderBehaviour, arg1: $Holder_<$Block>): void;
         registerItem(arg0: $GhostRenderBehaviour, arg1: $Holder_<$Item>): void;
+        registerBlock(arg0: $GhostRenderBehaviour, arg1: $Holder_<$Block>): void;
         registerItems(arg0: $GhostRenderBehaviour, arg1: $List_<$Holder_<$Item>>): void;
         registerItems(arg0: $GhostRenderBehaviour, ...arg1: $Item_[]): void;
         constructor(arg0: $BiConsumer_<$GhostRenderBehaviour, $Block[]>, arg1: $BiConsumer_<$GhostRenderBehaviour, $Item[]>);
@@ -27,15 +27,15 @@ declare module "@package/xfacthd/framedblocks/api/ghost" {
     }
     export interface $GhostRenderBehaviour {
         getRenderOffset(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockPlaceContext, arg3: $BlockState_, arg4: number, arg5: $ModelData): $Vector3fc;
-        getRenderState(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockHitResult, arg3: $BlockPlaceContext, arg4: $BlockState_, arg5: number): $BlockState;
-        buildModelData(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockPlaceContext, arg3: $BlockState_, arg4: number, arg5: $CamoList): $ModelData;
-        appendModelData(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockPlaceContext, arg3: $BlockState_, arg4: number, arg5: $ModelData): $ModelData;
+        getProxiedStack(arg0: $ItemStack_): $ItemStack;
         canRenderAt(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockHitResult, arg3: $BlockPlaceContext, arg4: $BlockState_, arg5: $BlockState_, arg6: $BlockPos_): boolean;
+        buildModelData(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockPlaceContext, arg3: $BlockState_, arg4: number, arg5: $CamoList): $ModelData;
+        getRenderState(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockHitResult, arg3: $BlockPlaceContext, arg4: $BlockState_, arg5: number): $BlockState;
         getPassCount(arg0: $ItemStack_, arg1: $ItemStack_): number;
         getRenderPos(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockHitResult, arg3: $BlockPlaceContext, arg4: $BlockState_, arg5: $BlockPos_, arg6: number): $BlockPos;
         postProcessCamo(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockPlaceContext, arg3: $BlockState_, arg4: number, arg5: $CamoList): $CamoList;
-        getProxiedStack(arg0: $ItemStack_): $ItemStack;
-        mayRender(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
+        appendModelData(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $BlockPlaceContext, arg3: $BlockState_, arg4: number, arg5: $ModelData): $ModelData;
         readCamo(arg0: $ItemStack_, arg1: $ItemStack_, arg2: number): $CamoList;
+        mayRender(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
     }
 }

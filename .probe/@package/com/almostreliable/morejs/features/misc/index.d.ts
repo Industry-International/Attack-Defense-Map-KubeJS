@@ -12,14 +12,14 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
         isIgnoreHoldingCheck(): boolean;
         ignoreHoldingCheck(): void;
         getBehavior(): $PiglinPlayerBehaviorEventJS$PiglinBehavior;
+        setBehavior(arg0: $PiglinPlayerBehaviorEventJS$PiglinBehavior_): void;
+        getPiglin(): $Piglin;
         getPreviousTargetPlayer(): $Player;
         isAggressiveAlready(): boolean;
-        getPiglin(): $Piglin;
-        setBehavior(arg0: $PiglinPlayerBehaviorEventJS$PiglinBehavior_): void;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -58,32 +58,32 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
         success(value: $Object): $Object;
         getEntity(): $LivingEntity;
         constructor(arg0: $Piglin, arg1: $Player, arg2: ($Player) | undefined);
+        get piglin(): $Piglin;
         get previousTargetPlayer(): $Player;
         get aggressiveAlready(): boolean;
-        get piglin(): $Piglin;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $ExperiencePlayerEventJS implements $KubePlayerEvent {
         getEntity(): $Player;
-        getAmount(): number;
+        setAmount(arg0: number): void;
         getExperienceProgress(): number;
+        getAmount(): number;
         getXpNeededForNextLevel(): number;
         getTotalExperience(): number;
         getExperienceLevel(): number;
-        setAmount(arg0: number): void;
-        getRemainingExperience(): number;
-        setExperienceProgress(arg0: number): void;
-        willLevelUp(): boolean;
-        setExperienceLevel(arg0: number): void;
         setTotalExperience(arg0: number): void;
+        setExperienceLevel(arg0: number): void;
+        willLevelUp(): boolean;
+        setExperienceProgress(arg0: number): void;
+        getRemainingExperience(): number;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -126,8 +126,8 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
         get remainingExperience(): number;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $PiglinPlayerBehaviorEventJS$PiglinBehavior extends $Enum<$PiglinPlayerBehaviorEventJS$PiglinBehavior> {
         static values(): $PiglinPlayerBehaviorEventJS$PiglinBehavior[];

@@ -18,8 +18,8 @@ declare module "@package/dev/latvian/mods/kubejs/stages" {
         has(stage: string): boolean;
         getPlayer(): $Player;
         toggle(stage: string): boolean;
-        removeNoUpdate(stage: string): boolean;
         addNoUpdate(stage: string): boolean;
+        removeNoUpdate(stage: string): boolean;
         get all(): $Collection<string>;
         get player(): $Player;
     }
@@ -27,10 +27,10 @@ declare module "@package/dev/latvian/mods/kubejs/stages" {
         clear(): boolean;
         replace(stages: $Collection_<string>): void;
         getAll(): $Collection<string>;
-        getPlayer(): $Player;
         player(): $Player;
-        removeNoUpdate(stage: string): boolean;
+        getPlayer(): $Player;
         addNoUpdate(stage: string): boolean;
+        removeNoUpdate(stage: string): boolean;
         remove(stage: string): boolean;
         add(stage: string): boolean;
         set(stage: string, enabled: boolean): boolean;
@@ -41,8 +41,8 @@ declare module "@package/dev/latvian/mods/kubejs/stages" {
         get all(): $Collection<string>;
     }
     export class $StageCreationEvent extends $PlayerEvent implements $ICancellableEvent {
-        setPlayerStages(s: $Stages): void;
         getPlayerStages(): $Stages;
+        setPlayerStages(s: $Stages): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
     }
@@ -58,10 +58,10 @@ declare module "@package/dev/latvian/mods/kubejs/stages" {
         sync(): void;
         getAll(): $Collection<string>;
         has(stage: string): boolean;
-        getPlayer(): $Player;
         player(): $Player;
-        removeNoUpdate(stage: string): boolean;
+        getPlayer(): $Player;
         addNoUpdate(stage: string): boolean;
+        removeNoUpdate(stage: string): boolean;
         remove(stage: string): boolean;
         add(stage: string): boolean;
         set(stage: string, enabled: boolean): boolean;

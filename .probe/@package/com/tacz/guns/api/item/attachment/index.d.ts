@@ -6,8 +6,8 @@ declare module "@package/com/tacz/guns/api/item/attachment" {
     export class $AttachmentType extends $Enum<$AttachmentType> implements $StringRepresentable {
         static values(): $AttachmentType[];
         static valueOf(arg0: string): $AttachmentType;
-        static fromId(arg0: number): $AttachmentType;
         getSerializedName(): string;
+        static fromId(arg0: number): $AttachmentType;
         getRemappedEnumConstantName(): string;
         static GRIP: $AttachmentType;
         static CODEC: $Codec<$AttachmentType>;

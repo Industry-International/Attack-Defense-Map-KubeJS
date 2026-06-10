@@ -36,18 +36,18 @@ declare module "@package/com/mojang/datafixers" {
         get versionKey(): number;
     }
     export class $TypeRewriteRule {
-        static orElse(arg0: $TypeRewriteRule_, arg1: $TypeRewriteRule_): $TypeRewriteRule;
+        static one(arg0: $TypeRewriteRule_): $TypeRewriteRule;
         static orElse(arg0: $TypeRewriteRule_, arg1: $Supplier_<$TypeRewriteRule>): $TypeRewriteRule;
-        static seq(arg0: $TypeRewriteRule_, arg1: $TypeRewriteRule_): $TypeRewriteRule;
+        static orElse(arg0: $TypeRewriteRule_, arg1: $TypeRewriteRule_): $TypeRewriteRule;
         static seq(arg0: $TypeRewriteRule_, ...arg1: $TypeRewriteRule_[]): $TypeRewriteRule;
+        static seq(arg0: $TypeRewriteRule_, arg1: $TypeRewriteRule_): $TypeRewriteRule;
         static seq(arg0: $List_<$TypeRewriteRule_>): $TypeRewriteRule;
         static all(arg0: $TypeRewriteRule_, arg1: boolean, arg2: boolean): $TypeRewriteRule;
-        static one(arg0: $TypeRewriteRule_): $TypeRewriteRule;
         static nop(): $TypeRewriteRule;
-        static once(arg0: $TypeRewriteRule_): $TypeRewriteRule;
-        static checkOnce(arg0: $TypeRewriteRule_, arg1: $Consumer_<$Type<never>>): $TypeRewriteRule;
         static ifSame<B>(arg0: $Type<B>, arg1: $RewriteResult_<B, never>): $TypeRewriteRule;
         static everywhere(arg0: $TypeRewriteRule_, arg1: $PointFreeRule_, arg2: boolean, arg3: boolean): $TypeRewriteRule;
+        static checkOnce(arg0: $TypeRewriteRule_, arg1: $Consumer_<$Type<never>>): $TypeRewriteRule;
+        static once(arg0: $TypeRewriteRule_): $TypeRewriteRule;
     }
     export interface $TypeRewriteRule {
         rewrite<A>(arg0: $Type<A>): ($RewriteResult<A, never>) | undefined;
@@ -92,15 +92,15 @@ declare module "@package/com/mojang/datafixers" {
         constructor(arg0: $App<F, T1>);
     }
     export class $Products$P5<F extends $K1, T1, T2, T3, T4, T5> {
-        apply<R>(arg0: $Applicative<F, never>, arg1: $Function5_<T1, T2, T3, T4, T5, R>): $App<F, R>;
+        t5(): $App<F, T5>;
         apply<R>(arg0: $Applicative<F, never>, arg1: $App<F, $Function5_<T1, T2, T3, T4, T5, R>>): $App<F, R>;
+        apply<R>(arg0: $Applicative<F, never>, arg1: $Function5_<T1, T2, T3, T4, T5, R>): $App<F, R>;
         t1(): $App<F, T1>;
         t2(): $App<F, T2>;
         and<T6>(arg0: $App<F, T6>): $Products$P6<F, T1, T2, T3, T4, T5, T6>;
-        and<T6, T7, T8>(arg0: $Products$P3<F, T6, T7, T8>): $Products$P8<F, T1, T2, T3, T4, T5, T6, T7, T8>;
         and<T6, T7>(arg0: $Products$P2<F, T6, T7>): $Products$P7<F, T1, T2, T3, T4, T5, T6, T7>;
+        and<T6, T7, T8>(arg0: $Products$P3<F, T6, T7, T8>): $Products$P8<F, T1, T2, T3, T4, T5, T6, T7, T8>;
         t3(): $App<F, T3>;
-        t5(): $App<F, T5>;
         t4(): $App<F, T4>;
         constructor(arg0: $App<F, T1>, arg1: $App<F, T2>, arg2: $App<F, T3>, arg3: $App<F, T4>, arg4: $App<F, T5>);
     }
@@ -149,40 +149,40 @@ declare module "@package/com/mojang/datafixers" {
         constructor(arg0: $App<F, T1>, arg1: $App<F, T2>, arg2: $App<F, T3>, arg3: $App<F, T4>, arg4: $App<F, T5>, arg5: $App<F, T6>, arg6: $App<F, T7>, arg7: $App<F, T8>, arg8: $App<F, T9>);
     }
     export class $Products$P8<F extends $K1, T1, T2, T3, T4, T5, T6, T7, T8> {
-        apply<R>(arg0: $Applicative<F, never>, arg1: $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>): $App<F, R>;
+        t5(): $App<F, T5>;
         apply<R>(arg0: $Applicative<F, never>, arg1: $App<F, $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>>): $App<F, R>;
+        apply<R>(arg0: $Applicative<F, never>, arg1: $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>): $App<F, R>;
         t1(): $App<F, T1>;
         t2(): $App<F, T2>;
         t3(): $App<F, T3>;
-        t5(): $App<F, T5>;
-        t4(): $App<F, T4>;
         t8(): $App<F, T8>;
+        t4(): $App<F, T4>;
         t6(): $App<F, T6>;
         t7(): $App<F, T7>;
         constructor(arg0: $App<F, T1>, arg1: $App<F, T2>, arg2: $App<F, T3>, arg3: $App<F, T4>, arg4: $App<F, T5>, arg5: $App<F, T6>, arg6: $App<F, T7>, arg7: $App<F, T8>);
     }
     export class $Products$P7<F extends $K1, T1, T2, T3, T4, T5, T6, T7> {
-        apply<R>(arg0: $Applicative<F, never>, arg1: $Function7_<T1, T2, T3, T4, T5, T6, T7, R>): $App<F, R>;
+        t5(): $App<F, T5>;
         apply<R>(arg0: $Applicative<F, never>, arg1: $App<F, $Function7_<T1, T2, T3, T4, T5, T6, T7, R>>): $App<F, R>;
+        apply<R>(arg0: $Applicative<F, never>, arg1: $Function7_<T1, T2, T3, T4, T5, T6, T7, R>): $App<F, R>;
         t1(): $App<F, T1>;
         t2(): $App<F, T2>;
         and<T8>(arg0: $App<F, T8>): $Products$P8<F, T1, T2, T3, T4, T5, T6, T7, T8>;
         t3(): $App<F, T3>;
-        t5(): $App<F, T5>;
         t4(): $App<F, T4>;
         t6(): $App<F, T6>;
         t7(): $App<F, T7>;
         constructor(arg0: $App<F, T1>, arg1: $App<F, T2>, arg2: $App<F, T3>, arg3: $App<F, T4>, arg4: $App<F, T5>, arg5: $App<F, T6>, arg6: $App<F, T7>);
     }
     export class $Products$P6<F extends $K1, T1, T2, T3, T4, T5, T6> {
-        apply<R>(arg0: $Applicative<F, never>, arg1: $Function6_<T1, T2, T3, T4, T5, T6, R>): $App<F, R>;
+        t5(): $App<F, T5>;
         apply<R>(arg0: $Applicative<F, never>, arg1: $App<F, $Function6_<T1, T2, T3, T4, T5, T6, R>>): $App<F, R>;
+        apply<R>(arg0: $Applicative<F, never>, arg1: $Function6_<T1, T2, T3, T4, T5, T6, R>): $App<F, R>;
         t1(): $App<F, T1>;
         t2(): $App<F, T2>;
         and<T7, T8>(arg0: $Products$P2<F, T7, T8>): $Products$P8<F, T1, T2, T3, T4, T5, T6, T7, T8>;
         and<T7>(arg0: $App<F, T7>): $Products$P7<F, T1, T2, T3, T4, T5, T6, T7>;
         t3(): $App<F, T3>;
-        t5(): $App<F, T5>;
         t4(): $App<F, T4>;
         t6(): $App<F, T6>;
         constructor(arg0: $App<F, T1>, arg1: $App<F, T2>, arg2: $App<F, T3>, arg3: $App<F, T4>, arg4: $App<F, T5>, arg5: $App<F, T6>);
@@ -201,21 +201,21 @@ declare module "@package/com/mojang/datafixers" {
         getType(): $Type<A>;
         static pair<A, B>(arg0: $Typed<A>, arg1: $Typed<B>): $Typed<$Pair<A, B>>;
         getAll<FT>(arg0: $TypedOptic_<A, never, FT, never>): $List<FT>;
-        getOptional<FT>(arg0: $OpticFinder<FT>): (FT) | undefined;
-        getOps(): $DynamicOps<never>;
-        getOrCreate<FT>(arg0: $OpticFinder<FT>): FT;
-        getAllTyped<FT>(arg0: $OpticFinder<FT>): $List<$Typed<FT>>;
-        updateRecursive<FT>(arg0: $OpticFinder<FT>, arg1: $Function_<FT, FT>): $Typed<never>;
-        updateRecursive<FT, FR>(arg0: $OpticFinder<FT>, arg1: $Type<FR>, arg2: $Function_<FT, FR>): $Typed<never>;
         getTyped<FT>(arg0: $OpticFinder<FT>): $Typed<FT>;
-        inj2<B>(arg0: $Type<B>): $Typed<$Either<B, A>>;
-        inj1<B>(arg0: $Type<B>): $Typed<$Either<A, B>>;
-        updateTyped<FT>(arg0: $OpticFinder<FT>, arg1: $Function_<$Typed<never>, $Typed<never>>): $Typed<never>;
-        updateTyped<FT, FR>(arg0: $OpticFinder<FT>, arg1: $Type<FR>, arg2: $Function_<$Typed<never>, $Typed<never>>): $Typed<never>;
+        getOptional<FT>(arg0: $OpticFinder<FT>): (FT) | undefined;
+        getAllTyped<FT>(arg0: $OpticFinder<FT>): $List<$Typed<FT>>;
         getOptionalTyped<FT>(arg0: $OpticFinder<FT>): ($Typed<FT>) | undefined;
         getOrCreateTyped<FT>(arg0: $OpticFinder<FT>): $Typed<FT>;
+        updateTyped<FT>(arg0: $OpticFinder<FT>, arg1: $Function_<$Typed<never>, $Typed<never>>): $Typed<never>;
+        updateTyped<FT, FR>(arg0: $OpticFinder<FT>, arg1: $Type<FR>, arg2: $Function_<$Typed<never>, $Typed<never>>): $Typed<never>;
+        updateRecursive<FT>(arg0: $OpticFinder<FT>, arg1: $Function_<FT, FT>): $Typed<never>;
+        updateRecursive<FT, FR>(arg0: $OpticFinder<FT>, arg1: $Type<FR>, arg2: $Function_<FT, FR>): $Typed<never>;
         updateRecursiveTyped<FT, FR>(arg0: $OpticFinder<FT>, arg1: $Type<FR>, arg2: $Function_<$Typed<never>, $Typed<never>>): $Typed<never>;
         updateRecursiveTyped<FT>(arg0: $OpticFinder<FT>, arg1: $Function_<$Typed<never>, $Typed<never>>): $Typed<never>;
+        getOps(): $DynamicOps<never>;
+        getOrCreate<FT>(arg0: $OpticFinder<FT>): FT;
+        inj1<B>(arg0: $Type<B>): $Typed<$Either<A, B>>;
+        inj2<B>(arg0: $Type<B>): $Typed<$Either<B, A>>;
         constructor(arg0: $Type<A>, arg1: $DynamicOps<never>, arg2: A);
         get value(): A;
         get type(): $Type<A>;
@@ -267,9 +267,9 @@ declare module "@package/com/mojang/datafixers" {
         static create<A, B>(arg0: string, arg1: $Type<A>, arg2: $Type<B>, arg3: $Function_<$DynamicOps<never>, $Function<A, B>>): $View<A, B>;
         compose<C>(arg0: $View_<C, A>): $View<C, B>;
         rewrite(arg0: $PointFreeRule_): ($View<A, B>) | undefined;
-        rewriteOrNop(arg0: $PointFreeRule_): $View<A, B>;
         funcType(): $Type<$Function<A, B>>;
         static nopView<A>(arg0: $Type<A>): $View<A, A>;
+        rewriteOrNop(arg0: $PointFreeRule_): $View<A, B>;
         isNop(): boolean;
         constructor(arg0: $PointFree<$Function_<A, B>>);
         get nop(): boolean;
@@ -294,20 +294,20 @@ declare module "@package/com/mojang/datafixers" {
         static adapter<S, T>(arg0: $Type<S>, arg1: $Type<T>): $TypedOptic<S, T, S, T>;
         tType(): $Type<T>;
         aType(): $Type<A>;
+        sType(): $Type<S>;
+        static compoundListElements<K, V, V2>(arg0: $Type<K>, arg1: $Type<V>, arg2: $Type<V2>): $TypedOptic<$List<$Pair<K, V>>, $List<$Pair<K, V2>>, V, V2>;
         static tagged<K, A, B>(arg0: $TaggedChoice$TaggedChoiceType<K>, arg1: K, arg2: $Type<A>, arg3: $Type<B>): $TypedOptic<$Pair<K, never>, $Pair<K, never>, A, B>;
         static instanceOf<Proof2 extends $K1>(arg0: $Collection_<$TypeToken<$K1>>, arg1: $TypeToken<Proof2>): boolean;
-        sType(): $Type<S>;
         castOuterUnchecked<S2, T2>(arg0: $Type<S2>, arg1: $Type<T2>): $TypedOptic<S2, T2, A, B>;
         static compoundListKeys<K, V, K2>(arg0: $Type<K>, arg1: $Type<K2>, arg2: $Type<V>): $TypedOptic<$List<$Pair<K, V>>, $List<$Pair<K2, V>>, K, K2>;
-        static inj2<F, G, G2>(arg0: $Type<F>, arg1: $Type<G>, arg2: $Type<G2>): $TypedOptic<$Either<F, G>, $Either<F, G2>, G, G2>;
+        outermost(): $Optic<never, S, T, never, never>;
         bType(): $Type<B>;
+        static proj1<F, G, F2>(arg0: $Type<F>, arg1: $Type<G>, arg2: $Type<F2>): $TypedOptic<$Pair<F, G>, $Pair<F2, G>, F, F2>;
         static inj1<F, G, F2>(arg0: $Type<F>, arg1: $Type<G>, arg2: $Type<F2>): $TypedOptic<$Either<F, G>, $Either<F2, G>, F, F2>;
+        static inj2<F, G, G2>(arg0: $Type<F>, arg1: $Type<G>, arg2: $Type<G2>): $TypedOptic<$Either<F, G>, $Either<F, G2>, G, G2>;
         castOuter(arg0: $Type<S>, arg1: $Type<T>): $TypedOptic<S, T, A, B>;
         static proj2<F, G, G2>(arg0: $Type<F>, arg1: $Type<G>, arg2: $Type<G2>): $TypedOptic<$Pair<F, G>, $Pair<F, G2>, G, G2>;
-        static proj1<F, G, F2>(arg0: $Type<F>, arg1: $Type<G>, arg2: $Type<F2>): $TypedOptic<$Pair<F, G>, $Pair<F2, G>, F, F2>;
         upCast<Proof2 extends $K1>(arg0: $TypeToken<Proof2>): ($Optic<Proof2, S, T, A, B>) | undefined;
-        static compoundListElements<K, V, V2>(arg0: $Type<K>, arg1: $Type<V>, arg2: $Type<V2>): $TypedOptic<$List<$Pair<K, V>>, $List<$Pair<K, V2>>, V, V2>;
-        outermost(): $Optic<never, S, T, never, never>;
         constructor(bounds: $Set_<$TypeToken<$K1>>, elements: $List_<$TypedOptic$Element_<never, never, never, never>>);
         constructor(arg0: $Set_<$TypeToken<$K1>>, arg1: $Type<S>, arg2: $Type<T>, arg3: $Type<A>, arg4: $Type<B>, arg5: $Optic_<never, S, T, A, B>);
         constructor(arg0: $TypeToken<$K1>, arg1: $Type<S>, arg2: $Type<T>, arg3: $Type<A>, arg4: $Type<B>, arg5: $Optic_<never, S, T, A, B>);

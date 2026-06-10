@@ -4,7 +4,7 @@ declare module "@package/com/mapter/aeroclaims/protect" {
     export class $IPlacerTracked {
     }
     export interface $IPlacerTracked {
-        aeroclaims$setPlacerUUID(arg0: $UUID_): void;
         aeroclaims$getPlacerUUID(): $UUID;
+        aeroclaims$setPlacerUUID(arg0: $UUID_): void;
     }
 }

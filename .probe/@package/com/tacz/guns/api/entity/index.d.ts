@@ -8,8 +8,8 @@ import { $AttachmentCacheProperty } from "@package/com/tacz/guns/resource/modifi
 declare module "@package/com/tacz/guns/api/entity" {
     export class $ReloadState {
         getStateType(): $ReloadState$StateType;
-        setCountDown(arg0: number): void;
         setStateType(arg0: $ReloadState$StateType_): void;
+        setCountDown(arg0: number): void;
         getCountDown(): number;
         static NOT_RELOADING_COUNTDOWN: number;
         constructor();
@@ -67,47 +67,48 @@ declare module "@package/com/tacz/guns/api/entity" {
         reload(): void;
         aim(arg0: boolean): void;
         draw(arg0: $Supplier_<$ItemStack>): void;
-        getCacheProperty(): $AttachmentCacheProperty;
-        initialData(): void;
-        cancelReload(): void;
-        getSynIsBolting(): boolean;
-        getSynDrawCoolDown(): number;
-        getSynIsAiming(): boolean;
-        consumesAmmoOrNot(): boolean;
-        needCheckAmmo(): boolean;
-        getSynReloadState(): $ReloadState;
-        getSynSprintTime(): number;
-        getDataHolder(): $ShooterDataHolder;
-        nextBulletIsTracer(arg0: number): boolean;
-        fireSelect(): void;
-        bolt(): void;
-        crawl(arg0: boolean): void;
-        melee(): void;
-        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>): $ShootResult;
-        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>, arg2: number): $ShootResult;
         zoom(): void;
-        getProcessedSprintStatus(arg0: boolean): boolean;
-        getSynMeleeCoolDown(): number;
+        bolt(): void;
+        melee(): void;
+        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>, arg2: number, arg3: number): $ShootResult;
+        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>, arg2: number): $ShootResult;
+        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>): $ShootResult;
+        fireSelect(): void;
+        crawl(arg0: boolean): void;
         getSynShootCoolDown(): number;
         getSynAimingProgress(): number;
         updateCacheProperty(arg0: $AttachmentCacheProperty): void;
-        get cacheProperty(): $AttachmentCacheProperty;
-        get synIsBolting(): boolean;
-        get synDrawCoolDown(): number;
-        get synIsAiming(): boolean;
-        get synReloadState(): $ReloadState;
-        get synSprintTime(): number;
-        get dataHolder(): $ShooterDataHolder;
-        get synMeleeCoolDown(): number;
+        getSynMeleeCoolDown(): number;
+        getProcessedSprintStatus(arg0: boolean): boolean;
+        getSynDrawCoolDown(): number;
+        consumesAmmoOrNot(): boolean;
+        getSynReloadState(): $ReloadState;
+        cancelReload(): void;
+        getSynIsBolting(): boolean;
+        getSynIsAiming(): boolean;
+        getDataHolder(): $ShooterDataHolder;
+        getCacheProperty(): $AttachmentCacheProperty;
+        getSynSprintTime(): number;
+        needCheckAmmo(): boolean;
+        nextBulletIsTracer(arg0: number): boolean;
+        initialData(): void;
         get synShootCoolDown(): number;
         get synAimingProgress(): number;
+        get synMeleeCoolDown(): number;
+        get synDrawCoolDown(): number;
+        get synReloadState(): $ReloadState;
+        get synIsBolting(): boolean;
+        get synIsAiming(): boolean;
+        get dataHolder(): $ShooterDataHolder;
+        get cacheProperty(): $AttachmentCacheProperty;
+        get synSprintTime(): number;
     }
     export class $KnockBackModifier {
         static fromLivingEntity(arg0: $LivingEntity): $KnockBackModifier;
     }
     export interface $KnockBackModifier {
-        resetKnockBackStrength(): void;
         getKnockBackStrength(): number;
         setKnockBackStrength(arg0: number): void;
+        resetKnockBackStrength(): void;
     }
 }

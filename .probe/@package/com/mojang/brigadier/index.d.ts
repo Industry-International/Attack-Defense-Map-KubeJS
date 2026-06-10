@@ -41,15 +41,15 @@ declare module "@package/com/mojang/brigadier" {
         peek(): string;
         getString(): string;
         getRemaining(): string;
-        getCursor(): number;
-        getTotalLength(): number;
         getRemainingLength(): number;
+        getTotalLength(): number;
+        getCursor(): number;
         getRead(): string;
         get string(): string;
         get remaining(): string;
-        get cursor(): number;
-        get totalLength(): number;
         get remainingLength(): number;
+        get totalLength(): number;
+        get cursor(): number;
         get read(): string;
     }
     export class $ResultConsumer<S> {
@@ -100,8 +100,8 @@ declare module "@package/com/mojang/brigadier" {
         getPath(arg0: $CommandNode<S>): $Collection<string>;
         findNode(arg0: $Collection_<string>): $CommandNode<S>;
         setConsumer(arg0: $ResultConsumer_<S>): void;
-        getCompletionSuggestions(arg0: $ParseResults<S>, arg1: number): $CompletableFuture<$Suggestions>;
         getCompletionSuggestions(arg0: $ParseResults<S>): $CompletableFuture<$Suggestions>;
+        getCompletionSuggestions(arg0: $ParseResults<S>, arg1: number): $CompletableFuture<$Suggestions>;
         findAmbiguities(arg0: $AmbiguityConsumer_<S>): void;
         getAllUsage(arg0: $CommandNode<S>, arg1: S, arg2: boolean): string[];
         getSmartUsage(arg0: $CommandNode<S>, arg1: S): $Map<$CommandNode<S>, string>;
@@ -113,13 +113,14 @@ declare module "@package/com/mojang/brigadier" {
         set consumer(value: $ResultConsumer_<S>);
     }
     export class $StringReader implements $ImmutableStringReader {
+        skipWhitespace(): void;
         read(): string;
         readInt(): number;
         canRead(): boolean;
         canRead(arg0: number): boolean;
         skip(): void;
-        peek(): string;
         peek(arg0: number): string;
+        peek(): string;
         expect(arg0: string): void;
         readFloat(): number;
         readBoolean(): boolean;
@@ -128,24 +129,23 @@ declare module "@package/com/mojang/brigadier" {
         readString(): string;
         getString(): string;
         getRemaining(): string;
-        skipWhitespace(): void;
-        getCursor(): number;
-        readUnquotedString(): string;
-        readQuotedString(): string;
-        readStringUntil(arg0: string): string;
-        static isAllowedNumber(arg0: string): boolean;
-        getTotalLength(): number;
         getRemainingLength(): number;
+        getTotalLength(): number;
+        getCursor(): number;
+        getRead(): string;
+        readQuotedString(): string;
+        readUnquotedString(): string;
+        static isAllowedNumber(arg0: string): boolean;
+        readStringUntil(arg0: string): string;
+        setCursor(arg0: number): void;
         static isQuotedStringStart(arg0: string): boolean;
         static isAllowedInUnquotedString(arg0: string): boolean;
-        setCursor(arg0: number): void;
-        getRead(): string;
         constructor(arg0: $StringReader);
         constructor(arg0: string);
         get string(): string;
         get remaining(): string;
-        get totalLength(): number;
         get remainingLength(): number;
+        get totalLength(): number;
     }
     export class $ParseResults<S> {
         getContext(): $CommandContextBuilder<S>;

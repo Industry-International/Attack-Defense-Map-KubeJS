@@ -23,8 +23,8 @@ declare module "@package/net/minecraft/client/multiplayer/prediction" {
         close(): void;
         updateKnownServerState(arg0: $BlockPos_, arg1: $BlockState_): boolean;
         retainKnownServerState(arg0: $BlockPos_, arg1: $BlockState_, arg2: $LocalPlayer): void;
-        isPredicting(): boolean;
         retainSnapshot(arg0: $BlockPos_, arg1: $BlockSnapshot): void;
+        isPredicting(): boolean;
         endPredictionsUpTo(arg0: number, arg1: $ClientLevel): void;
         currentSequence(): number;
         startPredicting(): $BlockStatePredictionHandler;

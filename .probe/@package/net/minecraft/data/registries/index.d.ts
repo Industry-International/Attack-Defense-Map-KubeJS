@@ -9,9 +9,9 @@ import { $DataProvider, $CachedOutput_, $PackOutput } from "@package/net/minecra
 
 declare module "@package/net/minecraft/data/registries" {
     export class $VanillaRegistries {
-        static createLookup(): $HolderLookup$Provider;
-        static validateThatAllBiomeFeaturesHaveBiomeFilter(arg0: $HolderLookup$Provider): void;
         static validateThatAllBiomeFeaturesHaveBiomeFilter(arg0: $HolderGetter<$PlacedFeature_>, arg1: $HolderLookup<$Biome_>): void;
+        static validateThatAllBiomeFeaturesHaveBiomeFilter(arg0: $HolderLookup$Provider): void;
+        static createLookup(): $HolderLookup$Provider;
         static DATAPACK_REGISTRY_KEYS: $List<$ResourceKey<$Registry<never>>>;
         static BUILDER: $RegistrySetBuilder;
         constructor();

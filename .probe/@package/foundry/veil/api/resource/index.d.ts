@@ -4,7 +4,7 @@ import { $PackType, $PackType_ } from "@package/net/minecraft/server/packs";
 import { $Component } from "@package/net/minecraft/network/chat";
 import { $CompletableFuture } from "@package/java/util/concurrent";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
-import { $ResourceMetadata, $ResourceManager, $Resource } from "@package/net/minecraft/server/packs/resources";
+import { $ResourceManager, $ResourceMetadata, $Resource } from "@package/net/minecraft/server/packs/resources";
 import { $Record } from "@package/java/lang";
 import { $List, $OptionalInt } from "@package/java/util";
 import { $ResourceFileEditor$Factory_ } from "@package/foundry/veil/api/resource/editor";
@@ -27,10 +27,10 @@ declare module "@package/foundry/veil/api/resource" {
         open(arg0: $VeilResourceManager): $InputStream;
         filePath(): $Path;
         hidden(): boolean;
-        getResourceOrThrow(arg0: $VeilResourceManager): $Resource;
-        packType(): $PackType;
-        openAsReader(arg0: $VeilResourceManager): $BufferedReader;
         modResourcePath(): $Path;
+        packType(): $PackType;
+        getResourceOrThrow(arg0: $VeilResourceManager): $Resource;
+        openAsReader(arg0: $VeilResourceManager): $BufferedReader;
         constructor(packType: $PackType_, location: $ResourceLocation_, filePath: $Path_, modResourcePath: $Path_, hidden: boolean);
         get static(): boolean;
     }
@@ -38,24 +38,24 @@ declare module "@package/foundry/veil/api/resource" {
     }
     export interface $VeilResourceAction<T extends $VeilResource<never>> {
         getName(): $Component;
+        getIcon(): $OptionalInt;
         perform(arg0: $VeilEditorEnvironment, arg1: T): void;
         getDescription(): $Component;
-        getIcon(): $OptionalInt;
         get name(): $Component;
-        get description(): $Component;
         get icon(): $OptionalInt;
+        get description(): $Component;
     }
     export class $VeilResource<T extends $VeilResource<never>> {
     }
     export interface $VeilResource<T extends $VeilResource<never>> {
         getActions(): $List<$VeilResourceAction<T>>;
         render(arg0: boolean, arg1: boolean): void;
-        hotReload(arg0: $VeilResourceManager): void;
-        onFileSystemChange(arg0: $VeilResourceManager, arg1: $WatchEvent<$Path_>): $CompletableFuture<never>;
-        copyToResources(): void;
-        getIconCode(): number;
-        canHotReload(): boolean;
         resourceInfo(): $VeilResourceInfo;
+        hotReload(arg0: $VeilResourceManager): void;
+        copyToResources(): void;
+        onFileSystemChange(arg0: $VeilResourceManager, arg1: $WatchEvent<$Path_>): $CompletableFuture<never>;
+        canHotReload(): boolean;
+        getIconCode(): number;
         get actions(): $List<$VeilResourceAction<T>>;
         get iconCode(): number;
     }
@@ -64,11 +64,11 @@ declare module "@package/foundry/veil/api/resource" {
     }
     export interface $VeilResourceManager {
         resources(arg0: $VeilResourceInfo_): $ResourceManager;
-        clientResources(): $ResourceManager;
+        serverResources(): $ResourceManager;
+        getVeilResource(arg0: string, arg1: string): $VeilResource<never>;
+        getVeilResource(arg0: $ResourceLocation_): $VeilResource<never>;
         getResourceMetadata(arg0: string, arg1: string): $ResourceMetadata;
         getResourceMetadata(arg0: $ResourceLocation_): $ResourceMetadata;
-        getVeilResource(arg0: $ResourceLocation_): $VeilResource<never>;
-        getVeilResource(arg0: string, arg1: string): $VeilResource<never>;
-        serverResources(): $ResourceManager;
+        clientResources(): $ResourceManager;
     }
 }

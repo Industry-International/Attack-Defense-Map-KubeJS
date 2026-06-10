@@ -69,8 +69,8 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
     }
     export class $OptionsSubScreen extends $Screen implements $AccessOptionsSubScreen {
         addOptions(): void;
-        addTitle(): void;
         addFooter(): void;
+        addTitle(): void;
         addContents(): void;
         controlling$getLastScreen(): $Screen;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -149,7 +149,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static access$000(arg0: $LanguageSelectScreen): $Font;
         static access$200(arg0: $LanguageSelectScreen): $Font;
         onDone(): void;
-        wrapOperation$gdg000$chloride$redirect$resourcesReload(arg0: $Minecraft, arg1: $Operation_<any>): $CompletableFuture<any>;
+        wrapOperation$gei000$chloride$redirect$resourcesReload(arg0: $Minecraft, arg1: $Operation_<any>): $CompletableFuture<any>;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -292,9 +292,9 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         constructor(arg0: $Screen, arg1: $Options);
     }
     export class $OptionsScreen extends $Screen {
-        getOptionsButton(): $TexturedButtonWidget_neoforge;
+        handler$hhg000$sable$createSableButton(arg0: $CallbackInfoReturnable<any>): void;
         static createDifficultyButton(arg0: number, arg1: number, arg2: string, arg3: $Minecraft): $CycleButton<$Difficulty>;
-        handler$hge000$sable$createSableButton(arg0: $CallbackInfoReturnable<any>): void;
+        getOptionsButton(): $TexturedButtonWidget_neoforge;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static TELEMETRY: $Component;

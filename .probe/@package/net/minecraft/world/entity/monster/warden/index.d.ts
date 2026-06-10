@@ -37,19 +37,19 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 
 declare module "@package/net/minecraft/world/entity/monster/warden" {
     export class $Warden$VibrationUser implements $VibrationSystem$User {
-        isValidVibration(arg0: $Holder_<$GameEvent>, arg1: $GameEvent$Context_): boolean;
         onDataChanged(): void;
+        isValidVibration(arg0: $Holder_<$GameEvent>, arg1: $GameEvent$Context_): boolean;
+        requiresAdjacentChunksToBeTicking(): boolean;
+        calculateTravelTimeInTicks(arg0: number): number;
         getListenableEvents(): $TagKey<$GameEvent>;
         canTriggerAvoidVibration(): boolean;
-        calculateTravelTimeInTicks(arg0: number): number;
-        requiresAdjacentChunksToBeTicking(): boolean;
         get listenableEvents(): $TagKey<$GameEvent>;
     }
     export class $WardenAi {
         static updateActivity(arg0: $Warden): void;
-        static setDisturbanceLocation(arg0: $Warden, arg1: $BlockPos_): void;
         static makeBrain(arg0: $Warden, arg1: $Dynamic<never>): $Brain<never>;
         static setDigCooldown(arg0: $LivingEntity): void;
+        static setDisturbanceLocation(arg0: $Warden, arg1: $BlockPos_): void;
         static DIGGING_COOLDOWN: number;
         static ROAR_DURATION: number;
         static EMERGE_DURATION: number;
@@ -69,18 +69,18 @@ declare module "@package/net/minecraft/world/entity/monster/warden" {
     export class $AngerLevel extends $Enum<$AngerLevel> {
         static values(): $AngerLevel[];
         static valueOf(arg0: string): $AngerLevel;
-        isAngry(): boolean;
-        getAmbientSound(): $SoundEvent;
-        getMinimumAnger(): number;
         getListeningSound(): $SoundEvent;
+        getMinimumAnger(): number;
+        getAmbientSound(): $SoundEvent;
         static byAnger(arg0: number): $AngerLevel;
+        isAngry(): boolean;
         static CALM: $AngerLevel;
         static AGITATED: $AngerLevel;
         static ANGRY: $AngerLevel;
-        get angry(): boolean;
-        get ambientSound(): $SoundEvent;
-        get minimumAnger(): number;
         get listeningSound(): $SoundEvent;
+        get minimumAnger(): number;
+        get ambientSound(): $SoundEvent;
+        get angry(): boolean;
     }
     /**
      * Values that may be interpreted as {@link $AngerLevel}.
@@ -88,22 +88,22 @@ declare module "@package/net/minecraft/world/entity/monster/warden" {
     export type $AngerLevel_ = "calm" | "agitated" | "angry";
     export class $Warden extends $Monster implements $VibrationSystem {
         static access$000(arg0: $Warden): $Brain<any>;
-        static createAttributes(): $AttributeSupplier$Builder;
-        getClientAngerLevel(): number;
-        isDiggingOrEmerging(): boolean;
-        getTendrilAnimation(arg0: number): number;
-        static applyDarknessAround(arg0: $ServerLevel, arg1: $Vec3_, arg2: $Entity, arg3: number): void;
         getVibrationUser(): $VibrationSystem$User;
         getVibrationData(): $VibrationSystem$Data;
+        canTargetEntity(arg0: $Entity): boolean;
+        getAngerLevel(): $AngerLevel;
+        getAngerManagement(): $AngerManagement;
+        getEntityAngryAt(): ($LivingEntity) | undefined;
         increaseAngerAt(arg0: $Entity): void;
         increaseAngerAt(arg0: $Entity, arg1: number, arg2: boolean): void;
-        canTargetEntity(arg0: $Entity): boolean;
         getHeartAnimation(arg0: number): number;
-        getAngerLevel(): $AngerLevel;
-        getEntityAngryAt(): ($LivingEntity) | undefined;
-        getAngerManagement(): $AngerManagement;
-        setAttackTarget(arg0: $LivingEntity): void;
+        static createAttributes(): $AttributeSupplier$Builder;
         clearAnger(arg0: $Entity): void;
+        isDiggingOrEmerging(): boolean;
+        getTendrilAnimation(arg0: number): number;
+        getClientAngerLevel(): number;
+        setAttackTarget(arg0: $LivingEntity): void;
+        static applyDarknessAround(arg0: $ServerLevel, arg1: $Vec3_, arg2: $Entity, arg3: number): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -279,20 +279,20 @@ declare module "@package/net/minecraft/world/entity/monster/warden" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         constructor(arg0: $EntityType_<$Monster>, arg1: $Level_);
-        get clientAngerLevel(): number;
-        get diggingOrEmerging(): boolean;
         get vibrationUser(): $VibrationSystem$User;
         get vibrationData(): $VibrationSystem$Data;
         get angerLevel(): $AngerLevel;
         get entityAngryAt(): ($LivingEntity) | undefined;
+        get diggingOrEmerging(): boolean;
+        get clientAngerLevel(): number;
         set attackTarget(value: $LivingEntity);
     }
     export class $AngerManagement {
         tick(arg0: $ServerLevel, arg1: $Predicate_<$Entity>): void;
         static codec(arg0: $Predicate_<$Entity>): $Codec<$AngerManagement>;
-        increaseAnger(arg0: $Entity, arg1: number): number;
-        getActiveEntity(): ($LivingEntity) | undefined;
         getActiveAnger(arg0: $Entity): number;
+        getActiveEntity(): ($LivingEntity) | undefined;
+        increaseAnger(arg0: $Entity, arg1: number): number;
         clearAnger(arg0: $Entity): void;
         static CONVERSION_DELAY: number;
         angerByUuid: $Object2IntMap<$UUID>;

@@ -49,8 +49,8 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
     export class $LoadingDataEventJS$Gun extends $LoadingDataEventJS {
         getId(): string;
         getData(): $DefaultGunData;
-        setData(arg0: $DefaultGunData): void;
         getEvent(): $LoadingDataEvent$Gun;
+        setData(arg0: $DefaultGunData): void;
         setId(arg0: string): void;
         constructor(arg0: $LoadingDataEvent$Gun);
         get event(): $LoadingDataEvent$Gun;
@@ -58,8 +58,8 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
     export class $LoadingDataEventJS$Vehicle extends $LoadingDataEventJS {
         getId(): string;
         getData(): $DefaultVehicleData;
-        setData(arg0: $DefaultVehicleData): void;
         getEvent(): $LoadingDataEvent$Vehicle;
+        setData(arg0: $DefaultVehicleData): void;
         setId(arg0: string): void;
         constructor(arg0: $LoadingDataEvent$Vehicle);
         get event(): $LoadingDataEvent$Vehicle;

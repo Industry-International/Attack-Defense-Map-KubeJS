@@ -8,9 +8,9 @@ declare module "@package/dev/lambdaurora/spruceui/option" {
         getName(): string;
         getPrefix(): $Component;
         setTooltip(tooltip: $Component_): void;
-        createWidget(arg0: $Position, arg1: number): $SpruceWidget;
         getDisplayText(value: $Component_): $Component;
         getOptionTooltip(): ($Component) | undefined;
+        createWidget(arg0: $Position, arg1: number): $SpruceWidget;
         key: string;
         constructor(key: string);
         get name(): string;

@@ -35,48 +35,48 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/events" {
     export interface $IFireConsumeBlockEvent extends $SimpleEvent {
         getState(): $BlockState;
         getLevel(): $LevelAccessor;
-        getFinalState(): $BlockState;
         getAge(): number;
-        setFinalState(arg0: $BlockState_): void;
         getPos(): $BlockPos;
+        getChance(): number;
+        setFinalState(arg0: $BlockState_): void;
+        getFinalState(): $BlockState;
         getFace(): $Direction;
         wasReplacedByFire(): boolean;
-        getChance(): number;
         get state(): $BlockState;
         get level(): $LevelAccessor;
         get age(): number;
         get pos(): $BlockPos;
-        get face(): $Direction;
         get chance(): number;
+        get face(): $Direction;
     }
     export class $IVillagerBrainEvent {
     }
     export interface $IVillagerBrainEvent extends $SimpleEvent {
         getInternal(): $VillagerBrainEventInternal;
-        addOrReplaceActivity(arg0: $Activity_, arg1: $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>): void;
-        getMemories(): $Map<$MemoryModuleType<never>, ($ExpirableValue<never>) | undefined>;
-        getVillager(): $Villager;
-        scheduleActivity(arg0: $Activity_, arg1: number, arg2: number): void;
-        addTaskToActivity<P extends $Pair<number, $Behavior<$Villager>>>(arg0: $Activity_, arg1: P): boolean;
         addSensor(arg0: $SensorType_<$Sensor<$Villager>>): void;
+        addOrReplaceActivity(arg0: $Activity_, arg1: $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>): void;
+        getVillager(): $Villager;
+        getMemories(): $Map<$MemoryModuleType<never>, ($ExpirableValue<never>) | undefined>;
+        addTaskToActivity<P extends $Pair<number, $Behavior<$Villager>>>(arg0: $Activity_, arg1: P): boolean;
+        scheduleActivity(arg0: $Activity_, arg1: number, arg2: number): void;
         get internal(): $VillagerBrainEventInternal;
-        get memories(): $Map<$MemoryModuleType<never>, ($ExpirableValue<never>) | undefined>;
         get villager(): $Villager;
+        get memories(): $Map<$MemoryModuleType<never>, ($ExpirableValue<never>) | undefined>;
     }
     export class $IDropItemOnDeathEvent {
         static create(arg0: $ItemStack_, arg1: $Player, arg2: boolean): $IDropItemOnDeathEvent;
     }
     export interface $IDropItemOnDeathEvent extends $SimpleEvent {
-        isBeforeDrop(): boolean;
-        setReturnItemStack(arg0: $ItemStack_): void;
-        getPlayer(): $Player;
-        getItemStack(): $ItemStack;
         setCanceled(arg0: boolean): void;
         getReturnItemStack(): $ItemStack;
+        getItemStack(): $ItemStack;
         isCanceled(): boolean;
-        get beforeDrop(): boolean;
-        get player(): $Player;
+        getPlayer(): $Player;
+        isBeforeDrop(): boolean;
+        setReturnItemStack(arg0: $ItemStack_): void;
         get itemStack(): $ItemStack;
+        get player(): $Player;
+        get beforeDrop(): boolean;
     }
     export class $SimpleEvent {
     }

@@ -21,22 +21,22 @@ declare module "@package/net/minecraft/commands/synchronization/brigadier" {
     }
     export class $FloatArgumentInfo implements $ArgumentTypeInfo<$FloatArgumentType, $FloatArgumentInfo$Template> {
         unpack(arg0: $FloatArgumentType): $FloatArgumentInfo$Template;
-        serializeToNetwork(arg0: $FloatArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         serializeToJson(arg0: $FloatArgumentInfo$Template, arg1: $JsonObject_): void;
+        serializeToNetwork(arg0: $FloatArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         deserializeFromNetwork(arg0: $FriendlyByteBuf): $FloatArgumentInfo$Template;
         constructor();
     }
     export class $LongArgumentInfo implements $ArgumentTypeInfo<$LongArgumentType, $LongArgumentInfo$Template> {
         unpack(arg0: $LongArgumentType): $LongArgumentInfo$Template;
-        serializeToNetwork(arg0: $LongArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         serializeToJson(arg0: $LongArgumentInfo$Template, arg1: $JsonObject_): void;
+        serializeToNetwork(arg0: $LongArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         deserializeFromNetwork(arg0: $FriendlyByteBuf): $LongArgumentInfo$Template;
         constructor();
     }
     export class $StringArgumentSerializer implements $ArgumentTypeInfo<$StringArgumentType, $StringArgumentSerializer$Template> {
         unpack(arg0: $StringArgumentType): $StringArgumentSerializer$Template;
-        serializeToNetwork(arg0: $StringArgumentSerializer$Template, arg1: $FriendlyByteBuf): void;
         serializeToJson(arg0: $StringArgumentSerializer$Template, arg1: $JsonObject_): void;
+        serializeToNetwork(arg0: $StringArgumentSerializer$Template, arg1: $FriendlyByteBuf): void;
         deserializeFromNetwork(arg0: $FriendlyByteBuf): $StringArgumentSerializer$Template;
         constructor();
     }
@@ -66,15 +66,15 @@ declare module "@package/net/minecraft/commands/synchronization/brigadier" {
     }
     export class $DoubleArgumentInfo implements $ArgumentTypeInfo<$DoubleArgumentType, $DoubleArgumentInfo$Template> {
         unpack(arg0: $DoubleArgumentType): $DoubleArgumentInfo$Template;
-        serializeToNetwork(arg0: $DoubleArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         serializeToJson(arg0: $DoubleArgumentInfo$Template, arg1: $JsonObject_): void;
+        serializeToNetwork(arg0: $DoubleArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         deserializeFromNetwork(arg0: $FriendlyByteBuf): $DoubleArgumentInfo$Template;
         constructor();
     }
     export class $IntegerArgumentInfo implements $ArgumentTypeInfo<$IntegerArgumentType, $IntegerArgumentInfo$Template> {
         unpack(arg0: $IntegerArgumentType): $IntegerArgumentInfo$Template;
-        serializeToNetwork(arg0: $IntegerArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         serializeToJson(arg0: $IntegerArgumentInfo$Template, arg1: $JsonObject_): void;
+        serializeToNetwork(arg0: $IntegerArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         deserializeFromNetwork(arg0: $FriendlyByteBuf): $IntegerArgumentInfo$Template;
         constructor();
     }

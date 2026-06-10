@@ -4,15 +4,15 @@ import { $Item_, $Item } from "@package/net/minecraft/world/item";
 import { $Pair } from "@package/com/mojang/datafixers/util";
 import { $BlockState } from "@package/net/minecraft/world/level/block/state";
 import { $ResourceKey } from "@package/net/minecraft/resources";
-import { $Block, $Block_ } from "@package/net/minecraft/world/level/block";
+import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
 import { $Set_, $List, $List_, $Map_, $Map, $Set } from "@package/java/util";
 import { $VillagerProfession } from "@package/net/minecraft/world/entity/npc";
 import { $LootTable } from "@package/net/minecraft/world/level/storage/loot";
 
 declare module "@package/net/fabricmc/fabric/mixin/content/registry" {
     export class $AxeItemAccessor {
-        static getStrippedBlocks(): $Map<$Block, $Block>;
         static setStrippedBlocks(arg0: $Map_<$Block_, $Block_>): void;
+        static getStrippedBlocks(): $Map<$Block, $Block>;
     }
     export interface $AxeItemAccessor {
     }
@@ -23,8 +23,8 @@ declare module "@package/net/fabricmc/fabric/mixin/content/registry" {
     export interface $ShovelItemAccessor {
     }
     export class $VillagerEntityAccessor {
-        static fabric_setGatherableItems(arg0: $Set_<$Item_>): void;
         static fabric_getGatherableItems(): $Set<$Item>;
+        static fabric_setGatherableItems(arg0: $Set_<$Item_>): void;
         static fabric_setItemFoodValues(arg0: $Map_<$Item_, number>): void;
     }
     export interface $VillagerEntityAccessor {
@@ -41,8 +41,8 @@ declare module "@package/net/fabricmc/fabric/mixin/content/registry" {
     export interface $GiveGiftsToHeroTaskAccessor {
     }
     export class $FarmerWorkTaskAccessor {
-        static fabric_getCompostable(): $List<$Item>;
         static fabric_setCompostables(arg0: $List_<$Item_>): void;
+        static fabric_getCompostable(): $List<$Item>;
     }
     export interface $FarmerWorkTaskAccessor {
     }

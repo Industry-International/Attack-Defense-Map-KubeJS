@@ -1,5 +1,5 @@
-import { $Level_, $Level } from "@package/net/minecraft/world/level";
 import { $FilterItemStack } from "@package/com/simibubi/create/content/logistics/filter";
+import { $Level_, $Level } from "@package/net/minecraft/world/level";
 import { $TrackNodeLocation } from "@package/com/simibubi/create/content/trains/graph";
 import { $BlockPos } from "@package/net/minecraft/core";
 import { $ItemStack_ } from "@package/net/minecraft/world/item";
@@ -14,8 +14,8 @@ declare module "@package/com/simibubi/create/content/trains/observer" {
         getFilter(): $FilterItemStack;
         keepAlive(arg0: $Train): void;
         isActivated(): boolean;
-        getCurrentTrain(): $UUID;
         setFilterAndNotify(arg0: $Level_, arg1: $ItemStack_): void;
+        getCurrentTrain(): $UUID;
         edgeLocation: $Couple<$TrackNodeLocation>;
         blockEntityPos: $BlockPos;
         blockEntityDimension: $ResourceKey<$Level>;

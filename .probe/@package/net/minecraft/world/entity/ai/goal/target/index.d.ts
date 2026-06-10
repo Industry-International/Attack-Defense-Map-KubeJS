@@ -1,6 +1,6 @@
 import { $Goal } from "@package/net/minecraft/world/entity/ai/goal";
 import { $Predicate_ } from "@package/java/util/function";
-import { $TamableAnimal, $Mob, $LivingEntity, $PathfinderMob } from "@package/net/minecraft/world/entity";
+import { $Mob, $TamableAnimal, $LivingEntity, $PathfinderMob } from "@package/net/minecraft/world/entity";
 import { $TargetingConditions } from "@package/net/minecraft/world/entity/ai/targeting";
 import { $Raider } from "@package/net/minecraft/world/entity/raid";
 import { $Class } from "@package/java/lang";
@@ -34,8 +34,8 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
         constructor(arg0: $TamableAnimal);
     }
     export class $HurtByTargetGoal extends $TargetGoal {
-        alertOther(arg0: $Mob, arg1: $LivingEntity): void;
         alertOthers(): void;
+        alertOther(arg0: $Mob, arg1: $LivingEntity): void;
         setAlertOthers(...arg0: $Class<never>[]): $HurtByTargetGoal;
         mob: $Mob;
         mustSee: boolean;
@@ -47,9 +47,9 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
         constructor(arg0: T, arg1: boolean);
     }
     export class $TargetGoal extends $Goal {
+        canAttack(arg0: $LivingEntity, arg1: $TargetingConditions): boolean;
         getFollowDistance(): number;
         setUnseenMemoryTicks(arg0: number): $TargetGoal;
-        canAttack(arg0: $LivingEntity, arg1: $TargetingConditions): boolean;
         mob: $Mob;
         mustSee: boolean;
         unseenMemoryTicks: number;
@@ -93,8 +93,8 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
     }
     export class $NearestAttackableTargetGoal<T extends $LivingEntity> extends $TargetGoal {
         setTarget(arg0: $LivingEntity): void;
-        findTarget(): void;
         getTargetSearchArea(arg0: number): $AABB;
+        findTarget(): void;
         randomInterval: number;
         mob: $Mob;
         mustSee: boolean;

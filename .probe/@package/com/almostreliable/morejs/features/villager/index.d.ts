@@ -1,5 +1,5 @@
 import { $Item_, $ItemStack_, $ItemStack } from "@package/net/minecraft/world/item";
-import { $Ingredient_, $Ingredient } from "@package/net/minecraft/world/item/crafting";
+import { $Ingredient, $Ingredient_ } from "@package/net/minecraft/world/item/crafting";
 import { $Biome } from "@package/net/minecraft/world/level/biome";
 import { $List, $Map_, $Map, $Set, $List_, $Collection } from "@package/java/util";
 import { $VillagerTrades$ItemListing, $VillagerProfession, $VillagerTrades$ItemListing_, $VillagerProfession_ } from "@package/net/minecraft/world/entity/npc";
@@ -8,7 +8,7 @@ import { $IntPredicate, $IntPredicate_ } from "@package/java/util/function";
 import { $HolderSet, $HolderSet_ } from "@package/net/minecraft/core";
 import { $Enchantment } from "@package/net/minecraft/world/item/enchantment";
 import { $ResourceLocation_ } from "@package/net/minecraft/resources";
-import { $TreasureMapTrade, $SimpleTrade, $CustomTrade, $EnchantedItemTrade, $PotionTrade, $StewTrade, $TransformableTrade$Transformer_ } from "@package/com/almostreliable/morejs/features/villager/trades";
+import { $TreasureMapTrade, $SimpleTrade, $EnchantedItemTrade, $CustomTrade, $PotionTrade, $StewTrade, $TransformableTrade$Transformer_ } from "@package/com/almostreliable/morejs/features/villager/trades";
 import { $Enum, $Record, $Class } from "@package/java/lang";
 import { $Structure } from "@package/net/minecraft/world/level/levelgen/structure";
 import { $BlockPosFinder_ } from "@package/com/almostreliable/morejs/util";
@@ -45,10 +45,10 @@ declare module "@package/com/almostreliable/morejs/features/villager" {
         types(): ($List<$TradeTypes>) | undefined;
         level(): ($IntRange) | undefined;
         output(): ($Ingredient) | undefined;
-        firstCount(): ($IntRange) | undefined;
         outputCount(): ($IntRange) | undefined;
-        professions(): ($HolderSet<$VillagerProfession>) | undefined;
+        firstCount(): ($IntRange) | undefined;
         secondCount(): ($IntRange) | undefined;
+        professions(): ($HolderSet<$VillagerProfession>) | undefined;
         constructor(first: ($Ingredient_) | undefined, second: ($Ingredient_) | undefined, output: ($Ingredient_) | undefined, firstCount: ($IntRange) | undefined, secondCount: ($IntRange) | undefined, outputCount: ($IntRange) | undefined, level: ($IntRange) | undefined, types: ($List_<$TradeTypes_>) | undefined, professions: ($HolderSet_<$VillagerProfession>) | undefined);
     }
     export class $IntRange implements $IntPredicate {
@@ -67,27 +67,27 @@ declare module "@package/com/almostreliable/morejs/features/villager" {
     }
     export class $VillagerUtils {
         static getProfession(arg0: $ResourceLocation_): $VillagerProfession;
-        static setAbstractTrades(arg0: $Map_<number, $VillagerTrades$ItemListing_[]>, arg1: number, arg2: $List_<$VillagerTrades$ItemListing_>): void;
-        static getVillagerTrades(arg0: $VillagerProfession_, arg1: number): $List<$VillagerTrades$ItemListing>;
-        static getVillagerTrades(arg0: $VillagerProfession_): $List<$VillagerTrades$ItemListing>;
-        static isModdedTypedTrade(arg0: $VillagerTrades$ItemListing_): boolean;
-        static isCustomTypedTrade(arg0: $VillagerTrades$ItemListing_): boolean;
-        static getWandererTrades(arg0: number): $List<$VillagerTrades$ItemListing>;
-        static createSimpleTrade(arg0: $TradeItem[], arg1: $TradeItem): $SimpleTrade;
-        static createStewTrade(arg0: $TradeItem[]): $StewTrade;
-        static getProfessions(): $Collection<$VillagerProfession>;
-        static getAbstractTrades(arg0: $Map_<number, $VillagerTrades$ItemListing_[]>, arg1: number): $List<$VillagerTrades$ItemListing>;
-        static createPotionTrade(arg0: $TradeItem[]): $PotionTrade;
-        static createCustomTrade(arg0: $TransformableTrade$Transformer_): $CustomTrade;
-        static createStructureMapTrade(arg0: $TradeItem[], arg1: $HolderSet_<$Structure>): $TreasureMapTrade;
-        static isVanillaTypedTrade(arg0: $VillagerTrades$ItemListing_): boolean;
-        static createBiomeMapTrade(arg0: $TradeItem[], arg1: $HolderSet_<$Biome>): $TreasureMapTrade;
-        static createCustomMapTrade(arg0: $TradeItem[], arg1: $BlockPosFinder_): $TreasureMapTrade;
-        static getRandomVillagerTrade(arg0: $VillagerProfession_): $VillagerTrades$ItemListing;
-        static getRandomVillagerTrade(arg0: $VillagerProfession_, arg1: number): $VillagerTrades$ItemListing;
         static createEnchantedItemTrade(arg0: $TradeItem[], arg1: $ItemStack_): $EnchantedItemTrade;
         static createEnchantedItemTrade(arg0: $TradeItem[], arg1: $ItemStack_, arg2: $HolderSet_<$Enchantment>): $EnchantedItemTrade;
         static getRandomWandererTrade(arg0: number): $VillagerTrades$ItemListing;
+        static getRandomVillagerTrade(arg0: $VillagerProfession_): $VillagerTrades$ItemListing;
+        static getRandomVillagerTrade(arg0: $VillagerProfession_, arg1: number): $VillagerTrades$ItemListing;
+        static createBiomeMapTrade(arg0: $TradeItem[], arg1: $HolderSet_<$Biome>): $TreasureMapTrade;
+        static createCustomMapTrade(arg0: $TradeItem[], arg1: $BlockPosFinder_): $TreasureMapTrade;
+        static createStructureMapTrade(arg0: $TradeItem[], arg1: $HolderSet_<$Structure>): $TreasureMapTrade;
+        static isVanillaTypedTrade(arg0: $VillagerTrades$ItemListing_): boolean;
+        static createStewTrade(arg0: $TradeItem[]): $StewTrade;
+        static getWandererTrades(arg0: number): $List<$VillagerTrades$ItemListing>;
+        static isModdedTypedTrade(arg0: $VillagerTrades$ItemListing_): boolean;
+        static createSimpleTrade(arg0: $TradeItem[], arg1: $TradeItem): $SimpleTrade;
+        static isCustomTypedTrade(arg0: $VillagerTrades$ItemListing_): boolean;
+        static getVillagerTrades(arg0: $VillagerProfession_, arg1: number): $List<$VillagerTrades$ItemListing>;
+        static getVillagerTrades(arg0: $VillagerProfession_): $List<$VillagerTrades$ItemListing>;
+        static getProfessions(): $Collection<$VillagerProfession>;
+        static createCustomTrade(arg0: $TransformableTrade$Transformer_): $CustomTrade;
+        static getAbstractTrades(arg0: $Map_<number, $VillagerTrades$ItemListing_[]>, arg1: number): $List<$VillagerTrades$ItemListing>;
+        static createPotionTrade(arg0: $TradeItem[]): $PotionTrade;
+        static setAbstractTrades(arg0: $Map_<number, $VillagerTrades$ItemListing_[]>, arg1: number, arg2: $List_<$VillagerTrades$ItemListing_>): void;
         static CACHED_PROFESSION_TRADES: $Map<$VillagerProfession, $List<$VillagerTrades$ItemListing>>;
         static VANILLA_TRADE_TYPES: $Set<$Class<$VillagerTrades$ItemListing>>;
         constructor();
@@ -103,8 +103,8 @@ declare module "@package/com/almostreliable/morejs/features/villager" {
         static of(arg0: $ItemStack_): $TradeItem;
         static of(arg0: $ItemStack_, arg1: number): $TradeItem;
         static of(arg0: $ItemStack_, arg1: number, arg2: number): $TradeItem;
-        getItemStack(): $ItemStack;
         createItemStack(arg0: $RandomSource): $ItemStack;
+        getItemStack(): $ItemStack;
         createItemCost(arg0: $RandomSource): $ItemCost;
         getCountRange(): $IntRange;
         static EMPTY: $TradeItem;
@@ -116,29 +116,29 @@ declare module "@package/com/almostreliable/morejs/features/villager" {
     export class $OfferExtension {
     }
     export interface $OfferExtension {
-        setOutput(arg0: $ItemStack_): void;
-        self(): $MerchantOffer;
-        isDisabled(): boolean;
-        setDemand(arg0: number): void;
-        setDisabled(arg0: boolean): void;
-        getOutput(): $ItemStack;
-        setMaxUses(arg0: number): void;
-        setVillagerExperience(arg0: number): void;
+        setFirstCost(arg0: $ItemStack_): void;
         getSecondCost(): $ItemStack;
+        setPriceMultiplier(arg0: number): void;
         replaceItems(arg0: $Ingredient_, arg1: $ItemStack_): void;
         setSecondCost(arg0: $ItemStack_): void;
-        isRewardingExp(): boolean;
-        setRewardExp(arg0: boolean): void;
         getFirstCost(): $ItemStack;
-        setFirstCost(arg0: $ItemStack_): void;
-        setPriceMultiplier(arg0: number): void;
+        setRewardExp(arg0: boolean): void;
+        isRewardingExp(): boolean;
         replaceEmeralds(arg0: $Item_): void;
+        setDisabled(arg0: boolean): void;
+        setDemand(arg0: number): void;
+        isDisabled(): boolean;
+        self(): $MerchantOffer;
+        setMaxUses(arg0: number): void;
+        getOutput(): $ItemStack;
+        setOutput(arg0: $ItemStack_): void;
+        setVillagerExperience(arg0: number): void;
+        set priceMultiplier(value: number);
+        set rewardExp(value: boolean);
+        get rewardingExp(): boolean;
         set demand(value: number);
         set maxUses(value: number);
         set villagerExperience(value: number);
-        get rewardingExp(): boolean;
-        set rewardExp(value: boolean);
-        set priceMultiplier(value: number);
     }
     export class $TradeTypes extends $Enum<$TradeTypes> {
         static values(): $TradeTypes[];

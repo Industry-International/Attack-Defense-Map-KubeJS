@@ -3,10 +3,10 @@ import { $ServerPlayerData } from "@package/xaero/common/server/player";
 
 declare module "@package/xaero/common/server/mods/opac" {
     export class $SupportOPACServer {
-        getReceiveLocationsFromMutualAlliesConfigValue(arg0: $ServerPlayer): boolean;
-        isPositionSyncAllowed(arg0: number, arg1: $ServerPlayerData, arg2: boolean): boolean;
-        getReceiveLocationsFromPartyConfigValue(arg0: $ServerPlayer): boolean;
         updateShareLocationConfigValues(arg0: $ServerPlayer, arg1: $ServerPlayerData): void;
+        getReceiveLocationsFromMutualAlliesConfigValue(arg0: $ServerPlayer): boolean;
+        getReceiveLocationsFromPartyConfigValue(arg0: $ServerPlayer): boolean;
+        isPositionSyncAllowed(arg0: number, arg1: $ServerPlayerData, arg2: boolean): boolean;
         constructor();
     }
 }

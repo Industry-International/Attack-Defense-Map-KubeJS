@@ -1,6 +1,6 @@
 import { $Consumer_, $Consumer } from "@package/java/util/function";
 import { $Codec } from "@package/com/mojang/serialization";
-import { $Number, $Runnable_, $Runnable } from "@package/java/lang";
+import { $Runnable_, $Number, $Runnable } from "@package/java/lang";
 
 declare module "@package/com/lowdragmc/lowdraglib2/math/interpolate" {
     export class $Interpolator {

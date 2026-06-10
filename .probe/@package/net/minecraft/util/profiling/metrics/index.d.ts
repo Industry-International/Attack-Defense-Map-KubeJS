@@ -9,14 +9,14 @@ export * as storage from "@package/net/minecraft/util/profiling/metrics/storage"
 declare module "@package/net/minecraft/util/profiling/metrics" {
     export class $MetricSampler$MetricSamplerBuilder<T> {
         build(): $MetricSampler;
-        withBeforeTick(arg0: $Consumer_<T>): $MetricSampler$MetricSamplerBuilder<T>;
         withThresholdAlert(arg0: $MetricSampler$ThresholdTest_): $MetricSampler$MetricSamplerBuilder<T>;
+        withBeforeTick(arg0: $Consumer_<T>): $MetricSampler$MetricSamplerBuilder<T>;
         constructor(arg0: string, arg1: $MetricCategory_, arg2: $ToDoubleFunction_<T>, arg3: T);
     }
     export class $MetricSampler$SamplerResult {
         getFirstTick(): number;
-        valueAtTick(arg0: number): number;
         getLastTick(): number;
+        valueAtTick(arg0: number): number;
         constructor(arg0: number, arg1: number, arg2: $Int2DoubleMap);
         get firstTick(): number;
         get lastTick(): number;
@@ -37,11 +37,11 @@ declare module "@package/net/minecraft/util/profiling/metrics" {
         static create<T>(arg0: string, arg1: $MetricCategory_, arg2: T, arg3: $ToDoubleFunction_<T>): $MetricSampler;
         static create(arg0: string, arg1: $MetricCategory_, arg2: $DoubleSupplier_): $MetricSampler;
         getCategory(): $MetricCategory;
-        onStartTick(): void;
-        onFinished(): void;
         onEndTick(arg0: number): void;
-        getSampler(): $DoubleSupplier;
+        onFinished(): void;
         triggersThreshold(): boolean;
+        onStartTick(): void;
+        getSampler(): $DoubleSupplier;
         thresholdTest: $MetricSampler$ThresholdTest;
         constructor(arg0: string, arg1: $MetricCategory_, arg2: $DoubleSupplier_, arg3: $Runnable_, arg4: $MetricSampler$ThresholdTest_);
         get name(): string;

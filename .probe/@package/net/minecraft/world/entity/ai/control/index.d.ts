@@ -20,20 +20,20 @@ declare module "@package/net/minecraft/world/entity/ai/control" {
     export type $MoveControl$Operation_ = "wait" | "move_to" | "strafe" | "jumping";
     export class $LookControl implements $Control {
         tick(): void;
-        clampHeadRotationToBody(): void;
-        getYRotD(): (number) | undefined;
-        getXRotD(): (number) | undefined;
-        resetXRotOnTick(): boolean;
-        isLookingAtTarget(): boolean;
         rotateTowards(arg0: number, arg1: number, arg2: number): number;
-        setLookAt(arg0: $Entity, arg1: number, arg2: number): void;
-        setLookAt(arg0: $Entity): void;
+        clampHeadRotationToBody(): void;
+        isLookingAtTarget(): boolean;
+        resetXRotOnTick(): boolean;
+        getWantedX(): number;
+        getWantedY(): number;
+        getWantedZ(): number;
+        getXRotD(): (number) | undefined;
+        getYRotD(): (number) | undefined;
         setLookAt(arg0: $Vec3_): void;
         setLookAt(arg0: number, arg1: number, arg2: number): void;
+        setLookAt(arg0: $Entity, arg1: number, arg2: number): void;
+        setLookAt(arg0: $Entity): void;
         setLookAt(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        getWantedY(): number;
-        getWantedX(): number;
-        getWantedZ(): number;
         mob: $Mob;
         wantedZ: number;
         wantedY: number;
@@ -42,9 +42,9 @@ declare module "@package/net/minecraft/world/entity/ai/control" {
         yMaxRotSpeed: number;
         lookAtCooldown: number;
         constructor(arg0: $Mob);
-        get YRotD(): (number) | undefined;
-        get XRotD(): (number) | undefined;
         get lookingAtTarget(): boolean;
+        get XRotD(): (number) | undefined;
+        get YRotD(): (number) | undefined;
     }
     export class $SmoothSwimmingMoveControl extends $MoveControl {
         speedModifier: number;
@@ -81,13 +81,13 @@ declare module "@package/net/minecraft/world/entity/ai/control" {
     export class $MoveControl implements $Control {
         tick(): void;
         setWantedPosition(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        rotlerp(arg0: number, arg1: number, arg2: number): number;
         getSpeedModifier(): number;
         hasWanted(): boolean;
-        getWantedY(): number;
-        getWantedX(): number;
-        getWantedZ(): number;
         strafe(arg0: number, arg1: number): void;
+        getWantedX(): number;
+        getWantedY(): number;
+        getWantedZ(): number;
+        rotlerp(arg0: number, arg1: number, arg2: number): number;
         speedModifier: number;
         mob: $Mob;
         strafeForwards: number;

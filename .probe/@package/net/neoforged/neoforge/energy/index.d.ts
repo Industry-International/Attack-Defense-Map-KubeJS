@@ -10,20 +10,20 @@ declare module "@package/net/neoforged/neoforge/energy" {
     export interface $IEnergyStorage {
         extractEnergy(arg0: number, arg1: boolean): number;
         receiveEnergy(arg0: number, arg1: boolean): number;
-        canReceive(): boolean;
-        canExtract(): boolean;
         getMaxEnergyStored(): number;
         getEnergyStored(): number;
+        canExtract(): boolean;
+        canReceive(): boolean;
         get maxEnergyStored(): number;
         get energyStored(): number;
     }
     export class $EmptyEnergyStorage implements $IEnergyStorage {
         extractEnergy(arg0: number, arg1: boolean): number;
         receiveEnergy(arg0: number, arg1: boolean): number;
-        canReceive(): boolean;
-        canExtract(): boolean;
         getMaxEnergyStored(): number;
         getEnergyStored(): number;
+        canExtract(): boolean;
+        canReceive(): boolean;
         static INSTANCE: $EmptyEnergyStorage;
         get maxEnergyStored(): number;
         get energyStored(): number;
@@ -31,12 +31,12 @@ declare module "@package/net/neoforged/neoforge/energy" {
     export class $EnergyStorage implements $IEnergyStorage, $INBTSerializable<$Tag> {
         extractEnergy(arg0: number, arg1: boolean): number;
         receiveEnergy(arg0: number, arg1: boolean): number;
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $Tag_): void;
-        serializeNBT(arg0: $HolderLookup$Provider): $Tag;
-        canReceive(): boolean;
-        canExtract(): boolean;
         getMaxEnergyStored(): number;
         getEnergyStored(): number;
+        canExtract(): boolean;
+        canReceive(): boolean;
+        serializeNBT(arg0: $HolderLookup$Provider): $Tag;
+        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $Tag_): void;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number);
         constructor(arg0: number, arg1: number, arg2: number);
         constructor(arg0: number, arg1: number);
@@ -47,10 +47,10 @@ declare module "@package/net/neoforged/neoforge/energy" {
     export class $ComponentEnergyStorage implements $IEnergyStorage {
         extractEnergy(arg0: number, arg1: boolean): number;
         receiveEnergy(arg0: number, arg1: boolean): number;
-        canReceive(): boolean;
-        canExtract(): boolean;
         getMaxEnergyStored(): number;
         getEnergyStored(): number;
+        canExtract(): boolean;
+        canReceive(): boolean;
         constructor(arg0: $MutableDataComponentHolder, arg1: $DataComponentType_<number>, arg2: number);
         constructor(arg0: $MutableDataComponentHolder, arg1: $DataComponentType_<number>, arg2: number, arg3: number);
         constructor(arg0: $MutableDataComponentHolder, arg1: $DataComponentType_<number>, arg2: number, arg3: number, arg4: number);

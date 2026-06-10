@@ -19,19 +19,19 @@ declare module "@package/mezz/jei/api/runtime/config" {
         set(arg0: T): boolean;
         getDefaultValue(): T;
         getLocalizedName(): $Component;
-        getSerializer(): $IJeiConfigValueSerializer<T>;
+        getLocalizedDescription(): $Component;
         /**
          * @deprecated
          */
         getDescription(): string;
-        getLocalizedDescription(): $Component;
+        getSerializer(): $IJeiConfigValueSerializer<T>;
         get name(): string;
         get value(): T;
         get defaultValue(): T;
         get localizedName(): $Component;
-        get serializer(): $IJeiConfigValueSerializer<T>;
-        get description(): string;
         get localizedDescription(): $Component;
+        get description(): string;
+        get serializer(): $IJeiConfigValueSerializer<T>;
     }
     export class $IJeiConfigManager {
     }
@@ -49,10 +49,10 @@ declare module "@package/mezz/jei/api/runtime/config" {
         isValid(arg0: T): boolean;
         deserialize(arg0: string): $IJeiConfigValueSerializer$IDeserializeResult<T>;
         serialize(arg0: T): string;
-        getAllValidValues(): ($Collection<T>) | undefined;
         getValidValuesDescription(): string;
-        get allValidValues(): ($Collection<T>) | undefined;
+        getAllValidValues(): ($Collection<T>) | undefined;
         get validValuesDescription(): string;
+        get allValidValues(): ($Collection<T>) | undefined;
     }
     export class $IJeiConfigCategory {
     }

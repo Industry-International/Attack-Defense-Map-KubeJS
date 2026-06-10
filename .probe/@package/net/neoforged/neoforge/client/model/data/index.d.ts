@@ -12,11 +12,11 @@ import { $BlockEntity } from "@package/net/minecraft/world/level/block/entity";
 
 declare module "@package/net/neoforged/neoforge/client/model/data" {
     export class $ModelDataManager {
-        static onChunkUnload(arg0: $ChunkEvent$Unload): void;
         getAt(arg0: $SectionPos): $Long2ObjectMap<$ModelData>;
         getAt(arg0: $BlockPos_): $ModelData;
         requestRefresh(arg0: $BlockEntity): void;
         snapshotSectionRegion(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): $Long2ObjectFunction<$ModelData>;
+        static onChunkUnload(arg0: $ChunkEvent$Unload): void;
         static EMPTY_SNAPSHOT: $Long2ObjectFunction<$ModelData>;
         constructor(arg0: $Level_);
     }

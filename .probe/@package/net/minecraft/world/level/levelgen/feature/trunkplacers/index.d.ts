@@ -100,14 +100,14 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
     export class $TrunkPlacer {
         type(): $TrunkPlacerType<never>;
         isFree(arg0: $LevelSimulatedReader, arg1: $BlockPos_): boolean;
-        placeTrunk(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: number, arg4: $BlockPos_, arg5: $TreeConfiguration): $List<$FoliagePlacer$FoliageAttachment>;
-        placeLog(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): boolean;
-        placeLog(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration, arg5: $Function_<$BlockState, $BlockState>): boolean;
-        static setDirtAt(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): void;
-        placeLogIfFree(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos$MutableBlockPos, arg4: $TreeConfiguration): void;
-        getTreeHeight(arg0: $RandomSource): number;
-        static trunkPlacerParts<P extends $TrunkPlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, number, number, number>;
         validTreePos(arg0: $LevelSimulatedReader, arg1: $BlockPos_): boolean;
+        getTreeHeight(arg0: $RandomSource): number;
+        placeLogIfFree(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos$MutableBlockPos, arg4: $TreeConfiguration): void;
+        static trunkPlacerParts<P extends $TrunkPlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, number, number, number>;
+        static setDirtAt(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): void;
+        placeTrunk(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: number, arg4: $BlockPos_, arg5: $TreeConfiguration): $List<$FoliagePlacer$FoliageAttachment>;
+        placeLog(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration, arg5: $Function_<$BlockState, $BlockState>): boolean;
+        placeLog(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): boolean;
         static CODEC: $Codec<$TrunkPlacer>;
         static MAX_HEIGHT: number;
         baseHeight: number;

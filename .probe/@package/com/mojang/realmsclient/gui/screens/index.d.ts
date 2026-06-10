@@ -111,8 +111,8 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
     }
     export class $UploadResult$Builder {
         build(): $UploadResult;
-        withStatusCode(arg0: number): $UploadResult$Builder;
         withErrorMessage(arg0: string): $UploadResult$Builder;
+        withStatusCode(arg0: number): $UploadResult$Builder;
         constructor();
     }
     export class $RealmsGenericErrorScreen$ErrorMessage extends $Record {
@@ -285,8 +285,8 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         height: number;
     }
     export class $RealmsResetWorldScreen extends $RealmsScreen {
-        static forEmptySlot(arg0: $Screen, arg1: number, arg2: $RealmsServer, arg3: $Runnable_): $RealmsResetWorldScreen;
         static forResetSlot(arg0: $Screen, arg1: $RealmsServer, arg2: $Runnable_): $RealmsResetWorldScreen;
+        static forEmptySlot(arg0: $Screen, arg1: number, arg2: $RealmsServer, arg3: $Runnable_): $RealmsResetWorldScreen;
         static forNewRealm(arg0: $Screen, arg1: $RealmsServer, arg2: $RealmCreationTask, arg3: $Runnable_): $RealmsResetWorldScreen;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -689,8 +689,8 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         height: number;
     }
     export class $RealmsPopups {
-        static infoPopupScreen(arg0: $Screen, arg1: $Component_, arg2: $Consumer_<$PopupScreen>): $PopupScreen;
         static warningAcknowledgePopupScreen(arg0: $Screen, arg1: $Component_, arg2: $Consumer_<$PopupScreen>): $PopupScreen;
+        static infoPopupScreen(arg0: $Screen, arg1: $Component_, arg2: $Consumer_<$PopupScreen>): $PopupScreen;
         static warningPopupScreen(arg0: $Screen, arg1: $Component_, arg2: $Consumer_<$PopupScreen>): $PopupScreen;
         constructor();
     }
@@ -914,12 +914,12 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
     export interface $RealmsNotificationsScreen$DataFetcherConfiguration {
     }
     export class $RealmsConfigureWorldScreen extends $RealmsScreen {
-        saveSettings(arg0: string, arg1: string): void;
-        stateChanged(): void;
-        getNewScreen(): $RealmsConfigureWorldScreen;
-        saveSlotSettings(arg0: $RealmsWorldOptions): void;
         closeTheWorld(): void;
+        saveSlotSettings(arg0: $RealmsWorldOptions): void;
         openTheWorld(arg0: boolean): void;
+        getNewScreen(): $RealmsConfigureWorldScreen;
+        stateChanged(): void;
+        saveSettings(arg0: string, arg1: string): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;

@@ -33,17 +33,17 @@ declare module "@package/net/minecraft/server/packs" {
         close(): void;
         listResources(arg0: $PackType_, arg1: string, arg2: string, arg3: $PackResources$ResourceOutput_): void;
         getNamespaces(arg0: $PackType_): $Set<string>;
+        veil$getRawResourceRoots(): $List<any>;
         asProvider(): $ResourceProvider;
+        listRawPaths(arg0: $PackType_, arg1: $ResourceLocation_, arg2: $Consumer_<$Path>): void;
+        veil$getIcon(): $IoSupplier<any>;
+        veil$listResources(arg0: $PackResourcesExtension$PackResourceConsumer_): void;
         veil$blurIcon(): boolean;
         veil$isStatic(): boolean;
-        veil$listResources(arg0: $PackResourcesExtension$PackResourceConsumer_): void;
-        veil$getIcon(): $IoSupplier<any>;
-        veil$getRawResourceRoots(): $List<any>;
         getMetadataSection<T>(arg0: $MetadataSectionSerializer<T>): T;
         getRootResource(...arg0: string[]): $IoSupplier<$InputStream>;
-        listRawPaths(arg0: $PackType_, arg1: $ResourceLocation_, arg2: $Consumer_<$Path>): void;
-        packId(): string;
         knownPackInfo(): ($KnownPack) | undefined;
+        packId(): string;
         veil$listPacks(): $Stream<$PackResources>;
         isHidden(): boolean;
         constructor(arg0: $PackLocationInfo_, arg1: $BuiltInMetadata, arg2: $Set_<string>, arg3: $List_<$Path_>, arg4: $Map_<$PackType_, $List_<$Path_>>);
@@ -66,8 +66,8 @@ declare module "@package/net/minecraft/server/packs" {
         constructor(arg0: $Path_);
     }
     export class $DownloadQueue$BatchResult extends $Record {
-        downloaded(): $Map<$UUID, $Path>;
         failed(): $Set<$UUID>;
+        downloaded(): $Map<$UUID, $Path>;
         constructor();
         constructor(arg0: $Map_<$UUID_, $Path_>, arg1: $Set_<$UUID_>);
     }
@@ -89,8 +89,8 @@ declare module "@package/net/minecraft/server/packs" {
         getNamespaces(arg0: $PackType_): $Set<string>;
         getMetadataSection<T>(arg0: $MetadataSectionSerializer<T>): T;
         getRootResource(...arg0: string[]): $IoSupplier<$InputStream>;
-        packId(): string;
         knownPackInfo(): ($KnownPack) | undefined;
+        packId(): string;
         isHidden(): boolean;
         constructor(arg0: $PackResources, arg1: $List_<$PackResources>);
         get hidden(): boolean;
@@ -120,10 +120,10 @@ declare module "@package/net/minecraft/server/packs" {
         close(): void;
         listResources(arg0: $PackType_, arg1: string, arg2: string, arg3: $PackResources$ResourceOutput_): void;
         getNamespaces(arg0: $PackType_): $Set<string>;
+        knownPackInfo(): ($KnownPack) | undefined;
         packId(): string;
         getMetadataSection<T>(arg0: $MetadataSectionSerializer<T>): T;
         getRootResource(...arg0: string[]): $IoSupplier<$InputStream>;
-        knownPackInfo(): ($KnownPack) | undefined;
     }
     export class $FilePackResources extends $AbstractPackResources {
         static extractNamespace(arg0: string, arg1: string): string;
@@ -133,8 +133,8 @@ declare module "@package/net/minecraft/server/packs" {
     export class $DownloadQueue$FileInfoEntry extends $Record {
     }
     export class $OverlayMetadataSection extends $Record {
-        overlays(): $List<$OverlayMetadataSection$OverlayEntry>;
         overlaysForVersion(arg0: number): $List<string>;
+        overlays(): $List<$OverlayMetadataSection$OverlayEntry>;
         static NEOFORGE_TYPE: $MetadataSectionType<$OverlayMetadataSection>;
         static TYPE: $MetadataSectionType<$OverlayMetadataSection>;
         constructor(overlays: $List_<$OverlayMetadataSection$OverlayEntry_>);
@@ -143,8 +143,8 @@ declare module "@package/net/minecraft/server/packs" {
         maxSize(): number;
         proxy(): $Proxy;
         listener(): $HttpUtil$DownloadProgressListener;
-        hashFunction(): $HashFunction;
         headers(): $Map<string, string>;
+        hashFunction(): $HashFunction;
         constructor(arg0: $HashFunction, arg1: number, arg2: $Map_<string, string>, arg3: $Proxy, arg4: $HttpUtil$DownloadProgressListener);
     }
     export class $PackLocationInfo extends $Record {
@@ -157,13 +157,13 @@ declare module "@package/net/minecraft/server/packs" {
     }
     export class $VanillaPackResourcesBuilder {
         build(arg0: $PackLocationInfo_): $VanillaPackResources;
-        pushUniversalPath(arg0: $Path_): $VanillaPackResourcesBuilder;
-        pushClasspathResources(arg0: $PackType_, arg1: $Class<never>): $VanillaPackResourcesBuilder;
         applyDevelopmentConfig(): $VanillaPackResourcesBuilder;
+        pushClasspathResources(arg0: $PackType_, arg1: $Class<never>): $VanillaPackResourcesBuilder;
         setMetadata(arg0: $BuiltInMetadata): $VanillaPackResourcesBuilder;
         pushAssetPath(arg0: $PackType_, arg1: $Path_): $VanillaPackResourcesBuilder;
-        exposeNamespace(...arg0: string[]): $VanillaPackResourcesBuilder;
         pushJarResources(): $VanillaPackResourcesBuilder;
+        exposeNamespace(...arg0: string[]): $VanillaPackResourcesBuilder;
+        pushUniversalPath(arg0: $Path_): $VanillaPackResourcesBuilder;
         static developmentConfig: $Consumer<$VanillaPackResourcesBuilder>;
         constructor();
         set metadata(value: $BuiltInMetadata);
@@ -171,13 +171,13 @@ declare module "@package/net/minecraft/server/packs" {
     export class $PathPackResources extends $AbstractPackResources implements $PackResources, $PackResourcesExtension, $ICachingResourcePack {
         static getResource(arg0: $ResourceLocation_, arg1: $Path_): $IoSupplier<$InputStream>;
         invalidateCache(): void;
+        static listPath(arg0: string, arg1: $Path_, arg2: $List_<string>, arg3: $PackResources$ResourceOutput_): void;
+        veil$getRawResourceRoots(): $List<any>;
+        veil$getIcon(): $IoSupplier<any>;
         static validatePath(arg0: $Path_): boolean;
+        veil$listResources(arg0: $PackResourcesExtension$PackResourceConsumer_): void;
         veil$blurIcon(): boolean;
         veil$isStatic(): boolean;
-        veil$listResources(arg0: $PackResourcesExtension$PackResourceConsumer_): void;
-        veil$getIcon(): $IoSupplier<any>;
-        veil$getRawResourceRoots(): $List<any>;
-        static listPath(arg0: string, arg1: $Path_, arg2: $List_<string>, arg3: $PackResources$ResourceOutput_): void;
         veil$listPacks(): $Stream<$PackResources>;
         constructor(arg0: $PackLocationInfo_, arg1: $Path_);
     }
@@ -220,16 +220,16 @@ declare module "@package/net/minecraft/server/packs" {
         location(): $PackLocationInfo;
         static getMetadataFromStream<T>(arg0: $MetadataSectionSerializer<T>, arg1: $InputStream): T;
         getMetadataSection<T>(arg0: $MetadataSectionSerializer<T>): T;
-        packId(): string;
         knownPackInfo(): ($KnownPack) | undefined;
+        packId(): string;
         isHidden(): boolean;
         constructor(arg0: $PackLocationInfo_);
         get hidden(): boolean;
     }
     export class $PackSelectionConfig extends $Record {
         required(): boolean;
-        fixedPosition(): boolean;
         defaultPosition(): $Pack$Position;
+        fixedPosition(): boolean;
         constructor(arg0: boolean, arg1: $Pack$Position_, arg2: boolean);
     }
     export class $OverlayMetadataSection$OverlayEntry extends $Record {

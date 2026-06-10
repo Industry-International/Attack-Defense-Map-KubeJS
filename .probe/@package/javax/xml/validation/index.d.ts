@@ -8,10 +8,10 @@ declare module "@package/javax/xml/validation" {
     export class $ValidatorHandler implements $ContentHandler {
         getProperty(arg0: string): $Object;
         setProperty(arg0: string, arg1: $Object): void;
-        getFeature(arg0: string): boolean;
-        setContentHandler(arg0: $ContentHandler): void;
         setErrorHandler(arg0: $ErrorHandler): void;
         getErrorHandler(): $ErrorHandler;
+        setContentHandler(arg0: $ContentHandler): void;
+        getFeature(arg0: string): boolean;
         setFeature(arg0: string, arg1: boolean): void;
         getContentHandler(): $ContentHandler;
         setResourceResolver(arg0: $LSResourceResolver_): void;
@@ -37,9 +37,9 @@ declare module "@package/javax/xml/validation" {
         validate(arg0: $Source): void;
         validate(arg0: $Source, arg1: $Result): void;
         setProperty(arg0: string, arg1: $Object): void;
-        getFeature(arg0: string): boolean;
         setErrorHandler(arg0: $ErrorHandler): void;
         getErrorHandler(): $ErrorHandler;
+        getFeature(arg0: string): boolean;
         setFeature(arg0: string, arg1: boolean): void;
         setResourceResolver(arg0: $LSResourceResolver_): void;
         getResourceResolver(): $LSResourceResolver;

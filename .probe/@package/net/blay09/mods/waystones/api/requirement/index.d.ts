@@ -9,8 +9,8 @@ declare module "@package/net/blay09/mods/waystones/api/requirement" {
         isEmpty(): boolean;
         consume(arg0: $Player): void;
         appendHoverText(arg0: $Player, arg1: $List_<$Component_>): void;
-        canAfford(arg0: $Player): boolean;
         rollback(arg0: $Player): void;
+        canAfford(arg0: $Player): boolean;
         get empty(): boolean;
     }
 }

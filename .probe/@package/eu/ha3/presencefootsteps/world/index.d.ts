@@ -1,12 +1,12 @@
-import { $Gson } from "@package/com/google/gson";
 import { $Reader } from "@package/java/io";
+import { $Gson } from "@package/com/google/gson";
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
 import { $SoundEngine } from "@package/eu/ha3/presencefootsteps/sound";
 import { $BlockState_, $BlockState } from "@package/net/minecraft/world/level/block/state";
 import { $ResourceLocation_ } from "@package/net/minecraft/resources";
 import { $LivingEntity } from "@package/net/minecraft/world/entity";
 import { $BlockReport$Reportable } from "@package/eu/ha3/presencefootsteps/util";
-import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
+import { $Block, $Block_ } from "@package/net/minecraft/world/level/block";
 import { $Record } from "@package/java/lang";
 import { $Map, $Set } from "@package/java/util";
 
@@ -32,9 +32,9 @@ declare module "@package/eu/ha3/presencefootsteps/world" {
     export class $AssociationPool {
         reset(): void;
         get(arg0: $BlockPos_, arg1: $BlockState_, arg2: string): $SoundsKey;
-        wasLastMatchGolem(): boolean;
         findAssociation(arg0: $BlockPos_, arg1: string): $Association;
         findAssociation(arg0: number, arg1: boolean): $Association;
+        wasLastMatchGolem(): boolean;
         constructor(arg0: $LivingEntity, arg1: $SoundEngine);
     }
     export class $Association extends $Record {
@@ -42,9 +42,9 @@ declare module "@package/eu/ha3/presencefootsteps/world" {
         source(): $LivingEntity;
         state(): $BlockState;
         pos(): $BlockPos;
-        dry(): $SoundsKey;
-        wet(): $SoundsKey;
         isSilent(): boolean;
+        wet(): $SoundsKey;
+        dry(): $SoundsKey;
         dataEquals(arg0: $Association_): boolean;
         isResult(): boolean;
         foliage(): $SoundsKey;
@@ -62,14 +62,14 @@ declare module "@package/eu/ha3/presencefootsteps/world" {
         names(): string[];
         raw(): string;
         isSilent(): boolean;
-        isResult(): boolean;
         isEmitter(): boolean;
+        isResult(): boolean;
         static UNASSIGNED: $SoundsKey;
         static SWIM: $SoundsKey;
         constructor(raw: string, names: string[]);
         get silent(): boolean;
-        get result(): boolean;
         get emitter(): boolean;
+        get result(): boolean;
     }
     export class $Lookup<T> {
     }

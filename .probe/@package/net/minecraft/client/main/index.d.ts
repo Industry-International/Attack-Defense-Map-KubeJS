@@ -10,8 +10,8 @@ declare module "@package/net/minecraft/client/main" {
     export class $GameConfig$QuickPlayData extends $Record {
         isEnabled(): boolean;
         path(): string;
-        multiplayer(): string;
         singleplayer(): string;
+        multiplayer(): string;
         realms(): string;
         constructor(arg0: string, arg1: string, arg2: string, arg3: string);
         get enabled(): boolean;

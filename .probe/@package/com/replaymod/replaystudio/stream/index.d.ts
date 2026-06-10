@@ -14,8 +14,8 @@ declare module "@package/com/replaymod/replaystudio/stream" {
         start(): void;
         addFilter(arg0: $StreamFilter, arg1: number, arg2: number): void;
         addFilter(arg0: $StreamFilter): void;
-        removeFilter(arg0: $StreamFilter): void;
         getFilters(): $Collection<$PacketStream$FilterInfo>;
+        removeFilter(arg0: $StreamFilter): void;
         get filters(): $Collection<$PacketStream$FilterInfo>;
     }
 }

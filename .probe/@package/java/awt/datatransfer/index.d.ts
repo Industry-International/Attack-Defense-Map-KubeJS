@@ -1,6 +1,6 @@
 import { $Reader, $Externalizable, $ObjectInput, $ObjectOutput } from "@package/java/io";
 import { $EventObject, $Map, $EventListener } from "@package/java/util";
-import { $Object, $ClassLoader, $Cloneable, $Class } from "@package/java/lang";
+import { $Object, $Cloneable, $ClassLoader, $Class } from "@package/java/lang";
 
 declare module "@package/java/awt/datatransfer" {
     export class $Clipboard {
@@ -28,11 +28,12 @@ declare module "@package/java/awt/datatransfer" {
         match(arg0: $DataFlavor): boolean;
         writeExternal(arg0: $ObjectOutput): void;
         readExternal(arg0: $ObjectInput): void;
+        getParameter(arg0: string): string;
         isRepresentationClassInputStream(): boolean;
         isRepresentationClassByteBuffer(): boolean;
         isFlavorTextType(): boolean;
-        isMimeTypeEqual(arg0: $DataFlavor): boolean;
         isMimeTypeEqual(arg0: string): boolean;
+        isMimeTypeEqual(arg0: $DataFlavor): boolean;
         isRepresentationClassReader(): boolean;
         isRepresentationClassCharBuffer(): boolean;
         getDefaultRepresentationClass(): $Class<never>;
@@ -49,7 +50,6 @@ declare module "@package/java/awt/datatransfer" {
         isFlavorRemoteObjectType(): boolean;
         isFlavorJavaFileListType(): boolean;
         getPrimaryType(): string;
-        getParameter(arg0: string): string;
         getMimeType(): string;
         getSubType(): string;
         getRepresentationClass(): $Class<never>;

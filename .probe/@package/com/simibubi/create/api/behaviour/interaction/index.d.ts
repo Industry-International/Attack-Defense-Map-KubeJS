@@ -10,8 +10,8 @@ import { $NonNullConsumer } from "@package/com/tterrag/registrate/util/nullness"
 declare module "@package/com/simibubi/create/api/behaviour/interaction" {
     export class $MovingInteractionBehaviour {
         handleEntityCollision(arg0: $Entity, arg1: $BlockPos_, arg2: $AbstractContraptionEntity): void;
-        handlePlayerInteraction(arg0: $Player, arg1: $InteractionHand_, arg2: $BlockPos_, arg3: $AbstractContraptionEntity): boolean;
         static interactionBehaviour<B extends $Block>(arg0: $MovingInteractionBehaviour): $NonNullConsumer<B>;
+        handlePlayerInteraction(arg0: $Player, arg1: $InteractionHand_, arg2: $BlockPos_, arg3: $AbstractContraptionEntity): boolean;
         static REGISTRY: $SimpleRegistry<$Block, $MovingInteractionBehaviour>;
         constructor();
     }

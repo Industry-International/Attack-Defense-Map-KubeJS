@@ -14,7 +14,7 @@ import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/re
 import { $PiecesContainer, $StructurePieceType_, $PiecesContainer_ } from "@package/net/minecraft/world/level/levelgen/structure/pieces";
 import { $Block } from "@package/net/minecraft/world/level/block";
 import { $Object } from "@package/java/lang";
-import { $StructurePiece, $BoundingBox, $Structure_, $Structure } from "@package/net/minecraft/world/level/levelgen/structure";
+import { $StructurePiece, $BoundingBox, $Structure, $Structure_ } from "@package/net/minecraft/world/level/levelgen/structure";
 
 declare module "@package/com/almostreliable/morejs/features/structure" {
     export class $StructureTemplateAccess {
@@ -36,22 +36,22 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
     export class $StructureAfterPlaceEventJS implements $KubeLevelEvent {
         getId(): $ResourceLocation;
         getType(): $ResourceLocation;
-        getStructure(): $Structure;
         getStructureManager(): $StructureManager;
-        getChunkPos(): $ChunkPos;
         getRandomSource(): $RandomSource;
-        getChunkBoundingBox(): $BoundingBox;
-        getIntersectionPieces(): $Collection<$StructurePiece>;
-        getIntersectionBoxes(): $Collection<$BoundingBox>;
+        getChunkPos(): $ChunkPos;
+        getStructure(): $Structure;
         getStructureBoundingBox(): $BoundingBox;
-        getWorldGenLevel(): $WorldGenLevel;
-        getIntersectionMap(): $Map<$StructurePiece, $BoundingBox>;
         getChunkGenerator(): $ChunkGenerator;
         getPiecesContainer(): $PiecesContainer;
+        getWorldGenLevel(): $WorldGenLevel;
+        getIntersectionMap(): $Map<$StructurePiece, $BoundingBox>;
         getPieceType(arg0: $StructurePieceType_): $ResourceLocation;
         getGenStep(): string;
-        getServer(): $MinecraftServer;
+        getChunkBoundingBox(): $BoundingBox;
+        getIntersectionBoxes(): $Collection<$BoundingBox>;
+        getIntersectionPieces(): $Collection<$StructurePiece>;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -92,21 +92,21 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
         constructor(arg0: $Structure_, arg1: $WorldGenLevel, arg2: $StructureManager, arg3: $ChunkGenerator, arg4: $RandomSource, arg5: $BoundingBox, arg6: $ChunkPos, arg7: $PiecesContainer_);
         get id(): $ResourceLocation;
         get type(): $ResourceLocation;
-        get structure(): $Structure;
         get structureManager(): $StructureManager;
-        get chunkPos(): $ChunkPos;
         get randomSource(): $RandomSource;
-        get chunkBoundingBox(): $BoundingBox;
-        get intersectionPieces(): $Collection<$StructurePiece>;
-        get intersectionBoxes(): $Collection<$BoundingBox>;
+        get chunkPos(): $ChunkPos;
+        get structure(): $Structure;
         get structureBoundingBox(): $BoundingBox;
-        get worldGenLevel(): $WorldGenLevel;
-        get intersectionMap(): $Map<$StructurePiece, $BoundingBox>;
         get chunkGenerator(): $ChunkGenerator;
         get piecesContainer(): $PiecesContainer;
+        get worldGenLevel(): $WorldGenLevel;
+        get intersectionMap(): $Map<$StructurePiece, $BoundingBox>;
         get genStep(): string;
-        get server(): $MinecraftServer;
+        get chunkBoundingBox(): $BoundingBox;
+        get intersectionBoxes(): $Collection<$BoundingBox>;
+        get intersectionPieces(): $Collection<$StructurePiece>;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get level(): $Level;
     }
     export class $StructureBlockInfoModification {
@@ -114,14 +114,14 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
     export interface $StructureBlockInfoModification {
         getProperties(): $Map<string, $Object>;
         getId(): string;
-        getNbt(): $CompoundTag;
         getBlock(): $Block;
-        setBlock(arg0: $ResourceLocation_, arg1: $Map_<string, $Object>): void;
         setBlock(arg0: $ResourceLocation_): void;
+        setBlock(arg0: $ResourceLocation_, arg1: $Map_<string, $Object>): void;
+        getNbt(): $CompoundTag;
         getPosition(): $BlockPos;
-        setVanillaBlockState(arg0: $BlockState_): void;
-        hasNbt(): boolean;
         setNbt(arg0: $CompoundTag_): void;
+        hasNbt(): boolean;
+        setVanillaBlockState(arg0: $BlockState_): void;
         get properties(): $Map<string, $Object>;
         get id(): string;
         get position(): $BlockPos;
@@ -131,12 +131,12 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
         static invoke(arg0: $StructureTemplate, arg1: $ResourceLocation_): void;
         getId(): string;
         getEntities(): $EntityInfoWrapper;
-        getStructureSize(): $Vec3i;
-        getPalette(arg0: number): $PaletteWrapper;
+        removePalette(arg0: number): void;
         getPalettesSize(): number;
         getEntitiesSize(): number;
-        removePalette(arg0: number): void;
         forEachPalettes(arg0: $Consumer_<$PaletteWrapper>): void;
+        getPalette(arg0: number): $PaletteWrapper;
+        getStructureSize(): $Vec3i;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -176,9 +176,9 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
         constructor(arg0: $StructureTemplateAccess, arg1: $ResourceLocation_);
         get id(): string;
         get entities(): $EntityInfoWrapper;
-        get structureSize(): $Vec3i;
         get palettesSize(): number;
         get entitiesSize(): number;
+        get structureSize(): $Vec3i;
     }
     export class $PaletteWrapper {
         get(arg0: $BlockPos_): $StructureTemplate$StructureBlockInfo;

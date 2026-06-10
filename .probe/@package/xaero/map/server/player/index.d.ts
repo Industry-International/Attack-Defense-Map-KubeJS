@@ -7,19 +7,19 @@ declare module "@package/xaero/map/server/player" {
     export class $ServerPlayerData {
         static get(arg0: $ServerPlayer): $ServerPlayerData;
         hasMod(): boolean;
-        ensureLastSyncedData(): $SyncedTrackedPlayer;
-        getCurrentlySyncedPlayers(): $Set<$UUID>;
-        setLastTrackedPlayerSync(arg0: number): void;
-        setClientModNetworkVersion(arg0: number): void;
-        getClientModNetworkVersion(): number;
-        getLastTrackedPlayerSync(): number;
+        ensureCurrentlySyncedPlayers(): $Set<$UUID>;
         setOpacData(arg0: $Object): void;
         getOpacData(): $Object;
         getLastSyncedData(): $SyncedTrackedPlayer;
-        ensureCurrentlySyncedPlayers(): $Set<$UUID>;
+        getLastTrackedPlayerSync(): number;
+        getCurrentlySyncedPlayers(): $Set<$UUID>;
+        getClientModNetworkVersion(): number;
+        ensureLastSyncedData(): $SyncedTrackedPlayer;
+        setClientModNetworkVersion(arg0: number): void;
+        setLastTrackedPlayerSync(arg0: number): void;
         constructor(arg0: $UUID_);
-        get currentlySyncedPlayers(): $Set<$UUID>;
         get lastSyncedData(): $SyncedTrackedPlayer;
+        get currentlySyncedPlayers(): $Set<$UUID>;
     }
     export class $IServerPlayer {
     }

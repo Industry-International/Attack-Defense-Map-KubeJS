@@ -79,9 +79,9 @@ declare module "@package/org/apache/commons/lang3/mutable" {
         setValue(arg0: boolean): void;
         toBoolean(): boolean;
         isTrue(): boolean;
-        setTrue(): void;
-        setFalse(): void;
         isFalse(): boolean;
+        setFalse(): void;
+        setTrue(): void;
         getValue(): boolean;
         constructor(arg0: boolean);
         constructor(arg0: boolean);

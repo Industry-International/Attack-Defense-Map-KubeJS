@@ -54,21 +54,21 @@ declare module "@package/com/railwayteam/railways/mixin" {
     export interface $AccessorTrackTargetingBehavior {
         getId(): $UUID;
         setId(arg0: $UUID_): void;
-        setEdgePoint(arg0: $TrackEdgePoint): void;
-        getTargetTrack(): $BlockPos;
         getTargetDirection(): $Direction$AxisDirection;
-        getRotatedDirection(): $Vec3;
-        setRotatedDirection(arg0: $Vec3_): void;
-        setTargetDirection(arg0: $Direction$AxisDirection_): void;
-        setTargetTrack(arg0: $BlockPos_): void;
         isOrthogonal(): boolean;
-        setTargetBezier(arg0: $BezierTrackPointLocation_): void;
         getMigrationData(): $CompoundTag;
-        setOrthogonal(arg0: boolean): void;
-        getPrevDirection(): $Vec3;
-        setMigrationData(arg0: $CompoundTag_): void;
         getTargetBezier(): $BezierTrackPointLocation;
         setPrevDirection(arg0: $Vec3_): void;
+        setTargetBezier(arg0: $BezierTrackPointLocation_): void;
+        setEdgePoint(arg0: $TrackEdgePoint): void;
+        getTargetTrack(): $BlockPos;
+        getPrevDirection(): $Vec3;
+        setOrthogonal(arg0: boolean): void;
+        setMigrationData(arg0: $CompoundTag_): void;
+        setTargetTrack(arg0: $BlockPos_): void;
+        setTargetDirection(arg0: $Direction$AxisDirection_): void;
+        getRotatedDirection(): $Vec3;
+        setRotatedDirection(arg0: $Vec3_): void;
         set edgePoint(value: $TrackEdgePoint);
     }
     export class $AccessorCarriageBogey {
@@ -116,8 +116,8 @@ declare module "@package/com/railwayteam/railways/mixin" {
     }
     export interface $AccessorCarriageContraptionEntity {
         railways$getCarriage(): $Carriage;
-        railways$setCarriage(arg0: $Carriage): void;
         railways$bindCarriage(): void;
+        railways$setCarriage(arg0: $Carriage): void;
     }
     export class $AccessorContraption {
     }
@@ -131,14 +131,14 @@ declare module "@package/com/railwayteam/railways/mixin" {
     export class $AccessorBlockEntityType {
     }
     export interface $AccessorBlockEntityType {
-        getValidBlocks(): $Set<$Block>;
         setValidBlocks(arg0: $Set_<$Block_>): void;
+        getValidBlocks(): $Set<$Block>;
     }
     export class $AccessorTrain {
     }
     export interface $AccessorTrain {
-        railways$getStress(): number[];
         railways$setStress(arg0: number[]): void;
+        railways$getStress(): number[];
     }
     export class $AccessorCarriage {
     }
@@ -153,10 +153,10 @@ declare module "@package/com/railwayteam/railways/mixin" {
     export class $AccessorToolboxBlockEntity {
     }
     export interface $AccessorToolboxBlockEntity {
-        getConnectedPlayers(): $Map<number, $WeakHashMap<$Player, number>>;
         getInventory(): $ToolboxInventory;
-        get connectedPlayers(): $Map<number, $WeakHashMap<$Player, number>>;
+        getConnectedPlayers(): $Map<number, $WeakHashMap<$Player, number>>;
         get inventory(): $ToolboxInventory;
+        get connectedPlayers(): $Map<number, $WeakHashMap<$Player, number>>;
     }
     export class $AccessorBlockEntity {
     }

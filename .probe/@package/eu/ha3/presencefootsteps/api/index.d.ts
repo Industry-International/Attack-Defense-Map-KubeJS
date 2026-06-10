@@ -1,5 +1,5 @@
 import { $BlockState, $BlockState_ } from "@package/net/minecraft/world/level/block/state";
-import { $Block, $Block_ } from "@package/net/minecraft/world/level/block";
+import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
 
 declare module "@package/eu/ha3/presencefootsteps/api" {
     export class $DerivedBlock {

@@ -13,10 +13,10 @@ declare module "@package/com/almostreliable/morejs" {
     export class $MoreJSBinding {
         static range(arg0: $Object): $IntRange;
         static weightedList(): $WeightedList$Builder<$Object>;
+        static ofTradeItem(arg1: $Object): $TradeItem;
+        static ofWeightedList(arg0: $Object): $WeightedList<$Object>;
         static findStructure(arg0: $BlockPos_, arg1: $ServerLevel, arg2: $HolderSet_<$Structure>, arg3: number): $BlockPos;
         static findBiome(arg0: $BlockPos_, arg1: $ServerLevel, arg2: $HolderSet_<$Biome>, arg3: number): $BlockPos;
-        static ofWeightedList(arg0: $Object): $WeightedList<$Object>;
-        static ofTradeItem(arg1: $Object): $TradeItem;
         constructor();
     }
 }

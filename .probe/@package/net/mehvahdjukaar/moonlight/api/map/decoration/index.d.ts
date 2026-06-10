@@ -30,15 +30,15 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/map/decoration" {
         getType(): $Holder<$MLMapDecorationType<never, never>>;
         getDisplayName(): ($Component) | undefined;
         getFlags(): number;
-        getRotation(): number;
+        hasFlag(arg0: number): boolean;
         shouldSave(): boolean;
         getPos(): $BlockPos;
-        hasFlag(arg0: number): boolean;
-        shouldRefreshFromWorld(): boolean;
+        getRotation(): number;
         createDecorationFromMarker(arg0: $MapItemSavedData): D;
-        static baseCodecGroup<T extends $MLMapMarker<never>>(arg0: $RecordCodecBuilder$Instance<T>): $Products$P7<$RecordCodecBuilder$Mu<T>, $Holder<$MLMapDecorationType<never, never>>, $BlockPos, number, ($Component) | undefined, (boolean) | undefined, (boolean) | undefined, boolean>;
+        shouldRefreshFromWorld(): boolean;
         preventsExtending(): boolean;
         getMarkerUniqueId(): string;
+        static baseCodecGroup<T extends $MLMapMarker<never>>(arg0: $RecordCodecBuilder$Instance<T>): $Products$P7<$RecordCodecBuilder$Mu<T>, $Holder<$MLMapDecorationType<never, never>>, $BlockPos, number, ($Component) | undefined, (boolean) | undefined, (boolean) | undefined, boolean>;
         static HAS_SMALL_TEXTURE_FLAG: number;
         static CODEC: $Codec<$MLMapMarker<never>>;
         /**
@@ -49,29 +49,29 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/map/decoration" {
         get type(): $Holder<$MLMapDecorationType<never, never>>;
         get displayName(): ($Component) | undefined;
         get flags(): number;
-        get rotation(): number;
         get pos(): $BlockPos;
+        get rotation(): number;
         get markerUniqueId(): string;
     }
     export interface $MLMapDecorationType extends RegistryMarked<RegistryTypes.MoonlightMapMarkerTag, RegistryTypes.MoonlightMapMarker> {}
     export class $MLMapDecorationType<D extends $MLMapDecoration, M extends $MLMapMarker<D>> {
-        getMarkerCodec(): $MapCodec<M>;
-        getDecorationCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
         getCustomFactoryID(): $ResourceLocation;
         getDefaultMapColor(): number;
+        getMarkerCodec(): $MapCodec<M>;
+        getDecorationCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
+        getAssociatedStructure(): ($HolderSet<$Structure>) | undefined;
         createMarkerFromWorld(arg0: $LevelAccessor, arg1: $BlockPos_): M;
         /**
          * @deprecated
          */
         createMarkerFromWorld(arg0: $BlockGetter, arg1: $BlockPos_): M;
-        getAssociatedStructure(): ($HolderSet<$Structure>) | undefined;
         static CODEC: $Codec<$Holder<$MLMapDecorationType<never, never>>>;
         static DIRECT_CODEC: $Codec<$MLMapDecorationType<never, never>>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$MLMapDecorationType<never, never>>>;
-        get markerCodec(): $MapCodec<M>;
-        get decorationCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
         get customFactoryID(): $ResourceLocation;
         get defaultMapColor(): number;
+        get markerCodec(): $MapCodec<M>;
+        get decorationCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
         get associatedStructure(): ($HolderSet<$Structure>) | undefined;
     }
     /**

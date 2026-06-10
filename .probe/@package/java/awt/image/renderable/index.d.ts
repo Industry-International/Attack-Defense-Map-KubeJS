@@ -32,23 +32,23 @@ declare module "@package/java/awt/image/renderable" {
         static HINTS_OBSERVED: string;
     }
     export interface $RenderableImage {
-        getProperty(arg0: string): $Object;
         getWidth(): number;
-        getSources(): $Vector<$RenderableImage>;
+        getProperty(arg0: string): $Object;
         isDynamic(): boolean;
         getPropertyNames(): string[];
-        getHeight(): number;
-        getMinX(): number;
+        getSources(): $Vector<$RenderableImage>;
         getMinY(): number;
+        getMinX(): number;
+        getHeight(): number;
         createRendering(arg0: $RenderContext): $RenderedImage;
         createScaledRendering(arg0: number, arg1: number, arg2: $RenderingHints): $RenderedImage;
         createDefaultRendering(): $RenderedImage;
         get width(): number;
-        get sources(): $Vector<$RenderableImage>;
         get dynamic(): boolean;
         get propertyNames(): string[];
-        get height(): number;
-        get minX(): number;
+        get sources(): $Vector<$RenderableImage>;
         get minY(): number;
+        get minX(): number;
+        get height(): number;
     }
 }

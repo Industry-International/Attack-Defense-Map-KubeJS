@@ -14,20 +14,20 @@ declare module "@package/com/simibubi/create/content/logistics/item/filter/attri
     export interface $ItemAttributeType extends RegistryMarked<RegistryTypes.CreateItemAttributeTypeTag, RegistryTypes.CreateItemAttributeType> {}
     export class $ItemAttribute {
         static loadStatic(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): $ItemAttribute;
-        static saveStatic(arg0: $ItemAttribute, arg1: $HolderLookup$Provider): $CompoundTag;
         static getAllAttributes(arg0: $ItemStack_, arg1: $Level_): $List<$ItemAttribute>;
+        static saveStatic(arg0: $ItemAttribute, arg1: $HolderLookup$Provider): $CompoundTag;
         static CODEC: $Codec<$ItemAttribute>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ItemAttribute>;
     }
     export interface $ItemAttribute {
         format(arg0: boolean): $MutableComponent;
         getType(): $ItemAttributeType;
-        getTranslationKey(): string;
-        appliesTo(arg0: $ItemStack_, arg1: $Level_): boolean;
         getTranslationParameters(): $Object[];
+        appliesTo(arg0: $ItemStack_, arg1: $Level_): boolean;
+        getTranslationKey(): string;
         get type(): $ItemAttributeType;
-        get translationKey(): string;
         get translationParameters(): $Object[];
+        get translationKey(): string;
     }
     export class $ItemAttributeType {
     }

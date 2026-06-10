@@ -44,10 +44,10 @@ declare module "@package/blusunrize/immersiveengineering/mixin/accessors" {
     export class $ServerPlayNetHandlerAccess {
     }
     export interface $ServerPlayNetHandlerAccess extends $PlayerUtils$ConnectionAccess {
-        setAboveGroundTickCount(arg0: number): void;
         setClientIsFloating(arg0: boolean): void;
-        set aboveGroundTickCount(value: number);
+        setAboveGroundTickCount(arg0: number): void;
         set clientIsFloating(value: boolean);
+        set aboveGroundTickCount(value: number);
     }
     export class $TemplatePoolAccess {
     }
@@ -130,11 +130,11 @@ declare module "@package/blusunrize/immersiveengineering/mixin/accessors" {
     }
     export interface $PotionMixAccess<T> {
         getFrom(): $Holder<T>;
-        getTo(): $Holder<T>;
         getIngredient(): $Ingredient;
+        getTo(): $Holder<T>;
         get from(): $Holder<T>;
-        get to(): $Holder<T>;
         get ingredient(): $Ingredient;
+        get to(): $Holder<T>;
     }
     export class $BETypeAccess {
     }
@@ -158,10 +158,10 @@ declare module "@package/blusunrize/immersiveengineering/mixin/accessors" {
     export class $ContainerAccess {
     }
     export interface $ContainerAccess {
-        getLastSlots(): $NonNullList<$ItemStack>;
         getRemoteSlots(): $NonNullList<$ItemStack>;
-        get lastSlots(): $NonNullList<$ItemStack>;
+        getLastSlots(): $NonNullList<$ItemStack>;
         get remoteSlots(): $NonNullList<$ItemStack>;
+        get lastSlots(): $NonNullList<$ItemStack>;
     }
     export class $FurnaceTEAccess {
     }

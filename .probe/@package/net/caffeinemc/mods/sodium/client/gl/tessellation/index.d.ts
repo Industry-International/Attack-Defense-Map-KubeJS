@@ -7,8 +7,8 @@ declare module "@package/net/caffeinemc/mods/sodium/client/gl/tessellation" {
     export class $TessellationBinding extends $Record {
         target(): $GlBufferTarget;
         buffer(): $GlBuffer;
-        static forVertexBuffer(arg0: $GlBuffer, arg1: $GlVertexAttributeBinding[]): $TessellationBinding;
         static forElementBuffer(arg0: $GlBuffer): $TessellationBinding;
+        static forVertexBuffer(arg0: $GlBuffer, arg1: $GlVertexAttributeBinding[]): $TessellationBinding;
         attributeBindings(): $GlVertexAttributeBinding[];
         constructor(target: $GlBufferTarget_, buffer: $GlBuffer, attributeBindings: $GlVertexAttributeBinding[]);
     }

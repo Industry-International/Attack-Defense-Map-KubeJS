@@ -26,15 +26,15 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
     export type $TimedStat_ = (() => $Duration_);
     export class $IoSummary<T> {
         getTotalCount(): number;
+        getCountsPerSecond(): number;
         getTotalSize(): number;
         getSizePerSecond(): number;
-        getCountsPerSecond(): number;
         largestSizeContributors(): $List<$Pair<T, $IoSummary$CountAndSize>>;
         constructor(arg0: $Duration_, arg1: $List_<$Pair<T, $IoSummary$CountAndSize_>>);
         get totalCount(): number;
+        get countsPerSecond(): number;
         get totalSize(): number;
         get sizePerSecond(): number;
-        get countsPerSecond(): number;
     }
     export class $ChunkGenStat extends $Record implements $TimedStat {
         static from(arg0: $RecordedEvent): $ChunkGenStat;
@@ -61,8 +61,8 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
     }
     export class $FileIOStat$Summary extends $Record {
         counts(): number;
-        totalBytes(): number;
         bytesPerSecond(): number;
+        totalBytes(): number;
         topTenContributorsByTotalBytes(): $List<$Pair<string, number>>;
         countsPerSecond(): number;
         timeSpentInIO(): $Duration;
@@ -72,10 +72,10 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
         count(): number;
         fastest(): T;
         static summary<T extends $TimedStat>(arg0: $List_<T>): $TimedStatSummary<T>;
+        slowest(): T;
         totalDuration(): $Duration;
         percentilesNanos(): $Map<number, number>;
         secondSlowest(): T;
-        slowest(): T;
         constructor(arg0: T, arg1: T, arg2: T, arg3: number, arg4: $Map_<number, number>, arg5: $Duration_);
     }
     export class $ThreadAllocationStat extends $Record {
@@ -95,9 +95,9 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
     export class $GcHeapStat$Summary extends $Record {
         duration(): $Duration;
         allocationRateBytesPerSecond(): number;
-        gcTotalDuration(): $Duration;
         totalGCs(): number;
         gcOverHead(): number;
+        gcTotalDuration(): $Duration;
         constructor(arg0: $Duration_, arg1: $Duration_, arg2: number, arg3: number);
     }
     export class $GcHeapStat extends $Record {
@@ -117,9 +117,9 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
         constructor(arg0: string, arg1: string, arg2: number, arg3: number);
     }
     export class $CpuLoadStat extends $Record {
+        jvm(): number;
         static from(arg0: $RecordedEvent): $CpuLoadStat;
         system(): number;
-        jvm(): number;
         userJvm(): number;
         constructor(arg0: number, arg1: number, arg2: number);
     }

@@ -5,27 +5,27 @@ import { $Entity } from "@package/net/minecraft/world/entity";
 import { $Map_, $Map } from "@package/java/util";
 import { $LuaTable } from "@package/org/luaj/vm2";
 import { $LevelEntityGetter } from "@package/net/minecraft/world/level/entity";
+import { $RandomSource } from "@package/net/minecraft/util";
 export * as interactkey from "@package/mod/chloeprime/gunsmithlib/mixin/interactkey";
-export * as client from "@package/mod/chloeprime/gunsmithlib/mixin/client";
 
 declare module "@package/mod/chloeprime/gunsmithlib/mixin" {
     export class $EntityKineticBulletAccessor {
     }
     export interface $EntityKineticBulletAccessor {
-        setExplosionDelayCount(arg0: number): void;
-        setArmorIgnore(arg0: number): void;
-        getGravity(): number;
-        getGunId(): $ResourceLocation;
-        setGravity(arg0: number): void;
-        getLife(): number;
-        getExplosion(): boolean;
         getExplosionRadius(): number;
-        set explosionDelayCount(value: number);
-        set armorIgnore(value: number);
-        get gunId(): $ResourceLocation;
-        get life(): number;
-        get explosion(): boolean;
+        getGravity(): number;
+        getLife(): number;
+        setGravity(arg0: number): void;
+        setExplosionDelayCount(arg0: number): void;
+        getGunId(): $ResourceLocation;
+        getExplosion(): boolean;
+        setArmorIgnore(arg0: number): void;
         get explosionRadius(): number;
+        get life(): number;
+        set explosionDelayCount(value: number);
+        get gunId(): $ResourceLocation;
+        get explosion(): boolean;
+        set armorIgnore(value: number);
     }
     export class $ItemCooldownsAccessor {
     }
@@ -64,4 +64,12 @@ declare module "@package/mod/chloeprime/gunsmithlib/mixin" {
      * Values that may be interpreted as {@link $LevelAccessor}.
      */
     export type $LevelAccessor_ = (() => $LevelEntityGetter<$Entity>);
+    export class $EntityAccessor {
+    }
+    export interface $EntityAccessor {
+        getRandom(): $RandomSource;
+        invokeIsInRain(): boolean;
+        invokeIsInBubbleColumn(): boolean;
+        get random(): $RandomSource;
+    }
 }

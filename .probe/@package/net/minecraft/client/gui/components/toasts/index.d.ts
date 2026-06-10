@@ -13,10 +13,10 @@ declare module "@package/net/minecraft/client/gui/components/toasts" {
     export class $ToastComponent {
         clear(): void;
         render(arg0: $GuiGraphics): void;
-        getNotificationDisplayTimeMultiplier(): number;
-        getMinecraft(): $Minecraft;
         addToast(arg0: $Toast_): void;
         getToast<T extends $Toast>(arg0: $Class<T>, arg1: $Object): T;
+        getMinecraft(): $Minecraft;
+        getNotificationDisplayTimeMultiplier(): number;
         minecraft: $Minecraft;
         visible: $List<$ToastComponent$ToastInstance<never>>;
         constructor(arg0: $Minecraft);
@@ -79,8 +79,8 @@ declare module "@package/net/minecraft/client/gui/components/toasts" {
         slotCount(): number;
         width(): number;
         getToken(): $Object;
-        render(arg0: $GuiGraphics, arg1: $ToastComponent, arg2: number): $Toast$Visibility;
         height(): number;
+        render(arg0: $GuiGraphics, arg1: $ToastComponent, arg2: number): $Toast$Visibility;
         get token(): $Object;
     }
     /**
@@ -116,26 +116,26 @@ declare module "@package/net/minecraft/client/gui/components/toasts" {
         static add(arg0: $ToastComponent, arg1: $SystemToast$SystemToastId, arg2: $Component_, arg3: $Component_): void;
         width(): number;
         static multiline(arg0: $Minecraft, arg1: $SystemToast$SystemToastId, arg2: $Component_, arg3: $Component_): $SystemToast;
-        render(arg0: $GuiGraphics, arg1: $ToastComponent, arg2: number): $Toast$Visibility;
         height(): number;
+        render(arg0: $GuiGraphics, arg1: $ToastComponent, arg2: number): $Toast$Visibility;
+        static onWorldDeleteFailure(arg0: $Minecraft, arg1: string): void;
+        static onWorldAccessFailure(arg0: $Minecraft, arg1: string): void;
+        static onPackCopyFailure(arg0: $Minecraft, arg1: string): void;
         static addOrUpdate(arg0: $ToastComponent, arg1: $SystemToast$SystemToastId, arg2: $Component_, arg3: $Component_): void;
         static onFileDropFailure(arg0: $Minecraft, arg1: number): void;
-        static onWorldAccessFailure(arg0: $Minecraft, arg1: string): void;
-        static onWorldDeleteFailure(arg0: $Minecraft, arg1: string): void;
-        static onPackCopyFailure(arg0: $Minecraft, arg1: string): void;
         static onChunkSaveFailure(arg0: $Minecraft, arg1: $ChunkPos): void;
-        static onChunkLoadFailure(arg0: $Minecraft, arg1: $ChunkPos): void;
         static onLowDiskSpace(arg0: $Minecraft): void;
-        static forceHide(arg0: $ToastComponent, arg1: $SystemToast$SystemToastId): void;
+        static onChunkLoadFailure(arg0: $Minecraft, arg1: $ChunkPos): void;
         forceHide(): void;
+        static forceHide(arg0: $ToastComponent, arg1: $SystemToast$SystemToastId): void;
         slotCount(): number;
         getToken(): $Object;
         constructor(arg0: $SystemToast$SystemToastId, arg1: $Component_, arg2: $Component_);
         get token(): $Object;
     }
     export class $TutorialToast implements $Toast {
-        render(arg0: $GuiGraphics, arg1: $ToastComponent, arg2: number): $Toast$Visibility;
         updateProgress(arg0: number): void;
+        render(arg0: $GuiGraphics, arg1: $ToastComponent, arg2: number): $Toast$Visibility;
         hide(): void;
         slotCount(): number;
         width(): number;

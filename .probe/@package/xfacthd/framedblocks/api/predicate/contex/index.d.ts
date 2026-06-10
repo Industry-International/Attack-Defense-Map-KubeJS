@@ -22,7 +22,7 @@ declare module "@package/xfacthd/framedblocks/api/predicate/contex" {
         static FALSE: $ConnectionPredicate;
     }
     export interface $ConnectionPredicate {
-        canConnectDetailed(arg0: $BlockState_, arg1: $Direction_, arg2: $Direction_): boolean;
         canConnectFullEdge(arg0: $BlockState_, arg1: $Direction_, arg2: $Direction_): boolean;
+        canConnectDetailed(arg0: $BlockState_, arg1: $Direction_, arg2: $Direction_): boolean;
     }
 }

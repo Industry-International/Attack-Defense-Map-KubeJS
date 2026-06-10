@@ -7,8 +7,8 @@ export * as value from "@package/xaero/lib/client/config/option/value";
 
 declare module "@package/xaero/lib/client/config/option" {
     export class $ClientConfigOptionManager extends $ConfigOptionManager {
-        registerUIType<CT extends $ConfigOption<never>>(arg0: CT, arg1: $ConfigOptionUIType<CT>): void;
         getUiTypeManager(): $ConfigOptionUITypeManager;
+        registerUIType<CT extends $ConfigOption<never>>(arg0: CT, arg1: $ConfigOptionUIType<CT>): void;
         getUIType<CT extends $ConfigOption<never>>(arg0: CT): $ConfigOptionUIType<CT>;
         logger: $Logger;
         get uiTypeManager(): $ConfigOptionUITypeManager;

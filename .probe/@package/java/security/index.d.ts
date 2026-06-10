@@ -29,29 +29,29 @@ declare module "@package/java/security" {
         get name(): string;
     }
     export class $Signature extends $SignatureSpi {
-        update(arg0: number[]): void;
-        update(arg0: number[], arg1: number, arg2: number): void;
-        update(arg0: number): void;
-        update(arg0: $ByteBuffer): void;
-        static getInstance(arg0: string): $Signature;
-        static getInstance(arg0: string, arg1: string): $Signature;
-        static getInstance(arg0: string, arg1: $Provider): $Signature;
-        getParameters(): $AlgorithmParameters;
-        sign(arg0: number[], arg1: number, arg2: number): number;
-        sign(): number[];
-        verify(arg0: number[]): boolean;
-        verify(arg0: number[], arg1: number, arg2: number): boolean;
-        getProvider(): $Provider;
-        getAlgorithm(): string;
+        initVerify(arg0: $PublicKey): void;
+        initVerify(arg0: $Certificate): void;
+        initSign(arg0: $PrivateKey): void;
+        initSign(arg0: $PrivateKey, arg1: $SecureRandom): void;
         /**
          * @deprecated
          */
         setParameter(arg0: string, arg1: $Object): void;
         setParameter(arg0: $AlgorithmParameterSpec): void;
-        initVerify(arg0: $PublicKey): void;
-        initVerify(arg0: $Certificate): void;
-        initSign(arg0: $PrivateKey): void;
-        initSign(arg0: $PrivateKey, arg1: $SecureRandom): void;
+        update(arg0: number): void;
+        update(arg0: number[]): void;
+        update(arg0: number[], arg1: number, arg2: number): void;
+        update(arg0: $ByteBuffer): void;
+        static getInstance(arg0: string, arg1: string): $Signature;
+        static getInstance(arg0: string): $Signature;
+        static getInstance(arg0: string, arg1: $Provider): $Signature;
+        getParameters(): $AlgorithmParameters;
+        sign(): number[];
+        sign(arg0: number[], arg1: number, arg2: number): number;
+        verify(arg0: number[], arg1: number, arg2: number): boolean;
+        verify(arg0: number[]): boolean;
+        getProvider(): $Provider;
+        getAlgorithm(): string;
         /**
          * @deprecated
          */
@@ -141,9 +141,9 @@ declare module "@package/java/security" {
         static getInstance(arg0: string, arg1: $SecureRandomParameters, arg2: string): $SecureRandom;
         static getInstance(arg0: string, arg1: $SecureRandomParameters): $SecureRandom;
         static getInstance(arg0: string, arg1: $SecureRandomParameters, arg2: $Provider): $SecureRandom;
-        static getInstance(arg0: string): $SecureRandom;
-        static getInstance(arg0: string, arg1: string): $SecureRandom;
         static getInstance(arg0: string, arg1: $Provider): $SecureRandom;
+        static getInstance(arg0: string, arg1: string): $SecureRandom;
+        static getInstance(arg0: string): $SecureRandom;
         getParameters(): $SecureRandomParameters;
         nextBytes(arg0: number[], arg1: $SecureRandomParameters): void;
         getProvider(): $Provider;
@@ -154,8 +154,8 @@ declare module "@package/java/security" {
         static getInstanceStrong(): $SecureRandom;
         reseed(): void;
         reseed(arg0: $SecureRandomParameters): void;
-        constructor(arg0: number[]);
         constructor();
+        constructor(arg0: number[]);
         get parameters(): $SecureRandomParameters;
         get provider(): $Provider;
         get algorithm(): string;

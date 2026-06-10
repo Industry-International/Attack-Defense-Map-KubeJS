@@ -10,15 +10,15 @@ declare module "@package/com/rafacasari/fairylights/util" {
         getIndex(): number;
         getY(arg0: number): number;
         getX(arg0: number): number;
-        getYaw(): number;
-        getPos(): $Vec3;
         getZ(arg0: number): number;
         getPitch(): number;
+        getPos(): $Vec3;
+        getYaw(): number;
         get length(): number;
         get index(): number;
-        get yaw(): number;
-        get pos(): $Vec3;
         get pitch(): number;
+        get pos(): $Vec3;
+        get yaw(): number;
     }
     export class $Curve {
     }
@@ -27,17 +27,17 @@ declare module "@package/com/rafacasari/fairylights/util" {
         iterator(arg0: boolean): $Curve$SegmentIterator;
         iterator(): $Curve$SegmentIterator;
         getCount(): number;
+        getY(arg0: number, arg1: number): number;
         getY(arg0: number): number;
         getY(): number;
-        getY(arg0: number, arg1: number): number;
         getX(): number;
-        getX(arg0: number): number;
         getX(arg0: number, arg1: number): number;
+        getX(arg0: number): number;
+        getDz(arg0: number): number;
         getDy(arg0: number): number;
         getDx(arg0: number): number;
-        getDz(arg0: number): number;
-        getZ(arg0: number): number;
         getZ(arg0: number, arg1: number): number;
+        getZ(arg0: number): number;
         getZ(): number;
         lerp(arg0: $Curve, arg1: number): $Curve;
         visitPoints(arg0: number, arg1: boolean, arg2: $Curve$PointVisitor_): void;

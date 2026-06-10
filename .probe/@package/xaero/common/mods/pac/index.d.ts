@@ -10,12 +10,12 @@ import { $IPlayerChunkClaimAPI } from "@package/xaero/pac/common/claims/player/a
 declare module "@package/xaero/common/mods/pac" {
     export class $SupportOpenPartiesAndClaims {
         register(): void;
-        registerHighlighters(arg0: $HighlighterRegistry): void;
         getModMain(): $IXaeroMinimap;
+        claimAt(arg0: $ResourceLocation_, arg1: number, arg2: number): $IPlayerChunkClaimAPI;
+        registerHighlighters(arg0: $HighlighterRegistry): void;
         isFromParty(arg0: $UUID_): boolean;
         getAllyIterator(): $Iterator<$IPartyMemberDynamicInfoSyncableAPI>;
         onMapRender(arg0: $Minecraft, arg1: $PoseStack, arg2: number, arg3: number, arg4: number, arg5: $ResourceLocation_, arg6: number, arg7: number): void;
-        claimAt(arg0: $ResourceLocation_, arg1: number, arg2: number): $IPlayerChunkClaimAPI;
         constructor(arg0: $IXaeroMinimap);
         get modMain(): $IXaeroMinimap;
         get allyIterator(): $Iterator<$IPartyMemberDynamicInfoSyncableAPI>;

@@ -11,19 +11,19 @@ export * as metrics from "@package/net/minecraft/util/profiling/metrics";
 declare module "@package/net/minecraft/util/profiling" {
     export class $EmptyProfileResults implements $ProfileResults {
         getTimes(arg0: string): $List<$ResultField>;
-        getStartTimeTicks(): number;
-        getEndTimeNano(): number;
-        getEndTimeTicks(): number;
         getStartTimeNano(): number;
+        getStartTimeTicks(): number;
         saveResults(arg0: $Path_): boolean;
+        getEndTimeTicks(): number;
+        getEndTimeNano(): number;
         getProfilerResults(): string;
         getNanoDuration(): number;
         getTickDuration(): number;
         static EMPTY: $EmptyProfileResults;
-        get startTimeTicks(): number;
-        get endTimeNano(): number;
-        get endTimeTicks(): number;
         get startTimeNano(): number;
+        get startTimeTicks(): number;
+        get endTimeTicks(): number;
+        get endTimeNano(): number;
         get profilerResults(): string;
         get nanoDuration(): number;
         get tickDuration(): number;
@@ -33,15 +33,15 @@ declare module "@package/net/minecraft/util/profiling" {
         push(arg0: string): void;
         pop(): void;
         getEntry(arg0: string): $ActiveProfiler$PathEntry;
-        getResults(): $ProfileResults;
-        popPush(arg0: $Supplier_<string>): void;
-        popPush(arg0: string): void;
-        endTick(): void;
-        startTick(): void;
-        markForCharting(arg0: $MetricCategory_): void;
         incrementCounter(arg0: string, arg1: number): void;
         incrementCounter(arg0: $Supplier_<string>, arg1: number): void;
+        popPush(arg0: string): void;
+        popPush(arg0: $Supplier_<string>): void;
+        endTick(): void;
+        getResults(): $ProfileResults;
+        startTick(): void;
         getChartedPaths(): $Set<$Pair<string, $MetricCategory>>;
+        markForCharting(arg0: $MetricCategory_): void;
         incrementCounter(arg0: $Supplier_<string>): void;
         incrementCounter(arg0: string): void;
         constructor(arg0: $LongSupplier_, arg1: $IntSupplier_, arg2: boolean);
@@ -53,15 +53,15 @@ declare module "@package/net/minecraft/util/profiling" {
         push(arg0: string): void;
         pop(): void;
         getEntry(arg0: string): $ActiveProfiler$PathEntry;
-        getResults(): $ProfileResults;
+        incrementCounter(arg0: string, arg1: number): void;
+        incrementCounter(arg0: $Supplier_<string>, arg1: number): void;
         popPush(arg0: string): void;
         popPush(arg0: $Supplier_<string>): void;
         endTick(): void;
+        getResults(): $ProfileResults;
         startTick(): void;
-        markForCharting(arg0: $MetricCategory_): void;
-        incrementCounter(arg0: $Supplier_<string>, arg1: number): void;
-        incrementCounter(arg0: string, arg1: number): void;
         getChartedPaths(): $Set<$Pair<string, $MetricCategory>>;
+        markForCharting(arg0: $MetricCategory_): void;
         incrementCounter(arg0: $Supplier_<string>): void;
         incrementCounter(arg0: string): void;
         static INSTANCE: $InactiveProfiler;
@@ -89,15 +89,15 @@ declare module "@package/net/minecraft/util/profiling" {
         push(arg0: string): void;
         push(arg0: $Supplier_<string>): void;
         pop(): void;
+        incrementCounter(arg0: string, arg1: number): void;
+        incrementCounter(arg0: $Supplier_<string>): void;
+        incrementCounter(arg0: string): void;
+        incrementCounter(arg0: $Supplier_<string>, arg1: number): void;
         popPush(arg0: string): void;
         popPush(arg0: $Supplier_<string>): void;
         endTick(): void;
         startTick(): void;
         markForCharting(arg0: $MetricCategory_): void;
-        incrementCounter(arg0: string, arg1: number): void;
-        incrementCounter(arg0: $Supplier_<string>, arg1: number): void;
-        incrementCounter(arg0: $Supplier_<string>): void;
-        incrementCounter(arg0: string): void;
     }
     export class $ContinuousProfiler {
         isEnabled(): boolean;
@@ -123,10 +123,10 @@ declare module "@package/net/minecraft/util/profiling" {
         get maxDuration(): number;
     }
     export class $SingleTickProfiler {
+        static decorateFiller(arg0: $ProfilerFiller, arg1: $SingleTickProfiler): $ProfilerFiller;
         static createTickProfiler(arg0: string): $SingleTickProfiler;
         endTick(): void;
         startTick(): $ProfilerFiller;
-        static decorateFiller(arg0: $ProfilerFiller, arg1: $SingleTickProfiler): $ProfilerFiller;
         constructor(arg0: $LongSupplier_, arg1: string, arg2: number);
     }
     export class $ResultField implements $Comparable<$ResultField> {
@@ -141,21 +141,21 @@ declare module "@package/net/minecraft/util/profiling" {
     }
     export class $FilledProfileResults implements $ProfileResults {
         getTimes(arg0: string): $List<$ResultField>;
-        getTickDuration(): number;
-        getStartTimeTicks(): number;
-        getEndTimeNano(): number;
-        getEndTimeTicks(): number;
         getStartTimeNano(): number;
+        getStartTimeTicks(): number;
         saveResults(arg0: $Path_): boolean;
+        getEndTimeTicks(): number;
+        getEndTimeNano(): number;
         getProfilerResults(): string;
         getProfilerResults(arg0: number, arg1: number): string;
+        getTickDuration(): number;
         getNanoDuration(): number;
         constructor(arg0: $Map_<string, $ProfilerPathEntry>, arg1: number, arg2: number, arg3: number, arg4: number);
-        get tickDuration(): number;
-        get startTimeTicks(): number;
-        get endTimeNano(): number;
-        get endTimeTicks(): number;
         get startTimeNano(): number;
+        get startTimeTicks(): number;
+        get endTimeTicks(): number;
+        get endTimeNano(): number;
+        get tickDuration(): number;
         get nanoDuration(): number;
     }
     export class $ProfileResults {
@@ -164,21 +164,21 @@ declare module "@package/net/minecraft/util/profiling" {
     }
     export interface $ProfileResults {
         getTimes(arg0: string): $List<$ResultField>;
+        getStartTimeNano(): number;
+        getStartTimeTicks(): number;
+        saveResults(arg0: $Path_): boolean;
+        getEndTimeTicks(): number;
+        getEndTimeNano(): number;
+        getProfilerResults(): string;
         getNanoDuration(): number;
         getTickDuration(): number;
-        getStartTimeTicks(): number;
-        getEndTimeNano(): number;
-        getEndTimeTicks(): number;
-        getStartTimeNano(): number;
-        saveResults(arg0: $Path_): boolean;
-        getProfilerResults(): string;
+        get startTimeNano(): number;
+        get startTimeTicks(): number;
+        get endTimeTicks(): number;
+        get endTimeNano(): number;
+        get profilerResults(): string;
         get nanoDuration(): number;
         get tickDuration(): number;
-        get startTimeTicks(): number;
-        get endTimeNano(): number;
-        get endTimeTicks(): number;
-        get startTimeNano(): number;
-        get profilerResults(): string;
     }
     export class $ProfileCollector {
     }

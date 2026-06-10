@@ -12,8 +12,8 @@ declare module "@package/net/minecraft/client/gui/spectator" {
     export interface $SpectatorMenuItem {
         getName(): $Component;
         isEnabled(): boolean;
-        renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         selectItem(arg0: $SpectatorMenu): void;
+        renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         get name(): $Component;
         get enabled(): boolean;
     }
@@ -31,10 +31,10 @@ declare module "@package/net/minecraft/client/gui/spectator" {
     export class $SpectatorMenu {
         exit(): void;
         getItem(arg0: number): $SpectatorMenuItem;
-        getSelectedCategory(): $SpectatorMenuCategory;
+        getCurrentPage(): $SpectatorPage;
         selectSlot(arg0: number): void;
         getItems(): $List<$SpectatorMenuItem>;
-        getCurrentPage(): $SpectatorPage;
+        getSelectedCategory(): $SpectatorMenuCategory;
         getSelectedSlot(): number;
         getSelectedItem(): $SpectatorMenuItem;
         selectCategory(arg0: $SpectatorMenuCategory): void;
@@ -47,9 +47,9 @@ declare module "@package/net/minecraft/client/gui/spectator" {
         static CLOSE_MENU_TEXT: $Component;
         static SCROLL_LEFT_SPRITE: $ResourceLocation;
         constructor(arg0: $SpectatorMenuListener_);
-        get selectedCategory(): $SpectatorMenuCategory;
-        get items(): $List<$SpectatorMenuItem>;
         get currentPage(): $SpectatorPage;
+        get items(): $List<$SpectatorMenuItem>;
+        get selectedCategory(): $SpectatorMenuCategory;
         get selectedSlot(): number;
         get selectedItem(): $SpectatorMenuItem;
     }
@@ -66,8 +66,8 @@ declare module "@package/net/minecraft/client/gui/spectator" {
     export class $PlayerMenuItem implements $SpectatorMenuItem {
         getName(): $Component;
         isEnabled(): boolean;
-        renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         selectItem(arg0: $SpectatorMenu): void;
+        renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         constructor(arg0: $GameProfile);
         get name(): $Component;
         get enabled(): boolean;

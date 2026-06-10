@@ -27,10 +27,10 @@ declare module "@package/net/neoforged/neoforge/client/loading" {
         constructor(arg0: $Minecraft, arg1: $ReloadInstance, arg2: $Consumer_<($Throwable) | undefined>, arg3: $DisplayWindow);
     }
     export class $NoVizFallback {
-        static glVersion(): string;
         static loadingOverlay(arg0: $Supplier_<$Minecraft>, arg1: $Supplier_<$ReloadInstance>, arg2: $Consumer_<($Throwable) | undefined>, arg3: boolean): $Supplier<$LoadingOverlay>;
-        static windowPositioning(arg0: ($Monitor) | undefined, arg1: $IntConsumer_, arg2: $IntConsumer_, arg3: $IntConsumer_, arg4: $IntConsumer_): boolean;
+        static glVersion(): string;
         static windowHandoff(arg0: $IntSupplier_, arg1: $IntSupplier_, arg2: $Supplier_<string>, arg3: $LongSupplier_): $LongSupplier;
+        static windowPositioning(arg0: ($Monitor) | undefined, arg1: $IntConsumer_, arg2: $IntConsumer_, arg3: $IntConsumer_, arg4: $IntConsumer_): boolean;
         constructor();
     }
 }

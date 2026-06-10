@@ -7,14 +7,14 @@ import { $PonderUI } from "@package/net/createmod/ponder/foundation/ui";
 
 declare module "@package/net/createmod/ponder/foundation/element" {
     export class $AnimatedOverlayElementBase extends $PonderElementBase implements $AnimatedOverlayElement {
-        getFade(arg0: number): number;
         setFade(arg0: number): void;
+        getFade(arg0: number): number;
         render(arg0: $PonderScene, arg1: $PonderUI, arg2: $GuiGraphics, arg3: number): void;
         constructor();
     }
     export class $PonderElementBase implements $PonderElement {
-        isVisible(): boolean;
         setVisible(arg0: boolean): void;
+        isVisible(): boolean;
         reset(arg0: $PonderScene): void;
         tick(arg0: $PonderScene): void;
         whileSkipping(arg0: $PonderScene): void;

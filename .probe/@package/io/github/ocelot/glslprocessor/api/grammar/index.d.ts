@@ -28,17 +28,17 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
         static valueOf(arg0: string): $GlslTypeSpecifier$BuiltinType;
         isInteger(): boolean;
         isFloat(): boolean;
-        getConstant(arg0: number): string;
+        isBool(): boolean;
         getComponents(): number;
-        isDouble(): boolean;
+        isUnsignedInteger(): boolean;
+        getConstant(arg0: number): string;
         isMatrix(): boolean;
         isVector(): boolean;
-        isUnsignedInteger(): boolean;
-        isBool(): boolean;
+        isDouble(): boolean;
         isNamed(): boolean;
-        isStruct(): boolean;
         asSpecifiedType(): $GlslSpecifiedType;
         asStructSpecifier(): $GlslStructSpecifier;
+        isStruct(): boolean;
         static ISAMPLERCUBEARRAY: $GlslTypeSpecifier$BuiltinType;
         static USAMPLER2DRECT: $GlslTypeSpecifier$BuiltinType;
         static ISAMPLER2DARRAY: $GlslTypeSpecifier$BuiltinType;
@@ -161,12 +161,12 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
         get primitive(): boolean;
         get integer(): boolean;
         get float(): boolean;
+        get bool(): boolean;
         get components(): number;
-        get double(): boolean;
+        get unsignedInteger(): boolean;
         get matrix(): boolean;
         get vector(): boolean;
-        get unsignedInteger(): boolean;
-        get bool(): boolean;
+        get double(): boolean;
     }
     /**
      * Values that may be interpreted as {@link $GlslTypeSpecifier$BuiltinType}.
@@ -185,13 +185,13 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
     export type $GlslTypeQualifier$Precision_ = "high_precision" | "medium_precision" | "low_precision";
     export class $GlslSpecifiedType implements $GlslType {
         copy(): $GlslSpecifiedType;
-        getSpecifier(): $GlslTypeSpecifier;
         asSpecifiedType(): $GlslSpecifiedType;
-        getQualifiers(): $List<$GlslTypeQualifier>;
+        getSpecifier(): $GlslTypeSpecifier;
         setSpecifier(arg0: $GlslTypeSpecifier_): $GlslSpecifiedType;
         addLayoutId(arg0: string, arg1: $GlslNode): $GlslSpecifiedType;
         setQualifiers(...arg0: $GlslTypeQualifier[]): $GlslSpecifiedType;
         setQualifiers(arg0: $Collection_<$GlslTypeQualifier>): $GlslSpecifiedType;
+        getQualifiers(): $List<$GlslTypeQualifier>;
         constructor(arg0: $GlslTypeSpecifier_, arg1: $Collection_<$GlslTypeQualifier>);
         constructor(arg0: $GlslTypeSpecifier_, ...arg1: $GlslTypeQualifier[]);
         constructor(arg0: $GlslTypeSpecifier_);
@@ -219,9 +219,9 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
     export interface $GlslTypeSpecifier extends $GlslType {
         getName(): string;
         isNamed(): boolean;
-        isStruct(): boolean;
         asSpecifiedType(): $GlslSpecifiedType;
         asStructSpecifier(): $GlslStructSpecifier;
+        isStruct(): boolean;
         get name(): string;
     }
     /**
@@ -241,10 +241,10 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
         asStructSpecifier(): $GlslStructSpecifier;
     }
     export class $GlslTypeQualifier$Layout extends $Record implements $GlslTypeQualifier {
-        addLayoutIds(arg0: $Collection_<$GlslTypeQualifier$LayoutId_>): $GlslTypeQualifier;
-        addLayoutIds(...arg0: $GlslTypeQualifier$LayoutId_[]): $GlslTypeQualifier;
-        layoutIds(): $List<$GlslTypeQualifier$LayoutId>;
         addLayoutId(arg0: string, arg1: $GlslNode): $GlslTypeQualifier;
+        layoutIds(): $List<$GlslTypeQualifier$LayoutId>;
+        addLayoutIds(...arg0: $GlslTypeQualifier$LayoutId_[]): $GlslTypeQualifier;
+        addLayoutIds(arg0: $Collection_<$GlslTypeQualifier$LayoutId_>): $GlslTypeQualifier;
         constructor(layoutIds: $List_<$GlslTypeQualifier$LayoutId_>);
     }
     export class $GlslFunctionHeader {

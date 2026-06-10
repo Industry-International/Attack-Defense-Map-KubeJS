@@ -153,13 +153,13 @@ declare module "@package/com/mojang/realmsclient" {
      */
     export type $RealmsMainScreen$LayoutState_ = "loading" | "no_realms" | "list";
     export class $RealmsMainScreen extends $RealmsScreen {
-        static play(arg0: $RealmsServer, arg1: $Screen): void;
-        static play(arg0: $RealmsServer, arg1: $Screen, arg2: boolean): void;
         static getVersionComponent(arg0: string, arg1: boolean): $Component;
         static getVersionComponent(arg0: string, arg1: number): $Component;
-        static isSnapshot(): boolean;
+        static play(arg0: $RealmsServer, arg1: $Screen, arg2: boolean): void;
+        static play(arg0: $RealmsServer, arg1: $Screen): void;
         static refreshServerList(): void;
         resetScreen(): void;
+        static isSnapshot(): boolean;
         static refreshPendingInvites(): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;

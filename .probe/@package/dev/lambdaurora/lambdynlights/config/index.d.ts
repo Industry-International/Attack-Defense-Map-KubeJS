@@ -15,8 +15,8 @@ declare module "@package/dev/lambdaurora/lambdynlights/config" {
         set(value: T): void;
         key(): string;
         save(): void;
-        getOption(): $SpruceOption;
         withOnSet(onSet: $Consumer_<T>): $SettingEntry<T>;
+        getOption(): $SpruceOption;
         get option(): $SpruceOption;
     }
     export class $LightSourceSettingEntry extends $BooleanSettingEntry {

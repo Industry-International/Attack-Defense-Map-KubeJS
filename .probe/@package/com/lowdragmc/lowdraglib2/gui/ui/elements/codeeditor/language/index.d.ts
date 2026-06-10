@@ -7,9 +7,9 @@ import { $Set_, $List, $List_, $Map, $Set } from "@package/java/util";
 declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor/language" {
     export class $StyleManager {
         getDefaultStyle(): $Style;
-        getStyleForTokenType(arg0: $TokenType): $Style;
         setDefaultStyle(arg0: $Style): void;
         getStyleMap(): $Map<string, $Style>;
+        getStyleForTokenType(arg0: $TokenType): $Style;
         defaultStyle: $Style;
         static DEFAULT: $StyleManager;
         constructor();
@@ -31,16 +31,16 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor/la
     export class $LanguageDefinition implements $ILanguageDefinition {
         getName(): string;
         getTokenType(arg0: $Matcher): $TokenType;
-        getTokenPattern(): $Pattern;
         getTypesInOrder(): $List<$TokenType>;
         getIndentations(): $Set<string>;
+        getTokenPattern(): $Pattern;
         shouldIncreaseIndentation(arg0: string): boolean;
         compileTokenPattern(): $LanguageDefinition;
         constructor(arg0: string, arg1: $List_<$TokenType>, arg2: $Set_<string>);
         get name(): string;
-        get tokenPattern(): $Pattern;
         get typesInOrder(): $List<$TokenType>;
         get indentations(): $Set<string>;
+        get tokenPattern(): $Pattern;
     }
     export class $Languages {
         static JAVASCRIPT: $LanguageDefinition;
@@ -50,8 +50,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor/la
     export class $TokenType implements $Predicate<$Matcher> {
         test(arg0: $Matcher): boolean;
         setPattern(arg0: string): $TokenType;
-        hasPattern(): boolean;
         getPattern(): string;
+        hasPattern(): boolean;
         getMatcher(): $Predicate<$Matcher>;
         setMatcher(arg0: $Predicate_<$Matcher>): $TokenType;
         or(arg0: $Predicate_<$Matcher>): $Predicate<$Matcher>;

@@ -9,6 +9,7 @@ import { $Consumer, $BiConsumer_, $Function_, $Consumer_, $UnaryOperator_, $Pred
 import { $Stream } from "@package/java/util/stream";
 import { $Path, $Path_ } from "@package/java/nio/file";
 import { $PackSelectionConfig_, $PackResources, $PackType_, $PackLocationInfo, $PackLocationInfo_, $VanillaPackResources, $PackSelectionConfig } from "@package/net/minecraft/server/packs";
+import { $InvokerPackRepository } from "@package/com/rinko1231/op2r/mixin/accessor";
 import { $ResourceLocation_ } from "@package/net/minecraft/resources";
 import { $FabricResourcePackProfile } from "@package/net/fabricmc/fabric/impl/resource/loader";
 import { $ByteBuf } from "@package/io/netty/buffer";
@@ -56,38 +57,39 @@ declare module "@package/net/minecraft/server/packs/repository" {
         static LOGGER: $Logger;
         constructor(arg0: $Path_, arg1: $PackType_, arg2: $PackSource, arg3: $DirectoryValidator);
     }
-    export class $PackRepository {
+    export class $PackRepository implements $InvokerPackRepository {
         reload(): void;
-        isAvailable(arg0: string): boolean;
-        openAllSelected(): $List<$PackResources>;
-        getSelectedPacks(): $Collection<$Pack>;
         setSelected(arg0: $Collection_<string>): void;
-        getAvailableIds(): $Collection<string>;
-        addPackFinder(arg0: $RepositorySource_): void;
-        getAvailablePacks(): $Collection<$Pack>;
-        rebuildSelected(arg0: $Collection_<string>): $List<$Pack>;
-        getRequestedFeatureFlags(): $FeatureFlagSet;
-        getSelectedIds(): $Collection<string>;
-        handler$gbe000$fabric_resource_loader_v0$construct(arg0: $RepositorySource_[], arg1: $CallbackInfo): void;
-        static displayPackList(arg0: $Collection_<$Pack>): string;
-        getPack(arg0: string): $Pack;
         addPack(arg0: string): boolean;
         removePack(arg0: string): boolean;
+        getPack(arg0: string): $Pack;
+        isAvailable(arg0: string): boolean;
+        getRequestedFeatureFlags(): $FeatureFlagSet;
+        getSelectedPacks(): $Collection<$Pack>;
+        openAllSelected(): $List<$PackResources>;
+        handler$gcg000$fabric_resource_loader_v0$construct(arg0: $RepositorySource_[], arg1: $CallbackInfo): void;
+        addPackFinder(arg0: $RepositorySource_): void;
+        getAvailableIds(): $Collection<string>;
+        rebuildSelected(arg0: $Collection_<string>): $List<$Pack>;
+        getAvailablePacks(): $Collection<$Pack>;
+        getSelectedIds(): $Collection<string>;
+        static displayPackList(arg0: $Collection_<$Pack>): string;
+        callRebuildSelected(arg0: $Collection_<string>): $List<$Pack>;
         sources: $Set<$RepositorySource>;
         constructor(...arg0: $RepositorySource_[]);
-        get selectedPacks(): $Collection<$Pack>;
         set selected(value: $Collection_<string>);
+        get requestedFeatureFlags(): $FeatureFlagSet;
+        get selectedPacks(): $Collection<$Pack>;
         get availableIds(): $Collection<string>;
         get availablePacks(): $Collection<$Pack>;
-        get requestedFeatureFlags(): $FeatureFlagSet;
         get selectedIds(): $Collection<string>;
     }
     export class $KnownPack extends $Record {
         version(): string;
         id(): string;
         namespace(): string;
-        isVanilla(): boolean;
         static vanilla(arg0: string): $KnownPack;
+        isVanilla(): boolean;
         static VANILLA_NAMESPACE: string;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $KnownPack>;
         constructor(arg0: string, arg1: string, arg2: string);
@@ -113,8 +115,8 @@ declare module "@package/net/minecraft/server/packs/repository" {
         isHidden(): boolean;
         description(): $Component;
         compatibility(): $PackCompatibility;
-        overlays(): $List<string>;
         requestedFeatures(): $FeatureFlagSet;
+        overlays(): $List<string>;
         /**
          * @deprecated
          */
@@ -125,16 +127,16 @@ declare module "@package/net/minecraft/server/packs/repository" {
     export class $PackCompatibility extends $Enum<$PackCompatibility> {
         static values(): $PackCompatibility[];
         static valueOf(arg0: string): $PackCompatibility;
-        getDescription(): $Component;
-        static forVersion(arg0: $InclusiveRange_<number>, arg1: number): $PackCompatibility;
         isCompatible(): boolean;
         getConfirmation(): $Component;
+        getDescription(): $Component;
+        static forVersion(arg0: $InclusiveRange_<number>, arg1: number): $PackCompatibility;
         static TOO_OLD: $PackCompatibility;
         static COMPATIBLE: $PackCompatibility;
         static TOO_NEW: $PackCompatibility;
-        get description(): $Component;
         get compatible(): boolean;
         get confirmation(): $Component;
+        get description(): $Component;
     }
     /**
      * Values that may be interpreted as {@link $PackCompatibility}.
@@ -158,22 +160,22 @@ declare module "@package/net/minecraft/server/packs/repository" {
         getTitle(): $Component;
         isRequired(): boolean;
         hidden(): $Pack;
-        getCompatibility(): $PackCompatibility;
-        getPackSource(): $PackSource;
-        static readPackMetadata(arg0: $PackLocationInfo_, arg1: $Pack$ResourcesSupplier, arg2: number): $Pack$Metadata;
-        selectionConfig(): $PackSelectionConfig;
-        getDefaultPosition(): $Pack$Position;
-        fabric_setParentsPredicate(arg0: $Predicate_<any>): void;
         static getDeclaredPackVersions(arg0: string, arg1: $PackMetadataSection_): $InclusiveRange<number>;
-        streamSelfAndChildren(): $Stream<$Pack>;
+        fabric_setParentsPredicate(arg0: $Predicate_<any>): void;
+        getCompatibility(): $PackCompatibility;
+        fabric_isHidden(): boolean;
+        getChatLink(arg0: boolean): $Component;
+        withChildren(arg0: $List_<$Pack>): $Pack;
+        getPackSource(): $PackSource;
         getRequestedFeatures(): $FeatureFlagSet;
+        streamSelfAndChildren(): $Stream<$Pack>;
         fabric_parentsEnabled(arg0: $Set_<any>): boolean;
         getDescription(): $Component;
-        isFixedPosition(): boolean;
         static readMetaAndCreate(arg0: $PackLocationInfo_, arg1: $Pack$ResourcesSupplier, arg2: $PackType_, arg3: $PackSelectionConfig_): $Pack;
-        getChatLink(arg0: boolean): $Component;
-        fabric_isHidden(): boolean;
-        withChildren(arg0: $List_<$Pack>): $Pack;
+        static readPackMetadata(arg0: $PackLocationInfo_, arg1: $Pack$ResourcesSupplier, arg2: number): $Pack$Metadata;
+        getDefaultPosition(): $Pack$Position;
+        selectionConfig(): $PackSelectionConfig;
+        isFixedPosition(): boolean;
         constructor(arg0: $PackLocationInfo_, arg1: $Pack$ResourcesSupplier, arg2: $Pack$Metadata_, arg3: $PackSelectionConfig_);
         get id(): string;
         get children(): $List<$Pack>;
@@ -181,22 +183,22 @@ declare module "@package/net/minecraft/server/packs/repository" {
         get required(): boolean;
         get compatibility(): $PackCompatibility;
         get packSource(): $PackSource;
-        get defaultPosition(): $Pack$Position;
         get requestedFeatures(): $FeatureFlagSet;
         get description(): $Component;
+        get defaultPosition(): $Pack$Position;
         get fixedPosition(): boolean;
     }
     export class $BuiltInPackSource implements $RepositorySource {
-        getVanillaPack(): $VanillaPackResources;
-        handler$inc000$axiom$loadPacks(consumer: $Consumer_<any>, ci: $CallbackInfo): void;
-        static fromName(arg0: $Function_<$PackLocationInfo, $PackResources>): $Pack$ResourcesSupplier;
         loadPacks(arg0: $Consumer_<$Pack>): void;
         discoverPacksInPath(arg0: $Path_, arg1: $BiConsumer_<string, $Function<string, $Pack>>): void;
-        getPackTitle(arg0: string): $Component;
+        static fromName(arg0: $Function_<$PackLocationInfo, $PackResources>): $Pack$ResourcesSupplier;
+        getVanillaPack(): $VanillaPackResources;
         static fixedResources(arg0: $PackResources): $Pack$ResourcesSupplier;
         createBuiltinPack(arg0: string, arg1: $Pack$ResourcesSupplier, arg2: $Component_): $Pack;
         populatePackList(arg0: $BiConsumer_<string, $Function<string, $Pack>>): void;
+        getPackTitle(arg0: string): $Component;
         createVanillaPack(arg0: $PackResources): $Pack;
+        handler$jgk000$axiom$loadPacks(consumer: $Consumer_<any>, ci: $CallbackInfo): void;
         static VANILLA_ID: string;
         static CORE_PACK_INFO: $KnownPack;
         constructor(arg0: $PackType_, arg1: $VanillaPackResources, arg2: $ResourceLocation_, arg3: $DirectoryValidator);

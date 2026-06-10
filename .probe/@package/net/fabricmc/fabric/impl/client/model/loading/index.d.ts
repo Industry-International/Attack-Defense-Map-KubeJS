@@ -9,9 +9,9 @@ import { $List_ } from "@package/java/util";
 
 declare module "@package/net/fabricmc/fabric/impl/client/model/loading" {
     export class $ModelLoadingEventDispatcher {
+        modifyModelAfterBake(arg0: $BakedModel, arg1: $ResourceLocation_, arg2: $ModelResourceLocation_, arg3: $UnbakedModel, arg4: $Function_<$Material, $TextureAtlasSprite>, arg5: $ModelState, arg6: $ModelBaker): $BakedModel;
         loadBlockStateModels(arg0: $ResourceLocation_, arg1: $StateDefinition<$Block_, $BlockState_>): boolean;
         modifyModelBeforeBake(arg0: $UnbakedModel, arg1: $ResourceLocation_, arg2: $ModelResourceLocation_, arg3: $Function_<$Material, $TextureAtlasSprite>, arg4: $ModelState, arg5: $ModelBaker): $UnbakedModel;
-        modifyModelAfterBake(arg0: $BakedModel, arg1: $ResourceLocation_, arg2: $ModelResourceLocation_, arg3: $UnbakedModel, arg4: $Function_<$Material, $TextureAtlasSprite>, arg5: $ModelState, arg6: $ModelBaker): $BakedModel;
         resolveModel(arg0: $ResourceLocation_): $UnbakedModel;
         addExtraModels(arg0: $Consumer_<$ResourceLocation>): void;
         modifyModelOnLoad(arg0: $UnbakedModel, arg1: $ResourceLocation_, arg2: $ModelResourceLocation_): $UnbakedModel;
@@ -39,8 +39,8 @@ declare module "@package/net/fabricmc/fabric/impl/client/model/loading" {
     }
     export interface $ModelLoaderHooks {
         fabric_add(arg0: $ModelResourceLocation_, arg1: $UnbakedModel): void;
-        fabric_getMissingModel(): $UnbakedModel;
         fabric_getDispatcher(): $ModelLoadingEventDispatcher;
+        fabric_getMissingModel(): $UnbakedModel;
         fabric_getOrLoadModel(arg0: $ResourceLocation_): $UnbakedModel;
     }
     export class $BakerImplHooks {

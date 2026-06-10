@@ -19,13 +19,13 @@ declare module "@package/net/blay09/mods/balm/api/config/schema/builder" {
         comment(arg0: string): $ConfigPropertyBuilder;
         stringOf(arg0: string): $StringConfigProperty;
         listOf<T>(arg0: $Class<T>, arg1: $List_<T>): $ListConfigProperty<T>;
-        synced(): $ConfigPropertyBuilder;
         setOf<T>(arg0: $Class<T>, arg1: $Set_<T>): $SetConfigProperty<T>;
-        longOf(arg0: number): $LongConfigProperty;
+        synced(): $ConfigPropertyBuilder;
         floatOf(arg0: number): $FloatConfigProperty;
+        intOf(arg0: number): $IntConfigProperty;
+        longOf(arg0: number): $LongConfigProperty;
         doubleOf(arg0: number): $DoubleConfigProperty;
         boolOf(arg0: boolean): $BooleanConfigProperty;
-        intOf(arg0: number): $IntConfigProperty;
         enumOf<T extends $Enum<T>>(arg0: T): $EnumConfigProperty<T>;
         resourceLocationOf(arg0: $ResourceLocation_): $ResourceLocationConfigProperty;
         constructor(arg0: $ConfigSchemaImpl, arg1: string);

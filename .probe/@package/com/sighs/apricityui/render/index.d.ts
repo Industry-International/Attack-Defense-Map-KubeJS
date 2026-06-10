@@ -7,29 +7,29 @@ import { $Element } from "@package/com/sighs/apricityui/init";
 declare module "@package/com/sighs/apricityui/render" {
     export class $Rect {
         static of(arg0: $Element): $Rect;
-        drawShadow(arg0: $PoseStack): void;
-        getBodyRectPosition(): $Position;
         getBodyRectSize(): $Size;
         getContentPosition(): $Position;
         drawBorder(arg0: $PoseStack): void;
         drawBody(arg0: $PoseStack, arg1: $Size_): void;
         drawBody(arg0: $PoseStack): void;
+        drawShadow(arg0: $PoseStack): void;
+        getBodyRectPosition(): $Position;
         getVisualBounds(): $AABB;
         getBodyRadius(): number[];
-        getShadowPosition(): $Position;
         getShadowSize(): $Size;
+        getShadowPosition(): $Position;
         background: $Background;
         box: $Box;
         position: $Position;
         documentPath: string;
         constructor(arg0: $Element);
-        get bodyRectPosition(): $Position;
         get bodyRectSize(): $Size;
         get contentPosition(): $Position;
+        get bodyRectPosition(): $Position;
         get visualBounds(): $AABB;
         get bodyRadius(): number[];
-        get shadowPosition(): $Position;
         get shadowSize(): $Size;
+        get shadowPosition(): $Position;
     }
     export class $Base$RenderPhase extends $Enum<$Base$RenderPhase> {
         static values(): $Base$RenderPhase[];
@@ -61,8 +61,8 @@ declare module "@package/com/sighs/apricityui/render" {
         intersects(arg0: $AABB_): boolean;
         height(): number;
         intersection(arg0: $AABB_): $AABB;
-        maxY(): number;
         maxX(): number;
+        maxY(): number;
         constructor(x: number, y: number, width: number, height: number);
         get valid(): boolean;
     }

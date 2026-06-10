@@ -79,12 +79,12 @@ declare module "@package/javax/management" {
     export class $DynamicMBean {
     }
     export interface $DynamicMBean {
+        getMBeanInfo(): $MBeanInfo;
+        setAttributes(arg0: $AttributeList): $AttributeList;
         invoke(arg0: string, arg1: $Object[], arg2: string[]): $Object;
         getAttributes(arg0: string[]): $AttributeList;
         setAttribute(arg0: $Attribute): void;
         getAttribute(arg0: string): $Object;
-        getMBeanInfo(): $MBeanInfo;
-        setAttributes(arg0: $AttributeList): $AttributeList;
         get MBeanInfo(): $MBeanInfo;
     }
     export class $Attribute implements $Serializable {
@@ -116,20 +116,20 @@ declare module "@package/javax/management" {
         get type(): string;
     }
     export class $MBeanOperationInfo extends $MBeanFeatureInfo implements $Cloneable {
+        getImpact(): number;
         clone(): $Object;
         getReturnType(): string;
         getSignature(): $MBeanParameterInfo[];
-        getImpact(): number;
         static ACTION_INFO: number;
         static ACTION: number;
         static UNKNOWN: number;
         static INFO: number;
+        constructor(arg0: string, arg1: $Method);
         constructor(arg0: string, arg1: string, arg2: $MBeanParameterInfo[], arg3: string, arg4: number, arg5: $Descriptor);
         constructor(arg0: string, arg1: string, arg2: $MBeanParameterInfo[], arg3: string, arg4: number);
-        constructor(arg0: string, arg1: $Method);
+        get impact(): number;
         get returnType(): string;
         get signature(): $MBeanParameterInfo[];
-        get impact(): number;
     }
     export class $AttributeList extends $ArrayList<$Object> {
         add(arg0: number, arg1: $Attribute): void;

@@ -74,26 +74,26 @@ declare module "@package/net/minecraft/commands/arguments/item" {
     export interface $ComponentPredicateParser$Context<T, C, P> {
         negate(arg0: T): T;
         anyOf(arg0: $List_<T>): T;
+        lookupComponentType(arg0: $ImmutableStringReader, arg1: $ResourceLocation_): C;
+        createPredicateTest(arg0: $ImmutableStringReader, arg1: P, arg2: $Tag_): T;
         createComponentTest(arg0: $ImmutableStringReader, arg1: C, arg2: $Tag_): T;
         createComponentTest(arg0: $ImmutableStringReader, arg1: C): T;
-        createPredicateTest(arg0: $ImmutableStringReader, arg1: P, arg2: $Tag_): T;
-        lookupComponentType(arg0: $ImmutableStringReader, arg1: $ResourceLocation_): C;
         lookupPredicateType(arg0: $ImmutableStringReader, arg1: $ResourceLocation_): P;
-        listPredicateTypes(): $Stream<$ResourceLocation>;
-        forElementType(arg0: $ImmutableStringReader, arg1: $ResourceLocation_): T;
-        listElementTypes(): $Stream<$ResourceLocation>;
-        listTagTypes(): $Stream<$ResourceLocation>;
-        listComponentTypes(): $Stream<$ResourceLocation>;
         forTagType(arg0: $ImmutableStringReader, arg1: $ResourceLocation_): T;
+        listElementTypes(): $Stream<$ResourceLocation>;
+        forElementType(arg0: $ImmutableStringReader, arg1: $ResourceLocation_): T;
+        listTagTypes(): $Stream<$ResourceLocation>;
+        listPredicateTypes(): $Stream<$ResourceLocation>;
+        listComponentTypes(): $Stream<$ResourceLocation>;
     }
     export class $ComponentPredicateParser$ElementLookupRule<T, C, P> extends $ResourceLookupRule<$ComponentPredicateParser$Context<T, C, P>, T> {
         context: $ComponentPredicateParser$Context<T, C, P>;
     }
     export class $ItemParser$SuggestionsVisitor implements $ItemParser$Visitor {
-        visitRemovedComponent<T>(arg0: $DataComponentType_<T>): void;
         visitComponent<T>(arg0: $DataComponentType_<T>, arg1: T): void;
-        visitSuggestions(arg0: $Function_<$SuggestionsBuilder, $CompletableFuture<$Suggestions>>): void;
         visitItem(arg0: $Holder_<$Item>): void;
+        visitSuggestions(arg0: $Function_<$SuggestionsBuilder, $CompletableFuture<$Suggestions>>): void;
+        visitRemovedComponent<T>(arg0: $DataComponentType_<T>): void;
     }
     export class $ItemParser$ItemResult extends $Record {
         item(): $Holder<$Item>;
@@ -134,8 +134,8 @@ declare module "@package/net/minecraft/commands/arguments/item" {
         static getFunction(arg0: $CommandContext<$CommandSourceStack>, arg1: $ResourceLocation_): $CommandFunction<$CommandSourceStack>;
         static functions(): $FunctionArgument;
         getExamples(): $Collection<string>;
-        static getFunctions(arg0: $CommandContext<$CommandSourceStack>, arg1: string): $Collection<$CommandFunction<$CommandSourceStack>>;
         static getFunctionCollection(arg0: $CommandContext<$CommandSourceStack>, arg1: string): $Pair<$ResourceLocation, $Collection<$CommandFunction<$CommandSourceStack>>>;
+        static getFunctions(arg0: $CommandContext<$CommandSourceStack>, arg1: string): $Collection<$CommandFunction<$CommandSourceStack>>;
         static getFunctionTag(arg0: $CommandContext<$CommandSourceStack>, arg1: $ResourceLocation_): $Collection<$CommandFunction<$CommandSourceStack>>;
         static getFunctionOrTag(arg0: $CommandContext<$CommandSourceStack>, arg1: string): $Pair<$ResourceLocation, $Either<$CommandFunction<$CommandSourceStack>, $Collection<$CommandFunction<$CommandSourceStack>>>>;
         parse<S>(arg0: $StringReader, arg1: S): $FunctionArgument$Result;
@@ -148,8 +148,8 @@ declare module "@package/net/minecraft/commands/arguments/item" {
     }
     export class $ItemInput {
         getItem(): $Item;
-        serialize(arg0: $HolderLookup$Provider): string;
         createItemStack(arg0: number, arg1: boolean): $ItemStack;
+        serialize(arg0: $HolderLookup$Provider): string;
         constructor(arg0: $Holder_<$Item>, arg1: $DataComponentPatch_);
         get item(): $Item;
     }
@@ -158,9 +158,9 @@ declare module "@package/net/minecraft/commands/arguments/item" {
     export class $ItemParser$Visitor {
     }
     export interface $ItemParser$Visitor {
-        visitRemovedComponent<T>(arg0: $DataComponentType_<T>): void;
         visitComponent<T>(arg0: $DataComponentType_<T>, arg1: T): void;
-        visitSuggestions(arg0: $Function_<$SuggestionsBuilder, $CompletableFuture<$Suggestions>>): void;
         visitItem(arg0: $Holder_<$Item>): void;
+        visitSuggestions(arg0: $Function_<$SuggestionsBuilder, $CompletableFuture<$Suggestions>>): void;
+        visitRemovedComponent<T>(arg0: $DataComponentType_<T>): void;
     }
 }

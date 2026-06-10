@@ -101,8 +101,8 @@ declare module "@package/net/minecraft/util/datafix/schemas" {
         constructor(arg0: number, arg1: $Schema);
     }
     export class $NamespacedSchema extends $Schema {
-        static ensureNamespaced(arg0: string): string;
         static namespacedString(): $Type<string>;
+        static ensureNamespaced(arg0: string): string;
         static NAMESPACED_STRING_CODEC: $PrimitiveCodec<string>;
         constructor(arg0: number, arg1: $Schema);
     }
@@ -115,8 +115,8 @@ declare module "@package/net/minecraft/util/datafix/schemas" {
         constructor(arg0: number, arg1: $Schema);
     }
     export class $V1460 extends $NamespacedSchema {
-        static registerMob(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
         static registerInventory(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
+        static registerMob(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
         static NAMESPACED_STRING_CODEC: $PrimitiveCodec<string>;
         constructor(arg0: number, arg1: $Schema);
     }
@@ -348,11 +348,11 @@ declare module "@package/net/minecraft/util/datafix/schemas" {
     }
     export class $V99 extends $Schema {
         static registerThrowableProjectile(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
+        static registerInventory(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
         static registerMob(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
         static registerMinecart(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
-        static registerInventory(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: string): void;
-        static equipment(arg0: $Schema): $TypeTemplate;
         static addNames<T>(arg0: $Dynamic<T>, arg1: $Map_<string, string>, arg2: $Map_<string, string>): T;
+        static equipment(arg0: $Schema): $TypeTemplate;
         static ITEM_TO_ENTITY: $Map<string, string>;
         static ADD_NAMES: $Hook$HookFunction;
         static ITEM_TO_BLOCKENTITY: $Map<string, string>;

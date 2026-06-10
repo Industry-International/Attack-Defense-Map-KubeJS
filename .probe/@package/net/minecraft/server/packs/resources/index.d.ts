@@ -99,8 +99,8 @@ declare module "@package/net/minecraft/server/packs/resources" {
         static EMPTY: $ResourceMetadata;
     }
     export interface $ResourceMetadata {
-        getSection<T>(arg0: $MetadataSectionSerializer<T>): (T) | undefined;
         copySections(arg0: $Collection_<$MetadataSectionSerializer<never>>): $ResourceMetadata;
+        getSection<T>(arg0: $MetadataSectionSerializer<T>): (T) | undefined;
     }
     /**
      * Values that may be interpreted as {@link $ResourceMetadata}.
@@ -120,11 +120,11 @@ declare module "@package/net/minecraft/server/packs/resources" {
         getResource(arg0: $ResourceLocation_): ($Resource) | undefined;
         close(): void;
         listResources(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $Resource>;
-        getNamespaces(): $Set<string>;
-        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
-        fabric_getResourceType(): $PackType;
         getResourceStack(arg0: $ResourceLocation_): $List<$Resource>;
+        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
+        getNamespaces(): $Set<string>;
         listPacks(): $Stream<$PackResources>;
+        fabric_getResourceType(): $PackType;
         open(arg0: $ResourceLocation_): $InputStream;
         getResourceOrThrow(arg0: $ResourceLocation_): $Resource;
         openAsReader(arg0: $ResourceLocation_): $BufferedReader;
@@ -155,16 +155,16 @@ declare module "@package/net/minecraft/server/packs/resources" {
     }
     export class $FallbackResourceManager implements $ResourceManager {
         getResource(arg0: $ResourceLocation_): ($Resource) | undefined;
-        push(arg0: $PackResources, arg1: $Predicate_<$ResourceLocation>): void;
         push(arg0: $PackResources): void;
+        push(arg0: $PackResources, arg1: $Predicate_<$ResourceLocation>): void;
         listResources(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $Resource>;
-        static parseMetadata(arg0: $IoSupplier_<$InputStream>): $ResourceMetadata;
-        getNamespaces(): $Set<string>;
-        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
         getResourceStack(arg0: $ResourceLocation_): $List<$Resource>;
+        static parseMetadata(arg0: $IoSupplier_<$InputStream>): $ResourceMetadata;
+        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
+        static getMetadataLocation(arg0: $ResourceLocation_): $ResourceLocation;
+        getNamespaces(): $Set<string>;
         listPacks(): $Stream<$PackResources>;
         pushFilterOnly(arg0: string, arg1: $Predicate_<$ResourceLocation>): void;
-        static getMetadataLocation(arg0: $ResourceLocation_): $ResourceLocation;
         open(arg0: $ResourceLocation_): $InputStream;
         getResourceOrThrow(arg0: $ResourceLocation_): $Resource;
         openAsReader(arg0: $ResourceLocation_): $BufferedReader;
@@ -193,9 +193,9 @@ declare module "@package/net/minecraft/server/packs/resources" {
         static valueOf(arg0: string): $ResourceManager$Empty;
         getResource(arg0: $ResourceLocation_): ($Resource) | undefined;
         listResources(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $Resource>;
-        getNamespaces(): $Set<string>;
-        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
         getResourceStack(arg0: $ResourceLocation_): $List<$Resource>;
+        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
+        getNamespaces(): $Set<string>;
         listPacks(): $Stream<$PackResources>;
         open(arg0: $ResourceLocation_): $InputStream;
         getResourceOrThrow(arg0: $ResourceLocation_): $Resource;
@@ -213,13 +213,13 @@ declare module "@package/net/minecraft/server/packs/resources" {
         getResource(arg0: $ResourceLocation_): ($Resource) | undefined;
         close(): void;
         listResources(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $Resource>;
-        getNamespaces(): $Set<string>;
-        createReload(arg0: $Executor_, arg1: $Executor_, arg2: $CompletableFuture<$Unit_>, arg3: $List_<$PackResources>): $ReloadInstance;
-        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
         getResourceStack(arg0: $ResourceLocation_): $List<$Resource>;
+        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
+        getNamespaces(): $Set<string>;
         registerReloadListener(arg0: $PreparableReloadListener_): void;
-        registerReloadListenerIfNotPresent(arg0: $PreparableReloadListener_): void;
         listPacks(): $Stream<$PackResources>;
+        createReload(arg0: $Executor_, arg1: $Executor_, arg2: $CompletableFuture<$Unit_>, arg3: $List_<$PackResources>): $ReloadInstance;
+        registerReloadListenerIfNotPresent(arg0: $PreparableReloadListener_): void;
         open(arg0: $ResourceLocation_): $InputStream;
         getResourceOrThrow(arg0: $ResourceLocation_): $Resource;
         openAsReader(arg0: $ResourceLocation_): $BufferedReader;
@@ -235,17 +235,17 @@ declare module "@package/net/minecraft/server/packs/resources" {
     export class $SimplePreparableReloadListener<T> extends $ContextAwareReloadListener implements $PreparableReloadListener {
         apply(arg0: T, arg1: $ResourceManager, arg2: $ProfilerFiller): void;
         prepare(arg0: $ResourceManager, arg1: $ProfilerFiller): T;
-        fabric_applyResourceConditions(arg0: $ResourceManager, arg1: $ProfilerFiller, arg2: $Object, arg3: $HolderLookup$Provider): void;
         fabric_getRegistryLookup(): $HolderLookup$Provider;
+        fabric_applyResourceConditions(arg0: $ResourceManager, arg1: $ProfilerFiller, arg2: $Object, arg3: $HolderLookup$Provider): void;
         constructor();
     }
     export class $ResourceManager {
     }
     export interface $ResourceManager extends $ResourceProvider, $MixinIResourceManager$V1, $IFakeIResourceManager$V1 {
         listResources(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $Resource>;
-        getNamespaces(): $Set<string>;
-        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
         getResourceStack(arg0: $ResourceLocation_): $List<$Resource>;
+        listResourceStacks(arg0: string, arg1: $Predicate_<$ResourceLocation>): $Map<$ResourceLocation, $List<$Resource>>;
+        getNamespaces(): $Set<string>;
         listPacks(): $Stream<$PackResources>;
         get namespaces(): $Set<string>;
     }
@@ -253,9 +253,9 @@ declare module "@package/net/minecraft/server/packs/resources" {
         source(): $PackResources;
         open(): $InputStream;
         metadata(): $ResourceMetadata;
+        knownPackInfo(): ($KnownPack) | undefined;
         sourcePackId(): string;
         openAsReader(): $BufferedReader;
-        knownPackInfo(): ($KnownPack) | undefined;
         getFabricPackSource(): $PackSource;
         getInputStream(): $InputStream;
         constructor(arg0: $PackResources, arg1: $IoSupplier_<$InputStream>, arg2: $IoSupplier_<$ResourceMetadata>);
@@ -264,8 +264,8 @@ declare module "@package/net/minecraft/server/packs/resources" {
         get inputStream(): $InputStream;
     }
     export class $ResourceFilterSection {
-        isNamespaceFiltered(arg0: string): boolean;
         isPathFiltered(arg0: string): boolean;
+        isNamespaceFiltered(arg0: string): boolean;
         static TYPE: $MetadataSectionType<$ResourceFilterSection>;
         constructor(arg0: $List_<$ResourceLocationPattern>);
     }
@@ -274,8 +274,8 @@ declare module "@package/net/minecraft/server/packs/resources" {
     export interface $ReloadInstance {
         done(): $CompletableFuture<never>;
         isDone(): boolean;
-        checkExceptions(): void;
         getActualProgress(): number;
+        checkExceptions(): void;
         get actualProgress(): number;
     }
 }

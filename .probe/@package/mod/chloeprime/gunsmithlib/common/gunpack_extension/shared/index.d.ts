@@ -8,41 +8,46 @@ import { $DamageSourceControlData } from "@package/mod/chloeprime/gunsmithlib/co
 import { $RaytraceControlData } from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/raytrace_control";
 import { $HitParticleData } from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/hit_particle";
 import { $List } from "@package/java/util";
-import { $Iterable } from "@package/java/lang";
 import { $PotionEffectData } from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/potion_effect";
+import { $Iterable } from "@package/java/lang";
 import { $GunInfo_, $AttachmentInfo_, $AmmoInfo_ } from "@package/mod/chloeprime/gunsmithlib/api/util";
+export * as shield from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/shield";
+export * as damage_source_control from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/damage_source_control";
+export * as attribute from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/attribute";
 export * as potion_effect from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/potion_effect";
 export * as fire_control from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/fire_control";
-export * as shield from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/shield";
+export * as ricochet from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/ricochet";
+export * as raytrace_control from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/raytrace_control";
+export * as hit_particle from "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/hit_particle";
 
 declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared" {
     export class $GunsmithLibSharedDataExtension {
         static allOf(arg0: $GunInfo_): $Iterable<$GunsmithLibSharedDataExtension>;
-        getDamageSourceControlData(): $DamageSourceControlData;
-        getAttributeModifiers(): $List<$GunsmithLibAttributeModifierEntry>;
-        static forGun(arg0: $GunInfo_): ($GunsmithLibSharedDataExtension) | undefined;
-        static forAmmo(arg0: $AmmoInfo_): ($GunsmithLibSharedDataExtension) | undefined;
-        getAreaEffectCloudDuration(): number;
-        static forGunOrAmmo<T>(arg0: $ItemStack_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>): (T) | undefined;
-        static forGunOrAmmo<T>(arg0: $GunInfo_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>): (T) | undefined;
-        getPotionEffects(): $List<$PotionEffectData>;
-        getAreaEffectCloudMinSizeRate(): number;
         getHitParticles(): $HitParticleData[];
+        getAttributeModifiers(): $List<$GunsmithLibAttributeModifierEntry>;
+        getPotionEffects(): $List<$PotionEffectData>;
+        static forGunOrAmmo<T>(arg0: $GunInfo_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>): (T) | undefined;
+        static forGunOrAmmo<T>(arg0: $ItemStack_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>): (T) | undefined;
+        getAreaEffectCloudMinSizeRate(): number;
         getBakedAttributeModifiers(): $ItemAttributeModifiers;
-        getRaytraceControlData(): $RaytraceControlData;
-        static forGunOrAmmoWithAttachment<T>(arg0: $ItemStack_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>, arg2: $RegistryAccess): $List<T>;
-        static forGunOrAmmoWithAttachment<T>(arg0: $GunInfo_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>, arg2: $RegistryAccess): $List<T>;
+        getAreaEffectCloudDuration(): number;
+        getDamageSourceControlData(): $DamageSourceControlData;
         static forAttachment(arg0: $AttachmentInfo_): ($GunsmithLibSharedDataExtension) | undefined;
         getRicochetData(): $RicochetData;
+        static forGunOrAmmoWithAttachment<T>(arg0: $ItemStack_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>, arg2: $RegistryAccess): $List<T>;
+        static forGunOrAmmoWithAttachment<T>(arg0: $GunInfo_, arg1: $Function_<$GunsmithLibSharedDataExtension, T>, arg2: $RegistryAccess): $List<T>;
+        getRaytraceControlData(): $RaytraceControlData;
+        static forGun(arg0: $GunInfo_): ($GunsmithLibSharedDataExtension) | undefined;
+        static forAmmo(arg0: $AmmoInfo_): ($GunsmithLibSharedDataExtension) | undefined;
         constructor();
-        get damageSourceControlData(): $DamageSourceControlData;
+        get hitParticles(): $HitParticleData[];
         get attributeModifiers(): $List<$GunsmithLibAttributeModifierEntry>;
-        get areaEffectCloudDuration(): number;
         get potionEffects(): $List<$PotionEffectData>;
         get areaEffectCloudMinSizeRate(): number;
-        get hitParticles(): $HitParticleData[];
         get bakedAttributeModifiers(): $ItemAttributeModifiers;
-        get raytraceControlData(): $RaytraceControlData;
+        get areaEffectCloudDuration(): number;
+        get damageSourceControlData(): $DamageSourceControlData;
         get ricochetData(): $RicochetData;
+        get raytraceControlData(): $RaytraceControlData;
     }
 }

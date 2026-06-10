@@ -12,15 +12,15 @@ declare module "@package/net/blay09/mods/waystones/core" {
     export class $WaystoneManagerImpl extends $SavedData implements $WaystoneManager {
         static get(arg0: $MinecraftServer): $WaystoneManagerImpl;
         static read(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): $WaystoneManagerImpl;
-        updateWaystone(arg0: $Waystone): void;
         addWaystone(arg0: $Waystone): void;
-        getWaystones(): $Stream<$Waystone>;
-        getWaystoneById(arg0: $UUID_): ($Waystone) | undefined;
-        removeWaystone(arg0: $Waystone): void;
-        findWaystoneByName(arg0: string): ($Waystone) | undefined;
-        getGlobalWaystones(): $List<$Waystone>;
         getWaystoneAt(arg0: $BlockGetter, arg1: $BlockPos_): ($Waystone) | undefined;
         getWaystonesByType(arg0: $ResourceLocation_): $Stream<$Waystone>;
+        getWaystones(): $Stream<$Waystone>;
+        removeWaystone(arg0: $Waystone): void;
+        getWaystoneById(arg0: $UUID_): ($Waystone) | undefined;
+        findWaystoneByName(arg0: string): ($Waystone) | undefined;
+        getGlobalWaystones(): $List<$Waystone>;
+        updateWaystone(arg0: $Waystone): void;
         constructor();
         get waystones(): $Stream<$Waystone>;
         get globalWaystones(): $List<$Waystone>;

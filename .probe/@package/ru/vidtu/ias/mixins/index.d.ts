@@ -11,14 +11,14 @@ declare module "@package/ru/vidtu/ias/mixins" {
     export class $MinecraftAccessor {
     }
     export interface $MinecraftAccessor {
+        ias$userPropertiesFuture(future: $CompletableFuture<$UserApiService$UserProperties_>): void;
+        ias$telemetryManager(manager: $ClientTelemetryManager): void;
+        ias$profileKeyPairManager(manager: $ProfileKeyPairManager): void;
+        ias$playerSocialManager(manager: $PlayerSocialManager): void;
+        ias$authenticationService(): $YggdrasilAuthenticationService;
+        ias$reportingContext(context: $ReportingContext): void;
+        ias$user(user: $User): void;
         ias$userApiService(service: $UserApiService): void;
         ias$profileFuture(future: $CompletableFuture<$ProfileResult_>): void;
-        ias$playerSocialManager(manager: $PlayerSocialManager): void;
-        ias$userPropertiesFuture(future: $CompletableFuture<$UserApiService$UserProperties_>): void;
-        ias$reportingContext(context: $ReportingContext): void;
-        ias$telemetryManager(manager: $ClientTelemetryManager): void;
-        ias$authenticationService(): $YggdrasilAuthenticationService;
-        ias$profileKeyPairManager(manager: $ProfileKeyPairManager): void;
-        ias$user(user: $User): void;
     }
 }

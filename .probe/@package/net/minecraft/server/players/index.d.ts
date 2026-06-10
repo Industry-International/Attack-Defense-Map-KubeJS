@@ -39,16 +39,16 @@ declare module "@package/net/minecraft/server/players" {
         get bypassesPlayerLimit(): boolean;
     }
     export class $OldUsersConverter {
+        static ensureDirectoryExists(arg0: $File_): void;
         static serverReadyAfterUserconversion(arg0: $MinecraftServer): boolean;
         static convertMobOwnerIfNecessary(arg0: $MinecraftServer, arg1: string): $UUID;
-        static ensureDirectoryExists(arg0: $File_): void;
         static parseDate(arg0: string, arg1: $Date): $Date;
-        static readOldListFormat(arg0: $File_, arg1: $Map_<string, string[]>): $List<string>;
-        static convertOpsList(arg0: $MinecraftServer): boolean;
         static convertUserBanlist(arg0: $MinecraftServer): boolean;
-        static convertIpBanlist(arg0: $MinecraftServer): boolean;
         static convertPlayers(arg0: $DedicatedServer): boolean;
+        static convertOpsList(arg0: $MinecraftServer): boolean;
         static convertWhiteList(arg0: $MinecraftServer): boolean;
+        static convertIpBanlist(arg0: $MinecraftServer): boolean;
+        static readOldListFormat(arg0: $File_, arg1: $Map_<string, string[]>): $List<string>;
         static OLD_OPLIST: $File;
         static OLD_USERBANLIST: $File;
         static LOGGER: $Logger;
@@ -63,10 +63,10 @@ declare module "@package/net/minecraft/server/players" {
         add(arg0: $GameProfile): void;
         save(): void;
         getAsync(arg0: string): $CompletableFuture<($GameProfile) | undefined>;
-        clearExecutor(): void;
-        xaero_pac_PlayerNameIsKnown(arg0: string): boolean;
         static setUsesAuthentication(arg0: boolean): void;
+        clearExecutor(): void;
         setExecutor(arg0: $Executor_): void;
+        xaero_pac_PlayerNameIsKnown(arg0: string): boolean;
         constructor(arg0: $GameProfileRepository_, arg1: $File_);
         static set usesAuthentication(value: boolean);
         set executor(value: $Executor_);
@@ -85,9 +85,9 @@ declare module "@package/net/minecraft/server/players" {
     export class $BanListEntry<T> extends $StoredUserEntry<T> {
         getDisplayName(): $Component;
         getSource(): string;
-        getReason(): string;
-        getCreated(): $Date;
         getExpires(): $Date;
+        getCreated(): $Date;
+        getReason(): string;
         reason: string;
         expires: $Date;
         static DATE_FORMAT: $SimpleDateFormat;
@@ -100,8 +100,8 @@ declare module "@package/net/minecraft/server/players" {
     }
     export class $IpBanList extends $StoredUserList<string, $IpBanListEntry> {
         get(arg0: $SocketAddress): $IpBanListEntry;
-        isBanned(arg0: string): boolean;
         isBanned(arg0: $SocketAddress): boolean;
+        isBanned(arg0: string): boolean;
         constructor(arg0: $File_);
     }
     export class $UserWhiteListEntry extends $StoredUserEntry<$GameProfile> {
@@ -110,11 +110,11 @@ declare module "@package/net/minecraft/server/players" {
     }
     export class $SleepStatus {
         update(arg0: $List_<$ServerPlayer>): boolean;
-        areEnoughSleeping(arg0: number): boolean;
-        amountSleeping(): number;
-        sleepersNeeded(arg0: number): number;
-        removeAllSleepers(): void;
         areEnoughDeepSleeping(arg0: number, arg1: $List_<$ServerPlayer>): boolean;
+        areEnoughSleeping(arg0: number): boolean;
+        removeAllSleepers(): void;
+        sleepersNeeded(arg0: number): number;
+        amountSleeping(): number;
         constructor();
     }
     export class $ServerOpList extends $StoredUserList<$GameProfile, $ServerOpListEntry> {
@@ -125,8 +125,8 @@ declare module "@package/net/minecraft/server/players" {
     export class $GameProfileCache$GameProfileInfo {
     }
     export class $UserBanList extends $StoredUserList<$GameProfile, $UserBanListEntry> {
-        isBanned(arg0: $GameProfile): boolean;
         getKeyForUser(arg0: $GameProfile): string;
+        isBanned(arg0: $GameProfile): boolean;
         constructor(arg0: $File_);
     }
     export class $UserWhiteList extends $StoredUserList<$GameProfile, $UserWhiteListEntry> {
@@ -142,62 +142,62 @@ declare module "@package/net/minecraft/server/players" {
         removeAll(): void;
         broadcast(arg0: $Player, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $ResourceKey_<any>, arg6: $Packet<any>): void;
         tick(): void;
-        addWorldborderListener(arg0: $ServerLevel): void;
-        getPlayerNamesArray(): string[];
-        getSingleplayerData(): $CompoundTag;
-        getViewDistance(): number;
-        isOp(arg0: $GameProfile): boolean;
-        isAllowCommandsForAllPlayers(): boolean;
-        sendActivePlayerEffects(arg0: $ServerPlayer): void;
-        broadcastSystemMessage(arg0: $Component_, arg1: $Function_<$ServerPlayer, $Component>, arg2: boolean): void;
-        broadcastSystemMessage(arg0: $Component_, arg1: boolean): void;
-        broadcastSystemToTeam(arg0: $Player, arg1: $Component_): void;
-        sendPlayerPermissionLevel(arg0: $ServerPlayer): void;
-        getPlayerAdvancements(arg0: $ServerPlayer): $PlayerAdvancements;
-        getOps(): $ServerOpList;
         getPlayerStats(arg0: $Player): $ServerStatsCounter;
         sendLevelInfo(arg0: $ServerPlayer, arg1: $ServerLevel): void;
         sendAllPlayerInfo(arg0: $ServerPlayer): void;
-        broadcastAll(arg0: $Packet<never>, arg1: $ResourceKey_<$Level>): void;
-        broadcastAll(arg0: $Packet<never>): void;
-        sendActiveEffects(arg0: $LivingEntity, arg1: $ServerGamePacketListenerImpl): void;
-        getBans(): $UserBanList;
-        reloadResources(): void;
+        getOps(): $ServerOpList;
+        canPlayerLogin(arg0: $SocketAddress, arg1: $GameProfile): $Component;
+        getPlayerAdvancements(arg0: $ServerPlayer): $PlayerAdvancements;
         getPlayerCount(): number;
         getMaxPlayers(): number;
-        getWhiteList(): $UserWhiteList;
+        reloadResources(): void;
         isWhiteListed(arg0: $GameProfile): boolean;
+        getWhiteList(): $UserWhiteList;
+        setViewDistance(arg0: number): void;
+        getSingleplayerData(): $CompoundTag;
+        getPlayerNamesArray(): string[];
+        addWorldborderListener(arg0: $ServerLevel): void;
+        getServer(): $MinecraftServer;
+        broadcastSystemToAllExceptTeam(arg0: $Player, arg1: $Component_): void;
+        broadcastSystemToTeam(arg0: $Player, arg1: $Component_): void;
+        sendPlayerPermissionLevel(arg0: $ServerPlayer): void;
+        broadcastSystemMessage(arg0: $Component_, arg1: $Function_<$ServerPlayer, $Component>, arg2: boolean): void;
+        broadcastSystemMessage(arg0: $Component_, arg1: boolean): void;
+        sendActivePlayerEffects(arg0: $ServerPlayer): void;
+        getSimulationDistance(): number;
+        isAllowCommandsForAllPlayers(): boolean;
+        respawn(arg0: $ServerPlayer, arg1: boolean, arg2: $Entity$RemovalReason_): $ServerPlayer;
+        getPlayerForLogin(arg0: $GameProfile, arg1: $ClientInformation_): $ServerPlayer;
+        getWhiteListNames(): string[];
+        getPlayer(arg0: $UUID_): $ServerPlayer;
+        isOp(arg0: $GameProfile): boolean;
+        sendActiveEffects(arg0: $LivingEntity, arg1: $ServerGamePacketListenerImpl): void;
+        broadcastAll(arg0: $Packet<never>, arg1: $ResourceKey_<$Level>): void;
+        broadcastAll(arg0: $Packet<never>): void;
+        getViewDistance(): number;
+        getPlayerByName(arg0: string): $ServerPlayer;
+        getBans(): $UserBanList;
         getPlayers(): $List<$ServerPlayer>;
         saveAll(): void;
-        getPlayer(arg0: $UUID_): $ServerPlayer;
-        respawn(arg0: $ServerPlayer, arg1: boolean, arg2: $Entity$RemovalReason_): $ServerPlayer;
-        deop(arg0: $GameProfile): void;
-        getIpBans(): $IpBanList;
-        getOpNames(): string[];
-        getServer(): $MinecraftServer;
-        getSimulationDistance(): number;
-        getPlayerByName(arg0: string): $ServerPlayer;
-        broadcastSystemToAllExceptTeam(arg0: $Player, arg1: $Component_): void;
-        handler$zdn000$openpartiesandclaims$onSendLevelInfo(arg0: $ServerPlayer, arg1: $ServerLevel, arg2: $CallbackInfo): void;
-        setAllowCommandsForAllPlayers(arg0: boolean): void;
-        setViewDistance(arg0: number): void;
+        setSimulationDistance(arg0: number): void;
+        reloadWhiteList(): void;
+        isUsingWhitelist(): boolean;
+        setUsingWhiteList(arg0: boolean): void;
         broadcastChatMessage(arg0: $PlayerChatMessage_, arg1: $CommandSourceStack, arg2: $ChatType$Bound_): void;
         broadcastChatMessage(arg0: $PlayerChatMessage_, arg1: $ServerPlayer, arg2: $ChatType$Bound_): void;
-        setSimulationDistance(arg0: number): void;
-        getWhiteListNames(): string[];
-        setUsingWhiteList(arg0: boolean): void;
-        reloadWhiteList(): void;
+        deop(arg0: $GameProfile): void;
+        setAllowCommandsForAllPlayers(arg0: boolean): void;
         placeNewPlayer(arg0: $Connection, arg1: $ServerPlayer, arg2: $CommonListenerCookie_): void;
-        getPlayerForLogin(arg0: $GameProfile, arg1: $ClientInformation_): $ServerPlayer;
-        canPlayerLogin(arg0: $SocketAddress, arg1: $GameProfile): $Component;
-        isUsingWhitelist(): boolean;
+        handler$zdn000$openpartiesandclaims$onSendLevelInfo(arg0: $ServerPlayer, arg1: $ServerLevel, arg2: $CallbackInfo): void;
         disconnectAllPlayersWithProfile(arg0: $GameProfile): boolean;
-        updateEntireScoreboard(arg0: $ServerScoreboard, arg1: $ServerPlayer): void;
-        canBypassPlayerLimit(arg0: $GameProfile): boolean;
-        getPlayersWithAddress(arg0: string): $List<$ServerPlayer>;
-        handler$djp000$xaerominimap$onSendWorldInfo(arg0: $ServerPlayer, arg1: $ServerLevel, arg2: $CallbackInfo): void;
         handler$ebo001$xaeroworldmap$onSendWorldInfo(arg0: $ServerPlayer, arg1: $ServerLevel, arg2: $CallbackInfo): void;
-        handler$gan001$xaerolib$onSendLevelInfo(arg0: $ServerPlayer, arg1: $ServerLevel, arg2: $CallbackInfo): void;
+        handler$djo000$xaerominimap$onSendWorldInfo(arg0: $ServerPlayer, arg1: $ServerLevel, arg2: $CallbackInfo): void;
+        handler$gbp001$xaerolib$onSendLevelInfo(arg0: $ServerPlayer, arg1: $ServerLevel, arg2: $CallbackInfo): void;
+        canBypassPlayerLimit(arg0: $GameProfile): boolean;
+        updateEntireScoreboard(arg0: $ServerScoreboard, arg1: $ServerPlayer): void;
+        getPlayersWithAddress(arg0: string): $List<$ServerPlayer>;
+        getIpBans(): $IpBanList;
+        getOpNames(): string[];
         setMaxPlayers(arg0: number): void;
         static WHITELIST_FILE: $File;
         maxPlayers: number;
@@ -207,19 +207,19 @@ declare module "@package/net/minecraft/server/players" {
         static CHAT_FILTERED_FULL: $Component;
         static DUPLICATE_LOGIN_DISCONNECT_MESSAGE: $Component;
         constructor(arg0: $MinecraftServer, arg1: $LayeredRegistryAccess<$RegistryLayer_>, arg2: $PlayerDataStorage, arg3: number);
-        get playerNamesArray(): string[];
-        get singleplayerData(): $CompoundTag;
         get ops(): $ServerOpList;
-        get bans(): $UserBanList;
         get playerCount(): number;
         get whiteList(): $UserWhiteList;
-        get players(): $List<$ServerPlayer>;
-        get ipBans(): $IpBanList;
-        get opNames(): string[];
+        get singleplayerData(): $CompoundTag;
+        get playerNamesArray(): string[];
         get server(): $MinecraftServer;
         get whiteListNames(): string[];
-        set usingWhiteList(value: boolean);
+        get bans(): $UserBanList;
+        get players(): $List<$ServerPlayer>;
         get usingWhitelist(): boolean;
+        set usingWhiteList(value: boolean);
+        get ipBans(): $IpBanList;
+        get opNames(): string[];
     }
     export class $StoredUserList<K, V extends $StoredUserEntry<K>> {
         remove(arg0: K): void;
@@ -233,8 +233,8 @@ declare module "@package/net/minecraft/server/players" {
         getFile(): $File;
         getEntries(): $Collection<V>;
         createEntry(arg0: $JsonObject_): $StoredUserEntry<K>;
-        getKeyForUser(arg0: K): string;
         getUserList(): string[];
+        getKeyForUser(arg0: K): string;
         constructor(arg0: $File_);
         get empty(): boolean;
         get file(): $File;
@@ -243,8 +243,8 @@ declare module "@package/net/minecraft/server/players" {
     }
     export class $StoredUserEntry<T> {
         serialize(arg0: $JsonObject_): void;
-        hasExpired(): boolean;
         getUser(): T;
+        hasExpired(): boolean;
         constructor(arg0: T);
         get user(): T;
     }

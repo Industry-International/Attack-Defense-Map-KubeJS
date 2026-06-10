@@ -21,11 +21,11 @@ declare module "@package/com/simibubi/create/content/logistics/packagePort" {
         setup(arg0: $PackagePortBlockEntity, arg1: $LevelAccessor, arg2: $BlockPos_): void;
         be(arg0: $LevelAccessor, arg1: $BlockPos_): $BlockEntity;
         "export"(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $ItemStack_, arg3: boolean): boolean;
-        deregister(arg0: $PackagePortBlockEntity, arg1: $LevelAccessor, arg2: $BlockPos_): void;
         canSupport(arg0: $BlockEntity): boolean;
         getIcon(): $ItemStack;
         depositImmediately(): boolean;
         getExactTargetLocation(arg0: $PackagePortBlockEntity, arg1: $LevelAccessor, arg2: $BlockPos_): $Vec3;
+        deregister(arg0: $PackagePortBlockEntity, arg1: $LevelAccessor, arg2: $BlockPos_): void;
         static CODEC: $Codec<$PackagePortTarget>;
         relativePos: $BlockPos;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $PackagePortTarget>;
@@ -48,10 +48,10 @@ declare module "@package/com/simibubi/create/content/logistics/packagePort" {
         getDisplayName(): $Component;
         getComparatorOutput(): number;
         clearContent(): void;
-        createMenu(arg0: number, arg1: $Inventory, arg2: $Player): $AbstractContainerMenu;
-        drop(arg0: $ItemStack_): void;
         filterChanged(): void;
         getFilterString(): string;
+        drop(arg0: $ItemStack_): void;
+        createMenu(arg0: number, arg1: $Inventory, arg2: $Player): $AbstractContainerMenu;
         isBackedUp(): boolean;
         shouldTriggerClientSideContainerClosingOnOpen(): boolean;
         writeClientSideData(arg0: $AbstractContainerMenu, arg1: $RegistryFriendlyByteBuf): void;

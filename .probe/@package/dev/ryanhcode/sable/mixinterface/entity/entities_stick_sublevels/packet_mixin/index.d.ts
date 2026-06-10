@@ -3,7 +3,7 @@ declare module "@package/dev/ryanhcode/sable/mixinterface/entity/entities_stick_
     export class $PacketActuallyInSubLevelExtension {
     }
     export interface $PacketActuallyInSubLevelExtension {
-        sable$isActuallyInSubLevel(): boolean;
         sable$setActuallyInSubLevel(arg0: boolean): void;
+        sable$isActuallyInSubLevel(): boolean;
     }
 }

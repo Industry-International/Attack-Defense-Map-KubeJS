@@ -11,7 +11,6 @@ import { $Minecraft } from "@package/net/minecraft/client";
 import { $PlayerDataStorage, $WorldData, $LevelStorageSource$LevelStorageAccess } from "@package/net/minecraft/world/level/storage";
 import { $ServerSubLevel } from "@package/dev/ryanhcode/sable/sublevel";
 import { $List, $UUID_ } from "@package/java/util";
-import { $LocalSampleLogger } from "@package/net/minecraft/util/debugchart";
 import { $ChunkProgressListenerFactory_ } from "@package/net/minecraft/server/level/progress";
 import { $PackRepository } from "@package/net/minecraft/server/packs/repository";
 import { $LayeredRegistryAccess } from "@package/net/minecraft/core";
@@ -45,13 +44,12 @@ declare module "@package/net/minecraft/client/server" {
         constructor();
     }
     export class $IntegratedServer extends $MinecraftServer implements $IDeferrableIntegratedServer, $IntegratedServerAccessor, $SableToastableServer {
-        getTickTimeLogger(): $LocalSampleLogger;
         setUUID(arg0: $UUID_): void;
         mfix$markClientLoadFinished(): void;
-        handler$zei000$openpartiesandclaims$onTickPaused(arg0: $CallbackInfo): void;
         sable$reportSubLevelPhysicsFailure(arg0: $ServerSubLevel): void;
         sable$reportSubLevelLoadFailure(arg0: $GlobalSavedSubLevelPointer_): void;
         sable$reportSubLevelSaveFailure(arg0: $SubLevelData): void;
+        handler$zei000$openpartiesandclaims$onTickPaused(arg0: $CallbackInfo): void;
         isGamePaused(): boolean;
         static VANILLA_BRAND: string;
         proxy: $Proxy;
@@ -65,7 +63,6 @@ declare module "@package/net/minecraft/client/server" {
         static DEMO_SETTINGS: $LevelSettings;
         playerDataStorage: $PlayerDataStorage;
         constructor(arg0: $Thread, arg1: $Minecraft, arg2: $LevelStorageSource$LevelStorageAccess, arg3: $PackRepository, arg4: $WorldStem_, arg5: $Services_, arg6: $ChunkProgressListenerFactory_);
-        get tickTimeLogger(): $LocalSampleLogger;
         set UUID(value: $UUID_);
         get gamePaused(): boolean;
     }
@@ -78,8 +75,8 @@ declare module "@package/net/minecraft/client/server" {
         get motd(): string;
     }
     export class $LanServerPinger extends $Thread {
-        static parseAddress(arg0: string): string;
         static createPingString(arg0: string, arg1: string): string;
+        static parseAddress(arg0: string): string;
         static parseMotd(arg0: string): string;
         static MULTICAST_GROUP: string;
         static PING_PORT: number;

@@ -1,6 +1,6 @@
 import { $Closeable } from "@package/java/io";
-import { $JsonElement_ } from "@package/com/google/gson";
 import { $VeilResourceManager, $VeilResource, $VeilEditorEnvironment } from "@package/foundry/veil/api/resource";
+import { $JsonElement_ } from "@package/com/google/gson";
 import { RegistryTypes, RegistryMarked } from "@special/types";
 import { $CompletableFuture } from "@package/java/util/concurrent";
 

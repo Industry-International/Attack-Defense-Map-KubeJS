@@ -24,12 +24,12 @@ declare module "@package/net/minecraft/data/models/blockstates" {
         get definedProperties(): $List<$Property<never>>;
     }
     export class $Condition$TerminalCondition implements $Condition {
+        get(): $JsonElement;
         validate(arg0: $StateDefinition<never, never>): void;
         term<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T): $Condition$TerminalCondition;
         term<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T, ...arg2: T[]): $Condition$TerminalCondition;
-        negatedTerm<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T): $Condition$TerminalCondition;
         negatedTerm<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T, ...arg2: T[]): $Condition$TerminalCondition;
-        get(): $JsonElement;
+        negatedTerm<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T): $Condition$TerminalCondition;
         constructor();
     }
     export class $PropertyDispatch$PentaFunction<P1, P2, P3, P4, P5, R> {
@@ -191,8 +191,8 @@ declare module "@package/net/minecraft/data/models/blockstates" {
         "with"(arg0: $Condition, arg1: $Variant): $MultiPartGenerator;
         "with"(arg0: $Variant): $MultiPartGenerator;
         "with"(arg0: $List_<$Variant>): $MultiPartGenerator;
-        static multiPart(arg0: $Block_): $MultiPartGenerator;
         getBlock(): $Block;
+        static multiPart(arg0: $Block_): $MultiPartGenerator;
         get block(): $Block;
     }
 }

@@ -7,12 +7,12 @@ export * as config from "@package/xaero/lib/common/player/config";
 declare module "@package/xaero/lib/common/player" {
     export class $ServerPlayerData {
         static get(arg0: $ServerPlayer): $ServerPlayerData;
-        getPlayer(): $ServerPlayer;
         getConfigSynchronizer(): $ServerPlayerConfigSynchronizer;
-        shouldUpdateConfigPermissions(): boolean;
-        setShouldUpdateConfigPermissions(arg0: boolean): void;
-        setPlayer(arg0: $ServerPlayer): void;
+        getPlayer(): $ServerPlayer;
         getConfigChannelData(arg0: $ConfigChannel): $ServerPlayerConfigChannelData;
+        setShouldUpdateConfigPermissions(arg0: boolean): void;
+        shouldUpdateConfigPermissions(): boolean;
+        setPlayer(arg0: $ServerPlayer): void;
         get configSynchronizer(): $ServerPlayerConfigSynchronizer;
     }
     export class $IServerPlayer {

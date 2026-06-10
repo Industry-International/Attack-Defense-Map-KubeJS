@@ -50,21 +50,21 @@ import { $RegisterCapabilitiesEvent } from "@package/net/neoforged/neoforge/capa
 declare module "@package/com/simibubi/create/content/kinetics/deployer" {
     export class $DeployerBlockEntity extends $KineticBlockEntity implements $Clearable, $DeployerWorldMode {
         write(arg0: $CompoundTag_, arg1: $HolderLookup$Provider, arg2: boolean): void;
-        clearContent(): void;
-        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
-        getPlayer(): $DeployerFakePlayer;
         handler$zfg000$openpartiesandclaims$onActivate(arg0: $CallbackInfo): void;
-        getRecipe(arg0: $ItemStack_): $RecipeHolder<$Recipe<$RecipeInput>>;
-        getHandPose(): $PartialModel;
-        aero_addition$setWorldMode(arg0: boolean): void;
-        aero_addition$isWorldMode(): boolean;
-        redstoneUpdate(): void;
+        clearContent(): void;
         discardPlayer(): void;
-        startFistBump(arg0: $Direction_): boolean;
+        redstoneUpdate(): void;
+        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
+        getRecipe(arg0: $ItemStack_): $RecipeHolder<$Recipe<$RecipeInput>>;
+        getPlayer(): $DeployerFakePlayer;
+        getHandPose(): $PartialModel;
+        changeMode(): void;
+        aero_addition$isWorldMode(): boolean;
+        aero_addition$setWorldMode(arg0: boolean): void;
+        setAnimatedOffset(arg0: number): void;
         getHandOffset(arg0: number): number;
         triggerFistBump(): void;
-        setAnimatedOffset(arg0: number): void;
-        changeMode(): void;
+        startFistBump(arg0: $Direction_): boolean;
         sequenceContext: $SequencedGearshiftBlockEntity$SequenceContext;
         networkDirty: boolean;
         worldPosition: $BlockPos;
@@ -95,11 +95,11 @@ declare module "@package/com/simibubi/create/content/kinetics/deployer" {
     }
     export class $DeployerFakePlayer extends $FakePlayer implements $MixinAccessorDeployerFakePlayer, $DeployerWorldPlacementContext {
         aero_addition$setPlacementFaceOverride(arg0: $Direction_): void;
-        static deployerCollectsDropsFromKilledEntities(arg0: $LivingDropsEvent): void;
         aero_addition$getPlacementFaceOverride(): $Direction;
+        static deployerHasEyesOnHisFeet(arg0: $EntityEvent$Size): void;
         static entitiesDontRetaliate(arg0: $LivingChangeTargetEvent): void;
         static deployerKillsDoNotSpawnXP(arg0: $LivingExperienceDropEvent): void;
-        static deployerHasEyesOnHisFeet(arg0: $EntityEvent$Size): void;
+        static deployerCollectsDropsFromKilledEntities(arg0: $LivingDropsEvent): void;
         getBlockBreakingProgress(): $Pair<$BlockPos, number>;
         serializeNBT(arg0: $HolderLookup$Provider): $Player;
         lerpYRot: number;

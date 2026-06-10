@@ -2,7 +2,7 @@ import { $IModInfo } from "@package/net/neoforged/neoforgespi/language";
 import { $NarratableEntry } from "@package/net/minecraft/client/gui/narration";
 import { $Component_ } from "@package/net/minecraft/network/chat";
 import { $ResourceLocation } from "@package/net/minecraft/resources";
-import { $AbstractSliderButton, $WidgetTooltipHolder, $Button$Builder, $ObjectSelectionList, $AbstractSelectionList, $ObjectSelectionList$Entry, $Button$OnPress_, $Button$CreateNarration_, $Button$CreateNarration, $WidgetSprites, $Renderable, $Button } from "@package/net/minecraft/client/gui/components";
+import { $AbstractSliderButton, $WidgetTooltipHolder, $Button$Builder, $ObjectSelectionList, $AbstractSelectionList, $ObjectSelectionList$Entry, $Button$CreateNarration_, $Button$OnPress_, $Button$CreateNarration, $WidgetSprites, $Renderable, $Button } from "@package/net/minecraft/client/gui/components";
 import { $Minecraft } from "@package/net/minecraft/client";
 import { $ScrollController, $ScrollController$IListener } from "@package/icyllis/modernui/mc";
 import { $ModListScreen } from "@package/net/neoforged/neoforge/client/gui";
@@ -12,9 +12,9 @@ import { $AbstractContainerEventHandler } from "@package/net/minecraft/client/gu
 
 declare module "@package/net/neoforged/neoforge/client/gui/widget" {
     export class $ExtendedSlider extends $AbstractSliderButton {
+        getValueString(): string;
         getValue(): number;
         setValue(arg0: number): void;
-        getValueString(): string;
         getValueInt(): number;
         getValueLong(): number;
         packedFGColor: number;

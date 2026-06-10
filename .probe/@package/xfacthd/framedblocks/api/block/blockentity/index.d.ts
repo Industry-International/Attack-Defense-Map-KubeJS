@@ -5,7 +5,6 @@ import { $Component } from "@package/net/minecraft/network/chat";
 import { $Entity } from "@package/net/minecraft/world/entity";
 import { $Player } from "@package/net/minecraft/world/entity/player";
 import { $CollisionContext } from "@package/net/minecraft/world/phys/shapes";
-import { $ClientboundBlockEntityDataPacket } from "@package/net/minecraft/network/protocol/game";
 import { $List_ } from "@package/java/util";
 import { $IBlockType } from "@package/xfacthd/framedblocks/api/type";
 import { $ModelData } from "@package/net/neoforged/neoforge/client/model/data";
@@ -21,49 +20,48 @@ import { $BlockEntityType_, $BlockEntity } from "@package/net/minecraft/world/le
 
 declare module "@package/xfacthd/framedblocks/api/block/blockentity" {
     export class $FramedBlockEntity extends $BlockEntity {
-        getCamo(arg0: $Direction_, arg1: $Direction_): $CamoContainer<never, never>;
-        getCamo(arg0: $BlockHitResult, arg1: $Player): $CamoContainer<never, never>;
-        getCamo(arg0: $BlockHitResult, arg1: $Vec3_, arg2: $Vec3_): $CamoContainer<never, never>;
-        getCamo(arg0: $Direction_): $CamoContainer<never, never>;
-        getCamo(arg0: $BlockState_): $CamoContainer<never, never>;
-        getCamo(): $CamoContainer<never, never>;
-        getBlockType(): $IBlockType;
         getBlock(): $IFramedBlock;
-        canAutoApplyCamoOnPlacement(): boolean;
-        getCamoBeaconColorMultiplier(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): number;
-        shouldCamoDisplayFluidOverlay(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState): boolean;
-        isGlowing(): boolean;
-        setGlowing(arg0: boolean): void;
-        getCamoFireSpreadSpeed(arg0: $Direction_): number;
+        getModelData(arg0: boolean): $ModelData;
         getCamoExplosionResistance(arg0: $Explosion): number;
-        getCamoFlammability(arg0: $Direction_): number;
         getCamoShadeBrightness(arg0: number): number;
+        getCamoFireSpreadSpeed(arg0: $Direction_): number;
+        canEntityDestroyCamo(arg0: $Entity): boolean;
         canCamoSustainPlant(arg0: $BlockGetter, arg1: $Direction_, arg2: $BlockState_): $TriState;
         /**
          * @deprecated
          */
         canCamoSustainPlant(arg0: $Direction_, arg1: $BlockState_): $TriState;
-        canEntityDestroyCamo(arg0: $Entity): boolean;
+        getCamoFlammability(arg0: $Direction_): number;
+        getBlockType(): $IBlockType;
+        handleInteraction(arg0: $Player, arg1: $InteractionHand_, arg2: $BlockHitResult): $ItemInteractionResult;
+        isCamoFlammable(arg0: $Direction_): boolean;
+        getCamoFriction(arg0: $BlockState_, arg1: $Entity, arg2: number): number;
+        addAdditionalDrops(arg0: $List_<$ItemStack_>, arg1: boolean): void;
         updateCulling(arg0: boolean, arg1: boolean): void;
         isIntangible(arg0: $CollisionContext): boolean;
-        isCamoFlammable(arg0: $Direction_): boolean;
-        addAdditionalDrops(arg0: $List_<$ItemStack_>, arg1: boolean): void;
         checkCamoSolid(): void;
-        getCamoFriction(arg0: $BlockState_, arg1: $Entity, arg2: number): number;
-        handleInteraction(arg0: $Player, arg1: $InteractionHand_, arg2: $BlockHitResult): $ItemInteractionResult;
-        getModelData(arg0: boolean): $ModelData;
-        getUpdatePacket(): $ClientboundBlockEntityDataPacket;
-        getMapColor(): $MapColor;
-        setIntangible(arg0: boolean): void;
-        isReinforced(): boolean;
-        setReinforced(arg0: boolean): void;
         setCamo(arg0: $CamoContainer<never, never>, arg1: boolean): void;
         setCamo(arg0: $CamoContainer<never, never>, arg1: $BlockHitResult, arg2: $Player): void;
-        canTriviallyDropAllCamos(): boolean;
+        getCamo(): $CamoContainer<never, never>;
+        getCamo(arg0: $Direction_, arg1: $Direction_): $CamoContainer<never, never>;
+        getCamo(arg0: $BlockHitResult, arg1: $Player): $CamoContainer<never, never>;
+        getCamo(arg0: $Direction_): $CamoContainer<never, never>;
+        getCamo(arg0: $BlockHitResult, arg1: $Vec3_, arg2: $Vec3_): $CamoContainer<never, never>;
+        getCamo(arg0: $BlockState_): $CamoContainer<never, never>;
+        getMapColor(): $MapColor;
+        setGlowing(arg0: boolean): void;
+        isGlowing(): boolean;
+        getCamoBeaconColorMultiplier(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): number;
+        canAutoApplyCamoOnPlacement(): boolean;
+        shouldCamoDisplayFluidOverlay(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState): boolean;
+        setReinforced(arg0: boolean): void;
+        setIntangible(arg0: boolean): void;
+        isReinforced(): boolean;
         isSolidSide(arg0: $Direction_): boolean;
         isMarkedIntangible(): boolean;
-        writeToBlueprint(): $BlueprintData;
         applyBlueprintData(arg0: $BlueprintData_): void;
+        writeToBlueprint(): $BlueprintData;
+        canTriviallyDropAllCamos(): boolean;
         static MSG_BLOCK_ENTITY: $Component;
         worldPosition: $BlockPos;
         static MSG_BLACKLISTED: $Component;
@@ -74,9 +72,8 @@ declare module "@package/xfacthd/framedblocks/api/block/blockentity" {
         remove: boolean;
         constructor(arg0: $BlockPos_, arg1: $BlockState_);
         constructor(arg0: $BlockEntityType_<never>, arg1: $BlockPos_, arg2: $BlockState_);
-        get blockType(): $IBlockType;
         get block(): $IFramedBlock;
-        get updatePacket(): $ClientboundBlockEntityDataPacket;
+        get blockType(): $IBlockType;
         get mapColor(): $MapColor;
         get markedIntangible(): boolean;
     }

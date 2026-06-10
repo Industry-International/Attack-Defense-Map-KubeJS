@@ -28,8 +28,8 @@ declare module "@package/net/neoforged/neoforge/network/negotiation" {
         constructor(components: $List_<$NegotiatedNetworkComponent_>, success: boolean, failureReasons: $Map_<$ResourceLocation_, $Component_>);
     }
     export class $NetworkComponentNegotiator {
-        static validateComponent(arg0: $NegotiableNetworkComponent_, arg1: $NegotiableNetworkComponent_, arg2: string): ($NetworkComponentNegotiator$ComponentNegotiationResult) | undefined;
         static negotiate(arg0: $List_<$NegotiableNetworkComponent_>, arg1: $List_<$NegotiableNetworkComponent_>): $NegotiationResult;
+        static validateComponent(arg0: $NegotiableNetworkComponent_, arg1: $NegotiableNetworkComponent_, arg2: string): ($NetworkComponentNegotiator$ComponentNegotiationResult) | undefined;
         constructor();
     }
     export class $NegotiatedNetworkComponent extends $Record {

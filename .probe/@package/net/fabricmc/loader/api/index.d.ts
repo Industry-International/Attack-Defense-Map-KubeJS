@@ -29,16 +29,16 @@ declare module "@package/net/fabricmc/loader/api" {
         getRootPath(): $Path;
         getOrigin(): $ModOrigin;
         getMetadata(): $ModMetadata;
+        findPath(file: string): ($Path) | undefined;
+        getContainingMod(): ($ModContainer) | undefined;
         getContainedMods(): $Collection<$ModContainer>;
         getRootPaths(): $List<$Path>;
-        getContainingMod(): ($ModContainer) | undefined;
-        findPath(file: string): ($Path) | undefined;
         get root(): $Path;
         get rootPath(): $Path;
         get origin(): $ModOrigin;
         get metadata(): $ModMetadata;
+        get containingMod(): ($ModContainer) | undefined;
         get containedMods(): $Collection<$ModContainer>;
         get rootPaths(): $List<$Path>;
-        get containingMod(): ($ModContainer) | undefined;
     }
 }

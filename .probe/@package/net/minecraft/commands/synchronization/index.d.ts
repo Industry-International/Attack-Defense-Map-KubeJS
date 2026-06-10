@@ -15,19 +15,19 @@ export * as brigadier from "@package/net/minecraft/commands/synchronization/brig
 
 declare module "@package/net/minecraft/commands/synchronization" {
     export class $SingletonArgumentInfo<A extends $ArgumentType<never>> implements $ArgumentTypeInfo<A, $SingletonArgumentInfo$Template> {
-        deserializeFromNetwork(arg0: $FriendlyByteBuf): $SingletonArgumentInfo$Template;
         static contextFree<T extends $ArgumentType<never>>(arg0: $Supplier_<T>): $SingletonArgumentInfo<T>;
-        serializeToNetwork(arg0: $SingletonArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
-        serializeToJson(arg0: $SingletonArgumentInfo$Template, arg1: $JsonObject_): void;
         static contextAware<T extends $ArgumentType<never>>(arg0: $Function_<$CommandBuildContext, T>): $SingletonArgumentInfo<T>;
+        serializeToJson(arg0: $SingletonArgumentInfo$Template, arg1: $JsonObject_): void;
+        serializeToNetwork(arg0: $SingletonArgumentInfo$Template, arg1: $FriendlyByteBuf): void;
         unpack(arg0: A): $SingletonArgumentInfo$Template;
+        deserializeFromNetwork(arg0: $FriendlyByteBuf): $SingletonArgumentInfo$Template;
     }
     export class $ArgumentTypeInfos {
         static bootstrap(arg0: $Registry<$ArgumentTypeInfo_<never, never>>): $ArgumentTypeInfo<never, never>;
-        static unpack<A extends $ArgumentType<never>>(arg0: A): $ArgumentTypeInfo$Template<A>;
-        static isClassRecognized(arg0: $Class<never>): boolean;
-        static registerByClass<A extends $ArgumentType<never>, T extends $ArgumentTypeInfo$Template<A>, I extends $ArgumentTypeInfo<A, T>>(arg0: $Class<A>, arg1: I): I;
         static byClass<A extends $ArgumentType<never>>(arg0: A): $ArgumentTypeInfo<A, never>;
+        static unpack<A extends $ArgumentType<never>>(arg0: A): $ArgumentTypeInfo$Template<A>;
+        static registerByClass<A extends $ArgumentType<never>, T extends $ArgumentTypeInfo$Template<A>, I extends $ArgumentTypeInfo<A, T>>(arg0: $Class<A>, arg1: I): I;
+        static isClassRecognized(arg0: $Class<never>): boolean;
         static BY_CLASS: $Map<$Class<never>, $ArgumentTypeInfo<never, never>>;
         constructor();
     }
@@ -35,20 +35,20 @@ declare module "@package/net/minecraft/commands/synchronization" {
     }
     export interface $ArgumentTypeInfo extends RegistryMarked<RegistryTypes.CommandArgumentTypeTag, RegistryTypes.CommandArgumentType> {}
     export class $ArgumentUtils {
-        static numberHasMax(arg0: number): boolean;
         static numberHasMin(arg0: number): boolean;
         static createNumberFlags(arg0: boolean, arg1: boolean): number;
-        static serializeNodeToJson<S>(arg0: $CommandDispatcher<S>, arg1: $CommandNode<S>): $JsonObject;
+        static numberHasMax(arg0: number): boolean;
         static findUsedArgumentTypes<T>(arg0: $CommandNode<T>): $Set<$ArgumentType<never>>;
+        static serializeNodeToJson<S>(arg0: $CommandDispatcher<S>, arg1: $CommandNode<S>): $JsonObject;
         constructor();
     }
     export class $ArgumentTypeInfo<A extends $ArgumentType<never>, T extends $ArgumentTypeInfo$Template<A>> {
     }
     export interface $ArgumentTypeInfo<A extends $ArgumentType<never>, T extends $ArgumentTypeInfo$Template<A>> {
         unpack(arg0: A): T;
-        deserializeFromNetwork(arg0: $FriendlyByteBuf): T;
-        serializeToNetwork(arg0: T, arg1: $FriendlyByteBuf): void;
         serializeToJson(arg0: T, arg1: $JsonObject_): void;
+        serializeToNetwork(arg0: T, arg1: $FriendlyByteBuf): void;
+        deserializeFromNetwork(arg0: $FriendlyByteBuf): T;
     }
     /**
      * Values that may be interpreted as {@link $ArgumentTypeInfo}.

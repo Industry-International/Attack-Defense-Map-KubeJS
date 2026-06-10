@@ -16,9 +16,9 @@ declare module "@package/net/minecraft/client/gui/spectator/categories" {
         getName(): $Component;
         isEnabled(): boolean;
         getPrompt(): $Component;
+        selectItem(arg0: $SpectatorMenu): void;
         getItems(): $List<$SpectatorMenuItem>;
         renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        selectItem(arg0: $SpectatorMenu): void;
         constructor();
         constructor(arg0: $Collection_<$PlayerInfo>);
         get name(): $Component;
@@ -32,9 +32,9 @@ declare module "@package/net/minecraft/client/gui/spectator/categories" {
         getName(): $Component;
         isEnabled(): boolean;
         getPrompt(): $Component;
+        selectItem(arg0: $SpectatorMenu): void;
         getItems(): $List<$SpectatorMenuItem>;
         renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        selectItem(arg0: $SpectatorMenu): void;
         constructor();
         get name(): $Component;
         get enabled(): boolean;

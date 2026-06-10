@@ -16,9 +16,9 @@ declare module "@package/com/github/steveice10/packetlib/io" {
         writeLong(arg0: number): void;
         writeDouble(arg0: number): void;
         writeString(arg0: string): void;
+        writeUUID(arg0: $UUID_): void;
         writeVarInt(arg0: number): void;
         writeVarLong(arg0: number): void;
-        writeUUID(arg0: $UUID_): void;
         writeInts(arg0: number[], arg1: number): void;
         writeInts(arg0: number[]): void;
         writeLongs(arg0: number[]): void;
@@ -44,9 +44,9 @@ declare module "@package/com/github/steveice10/packetlib/io" {
         readLong(): number;
         readDouble(): number;
         readString(): string;
-        readVarLong(): number;
         readVarInt(): number;
         readUUID(): $UUID;
+        readVarLong(): number;
         readInts(arg0: number[]): number;
         readInts(arg0: number): number[];
         readInts(arg0: number[], arg1: number, arg2: number): number;

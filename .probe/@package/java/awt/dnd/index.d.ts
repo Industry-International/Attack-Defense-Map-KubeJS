@@ -9,11 +9,11 @@ declare module "@package/java/awt/dnd" {
     export class $DropTargetListener {
     }
     export interface $DropTargetListener extends $EventListener {
-        drop(arg0: $DropTargetDropEvent): void;
-        dragEnter(arg0: $DropTargetDragEvent): void;
         dragOver(arg0: $DropTargetDragEvent): void;
         dropActionChanged(arg0: $DropTargetDragEvent): void;
         dragExit(arg0: $DropTargetEvent): void;
+        drop(arg0: $DropTargetDropEvent): void;
+        dragEnter(arg0: $DropTargetDragEvent): void;
     }
     export class $DragGestureListener {
     }
@@ -26,13 +26,9 @@ declare module "@package/java/awt/dnd" {
     export type $DragGestureListener_ = ((arg0: $DragGestureEvent) => void);
     export class $DropTarget implements $DropTargetListener, $Serializable {
         isActive(): boolean;
+        setComponent(arg0: $Component): void;
         getComponent(): $Component;
         setActive(arg0: boolean): void;
-        removeNotify(): void;
-        addNotify(): void;
-        drop(arg0: $DropTargetDropEvent): void;
-        dragEnter(arg0: $DropTargetDragEvent): void;
-        setComponent(arg0: $Component): void;
         setDefaultActions(arg0: number): void;
         addDropTargetListener(arg0: $DropTargetListener): void;
         getDropTargetContext(): $DropTargetContext;
@@ -43,6 +39,10 @@ declare module "@package/java/awt/dnd" {
         removeDropTargetListener(arg0: $DropTargetListener): void;
         getFlavorMap(): $FlavorMap;
         setFlavorMap(arg0: $FlavorMap): void;
+        drop(arg0: $DropTargetDropEvent): void;
+        dragEnter(arg0: $DropTargetDragEvent): void;
+        removeNotify(): void;
+        addNotify(): void;
         constructor(arg0: $Component, arg1: number, arg2: $DropTargetListener);
         constructor(arg0: $Component, arg1: $DropTargetListener);
         constructor();
@@ -51,33 +51,34 @@ declare module "@package/java/awt/dnd" {
         get dropTargetContext(): $DropTargetContext;
     }
     export class $DragGestureRecognizer implements $Serializable {
+        setComponent(arg0: $Component): void;
+        getComponent(): $Component;
         setSourceActions(arg0: number): void;
         addDragGestureListener(arg0: $DragGestureListener_): void;
         getDragSource(): $DragSource;
         getTriggerEvent(): $InputEvent;
         resetRecognizer(): void;
         removeDragGestureListener(arg0: $DragGestureListener_): void;
-        getComponent(): $Component;
-        setComponent(arg0: $Component): void;
         getSourceActions(): number;
         get dragSource(): $DragSource;
         get triggerEvent(): $InputEvent;
     }
     export class $DropTargetContext implements $Serializable {
         getComponent(): $Component;
-        dropComplete(arg0: boolean): void;
         getDropTarget(): $DropTarget;
+        dropComplete(arg0: boolean): void;
         get component(): $Component;
         get dropTarget(): $DropTarget;
     }
     export class $DragSource implements $Serializable {
-        static getDefaultDragSource(): $DragSource;
         getListeners<T extends $EventListener>(arg0: $Class<T>): T[];
-        createDragGestureRecognizer<T extends $DragGestureRecognizer>(arg0: $Class<T>, arg1: $Component, arg2: number, arg3: $DragGestureListener_): T;
+        getFlavorMap(): $FlavorMap;
+        startDrag(arg0: $DragGestureEvent, arg1: $Cursor, arg2: $Image, arg3: $Point, arg4: $Transferable, arg5: $DragSourceListener, arg6: $FlavorMap): void;
         startDrag(arg0: $DragGestureEvent, arg1: $Cursor, arg2: $Transferable, arg3: $DragSourceListener, arg4: $FlavorMap): void;
         startDrag(arg0: $DragGestureEvent, arg1: $Cursor, arg2: $Image, arg3: $Point, arg4: $Transferable, arg5: $DragSourceListener): void;
         startDrag(arg0: $DragGestureEvent, arg1: $Cursor, arg2: $Transferable, arg3: $DragSourceListener): void;
-        startDrag(arg0: $DragGestureEvent, arg1: $Cursor, arg2: $Image, arg3: $Point, arg4: $Transferable, arg5: $DragSourceListener, arg6: $FlavorMap): void;
+        static getDefaultDragSource(): $DragSource;
+        createDragGestureRecognizer<T extends $DragGestureRecognizer>(arg0: $Class<T>, arg1: $Component, arg2: number, arg3: $DragGestureListener_): T;
         addDragSourceListener(arg0: $DragSourceListener): void;
         addDragSourceMotionListener(arg0: $DragSourceMotionListener_): void;
         static isDragImageSupported(): boolean;
@@ -87,7 +88,6 @@ declare module "@package/java/awt/dnd" {
         removeDragSourceMotionListener(arg0: $DragSourceMotionListener_): void;
         getDragSourceMotionListeners(): $DragSourceMotionListener[];
         static getDragThreshold(): number;
-        getFlavorMap(): $FlavorMap;
         static DefaultCopyNoDrop: $Cursor;
         static DefaultMoveNoDrop: $Cursor;
         static DefaultMoveDrop: $Cursor;
@@ -95,30 +95,30 @@ declare module "@package/java/awt/dnd" {
         static DefaultLinkNoDrop: $Cursor;
         static DefaultCopyDrop: $Cursor;
         constructor();
+        get flavorMap(): $FlavorMap;
         static get defaultDragSource(): $DragSource;
         static get dragImageSupported(): boolean;
         get dragSourceListeners(): $DragSourceListener[];
         get dragSourceMotionListeners(): $DragSourceMotionListener[];
         static get dragThreshold(): number;
-        get flavorMap(): $FlavorMap;
     }
     export class $DragGestureEvent extends $EventObject {
         toArray(arg0: $Object[]): $Object[];
         toArray(): $Object[];
         iterator(): $Iterator<$InputEvent>;
-        getDragSource(): $DragSource;
-        getTriggerEvent(): $InputEvent;
         getComponent(): $Component;
         startDrag(arg0: $Cursor, arg1: $Image, arg2: $Point, arg3: $Transferable, arg4: $DragSourceListener): void;
         startDrag(arg0: $Cursor, arg1: $Transferable, arg2: $DragSourceListener): void;
         startDrag(arg0: $Cursor, arg1: $Transferable): void;
+        getDragSource(): $DragSource;
+        getTriggerEvent(): $InputEvent;
         getSourceAsDragGestureRecognizer(): $DragGestureRecognizer;
         getDragOrigin(): $Point;
         getDragAction(): number;
         constructor(arg0: $DragGestureRecognizer, arg1: number, arg2: $Point, arg3: $List_<$InputEvent>);
+        get component(): $Component;
         get dragSource(): $DragSource;
         get triggerEvent(): $InputEvent;
-        get component(): $Component;
         get sourceAsDragGestureRecognizer(): $DragGestureRecognizer;
         get dragOrigin(): $Point;
         get dragAction(): number;
@@ -133,27 +133,27 @@ declare module "@package/java/awt/dnd" {
         isDataFlavorSupported(arg0: $DataFlavor): boolean;
         getDropAction(): number;
         getCurrentDataFlavors(): $DataFlavor[];
+        getSourceActions(): number;
+        getTransferable(): $Transferable;
         acceptDrag(arg0: number): void;
         rejectDrag(): void;
         getCurrentDataFlavorsAsList(): $List<$DataFlavor>;
-        getSourceActions(): number;
-        getTransferable(): $Transferable;
         constructor(arg0: $DropTargetContext, arg1: $Point, arg2: number, arg3: number);
         get location(): $Point;
         get dropAction(): number;
         get currentDataFlavors(): $DataFlavor[];
-        get currentDataFlavorsAsList(): $List<$DataFlavor>;
         get sourceActions(): number;
         get transferable(): $Transferable;
+        get currentDataFlavorsAsList(): $List<$DataFlavor>;
     }
     export class $DragSourceListener {
     }
     export interface $DragSourceListener extends $EventListener {
-        dragDropEnd(arg0: $DragSourceDropEvent): void;
-        dragEnter(arg0: $DragSourceDragEvent): void;
         dragOver(arg0: $DragSourceDragEvent): void;
         dropActionChanged(arg0: $DragSourceDragEvent): void;
         dragExit(arg0: $DragSourceEvent): void;
+        dragEnter(arg0: $DragSourceDragEvent): void;
+        dragDropEnd(arg0: $DragSourceDropEvent): void;
     }
     export class $DragSourceMotionListener {
     }
@@ -166,24 +166,24 @@ declare module "@package/java/awt/dnd" {
     export type $DragSourceMotionListener_ = ((arg0: $DragSourceDragEvent) => void);
     export class $DropTargetDropEvent extends $DropTargetEvent {
         getLocation(): $Point;
+        rejectDrop(): void;
         isDataFlavorSupported(arg0: $DataFlavor): boolean;
         getDropAction(): number;
         getCurrentDataFlavors(): $DataFlavor[];
+        getSourceActions(): number;
+        getTransferable(): $Transferable;
         dropComplete(arg0: boolean): void;
         acceptDrop(arg0: number): void;
         getCurrentDataFlavorsAsList(): $List<$DataFlavor>;
         isLocalTransfer(): boolean;
-        rejectDrop(): void;
-        getSourceActions(): number;
-        getTransferable(): $Transferable;
         constructor(arg0: $DropTargetContext, arg1: $Point, arg2: number, arg3: number);
         constructor(arg0: $DropTargetContext, arg1: $Point, arg2: number, arg3: number, arg4: boolean);
         get location(): $Point;
         get dropAction(): number;
         get currentDataFlavors(): $DataFlavor[];
-        get currentDataFlavorsAsList(): $List<$DataFlavor>;
-        get localTransfer(): boolean;
         get sourceActions(): number;
         get transferable(): $Transferable;
+        get currentDataFlavorsAsList(): $List<$DataFlavor>;
+        get localTransfer(): boolean;
     }
 }

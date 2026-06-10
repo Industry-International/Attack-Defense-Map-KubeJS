@@ -48,8 +48,8 @@ declare module "@package/net/minecraft/client/telemetry/events" {
         constructor();
     }
     export class $WorldLoadEvent {
-        send(arg0: $TelemetryEventSender_): boolean;
         setGameMode(arg0: $GameType_, arg1: boolean): void;
+        send(arg0: $TelemetryEventSender_): boolean;
         addProperties(arg0: $TelemetryPropertyMap$Builder): void;
         setServerBrand(arg0: string): void;
         constructor(arg0: string);

@@ -21,12 +21,12 @@ declare module "@package/com/simibubi/create/api/registry" {
         get(arg0: K): $List<V>;
     }
     export class $SimpleRegistry$Provider<K, V> {
+        static forItemTag<V>(arg0: $TagKey_<$Item>, arg1: V): $SimpleRegistry$Provider<$Item, V>;
+        static forTag<K, V>(arg0: $TagKey_<K>, arg1: $Function_<K, $Holder<K>>, arg2: V): $SimpleRegistry$Provider<K, V>;
         static forBlockTag<V>(arg0: $TagKey_<$Block>, arg1: V): $SimpleRegistry$Provider<$Block, V>;
         static forEntityTag<V>(arg0: $TagKey_<$EntityType<never>>, arg1: V): $SimpleRegistry$Provider<$EntityType<never>, V>;
-        static forBlockEntityTag<V>(arg0: $TagKey_<$BlockEntityType<never>>, arg1: V): $SimpleRegistry$Provider<$BlockEntityType<never>, V>;
         static forFluidTag<V>(arg0: $TagKey_<$Fluid>, arg1: V): $SimpleRegistry$Provider<$Fluid, V>;
-        static forTag<K, V>(arg0: $TagKey_<K>, arg1: $Function_<K, $Holder<K>>, arg2: V): $SimpleRegistry$Provider<K, V>;
-        static forItemTag<V>(arg0: $TagKey_<$Item>, arg1: V): $SimpleRegistry$Provider<$Item, V>;
+        static forBlockEntityTag<V>(arg0: $TagKey_<$BlockEntityType<never>>, arg1: V): $SimpleRegistry$Provider<$BlockEntityType<never>, V>;
     }
     export interface $SimpleRegistry$Provider<K, V> {
         get(arg0: K): V;

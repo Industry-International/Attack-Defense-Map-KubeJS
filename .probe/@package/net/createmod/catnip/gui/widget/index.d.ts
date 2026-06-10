@@ -11,11 +11,11 @@ declare module "@package/net/createmod/catnip/gui/widget" {
     export class $AbstractSimiWidget extends $AbstractWidget implements $TickableGuiEventListener {
         tick(): void;
         setActive<T extends $AbstractSimiWidget>(arg0: boolean): T;
+        getToolTip(): $List<$Component>;
         withCallback<T extends $AbstractSimiWidget>(arg0: $BiConsumer_<number, number>): T;
         withCallback<T extends $AbstractSimiWidget>(arg0: $Runnable_): T;
-        getToolTip(): $List<$Component>;
-        atZLevel<T extends $AbstractSimiWidget>(arg0: number): T;
         runCallback(arg0: number, arg1: number): void;
+        atZLevel<T extends $AbstractSimiWidget>(arg0: number): T;
         static COLOR_SUCCESS: $Couple<$Color>;
         visible: boolean;
         static HEADER_RGB: $Color;

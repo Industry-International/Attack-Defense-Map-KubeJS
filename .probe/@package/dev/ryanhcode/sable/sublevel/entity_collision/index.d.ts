@@ -8,10 +8,10 @@ import { $Vector3dc } from "@package/org/joml";
 declare module "@package/dev/ryanhcode/sable/sublevel/entity_collision" {
     export class $SubLevelEntityCollision$FirstCollisionInfo extends $Record {
         block(): $BlockState;
-        globalDirection(): $Vector3dc;
-        localLocation(): $Vector3dc;
-        horizontal(): boolean;
         bouncy(): boolean;
+        horizontal(): boolean;
+        localLocation(): $Vector3dc;
+        globalDirection(): $Vector3dc;
         constructor(localLocation: $Vector3dc, globalDirection: $Vector3dc, horizontal: boolean, bouncy: boolean, block: $BlockState_);
     }
     export class $SubLevelEntityCollision$CollisionInfo {

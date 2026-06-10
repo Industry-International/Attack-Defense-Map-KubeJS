@@ -25,18 +25,18 @@ declare module "@package/com/simibubi/create/content/equipment/potatoCannon" {
     export class $PotatoProjectileEntity extends $AbstractHurtingProjectile implements $IEntityWithComplexSpawn, $PotatoProjectileEntityExtension {
         static build(arg0: $EntityType$Builder<never>): $EntityType$Builder<never>;
         getItem(): $ItemStack;
-        readSpawnData(arg0: $RegistryFriendlyByteBuf): void;
         writeSpawnData(arg0: $RegistryFriendlyByteBuf): void;
-        setItem(arg0: $ItemStack_): void;
-        static playLaunchSound(arg0: $Level_, arg1: $Vec3_, arg2: number): void;
-        getRenderMode(): $PotatoProjectileRenderMode;
-        getStuckEntity(): $Entity;
-        setStuckEntity(arg0: $Entity): void;
-        getProjectileType(): $PotatoCannonProjectileType;
-        static playHitSound(arg0: $Level_, arg1: $Vec3_): void;
-        aeronautics$setIsFromMountedPotatoCannon(arg0: boolean): void;
-        aeronautics$setDamageMultiplier(arg0: number): void;
+        readSpawnData(arg0: $RegistryFriendlyByteBuf): void;
         setEnchantmentEffectsFromCannon(arg0: $ItemStack_): void;
+        setItem(arg0: $ItemStack_): void;
+        aeronautics$setDamageMultiplier(arg0: number): void;
+        static playLaunchSound(arg0: $Level_, arg1: $Vec3_, arg2: number): void;
+        static playHitSound(arg0: $Level_, arg1: $Vec3_): void;
+        setStuckEntity(arg0: $Entity): void;
+        getStuckEntity(): $Entity;
+        getRenderMode(): $PotatoProjectileRenderMode;
+        getProjectileType(): $PotatoCannonProjectileType;
+        aeronautics$setIsFromMountedPotatoCannon(arg0: boolean): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -116,8 +116,8 @@ declare module "@package/com/simibubi/create/content/equipment/potatoCannon" {
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
         constructor(arg0: $EntityType_<$AbstractHurtingProjectile>, arg1: $Level_);
+        set enchantmentEffectsFromCannon(value: $ItemStack_);
         get renderMode(): $PotatoProjectileRenderMode;
         get projectileType(): $PotatoCannonProjectileType;
-        set enchantmentEffectsFromCannon(value: $ItemStack_);
     }
 }

@@ -27,9 +27,9 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/special" {
         reset(): void;
         isSpecial(recipe: $Recipe<never>): boolean;
         ignoreSpecialMod(modid: string): void;
-        ignoreSpecialFlag(id: $ResourceLocation_): void;
-        addSpecialFlag(id: $ResourceLocation_): void;
         addSpecialMod(modid: string): void;
+        addSpecialFlag(id: $ResourceLocation_): void;
+        ignoreSpecialFlag(id: $ResourceLocation_): void;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -91,8 +91,8 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/special" {
     }
     export interface $KubeJSCraftingRecipe extends $CraftingRecipe {
         kjs$assemble(input: $CraftingInput, registryAccess: $HolderLookup$Provider): $ItemStack;
-        kjs$getRemainingItems(input: $CraftingInput): $NonNullList<$ItemStack>;
         kjs$getIngredientActions(): $List<$IngredientActionHolder>;
+        kjs$getRemainingItems(input: $CraftingInput): $NonNullList<$ItemStack>;
         kjs$getModifyResult(): string;
     }
     export class $ShapelessKubeJSRecipe$SerializerKJS implements $RecipeSerializer<$ShapelessKubeJSRecipe> {

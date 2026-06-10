@@ -38,11 +38,11 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         constructor();
     }
     export class $JoinMultiplayerScreen extends $Screen {
-        getServers(): $ServerList;
-        getPinger(): $ServerStatusPinger;
         setSelected(arg0: $ServerSelectionList$Entry): void;
         joinSelectedServer(): void;
         onSelectedChange(): void;
+        getPinger(): $ServerStatusPinger;
+        getServers(): $ServerList;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static LOWER_ROW_BUTTON_WIDTH: number;
@@ -66,9 +66,9 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         height: number;
         font: $Font;
         constructor(arg0: $Screen);
-        get servers(): $ServerList;
-        get pinger(): $ServerStatusPinger;
         set selected(value: $ServerSelectionList$Entry);
+        get pinger(): $ServerStatusPinger;
+        get servers(): $ServerList;
     }
     export class $SafetyScreen extends $WarningScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -144,9 +144,9 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
     }
     export class $ServerSelectionList extends $ObjectSelectionList<$ServerSelectionList$Entry> {
         removed(): void;
-        static access$100(arg0: $ServerSelectionList, arg1: number): number;
-        static access$000(arg0: $ServerSelectionList, arg1: $AbstractSelectionList$Entry<any>): void;
         setSelected(arg0: $ServerSelectionList$Entry): void;
+        static access$000(arg0: $ServerSelectionList, arg1: $AbstractSelectionList$Entry<any>): void;
+        static access$100(arg0: $ServerSelectionList, arg1: number): number;
         updateOnlineServers(arg0: $ServerList): void;
         updateNetworkServers(arg0: $List_<$LanServer>): void;
         minecraft: $Minecraft;
@@ -198,8 +198,8 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         set selected(value: $ServerSelectionList$Entry);
     }
     export class $ServerSelectionList$OnlineServerEntry extends $ServerSelectionList$Entry {
-        drawIcon(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: $ResourceLocation_): void;
         getServerData(): $ServerData;
+        drawIcon(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: $ResourceLocation_): void;
         updateServerList(): void;
         this$0: $ServerSelectionList;
         /**

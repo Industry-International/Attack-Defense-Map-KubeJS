@@ -9,8 +9,8 @@ declare module "@package/top/theillusivec4/curios/api" {
     export class $SlotContext extends $Record {
         index(): number;
         visible(): boolean;
-        identifier(): string;
         entity(): $LivingEntity;
+        identifier(): string;
         cosmetic(): boolean;
         constructor(identifier: string, entity: $LivingEntity, index: number, cosmetic: boolean, visible: boolean);
     }

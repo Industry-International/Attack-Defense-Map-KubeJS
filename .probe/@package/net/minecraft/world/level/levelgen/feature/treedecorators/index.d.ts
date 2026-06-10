@@ -47,11 +47,11 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/treedecorato
         roots(): $ObjectArrayList<$BlockPos>;
         random(): $RandomSource;
         level(): $LevelSimulatedReader;
-        logs(): $ObjectArrayList<$BlockPos>;
-        setBlock(arg0: $BlockPos_, arg1: $BlockState_): void;
-        isAir(arg0: $BlockPos_): boolean;
-        placeVine(arg0: $BlockPos_, arg1: $BooleanProperty): void;
         leaves(): $ObjectArrayList<$BlockPos>;
+        setBlock(arg0: $BlockPos_, arg1: $BlockState_): void;
+        placeVine(arg0: $BlockPos_, arg1: $BooleanProperty): void;
+        logs(): $ObjectArrayList<$BlockPos>;
+        isAir(arg0: $BlockPos_): boolean;
         constructor(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $Set_<$BlockPos_>, arg4: $Set_<$BlockPos_>, arg5: $Set_<$BlockPos_>);
     }
     export interface $TreeDecoratorType extends RegistryMarked<RegistryTypes.WorldgenTreeDecoratorTypeTag, RegistryTypes.WorldgenTreeDecoratorType> {}

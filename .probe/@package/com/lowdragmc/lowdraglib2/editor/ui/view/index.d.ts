@@ -21,19 +21,19 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/ui/view" {
         loadResources(arg0: $Resources): void;
         getResourceInstance<T>(arg0: $Resource<never>): $ResourceInstance<T>;
         removeResource(arg0: $Resource<never>): void;
+        getSelectedResourceInstance(): $ResourceInstance<never>;
         addResourceInstances(...arg0: $ResourceInstance<never>[]): void;
         selectResourceInstance(arg0: $Resource<never>): void;
         addResourceInstance(arg0: $ResourceInstance<never>): void;
         getResourceTabs(): $BiMap<$Resource<never>, $Tab>;
-        getSelectedResourceInstance(): $ResourceInstance<never>;
         editor: $Editor;
         static CODEC: $Codec<$UIElement>;
         static EMPTY_LAYOUT: $Layout;
         tabView: $TabView;
         constructor(arg0: $Editor);
         get resources(): $Map<$Resource<never>, $ResourceInstance<never>>;
-        get resourceTabs(): $BiMap<$Resource<never>, $Tab>;
         get selectedResourceInstance(): $ResourceInstance<never>;
+        get resourceTabs(): $BiMap<$Resource<never>, $Tab>;
     }
     export class $InspectorView extends $View {
         clear(): void;
@@ -51,15 +51,15 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/ui/view" {
         undo(): void;
         clearHistory(): void;
         redo(): void;
-        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: $Object, arg3: boolean): void;
-        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: boolean): void;
         pushHistory(arg0: $Component_, arg1: $EditAction): void;
+        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: boolean): void;
+        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: $Object, arg3: boolean): void;
         setMaxHistoryCount(arg0: number): void;
-        jumpToHistory(arg0: $IHistoryStack$HistoryItem_): void;
-        getMaxHistoryCount(): number;
         getRedoStack(): $Stack<$IHistoryStack$HistoryItem>;
-        getCurrentHistory(): $IHistoryStack$HistoryItem;
         getUndoStack(): $Stack<$IHistoryStack$HistoryItem>;
+        jumpToHistory(arg0: $IHistoryStack$HistoryItem_): void;
+        getCurrentHistory(): $IHistoryStack$HistoryItem;
+        getMaxHistoryCount(): number;
         recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T): $SerializableRecordAction<T>;
         recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T, arg2: $Object): $SerializableRecordAction<T>;
         editor: $Editor;
@@ -69,7 +69,7 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/ui/view" {
         static MAX_HISTORY_COUNT: number;
         constructor(arg0: $Editor);
         get redoStack(): $Stack<$IHistoryStack$HistoryItem>;
-        get currentHistory(): $IHistoryStack$HistoryItem;
         get undoStack(): $Stack<$IHistoryStack$HistoryItem>;
+        get currentHistory(): $IHistoryStack$HistoryItem;
     }
 }

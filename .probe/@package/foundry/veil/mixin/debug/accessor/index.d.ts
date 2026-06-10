@@ -15,19 +15,19 @@ declare module "@package/foundry/veil/mixin/debug/accessor" {
     export class $DebugLevelRendererAccessor {
     }
     export interface $DebugLevelRendererAccessor {
-        getEntityEffect(): $PostChain;
         getTransparencyChain(): $PostChain;
-        get entityEffect(): $PostChain;
+        getEntityEffect(): $PostChain;
         get transparencyChain(): $PostChain;
+        get entityEffect(): $PostChain;
     }
     export class $DebugGameRendererAccessor {
     }
     export interface $DebugGameRendererAccessor {
-        getBlitShader(): $ShaderInstance;
-        getPostEffect(): $PostChain;
         getShaders(): $Map<string, $ShaderInstance>;
-        get blitShader(): $ShaderInstance;
-        get postEffect(): $PostChain;
+        getPostEffect(): $PostChain;
+        getBlitShader(): $ShaderInstance;
         get shaders(): $Map<string, $ShaderInstance>;
+        get postEffect(): $PostChain;
+        get blitShader(): $ShaderInstance;
     }
 }

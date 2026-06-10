@@ -5,9 +5,9 @@ import { $ItemEntity } from "@package/net/minecraft/world/entity/item";
 
 declare module "@package/net/neoforged/neoforge/event/entity/item" {
     export class $ItemExpireEvent extends $ItemEvent {
-        setExtraLife(arg0: number): void;
-        addExtraLife(arg0: number): void;
         getExtraLife(): number;
+        addExtraLife(arg0: number): void;
+        setExtraLife(arg0: number): void;
         constructor(arg0: $ItemEntity);
     }
     export class $ItemTossEvent extends $ItemEvent implements $ICancellableEvent {

@@ -4,7 +4,7 @@ declare module "@package/dev/simulated_team/simulated/mixin_interface/assembly_p
     export class $PrimaryAssemblerExtension {
     }
     export interface $PrimaryAssemblerExtension {
-        simulated$getPrimaryAssembler(): $BlockPos;
         simulated$setPrimaryAssembler(arg0: $BlockPos_): void;
+        simulated$getPrimaryAssembler(): $BlockPos;
     }
 }

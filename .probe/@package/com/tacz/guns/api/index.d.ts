@@ -1,10 +1,11 @@
 import { $TypeToken } from "@package/com/google/common/reflect";
 import { $Record, $Class } from "@package/java/lang";
-export * as client from "@package/com/tacz/guns/api/client";
 export * as item from "@package/com/tacz/guns/api/item";
+export * as client from "@package/com/tacz/guns/api/client";
 export * as event from "@package/com/tacz/guns/api/event";
 export * as entity from "@package/com/tacz/guns/api/entity";
 export * as modifier from "@package/com/tacz/guns/api/modifier";
+export * as util from "@package/com/tacz/guns/api/util";
 
 declare module "@package/com/tacz/guns/api" {
     export class $GunProperty<T> extends $Record {

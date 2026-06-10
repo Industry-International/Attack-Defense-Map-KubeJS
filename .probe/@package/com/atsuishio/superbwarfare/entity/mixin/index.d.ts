@@ -11,12 +11,12 @@ declare module "@package/com/atsuishio/superbwarfare/entity/mixin" {
         static Companion: $DamageAccess$Companion;
     }
     export interface $DamageAccess {
-        superbWarfare$playHurtSound(arg0: $DamageSource_): void;
-        superbWarfare$getSoundVolume(): number;
-        superbwarfare$getDamageContainers(): $Stack<$DamageContainer>;
-        superbWarfare$getDeathSound(): $SoundEvent;
         superbWarfare$actuallyHurt(arg0: $DamageSource_, arg1: number): void;
         superbWarfare$hurtHelmet(arg0: $DamageSource_, arg1: number): void;
+        superbWarfare$getSoundVolume(): number;
+        superbWarfare$playHurtSound(arg0: $DamageSource_): void;
+        superbwarfare$getDamageContainers(): $Stack<$DamageContainer>;
+        superbWarfare$getDeathSound(): $SoundEvent;
         superbWarfare$checkTotemDeathProtection(arg0: $DamageSource_): boolean;
     }
     export class $CupidLove$Companion {
@@ -42,8 +42,8 @@ declare module "@package/com/atsuishio/superbwarfare/entity/mixin" {
         static Companion: $ICustomKnockback$Companion;
     }
     export interface $ICustomKnockback {
-        superbWarfare$setKnockbackStrength(arg0: number): void;
         superbWarfare$getKnockbackStrength(): number;
+        superbWarfare$setKnockbackStrength(arg0: number): void;
         superbWarfare$resetKnockbackStrength(): void;
     }
     export class $BeastEntityKiller$Companion {

@@ -6,22 +6,22 @@ import { $DSL$TypeReference_ } from "@package/com/mojang/datafixers";
 
 declare module "@package/com/mojang/datafixers/schemas" {
     export class $Schema {
-        register(arg0: $Map_<string, $Supplier_<$TypeTemplate>>, arg1: string, arg2: $Function_<string, $TypeTemplate>): void;
         register(arg0: $Map_<string, $Supplier_<$TypeTemplate>>, arg1: string, arg2: $Supplier_<$TypeTemplate>): void;
+        register(arg0: $Map_<string, $Supplier_<$TypeTemplate>>, arg1: string, arg2: $Function_<string, $TypeTemplate>): void;
         id(arg0: string): $TypeTemplate;
         getParent(): $Schema;
         getType(arg0: $DSL$TypeReference_): $Type<never>;
         types(): $Set<string>;
-        registerEntities(arg0: $Schema): $Map<string, $Supplier<$TypeTemplate>>;
-        registerTypes(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: $Map_<string, $Supplier_<$TypeTemplate>>): void;
+        registerBlockEntities(arg0: $Schema): $Map<string, $Supplier<$TypeTemplate>>;
+        findChoiceType(arg0: $DSL$TypeReference_): $TaggedChoice$TaggedChoiceType<never>;
+        getChoiceType(arg0: $DSL$TypeReference_, arg1: string): $Type<never>;
+        getVersionKey(): number;
+        getTypeRaw(arg0: $DSL$TypeReference_): $Type<never>;
         resolveTemplate(arg0: string): $TypeTemplate;
         registerType(arg0: boolean, arg1: $DSL$TypeReference_, arg2: $Supplier_<$TypeTemplate>): void;
+        registerEntities(arg0: $Schema): $Map<string, $Supplier<$TypeTemplate>>;
         registerSimple(arg0: $Map_<string, $Supplier_<$TypeTemplate>>, arg1: string): void;
-        getVersionKey(): number;
-        getChoiceType(arg0: $DSL$TypeReference_, arg1: string): $Type<never>;
-        findChoiceType(arg0: $DSL$TypeReference_): $TaggedChoice$TaggedChoiceType<never>;
-        registerBlockEntities(arg0: $Schema): $Map<string, $Supplier<$TypeTemplate>>;
-        getTypeRaw(arg0: $DSL$TypeReference_): $Type<never>;
+        registerTypes(arg0: $Schema, arg1: $Map_<string, $Supplier_<$TypeTemplate>>, arg2: $Map_<string, $Supplier_<$TypeTemplate>>): void;
         constructor(arg0: number, arg1: $Schema);
         get parent(): $Schema;
         get versionKey(): number;

@@ -52,23 +52,23 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         "function"(): $Holder<$DensityFunction>;
         maxValue(): number;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         constructor(arg0: $Holder_<$DensityFunction>);
     }
     export class $Xoroshiro128PlusPlus implements $IXoroshiro128PlusPlusRandomImpl {
         nextLong(): number;
-        getSeedLo(): number;
         setSeedLo(arg0: number): void;
+        getSeedLo(): number;
         setSeedHi(arg0: number): void;
         getSeedHi(): number;
         static CODEC: $Codec<$Xoroshiro128PlusPlus>;
@@ -86,10 +86,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static ZERO: $DensityFunctions$Constant;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$Constant>;
         constructor(arg0: number);
@@ -106,15 +106,15 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         wrapped(): $DensityFunction;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         this$0: $NoiseChunk;
         constructor(arg0: $NoiseChunk, arg1: $DensityFunction_);
     }
@@ -126,9 +126,9 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export type $OreVeinifier$VeinType_ = "copper" | "iron";
     export class $DensityFunctions$ShiftB extends $Record implements $DensityFunctions$ShiftNoise {
         compute(arg0: $DensityFunction$FunctionContext): number;
-        offsetNoise(): $DensityFunction$NoiseHolder;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
+        offsetNoise(): $DensityFunction$NoiseHolder;
         compute(arg0: number, arg1: number, arg2: number): number;
         maxValue(): number;
         minValue(): number;
@@ -136,18 +136,18 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$ShiftB>;
         constructor(arg0: $DensityFunction$NoiseHolder_);
     }
     export class $DensityFunctions$ShiftA extends $Record implements $DensityFunctions$ShiftNoise {
         compute(arg0: $DensityFunction$FunctionContext): number;
-        offsetNoise(): $DensityFunction$NoiseHolder;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
+        offsetNoise(): $DensityFunction$NoiseHolder;
         compute(arg0: number, arg1: number, arg2: number): number;
         maxValue(): number;
         minValue(): number;
@@ -155,10 +155,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$ShiftA>;
         constructor(arg0: $DensityFunction$NoiseHolder_);
     }
@@ -168,19 +168,19 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     }
     export class $NoiseRouter extends $Record {
         depth(): $DensityFunction;
-        initialDensityWithoutJaggedness(): $DensityFunction;
+        mapAll(arg0: $DensityFunction$Visitor_): $NoiseRouter;
         temperature(): $DensityFunction;
         erosion(): $DensityFunction;
-        ridges(): $DensityFunction;
-        continents(): $DensityFunction;
         vegetation(): $DensityFunction;
-        veinToggle(): $DensityFunction;
-        veinGap(): $DensityFunction;
-        lavaNoise(): $DensityFunction;
-        veinRidged(): $DensityFunction;
-        mapAll(arg0: $DensityFunction$Visitor_): $NoiseRouter;
+        continents(): $DensityFunction;
+        ridges(): $DensityFunction;
+        initialDensityWithoutJaggedness(): $DensityFunction;
         finalDensity(): $DensityFunction;
         barrierNoise(): $DensityFunction;
+        lavaNoise(): $DensityFunction;
+        veinToggle(): $DensityFunction;
+        veinGap(): $DensityFunction;
+        veinRidged(): $DensityFunction;
         fluidLevelFloodednessNoise(): $DensityFunction;
         fluidLevelSpreadNoise(): $DensityFunction;
         static CODEC: $Codec<$NoiseRouter>;
@@ -189,13 +189,13 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export class $RandomState {
         static create(arg0: $HolderGetter$Provider_, arg1: $ResourceKey_<$NoiseGeneratorSettings>, arg2: number): $RandomState;
         static create(arg0: $NoiseGeneratorSettings_, arg1: $HolderGetter<$NormalNoise$NoiseParameters_>, arg2: number): $RandomState;
-        sampler(): $Climate$Sampler;
-        surfaceSystem(): $SurfaceSystem;
         router(): $NoiseRouter;
         getOrCreateNoise(arg0: $ResourceKey_<$NormalNoise$NoiseParameters>): $NormalNoise;
+        surfaceSystem(): $SurfaceSystem;
+        sampler(): $Climate$Sampler;
         getOrCreateRandomFactory(arg0: $ResourceLocation_): $PositionalRandomFactory;
-        aquiferRandom(): $PositionalRandomFactory;
         oreRandom(): $PositionalRandomFactory;
+        aquiferRandom(): $PositionalRandomFactory;
         random: $PositionalRandomFactory;
     }
     export class $WorldgenRandom$Algorithm extends $Enum<$WorldgenRandom$Algorithm> {
@@ -215,10 +215,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         argument(): number;
         input(): $DensityFunction;
         maxValue(): number;
-        minValue(): number;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         argument2(): $DensityFunction;
         argument1(): $DensityFunction;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        minValue(): number;
         specificType(): $DensityFunctions$MulOrAdd$Type;
         compute(arg0: $DensityFunction$FunctionContext): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
@@ -226,10 +226,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         constructor(arg0: $DensityFunctions$MulOrAdd$Type_, arg1: $DensityFunction_, arg2: number, arg3: number, arg4: number);
     }
     export class $DensityFunctions$PureTransformer {
@@ -297,21 +297,21 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         input(): $DensityFunction;
         maxValue(): number;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
+        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
+        minInclusive(): number;
         whenInRange(): $DensityFunction;
         whenOutOfRange(): $DensityFunction;
-        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
-        minInclusive(): number;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         maxExclusive(): number;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$RangeChoice>;
         static DATA_CODEC: $MapCodec<$DensityFunctions$RangeChoice>;
         constructor(arg0: $DensityFunction_, arg1: number, arg2: number, arg3: $DensityFunction_, arg4: $DensityFunction_);
@@ -328,10 +328,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static INSTANCE: $DensityFunctions$BeardifierMarker;
     }
     /**
@@ -349,17 +349,17 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static mixStafford13(arg0: number): number;
         static seedFromHashOf(arg0: string): $RandomSupport$Seed128bit;
         static generateUniqueSeed(): number;
-        static upgradeSeedTo128bit(arg0: number): $RandomSupport$Seed128bit;
         static upgradeSeedTo128bitUnmixed(arg0: number): $RandomSupport$Seed128bit;
+        static upgradeSeedTo128bit(arg0: number): $RandomSupport$Seed128bit;
         static GOLDEN_RATIO_64: number;
         static SILVER_RATIO_64: number;
         constructor();
     }
     export class $XoroshiroRandomSource$XoroshiroPositionalRandomFactory implements $PositionalRandomFactory, $IXoroshiro128PlusPlusRandomDeriver {
         at(arg0: number, arg1: number, arg2: number): $RandomSource;
-        parityConfigString(arg0: $StringBuilder): void;
         fromSeed(arg0: number): $RandomSource;
         fromHashOf(arg0: string): $RandomSource;
+        parityConfigString(arg0: $StringBuilder): void;
         at(arg0: $BlockPos_): $RandomSource;
         fromHashOf(arg0: $ResourceLocation_): $RandomSource;
         getSeedLo(): number;
@@ -374,18 +374,18 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static create(arg0: $DensityFunctions$Mapped$Type_, arg1: $DensityFunction_): $DensityFunctions$Mapped;
         input(): $DensityFunction;
         maxValue(): number;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunctions$Mapped;
         minValue(): number;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunctions$Mapped;
         compute(arg0: $DensityFunction$FunctionContext): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         constructor(arg0: $DensityFunctions$Mapped$Type_, arg1: $DensityFunction_, arg2: number, arg3: number);
     }
     export class $SurfaceRules$SequenceRule extends $Record implements $SurfaceRules$SurfaceRule {
@@ -404,8 +404,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export class $NoiseRouterData$QuantizedSpaghettiRarity implements $IDensityFunctionsCaveScaler {
         static getSphaghettiRarity2D(arg0: number): number;
         static getSpaghettiRarity3D(arg0: number): number;
-        static invokeScaleTunnels$c2me_base_$md$d64506$1(arg0: number): number;
-        static invokeScaleCaves$c2me_base_$md$d64506$0(arg0: number): number;
+        static invokeScaleTunnels$c2me_base_$md$9aa1a5$1(arg0: number): number;
+        static invokeScaleCaves$c2me_base_$md$9aa1a5$0(arg0: number): number;
         constructor();
     }
     export class $Density {
@@ -417,8 +417,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export class $DensityFunction$SimpleFunction {
     }
     export interface $DensityFunction$SimpleFunction extends $DensityFunction {
-        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
     }
     export class $SurfaceRules$StateRule extends $Record implements $SurfaceRules$SurfaceRule {
     }
@@ -434,8 +434,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static createDisabled(arg0: $Aquifer$FluidPicker_): $Aquifer;
     }
     export interface $Aquifer {
-        computeSubstance(arg0: $DensityFunction$FunctionContext, arg1: number): $BlockState;
         shouldScheduleFluidUpdate(): boolean;
+        computeSubstance(arg0: $DensityFunction$FunctionContext, arg1: number): $BlockState;
     }
     export class $DensityFunction$Visitor {
     }
@@ -465,14 +465,14 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
         square(): $DensityFunction;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
     }
     /**
      * Values that may be interpreted as {@link $DensityFunction}.
@@ -483,33 +483,33 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         wrapped(): $DensityFunction;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         noiseFiller: $DensityFunction;
         values: number[];
         this$0: $NoiseChunk;
         constructor(arg0: $NoiseChunk, arg1: $DensityFunction_);
     }
     export class $DensityFunction$SinglePointContext extends $Record implements $DensityFunction$FunctionContext {
-        blockX(): number;
         blockY(): number;
         blockZ(): number;
+        blockX(): number;
         getBlender(): $Blender;
         constructor(arg0: number, arg1: number, arg2: number);
         get blender(): $Blender;
     }
     export class $LegacyRandomSource$LegacyPositionalRandomFactory implements $PositionalRandomFactory, $IAtomicSimpleRandomDeriver {
         at(x: number, y: number, z: number): $RandomSource;
-        parityConfigString(arg0: $StringBuilder): void;
         fromSeed(arg0: number): $RandomSource;
         fromHashOf(string: string): $RandomSource;
+        parityConfigString(arg0: $StringBuilder): void;
         at(arg0: $BlockPos_): $RandomSource;
         fromHashOf(arg0: $ResourceLocation_): $RandomSource;
         getSeed(): number;
@@ -517,11 +517,11 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         get seed(): number;
     }
     export class $WorldGenerationContext {
-        getGenDepth(): number;
         getMinGenY(): number;
+        getGenDepth(): number;
         constructor(arg0: $ChunkGenerator, arg1: $LevelHeightAccessor);
-        get genDepth(): number;
         get minGenY(): number;
+        get genDepth(): number;
     }
     export class $NoiseChunk$NoiseInterpolator implements $DensityFunctions$MarkerOrMarked, $NoiseChunk$NoiseChunkDensityFunction, $IChunkNoiseSamplerDensityInterpolator {
         type(): $DensityFunctions$Marker$Type;
@@ -532,18 +532,18 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         updateForY(arg0: number): void;
         updateForZ(arg0: number): void;
         selectCellYZ(arg0: number, arg1: number): void;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
-        invokeInterpolateX(arg0: number): void;
         invokeInterpolateY(arg0: number): void;
         invokeInterpolateZ(arg0: number): void;
+        invokeInterpolateX(arg0: number): void;
         this$0: $NoiseChunk;
         slice0: number[][];
         slice1: number[][];
@@ -581,17 +581,17 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
         wrapped(): $DensityFunction;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         this$0: $NoiseChunk;
         constructor(arg0: $NoiseChunk);
     }
@@ -616,10 +616,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         dimensions(): $Map<$ResourceKey<$LevelStem>, $LevelStem>;
         isDebug(): boolean;
         levels(): $ImmutableSet<$ResourceKey<$Level>>;
-        static keysInOrder(arg0: $Stream<$ResourceKey_<$LevelStem>>): $Stream<$ResourceKey<$LevelStem>>;
         overworld(): $ChunkGenerator;
         bake(arg0: $Registry<$LevelStem_>): $WorldDimensions$Complete;
         replaceOverworldGenerator(arg0: $RegistryAccess, arg1: $ChunkGenerator): $WorldDimensions;
+        static keysInOrder(arg0: $Stream<$ResourceKey_<$LevelStem>>): $Stream<$ResourceKey<$LevelStem>>;
         static checkStability(arg0: $ResourceKey_<$LevelStem>, arg1: $LevelStem_): $Lifecycle;
         static withOverworld(arg0: $Registry<$DimensionType_>, arg1: $Map_<$ResourceKey_<$LevelStem>, $LevelStem_>, arg2: $ChunkGenerator): $Map<$ResourceKey<$LevelStem>, $LevelStem>;
         static withOverworld(arg0: $Map_<$ResourceKey_<$LevelStem>, $LevelStem_>, arg1: $Holder_<$DimensionType>, arg2: $ChunkGenerator): $Map<$ResourceKey<$LevelStem>, $LevelStem>;
@@ -635,15 +635,15 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         wrapped(): $DensityFunction;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         constructor(arg0: $DensityFunctions$Marker$Type_, arg1: $DensityFunction_);
     }
     export class $WorldGenSettings extends $Record {
@@ -662,21 +662,21 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static end(arg0: $BootstrapContext<never>): $NoiseGeneratorSettings;
         static dummy(): $NoiseGeneratorSettings;
         static bootstrap(arg0: $BootstrapContext<$NoiseGeneratorSettings_>): void;
-        seaLevel(): number;
+        static nether(arg0: $BootstrapContext<never>): $NoiseGeneratorSettings;
         defaultBlock(): $BlockState;
         static overworld(arg0: $BootstrapContext<never>, arg1: boolean, arg2: boolean): $NoiseGeneratorSettings;
-        surfaceRule(): $SurfaceRules$RuleSource;
-        static nether(arg0: $BootstrapContext<never>): $NoiseGeneratorSettings;
-        static caves(arg0: $BootstrapContext<never>): $NoiseGeneratorSettings;
-        defaultFluid(): $BlockState;
         spawnTarget(): $List<$Climate$ParameterPoint>;
+        defaultFluid(): $BlockState;
         noiseSettings(): $NoiseSettings;
-        static floatingIslands(arg0: $BootstrapContext<never>): $NoiseGeneratorSettings;
         getRandomSource(): $WorldgenRandom$Algorithm;
-        isAquifersEnabled(): boolean;
+        static floatingIslands(arg0: $BootstrapContext<never>): $NoiseGeneratorSettings;
         aquifersEnabled(): boolean;
-        noiseRouter(): $NoiseRouter;
+        isAquifersEnabled(): boolean;
         oreVeinsEnabled(): boolean;
+        noiseRouter(): $NoiseRouter;
+        static caves(arg0: $BootstrapContext<never>): $NoiseGeneratorSettings;
+        surfaceRule(): $SurfaceRules$RuleSource;
+        seaLevel(): number;
         useLegacyRandomSource(): boolean;
         /**
          * @deprecated
@@ -700,9 +700,9 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export type $NoiseGeneratorSettings_ = RegistryTypes.WorldgenNoiseSettings;
     export class $DensityFunctions$Shift extends $Record implements $DensityFunctions$ShiftNoise {
         compute(arg0: $DensityFunction$FunctionContext): number;
-        offsetNoise(): $DensityFunction$NoiseHolder;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
+        offsetNoise(): $DensityFunction$NoiseHolder;
         compute(arg0: number, arg1: number, arg2: number): number;
         maxValue(): number;
         minValue(): number;
@@ -710,10 +710,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$Shift>;
         constructor(arg0: $DensityFunction$NoiseHolder_);
     }
@@ -721,11 +721,11 @@ declare module "@package/net/minecraft/world/level/levelgen" {
      * @deprecated
      */
     export class $DebugLevelSource extends $ChunkGenerator implements $DebugChunkGeneratorAccessor {
-        static getBlockStateFor(arg0: number, arg1: number): $BlockState;
+        static setX_SIDE_LENGTH$fabric_registry_sync_v0_$md$9aa1a5$1(arg0: number): void;
+        static setBLOCK_STATES$fabric_registry_sync_v0_$md$9aa1a5$0(arg0: $List_<any>): void;
+        static setZ_SIDE_LENGTH$fabric_registry_sync_v0_$md$9aa1a5$2(arg0: number): void;
         static initValidStates(): void;
-        static setBLOCK_STATES$fabric_registry_sync_v0_$md$d64506$0(arg0: $List_<any>): void;
-        static setX_SIDE_LENGTH$fabric_registry_sync_v0_$md$d64506$1(arg0: number): void;
-        static setZ_SIDE_LENGTH$fabric_registry_sync_v0_$md$d64506$2(arg0: number): void;
+        static getBlockStateFor(arg0: number, arg1: number): $BlockState;
         featuresPerStep: $Supplier<$List<$FeatureSorter$StepFeatureData>>;
         static CODEC: $MapCodec<$DebugLevelSource>;
         static BARRIER_HEIGHT: number;
@@ -734,20 +734,20 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static AIR: $BlockState;
         static HEIGHT: number;
         constructor(arg0: $Holder$Reference<$Biome_>);
-        static set BLOCK_STATES$fabric_registry_sync_v0_$md$d64506$0(value: $List_<any>);
-        static set x_SIDE_LENGTH$fabric_registry_sync_v0_$md$d64506$1(value: number);
-        static set z_SIDE_LENGTH$fabric_registry_sync_v0_$md$d64506$2(value: number);
+        static set x_SIDE_LENGTH$fabric_registry_sync_v0_$md$9aa1a5$1(value: number);
+        static set BLOCK_STATES$fabric_registry_sync_v0_$md$9aa1a5$0(value: $List_<any>);
+        static set z_SIDE_LENGTH$fabric_registry_sync_v0_$md$9aa1a5$2(value: number);
     }
     export class $WorldOptions {
         seed(): number;
-        withSeed(arg0: $OptionalLong): $WorldOptions;
         generateBonusChest(): boolean;
+        withSeed(arg0: $OptionalLong): $WorldOptions;
+        static randomSeed(): number;
         generateStructures(): boolean;
+        isOldCustomizedWorld(): boolean;
         withBonusChest(arg0: boolean): $WorldOptions;
         withStructures(arg0: boolean): $WorldOptions;
-        static randomSeed(): number;
         static defaultWithRandomSeed(): $WorldOptions;
-        isOldCustomizedWorld(): boolean;
         static parseSeed(arg0: string): $OptionalLong;
         static CODEC: $MapCodec<$WorldOptions>;
         static DEMO_OPTIONS: $WorldOptions;
@@ -770,15 +770,15 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static getBeardContribution(arg0: number, arg1: number, arg2: number, arg3: number): number;
         static getBuryContribution(x: number, y: number, z: number): number;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         junctionIterator: $ObjectListIterator<$JigsawJunction>;
         static BEARD_KERNEL_RADIUS: number;
         pieceIterator: $ObjectListIterator<$Beardifier$Rigid>;
@@ -798,11 +798,11 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     }
     export class $Heightmap {
         update(arg0: number, arg1: number, arg2: number, arg3: $BlockState_): boolean;
-        getFirstAvailable(arg0: number, arg1: number): number;
-        static primeHeightmaps(arg0: $ChunkAccess, arg1: $Set_<$Heightmap$Types_>): void;
         setRawData(arg0: $ChunkAccess, arg1: $Heightmap$Types_, arg2: number[]): void;
         getRawData(): number[];
         getHighestTaken(arg0: number, arg1: number): number;
+        static primeHeightmaps(arg0: $ChunkAccess, arg1: $Set_<$Heightmap$Types_>): void;
+        getFirstAvailable(arg0: number, arg1: number): number;
         static MATERIAL_MOTION_BLOCKING: $Predicate<$BlockState>;
         static NOT_AIR: $Predicate<$BlockState>;
         constructor(arg0: $ChunkAccess, arg1: $Heightmap$Types_);
@@ -820,11 +820,11 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static end(arg0: $HolderGetter<$DensityFunction_>): $NoiseRouter;
         static bootstrap(arg0: $BootstrapContext<$DensityFunction_>): $Holder<$DensityFunction>;
         static none(): $NoiseRouter;
-        static overworld(arg0: $HolderGetter<$DensityFunction_>, arg1: $HolderGetter<$NormalNoise$NoiseParameters_>, arg2: boolean, arg3: boolean): $NoiseRouter;
         static nether(arg0: $HolderGetter<$DensityFunction_>, arg1: $HolderGetter<$NormalNoise$NoiseParameters_>): $NoiseRouter;
-        static caves(arg0: $HolderGetter<$DensityFunction_>, arg1: $HolderGetter<$NormalNoise$NoiseParameters_>): $NoiseRouter;
+        static overworld(arg0: $HolderGetter<$DensityFunction_>, arg1: $HolderGetter<$NormalNoise$NoiseParameters_>, arg2: boolean, arg3: boolean): $NoiseRouter;
         static peaksAndValleys(arg0: number): number;
         static floatingIslands(arg0: $HolderGetter<$DensityFunction_>, arg1: $HolderGetter<$NormalNoise$NoiseParameters_>): $NoiseRouter;
+        static caves(arg0: $HolderGetter<$DensityFunction_>, arg1: $HolderGetter<$NormalNoise$NoiseParameters_>): $NoiseRouter;
         static ISLAND_CHUNK_DISTANCE: number;
         static CONTINENTS: $ResourceKey<$DensityFunction>;
         static JAGGEDNESS: $ResourceKey<$DensityFunction>;
@@ -846,14 +846,14 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     }
     export class $BelowZeroRetrogen implements $IBelowZeroRetrogen {
         static read(arg0: $CompoundTag_): $BelowZeroRetrogen;
-        targetStatus(): $ChunkStatus;
         static getBiomeResolver(arg0: $BiomeResolver_, arg1: $ChunkAccess): $BiomeResolver;
-        static replaceOldBedrock(arg0: $ProtoChunk): void;
-        hasBedrockHoles(): boolean;
+        targetStatus(): $ChunkStatus;
         applyBedrockMask(arg0: $ProtoChunk): void;
+        hasBedrockHoles(): boolean;
+        static replaceOldBedrock(arg0: $ProtoChunk): void;
         hasBedrockHole(arg0: number, arg1: number): boolean;
-        invokeGetTargetStatus(): $ChunkStatus;
         getMissingBedrock(): $BitSet;
+        invokeGetTargetStatus(): $ChunkStatus;
         static CODEC: $Codec<$BelowZeroRetrogen>;
         static UPGRADE_HEIGHT_ACCESSOR: $LevelHeightAccessor;
         get missingBedrock(): $BitSet;
@@ -863,10 +863,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export interface $PositionalRandomFactory {
         at(arg0: $BlockPos_): $RandomSource;
         at(arg0: number, arg1: number, arg2: number): $RandomSource;
-        parityConfigString(arg0: $StringBuilder): void;
         fromSeed(arg0: number): $RandomSource;
-        fromHashOf(arg0: $ResourceLocation_): $RandomSource;
         fromHashOf(arg0: string): $RandomSource;
+        fromHashOf(arg0: $ResourceLocation_): $RandomSource;
+        parityConfigString(arg0: $StringBuilder): void;
     }
     export class $DensityFunctions$ShiftNoise {
     }
@@ -874,8 +874,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: number, arg1: number, arg2: number): number;
         maxValue(): number;
         minValue(): number;
-        offsetNoise(): $DensityFunction$NoiseHolder;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
+        offsetNoise(): $DensityFunction$NoiseHolder;
     }
     export class $SurfaceRules$Context$TemperatureHelperCondition extends $SurfaceRules$LazyYCondition {
         result: boolean;
@@ -885,8 +885,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         apply(arg0: $DensityFunctions$Spline$Point_): number;
         "function"(): $Holder<$DensityFunction>;
         maxValue(): number;
-        minValue(): number;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunctions$Spline$Coordinate;
+        minValue(): number;
         comap<C2>(arg0: $Function_<C2, $DensityFunctions$Spline$Point>): $ToFloatFunction<C2>;
         static CODEC: $Codec<$DensityFunctions$Spline$Coordinate>;
         constructor(arg0: $Holder_<$DensityFunction>);
@@ -957,18 +957,18 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         transform(arg0: $DensityFunction$FunctionContext, arg1: number): number;
         input(): $DensityFunction;
         maxValue(): number;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         compute(arg0: $DensityFunction$FunctionContext): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$BlendDensity>;
         constructor(arg0: $DensityFunction_);
     }
@@ -992,10 +992,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunction>;
         static INSTANCE: $DensityFunctions$BlendOffset;
     }
@@ -1007,8 +1007,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static top(): $VerticalAnchor;
         static absolute(arg0: number): $VerticalAnchor;
         static bottom(): $VerticalAnchor;
-        static aboveBottom(arg0: number): $VerticalAnchor;
         static belowTop(arg0: number): $VerticalAnchor;
+        static aboveBottom(arg0: number): $VerticalAnchor;
         static CODEC: $Codec<$VerticalAnchor>;
         static TOP: $VerticalAnchor;
         static BOTTOM: $VerticalAnchor;
@@ -1054,43 +1054,43 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     }
     export class $NoiseChunk implements $DensityFunction$ContextProvider, $DensityFunction$FunctionContext, $IChunkNoiseSampler {
         wrap(arg0: $DensityFunction_): $DensityFunction;
+        getBlender(): $Blender;
+        blockY(): number;
+        blockZ(): number;
+        blockX(): number;
         aquifer(): $Aquifer;
+        swapSlices(): void;
+        cellHeight(): number;
+        cellWidth(): number;
         static forChunk(arg0: $ChunkAccess, arg1: $RandomState, arg2: $DensityFunctions$BeardifierOrMarker, arg3: $NoiseGeneratorSettings_, arg4: $Aquifer$FluidPicker_, arg5: $Blender): $NoiseChunk;
         updateForX(arg0: number, arg1: number): void;
         updateForY(arg0: number, arg1: number): void;
-        cellWidth(): number;
-        cellHeight(): number;
         updateForZ(arg0: number, arg1: number): void;
-        swapSlices(): void;
-        blockX(): number;
-        blockY(): number;
-        getBlender(): $Blender;
-        blockZ(): number;
         selectCellYZ(arg0: number, arg1: number): void;
-        advanceCellX(arg0: number): void;
         stopInterpolation(): void;
+        advanceCellX(arg0: number): void;
         fillAllDirectly(arg0: number[], arg1: $DensityFunction_): void;
-        getInterpolatedState(): $BlockState;
         cachedClimateSampler(arg0: $NoiseRouter_, arg1: $List_<$Climate$ParameterPoint_>): $Climate$Sampler;
+        getInterpolatedState(): $BlockState;
         initializeForFirstCellX(): void;
-        getOrComputeBlendingOutput(arg0: number, arg1: number): $Blender$BlendingOutput;
         preliminarySurfaceLevel(arg0: number, arg1: number): number;
+        getOrComputeBlendingOutput(arg0: number, arg1: number): $Blender$BlendingOutput;
         forIndex(arg0: number): $DensityFunction$FunctionContext;
-        getHorizontalCellBlockCount(): number;
-        getVerticalCellBlockCount(): number;
-        getIsInInterpolationLoop(): boolean;
-        getIsSamplingForCaches(): boolean;
-        getHorizontalCellCount(): number;
-        getVerticalCellCount(): number;
+        getStartBiomeZ(): number;
         getStartBlockY(): number;
+        getCellBlockX(): number;
+        getStartBlockX(): number;
+        getCellBlockZ(): number;
         getMinimumCellY(): number;
         getCellBlockY(): number;
-        getCellBlockZ(): number;
-        getCellBlockX(): number;
-        getStartBiomeX(): number;
         getStartBlockZ(): number;
-        getStartBiomeZ(): number;
-        getStartBlockX(): number;
+        getStartBiomeX(): number;
+        getHorizontalCellCount(): number;
+        getVerticalCellCount(): number;
+        getIsInInterpolationLoop(): boolean;
+        getIsSamplingForCaches(): boolean;
+        getVerticalCellBlockCount(): number;
+        getHorizontalCellBlockCount(): number;
         cellStartBlockY: number;
         cellCountY: number;
         interpolating: boolean;
@@ -1111,21 +1111,21 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         constructor(arg0: number, arg1: $RandomState, arg2: number, arg3: number, arg4: $NoiseSettings_, arg5: $DensityFunctions$BeardifierOrMarker, arg6: $NoiseGeneratorSettings_, arg7: $Aquifer$FluidPicker_, arg8: $Blender);
         get blender(): $Blender;
         get interpolatedState(): $BlockState;
-        get horizontalCellBlockCount(): number;
-        get verticalCellBlockCount(): number;
-        get isInInterpolationLoop(): boolean;
-        get isSamplingForCaches(): boolean;
-        get horizontalCellCount(): number;
-        get verticalCellCount(): number;
+        get startBiomeZ(): number;
         get startBlockY(): number;
+        get cellBlockX(): number;
+        get startBlockX(): number;
+        get cellBlockZ(): number;
         get minimumCellY(): number;
         get cellBlockY(): number;
-        get cellBlockZ(): number;
-        get cellBlockX(): number;
-        get startBiomeX(): number;
         get startBlockZ(): number;
-        get startBiomeZ(): number;
-        get startBlockX(): number;
+        get startBiomeX(): number;
+        get horizontalCellCount(): number;
+        get verticalCellCount(): number;
+        get isInInterpolationLoop(): boolean;
+        get isSamplingForCaches(): boolean;
+        get verticalCellBlockCount(): number;
+        get horizontalCellBlockCount(): number;
     }
     export class $DensityFunctions$Marker$Type extends $Enum<$DensityFunctions$Marker$Type> implements $StringRepresentable {
         static values(): $DensityFunctions$Marker$Type[];
@@ -1149,20 +1149,20 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         transform(arg0: $DensityFunction$FunctionContext, arg1: number): number;
         input(): $DensityFunction;
         maxValue(): number;
-        minValue(): number;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         noise(): $DensityFunction$NoiseHolder;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        minValue(): number;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         rarityValueMapper(): $DensityFunctions$WeirdScaledSampler$RarityValueMapper;
         compute(arg0: $DensityFunction$FunctionContext): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$WeirdScaledSampler>;
         constructor(arg0: $DensityFunction_, arg1: $DensityFunction$NoiseHolder_, arg2: $DensityFunctions$WeirdScaledSampler$RarityValueMapper_);
     }
@@ -1185,23 +1185,19 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         nextBoolean(): boolean;
         nextFloat(): number;
         nextInt(arg0: number, arg1: number): number;
-        consumeCount(arg0: number): void;
         triangle(arg0: number, arg1: number): number;
+        consumeCount(arg0: number): void;
         nextIntBetweenInclusive(arg0: number, arg1: number): number;
         constructor(arg0: number);
         set seed(value: number);
     }
-    export class $SurfaceRules$BiomeConditionSource$1BiomeCondition extends $SurfaceRules$LazyYCondition {
-        result: boolean;
-        context: $SurfaceRules$Context;
-    }
     export class $Aquifer$NoiseBasedAquifer implements $Aquifer {
         getIndex(arg0: number, arg1: number, arg2: number): number;
-        static similarity(arg0: number, arg1: number): number;
-        computeSubstance(pos: $DensityFunction$FunctionContext, density: number): $BlockState;
         shouldScheduleFluidUpdate(): boolean;
-        gridX(arg0: number): number;
+        computeSubstance(pos: $DensityFunction$FunctionContext, density: number): $BlockState;
+        static similarity(arg0: number, arg1: number): number;
         gridY(arg0: number): number;
+        gridX(arg0: number): number;
         gridZ(arg0: number): number;
         minGridY: number;
         minGridX: number;
@@ -1214,10 +1210,14 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         lavaNoise: $DensityFunction;
         constructor(arg0: $NoiseChunk, arg1: $ChunkPos, arg2: $NoiseRouter_, arg3: $PositionalRandomFactory, arg4: number, arg5: number, arg6: $Aquifer$FluidPicker_);
     }
+    export class $SurfaceRules$BiomeConditionSource$1BiomeCondition extends $SurfaceRules$LazyYCondition {
+        result: boolean;
+        context: $SurfaceRules$Context;
+    }
     export class $SurfaceRules$TestRuleSource extends $Record implements $SurfaceRules$RuleSource {
         apply(arg0: $SurfaceRules$Context): $SurfaceRules$SurfaceRule;
-        codec(): $KeyDispatchDataCodec<$SurfaceRules$RuleSource>;
         thenRun(): $SurfaceRules$RuleSource;
+        codec(): $KeyDispatchDataCodec<$SurfaceRules$RuleSource>;
         ifTrue(): $SurfaceRules$ConditionSource;
         compose<V>(arg0: $Function_<V, $SurfaceRules$Context>): $Function<V, $SurfaceRules$SurfaceRule>;
         andThen<V>(arg0: $Function_<$SurfaceRules$SurfaceRule, V>): $Function<$SurfaceRules$Context, V>;
@@ -1228,20 +1228,20 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
         minValue(): number;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         fromValue(): number;
-        toY(): number;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         toValue(): number;
+        toY(): number;
         fromY(): number;
-        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$YClampedGradient>;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number);
     }
@@ -1273,8 +1273,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         nextBoolean(): boolean;
         nextFloat(): number;
         nextInt(arg0: number, arg1: number): number;
-        consumeCount(arg0: number): void;
         triangle(arg0: number, arg1: number): number;
+        consumeCount(arg0: number): void;
         nextIntBetweenInclusive(arg0: number, arg1: number): number;
         getSeed(): number;
         invokeSetSeed(arg0: number): void;
@@ -1297,18 +1297,18 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export class $DensityFunction$FunctionContext {
     }
     export interface $DensityFunction$FunctionContext {
-        blockX(): number;
-        blockY(): number;
         getBlender(): $Blender;
+        blockY(): number;
         blockZ(): number;
+        blockX(): number;
         get blender(): $Blender;
     }
     export class $RandomSupport$Seed128bit extends $Record {
         xor(arg0: number, arg1: number): $RandomSupport$Seed128bit;
         xor(arg0: $RandomSupport$Seed128bit_): $RandomSupport$Seed128bit;
         mixed(): $RandomSupport$Seed128bit;
-        seedLo(): number;
         seedHi(): number;
+        seedLo(): number;
         constructor(arg0: number, arg1: number);
     }
     export class $SurfaceRules$BiomeConditionSource implements $SurfaceRules$ConditionSource {
@@ -1337,8 +1337,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         nextBoolean(): boolean;
         nextFloat(): number;
         nextInt(arg0: number, arg1: number): number;
-        consumeCount(arg0: number): void;
         triangle(arg0: number, arg1: number): number;
+        consumeCount(arg0: number): void;
         nextIntBetweenInclusive(arg0: number, arg1: number): number;
         constructor(arg0: number);
         set seed(value: number);
@@ -1348,15 +1348,15 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         maxValue(): number;
         minValue(): number;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$EndIslandDensityFunction>;
         constructor(arg0: number);
     }
@@ -1387,17 +1387,17 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
         wrapped(): $DensityFunction;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         this$0: $NoiseChunk;
         constructor(arg0: $NoiseChunk);
     }
@@ -1411,34 +1411,34 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static bootstrap(arg0: $Registry<$MapCodec_<$DensityFunction_>>): $MapCodec<$DensityFunction>;
         static shift(arg0: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
         static mul(arg0: $DensityFunction_, arg1: $DensityFunction_): $DensityFunction;
-        static singleArgumentCodec<A, O>(arg0: $Codec<A>, arg1: $Function_<A, O>, arg2: $Function_<O, A>): $KeyDispatchDataCodec<O>;
-        static cacheAllInCell(arg0: $DensityFunction_): $DensityFunction;
-        static shiftedNoise2d(arg0: $DensityFunction_, arg1: $DensityFunction_, arg2: number, arg3: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
-        static weirdScaledSampler(arg0: $DensityFunction_, arg1: $Holder_<$NormalNoise$NoiseParameters>, arg2: $DensityFunctions$WeirdScaledSampler$RarityValueMapper_): $DensityFunction;
+        static noise(arg0: $Holder_<$NormalNoise$NoiseParameters>, arg1: number): $DensityFunction;
+        static noise(arg0: $Holder_<$NormalNoise$NoiseParameters>, arg1: number, arg2: number): $DensityFunction;
+        static noise(arg0: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
+        static shiftA(arg0: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
+        static endIslands(arg0: number): $DensityFunction;
+        static shiftB(arg0: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
+        static blendAlpha(): $DensityFunction;
+        static makeCodec<O>(arg0: $MapCodec_<O>): $KeyDispatchDataCodec<O>;
+        static cacheOnce(arg0: $DensityFunction_): $DensityFunction;
+        static spline(arg0: $CubicSpline<$DensityFunctions$Spline$Point_, $DensityFunctions$Spline$Coordinate_>): $DensityFunction;
+        static cache2d(arg0: $DensityFunction_): $DensityFunction;
+        static flatCache(arg0: $DensityFunction_): $DensityFunction;
         static interpolated(arg0: $DensityFunction_): $DensityFunction;
+        static cacheAllInCell(arg0: $DensityFunction_): $DensityFunction;
+        static blendOffset(): $DensityFunction;
+        static rangeChoice(arg0: $DensityFunction_, arg1: number, arg2: number, arg3: $DensityFunction_, arg4: $DensityFunction_): $DensityFunction;
         static mappedNoise(arg0: $Holder_<$NormalNoise$NoiseParameters>, arg1: number, arg2: number, arg3: number): $DensityFunction;
         static mappedNoise(arg0: $Holder_<$NormalNoise$NoiseParameters>, arg1: number, arg2: number): $DensityFunction;
         static mappedNoise(arg0: $Holder_<$NormalNoise$NoiseParameters>, arg1: number, arg2: number, arg3: number, arg4: number): $DensityFunction;
+        static shiftedNoise2d(arg0: $DensityFunction_, arg1: $DensityFunction_, arg2: number, arg3: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
         static yClampedGradient(arg0: number, arg1: number, arg2: number, arg3: number): $DensityFunction;
-        static blendOffset(): $DensityFunction;
         static blendDensity(arg0: $DensityFunction_): $DensityFunction;
-        static rangeChoice(arg0: $DensityFunction_, arg1: number, arg2: number, arg3: $DensityFunction_, arg4: $DensityFunction_): $DensityFunction;
-        static noise(arg0: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
-        static noise(arg0: $Holder_<$NormalNoise$NoiseParameters>, arg1: number): $DensityFunction;
-        static noise(arg0: $Holder_<$NormalNoise$NoiseParameters>, arg1: number, arg2: number): $DensityFunction;
-        static lerp(arg0: $DensityFunction_, arg1: number, arg2: $DensityFunction_): $DensityFunction;
-        static lerp(arg0: $DensityFunction_, arg1: $DensityFunction_, arg2: $DensityFunction_): $DensityFunction;
+        static weirdScaledSampler(arg0: $DensityFunction_, arg1: $Holder_<$NormalNoise$NoiseParameters>, arg2: $DensityFunctions$WeirdScaledSampler$RarityValueMapper_): $DensityFunction;
         static doubleFunctionArgumentCodec<O>(arg0: $BiFunction_<$DensityFunction, $DensityFunction, O>, arg1: $Function_<O, $DensityFunction>, arg2: $Function_<O, $DensityFunction>): $KeyDispatchDataCodec<O>;
         static singleFunctionArgumentCodec<O>(arg0: $Function_<$DensityFunction, O>, arg1: $Function_<O, $DensityFunction>): $KeyDispatchDataCodec<O>;
-        static spline(arg0: $CubicSpline<$DensityFunctions$Spline$Point_, $DensityFunctions$Spline$Coordinate_>): $DensityFunction;
-        static makeCodec<O>(arg0: $MapCodec_<O>): $KeyDispatchDataCodec<O>;
-        static cacheOnce(arg0: $DensityFunction_): $DensityFunction;
-        static cache2d(arg0: $DensityFunction_): $DensityFunction;
-        static flatCache(arg0: $DensityFunction_): $DensityFunction;
-        static shiftB(arg0: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
-        static endIslands(arg0: number): $DensityFunction;
-        static blendAlpha(): $DensityFunction;
-        static shiftA(arg0: $Holder_<$NormalNoise$NoiseParameters>): $DensityFunction;
+        static lerp(arg0: $DensityFunction_, arg1: $DensityFunction_, arg2: $DensityFunction_): $DensityFunction;
+        static lerp(arg0: $DensityFunction_, arg1: number, arg2: $DensityFunction_): $DensityFunction;
+        static singleArgumentCodec<A, O>(arg0: $Codec<A>, arg1: $Function_<A, O>, arg2: $Function_<O, A>): $KeyDispatchDataCodec<O>;
         static MAX_REASONABLE_NOISE_VALUE: number;
         static NOISE_VALUE_CODEC: $Codec<number>;
         static DIRECT_CODEC: $Codec<$DensityFunction>;
@@ -1469,27 +1469,27 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     }
     export interface $DensityFunctions$TwoArgumentSimpleFunction extends $DensityFunction {
         type(): $DensityFunctions$TwoArgumentSimpleFunction$Type;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         argument2(): $DensityFunction;
         argument1(): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
     }
     export class $DensityFunctions$Ap2 extends $Record implements $DensityFunctions$TwoArgumentSimpleFunction {
         type(): $DensityFunctions$TwoArgumentSimpleFunction$Type;
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
-        minValue(): number;
-        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         argument2(): $DensityFunction;
         argument1(): $DensityFunction;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        minValue(): number;
+        fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         constructor(arg0: $DensityFunctions$TwoArgumentSimpleFunction$Type_, arg1: $DensityFunction_, arg2: $DensityFunction_, arg3: number, arg4: number);
     }
     export class $GenerationStep {
@@ -1501,21 +1501,21 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static line(): $Column;
         static create(arg0: $OptionalInt, arg1: $OptionalInt): $Column;
         static scan(arg0: $LevelSimulatedReader, arg1: $BlockPos_, arg2: number, arg3: $Predicate_<$BlockState>, arg4: $Predicate_<$BlockState>): ($Column) | undefined;
-        static above(arg0: number): $Column;
-        static below(arg0: number): $Column;
         static around(arg0: number, arg1: number): $Column$Range;
-        getHeight(): $OptionalInt;
-        static inside(arg0: number, arg1: number): $Column$Range;
         getFloor(): $OptionalInt;
         getCeiling(): $OptionalInt;
         withFloor(arg0: $OptionalInt): $Column;
+        static below(arg0: number): $Column;
+        static above(arg0: number): $Column;
+        static inside(arg0: number, arg1: number): $Column$Range;
+        getHeight(): $OptionalInt;
         static fromHighest(arg0: number): $Column;
         withCeiling(arg0: $OptionalInt): $Column;
         static fromLowest(arg0: number): $Column;
         constructor();
-        get height(): $OptionalInt;
         get floor(): $OptionalInt;
         get ceiling(): $OptionalInt;
+        get height(): $OptionalInt;
     }
     export class $Column$Line extends $Column {
         static INSTANCE: $Column$Line;
@@ -1532,10 +1532,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunction>;
         static INSTANCE: $DensityFunctions$BlendAlpha;
     }
@@ -1547,10 +1547,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static values(): $Heightmap$Types[];
         static valueOf(arg0: string): $Heightmap$Types;
         isOpaque(): $Predicate<$BlockState>;
-        sendToClient(): boolean;
-        getSerializationKey(): string;
-        getSerializedName(): string;
         keepAfterWorldgen(): boolean;
+        getSerializedName(): string;
+        getSerializationKey(): string;
+        sendToClient(): boolean;
         getRemappedEnumConstantName(): string;
         static OCEAN_FLOOR: $Heightmap$Types;
         static MOTION_BLOCKING_NO_LEAVES: $Heightmap$Types;
@@ -1560,8 +1560,8 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static OCEAN_FLOOR_WG: $Heightmap$Types;
         static WORLD_SURFACE_WG: $Heightmap$Types;
         get opaque(): $Predicate<$BlockState>;
-        get serializationKey(): string;
         get serializedName(): string;
+        get serializationKey(): string;
         get remappedEnumConstantName(): string;
     }
     /**
@@ -1590,14 +1590,14 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export interface $DensityFunctions$MarkerOrMarked extends $DensityFunction {
         type(): $DensityFunctions$Marker$Type;
         wrapped(): $DensityFunction;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
     }
     export class $NoiseBasedChunkGenerator extends $ChunkGenerator {
         stable(arg0: $ResourceKey_<$NoiseGeneratorSettings>): boolean;
+        generatorSettings(): $Holder<$NoiseGeneratorSettings>;
         buildSurface(arg0: $ChunkAccess, arg1: $WorldGenerationContext, arg2: $RandomState, arg3: $StructureManager, arg4: $BiomeManager, arg5: $Registry<$Biome_>, arg6: $Blender): void;
         iterateNoiseColumn(arg0: $LevelHeightAccessor, arg1: $RandomState, arg2: number, arg3: number, arg4: $MutableObject<$NoiseColumn>, arg5: $Predicate_<$BlockState>): $OptionalInt;
-        generatorSettings(): $Holder<$NoiseGeneratorSettings>;
         featuresPerStep: $Supplier<$List<$FeatureSorter$StepFeatureData>>;
         static CODEC: $MapCodec<$NoiseBasedChunkGenerator>;
         biomeSource: $BiomeSource;
@@ -1622,11 +1622,11 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export type $DensityFunctions$TwoArgumentSimpleFunction$Type_ = "add" | "mul" | "min" | "max";
     export class $SurfaceRules$Context implements $ExtendedSurfaceContext {
         mfix$getPossibleBiomes(): $Set<any>;
-        getMinSurfaceLevel(): number;
+        updateXZ(arg0: number, arg1: number): void;
         updateY(i: number, j: number, k: number, l: number, m: number, n: number): void;
+        getMinSurfaceLevel(): number;
         getSurfaceSecondary(): number;
         mfix$applyPossibleBiomes(): void;
-        updateXZ(arg0: number, arg1: number): void;
         waterHeight: number;
         stoneDepthBelow: number;
         steep: $SurfaceRules$Condition;
@@ -1654,12 +1654,12 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export class $NoiseSettings extends $Record {
         static create(arg0: number, arg1: number, arg2: number, arg3: number): $NoiseSettings;
         height(): number;
-        minY(): number;
         getCellHeight(): number;
         getCellWidth(): number;
         noiseSizeVertical(): number;
-        clampToHeightAccessor(arg0: $LevelHeightAccessor): $NoiseSettings;
+        minY(): number;
         noiseSizeHorizontal(): number;
+        clampToHeightAccessor(arg0: $LevelHeightAccessor): $NoiseSettings;
         static CODEC: $Codec<$NoiseSettings>;
         static END_NOISE_SETTINGS: $NoiseSettings;
         static CAVES_NOISE_SETTINGS: $NoiseSettings;
@@ -1681,41 +1681,41 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export class $DensityFunctions$ShiftedNoise extends $Record implements $DensityFunction {
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
+        noise(): $DensityFunction$NoiseHolder;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
         yScale(): number;
-        noise(): $DensityFunction$NoiseHolder;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         xzScale(): number;
-        shiftY(): $DensityFunction;
         shiftX(): $DensityFunction;
+        shiftY(): $DensityFunction;
         shiftZ(): $DensityFunction;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$ShiftedNoise>;
         constructor(arg0: $DensityFunction_, arg1: $DensityFunction_, arg2: $DensityFunction_, arg3: number, arg4: number, arg5: $DensityFunction$NoiseHolder_);
     }
     export class $DensityFunctions$Spline extends $Record implements $DensityFunction {
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        spline(): $CubicSpline<$DensityFunctions$Spline$Point, $DensityFunctions$Spline$Coordinate>;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        spline(): $CubicSpline<$DensityFunctions$Spline$Point, $DensityFunctions$Spline$Coordinate>;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$Spline>;
         constructor(arg0: $CubicSpline<$DensityFunctions$Spline$Point_, $DensityFunctions$Spline$Coordinate_>);
     }
@@ -1741,24 +1741,24 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         wrapped(): $DensityFunction;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         constructor(arg0: $DensityFunction_);
     }
     export class $SurfaceSystem {
+        buildSurface(arg0: $RandomState, arg1: $BiomeManager, arg2: $Registry<$Biome_>, arg3: boolean, arg4: $WorldGenerationContext, arg5: $ChunkAccess, arg6: $NoiseChunk, arg7: $SurfaceRules$RuleSource): void;
+        getBand(arg0: number, arg1: number, arg2: number): $BlockState;
         /**
          * @deprecated
          */
         topMaterial(arg0: $SurfaceRules$RuleSource, arg1: $CarvingContext, arg2: $Function_<$BlockPos, $Holder<$Biome>>, arg3: $ChunkAccess, arg4: $NoiseChunk, arg5: $BlockPos_, arg6: boolean): ($BlockState) | undefined;
-        buildSurface(arg0: $RandomState, arg1: $BiomeManager, arg2: $Registry<$Biome_>, arg3: boolean, arg4: $WorldGenerationContext, arg5: $ChunkAccess, arg6: $NoiseChunk, arg7: $SurfaceRules$RuleSource): void;
-        getBand(arg0: number, arg1: number, arg2: number): $BlockState;
         getSurfaceDepth(arg0: number, arg1: number): number;
         getSurfaceSecondary(arg0: number, arg1: number): number;
         constructor(arg0: $RandomState, arg1: $BlockState_, arg2: number, arg3: $PositionalRandomFactory);
@@ -1778,21 +1778,21 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         static state(arg0: $BlockState_): $SurfaceRules$RuleSource;
         static sequence(...arg0: $SurfaceRules$RuleSource[]): $SurfaceRules$RuleSource;
         static not(arg0: $SurfaceRules$ConditionSource): $SurfaceRules$ConditionSource;
-        static temperature(): $SurfaceRules$ConditionSource;
-        static isBiome(...arg0: $ResourceKey_<$Biome>[]): $SurfaceRules$ConditionSource;
+        static steep(): $SurfaceRules$ConditionSource;
         static bandlands(): $SurfaceRules$RuleSource;
         static hole(): $SurfaceRules$ConditionSource;
-        static steep(): $SurfaceRules$ConditionSource;
-        static yBlockCheck(arg0: $VerticalAnchor_, arg1: number): $SurfaceRules$ConditionSource;
+        static temperature(): $SurfaceRules$ConditionSource;
+        static ifTrue(arg0: $SurfaceRules$ConditionSource, arg1: $SurfaceRules$RuleSource): $SurfaceRules$RuleSource;
         static yStartCheck(arg0: $VerticalAnchor_, arg1: number): $SurfaceRules$ConditionSource;
-        static verticalGradient(arg0: string, arg1: $VerticalAnchor_, arg2: $VerticalAnchor_): $SurfaceRules$ConditionSource;
-        static stoneDepthCheck(arg0: number, arg1: boolean, arg2: number, arg3: $CaveSurface_): $SurfaceRules$ConditionSource;
         static stoneDepthCheck(arg0: number, arg1: boolean, arg2: $CaveSurface_): $SurfaceRules$ConditionSource;
+        static stoneDepthCheck(arg0: number, arg1: boolean, arg2: number, arg3: $CaveSurface_): $SurfaceRules$ConditionSource;
+        static verticalGradient(arg0: string, arg1: $VerticalAnchor_, arg2: $VerticalAnchor_): $SurfaceRules$ConditionSource;
         static waterBlockCheck(arg0: number, arg1: number): $SurfaceRules$ConditionSource;
-        static waterStartCheck(arg0: number, arg1: number): $SurfaceRules$ConditionSource;
         static noiseCondition(arg0: $ResourceKey_<$NormalNoise$NoiseParameters>, arg1: number, arg2: number): $SurfaceRules$ConditionSource;
         static noiseCondition(arg0: $ResourceKey_<$NormalNoise$NoiseParameters>, arg1: number): $SurfaceRules$ConditionSource;
-        static ifTrue(arg0: $SurfaceRules$ConditionSource, arg1: $SurfaceRules$RuleSource): $SurfaceRules$RuleSource;
+        static waterStartCheck(arg0: number, arg1: number): $SurfaceRules$ConditionSource;
+        static yBlockCheck(arg0: $VerticalAnchor_, arg1: number): $SurfaceRules$ConditionSource;
+        static isBiome(...arg0: $ResourceKey_<$Biome>[]): $SurfaceRules$ConditionSource;
         static abovePreliminarySurface(): $SurfaceRules$ConditionSource;
         static ON_FLOOR: $SurfaceRules$ConditionSource;
         static UNDER_FLOOR: $SurfaceRules$ConditionSource;
@@ -1819,15 +1819,15 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         compute(arg0: $DensityFunction$FunctionContext): number;
         wrapped(): $DensityFunction;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
-        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
+        codec(): $KeyDispatchDataCodec<$DensityFunction>;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         values: number[][];
         this$0: $NoiseChunk;
         constructor(arg0: $NoiseChunk, arg1: $DensityFunction_, arg2: boolean);
@@ -1838,12 +1838,12 @@ declare module "@package/net/minecraft/world/level/levelgen" {
     export class $DensityFunctions$Noise extends $Record implements $DensityFunction {
         compute(arg0: $DensityFunction$FunctionContext): number;
         maxValue(): number;
+        noise(): $DensityFunction$NoiseHolder;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
         yScale(): number;
-        noise(): $DensityFunction$NoiseHolder;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         /**
          * @deprecated
          */
@@ -1851,10 +1851,10 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$Noise>;
         static DATA_CODEC: $MapCodec<$DensityFunctions$Noise>;
         constructor(arg0: $DensityFunction$NoiseHolder_, arg1: number, arg2: number);
@@ -1870,18 +1870,18 @@ declare module "@package/net/minecraft/world/level/levelgen" {
         transform(arg0: number): number;
         input(): $DensityFunction;
         maxValue(): number;
+        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         minValue(): number;
         codec(): $KeyDispatchDataCodec<$DensityFunction>;
-        mapAll(arg0: $DensityFunction$Visitor_): $DensityFunction;
         compute(arg0: $DensityFunction$FunctionContext): number;
         fillArray(arg0: number[], arg1: $DensityFunction$ContextProvider): void;
         abs(): $DensityFunction;
         clamp(arg0: number, arg1: number): $DensityFunction;
         square(): $DensityFunction;
+        squeeze(): $DensityFunction;
+        cube(): $DensityFunction;
         halfNegative(): $DensityFunction;
         quarterNegative(): $DensityFunction;
-        cube(): $DensityFunction;
-        squeeze(): $DensityFunction;
         static CODEC: $KeyDispatchDataCodec<$DensityFunctions$Clamp>;
         constructor(arg0: $DensityFunction_, arg1: number, arg2: number);
     }

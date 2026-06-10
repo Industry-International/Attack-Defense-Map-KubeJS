@@ -1,4 +1,4 @@
-import { $Level, $Level_ } from "@package/net/minecraft/world/level";
+import { $Level, $EntityGetter, $Level_ } from "@package/net/minecraft/world/level";
 import { $LongSet } from "@package/it/unimi/dsi/fastutil/longs";
 import { $Codec } from "@package/com/mojang/serialization";
 import { $Particle } from "@package/net/minecraft/client/particle";
@@ -24,16 +24,17 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/virtuallevel" {
     export class $DummyWorld extends $Level {
         getBounds(): $AABB;
         getParticleManager(): $ParticleManager;
-        addEntity(arg0: $Entity): void;
-        setParticleManager(arg0: $ParticleManager): void;
-        createParticle(arg0: $ParticleOptions_, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $Particle;
-        removeEntity(arg0: number, arg1: $Entity$RemovalReason_): void;
-        tickEntities(): void;
-        isFilledBlock(arg0: $BlockPos_): boolean;
-        prepareLighting(arg0: $BlockPos_): void;
-        getAsClientWorld(): $Supplier<$ClientLevel>;
-        getFilledBlocks(): $LongSet;
         tickWorld(): void;
+        setParticleManager(arg0: $ParticleManager): void;
+        tickEntities(): void;
+        prepareLighting(arg0: $BlockPos_): void;
+        isFilledBlock(arg0: $BlockPos_): boolean;
+        getFilledBlocks(): $LongSet;
+        getAsClientWorld(): $Supplier<$ClientLevel>;
+        removeEntity(arg0: number, arg1: $Entity$RemovalReason_): void;
+        createParticle(arg0: $ParticleOptions_, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $Particle;
+        addEntity(arg0: $Entity): void;
+        self(): $EntityGetter;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;
         static LONG_PARTICLE_CLIP_RANGE: number;
@@ -62,16 +63,17 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/virtuallevel" {
         constructor();
         constructor(arg0: $RegistryAccess);
         get bounds(): $AABB;
-        get asClientWorld(): $Supplier<$ClientLevel>;
         get filledBlocks(): $LongSet;
+        get asClientWorld(): $Supplier<$ClientLevel>;
     }
     export class $TrackedDummyWorld extends $DummyWorld {
         clear(): void;
-        addBlock(arg0: $BlockPos_, arg1: $BlockInfo): void;
         addBlocks(arg0: $Map_<$BlockPos_, $BlockInfo>): void;
+        getAllRenderedEntities(): $Iterable<$Entity>;
         setBlockFilter(arg0: $Predicate_<$BlockPos>): void;
         removeBlock(arg0: $BlockPos_): void;
-        getAllRenderedEntities(): $Iterable<$Entity>;
+        addBlock(arg0: $BlockPos_, arg1: $BlockInfo): void;
+        self(): $EntityGetter;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;
         static LONG_PARTICLE_CLIP_RANGE: number;
@@ -100,7 +102,7 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/virtuallevel" {
         captureBlockSnapshots: boolean;
         constructor();
         constructor(arg0: $Level_);
-        set blockFilter(value: $Predicate_<$BlockPos>);
         get allRenderedEntities(): $Iterable<$Entity>;
+        set blockFilter(value: $Predicate_<$BlockPos>);
     }
 }

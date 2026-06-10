@@ -33,11 +33,11 @@ declare module "@package/mezz/jei/api/recipe/transfer" {
          */
         getTooltip(): $List<$Component>;
         showError(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: $IRecipeSlotsView_, arg4: number, arg5: number): void;
-        getButtonHighlightColor(): number;
         getMissingCountHint(): number;
+        getButtonHighlightColor(): number;
         get type(): $IRecipeTransferError$Type;
-        get buttonHighlightColor(): number;
         get missingCountHint(): number;
+        get buttonHighlightColor(): number;
     }
     /**
      * Values that may be interpreted as {@link $IRecipeTransferError}.
@@ -47,24 +47,24 @@ declare module "@package/mezz/jei/api/recipe/transfer" {
     }
     export interface $IRecipeTransferHandlerHelper {
         createUnregisteredRecipeTransferHandler<C extends $AbstractContainerMenu, R>(arg0: $IRecipeTransferInfo<C, R>): $IRecipeTransferHandler<C, R>;
-        createUserErrorForMissingSlots(arg0: $Component_, arg1: $Collection_<$IRecipeSlotView>): $IRecipeTransferError;
-        createBasicRecipeTransferInfo<C extends $AbstractContainerMenu, R>(arg0: $Class<C>, arg1: $MenuType_<C>, arg2: $RecipeType<R>, arg3: number, arg4: number, arg5: number, arg6: number): $IRecipeTransferInfo<C, R>;
-        getGuiSlotIndexToIngredientMap(arg0: $RecipeHolder_<$CraftingRecipe>): $Map<number, $Ingredient>;
-        recipeTransferHasServerSupport(): boolean;
+        createUserErrorWithTooltip(arg0: $Component_): $IRecipeTransferError;
         createInternalError(): $IRecipeTransferError;
         createRecipeSlotsView(arg0: $List_<$IRecipeSlotView>): $IRecipeSlotsView;
-        createUserErrorWithTooltip(arg0: $Component_): $IRecipeTransferError;
+        createBasicRecipeTransferInfo<C extends $AbstractContainerMenu, R>(arg0: $Class<C>, arg1: $MenuType_<C>, arg2: $RecipeType<R>, arg3: number, arg4: number, arg5: number, arg6: number): $IRecipeTransferInfo<C, R>;
+        recipeTransferHasServerSupport(): boolean;
+        createUserErrorForMissingSlots(arg0: $Component_, arg1: $Collection_<$IRecipeSlotView>): $IRecipeTransferError;
+        getGuiSlotIndexToIngredientMap(arg0: $RecipeHolder_<$CraftingRecipe>): $Map<number, $Ingredient>;
     }
     export class $IRecipeTransferHandler<C extends $AbstractContainerMenu, R> {
     }
     export interface $IRecipeTransferHandler<C extends $AbstractContainerMenu, R> {
         getRecipeType(): $RecipeType<R>;
-        transferRecipe(arg0: C, arg1: R, arg2: $IRecipeSlotsView_, arg3: $Player, arg4: boolean, arg5: boolean): $IRecipeTransferError;
-        getContainerClass(): $Class<C>;
         getMenuType(): ($MenuType<C>) | undefined;
+        getContainerClass(): $Class<C>;
+        transferRecipe(arg0: C, arg1: R, arg2: $IRecipeSlotsView_, arg3: $Player, arg4: boolean, arg5: boolean): $IRecipeTransferError;
         get recipeType(): $RecipeType<R>;
-        get containerClass(): $Class<C>;
         get menuType(): ($MenuType<C>) | undefined;
+        get containerClass(): $Class<C>;
     }
     export class $IRecipeTransferManager {
     }
@@ -78,25 +78,25 @@ declare module "@package/mezz/jei/api/recipe/transfer" {
     export class $IUniversalRecipeTransferHandler<C extends $AbstractContainerMenu> {
     }
     export interface $IUniversalRecipeTransferHandler<C extends $AbstractContainerMenu> {
-        transferRecipe(arg0: C, arg1: $Object, arg2: $IRecipeSlotsView_, arg3: $Player, arg4: boolean, arg5: boolean): $IRecipeTransferError;
-        getContainerClass(): $Class<C>;
         getMenuType(): ($MenuType<C>) | undefined;
-        get containerClass(): $Class<C>;
+        getContainerClass(): $Class<C>;
+        transferRecipe(arg0: C, arg1: $Object, arg2: $IRecipeSlotsView_, arg3: $Player, arg4: boolean, arg5: boolean): $IRecipeTransferError;
         get menuType(): ($MenuType<C>) | undefined;
+        get containerClass(): $Class<C>;
     }
     export class $IRecipeTransferInfo<C extends $AbstractContainerMenu, R> {
     }
     export interface $IRecipeTransferInfo<C extends $AbstractContainerMenu, R> {
-        getInventorySlots(arg0: C, arg1: R): $List<$Slot>;
-        getHandlingError(arg0: C, arg1: R): $IRecipeTransferError;
         getRecipeType(): $RecipeType<R>;
-        getRecipeSlots(arg0: C, arg1: R): $List<$Slot>;
-        getContainerClass(): $Class<C>;
         getMenuType(): ($MenuType<C>) | undefined;
+        getContainerClass(): $Class<C>;
+        getRecipeSlots(arg0: C, arg1: R): $List<$Slot>;
         canHandle(arg0: C, arg1: R): boolean;
+        getHandlingError(arg0: C, arg1: R): $IRecipeTransferError;
+        getInventorySlots(arg0: C, arg1: R): $List<$Slot>;
         requireCompleteSets(arg0: C, arg1: R): boolean;
         get recipeType(): $RecipeType<R>;
-        get containerClass(): $Class<C>;
         get menuType(): ($MenuType<C>) | undefined;
+        get containerClass(): $Class<C>;
     }
 }

@@ -1,5 +1,5 @@
 import { $Serializable, $InputStream } from "@package/java/io";
-import { $HttpEntity, $Header, $NameValuePair } from "@package/org/apache/http";
+import { $Header, $HttpEntity, $NameValuePair } from "@package/org/apache/http";
 import { $Charset } from "@package/java/nio/charset";
 
 declare module "@package/org/apache/http/entity" {
@@ -8,14 +8,14 @@ declare module "@package/org/apache/http/entity" {
         setContentType(arg0: string): void;
         getContentType(): $Header;
         getContentEncoding(): $Header;
-        setChunked(arg0: boolean): void;
-        isChunked(): boolean;
         /**
          * @deprecated
          */
         consumeContent(): void;
         setContentEncoding(arg0: string): void;
         setContentEncoding(arg0: $Header): void;
+        setChunked(arg0: boolean): void;
+        isChunked(): boolean;
     }
     export class $InputStreamEntity extends $AbstractHttpEntity {
         constructor(arg0: $InputStream, arg1: number, arg2: $ContentType);
@@ -31,15 +31,15 @@ declare module "@package/org/apache/http/entity" {
         static create(arg0: string, arg1: $Charset): $ContentType;
         static create(arg0: string): $ContentType;
         static create(arg0: string, arg1: string): $ContentType;
-        getParameter(arg0: string): string;
         getCharset(): $Charset;
-        withCharset(arg0: string): $ContentType;
         withCharset(arg0: $Charset): $ContentType;
+        withCharset(arg0: string): $ContentType;
+        getParameter(arg0: string): string;
         static getLenient(arg0: $HttpEntity): $ContentType;
+        getMimeType(): string;
         static getLenientOrDefault(arg0: $HttpEntity): $ContentType;
         withParameters(...arg0: $NameValuePair[]): $ContentType;
         static getByMimeType(arg0: string): $ContentType;
-        getMimeType(): string;
         static TEXT_HTML: $ContentType;
         static WILDCARD: $ContentType;
         static TEXT_XML: $ContentType;

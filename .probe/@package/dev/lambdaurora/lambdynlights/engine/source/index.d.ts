@@ -10,16 +10,16 @@ declare module "@package/dev/lambdaurora/lambdynlights/engine/source" {
     export class $EntityDynamicLightSource {
     }
     export interface $EntityDynamicLightSource extends $DynamicLightSource {
-        resetDynamicLight(): void;
-        getDynamicLightY(): number;
-        getDynamicLightX(): number;
-        getDynamicLightZ(): number;
-        getLuminance(): number;
-        dynamicLightTick(): void;
         splitIntoDynamicLightEntries(cellHasher: $CellHasher): $Stream<$SpatialLookupEntry>;
+        getDynamicLightX(): number;
+        getDynamicLightY(): number;
+        getDynamicLightZ(): number;
+        resetDynamicLight(): void;
+        dynamicLightTick(): void;
+        getLuminance(): number;
         isDynamicLightEnabled(): boolean;
-        get dynamicLightY(): number;
         get dynamicLightX(): number;
+        get dynamicLightY(): number;
         get dynamicLightZ(): number;
         get luminance(): number;
         get dynamicLightEnabled(): boolean;
@@ -28,30 +28,30 @@ declare module "@package/dev/lambdaurora/lambdynlights/engine/source" {
         static tickEntity(entity: $Entity): void;
     }
     export interface $EntityDynamicLightSourceBehavior extends $EntityDynamicLightSource {
+        getDynamicLightChunksToRebuild(forced: boolean): $Long2ObjectMap<$ChunkRebuildStatus>;
         updateDynamicLightPreviousCoordinates(): void;
         lambdynlights$getTrackedLitChunkPos(): $LongSet;
         lambdynlights$setTrackedLitChunkPos(arg0: $LongSet): void;
         setLuminance(arg0: number): void;
-        getDynamicLightChunksToRebuild(forced: boolean): $Long2ObjectMap<$ChunkRebuildStatus>;
-        setDynamicLightEnabled(enabled: boolean): void;
         getDynamicLightPrevZ(): number;
+        setDynamicLightEnabled(enabled: boolean): void;
         getLastDynamicLuminance(): number;
-        getDynamicLightPrevY(): number;
         getDynamicLightPrevX(): number;
         setLastDynamicLuminance(arg0: number): void;
+        getDynamicLightPrevY(): number;
         set luminance(value: number);
-        set dynamicLightEnabled(value: boolean);
         get dynamicLightPrevZ(): number;
-        get dynamicLightPrevY(): number;
+        set dynamicLightEnabled(value: boolean);
         get dynamicLightPrevX(): number;
+        get dynamicLightPrevY(): number;
     }
     export class $DynamicLightSource {
         static gatherClosestChunks(x: number, y: number, z: number, chunkConsumer: $LongConsumer_): void;
     }
     export interface $DynamicLightSource {
-        getDynamicLightId(): number;
-        getDynamicLightChunksToRebuild(arg0: boolean): $Long2ObjectMap<$ChunkRebuildStatus>;
         splitIntoDynamicLightEntries(arg0: $CellHasher): $Stream<$SpatialLookupEntry>;
+        getDynamicLightChunksToRebuild(arg0: boolean): $Long2ObjectMap<$ChunkRebuildStatus>;
+        getDynamicLightId(): number;
         get dynamicLightId(): number;
     }
 }

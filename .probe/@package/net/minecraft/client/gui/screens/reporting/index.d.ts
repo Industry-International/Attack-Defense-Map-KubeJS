@@ -3,7 +3,6 @@ import { $HeaderAndFooterLayout, $LinearLayout } from "@package/net/minecraft/cl
 import { $Executor } from "@package/java/util/concurrent";
 import { $NarratableEntry } from "@package/net/minecraft/client/gui/narration";
 import { $Component_, $Component } from "@package/net/minecraft/network/chat";
-import { $ScreenDirection_ } from "@package/net/minecraft/client/gui/navigation";
 import { $CycleButton, $WidgetTooltipHolder, $AbstractSelectionList, $Checkbox, $Button, $ObjectSelectionList, $ObjectSelectionList$Entry, $MultiLineEditBox, $Renderable } from "@package/net/minecraft/client/gui/components";
 import { $ChatReport$Builder, $Report$Builder, $ReportingContext, $NameReport, $ReportReason, $ReportReason_, $NameReport$Builder, $SkinReport, $ChatReport, $SkinReport$Builder } from "@package/net/minecraft/client/multiplayer/chat/report";
 import { $Minecraft, $NarratorStatus, $GuiMessageTag_ } from "@package/net/minecraft/client";
@@ -124,8 +123,8 @@ declare module "@package/net/minecraft/client/gui/screens/reporting" {
         constructor(arg0: $ChatSelectionScreen$ChatSelectionList);
     }
     export class $ReportReasonSelectionScreen extends $Screen {
-        static access$100(arg0: $ReportReasonSelectionScreen): $Font;
         static access$000(arg0: $ReportReasonSelectionScreen): $Font;
+        static access$100(arg0: $ReportReasonSelectionScreen): $Font;
         listHeight(): number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -149,13 +148,13 @@ declare module "@package/net/minecraft/client/gui/screens/reporting" {
         constructor(arg0: $Screen, arg1: $ReportReason_, arg2: $Consumer_<$ReportReason>);
     }
     export class $AbstractReportScreen<B extends $Report$Builder<never>> extends $Screen {
-        addContent(): void;
-        createHeader(): void;
         createFooter(): void;
-        onReportChanged(): void;
+        createHeader(): void;
+        addContent(): void;
         createCommentBox(arg0: number, arg1: number, arg2: $Consumer_<string>): $MultiLineEditBox;
-        saveDraft(): void;
+        onReportChanged(): void;
         clearDraft(): void;
+        saveDraft(): void;
         sendReport(): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -210,8 +209,8 @@ declare module "@package/net/minecraft/client/gui/screens/reporting" {
         constructor(arg0: $ReportingContext, arg1: $Predicate_<$LoggedChatMessage$Player>);
     }
     export class $ReportReasonSelectionScreen$ReasonSelectionList extends $ObjectSelectionList<$ReportReasonSelectionScreen$ReasonSelectionList$Entry> {
-        findEntry(arg0: $ReportReason_): $ReportReasonSelectionScreen$ReasonSelectionList$Entry;
         setSelected(arg0: $ReportReasonSelectionScreen$ReasonSelectionList$Entry): void;
+        findEntry(arg0: $ReportReason_): $ReportReasonSelectionScreen$ReasonSelectionList$Entry;
         minecraft: $Minecraft;
         static SCROLLER_BACKGROUND_SPRITE: $ResourceLocation;
         visible: boolean;
@@ -267,13 +266,12 @@ declare module "@package/net/minecraft/client/gui/screens/reporting" {
         font: $Font;
     }
     export class $ChatSelectionScreen$ChatSelectionList extends $ObjectSelectionList<$ChatSelectionScreen$ChatSelectionList$Entry> implements $ChatSelectionLogFiller$Output {
-        nextEntry(arg0: $ScreenDirection_): $ChatSelectionScreen$ChatSelectionList$Entry;
-        static access$800(arg0: $ChatSelectionScreen$ChatSelectionList): $Minecraft;
         setSelected(arg0: $ChatSelectionScreen$ChatSelectionList$Entry): void;
-        acceptMessage(arg0: number, arg1: $LoggedChatMessage$Player_): void;
-        acceptDivider(arg0: $Component_): void;
+        static access$800(arg0: $ChatSelectionScreen$ChatSelectionList): $Minecraft;
         getMaxVisibleEntries(): number;
         getFooterTop(): number;
+        acceptMessage(arg0: number, arg1: $LoggedChatMessage$Player_): void;
+        acceptDivider(arg0: $Component_): void;
         minecraft: $Minecraft;
         static SCROLLER_BACKGROUND_SPRITE: $ResourceLocation;
         visible: boolean;
@@ -317,21 +315,21 @@ declare module "@package/net/minecraft/client/gui/screens/reporting" {
         constructor(arg0: $ReportReasonSelectionScreen$ReasonSelectionList, arg1: $ReportReason_);
     }
     export class $ChatSelectionScreen extends $Screen {
-        static access$100(arg0: $ChatSelectionScreen): $Font;
         static access$000(arg0: $ChatSelectionScreen): $Font;
-        static access$300(arg0: $ChatSelectionScreen): $Font;
         static access$200(arg0: $ChatSelectionScreen): $Font;
+        static access$300(arg0: $ChatSelectionScreen): $Font;
+        static access$100(arg0: $ChatSelectionScreen): $Font;
         static access$700(arg0: $ChatSelectionScreen): $Font;
-        static access$500(arg0: $ChatSelectionScreen): $Font;
         static access$900(arg0: $ChatSelectionScreen): $Font;
+        static access$500(arg0: $ChatSelectionScreen): $Font;
         static access$400(arg0: $ChatSelectionScreen): $Font;
         static access$600(arg0: $ChatSelectionScreen): $Font;
         static access$1100(arg0: $ChatSelectionScreen): $Font;
         static access$1000(arg0: $ChatSelectionScreen): $Font;
         static access$1200(arg0: $ChatSelectionScreen): $Font;
         static access$1300(arg0: $ChatSelectionScreen): $Font;
-        updateConfirmSelectedButton(): void;
         onReachedScrollTop(): void;
+        updateConfirmSelectedButton(): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;

@@ -15,12 +15,12 @@ declare module "@package/net/minecraft/client/multiplayer/chat" {
         type(): $LoggedChatEvent$Type;
         profile(): $GameProfile;
         message(): $PlayerChatMessage;
+        profileId(): $UUID;
         canReport(arg0: $UUID_): boolean;
         trustLevel(): $ChatTrustLevel;
-        profileId(): $UUID;
         toNarrationComponent(): $Component;
-        toContentComponent(): $Component;
         toHeadingComponent(): $Component;
+        toContentComponent(): $Component;
         static CODEC: $MapCodec<$LoggedChatMessage$Player>;
         constructor(arg0: $GameProfile, arg1: $PlayerChatMessage_, arg2: $ChatTrustLevel_);
     }
@@ -61,21 +61,21 @@ declare module "@package/net/minecraft/client/multiplayer/chat" {
     export class $ChatListener {
         tick(): void;
         queueSize(): number;
-        setMessageDelay(arg0: number): void;
-        handleSystemMessage(arg0: $Component_, arg1: boolean): void;
-        clearQueue(): void;
         removeFromDelayedMessageQueue(arg0: $MessageSignature_): boolean;
+        handleSystemMessage(arg0: $Component_, arg1: boolean): void;
+        setMessageDelay(arg0: number): void;
+        handler$dkb000$xaerominimap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
+        handler$ebp001$xaeroworldmap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
+        clearQueue(): void;
+        handleChatMessageError(arg0: $UUID_, arg1: $ChatType$Bound_): void;
         handlePlayerChatMessage(arg0: $PlayerChatMessage_, arg1: $GameProfile, arg2: $ChatType$Bound_): void;
         handleDisguisedChatMessage(arg0: $Component_, arg1: $ChatType$Bound_): void;
-        handleChatMessageError(arg0: $UUID_, arg1: $ChatType$Bound_): void;
         acceptNextDelayedMessage(): void;
-        handler$dkc000$xaerominimap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
-        handler$ebp001$xaeroworldmap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
-        handler$dkc000$xaerominimap$onHandleDisguisedChatMessag(arg0: $Component_, arg1: $ChatType$Bound_, arg2: $CallbackInfo): void;
+        handler$dkb000$xaerominimap$onHandleDisguisedChatMessag(arg0: $Component_, arg1: $ChatType$Bound_, arg2: $CallbackInfo): void;
         handler$ebp001$xaeroworldmap$onHandleDisguisedChatMessag(arg0: $Component_, arg1: $ChatType$Bound_, arg2: $CallbackInfo): void;
-        modify$bpb000$chat_heads$chatheads$handleAddedDisguisedMessage(original: $BooleanSupplier_, undecoratedMessage: $Component_, bound: $ChatType$Bound_): $BooleanSupplier;
-        handler$boi000$chat_heads$chatheads$handleAddedPlayerMessage(bound: $ChatType$Bound_, playerChatMessage: $PlayerChatMessage_, message: $Component_, gameProfile: $GameProfile, bl: boolean, instant: $Instant, cir: $CallbackInfoReturnable<any>): void;
-        handler$boi000$chat_heads$chatheads$handleAddedSystemMessage(message: $Component_, bl: boolean, ci: $CallbackInfo): void;
+        handler$boh000$chat_heads$chatheads$handleAddedSystemMessage(message: $Component_, bl: boolean, ci: $CallbackInfo): void;
+        modify$bpa000$chat_heads$chatheads$handleAddedDisguisedMessage(original: $BooleanSupplier_, undecoratedMessage: $Component_, bound: $ChatType$Bound_): $BooleanSupplier;
+        handler$boh000$chat_heads$chatheads$handleAddedPlayerMessage(bound: $ChatType$Bound_, playerChatMessage: $PlayerChatMessage_, message: $Component_, gameProfile: $GameProfile, bl: boolean, instant: $Instant, cir: $CallbackInfoReturnable<any>): void;
         static $assertionsDisabled: boolean;
         constructor(arg0: $Minecraft);
         set messageDelay(value: number);

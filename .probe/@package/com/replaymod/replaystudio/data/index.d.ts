@@ -16,18 +16,18 @@ declare module "@package/com/replaymod/replaystudio/data" {
         setName(name: string): void;
         getTime(): number;
         setTime(time: number): void;
-        setPitch(pitch: number): void;
         getY(): number;
         getX(): number;
-        getYaw(): number;
         getZ(): number;
-        setY(y: number): void;
+        getPitch(): number;
         setX(x: number): void;
         setZ(z: number): void;
-        getPitch(): number;
-        getRoll(): number;
+        setY(y: number): void;
+        setPitch(pitch: number): void;
         setYaw(yaw: number): void;
         setRoll(roll: number): void;
+        getRoll(): number;
+        getYaw(): number;
         constructor();
     }
     export class $ModInfo {

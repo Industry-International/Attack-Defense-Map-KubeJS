@@ -13,23 +13,23 @@ declare module "@package/xaero/pac/common/entity" {
     export class $IItemEntity {
     }
     export interface $IItemEntity {
+        getXaero_OPAC_target(): $UUID;
+        getXaero_OPAC_thrower(): $UUID;
         setXaero_OPAC_throwerAccessor(arg0: $UUID_): void;
         getXaero_OPAC_throwerAccessor(): $UUID;
-        getXaero_OPAC_thrower(): $UUID;
-        getXaero_OPAC_target(): $UUID;
-        get xaero_OPAC_thrower(): $UUID;
         get xaero_OPAC_target(): $UUID;
+        get xaero_OPAC_thrower(): $UUID;
     }
     export class $EntityData {
         static from(arg0: $Entity): $EntityData;
         static from(arg0: $IEntity): $EntityData;
-        setLastChunkEntryDimension(arg0: $ResourceKey_<$Level>): void;
-        getLastChunkEntryDimension(): $ResourceKey<$Level>;
         setShouldCheckItemUseTick(arg0: boolean): void;
+        setLastChunkEntryDimension(arg0: $ResourceKey_<$Level>): void;
         getShouldCheckItemUseTick(): boolean;
+        getLastChunkEntryDimension(): $ResourceKey<$Level>;
         setDeadPlayer(arg0: $UUID_): void;
-        getLootOwner(): $UUID;
         setLootOwner(arg0: $UUID_): void;
+        getLootOwner(): $UUID;
         getDeadPlayer(): $UUID;
         constructor();
     }

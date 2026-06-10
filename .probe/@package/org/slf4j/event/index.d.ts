@@ -4,8 +4,8 @@ declare module "@package/org/slf4j/event" {
     export class $Level extends $Enum<$Level> {
         static values(): $Level[];
         static valueOf(arg0: string): $Level;
-        toInt(): number;
         static intToLevel(arg0: number): $Level;
+        toInt(): number;
         static TRACE: $Level;
         static ERROR: $Level;
         static INFO: $Level;

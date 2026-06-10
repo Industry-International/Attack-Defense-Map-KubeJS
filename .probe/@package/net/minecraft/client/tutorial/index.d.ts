@@ -17,10 +17,10 @@ declare module "@package/net/minecraft/client/tutorial" {
         tick(): void;
         onMouse(arg0: number, arg1: number): void;
         onInput(arg0: $Input): void;
+        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        onOpenInventory(): void;
         onGetItem(arg0: $ItemStack_): void;
         onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        onOpenInventory(): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
         constructor(arg0: $Tutorial);
     }
     export class $Tutorial$TimedToast {
@@ -31,10 +31,10 @@ declare module "@package/net/minecraft/client/tutorial" {
         onGetItem(arg0: $ItemStack_): void;
         static hasCraftedPlanksPreviously(arg0: $LocalPlayer, arg1: $TagKey_<$Item>): boolean;
         onMouse(arg0: number, arg1: number): void;
-        onInput(arg0: $Input): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        onOpenInventory(): void;
         onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        onInput(arg0: $Input): void;
+        onOpenInventory(): void;
+        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         constructor(arg0: $Tutorial);
     }
     export class $TutorialStepInstance {
@@ -43,11 +43,11 @@ declare module "@package/net/minecraft/client/tutorial" {
         clear(): void;
         tick(): void;
         onMouse(arg0: number, arg1: number): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onInput(arg0: $Input): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        onOpenInventory(): void;
         onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        onInput(arg0: $Input): void;
+        onOpenInventory(): void;
+        onGetItem(arg0: $ItemStack_): void;
+        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
     }
     export class $BundleTutorial {
         onInventoryAction(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $ClickAction_): void;
@@ -57,23 +57,23 @@ declare module "@package/net/minecraft/client/tutorial" {
         clear(): void;
         tick(): void;
         onGetItem(arg0: $ItemStack_): void;
-        static hasPunchedTreesPreviously(arg0: $LocalPlayer): boolean;
         onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
+        static hasPunchedTreesPreviously(arg0: $LocalPlayer): boolean;
         onMouse(arg0: number, arg1: number): void;
+        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
         onInput(arg0: $Input): void;
         onOpenInventory(): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
         constructor(arg0: $Tutorial);
     }
     export class $CompletedTutorialStepInstance implements $TutorialStepInstance {
         clear(): void;
         tick(): void;
         onMouse(arg0: number, arg1: number): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onInput(arg0: $Input): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        onOpenInventory(): void;
         onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        onInput(arg0: $Input): void;
+        onOpenInventory(): void;
+        onGetItem(arg0: $ItemStack_): void;
+        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         constructor(arg0: $Tutorial);
     }
     export class $Tutorial {
@@ -81,18 +81,18 @@ declare module "@package/net/minecraft/client/tutorial" {
         start(): void;
         stop(): void;
         tick(): void;
-        onInventoryAction(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $ClickAction_): void;
         setStep(arg0: $TutorialSteps_): void;
         onMouse(arg0: number, arg1: number): void;
-        onGetItem(arg0: $ItemStack_): void;
-        getMinecraft(): $Minecraft;
+        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
         onInput(arg0: $Input): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
+        onOpenInventory(): void;
         addTimedToast(arg0: $TutorialToast, arg1: number): void;
         removeTimedToast(arg0: $TutorialToast): void;
-        onOpenInventory(): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        getMinecraft(): $Minecraft;
+        onGetItem(arg0: $ItemStack_): void;
+        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         isSurvival(): boolean;
+        onInventoryAction(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $ClickAction_): void;
         constructor(arg0: $Minecraft, arg1: $Options);
         set step(value: $TutorialSteps_);
         get minecraft(): $Minecraft;
@@ -103,21 +103,21 @@ declare module "@package/net/minecraft/client/tutorial" {
         tick(): void;
         onOpenInventory(): void;
         onMouse(arg0: number, arg1: number): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onInput(arg0: $Input): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        onInput(arg0: $Input): void;
+        onGetItem(arg0: $ItemStack_): void;
+        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         constructor(arg0: $Tutorial);
     }
     export class $PunchTreeTutorialStepInstance implements $TutorialStepInstance {
         clear(): void;
         tick(): void;
-        onGetItem(arg0: $ItemStack_): void;
         onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        onGetItem(arg0: $ItemStack_): void;
         onMouse(arg0: number, arg1: number): void;
         onInput(arg0: $Input): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         onOpenInventory(): void;
+        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         constructor(arg0: $Tutorial);
     }
     export class $TutorialSteps extends $Enum<$TutorialSteps> {

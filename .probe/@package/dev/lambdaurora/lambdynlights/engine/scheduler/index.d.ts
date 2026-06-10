@@ -6,8 +6,8 @@ declare module "@package/dev/lambdaurora/lambdynlights/engine/scheduler" {
         static values(): $ChunkRebuildStatus[];
         static valueOf(name: string): $ChunkRebuildStatus;
         color(): number;
-        needsRebuild(): boolean;
         needsCleanup(): boolean;
+        needsRebuild(): boolean;
         static REQUESTED: $ChunkRebuildStatus;
         static VALUES: $List<$ChunkRebuildStatus>;
         static AFFECTED: $ChunkRebuildStatus;

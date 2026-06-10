@@ -5,9 +5,9 @@ declare module "@package/com/replaymod/render/mixin" {
     export class $ChunkRenderingDataPreparerAccessor {
     }
     export interface $ChunkRenderingDataPreparerAccessor {
-        shouldUpdate(): boolean;
-        builtChunkStorage(): $ViewArea;
         fullUpdateFuture(): $Future<never>;
+        builtChunkStorage(): $ViewArea;
+        shouldUpdate(): boolean;
     }
     export class $WorldRendererAccessor {
     }
@@ -23,9 +23,9 @@ declare module "@package/com/replaymod/render/mixin" {
     }
     export interface $MainWindowAccessor {
         invokeOnFramebufferResize(arg0: number, arg1: number, arg2: number): void;
-        getFramebufferHeight(): number;
+        setFramebufferHeight(arg0: number): void;
         getFramebufferWidth(): number;
         setFramebufferWidth(arg0: number): void;
-        setFramebufferHeight(arg0: number): void;
+        getFramebufferHeight(): number;
     }
 }

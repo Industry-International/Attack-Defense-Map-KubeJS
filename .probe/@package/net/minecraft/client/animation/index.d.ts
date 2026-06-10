@@ -22,9 +22,9 @@ declare module "@package/net/minecraft/client/animation" {
         constructor();
     }
     export class $AnimationDefinition extends $Record {
-        lengthInSeconds(): number;
         looping(): boolean;
         boneAnimations(): $Map<string, $List<$AnimationChannel>>;
+        lengthInSeconds(): number;
         constructor(arg0: number, arg1: boolean, arg2: $Map_<string, $List_<$AnimationChannel_>>);
     }
     export class $AnimationChannel$Interpolation {
@@ -37,16 +37,16 @@ declare module "@package/net/minecraft/client/animation" {
      */
     export type $AnimationChannel$Interpolation_ = ((arg0: $Vector3f, arg1: number, arg2: $Keyframe[], arg3: number, arg4: number, arg5: number) => $Vector3f);
     export class $KeyframeAnimations {
-        static degreeVec(arg0: number, arg1: number, arg2: number): $Vector3f;
         static animate(arg0: $HierarchicalModel<never>, arg1: $AnimationDefinition_, arg2: number, arg3: number, arg4: $Vector3f): void;
-        static scaleVec(arg0: number, arg1: number, arg2: number): $Vector3f;
+        static degreeVec(arg0: number, arg1: number, arg2: number): $Vector3f;
         static posVec(arg0: number, arg1: number, arg2: number): $Vector3f;
+        static scaleVec(arg0: number, arg1: number, arg2: number): $Vector3f;
         constructor();
     }
     export class $AnimationDefinition$Builder {
         build(): $AnimationDefinition;
-        addAnimation(arg0: string, arg1: $AnimationChannel_): $AnimationDefinition$Builder;
         looping(): $AnimationDefinition$Builder;
+        addAnimation(arg0: string, arg1: $AnimationChannel_): $AnimationDefinition$Builder;
         static withLength(arg0: number): $AnimationDefinition$Builder;
     }
     export class $Keyframe extends $Record {

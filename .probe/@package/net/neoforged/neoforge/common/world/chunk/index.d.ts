@@ -40,12 +40,12 @@ declare module "@package/net/neoforged/neoforge/common/world/chunk" {
         constructor(nonTicking: $LongSet, ticking: $LongSet);
     }
     export class $TicketHelper {
-        removeTicket(arg0: $BlockPos_, arg1: number, arg2: boolean): void;
-        removeTicket(arg0: $UUID_, arg1: number, arg2: boolean): void;
         getBlockTickets(): $Map<$BlockPos, $TicketSet>;
         getEntityTickets(): $Map<$UUID, $TicketSet>;
         removeAllTickets(arg0: $UUID_): void;
         removeAllTickets(arg0: $BlockPos_): void;
+        removeTicket(arg0: $UUID_, arg1: number, arg2: boolean): void;
+        removeTicket(arg0: $BlockPos_, arg1: number, arg2: boolean): void;
         get blockTickets(): $Map<$BlockPos, $TicketSet>;
         get entityTickets(): $Map<$UUID, $TicketSet>;
     }
@@ -62,10 +62,10 @@ declare module "@package/net/neoforged/neoforge/common/world/chunk" {
     export class $ForcedChunkManager {
         static init(): void;
         static reinstatePersistentChunks(arg0: $ServerLevel, arg1: $ForcedChunksSavedData): void;
-        static hasForcedChunks(arg0: $ServerLevel): boolean;
         static writeBlockPos(arg0: $BlockPos_): $CompoundTag;
-        static readModForcedChunks(arg0: $CompoundTag_, arg1: $ForcedChunkManager$TicketTracker<$BlockPos_>, arg2: $ForcedChunkManager$TicketTracker<$UUID_>): void;
+        static hasForcedChunks(arg0: $ServerLevel): boolean;
         static writeModForcedChunks(arg0: $CompoundTag_, arg1: $ForcedChunkManager$TicketTracker<$BlockPos_>, arg2: $ForcedChunkManager$TicketTracker<$UUID_>): void;
+        static readModForcedChunks(arg0: $CompoundTag_, arg1: $ForcedChunkManager$TicketTracker<$BlockPos_>, arg2: $ForcedChunkManager$TicketTracker<$UUID_>): void;
         constructor();
     }
 }

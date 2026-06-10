@@ -13,13 +13,13 @@ declare module "@package/xaero/map/server/radar/tracker" {
         update(arg0: $Player): void;
         getId(): $UUID;
         copyFrom(arg0: $SyncedTrackedPlayer): void;
-        getDimension(): $ResourceKey<$Level>;
         getY(): number;
         getX(): number;
+        getDimension(): $ResourceKey<$Level>;
         getZ(): number;
         setPos(arg0: number, arg1: number, arg2: number): $SyncedTrackedPlayer;
-        matchesEnough(arg0: $Player, arg1: number): boolean;
         setDimension(arg0: $ResourceKey_<$Level>): $SyncedTrackedPlayer;
+        matchesEnough(arg0: $Player, arg1: number): boolean;
         constructor(arg0: $UUID_, arg1: number, arg2: number, arg3: number, arg4: $ResourceKey_<$Level>);
         get id(): $UUID;
         get y(): number;

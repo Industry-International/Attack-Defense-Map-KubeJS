@@ -30,50 +30,50 @@ import { $LocalWebServer_, $LocalWebServerAPIRegistry_, $LocalWebServerRegistry 
 
 declare module "@package/dev/latvian/mods/kubejs/integration/architectury" {
     export class $ArchitecturyIntegration implements $KubeJSPlugin {
-        registerTypeWrappers(registry: $TypeWrapperRegistry): void;
         static wrapArchFluid(o: $Object): $FluidStack;
+        registerTypeWrappers(registry: $TypeWrapperRegistry): void;
         init(): void;
+        registerIngredientActionTypes(registry: $IngredientActionTypeRegistry_): void;
+        registerRecipeViewerEntryTypes(registry: $Consumer_<$RecipeViewerEntryType>): void;
+        registerRecipeSchemaFunctionTypes(registry: $RecipeSchemaFunctionRegistry_): void;
+        registerLocalWebServerWithAuth(registry: $LocalWebServerRegistry): void;
+        registerRecipePostProcessors(registry: $RecipePostProcessorTypeRegistry_): void;
+        registerBlockEntityAttachments(registry: $BlockEntityAttachmentRegistry_): void;
+        attachServerData(event: $AttachedData<$MinecraftServer>): void;
+        afterInit(): void;
+        registerRecordDefaults(registry: $RecordDefaultsRegistry_): void;
+        beforeScriptsLoaded(manager: $ScriptManager): void;
+        attachPlayerData(event: $AttachedData<$Player>): void;
+        attachLevelData(event: $AttachedData<$Level_>): void;
+        registerBuilderTypes(registry: $BuilderTypeRegistry_): void;
+        registerServerRegistries(registry: $ServerRegistryRegistry_): void;
+        registerTypeDescriptions(registry: $TypeDescriptionRegistry): void;
+        registerRecipeFactories(registry: $RecipeFactoryRegistry): void;
+        registerRecipeMappings(registry: $RecipeMappingRegistry): void;
+        localWebServerStarted(server: $LocalWebServer_): void;
+        registerRecipeSchemas(registry: $RecipeSchemaRegistry): void;
+        registerLocalWebServerAPIs(registry: $LocalWebServerAPIRegistry_): void;
+        registerItemNameProviders(registry: $NameProvider$Registry_<$Item, $ItemStack>): void;
+        registerLocalWebServer(registry: $LocalWebServerRegistry): void;
+        registerRecipeComponents(registry: $RecipeComponentTypeRegistry_): void;
+        beforeRecipeLoading(event: $RecipesKubeEvent, manager: $RecipeManagerKJS, recipeJsons: $Map_<$ResourceLocation_, $JsonElement_>): void;
         initStartup(): void;
+        afterScriptsLoaded(manager: $ScriptManager): void;
         /**
          * @deprecated
          */
         clearCaches(): void;
-        afterScriptsLoaded(manager: $ScriptManager): void;
-        registerBuilderTypes(registry: $BuilderTypeRegistry_): void;
-        beforeScriptsLoaded(manager: $ScriptManager): void;
-        registerRecordDefaults(registry: $RecordDefaultsRegistry_): void;
-        registerServerRegistries(registry: $ServerRegistryRegistry_): void;
-        registerTypeDescriptions(registry: $TypeDescriptionRegistry): void;
-        attachServerData(event: $AttachedData<$MinecraftServer>): void;
-        attachPlayerData(event: $AttachedData<$Player>): void;
-        registerRecipeFactories(registry: $RecipeFactoryRegistry): void;
         registerEvents(registry: $EventGroupRegistry_): void;
-        afterInit(): void;
-        registerClasses(filter: $ClassFilter): void;
-        exportServerData(arg0: $DataExport): void;
-        registerIconTypes(registry: $KubeIconTypeRegistry_): void;
         registerBindings(bindings: $BindingRegistry_): void;
-        attachLevelData(event: $AttachedData<$Level_>): void;
-        registerRecipeSchemas(registry: $RecipeSchemaRegistry): void;
-        localWebServerStarted(server: $LocalWebServer_): void;
-        beforeRecipeLoading(event: $RecipesKubeEvent, manager: $RecipeManagerKJS, recipeJsons: $Map_<$ResourceLocation_, $JsonElement_>): void;
-        registerRecipeMappings(registry: $RecipeMappingRegistry): void;
-        registerLocalWebServerAPIs(registry: $LocalWebServerAPIRegistry_): void;
-        registerRecipeComponents(registry: $RecipeComponentTypeRegistry_): void;
-        registerItemNameProviders(registry: $NameProvider$Registry_<$Item, $ItemStack>): void;
-        registerLocalWebServer(registry: $LocalWebServerRegistry): void;
+        exportServerData(arg0: $DataExport): void;
+        registerClasses(filter: $ClassFilter): void;
+        registerIconTypes(registry: $KubeIconTypeRegistry_): void;
         generateAssets(generator: $KubeAssetGenerator): void;
-        generateData(generator: $KubeDataGenerator): void;
         generateLang(event: $LangKubeEvent_): void;
-        registerRecipePostProcessors(registry: $RecipePostProcessorTypeRegistry_): void;
-        registerBlockEntityAttachments(registry: $BlockEntityAttachmentRegistry_): void;
-        registerIngredientActionTypes(registry: $IngredientActionTypeRegistry_): void;
-        registerRecipeViewerEntryTypes(registry: $Consumer_<$RecipeViewerEntryType>): void;
-        registerLocalWebServerWithAuth(registry: $LocalWebServerRegistry): void;
-        registerRecipeSchemaFunctionTypes(registry: $RecipeSchemaFunctionRegistry_): void;
-        registerCustomRecipeSchemaFunctions(registry: $CustomRecipeSchemaFunctionRegistry_): void;
-        registerDataComponentTypeDescriptions(registry: $DataComponentTypeInfoRegistry_): void;
+        generateData(generator: $KubeDataGenerator): void;
         breakpoint(args: $Object[]): void;
+        registerDataComponentTypeDescriptions(registry: $DataComponentTypeInfoRegistry_): void;
+        registerCustomRecipeSchemaFunctions(registry: $CustomRecipeSchemaFunctionRegistry_): void;
         constructor();
     }
 }

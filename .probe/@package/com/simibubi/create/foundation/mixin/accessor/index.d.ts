@@ -69,8 +69,8 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     }
     export interface $PotionBrewingAccessor {
         create$isContainer(arg0: $ItemStack_): boolean;
-        create$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
         create$getPotionMixes(): $List<$PotionBrewing$Mix<$Potion>>;
+        create$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
     }
     export class $DispenserBlockAccessor {
     }
@@ -93,9 +93,9 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     export class $GuiAccessor {
     }
     export interface $GuiAccessor {
-        create$getSubtitleOverlay(): $SubtitleOverlay;
         create$getToolHighlightTimer(): number;
         create$renderTextureOverlay(arg0: $GuiGraphics, arg1: $ResourceLocation_, arg2: number): void;
+        create$getSubtitleOverlay(): $SubtitleOverlay;
     }
     export class $ProjectileDispenseBehaviorAccessor {
     }
@@ -152,8 +152,8 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     export class $LevelRendererAccessor {
     }
     export interface $LevelRendererAccessor {
-        create$getCullingFrustum(): $Frustum;
         create$getCapturedFrustum(): $Frustum;
+        create$getCullingFrustum(): $Frustum;
     }
     export class $CropBlockAccessor {
     }
@@ -177,9 +177,9 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
         static create$getArmorLocationCache(): $Map<string, $ResourceLocation>;
     }
     export interface $HumanoidArmorLayerAccessor {
-        create$callSetPartVisibility(arg0: $HumanoidModel<never>, arg1: $EquipmentSlot_): void;
-        create$getInnerModel(): $HumanoidModel<never>;
         create$getOuterModel(): $HumanoidModel<never>;
+        create$getInnerModel(): $HumanoidModel<never>;
+        create$callSetPartVisibility(arg0: $HumanoidModel<never>, arg1: $EquipmentSlot_): void;
     }
     export class $UseOnContextAccessor {
     }
@@ -209,10 +209,10 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
      */
     export type $LivingEntityAccessor_ = ((arg0: $ItemStack, arg1: number) => void);
     export class $SystemReportAccessor {
-        static getJAVA_VERSION(): string;
         static getOPERATING_SYSTEM(): string;
-        static get JAVA_VERSION(): string;
+        static getJAVA_VERSION(): string;
         static get OPERATING_SYSTEM(): string;
+        static get JAVA_VERSION(): string;
     }
     export interface $SystemReportAccessor {
         getEntries(): $Map<string, string>;
@@ -231,8 +231,8 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     export class $GameTestHelperAccessor {
     }
     export interface $GameTestHelperAccessor {
-        getFinalCheckAdded(): boolean;
         getTestInfo(): $GameTestInfo;
+        getFinalCheckAdded(): boolean;
         setFinalCheckAdded(arg0: boolean): void;
         get testInfo(): $GameTestInfo;
     }

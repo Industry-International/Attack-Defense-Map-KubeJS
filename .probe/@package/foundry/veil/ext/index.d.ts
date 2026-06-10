@@ -24,15 +24,15 @@ declare module "@package/foundry/veil/ext" {
     export class $RenderTargetExtension {
     }
     export interface $RenderTargetExtension {
-        veil$setWrapper(arg0: $AdvancedFbo): void;
         veil$getTexture(arg0: number): number;
+        veil$setWrapper(arg0: $AdvancedFbo): void;
     }
     export class $VertexBufferExtension {
     }
     export interface $VertexBufferExtension {
         veil$drawIndirect(arg0: number, arg1: number, arg2: number): void;
-        veil$drawInstanced(arg0: number): void;
         veil$getIndexCount(): number;
+        veil$drawInstanced(arg0: number): void;
     }
     export class $PerformanceRenderTargetExtension {
     }
@@ -46,8 +46,8 @@ declare module "@package/foundry/veil/ext" {
     export class $MinecraftServerExtension {
     }
     export interface $MinecraftServerExtension {
-        veil$getOrCreateScheduler(): $TickTaskSchedulerImpl;
         veil$getScheduler(): $TickTaskSchedulerImpl;
+        veil$getOrCreateScheduler(): $TickTaskSchedulerImpl;
     }
     export class $VeilClientSuggestionProvider {
     }
@@ -70,12 +70,12 @@ declare module "@package/foundry/veil/ext" {
         static BUILD_RESOURCES_NAME: string;
     }
     export interface $PackResourcesExtension {
-        veil$listPacks(): $Stream<$PackResources>;
-        veil$blurIcon(): boolean;
-        veil$isStatic(): boolean;
-        veil$listResources(arg0: $PackResourcesExtension$PackResourceConsumer_): void;
-        veil$getIcon(): $IoSupplier<$InputStream>;
         veil$getRawResourceRoots(): $List<$Path>;
+        veil$getIcon(): $IoSupplier<$InputStream>;
+        veil$listResources(arg0: $PackResourcesExtension$PackResourceConsumer_): void;
+        veil$blurIcon(): boolean;
+        veil$listPacks(): $Stream<$PackResources>;
+        veil$isStatic(): boolean;
     }
     export class $FrustumExtension {
     }
@@ -98,10 +98,10 @@ declare module "@package/foundry/veil/ext" {
     export class $ShaderInstanceExtension {
     }
     export interface $ShaderInstanceExtension {
-        veil$getShaderSources(): $Collection<$ResourceLocation>;
-        veil$isRecompileReady(arg0: number): boolean;
-        veil$getActiveBuffers(): number;
         veil$recompile(arg0: boolean, arg1: string, arg2: number): void;
+        veil$getShaderSources(): $Collection<$ResourceLocation>;
+        veil$getActiveBuffers(): number;
+        veil$isRecompileReady(arg0: number): boolean;
         veil$applyCompile(): boolean;
         veil$swapBuffers(arg0: number): boolean;
     }

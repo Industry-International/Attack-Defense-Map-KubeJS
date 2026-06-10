@@ -1,6 +1,6 @@
 import { $EventRegistrations } from "@package/de/johni0702/minecraft/gui/utils";
 import { $LevelRenderer } from "@package/net/minecraft/client/renderer";
-import { $WorldRenderer, $RenderInfo, $CaptureData } from "@package/com/replaymod/render/capturer";
+import { $RenderInfo, $WorldRenderer, $CaptureData } from "@package/com/replaymod/render/capturer";
 import { $VirtualWindow } from "@package/com/replaymod/render/gui/progress";
 import { $Minecraft } from "@package/net/minecraft/client";
 import { $RenderSettings } from "@package/com/replaymod/render";
@@ -32,16 +32,16 @@ declare module "@package/com/replaymod/render/hooks" {
         getSettings(): $RenderSettings;
         renderWorld(partialTicks: number, finishTimeNano: number): void;
         renderWorld(partialTicks: number, data: $CaptureData): void;
-        getFakeFinishTimeNano(): number;
         getRenderInfo(): $RenderInfo;
+        getFakeFinishTimeNano(): number;
         setOmnidirectional(omnidirectional: boolean): void;
         data: $CaptureData;
         mc: $Minecraft;
         omnidirectional: boolean;
         constructor(settings: $RenderSettings, renderInfo: $RenderInfo);
         get settings(): $RenderSettings;
-        get fakeFinishTimeNano(): number;
         get renderInfo(): $RenderInfo;
+        get fakeFinishTimeNano(): number;
     }
     export class $ForceChunkLoadingHook$IBlockOnChunkRebuilds {
     }

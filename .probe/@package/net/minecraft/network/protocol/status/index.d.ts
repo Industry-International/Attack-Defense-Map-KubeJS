@@ -20,8 +20,8 @@ declare module "@package/net/minecraft/network/protocol/status" {
     }
     export class $ServerStatus$Players extends $Record {
         max(): number;
-        sample(): $List<$GameProfile>;
         online(): number;
+        sample(): $List<$GameProfile>;
         static CODEC: $Codec<$ServerStatus$Players>;
         constructor(max: number, online: number, sample: $List_<$GameProfile>);
     }
@@ -43,23 +43,23 @@ declare module "@package/net/minecraft/network/protocol/status" {
         status(): $ServerStatus;
         handle(arg0: $ClientStatusPacketListener): void;
         cachedStatus(): string;
-        isTerminal(): boolean;
         isSkippable(): boolean;
+        isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientboundStatusResponsePacket>;
         constructor(status: $ServerStatus_, cachedStatus: string);
         constructor(arg0: $ServerStatus_);
-        get terminal(): boolean;
         get skippable(): boolean;
+        get terminal(): boolean;
     }
     export class $ServerboundStatusRequestPacket implements $Packet<$ServerStatusPacketListener> {
         type(): $PacketType<$ServerboundStatusRequestPacket>;
         handle(arg0: $ServerStatusPacketListener): void;
-        isTerminal(): boolean;
         isSkippable(): boolean;
+        isTerminal(): boolean;
         static INSTANCE: $ServerboundStatusRequestPacket;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $ServerboundStatusRequestPacket>;
-        get terminal(): boolean;
         get skippable(): boolean;
+        get terminal(): boolean;
     }
     export class $ServerStatus$Favicon extends $Record {
         iconBytes(): number[];
@@ -74,10 +74,10 @@ declare module "@package/net/minecraft/network/protocol/status" {
     export class $ServerStatus extends $Record implements $ServerDataExtension {
         version(): ($ServerStatus$Version) | undefined;
         description(): $Component;
-        favicon(): ($ServerStatus$Favicon) | undefined;
-        setPreventsChatReports(arg0: boolean): void;
-        preventsChatReports(): boolean;
         players(): ($ServerStatus$Players) | undefined;
+        favicon(): ($ServerStatus$Favicon) | undefined;
+        preventsChatReports(): boolean;
+        setPreventsChatReports(arg0: boolean): void;
         isModded(): boolean;
         enforcesSecureChat(): boolean;
         static CODEC: $Codec<$ServerStatus>;

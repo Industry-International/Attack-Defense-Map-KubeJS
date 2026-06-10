@@ -10,18 +10,18 @@ declare module "@package/net/minecraft/locale" {
         getOrDefault(arg0: string): string;
         getOrDefault(arg0: string, arg1: string): string;
         has(arg0: string): boolean;
-        getComponent(arg0: string): $Component;
-        static inject(arg0: $Language): void;
-        isDefaultRightToLeft(): boolean;
         static loadFromJson(arg0: $InputStream, arg1: $BiConsumer_<string, string>, arg2: $BiConsumer_<string, $Component>): void;
         static loadFromJson(arg0: $InputStream, arg1: $BiConsumer_<string, string>): void;
         getLanguageData(): $Map<string, string>;
-        getVisualOrder(texts: $List_<any>): $List<any>;
         getVisualOrder(arg0: $FormattedText): $FormattedCharSequence;
+        getVisualOrder(texts: $List_<any>): $List<any>;
+        getComponent(arg0: string): $Component;
+        isDefaultRightToLeft(): boolean;
+        static inject(arg0: $Language): void;
         static DEFAULT: string;
         constructor();
         static get instance(): $Language;
-        get defaultRightToLeft(): boolean;
         get languageData(): $Map<string, string>;
+        get defaultRightToLeft(): boolean;
     }
 }

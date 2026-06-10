@@ -7,11 +7,11 @@ import { $MinimapWriter } from "@package/xaero/common/minimap/write";
 declare module "@package/xaero/common/minimap/highlight" {
     export class $DimensionHighlighterHandler {
         getVersion(): number;
-        applyChunkHighlightColors(arg0: number, arg1: number): number[];
-        requestRefresh(): void;
         requestRefresh(arg0: number, arg1: number): void;
-        shouldApplyTileChunkHighlights(arg0: number, arg1: number, arg2: number, arg3: number, arg4: boolean): boolean;
+        requestRefresh(): void;
         shouldApplyRegionHighlights(arg0: number, arg1: number, arg2: boolean): boolean;
+        shouldApplyTileChunkHighlights(arg0: number, arg1: number, arg2: number, arg3: number, arg4: boolean): boolean;
+        applyChunkHighlightColors(arg0: number, arg1: number): number[];
         addBlockHighlightTooltips(arg0: $InfoDisplayCompiler, arg1: number, arg2: number, arg3: number, arg4: boolean): void;
         constructor(arg0: $ResourceKey_<$Level>, arg1: $HighlighterRegistry, arg2: $MinimapWriter);
         get version(): number;
@@ -24,10 +24,10 @@ declare module "@package/xaero/common/minimap/highlight" {
         get highlighters(): $List<$AbstractHighlighter>;
     }
     export class $AbstractHighlighter {
+        isCoveringOutsideDiscovered(): boolean;
         chunkIsHighlit(arg0: $ResourceKey_<$Level>, arg1: number, arg2: number): boolean;
         getChunkHighlitColor(arg0: $ResourceKey_<$Level>, arg1: number, arg2: number): number[];
         regionHasHighlights(arg0: $ResourceKey_<$Level>, arg1: number, arg2: number): boolean;
-        isCoveringOutsideDiscovered(): boolean;
         addBlockHighlightTooltips(arg0: $InfoDisplayCompiler, arg1: $ResourceKey_<$Level>, arg2: number, arg3: number, arg4: number): void;
         get coveringOutsideDiscovered(): boolean;
     }

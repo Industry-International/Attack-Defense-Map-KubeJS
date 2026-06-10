@@ -5,7 +5,7 @@ declare module "@package/dev/architectury/impl" {
     export class $ItemPropertiesExtensionImpl {
     }
     export interface $ItemPropertiesExtensionImpl {
-        arch$getTabSupplier(): $DeferredSupplier<$CreativeModeTab>;
         arch$getTab(): $CreativeModeTab;
+        arch$getTabSupplier(): $DeferredSupplier<$CreativeModeTab>;
     }
 }

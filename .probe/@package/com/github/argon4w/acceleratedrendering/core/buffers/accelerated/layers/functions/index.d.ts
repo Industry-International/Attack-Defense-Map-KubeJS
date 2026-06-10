@@ -5,9 +5,9 @@ declare module "@package/com/github/argon4w/acceleratedrendering/core/buffers/ac
     }
     export interface $ILayerFunction {
         reset(): void;
-        addAfter(arg0: $Runnable_): void;
         addBefore(arg0: $Runnable_): void;
-        runAfter(): void;
+        addAfter(arg0: $Runnable_): void;
         runBefore(): void;
+        runAfter(): void;
     }
 }

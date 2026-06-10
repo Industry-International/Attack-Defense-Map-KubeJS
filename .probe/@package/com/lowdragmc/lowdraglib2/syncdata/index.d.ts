@@ -16,12 +16,12 @@ declare module "@package/com/lowdragmc/lowdraglib2/syncdata" {
         serializeAdditionalNBT(arg0: $HolderLookup$Provider): $Tag;
         deserializeAdditionalNBT(arg0: $Tag_, arg1: $HolderLookup$Provider): void;
         deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        afterDeserialize(): void;
         beforeSerialize(): void;
         writeToBuff(arg0: $ByteBuf): void;
-        beforeDeserialize(): void;
         afterSerialize(): void;
         readFromBuff(arg0: $ByteBuf): void;
+        afterDeserialize(): void;
+        beforeDeserialize(): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
     }
     export class $SyncValueHolder<T> {

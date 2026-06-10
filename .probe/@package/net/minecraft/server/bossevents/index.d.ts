@@ -14,9 +14,9 @@ declare module "@package/net/minecraft/server/bossevents" {
         save(arg0: $HolderLookup$Provider): $CompoundTag;
         create(arg0: $ResourceLocation_, arg1: $Component_): $CustomBossEvent;
         getEvents(): $Collection<$CustomBossEvent>;
+        onPlayerConnect(arg0: $ServerPlayer): void;
         getIds(): $Collection<$ResourceLocation>;
         onPlayerDisconnect(arg0: $ServerPlayer): void;
-        onPlayerConnect(arg0: $ServerPlayer): void;
         constructor();
         get events(): $Collection<$CustomBossEvent>;
         get ids(): $Collection<$ResourceLocation>;
@@ -28,12 +28,12 @@ declare module "@package/net/minecraft/server/bossevents" {
         setValue(arg0: number): void;
         getDisplayName(): $Component;
         getMax(): number;
-        getTextId(): $ResourceLocation;
-        setMax(arg0: number): void;
-        setPlayers(arg0: $Collection_<$ServerPlayer>): boolean;
-        onPlayerDisconnect(arg0: $ServerPlayer): void;
         onPlayerConnect(arg0: $ServerPlayer): void;
+        setMax(arg0: number): void;
+        onPlayerDisconnect(arg0: $ServerPlayer): void;
         addOfflinePlayer(arg0: $UUID_): void;
+        setPlayers(arg0: $Collection_<$ServerPlayer>): boolean;
+        getTextId(): $ResourceLocation;
         darkenScreen: boolean;
         playBossMusic: boolean;
         color: $BossEvent$BossBarColor;
@@ -43,7 +43,7 @@ declare module "@package/net/minecraft/server/bossevents" {
         createWorldFog: boolean;
         constructor(arg0: $ResourceLocation_, arg1: $Component_);
         get displayName(): $Component;
-        get textId(): $ResourceLocation;
         set players(value: $Collection_<$ServerPlayer>);
+        get textId(): $ResourceLocation;
     }
 }

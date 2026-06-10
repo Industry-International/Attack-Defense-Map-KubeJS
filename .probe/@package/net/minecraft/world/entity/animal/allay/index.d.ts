@@ -38,17 +38,17 @@ declare module "@package/net/minecraft/world/entity/animal/allay" {
         get deliveryMode(): $GameEventListener$DeliveryMode;
     }
     export class $Allay extends $PathfinderMob implements $InventoryCarrier, $VibrationSystem {
-        hasItemInHand(): boolean;
         setJukeboxPlaying(arg0: $BlockPos_, arg1: boolean): void;
-        static createAttributes(): $AttributeSupplier$Builder;
+        hasItemInHand(): boolean;
+        getHoldingItemAnimationProgress(arg0: number): number;
         getSpinningProgress(arg0: number): number;
         getVibrationUser(): $VibrationSystem$User;
         getVibrationData(): $VibrationSystem$Data;
         isSpinning(): boolean;
-        isDancing(): boolean;
         setDancing(arg0: boolean): void;
-        getHoldingItemAnimationProgress(arg0: number): number;
+        isDancing(): boolean;
         getInventory(): $SimpleContainer;
+        static createAttributes(): $AttributeSupplier$Builder;
         writeInventoryToTag(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
         readInventoryFromTag(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
@@ -231,17 +231,17 @@ declare module "@package/net/minecraft/world/entity/animal/allay" {
     export class $AllayAi {
         static updateActivity(arg0: $Allay): void;
         static makeBrain(arg0: $Brain<$Allay>): $Brain<never>;
-        static hearNoteblock(arg0: $LivingEntity, arg1: $BlockPos_): void;
         static getLikedPlayer(arg0: $LivingEntity): ($ServerPlayer) | undefined;
+        static hearNoteblock(arg0: $LivingEntity, arg1: $BlockPos_): void;
         constructor();
     }
     export class $Allay$VibrationUser implements $VibrationSystem$User {
-        isValidVibration(arg0: $Holder_<$GameEvent>, arg1: $GameEvent$Context_): boolean;
         onDataChanged(): void;
+        isValidVibration(arg0: $Holder_<$GameEvent>, arg1: $GameEvent$Context_): boolean;
+        requiresAdjacentChunksToBeTicking(): boolean;
+        calculateTravelTimeInTicks(arg0: number): number;
         getListenableEvents(): $TagKey<$GameEvent>;
         canTriggerAvoidVibration(): boolean;
-        calculateTravelTimeInTicks(arg0: number): number;
-        requiresAdjacentChunksToBeTicking(): boolean;
         get listenableEvents(): $TagKey<$GameEvent>;
     }
 }

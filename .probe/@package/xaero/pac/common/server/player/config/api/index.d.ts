@@ -31,11 +31,15 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
         /**
          * @deprecated
          */
-        getAllOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
+        getLoadedConfig(arg0: $UUID_): $IPlayerConfigAPI;
         /**
          * @deprecated
          */
-        getLoadedConfig(arg0: $UUID_): $IPlayerConfigAPI;
+        getServerClaimConfig(): $IPlayerConfigAPI;
+        /**
+         * @deprecated
+         */
+        getOptionForId(arg0: string): $IPlayerConfigOptionSpecAPI<never>;
         /**
          * @deprecated
          */
@@ -51,16 +55,12 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
         /**
          * @deprecated
          */
-        getServerClaimConfig(): $IPlayerConfigAPI;
-        /**
-         * @deprecated
-         */
-        getOptionForId(arg0: string): $IPlayerConfigOptionSpecAPI<never>;
-        get allOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
+        getAllOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
+        get serverClaimConfig(): $IPlayerConfigAPI;
         get defaultConfig(): $IPlayerConfigAPI;
         get expiredClaimConfig(): $IPlayerConfigAPI;
         get wildernessConfig(): $IPlayerConfigAPI;
-        get serverClaimConfig(): $IPlayerConfigAPI;
+        get allOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
     }
     /**
      * @deprecated
@@ -99,15 +99,11 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
         /**
          * @deprecated
          */
-        getServerSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
-        /**
-         * @deprecated
-         */
         getCommentTranslationArgs(): string[];
         /**
          * @deprecated
          */
-        getClientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
+        getServerSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
         /**
          * @deprecated
          */
@@ -116,6 +112,10 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
          * @deprecated
          */
         getConfigTypeFilter(): $Predicate<$PlayerConfigType>;
+        /**
+         * @deprecated
+         */
+        getClientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
         /**
          * @deprecated
          */
@@ -139,11 +139,11 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
         get comment(): string;
         get translationArgs(): string[];
         get translation(): string;
-        get serverSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
         get commentTranslationArgs(): string[];
-        get clientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
+        get serverSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
         get commandInputParser(): $Function<string, T>;
         get configTypeFilter(): $Predicate<$PlayerConfigType>;
+        get clientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
         get commentTranslation(): string;
         get shortenedId(): string;
         get tooltipPrefix(): string;
@@ -162,63 +162,15 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
         /**
          * @deprecated
          */
-        getRaw<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
-        /**
-         * @deprecated
-         */
-        getUsedServerSubConfig(): $IPlayerConfigAPI;
-        /**
-         * @deprecated
-         */
-        getSubConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
-        /**
-         * @deprecated
-         */
-        getFromEffectiveConfig<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
-        /**
-         * @deprecated
-         */
         createSubConfig(arg0: string): $IPlayerConfigAPI;
         /**
          * @deprecated
          */
-        tryToReset<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): $IPlayerConfigAPI$SetResult;
+        getRaw<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
         /**
          * @deprecated
          */
         tryToSet<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>, arg1: T): $IPlayerConfigAPI$SetResult;
-        /**
-         * @deprecated
-         */
-        getPlayerId(): $UUID;
-        /**
-         * @deprecated
-         */
-        isBeingDeleted(): boolean;
-        /**
-         * @deprecated
-         */
-        getSubConfigIds(): $List<string>;
-        /**
-         * @deprecated
-         */
-        getUsedSubConfig(): $IPlayerConfigAPI;
-        /**
-         * @deprecated
-         */
-        getDefaultRawValue<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
-        /**
-         * @deprecated
-         */
-        getSubIndex(): number;
-        /**
-         * @deprecated
-         */
-        isOptionAllowed(arg0: $IPlayerConfigOptionSpecAPI<never>): boolean;
-        /**
-         * @deprecated
-         */
-        getEffective<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
         /**
          * @deprecated
          */
@@ -234,7 +186,31 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
         /**
          * @deprecated
          */
+        getPlayerId(): $UUID;
+        /**
+         * @deprecated
+         */
+        getUsedServerSubConfig(): $IPlayerConfigAPI;
+        /**
+         * @deprecated
+         */
+        getFromEffectiveConfig<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
+        /**
+         * @deprecated
+         */
+        getEffective<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
+        /**
+         * @deprecated
+         */
+        getSubConfigLimit(): number;
+        /**
+         * @deprecated
+         */
         getSubConfig(arg0: string): $IPlayerConfigAPI;
+        /**
+         * @deprecated
+         */
+        getSubCount(): number;
         /**
          * @deprecated
          */
@@ -246,22 +222,46 @@ declare module "@package/xaero/pac/common/server/player/config/api" {
         /**
          * @deprecated
          */
-        getSubConfigLimit(): number;
+        getDefaultRawValue<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
         /**
          * @deprecated
          */
-        getSubCount(): number;
+        getSubIndex(): number;
+        /**
+         * @deprecated
+         */
+        isOptionAllowed(arg0: $IPlayerConfigOptionSpecAPI<never>): boolean;
+        /**
+         * @deprecated
+         */
+        getUsedSubConfig(): $IPlayerConfigAPI;
+        /**
+         * @deprecated
+         */
+        isBeingDeleted(): boolean;
+        /**
+         * @deprecated
+         */
+        getSubConfigIds(): $List<string>;
+        /**
+         * @deprecated
+         */
+        getSubConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
+        /**
+         * @deprecated
+         */
+        tryToReset<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI<T>): $IPlayerConfigAPI$SetResult;
         get type(): $PlayerConfigType;
-        get usedServerSubConfig(): $IPlayerConfigAPI;
-        get subConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
-        get playerId(): $UUID;
-        get beingDeleted(): boolean;
-        get subConfigIds(): $List<string>;
-        get usedSubConfig(): $IPlayerConfigAPI;
-        get subIndex(): number;
         get subId(): string;
+        get playerId(): $UUID;
+        get usedServerSubConfig(): $IPlayerConfigAPI;
         get subConfigLimit(): number;
         get subCount(): number;
+        get subIndex(): number;
+        get usedSubConfig(): $IPlayerConfigAPI;
+        get beingDeleted(): boolean;
+        get subConfigIds(): $List<string>;
+        get subConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
     }
     /**
      * @deprecated

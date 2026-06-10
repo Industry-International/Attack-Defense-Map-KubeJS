@@ -22,9 +22,9 @@ declare module "@package/net/neoforged/neoforge/logging" {
         static generateEnhancedStackTrace(arg0: $StackTraceElement[]): string;
         static generateEnhancedStackTrace(arg0: $Throwable): string;
         static generateEnhancedStackTrace(arg0: $Throwable, arg1: boolean): string;
-        static extendSystemReport(arg0: $SystemReport): void;
-        static dumpModLoadingCrashReport(arg0: $Logger, arg1: $List_<$ModLoadingIssue_>, arg2: $File_): $File;
         static addCrashReportHeader(arg0: $StringBuilder, arg1: $CrashReport): void;
+        static dumpModLoadingCrashReport(arg0: $Logger, arg1: $List_<$ModLoadingIssue_>, arg2: $File_): $File;
+        static extendSystemReport(arg0: $SystemReport): void;
         constructor();
     }
 }

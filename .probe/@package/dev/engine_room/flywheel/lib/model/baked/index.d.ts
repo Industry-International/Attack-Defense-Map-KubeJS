@@ -8,12 +8,12 @@ declare module "@package/dev/engine_room/flywheel/lib/model/baked" {
         get(): $BakedModel;
         static of(modelLocation: $ResourceLocation_): $PartialModel;
         modelLocation(): $ResourceLocation;
-        static getPopulateOnInit$railways_$md$d64506$2(): boolean;
-        static setPopulateOnInit$railways_$md$d64506$1(arg0: boolean): void;
-        static getALL$railways_$md$d64506$0(): $ConcurrentMap<any, any>;
+        static getALL$railways_$md$9aa1a5$0(): $ConcurrentMap<any, any>;
+        static getPopulateOnInit$railways_$md$9aa1a5$2(): boolean;
+        static setPopulateOnInit$railways_$md$9aa1a5$1(arg0: boolean): void;
         railways$setBakedModel(arg0: $BakedModel): void;
-        static get populateOnInit$railways_$md$d64506$2(): boolean;
-        static set populateOnInit$railways_$md$d64506$1(value: boolean);
-        static get ALL$railways_$md$d64506$0(): $ConcurrentMap<any, any>;
+        static get ALL$railways_$md$9aa1a5$0(): $ConcurrentMap<any, any>;
+        static get populateOnInit$railways_$md$9aa1a5$2(): boolean;
+        static set populateOnInit$railways_$md$9aa1a5$1(value: boolean);
     }
 }

@@ -9,12 +9,12 @@ declare module "@package/net/minecraft/network/protocol/ping" {
         type(): $PacketType<$ClientboundPongResponsePacket>;
         time(): number;
         handle(arg0: $ClientPongPacketListener): void;
-        isTerminal(): boolean;
         isSkippable(): boolean;
+        isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientboundPongResponsePacket>;
         constructor(arg0: number);
-        get terminal(): boolean;
         get skippable(): boolean;
+        get terminal(): boolean;
     }
     export class $PingPacketTypes {
         static SERVERBOUND_PING_REQUEST: $PacketType<$ServerboundPingRequestPacket>;
@@ -35,12 +35,12 @@ declare module "@package/net/minecraft/network/protocol/ping" {
         type(): $PacketType<$ServerboundPingRequestPacket>;
         handle(arg0: $ServerPingPacketListener): void;
         getTime(): number;
-        isTerminal(): boolean;
         isSkippable(): boolean;
+        isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $ServerboundPingRequestPacket>;
         constructor(arg0: number);
         get time(): number;
-        get terminal(): boolean;
         get skippable(): boolean;
+        get terminal(): boolean;
     }
 }

@@ -19,13 +19,13 @@ declare module "@package/top/theillusivec4/curios/api/event" {
     export class $CurioChangeEvent extends $LivingEvent {
         getFrom(): $ItemStack;
         getIdentifier(): string;
-        getTo(): $ItemStack;
         getSlotIndex(): number;
+        getTo(): $ItemStack;
         constructor(arg0: $LivingEntity, arg1: string, arg2: number, arg3: $ItemStack_, arg4: $ItemStack_);
         get from(): $ItemStack;
         get identifier(): string;
-        get to(): $ItemStack;
         get slotIndex(): number;
+        get to(): $ItemStack;
     }
     export class $DropRulesEvent extends $LivingEvent {
         getSource(): $DamageSource;
@@ -43,9 +43,9 @@ declare module "@package/top/theillusivec4/curios/api/event" {
     }
     export class $CurioCanEquipEvent extends $LivingEvent {
         getStack(): $ItemStack;
+        getSlotContext(): $SlotContext;
         getEquipResult(): $TriState;
         setEquipResult(arg0: $TriState_): void;
-        getSlotContext(): $SlotContext;
         constructor(arg0: $ItemStack_, arg1: $SlotContext_, arg2: $TriState_);
         /**
          * @deprecated
@@ -61,9 +61,9 @@ declare module "@package/top/theillusivec4/curios/api/event" {
     }
     export class $CurioCanUnequipEvent extends $LivingEvent {
         getStack(): $ItemStack;
-        setUnequipResult(arg0: $TriState_): void;
-        getUnequipResult(): $TriState;
         getSlotContext(): $SlotContext;
+        getUnequipResult(): $TriState;
+        setUnequipResult(arg0: $TriState_): void;
         constructor(arg0: $ItemStack_, arg1: $SlotContext_);
         get stack(): $ItemStack;
         get slotContext(): $SlotContext;
@@ -73,9 +73,9 @@ declare module "@package/top/theillusivec4/curios/api/event" {
         getId(): $ResourceLocation;
         removeAttribute(arg0: $Holder_<$Attribute>): $Collection<$AttributeModifier>;
         clearModifiers(): void;
-        addModifier(arg0: $Holder_<$Attribute>, arg1: $AttributeModifier_): boolean;
         removeModifier(arg0: $Holder_<$Attribute>, arg1: $AttributeModifier_): boolean;
         getItemStack(): $ItemStack;
+        addModifier(arg0: $Holder_<$Attribute>, arg1: $AttributeModifier_): boolean;
         getOriginalModifiers(): $Multimap<$Holder<$Attribute>, $AttributeModifier>;
         getSlotContext(): $SlotContext;
         constructor(arg0: $ItemStack_, arg1: $SlotContext_, arg2: $ResourceLocation_, arg3: $Multimap<$Holder_<$Attribute>, $AttributeModifier_>);
@@ -88,16 +88,16 @@ declare module "@package/top/theillusivec4/curios/api/event" {
     export class $CurioDropsEvent extends $LivingEvent implements $ICancellableEvent {
         getSource(): $DamageSource;
         isRecentlyHit(): boolean;
-        getLootingLevel(): number;
         getDrops(): $Collection<$ItemEntity>;
+        getLootingLevel(): number;
         getCurioHandler(): $ICuriosItemHandler;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $LivingEntity, arg1: $ICuriosItemHandler, arg2: $DamageSource_, arg3: $Collection_<$ItemEntity>, arg4: number, arg5: boolean);
         get source(): $DamageSource;
         get recentlyHit(): boolean;
-        get lootingLevel(): number;
         get drops(): $Collection<$ItemEntity>;
+        get lootingLevel(): number;
         get curioHandler(): $ICuriosItemHandler;
     }
 }

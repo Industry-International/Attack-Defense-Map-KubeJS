@@ -17,9 +17,8 @@ declare module "@package/java/time/chrono" {
         compareTo(arg0: $ChronoZonedDateTime<never>): number;
         getLong(arg0: $TemporalField): number;
         format(arg0: $DateTimeFormatter): string;
-        isSupported(arg0: $TemporalField): boolean;
         isSupported(arg0: $TemporalUnit): boolean;
-        "with"(arg0: $TemporalAdjuster_): $ChronoZonedDateTime<D>;
+        isSupported(arg0: $TemporalField): boolean;
         query<R>(arg0: $TemporalQuery_<R>): R;
         getOffset(): $ZoneOffset;
         range(arg0: $TemporalField): $ValueRange;
@@ -38,10 +37,11 @@ declare module "@package/java/time/chrono" {
         withLaterOffsetAtOverlap(): $ChronoZonedDateTime<D>;
         withEarlierOffsetAtOverlap(): $ChronoZonedDateTime<D>;
         "with"(arg0: $TemporalField, arg1: number): $Temporal;
+        "with"(arg0: $TemporalAdjuster_): $Temporal;
         minus(arg0: number, arg1: $TemporalUnit): $Temporal;
         minus(arg0: $TemporalAmount_): $Temporal;
-        plus(arg0: $TemporalAmount_): $Temporal;
         plus(arg0: number, arg1: $TemporalUnit): $Temporal;
+        plus(arg0: $TemporalAmount_): $Temporal;
         get offset(): $ZoneOffset;
         get zone(): $ZoneId;
         get chronology(): $Chronology;

@@ -11,14 +11,14 @@ declare module "@package/com/mojang/authlib" {
     export class $AuthenticationService {
     }
     export interface $AuthenticationService {
-        createMinecraftSessionService(): $MinecraftSessionService;
         createProfileRepository(): $GameProfileRepository;
+        createMinecraftSessionService(): $MinecraftSessionService;
     }
     export class $ProfileLookupCallback {
     }
     export interface $ProfileLookupCallback {
-        onProfileLookupSucceeded(arg0: $GameProfile): void;
         onProfileLookupFailed(arg0: string, arg1: $Exception): void;
+        onProfileLookupSucceeded(arg0: $GameProfile): void;
     }
     export class $Environment extends $Record {
         name(): string;
@@ -27,10 +27,10 @@ declare module "@package/com/mojang/authlib" {
         constructor(sessionHost: string, servicesHost: string, name: string);
     }
     export class $HttpAuthenticationService implements $AuthenticationService {
-        static constantURL(arg0: string): $URL;
-        static concatenateURL(arg0: $URL, arg1: string): $URL;
-        getProxy(): $Proxy;
         static buildQuery(arg0: $Map_<string, $Object>): string;
+        getProxy(): $Proxy;
+        static concatenateURL(arg0: $URL, arg1: string): $URL;
+        static constantURL(arg0: string): $URL;
         get proxy(): $Proxy;
     }
     export class $GameProfile {

@@ -226,8 +226,8 @@ declare module "@package/dev/latvian/mods/kubejs/registry" {
         typeInfo(): $TypeInfo;
         types(): $List<$BuilderType<T>>;
         defaultType(): $BuilderType<T>;
-        directCodec(): $Codec<T>;
         namedType(name: $ResourceLocation_): $BuilderType<T>;
+        directCodec(): $Codec<T>;
         constructor();
     }
     export class $ModelledBuilderBase<T> extends $BuilderBase<T> {
@@ -284,8 +284,8 @@ declare module "@package/dev/latvian/mods/kubejs/registry" {
         key(): $ResourceKey<$Registry<T>>;
         static ofClass<T>(type: $Class<T>): $RegistryType<T>;
         baseClass(): $Class<never>;
-        static ofType(typeInfo: $TypeInfo_): $RegistryType<never>;
         static allOfClass<T>(type: $Class<T>): $List<$RegistryType<T>>;
+        static ofType(typeInfo: $TypeInfo_): $RegistryType<never>;
         static ofKey<T>(key: $ResourceKey_<$Registry<T>>): $RegistryType<T>;
         constructor(key: $ResourceKey_<$Registry<T>>, baseClass: $Class<never>, type: $TypeInfo_);
     }

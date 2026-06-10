@@ -39,9 +39,9 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor();
     }
     export class $MobSensor<T extends $LivingEntity> extends $Sensor<T> {
-        mobDetected(arg0: T): void;
         clearMemory(arg0: T): void;
         checkForMobsNearby(arg0: T): void;
+        mobDetected(arg0: T): void;
         static TARGETING_RANGE: number;
         constructor(arg0: number, arg1: $BiPredicate_<T, $LivingEntity>, arg2: $Predicate_<T>, arg3: $MemoryModuleType_<boolean>, arg4: number);
     }
@@ -96,9 +96,9 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         requires(): $Set<$MemoryModuleType<never>>;
         tick(arg0: $ServerLevel, arg1: E): void;
         static isEntityAttackableIgnoringLineOfSight(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
-        doTick(arg0: $ServerLevel, arg1: E): void;
-        static isEntityTargetable(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
         static isEntityAttackable(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
+        static isEntityTargetable(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
+        doTick(arg0: $ServerLevel, arg1: E): void;
         static TARGETING_RANGE: number;
         constructor(arg0: number);
         constructor();
@@ -113,15 +113,15 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor(arg0: $Mob);
     }
     export class $NearestLivingEntitySensor<T extends $LivingEntity> extends $Sensor<T> {
-        radiusY(): number;
         radiusXZ(): number;
+        radiusY(): number;
         static TARGETING_RANGE: number;
         constructor();
     }
     export class $NearestVisibleLivingEntitySensor extends $Sensor<$LivingEntity> {
         getMemory(): $MemoryModuleType<$LivingEntity>;
-        isMatchingEntity(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
         getVisibleEntities(arg0: $LivingEntity): ($NearestVisibleLivingEntities) | undefined;
+        isMatchingEntity(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
         static TARGETING_RANGE: number;
         constructor();
         get memory(): $MemoryModuleType<$LivingEntity>;

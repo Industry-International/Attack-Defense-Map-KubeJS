@@ -7,17 +7,17 @@ declare module "@package/dev/eriksonn/aeronautics/content/blocks/hot_air/lifting
     }
     export interface $LiftingGasType {
         getName(): $Component;
+        getEmptyingTime(): number;
         getLiftStrength(): number;
         getFillingTime(): number;
-        getEmptyingTime(): number;
-        getResponsivenessAdjustmentFactor(): number;
         getResponsivenessAdjustmentRange(): number;
+        getResponsivenessAdjustmentFactor(): number;
         get name(): $Component;
+        get emptyingTime(): number;
         get liftStrength(): number;
         get fillingTime(): number;
-        get emptyingTime(): number;
-        get responsivenessAdjustmentFactor(): number;
         get responsivenessAdjustmentRange(): number;
+        get responsivenessAdjustmentFactor(): number;
     }
     /**
      * Values that may be interpreted as {@link $LiftingGasType}.

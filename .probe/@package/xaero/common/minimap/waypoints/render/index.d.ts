@@ -49,11 +49,11 @@ declare module "@package/xaero/common/minimap/waypoints/render" {
         /**
          * @deprecated
          */
-        drawAsOverlay(arg0: $PoseStack, arg1: $PoseStack, arg2: $MinimapRendererHelper, arg3: $Waypoint, arg4: $ModSettings, arg5: $Tesselator, arg6: $Font, arg7: string, arg8: string, arg9: number, arg10: boolean, arg11: $MultiBufferSource$BufferSource, arg12: $VertexConsumer, arg13: $Matrix4f, arg14: number, arg15: number, arg16: number, arg17: number, arg18: boolean, arg19: string): void;
+        drawIconInWorld(arg0: $PoseStack, arg1: $MinimapRendererHelper, arg2: $Waypoint, arg3: $ModSettings, arg4: $Tesselator, arg5: $Font, arg6: string, arg7: string, arg8: number, arg9: boolean, arg10: $MultiBufferSource$BufferSource, arg11: $VertexConsumer, arg12: boolean, arg13: string): void;
         /**
          * @deprecated
          */
-        drawIconInWorld(arg0: $PoseStack, arg1: $MinimapRendererHelper, arg2: $Waypoint, arg3: $ModSettings, arg4: $Tesselator, arg5: $Font, arg6: string, arg7: string, arg8: number, arg9: boolean, arg10: $MultiBufferSource$BufferSource, arg11: $VertexConsumer, arg12: boolean, arg13: string): void;
+        drawAsOverlay(arg0: $PoseStack, arg1: $PoseStack, arg2: $MinimapRendererHelper, arg3: $Waypoint, arg4: $ModSettings, arg5: $Tesselator, arg6: $Font, arg7: string, arg8: string, arg9: number, arg10: boolean, arg11: $MultiBufferSource$BufferSource, arg12: $VertexConsumer, arg13: $Matrix4f, arg14: number, arg15: number, arg16: number, arg17: number, arg18: boolean, arg19: string): void;
         constructor(arg0: $MinimapElementReader<$Waypoint, $WaypointWorldRenderContext>, arg1: $WaypointWorldRenderProvider, arg2: $WaypointWorldRenderContext, arg3: $Vector4f);
     }
     /**

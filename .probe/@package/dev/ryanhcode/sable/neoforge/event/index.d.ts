@@ -5,11 +5,11 @@ import { $SubLevelContainer } from "@package/dev/ryanhcode/sable/api/sublevel";
 
 declare module "@package/dev/ryanhcode/sable/neoforge/event" {
     export class $ForgeSablePrePhysicsTickEvent extends $Event {
-        getTimeStep(): number;
         getPhysicsSystem(): $SubLevelPhysicsSystem;
+        getTimeStep(): number;
         constructor(arg0: $SubLevelPhysicsSystem, arg1: number);
-        get timeStep(): number;
         get physicsSystem(): $SubLevelPhysicsSystem;
+        get timeStep(): number;
     }
     export class $ForgeSableSubLevelContainerReadyEvent extends $Event {
         getLevel(): $Level;
@@ -19,10 +19,10 @@ declare module "@package/dev/ryanhcode/sable/neoforge/event" {
         get container(): $SubLevelContainer;
     }
     export class $ForgeSablePostPhysicsTickEvent extends $Event {
-        getTimeStep(): number;
         getPhysicsSystem(): $SubLevelPhysicsSystem;
+        getTimeStep(): number;
         constructor(arg0: $SubLevelPhysicsSystem, arg1: number);
-        get timeStep(): number;
         get physicsSystem(): $SubLevelPhysicsSystem;
+        get timeStep(): number;
     }
 }

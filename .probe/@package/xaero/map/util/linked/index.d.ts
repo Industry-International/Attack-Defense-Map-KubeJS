@@ -4,9 +4,9 @@ declare module "@package/xaero/map/util/linked" {
     }
     export interface $ILinkedChainNode<V extends $ILinkedChainNode<V>> {
         isDestroyed(): boolean;
-        getNext(): V;
-        getPrevious(): V;
         onDestroyed(): void;
+        getPrevious(): V;
+        getNext(): V;
         setNext(arg0: V): void;
         setPrevious(arg0: V): void;
         get destroyed(): boolean;

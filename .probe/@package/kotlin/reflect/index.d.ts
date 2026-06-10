@@ -39,9 +39,9 @@ declare module "@package/kotlin/reflect" {
         call(...arg0: $Object[]): R;
         getParameters(): $List<$KParameter>;
         isAbstract(): boolean;
-        getVisibility(): $KVisibility;
-        isSuspend(): boolean;
         callBy(arg0: $Map_<$KParameter, never>): R;
+        isSuspend(): boolean;
+        getVisibility(): $KVisibility;
         get name(): string;
         get typeParameters(): $List<$KTypeParameter>;
         get returnType(): $KType;
@@ -49,8 +49,8 @@ declare module "@package/kotlin/reflect" {
         get open(): boolean;
         get parameters(): $List<$KParameter>;
         get abstract(): boolean;
-        get visibility(): $KVisibility;
         get suspend(): boolean;
+        get visibility(): $KVisibility;
     }
     export class $KProperty1<T, V> {
     }
@@ -98,12 +98,12 @@ declare module "@package/kotlin/reflect" {
     export interface $KTypeParameter extends $KClassifier {
         getName(): string;
         getUpperBounds(): $List<$KType>;
-        getVariance(): $KVariance;
         isReified(): boolean;
+        getVariance(): $KVariance;
         get name(): string;
         get upperBounds(): $List<$KType>;
-        get variance(): $KVariance;
         get reified(): boolean;
+        get variance(): $KVariance;
     }
     export class $KClass<T> {
     }
@@ -118,18 +118,18 @@ declare module "@package/kotlin/reflect" {
         getConstructors(): $Collection<$KFunction<T>>;
         isSealed(): boolean;
         isAbstract(): boolean;
-        isValue(): boolean;
-        getObjectInstance(): T;
         getQualifiedName(): string;
+        getObjectInstance(): T;
+        isValue(): boolean;
         isData(): boolean;
-        getVisibility(): $KVisibility;
-        isInner(): boolean;
-        getMembers(): $Collection<$KCallable<never>>;
-        getSealedSubclasses(): $List<$KClass<T>>;
-        getNestedClasses(): $Collection<$KClass<never>>;
-        getSupertypes(): $List<$KType>;
-        isCompanion(): boolean;
         isFun(): boolean;
+        getSealedSubclasses(): $List<$KClass<T>>;
+        getVisibility(): $KVisibility;
+        getMembers(): $Collection<$KCallable<never>>;
+        isInner(): boolean;
+        isCompanion(): boolean;
+        getSupertypes(): $List<$KType>;
+        getNestedClasses(): $Collection<$KClass<never>>;
         get typeParameters(): $List<$KTypeParameter>;
         get simpleName(): string;
         get final(): boolean;
@@ -137,18 +137,18 @@ declare module "@package/kotlin/reflect" {
         get constructors(): $Collection<$KFunction<T>>;
         get sealed(): boolean;
         get abstract(): boolean;
-        get value(): boolean;
-        get objectInstance(): T;
         get qualifiedName(): string;
+        get objectInstance(): T;
+        get value(): boolean;
         get data(): boolean;
-        get visibility(): $KVisibility;
-        get inner(): boolean;
-        get members(): $Collection<$KCallable<never>>;
-        get sealedSubclasses(): $List<$KClass<T>>;
-        get nestedClasses(): $Collection<$KClass<never>>;
-        get supertypes(): $List<$KType>;
-        get companion(): boolean;
         get fun(): boolean;
+        get sealedSubclasses(): $List<$KClass<T>>;
+        get visibility(): $KVisibility;
+        get members(): $Collection<$KCallable<never>>;
+        get inner(): boolean;
+        get companion(): boolean;
+        get supertypes(): $List<$KType>;
+        get nestedClasses(): $Collection<$KClass<never>>;
     }
     export class $KClassifier {
     }
@@ -157,26 +157,26 @@ declare module "@package/kotlin/reflect" {
     export class $KProperty<V> {
     }
     export interface $KProperty<V> extends $KCallable<V> {
-        getGetter(): $KProperty$Getter<V>;
-        isLateinit(): boolean;
         isConst(): boolean;
-        get getter(): $KProperty$Getter<V>;
-        get lateinit(): boolean;
+        isLateinit(): boolean;
+        getGetter(): $KProperty$Getter<V>;
         get const(): boolean;
+        get lateinit(): boolean;
+        get getter(): $KProperty$Getter<V>;
     }
     export class $KFunction<R> {
     }
     export interface $KFunction<R> extends $KCallable<R>, $Function<R> {
         isExternal(): boolean;
+        isSuspend(): boolean;
+        isInfix(): boolean;
         isOperator(): boolean;
         isInline(): boolean;
-        isInfix(): boolean;
-        isSuspend(): boolean;
         get external(): boolean;
+        get suspend(): boolean;
+        get infix(): boolean;
         get operator(): boolean;
         get inline(): boolean;
-        get infix(): boolean;
-        get suspend(): boolean;
     }
     export class $KMutableProperty1$Setter<T, V> {
     }

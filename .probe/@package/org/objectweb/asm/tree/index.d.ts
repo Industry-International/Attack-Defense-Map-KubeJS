@@ -253,8 +253,8 @@ declare module "@package/org/objectweb/asm/tree" {
         accept(arg0: $MethodVisitor): void;
         getType(): number;
         getOpcode(): number;
-        getNext(): $AbstractInsnNode;
         getPrevious(): $AbstractInsnNode;
+        getNext(): $AbstractInsnNode;
         static INT_INSN: number;
         visibleTypeAnnotations: $List<$TypeAnnotationNode>;
         static INSN: number;
@@ -275,8 +275,8 @@ declare module "@package/org/objectweb/asm/tree" {
         static JUMP_INSN: number;
         get type(): number;
         get opcode(): number;
-        get next(): $AbstractInsnNode;
         get previous(): $AbstractInsnNode;
+        get next(): $AbstractInsnNode;
     }
     export class $ModuleOpenNode {
         accept(arg0: $ModuleVisitor): void;

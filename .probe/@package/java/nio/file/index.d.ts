@@ -52,8 +52,8 @@ declare module "@package/java/nio/file" {
         reset(): boolean;
         cancel(): void;
         isValid(): boolean;
-        pollEvents(): $List<$WatchEvent<never>>;
         watchable(): $Watchable;
+        pollEvents(): $List<$WatchEvent<never>>;
         get valid(): boolean;
     }
     export class $LinkOption extends $Enum<$LinkOption> implements $OpenOption, $CopyOption {

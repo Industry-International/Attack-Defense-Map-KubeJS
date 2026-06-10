@@ -39,8 +39,8 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 declare module "@package/net/minecraft/world/entity/animal/frog" {
     export class $FrogAi {
         static updateActivity(arg0: $Frog): void;
-        static initMemories(arg0: $Frog, arg1: $RandomSource): void;
         static makeBrain(arg0: $Brain<$Frog>): $Brain<never>;
+        static initMemories(arg0: $Frog, arg1: $RandomSource): void;
         static getTemptations(): $Predicate<$ItemStack>;
         constructor();
         static get temptations(): $Predicate<$ItemStack>;
@@ -63,8 +63,8 @@ declare module "@package/net/minecraft/world/entity/animal/frog" {
         start(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Frog): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Frog, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Frog): boolean;
         static MAX_UNREACHBLE_TONGUE_TARGETS_IN_MEMORY: number;
         static TIME_OUT_DURATION: number;
         static UNREACHABLE_TONGUE_TARGETS_COOLDOWN_DURATION: number;
@@ -77,11 +77,11 @@ declare module "@package/net/minecraft/world/entity/animal/frog" {
     export class $Frog extends $Animal implements $VariantHolder<$Holder<$FrogVariant>> {
         setVariant(arg0: $Holder_<$FrogVariant>): void;
         static createAttributes(): $AttributeSupplier$Builder;
-        static canEat(arg0: $LivingEntity): boolean;
         static checkFrogSpawnRules(arg0: $EntityType_<$Animal>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
         eraseTongueTarget(): void;
         getTongueTarget(): ($Entity) | undefined;
         setTongueTarget(arg0: $Entity): void;
+        static canEat(arg0: $LivingEntity): boolean;
         getVariant(): $Holder<$FrogVariant>;
         serializeNBT(arg0: $HolderLookup$Provider): $Holder<$FrogVariant>;
         static MAX_WEARING_ARMOR_CHANCE: number;

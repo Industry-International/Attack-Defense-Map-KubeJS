@@ -20,8 +20,8 @@ declare module "@package/net/minecraft/client/telemetry" {
     export class $ClientTelemetryManager implements $AutoCloseable {
         close(): void;
         getOutsideSessionSender(): $TelemetryEventSender;
-        getLogDirectory(): $Path;
         createWorldSessionManager(arg0: boolean, arg1: $Duration_, arg2: string): $WorldSessionTelemetryManager;
+        getLogDirectory(): $Path;
         constructor(arg0: $Minecraft, arg1: $UserApiService, arg2: $User);
         get outsideSessionSender(): $TelemetryEventSender;
         get logDirectory(): $Path;
@@ -50,8 +50,8 @@ declare module "@package/net/minecraft/client/telemetry" {
     export class $WorldSessionTelemetryManager {
         setTime(arg0: number): void;
         tick(): void;
-        onPlayerInfoReceived(arg0: $GameType_, arg1: boolean): void;
         onServerBrandReceived(arg0: string): void;
+        onPlayerInfoReceived(arg0: $GameType_, arg1: boolean): void;
         onDisconnect(): void;
         worldSessionStart(): void;
         onAdvancementDone(arg0: $Level_, arg1: $AdvancementHolder_): void;
@@ -97,10 +97,10 @@ declare module "@package/net/minecraft/client/telemetry" {
         title(): $MutableComponent;
         static bool(arg0: string, arg1: string): $TelemetryProperty<boolean>;
         codec(): $Codec<T>;
-        exportKey(): string;
         static gameLoadMeasurement(arg0: string, arg1: string): $TelemetryProperty<$GameLoadTimesEvent$Measurement>;
-        exporter(): $TelemetryProperty$Exporter<T>;
         static longSamples(arg0: string, arg1: string): $TelemetryProperty<$LongList>;
+        exporter(): $TelemetryProperty$Exporter<T>;
+        exportKey(): string;
         static RENDER_TIME_SAMPLES: $TelemetryProperty<$LongList>;
         static LOAD_TIME_BOOTSTRAP_MS: $TelemetryProperty<$GameLoadTimesEvent$Measurement>;
         static USED_MEMORY_SAMPLES: $TelemetryProperty<$LongList>;
@@ -186,8 +186,8 @@ declare module "@package/net/minecraft/client/telemetry" {
     export class $TelemetryEventType$Builder {
         register(): $TelemetryEventType;
         define<T>(arg0: $TelemetryProperty_<T>): $TelemetryEventType$Builder;
-        defineAll(arg0: $List_<$TelemetryProperty_<never>>): $TelemetryEventType$Builder;
         optIn(): $TelemetryEventType$Builder;
+        defineAll(arg0: $List_<$TelemetryProperty_<never>>): $TelemetryEventType$Builder;
         constructor(arg0: string, arg1: string);
     }
     export class $TelemetryEventSender {

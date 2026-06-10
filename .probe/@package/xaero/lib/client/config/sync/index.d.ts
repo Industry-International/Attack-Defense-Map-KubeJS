@@ -19,13 +19,13 @@ declare module "@package/xaero/lib/client/config/sync" {
         getEditedProfile(): $ConfigProfile;
         confirmEdit(arg0: $ConfigProfile): void;
         resetEdit(): void;
-        receiveEditedProfile(arg0: $ConfigProfile): void;
-        getProfileInfoManager(): $SyncedConfigProfileInfoManager;
-        isChannelPresentOnServer(): boolean;
-        setDesiredEditedProfileId(arg0: string): void;
-        setSyncingEditedProfile(arg0: boolean): void;
-        getDesiredEditedProfileId(): string;
         isSyncingEditedProfile(): boolean;
+        getDesiredEditedProfileId(): string;
+        setSyncingEditedProfile(arg0: boolean): void;
+        getProfileInfoManager(): $SyncedConfigProfileInfoManager;
+        receiveEditedProfile(arg0: $ConfigProfile): void;
+        setDesiredEditedProfileId(arg0: string): void;
+        isChannelPresentOnServer(): boolean;
         logger: $Logger;
         set synchronizer(value: $ClientConfigChannelSynchronizer);
         get editedProfile(): $ConfigProfile;
@@ -35,14 +35,14 @@ declare module "@package/xaero/lib/client/config/sync" {
     export class $ClientConfigChannelSynchronizer extends $CommonConfigChannelSynchronizer {
         reset(): void;
         createProfile(arg0: string, arg1: string, arg2: string): void;
-        onDeleteConfigProfilePacket(arg0: string): void;
         changeDefaultEnforcedProfileId(arg0: string): void;
-        requestProfile(arg0: string): void;
-        syncDirtyOptions(arg0: $ConfigProfile): void;
+        onDeleteConfigProfilePacket(arg0: string): void;
         deleteProfile(arg0: string): void;
+        syncDirtyOptions(arg0: $ConfigProfile): void;
+        requestProfile(arg0: string): void;
+        onEditProfilePacket(arg0: string, arg1: $Iterable_<$AbstractConfigPacket$OptionEntry>): void;
         onEnforcedConfigPacket(arg0: boolean, arg1: $Iterable_<$AbstractConfigPacket$OptionEntry>): void;
         onConfigProfileInfoPacket(arg0: $List_<$ConfigProfileInfoPacket$Entry>, arg1: string, arg2: boolean): void;
-        onEditProfilePacket(arg0: string, arg1: $Iterable_<$AbstractConfigPacket$OptionEntry>): void;
         logger: $Logger;
         constructor(arg0: $ConfigOptionManager, arg1: $SyncedConfigManager, arg2: $Logger);
     }

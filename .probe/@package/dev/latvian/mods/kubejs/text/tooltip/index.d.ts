@@ -1,5 +1,5 @@
 import { $TextAction } from "@package/dev/latvian/mods/kubejs/text/action";
-import { $Ingredient_, $Ingredient } from "@package/net/minecraft/world/item/crafting";
+import { $Ingredient, $Ingredient_ } from "@package/net/minecraft/world/item/crafting";
 import { $Tristate_, $Tristate } from "@package/dev/latvian/mods/kubejs/util";
 import { $RegistryFriendlyByteBuf } from "@package/net/minecraft/network";
 import { $Record } from "@package/java/lang";
@@ -11,8 +11,8 @@ declare module "@package/dev/latvian/mods/kubejs/text/tooltip" {
         shift(): $Tristate;
         alt(): $Tristate;
         stages(): $Map<string, $Tristate>;
-        creative(): $Tristate;
         advanced(): $Tristate;
+        creative(): $Tristate;
         ctrl(): $Tristate;
         static DEFAULT: $TooltipRequirements;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $TooltipRequirements>;

@@ -23,8 +23,8 @@ declare module "@package/net/blay09/mods/waystones/api/event" {
     }
     export class $WaystoneTeleportEvent$Pre extends $WaystoneTeleportEvent {
         getContext(): $WaystoneTeleportContext;
-        getRequirements(): $WarpRequirement;
         addAdditionalEntity(arg0: $Entity): void;
+        getRequirements(): $WarpRequirement;
         setRequirements(arg0: $WarpRequirement): void;
         constructor(arg0: $WaystoneTeleportContext);
         get context(): $WaystoneTeleportContext;
@@ -69,8 +69,8 @@ declare module "@package/net/blay09/mods/waystones/api/event" {
         get waystone(): $Waystone;
     }
     export class $WaystoneRemoveReceivedEvent extends $BalmEvent {
-        wasDestroyed(): boolean;
         getWaystoneType(): $ResourceLocation;
+        wasDestroyed(): boolean;
         getWaystoneId(): $UUID;
         constructor(arg0: $ResourceLocation_, arg1: $UUID_, arg2: boolean);
         get waystoneType(): $ResourceLocation;

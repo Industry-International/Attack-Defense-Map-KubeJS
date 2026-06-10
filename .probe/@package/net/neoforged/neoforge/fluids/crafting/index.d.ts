@@ -77,8 +77,8 @@ declare module "@package/net/neoforged/neoforge/fluids/crafting" {
         static of(arg0: $TagKey_<$Fluid>, arg1: number): $SizedFluidIngredient;
         static of(arg0: $FluidStack_): $SizedFluidIngredient;
         amount(): number;
-        ingredient(): $FluidIngredient;
         getFluids(): $FluidStack[];
+        ingredient(): $FluidIngredient;
         matches(cx: $RecipeMatchContext, s: $FluidStack_, exact: boolean): boolean;
         matches(cx: $RecipeMatchContext, arg1: $FluidIngredient_, exact: boolean): boolean;
         replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;

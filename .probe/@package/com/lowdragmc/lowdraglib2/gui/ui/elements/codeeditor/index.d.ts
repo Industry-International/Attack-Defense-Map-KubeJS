@@ -14,23 +14,23 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor" {
         setValue(arg0: string[], arg1: boolean): $CodeEditor;
         getLanguage(): $ILanguageDefinition;
         setLanguage(arg0: $ILanguageDefinition): $CodeEditor;
+        getStyledLines(): $List<$StyledLine>;
+        getStyleManager(): $StyleManager;
         getSyntaxParser(): $SyntaxParser;
         setStyleManager(arg0: $StyleManager): $CodeEditor;
-        getStyleManager(): $StyleManager;
-        getStyledLines(): $List<$StyledLine>;
         contentView: $UIElement;
         verticalScroller: $Scroller;
         static CODEC: $Codec<$UIElement>;
         horizontalScroller: $Scroller;
         static EMPTY_LAYOUT: $Layout;
         constructor();
-        get syntaxParser(): $SyntaxParser;
         get styledLines(): $List<$StyledLine>;
+        get syntaxParser(): $SyntaxParser;
     }
     export class $StyledLine extends $Record {
+        getWidth(arg0: $Font, arg1: $Style): number;
         line(): number;
         text(): $List<$StyledText>;
-        getWidth(arg0: $Font, arg1: $Style): number;
         constructor(line: number, text: $List_<$StyledText_>);
     }
     export class $StyledText extends $Record {

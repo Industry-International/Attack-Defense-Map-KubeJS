@@ -43,12 +43,12 @@ declare module "@package/net/irisshaders/batchedentityrendering/mixin" {
      */
     export type $BufferSourceAccessor_ = (() => $SequencedMap<$RenderType, $ByteBufferBuilder>);
     export class $RenderStateShardAccessor {
-        static getNO_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
         static getCRUMBLING_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
         static getGLINT_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
-        static get NO_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
+        static getNO_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
         static get CRUMBLING_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
         static get GLINT_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
+        static get NO_TRANSPARENCY(): $RenderStateShard$TransparencyStateShard;
     }
     export interface $RenderStateShardAccessor {
     }

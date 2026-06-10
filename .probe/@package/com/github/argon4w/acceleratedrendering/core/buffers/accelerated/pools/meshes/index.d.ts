@@ -13,9 +13,9 @@ declare module "@package/com/github/argon4w/acceleratedrendering/core/buffers/ac
         "delete"(): void;
         getColor(arg0: number): number;
         getLight(arg0: number): number;
-        getOverlay(arg0: number): number;
         getShouldCull(arg0: number): number;
         getMeshCount(): number;
+        getOverlay(arg0: number): number;
         getSharing(arg0: number): number;
         get meshCount(): number;
     }
@@ -23,15 +23,15 @@ declare module "@package/com/github/argon4w/acceleratedrendering/core/buffers/ac
         reset(): void;
         "delete"(): void;
         getAsLong(): number;
+        handler$cha000$acceleratedrendering$uploadIrisData(arg0: $CallbackInfo, arg1: number, arg2: number): void;
         upload(): void;
-        handler$chb000$acceleratedrendering$uploadIrisData(arg0: $CallbackInfo, arg1: number, arg2: number): void;
+        getServerMesh(): $ServerMesh;
+        getMeshInfos(): $IMeshInfoCache;
+        bindBuffers(): void;
         setServerMesh(arg0: $ServerMesh_): void;
-        setUploadingOverride(arg0: $IUploadingShaderProgramOverride): void;
         addUpload(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
         getUploadingOverride(): $IUploadingShaderProgramOverride;
-        getServerMesh(): $ServerMesh;
-        bindBuffers(): void;
-        getMeshInfos(): $IMeshInfoCache;
+        setUploadingOverride(arg0: $IUploadingShaderProgramOverride): void;
         meshInfoLight: $IMemoryInterface;
         meshInfoSharing: $IMemoryInterface;
         meshInfoColor: $IMemoryInterface;

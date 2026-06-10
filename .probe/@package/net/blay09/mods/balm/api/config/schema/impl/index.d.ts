@@ -13,9 +13,9 @@ declare module "@package/net/blay09/mods/balm/api/config/schema/impl" {
         identifier(): $ResourceLocation;
         categories(): $Collection<$ConfigCategory>;
         findProperty(arg0: string, arg1: string): $ConfiguredProperty<never>;
+        addAndReturn<T extends $ConfiguredProperty<never>>(arg0: T): T;
         rootProperties(): $Collection<$ConfiguredProperty<never>>;
         findRootProperty(arg0: string): $ConfiguredProperty<never>;
-        addAndReturn<T extends $ConfiguredProperty<never>>(arg0: T): T;
         constructor(arg0: $ResourceLocation_);
     }
     export class $ConfigCategoryImpl implements $ConfigCategoryBuilder, $ConfigCategory {

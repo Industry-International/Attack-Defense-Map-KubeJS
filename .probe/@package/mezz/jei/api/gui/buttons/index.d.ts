@@ -8,22 +8,22 @@ declare module "@package/mezz/jei/api/gui/buttons" {
     export class $IButtonState {
     }
     export interface $IButtonState {
+        setVisible(arg0: boolean): void;
         setActive(arg0: boolean): void;
         setIcon(arg0: $IDrawable): void;
-        setVisible(arg0: boolean): void;
         setForcePressed(arg0: boolean): void;
+        set visible(value: boolean);
         set active(value: boolean);
         set icon(value: $IDrawable);
-        set visible(value: boolean);
         set forcePressed(value: boolean);
     }
     export class $IIconButtonController {
     }
     export interface $IIconButtonController {
-        updateState(arg0: $IButtonState): void;
         initState(arg0: $IButtonState): void;
-        onPress(arg0: $IJeiUserInput): boolean;
         getTooltips(arg0: $ITooltipBuilder): void;
+        onPress(arg0: $IJeiUserInput): boolean;
+        updateState(arg0: $IButtonState): void;
         drawExtras(arg0: $GuiGraphics, arg1: $Rect2i, arg2: number, arg3: number, arg4: number): void;
     }
     /**

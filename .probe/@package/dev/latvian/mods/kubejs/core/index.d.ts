@@ -79,62 +79,70 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $EntityKJS {
     }
     export interface $EntityKJS extends $WithPersistentData, $MessageSenderKJS, $ScriptTypeHolder {
-        getLevel(): $Level;
-        getType(): string;
+        getNbt(): $CompoundTag;
+        setNbt(nbt: $CompoundTag_): void;
         /**
-         * Checks if the entity is a `LivingEntity`.
+         * Damages an entity by a given amount of HP dealing a specific type of damage.
+         * 
+         * @param hp The amount of damage to deal.
+         * @param source The damage source. It may be a string specifying a damage source, like `'minecraft:cramming'`.
          */
-        isLiving(): this is $LivingEntity;
-        rayTraceEntity(distance: number, filter: $Predicate_<$Entity>): $Entity;
-        rayTrace(distance: number, fluids: boolean): $KubeRayTraceResult;
-        rayTrace(distance: number): $KubeRayTraceResult;
+        damage(hp: number, source: $DamageSource_): boolean;
         /**
-         * Gets the item stack corresponding to either:
-         * - the item contained in the item entity,
-         * - the item in the item frame.
-         * Will be `null` if the entity is neither an item entity nor an item frame.
+         * Damages an entity by a given amount of HP dealing generic damage.
+         * 
+         * @param hp The amount of damage to deal.
          */
-        getItem(): $ItemStack;
+        damage(hp: number): boolean;
+        /**
+         * Checks, whether the entity is a reference to yourself - that is - the client player you are controlling.
+         */
+        isSelf(): this is LocalPlayer;
+        /**
+         * Checks if the entity is an item entity.
+         */
+        isItem(): this is $ItemEntity;
+        setX(x: number): void;
+        setY(y: number): void;
+        /**
+         * @deprecated
+         * Replaced by `entity.damage(hp)`
+         */
+        attack(hp: number): boolean;
+        /**
+         * @deprecated
+         * Replaced by `entity.damage(hp, damageSource)`
+         */
+        attack(source: $DamageSource_, hp: number): boolean;
+        spawn(): void;
+        setZ(z: number): void;
+        /**
+         * Runs the specified console command with permission level of the entity. The command won't output any logs in chat nor console.
+         * 
+         * @param command The console command. Slash at the beginning is optional.
+         */
+        runCommandSilent(command: string): void;
         setRotation(yaw: number, pitch: number): void;
-        /**
-         * Gets the name of the team entity is in, or `''` (empty string) if the entity is not part of any team
-         */
-        getTeamName(): string;
+        setMotionY(y: number): void;
         getMotionX(): number;
+        setMotionX(x: number): void;
+        setMotionZ(z: number): void;
         getMotionY(): number;
-        /**
-         * Gets a list of all passengers of the entity.
-         */
-        getPassengers(): $EntityArrayList;
+        mergeNbt(tag: $CompoundTag_): $Entity;
         /**
          * Gets the entity's facing direction.
          * If the entity faces more than 45 degrees up or down, the resulting facing direction is respectively `up` or `down`.
          * Otherwise, the resulting facing direction is determined by whichever cardinal direction is closer to entity's yaw.
          */
         getFacing(): $Direction;
-        setPosition(block: $LevelBlock): void;
-        setPosition(x: number, y: number, z: number): void;
         /**
-         * Gets the entity's custom name, or entity ID if entity has no custom name.
+         * Checks if the entity is a monster.
          */
-        getUsername(): string;
+        isMonster(): boolean;
         /**
          * Checks if the entity is an animal.
          */
         isAnimal(): boolean;
-        getMotionZ(): number;
-        mergeNbt(tag: $CompoundTag_): $Entity;
-        setMotionY(y: number): void;
-        /**
-         * @deprecated
-         * Replaced by `entity.distanceTo(x, y, z)`.
-         */
-        getDistance(x: number, y: number, z: number): number;
-        /**
-         * @deprecated
-         * Replaced by `entity.getTeamName()`
-         */
-        getTeamId(): string;
         /**
          * @deprecated
          * Replaced by `entity.distanceToBlockSqr(pos)`.
@@ -146,37 +154,77 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          */
         getDistanceSq(x: number, y: number, z: number): number;
         /**
+         * Gets the item stack corresponding to either:
+         * - the item contained in the item entity,
+         * - the item in the item frame.
+         * Will be `null` if the entity is neither an item entity nor an item frame.
+         */
+        getItem(): $ItemStack;
+        /**
+         * @deprecated
+         * Replaced by `entity.distanceTo(x, y, z)`.
+         */
+        getDistance(x: number, y: number, z: number): number;
+        /**
+         * Gets a list of all passengers of the entity.
+         */
+        getPassengers(): $EntityArrayList;
+        /**
+         * Checks if the entity is an item frame entity.
+         */
+        isFrame(): this is $ItemFrame;
+        getMotionZ(): number;
+        /**
+         * @deprecated
+         * Replaced by `entity.getTeamName()`
+         */
+        getTeamId(): string;
+        getServer(): $MinecraftServer;
+        /**
+         * Gets the name of the team entity is in, or `''` (empty string) if the entity is not part of any team
+         */
+        getTeamName(): string;
+        setPosition(block: $LevelBlock): void;
+        setPosition(x: number, y: number, z: number): void;
+        /**
+         * Gets the entity's custom name, or entity ID if entity has no custom name.
+         */
+        getUsername(): string;
+        /**
+         * Gets a block at the position of the entity.
+         */
+        getBlock(): $LevelBlock;
+        /**
+         * Checks if the entity is a `LivingEntity`.
+         */
+        isLiving(): this is $LivingEntity;
+        /**
          * Checks if the entity is a player entity.
          */
         isPlayer(): this is $Player;
-        getServer(): $MinecraftServer;
-        /**
-         * Measures the distance of entity to the point at specified 3D position vector.
-         */
-        distanceTo(position: $Vec3_): number;
-        /**
-         * Measures the distance of entity to the point at specified `x`, `y` and `z`.
-         */
-        distanceTo(x: number, y: number, z: number): number;
-        /**
-         * Checks if the entity is a client-side player.
-         */
-        isClientPlayer(): this is AbstractClientPlayer;
-        setMotionZ(z: number): void;
         /**
          * Checks if the entity is a server-side player.
          */
         isServerPlayer(): this is $ServerPlayer;
-        getScriptType(): $ScriptType;
+        getLevel(): $Level;
+        getType(): string;
         /**
          * If the entity is a player, gets the player's profile, otherwise returns `null`.
          */
         getProfile(): $GameProfile;
         /**
-         * Checks if the entity is a monster.
+         * Checks if the entity is a client-side player.
          */
-        isMonster(): boolean;
-        setMotionX(x: number): void;
+        isClientPlayer(): this is AbstractClientPlayer;
+        rayTraceEntity(distance: number, filter: $Predicate_<$Entity>): $Entity;
+        /**
+         * Teleports an entity to specified coordinates.
+         * 
+         * @param x The `x` target coordinate.
+         * @param y The `y` target coordinate.
+         * @param z The `z` target coordinate.
+         */
+        teleportTo(x: number, y: number, z: number): void;
         /**
          * Teleports an entity to a dimension of specified ID, to specified coordinates and rotation.
          * 
@@ -199,62 +247,30 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          */
         teleportTo(dimension: $ResourceLocation_, x: number, y: number, z: number, yaw: number, pitch: number): boolean;
         /**
-         * Teleports an entity to specified coordinates.
+         * Measures the distance of entity to the point at specified 3D position vector.
+         */
+        distanceTo(position: $Vec3_): number;
+        /**
+         * Measures the distance of entity to the point at specified `x`, `y` and `z`.
+         */
+        distanceTo(x: number, y: number, z: number): number;
+        getScriptType(): $ScriptType;
+        rayTrace(distance: number): $KubeRayTraceResult;
+        rayTrace(distance: number, fluids: boolean): $KubeRayTraceResult;
+        /**
+         * Sends a message in chat to the entity.
          * 
-         * @param x The `x` target coordinate.
-         * @param y The `y` target coordinate.
-         * @param z The `z` target coordinate.
+         * @param message A text component. It may be a string, which will be implicitly wrapped into a text component.
          */
-        teleportTo(x: number, y: number, z: number): void;
+        tell(message: $Component_): void;
         /**
-         * Checks if the entity is an item frame entity.
-         */
-        isFrame(): this is $ItemFrame;
-        /**
-         * Gets a block at the position of the entity.
-         */
-        getBlock(): $LevelBlock;
-        setY(y: number): void;
-        setX(x: number): void;
-        setZ(z: number): void;
-        getNbt(): $CompoundTag;
-        /**
-         * Checks, whether the entity is a reference to yourself - that is - the client player you are controlling.
-         */
-        isSelf(): this is LocalPlayer;
-        /**
-         * Checks if the entity is an item entity.
-         */
-        isItem(): this is $ItemEntity;
-        spawn(): void;
-        /**
-         * @deprecated
-         * Replaced by `entity.damage(hp)`
-         */
-        attack(hp: number): boolean;
-        /**
-         * @deprecated
-         * Replaced by `entity.damage(hp, damageSource)`
-         */
-        attack(source: $DamageSource_, hp: number): boolean;
-        setNbt(nbt: $CompoundTag_): void;
-        /**
-         * Damages an entity by a given amount of HP dealing generic damage.
+         * Runs the specified console command with permission level of the entity.
          * 
-         * @param hp The amount of damage to deal.
+         * @param command The console command. Slash at the beginning is optional.
          */
-        damage(hp: number): boolean;
-        /**
-         * Damages an entity by a given amount of HP dealing a specific type of damage.
-         * 
-         * @param hp The amount of damage to deal.
-         * @param source The damage source. It may be a string specifying a damage source, like `'minecraft:cramming'`.
-         */
-        damage(hp: number, source: $DamageSource_): boolean;
-        /**
-         * Checks, whether the entity is part of any team.
-         */
-        isOnScoreboardTeam(): boolean;
+        runCommand(command: string): void;
+        getName(): $Component;
+        getDisplayName(): $Component;
         /**
          * Checks, whether the entity is part of a team called `teamName`.
          * 
@@ -262,18 +278,13 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          */
         isOnScoreboardTeam(teamName: string): boolean;
         /**
+         * Checks, whether the entity is part of any team.
+         */
+        isOnScoreboardTeam(): boolean;
+        /**
          * Measures the **square** of a distance of entity to the block at specified `BlockPos`.
          */
         distanceToBlockSqr(pos: $BlockPos_): number;
-        /**
-         * Checks if the entity is a peaceful creature (not a monster).
-         */
-        isPeacefulCreature(): boolean;
-        /**
-         * Checks if the entity is an ambient creature.
-         */
-        isAmbientCreature(): boolean;
-        setPositionAndRotation(x: number, y: number, z: number, yaw: number, pitch: number): void;
         /**
          * Teleports an entity to a specified `ServerLevel`, to specified coordinates and rotation.
          * 
@@ -285,61 +296,50 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * @param pitch The entity's target pitch.
          */
         teleportToLevel(level: $ServerLevel, x: number, y: number, z: number, yaw: number, pitch: number): boolean;
-        /**
-         * Checks if the entity is a water creature.
-         */
-        isWaterCreature(): boolean;
+        setPositionAndRotation(x: number, y: number, z: number, yaw: number, pitch: number): void;
         /**
          * Measures the distance of entity to block at specified `BlockPos`.
          */
         distanceToBlock(pos: $BlockPos_): number;
         /**
-         * Runs the specified console command with permission level of the entity.
-         * 
-         * @param command The console command. Slash at the beginning is optional.
+         * Checks if the entity is a peaceful creature (not a monster).
          */
-        runCommand(command: string): void;
-        getName(): $Component;
-        getDisplayName(): $Component;
+        isPeacefulCreature(): boolean;
         /**
-         * Runs the specified console command with permission level of the entity. The command won't output any logs in chat nor console.
-         * 
-         * @param command The console command. Slash at the beginning is optional.
+         * Checks if the entity is an ambient creature.
          */
-        runCommandSilent(command: string): void;
+        isAmbientCreature(): boolean;
         /**
-         * Sends a message in chat to the entity.
-         * 
-         * @param message A text component. It may be a string, which will be implicitly wrapped into a text component.
+         * Checks if the entity is a water creature.
          */
-        tell(message: $Component_): void;
+        isWaterCreature(): boolean;
+        get self(): boolean;
+        set x(value: number);
+        set y(value: number);
+        set z(value: number);
+        get facing(): $Direction;
+        get monster(): boolean;
+        get animal(): boolean;
+        get passengers(): $EntityArrayList;
+        get frame(): boolean;
+        get teamId(): string;
+        get server(): $MinecraftServer;
+        get teamName(): string;
+        get username(): string;
+        get block(): $LevelBlock;
+        get living(): boolean;
+        get player(): boolean;
+        get serverPlayer(): boolean;
         get level(): $Level;
         get type(): string;
-        get living(): boolean;
-        get teamName(): string;
-        get passengers(): $EntityArrayList;
-        get facing(): $Direction;
-        get username(): string;
-        get animal(): boolean;
-        get teamId(): string;
-        get player(): boolean;
-        get server(): $MinecraftServer;
-        get clientPlayer(): boolean;
-        get serverPlayer(): boolean;
-        get scriptType(): $ScriptType;
         get profile(): $GameProfile;
-        get monster(): boolean;
-        get frame(): boolean;
-        get block(): $LevelBlock;
-        set y(value: number);
-        set x(value: number);
-        set z(value: number);
-        get self(): boolean;
+        get clientPlayer(): boolean;
+        get scriptType(): $ScriptType;
+        get name(): $Component;
+        get displayName(): $Component;
         get peacefulCreature(): boolean;
         get ambientCreature(): boolean;
         get waterCreature(): boolean;
-        get name(): $Component;
-        get displayName(): $Component;
     }
     export class $IngredientSupplierKJS {
     }
@@ -353,25 +353,25 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
         set<T extends keyof DataComponentTypes.InputMap>(type: T, data: DataComponentTypes.InputMap[T]): this;
     }
     export interface $FluidStackKJS extends $Replaceable, $SpecialEquality, $WithCodec, $FluidLike, $FluidMatch, $MutableDataComponentHolderFunctions, $RegistryObjectKJS<$Fluid> {
-        matches(cx: $RecipeMatchContext, s: $FluidStack_, exact: boolean): boolean;
         matches(cx: $RecipeMatchContext, ingredient: $FluidIngredient_, exact: boolean): boolean;
-        getCodec(): $Codec<never>;
+        matches(cx: $RecipeMatchContext, s: $FluidStack_, exact: boolean): boolean;
         kjs$getFluid(): $Fluid;
         kjs$getAmount(): number;
-        kjs$equalsIgnoringCount(stack: $FluidStack_): boolean;
+        specialEquals(o: $Object, shallow: boolean): boolean;
+        kjs$isEmpty(): boolean;
+        kjs$getId(): string;
+        getCodec(): $Codec<never>;
         kjs$getMod(): string;
-        kjs$getRegistry(): $Registry<$Fluid>;
-        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
-        kjs$asHolder(): $Holder<$Fluid>;
         kjs$getRegistryId(): $ResourceKey<$Registry<$Fluid>>;
         kjs$getWebIconURL(ops: $DynamicOps<$Tag_>, size: number): $RelativeURL;
         kjs$getIdLocation(): $ResourceLocation;
-        kjs$isEmpty(): boolean;
-        specialEquals(o: $Object, shallow: boolean): boolean;
+        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
+        kjs$asHolder(): $Holder<$Fluid>;
+        kjs$getRegistry(): $Registry<$Fluid>;
         kjs$self(): $FluidStack;
         kjs$getKey(): $ResourceKey<$Fluid>;
-        kjs$getId(): string;
         kjs$copy(amount: number): $FluidLike;
+        kjs$equalsIgnoringCount(stack: $FluidStack_): boolean;
         get<T extends keyof DataComponentTypes.OutputMap>(type: T): DataComponentTypes.OutputMap[T] | null;
         getOrDefault<T extends keyof DataComponentTypes.OutputMap>(type: T, _default: DataComponentTypes.OutputMap[T]): DataComponentTypes.OutputMap[T];
         set(components: $DataComponentMap_): this;
@@ -382,13 +382,13 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     }
     export interface $EntityGetterKJS extends $EntityCollectionKJS {
         getEntitiesWithin(aabb: $AABB_): $EntityArrayList;
-        self(): $EntityGetter;
+        getMcPlayers(): $List<$Player>;
         getPlayers(): $EntityArrayList;
         getMcEntities(): $Iterable<$Entity>;
-        getMcPlayers(): $List<$Player>;
+        self(): $EntityGetter;
+        get mcPlayers(): $List<$Player>;
         get players(): $EntityArrayList;
         get mcEntities(): $Iterable<$Entity>;
-        get mcPlayers(): $List<$Player>;
     }
     export class $SizedIngredientKJS {
     }
@@ -404,25 +404,25 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $RegistryObjectKJS<T> {
     }
     export interface $RegistryObjectKJS<T> extends $SpecialEquality {
-        getMod(): string;
+        specialEquals(o: $Object, shallow: boolean): boolean;
+        getId(): string;
         hasTag(tag: $ResourceLocation_): boolean;
-        getRegistry(): $Registry<T>;
-        asHolder(): $Holder<T>;
-        getTagKeys(): $List<$TagKey<T>>;
+        getMod(): string;
         getRegistryId(): $ResourceKey<$Registry<T>>;
         getIdLocation(): $ResourceLocation;
+        asHolder(): $Holder<T>;
+        getRegistry(): $Registry<T>;
         getTags(): $List<$ResourceLocation>;
-        specialEquals(o: $Object, shallow: boolean): boolean;
+        getTagKeys(): $List<$TagKey<T>>;
         getKey(): $ResourceKey<T>;
-        getId(): string;
+        get id(): string;
         get mod(): string;
-        get registry(): $Registry<T>;
-        get tagKeys(): $List<$TagKey<T>>;
         get registryId(): $ResourceKey<$Registry<T>>;
         get idLocation(): $ResourceLocation;
+        get registry(): $Registry<T>;
         get tags(): $List<$ResourceLocation>;
+        get tagKeys(): $List<$TagKey<T>>;
         get key(): $ResourceKey<T>;
-        get id(): string;
     }
     export class $DiggerItemKJS {
     }
@@ -436,17 +436,17 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $EntityCollectionKJS {
     }
     export interface $EntityCollectionKJS {
-        getEntityByNetworkID(id: number): $Entity;
+        getEntities(): $EntityArrayList;
         getEntityByUUID(id: $UUID_): $Entity;
         getEntitiesWithin(aabb: $AABB_): $EntityArrayList;
-        getPlayers(): $EntityArrayList;
-        getEntities(): $EntityArrayList;
-        getMcEntities(): $Iterable<$Entity>;
+        getEntityByNetworkID(id: number): $Entity;
         getMcPlayers(): $List<$Player>;
-        get players(): $EntityArrayList;
+        getPlayers(): $EntityArrayList;
+        getMcEntities(): $Iterable<$Entity>;
         get entities(): $EntityArrayList;
-        get mcEntities(): $Iterable<$Entity>;
         get mcPlayers(): $List<$Player>;
+        get players(): $EntityArrayList;
+        get mcEntities(): $Iterable<$Entity>;
     }
     /**
      * Values that may be interpreted as {@link $EntityCollectionKJS}.
@@ -455,8 +455,8 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $CreativeModeTabKJS {
     }
     export interface $CreativeModeTabKJS {
-        kjs$setIcon(icon: $ItemStack_): void;
         kjs$setDisplayName(component: $Component_): void;
+        kjs$setIcon(icon: $ItemStack_): void;
     }
     export class $WithPersistentData {
     }
@@ -467,8 +467,8 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $TagLoaderKJS<T> {
     }
     export interface $TagLoaderKJS<T> {
-        kjs$getRegistry(): $Registry<T>;
         kjs$getResources(): $ReloadableServerResourcesKJS;
+        kjs$getRegistry(): $Registry<T>;
         kjs$customTags(kjs$resources: $ReloadableServerResourcesKJS, map: $Map_<$ResourceLocation_, $List_<$TagLoader$EntryWithSource_>>): void;
         kjs$init(resources: $ReloadableServerResourcesKJS, registry: $Registry<T>): void;
     }
@@ -490,19 +490,19 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $BlockProviderKJS {
     }
     export interface $BlockProviderKJS extends $RegistryObjectKJS<$Block> {
+        getId(): string;
         getTypeData(): $Map<string, $Object>;
         getBlock(): $Block;
-        getRegistry(): $Registry<$Block>;
-        asHolder(): $Holder<$Block>;
         getRegistryId(): $ResourceKey<$Registry<$Block>>;
+        asHolder(): $Holder<$Block>;
+        getRegistry(): $Registry<$Block>;
         getKey(): $ResourceKey<$Block>;
-        getId(): string;
+        get id(): string;
         get typeData(): $Map<string, $Object>;
         get block(): $Block;
-        get registry(): $Registry<$Block>;
         get registryId(): $ResourceKey<$Registry<$Block>>;
+        get registry(): $Registry<$Block>;
         get key(): $ResourceKey<$Block>;
-        get id(): string;
     }
     /**
      * Values that may be interpreted as {@link $BlockProviderKJS}.
@@ -512,71 +512,71 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
         static KJS_PLAYER_CUSTOM_SPEED: $ResourceLocation;
     }
     export interface $LivingEntityKJS extends $EntityKJS {
+        swing(): void;
+        swing(hand: $InteractionHand_): void;
+        setHeadArmorItem(item: $ItemStack_): void;
+        getLegsArmorItem(): $ItemStack;
+        setFeetArmorItem(item: $ItemStack_): void;
+        getReachDistance(): number;
+        setLegsArmorItem(item: $ItemStack_): void;
+        getFeetArmorItem(): $ItemStack;
+        isHoldingInAnyHand(itemPredicate: $ItemPredicate_): boolean;
+        getTotalMovementSpeed(): number;
+        canEntityBeSeen(entity: $LivingEntity): boolean;
+        damageEquipment(slot: $EquipmentSlot_, amount: number): void;
+        damageEquipment(slot: $EquipmentSlot_): void;
+        damageEquipment(slot: $EquipmentSlot_, amount: number, onBroken: $Consumer_<$ItemStack>): void;
+        getHeadArmorItem(): $ItemStack;
+        setChestArmorItem(item: $ItemStack_): void;
+        getMainHandItem(): $ItemStack;
+        getChestArmorItem(): $ItemStack;
+        getPotionEffects(): $EntityPotionEffectsJS;
+        setMainHandItem(item: $ItemStack_): void;
+        foodEaten(eatenStack: $ItemStack_, food: $FoodProperties_): void;
+        getDefaultMovementSpeed(): number;
+        setDefaultMovementSpeed(speed: number): void;
+        setMovementSpeedAddition(speed: number): void;
+        setTotalMovementSpeedMultiplier(speed: number): void;
+        setDefaultMovementSpeedMultiplier(speed: number): void;
+        damageHeldItem(): void;
+        damageHeldItem(hand: $InteractionHand_, amount: number): void;
+        damageHeldItem(hand: $InteractionHand_, amount: number, onBroken: $Consumer_<$ItemStack>): void;
+        getHeldItem(hand: $InteractionHand_): $ItemStack;
+        setHeldItem(hand: $InteractionHand_, item: $ItemStack_): void;
+        isLiving(): this is $LivingEntity;
+        isUndead(): boolean;
+        getOffHandItem(): $ItemStack;
+        getEquipment(slot: $EquipmentSlot_): $ItemStack;
         /**
          * Sets the entity's maximum health to specified HP.
          * 
          * @param hp The new maximum health of the entity.
          */
         setMaxHealth(hp: number): void;
-        setHeldItem(hand: $InteractionHand_, item: $ItemStack_): void;
-        setOffHandItem(item: $ItemStack_): void;
-        getHeldItem(hand: $InteractionHand_): $ItemStack;
-        isLiving(): this is $LivingEntity;
-        getOffHandItem(): $ItemStack;
         rayTraceEntity(filter: $Predicate_<$Entity>): $Entity;
         setEquipment(slot: $EquipmentSlot_, item: $ItemStack_): void;
+        setOffHandItem(item: $ItemStack_): void;
         rayTrace(): $KubeRayTraceResult;
-        isUndead(): boolean;
-        getEquipment(slot: $EquipmentSlot_): $ItemStack;
-        damageHeldItem(): void;
-        damageHeldItem(hand: $InteractionHand_, amount: number): void;
-        damageHeldItem(hand: $InteractionHand_, amount: number, onBroken: $Consumer_<$ItemStack>): void;
-        foodEaten(eatenStack: $ItemStack_, food: $FoodProperties_): void;
-        swing(hand: $InteractionHand_): void;
-        swing(): void;
-        setDefaultMovementSpeed(speed: number): void;
-        getDefaultMovementSpeed(): number;
-        setMovementSpeedAddition(speed: number): void;
-        getFeetArmorItem(): $ItemStack;
-        setLegsArmorItem(item: $ItemStack_): void;
-        getReachDistance(): number;
-        getChestArmorItem(): $ItemStack;
-        damageEquipment(slot: $EquipmentSlot_, amount: number, onBroken: $Consumer_<$ItemStack>): void;
-        damageEquipment(slot: $EquipmentSlot_, amount: number): void;
-        damageEquipment(slot: $EquipmentSlot_): void;
-        getAttributeBaseValue(attribute: $Holder_<$Attribute>): number;
-        isHoldingInAnyHand(itemPredicate: $ItemPredicate_): boolean;
-        getLegsArmorItem(): $ItemStack;
-        setFeetArmorItem(item: $ItemStack_): void;
-        removeAttribute(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): void;
         setAttributeBaseValue(attribute: $Holder_<$Attribute>, value: number): void;
-        modifyAttribute(attribute: $Holder_<$Attribute>, id: $ResourceLocation_, amount: number, operation: $AttributeModifier$Operation_): void;
-        getMainHandItem(): $ItemStack;
-        setMainHandItem(item: $ItemStack_): void;
-        getHeadArmorItem(): $ItemStack;
-        setChestArmorItem(item: $ItemStack_): void;
-        getTotalMovementSpeed(): number;
-        setHeadArmorItem(item: $ItemStack_): void;
-        canEntityBeSeen(entity: $LivingEntity): boolean;
         getAttributeTotalValue(attribute: $Holder_<$Attribute>): number;
-        getPotionEffects(): $EntityPotionEffectsJS;
-        setDefaultMovementSpeedMultiplier(speed: number): void;
-        setTotalMovementSpeedMultiplier(speed: number): void;
-        set maxHealth(value: number);
-        get living(): boolean;
-        get undead(): boolean;
-        set movementSpeedAddition(value: number);
+        modifyAttribute(attribute: $Holder_<$Attribute>, id: $ResourceLocation_, amount: number, operation: $AttributeModifier$Operation_): void;
+        removeAttribute(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): void;
+        getAttributeBaseValue(attribute: $Holder_<$Attribute>): number;
         get reachDistance(): number;
         get totalMovementSpeed(): number;
         get potionEffects(): $EntityPotionEffectsJS;
-        set defaultMovementSpeedMultiplier(value: number);
+        set movementSpeedAddition(value: number);
         set totalMovementSpeedMultiplier(value: number);
+        set defaultMovementSpeedMultiplier(value: number);
+        get living(): boolean;
+        get undead(): boolean;
+        set maxHealth(value: number);
     }
     export class $ServerLevelKJS {
     }
     export interface $ServerLevelKJS extends $LevelKJS, $WithPersistentData {
-        self(): $EntityGetter;
         spawnParticles(options: $ParticleOptions_, overrideLimiter: boolean, x: number, y: number, z: number, vx: number, vy: number, vz: number, count: number, speed: number): void;
+        self(): $EntityGetter;
     }
     /**
      * Values that may be interpreted as {@link $ServerLevelKJS}.
@@ -594,21 +594,6 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $MinecraftServerKJS {
     }
     export interface $MinecraftServerKJS extends $WithAttachedData<$MinecraftServer>, $WithPersistentData, $DataSenderKJS, $MinecraftEnvironmentKJS, $EntityCollectionKJS {
-        restoreInventories(): $Map<$UUID, $Map<number, $ItemStack>>;
-        getPlayer(selector: $PlayerSelector_): $ServerPlayer;
-        getAdvancement(id: $ResourceLocation_): $AdvancementNode;
-        getOverworld(): $ServerLevel;
-        getLevel(dimension: $ResourceLocation_): $ServerLevel;
-        sendData(channel: string, data: $CompoundTag_): void;
-        getEntityByNetworkID(id: number): $Entity;
-        getEntityByUUID(id: $UUID_): $Entity;
-        /**
-         * Runs the specified console command.
-         * 
-         * @param command The console command. Slash at the beginning is optional.
-         */
-        runCommand(command: string): void;
-        getName(): $Component;
         setStatusMessage(message: $Component_): void;
         setActivePostShader(id: $ResourceLocation_): void;
         /**
@@ -617,24 +602,39 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * @param command The console command. Slash at the beginning is optional.
          */
         runCommandSilent(command: string): void;
-        self(): $MinecraftServer;
-        tell(message: $Component_): void;
+        getOverworld(): $ServerLevel;
+        getEntityByUUID(id: $UUID_): $Entity;
+        getEntityByNetworkID(id: number): $Entity;
+        restoreInventories(): $Map<$UUID, $Map<number, $ItemStack>>;
+        getLevel(dimension: $ResourceLocation_): $ServerLevel;
+        sendData(channel: string, data: $CompoundTag_): void;
+        getMcPlayers(): $List<$Player>;
         getPlayers(): $EntityArrayList;
         getMcEntities(): $Iterable<$Entity>;
-        getMcPlayers(): $List<$Player>;
-        get overworld(): $ServerLevel;
-        get name(): $Component;
+        self(): $MinecraftServer;
+        tell(message: $Component_): void;
+        getPlayer(selector: $PlayerSelector_): $ServerPlayer;
+        getAdvancement(id: $ResourceLocation_): $AdvancementNode;
+        /**
+         * Runs the specified console command.
+         * 
+         * @param command The console command. Slash at the beginning is optional.
+         */
+        runCommand(command: string): void;
+        getName(): $Component;
         set statusMessage(value: $Component_);
         set activePostShader(value: $ResourceLocation_);
+        get overworld(): $ServerLevel;
+        get mcPlayers(): $List<$Player>;
         get players(): $EntityArrayList;
         get mcEntities(): $Iterable<$Entity>;
-        get mcPlayers(): $List<$Player>;
+        get name(): $Component;
     }
     export class $MenuTypeKJS {
     }
     export interface $MenuTypeKJS extends $RegistryObjectKJS<$MenuType<never>> {
-        kjs$getRegistry(): $Registry<$MenuType<never>>;
         kjs$getRegistryId(): $ResourceKey<$Registry<$MenuType<never>>>;
+        kjs$getRegistry(): $Registry<$MenuType<never>>;
     }
     export class $DataSenderKJS {
     }
@@ -645,39 +645,28 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $RecipeLikeKJS {
     }
     export interface $RecipeLikeKJS {
-        getType(): $ResourceLocation;
         getMod(): string;
         hasInput(cx: $RecipeMatchContext, match: $ReplacementMatchInfo_): boolean;
         hasOutput(cx: $RecipeMatchContext, match: $ReplacementMatchInfo_): boolean;
-        setGroup(group: string): void;
-        replaceOutput(cx: $RecipeScriptContext, match: $ReplacementMatchInfo_, arg2: $Object): boolean;
+        getType(): $ResourceLocation;
+        getSerializer(): $RecipeSerializer<never>;
         getOrCreateId(): $ResourceLocation;
         getSchema(): $RecipeSchema;
-        getGroup(): string;
         replaceInput(cx: $RecipeScriptContext, match: $ReplacementMatchInfo_, arg2: $Object): boolean;
-        getSerializer(): $RecipeSerializer<never>;
+        getGroup(): string;
+        setGroup(group: string): void;
+        replaceOutput(cx: $RecipeScriptContext, match: $ReplacementMatchInfo_, arg2: $Object): boolean;
         getTypeKey(): $ResourceKey<$RecipeSerializer<never>>;
-        get type(): $ResourceLocation;
         get mod(): string;
+        get type(): $ResourceLocation;
+        get serializer(): $RecipeSerializer<never>;
         get orCreateId(): $ResourceLocation;
         get schema(): $RecipeSchema;
-        get serializer(): $RecipeSerializer<never>;
         get typeKey(): $ResourceKey<$RecipeSerializer<never>>;
     }
     export class $LevelKJS {
     }
     export interface $LevelKJS extends $WithAttachedData<$Level>, $ScriptTypeHolder, $EntityGetterKJS {
-        getSide(): $ScriptType;
-        getBlock(entity: $BlockEntity): $LevelBlock;
-        getBlock(pos: $BlockPos_): $LevelBlock;
-        getBlock(x: number, y: number, z: number): $LevelBlock;
-        /**
-         * Each player in the level (world) runs the specified console command with their permission level.
-         * 
-         * @param command The console command. Slash at the beginning is optional.
-         */
-        runCommand(command: string): void;
-        getName(): $Component;
         setStatusMessage(message: $Component_): void;
         setActivePostShader(id: $ResourceLocation_): void;
         /**
@@ -686,25 +675,36 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * @param command The console command. Slash at the beginning is optional.
          */
         runCommandSilent(command: string): void;
-        self(): $Level;
-        tell(message: $Component_): void;
-        explode(x: number, y: number, z: number, properties: $ExplosionProperties_): $Explosion;
-        spawnParticles(options: $ParticleOptions_, overrideLimiter: boolean, x: number, y: number, z: number, vx: number, vy: number, vz: number, count: number, speed: number): void;
-        setTime(time: number): void;
-        spawnFireworks(x: number, y: number, z: number, fireworks: $Fireworks_, lifetime: number): void;
-        spawnLightning(x: number, y: number, z: number, visualOnly: boolean): void;
-        spawnLightning(x: number, y: number, z: number, visualOnly: boolean, cause: $ServerPlayer): void;
         isOverworld(): boolean;
+        setTime(time: number): void;
+        spawnLightning(x: number, y: number, z: number, visualOnly: boolean, cause: $ServerPlayer): void;
+        spawnLightning(x: number, y: number, z: number, visualOnly: boolean): void;
         getDimension(): $ResourceLocation;
-        spawnEntity(type: $EntityType_<never>, callback: $Consumer_<$Entity>): void;
         createEntity(type: $EntityType_<never>): $Entity;
-        get side(): $ScriptType;
-        get name(): $Component;
+        spawnEntity(type: $EntityType_<never>, callback: $Consumer_<$Entity>): void;
+        spawnFireworks(x: number, y: number, z: number, fireworks: $Fireworks_, lifetime: number): void;
+        spawnParticles(options: $ParticleOptions_, overrideLimiter: boolean, x: number, y: number, z: number, vx: number, vy: number, vz: number, count: number, speed: number): void;
+        explode(x: number, y: number, z: number, properties: $ExplosionProperties_): $Explosion;
+        getBlock(x: number, y: number, z: number): $LevelBlock;
+        getBlock(pos: $BlockPos_): $LevelBlock;
+        getBlock(entity: $BlockEntity): $LevelBlock;
+        getSide(): $ScriptType;
+        self(): $EntityGetter;
+        tell(message: $Component_): void;
+        /**
+         * Each player in the level (world) runs the specified console command with their permission level.
+         * 
+         * @param command The console command. Slash at the beginning is optional.
+         */
+        runCommand(command: string): void;
+        getName(): $Component;
         set statusMessage(value: $Component_);
         set activePostShader(value: $ResourceLocation_);
-        set time(value: number);
         get overworld(): boolean;
+        set time(value: number);
         get dimension(): $ResourceLocation;
+        get side(): $ScriptType;
+        get name(): $Component;
     }
     /**
      * Values that may be interpreted as {@link $LevelKJS}.
@@ -745,24 +745,10 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $LocalClientPlayerKJS {
     }
     export interface $LocalClientPlayerKJS extends $ClientPlayerKJS {
-        getMinecraft(): $Minecraft;
-        getStats(): $PlayerStatsJS;
-        /**
-         * Checks, whether the player is currently mining a block.
-         */
-        isMiningBlock(): boolean;
-        sendData(channel: string, data: $CompoundTag_): void;
         /**
          * Checks, whether the entity is a reference to yourself - that is - the client player you are controlling.
          */
         isSelf(): this is LocalPlayer;
-        notify(notification: $NotificationToastData_): void;
-        /**
-         * Runs the specified console command client-side with the player's permission level.
-         * 
-         * @param command The console command. Slash at the beginning is optional.
-         */
-        runCommand(command: string): void;
         setActivePostShader(id: $ResourceLocation_): void;
         /**
          * Runs the specified console command client-side with the player's permission level. The command won't output any logs in chat nor console.
@@ -770,11 +756,25 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * @param command The console command. Slash at the beginning is optional.
          */
         runCommandSilent(command: string): void;
-        get minecraft(): $Minecraft;
-        get stats(): $PlayerStatsJS;
-        get miningBlock(): boolean;
+        /**
+         * Checks, whether the player is currently mining a block.
+         */
+        isMiningBlock(): boolean;
+        getStats(): $PlayerStatsJS;
+        sendData(channel: string, data: $CompoundTag_): void;
+        /**
+         * Runs the specified console command client-side with the player's permission level.
+         * 
+         * @param command The console command. Slash at the beginning is optional.
+         */
+        runCommand(command: string): void;
+        notify(notification: $NotificationToastData_): void;
+        getMinecraft(): $Minecraft;
         get self(): boolean;
         set activePostShader(value: $ResourceLocation_);
+        get miningBlock(): boolean;
+        get stats(): $PlayerStatsJS;
+        get minecraft(): $Minecraft;
     }
     /**
      * Values that may be interpreted as {@link $LocalClientPlayerKJS}.
@@ -802,11 +802,11 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $CustomIngredientKJS {
     }
     export interface $CustomIngredientKJS extends $ItemPredicate {
+        kjs$asIngredient(): $Ingredient;
         kjs$getStackArray(): $ItemStack[];
+        getItems(): $Stream<$ItemStack>;
         kjs$getDisplayStacks(): $ItemStackSet;
         kjs$canBeUsedForMatching(): boolean;
-        kjs$asIngredient(): $Ingredient;
-        getItems(): $Stream<$ItemStack>;
         get items(): $Stream<$ItemStack>;
     }
     /**
@@ -818,27 +818,29 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export interface $FluidKJS extends $RegistryObjectKJS<$Fluid>, $FluidLike {
         getFluid(): $Fluid;
         getAmount(): number;
-        getRegistry(): $Registry<$Fluid>;
-        getRegistryId(): $ResourceKey<$Registry<$Fluid>>;
         isEmpty(): boolean;
+        getRegistryId(): $ResourceKey<$Registry<$Fluid>>;
+        getRegistry(): $Registry<$Fluid>;
         get fluid(): $Fluid;
         get amount(): number;
-        get registry(): $Registry<$Fluid>;
-        get registryId(): $ResourceKey<$Registry<$Fluid>>;
         get empty(): boolean;
+        get registryId(): $ResourceKey<$Registry<$Fluid>>;
+        get registry(): $Registry<$Fluid>;
     }
     export class $GameRulesKJS {
     }
     export interface $GameRulesKJS {
-        kjs$getInt(rule: string): number;
-        kjs$getString(rule: string): string;
         kjs$getBoolean(rule: string): boolean;
-        kjs$get(rule: string): $GameRules$Value<never>;
+        kjs$getString(rule: string): string;
         kjs$set(rule: string, value: string): void;
+        kjs$get(rule: string): $GameRules$Value<never>;
+        kjs$getInt(rule: string): number;
     }
     export class $PlayerKJS {
     }
     export interface $PlayerKJS extends $LivingEntityKJS, $DataSenderKJS, $WithAttachedData<$Player> {
+        spawn(): void;
+        setStatusMessage(message: $Component_): void;
         /**
          * Gets the player's username.
          */
@@ -851,54 +853,52 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * Gets the player's profile.
          */
         getProfile(): $GameProfile;
-        getStats(): $PlayerStatsJS;
         getInventory(): $InventoryKJS;
+        getStages(): $Stages;
         isMiningBlock(): boolean;
-        giveInHand(item: $ItemStack_): void;
         getMouseItem(): $ItemStack;
         setMouseItem(item: $ItemStack_): void;
         addFood(hunger: number, saturation: number): void;
-        getStages(): $Stages;
         getFoodLevel(): number;
-        setXpLevel(levels: number): void;
+        getStats(): $PlayerStatsJS;
+        giveInHand(item: $ItemStack_): void;
         setFoodLevel(foodLevel: number): void;
-        addExhaustion(exhaustion: number): void;
-        setSaturation(saturation: number): void;
         getSaturation(): number;
-        getXpLevel(): number;
+        setSaturation(saturation: number): void;
+        addExhaustion(exhaustion: number): void;
         addXPLevels(levels: number): void;
-        spawn(): void;
+        setXpLevel(levels: number): void;
+        getXpLevel(): number;
+        getInventoryChangeListener(): $KubeJSInventoryListener;
+        getXp(): number;
         /**
          * Checks if the player is fake.
          */
         isFake(): this is $FakePlayer;
         give(item: $ItemStack_): void;
-        getXp(): number;
-        notify(title: $Component_, text: $Component_): void;
-        notify(builder: $NotificationToastData_): void;
         addXP(xp: number): void;
         setXp(xp: number): void;
-        getInventoryChangeListener(): $KubeJSInventoryListener;
+        notify(title: $Component_, text: $Component_): void;
+        notify(builder: $NotificationToastData_): void;
+        getCraftingGrid(): $InventoryKJS;
+        sendInventoryUpdate(): void;
+        setSelectedSlot(index: number): void;
         addItemCooldown(item: $Item_, ticks: number): void;
         getSelectedSlot(): number;
-        sendInventoryUpdate(): void;
         boostElytraFlight(): void;
         getOpenInventory(): $AbstractContainerMenu;
-        setSelectedSlot(index: number): void;
-        getCraftingGrid(): $InventoryKJS;
-        setStatusMessage(message: $Component_): void;
+        set statusMessage(value: $Component_);
         get username(): string;
         get player(): boolean;
         get profile(): $GameProfile;
-        get stats(): $PlayerStatsJS;
         get inventory(): $InventoryKJS;
-        get miningBlock(): boolean;
         get stages(): $Stages;
-        get fake(): boolean;
+        get miningBlock(): boolean;
+        get stats(): $PlayerStatsJS;
         get inventoryChangeListener(): $KubeJSInventoryListener;
-        get openInventory(): $AbstractContainerMenu;
+        get fake(): boolean;
         get craftingGrid(): $InventoryKJS;
-        set statusMessage(value: $Component_);
+        get openInventory(): $AbstractContainerMenu;
     }
     /**
      * Values that may be interpreted as {@link $PlayerKJS}.
@@ -930,19 +930,19 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
         hasInput(cx: $RecipeMatchContext, match: $ReplacementMatchInfo_): boolean;
         hasOutput(cx: $RecipeMatchContext, match: $ReplacementMatchInfo_): boolean;
         self(): $RecipeHolder<never>;
-        setGroup(group: string): void;
-        replaceOutput(cx: $RecipeScriptContext, match: $ReplacementMatchInfo_, arg2: $Object): boolean;
+        getSerializer(): $RecipeSerializer<never>;
+        getRecipe(): $Recipe<never>;
         getOrCreateId(): $ResourceLocation;
         getSchema(): $RecipeSchema;
-        getGroup(): string;
-        getRecipe(): $Recipe<never>;
         replaceInput(cx: $RecipeScriptContext, match: $ReplacementMatchInfo_, arg2: $Object): boolean;
-        getSerializer(): $RecipeSerializer<never>;
+        getGroup(): string;
+        setGroup(group: string): void;
+        replaceOutput(cx: $RecipeScriptContext, match: $ReplacementMatchInfo_, arg2: $Object): boolean;
         getTypeKey(): $ResourceKey<$RecipeSerializer<never>>;
+        get serializer(): $RecipeSerializer<never>;
+        get recipe(): $Recipe<never>;
         get orCreateId(): $ResourceLocation;
         get schema(): $RecipeSchema;
-        get recipe(): $Recipe<never>;
-        get serializer(): $RecipeSerializer<never>;
         get typeKey(): $ResourceKey<$RecipeSerializer<never>>;
     }
     export class $ReloadableServerResourcesKJS {
@@ -954,14 +954,6 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $MessageSenderKJS {
     }
     export interface $MessageSenderKJS {
-        /**
-         * Runs the specified console command.
-         * 
-         * @param command The console command. Slash at the beginning is optional.
-         */
-        runCommand(command: string): void;
-        getName(): $Component;
-        getDisplayName(): $Component;
         setStatusMessage(message: $Component_): void;
         setActivePostShader(id: $ResourceLocation_): void;
         /**
@@ -976,30 +968,38 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * @param message A text component. It may be a string, which will be implicitly wrapped into a text component.
          */
         tell(message: $Component_): void;
-        get name(): $Component;
-        get displayName(): $Component;
+        /**
+         * Runs the specified console command.
+         * 
+         * @param command The console command. Slash at the beginning is optional.
+         */
+        runCommand(command: string): void;
+        getName(): $Component;
+        getDisplayName(): $Component;
         set statusMessage(value: $Component_);
         set activePostShader(value: $ResourceLocation_);
+        get name(): $Component;
+        get displayName(): $Component;
     }
     export class $AdvancementNodeKJS {
     }
     export interface $AdvancementNodeKJS {
-        getTitle(): $Component;
-        self(): $AdvancementNode;
         getId(): $ResourceLocation;
+        self(): $AdvancementNode;
+        getTitle(): $Component;
         getParent(): $AdvancementNode;
-        getDisplay(): $DisplayInfo;
-        getChildren(): $Set<$AdvancementNode>;
         getDisplayText(): $Component;
-        addChild(a: $AdvancementNode): void;
+        getChildren(): $Set<$AdvancementNode>;
         hasDisplay(): boolean;
+        addChild(a: $AdvancementNode): void;
+        getDisplay(): $DisplayInfo;
         getDescription(): $Component;
-        get title(): $Component;
         get id(): $ResourceLocation;
+        get title(): $Component;
         get parent(): $AdvancementNode;
-        get display(): $DisplayInfo;
-        get children(): $Set<$AdvancementNode>;
         get displayText(): $Component;
+        get children(): $Set<$AdvancementNode>;
+        get display(): $DisplayInfo;
         get description(): $Component;
     }
     export class $BlockBuilderProvider {
@@ -1013,76 +1013,79 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export interface $RecipeInputKJS {
         find(filter: $SlotFilter_): $ItemStack;
         find(filter: $SlotFilter_, skip: number): $ItemStack;
-        findAll(): $List<$ItemStack>;
-        findAll(filter: $SlotFilter_): $List<$ItemStack>;
         self(): $RecipeInput;
+        findAll(filter: $SlotFilter_): $List<$ItemStack>;
+        findAll(): $List<$ItemStack>;
     }
     export class $InventoryKJS {
     }
     export interface $InventoryKJS {
+        isEmpty(): boolean;
         getBlock(level: $Level_): $LevelBlock;
+        setStackInSlot(slot: number, stack: $ItemStack_): void;
+        getSlotLimit(slot: number): number;
+        getHeight(): number;
+        setChanged(): void;
+        getWidth(): number;
+        asContainer(): $Container;
+        isMutable(): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        setStackInSlot(slot: number, stack: $ItemStack_): void;
-        setChanged(): void;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
-        getAllItems(): $List<$ItemStack>;
-        getSlotLimit(slot: number): number;
-        asContainer(): $Container;
-        getSlots(): number;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        isMutable(): boolean;
-        getWidth(): number;
-        getHeight(): number;
+        getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        count(): number;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(): void;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
-        get allItems(): $List<$ItemStack>;
-        get slots(): number;
-        get mutable(): boolean;
-        get width(): number;
-        get height(): number;
+        clear(): void;
+        clear(match: $ItemPredicate_): void;
         get empty(): boolean;
+        get height(): number;
+        get width(): number;
+        get mutable(): boolean;
+        get slots(): number;
+        get allItems(): $List<$ItemStack>;
     }
     export class $BlockKJS {
     }
     export interface $BlockKJS extends $BlockBuilderProvider, $BlockBehaviourKJS, $Replaceable {
-        setNameKey(key: string): void;
         getBlockStates(): $List<$BlockState>;
-        getBlock(): $Block;
+        setNameKey(key: string): void;
         setDestroySpeed(v: number): void;
         setRequiresTool(v: boolean): void;
         setLightEmission(v: number): void;
         setBlockBuilder(b: $BlockBuilder): void;
+        getBlock(): $Block;
         replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
-        set nameKey(value: string);
         get blockStates(): $List<$BlockState>;
-        get block(): $Block;
+        set nameKey(value: string);
         set destroySpeed(value: number);
         set requiresTool(value: boolean);
         set lightEmission(value: number);
         set blockBuilder(value: $BlockBuilder);
+        get block(): $Block;
     }
     export class $EntityTypeKJS {
     }
     export interface $EntityTypeKJS extends $RegistryObjectKJS<$EntityType<never>> {
-        kjs$getRegistry(): $Registry<$EntityType<never>>;
         kjs$getRegistryId(): $ResourceKey<$Registry<$EntityType<never>>>;
+        kjs$getRegistry(): $Registry<$EntityType<never>>;
     }
     export class $ServerPlayerKJS {
     }
     export interface $ServerPlayerKJS extends $PlayerKJS {
+        setActivePostShader(id: $ResourceLocation_): void;
         unlockAdvancement(id: $ResourceLocation_): void;
         getSpawnLocation(): $LevelBlock;
         setSpawnLocation(c: $LevelBlock): void;
         captureInventory(autoRestore: boolean): $Container;
+        isAdvancementDone(id: $ResourceLocation_): boolean;
+        revokeAdvancement(id: $ResourceLocation_): void;
         /**
          * Switches the player's gamemode between Creative and Survival.
          * To change the player's gamemode to a mode other than Creative or Survival, use `setGameMode`.
@@ -1091,21 +1094,23 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * `false` to change the player's gamemode to Survival.
          */
         setCreativeMode(mode: boolean): void;
-        isAdvancementDone(id: $ResourceLocation_): boolean;
         openInventoryGUI(inventory: $InventoryKJS, title: $Component_, columns: number, rows: number): void;
         openInventoryGUI(inventory: $InventoryKJS, title: $Component_, columns: number): void;
         openInventoryGUI(inventory: $InventoryKJS, title: $Component_): void;
-        revokeAdvancement(id: $ResourceLocation_): void;
+        /**
+         * Checks if the entity is a server-side player.
+         */
+        isServerPlayer(): this is $ServerPlayer;
+        /**
+         * Checks, whether the player is currently mining a block.
+         */
+        isMiningBlock(): boolean;
+        setMouseItem(item: $ItemStack_): void;
+        getStats(): $PlayerStatsJS;
+        sendData(channel: string, data: $CompoundTag_): void;
         openChestGUI(gui: $Consumer_<$KubeJSGUI>): void;
         openChestGUI(title: $Component_, rows: number, gui: $Consumer_<$ChestMenuData>): void;
-        /**
-         * Checks, whether the player is a server operator.
-         */
-        isOp(): boolean;
-        /**
-         * Heals the player to full, and fully restores hunger and saturation.
-         */
-        heal(): void;
+        notify(builder: $NotificationToastData_): void;
         /**
          * Bans the player from the server.
          * 
@@ -1115,38 +1120,33 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          */
         ban(banner: string, reason: string, banDuration: $Duration_): void;
         /**
+         * Checks, whether the player is a server operator.
+         */
+        isOp(): boolean;
+        /**
+         * Kicks the player from the server with a generic reason.
+         */
+        kick(): void;
+        /**
          * Kicks the player from the server with the provided reason.
          * 
          * @param reason A text component, containing the kick reason. It may be a string, which will be implicitly wrapped into a text component.
          */
         kick(reason: $Component_): void;
         /**
-         * Kicks the player from the server with a generic reason.
+         * Heals the player to full, and fully restores hunger and saturation.
          */
-        kick(): void;
-        /**
-         * Checks if the entity is a server-side player.
-         */
-        isServerPlayer(): this is $ServerPlayer;
-        getStats(): $PlayerStatsJS;
-        /**
-         * Checks, whether the player is currently mining a block.
-         */
-        isMiningBlock(): boolean;
-        setMouseItem(item: $ItemStack_): void;
-        sendData(channel: string, data: $CompoundTag_): void;
-        notify(builder: $NotificationToastData_): void;
-        setSelectedSlot(index: number): void;
+        heal(): void;
         setPositionAndRotation(x: number, y: number, z: number, yaw: number, pitch: number): void;
-        setActivePostShader(id: $ResourceLocation_): void;
+        setSelectedSlot(index: number): void;
+        set activePostShader(value: $ResourceLocation_);
         set creativeMode(value: boolean);
-        get op(): boolean;
         get serverPlayer(): boolean;
-        get stats(): $PlayerStatsJS;
         get miningBlock(): boolean;
         set mouseItem(value: $ItemStack_);
+        get stats(): $PlayerStatsJS;
+        get op(): boolean;
         set selectedSlot(value: number);
-        set activePostShader(value: $ResourceLocation_);
     }
     /**
      * Values that may be interpreted as {@link $ServerPlayerKJS}.
@@ -1155,34 +1155,34 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $BlockStateKJS {
     }
     export interface $BlockStateKJS extends $RegistryObjectKJS<$Block>, $Replaceable {
-        randomTickOverride(state: $BlockState_, level: $ServerLevel, pos: $BlockPos_, random: $RandomSource): boolean;
         setDestroySpeed(v: number): void;
         setRequiresTool(v: boolean): void;
         setLightEmission(v: number): void;
-        getRegistry(): $Registry<$Block>;
-        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
-        asHolder(): $Holder<$Block>;
-        toString(): string;
+        randomTickOverride(state: $BlockState_, level: $ServerLevel, pos: $BlockPos_, random: $RandomSource): boolean;
+        getId(): string;
         getRegistryId(): $ResourceKey<$Registry<$Block>>;
         getWebIconURL(size: number): $RelativeURL;
+        toString(): string;
+        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
+        asHolder(): $Holder<$Block>;
+        getRegistry(): $Registry<$Block>;
         getKey(): $ResourceKey<$Block>;
-        getId(): string;
         set destroySpeed(value: number);
         set requiresTool(value: boolean);
         set lightEmission(value: number);
-        get registry(): $Registry<$Block>;
-        get registryId(): $ResourceKey<$Registry<$Block>>;
-        get key(): $ResourceKey<$Block>;
         get id(): string;
+        get registryId(): $ResourceKey<$Registry<$Block>>;
+        get registry(): $Registry<$Block>;
+        get key(): $ResourceKey<$Block>;
     }
     export class $MinecraftEnvironmentKJS {
     }
     export interface $MinecraftEnvironmentKJS extends $MessageSenderKJS {
-        scheduleRepeatingInTicks(ticks: $TickDuration_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
-        schedule(timer: $TemporalAmount_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
         getScheduledEvents(): $ScheduledEvents;
-        scheduleRepeating(timer: $TemporalAmount_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
         scheduleInTicks(ticks: $TickDuration_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
+        scheduleRepeating(timer: $TemporalAmount_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
+        schedule(timer: $TemporalAmount_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
+        scheduleRepeatingInTicks(ticks: $TickDuration_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
         get scheduledEvents(): $ScheduledEvents;
     }
     /**
@@ -1192,8 +1192,8 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $ClientLevelKJS {
     }
     export interface $ClientLevelKJS extends $LevelKJS {
-        kubeParticle(x: number, y: number, z: number, spriteSet: $SpriteSet): $KubeAnimatedParticle;
         self(): $EntityGetter;
+        kubeParticle(x: number, y: number, z: number, spriteSet: $SpriteSet): $KubeAnimatedParticle;
     }
     /**
      * Values that may be interpreted as {@link $ClientLevelKJS}.
@@ -1226,97 +1226,108 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $ItemKJS {
     }
     export interface $ItemKJS extends $IngredientSupplierKJS, $RegistryObjectKJS<$Item> {
-        setCraftingRemainder(i: $Item_): void;
-        getTypeItemStackKey(): $ItemStackKey;
         setNameKey(key: string): void;
-        getTypeData(): $Map<string, $Object>;
-        getItemBuilder(): $ItemBuilder;
         setCanRepair(repairable: boolean): void;
         setItemBuilder(b: $ItemBuilder): void;
-        getRegistry(): $Registry<$Item>;
+        getTypeData(): $Map<string, $Object>;
+        setCraftingRemainder(i: $Item_): void;
+        getTypeItemStackKey(): $ItemStackKey;
+        getItemBuilder(): $ItemBuilder;
         getRegistryId(): $ResourceKey<$Registry<$Item>>;
+        getRegistry(): $Registry<$Item>;
         getItem(): $Item;
+        set nameKey(value: string);
+        set canRepair(value: boolean);
+        get typeData(): $Map<string, $Object>;
         set craftingRemainder(value: $Item_);
         get typeItemStackKey(): $ItemStackKey;
-        set nameKey(value: string);
-        get typeData(): $Map<string, $Object>;
-        set canRepair(value: boolean);
-        get registry(): $Registry<$Item>;
         get registryId(): $ResourceKey<$Registry<$Item>>;
+        get registry(): $Registry<$Item>;
         get item(): $Item;
     }
     export class $ComponentKJS {
     }
     export interface $ComponentKJS extends $Component, $WithCodec, $WrappedJS {
         forEach(action: $Consumer_<$Component>): void;
-        getCodec(): $Codec<never>;
-        clickChangePage(page: string): $MutableComponent;
-        clickSuggestCommand(command: string): $MutableComponent;
-        clickRunCommand(command: string): $MutableComponent;
-        obfuscated(): $MutableComponent;
-        obfuscated(value: boolean): $MutableComponent;
-        strikethrough(value: boolean): $MutableComponent;
-        strikethrough(): $MutableComponent;
-        darkRed(): $MutableComponent;
-        noColor(): $MutableComponent;
         asIterable(): $Iterable<$Component>;
         underlined(): $MutableComponent;
         underlined(value: boolean): $MutableComponent;
+        hasStyle(): boolean;
         darkPurple(): $MutableComponent;
-        darkGreen(): $MutableComponent;
         darkBlue(): $MutableComponent;
-        isEmpty(): boolean;
-        /**
-         * @deprecated
-         */
-        rawComponent(): $MutableComponent;
+        darkGreen(): $MutableComponent;
+        darkGray(): $MutableComponent;
+        noColor(): $MutableComponent;
+        insertion(s: string): $MutableComponent;
+        strikethrough(): $MutableComponent;
+        strikethrough(value: boolean): $MutableComponent;
+        clickCopy(text: string): $MutableComponent;
+        darkAqua(): $MutableComponent;
+        lightPurple(): $MutableComponent;
+        hasSiblings(): boolean;
+        obfuscated(value: boolean): $MutableComponent;
+        obfuscated(): $MutableComponent;
+        darkRed(): $MutableComponent;
         /**
          * @deprecated
          */
         rawCopy(): $MutableComponent;
-        lightPurple(): $MutableComponent;
-        hasSiblings(): boolean;
-        hasStyle(): boolean;
-        darkGray(): $MutableComponent;
         clickOpenUrl(url: string): $MutableComponent;
+        /**
+         * @deprecated
+         */
+        rawComponent(): $MutableComponent;
         clickOpenFile(path: string): $MutableComponent;
+        isEmpty(): boolean;
         /**
          * @deprecated
          */
         component(): $Component;
-        insertion(s: string): $MutableComponent;
-        darkAqua(): $MutableComponent;
-        clickCopy(text: string): $MutableComponent;
+        clickSuggestCommand(command: string): $MutableComponent;
+        clickChangePage(page: string): $MutableComponent;
+        clickRunCommand(command: string): $MutableComponent;
+        getCodec(): $Codec<never>;
         self(): $MutableComponent;
-        hover(s: $Component_): $MutableComponent;
-        green(): $MutableComponent;
-        color(c: $KubeColor_): $MutableComponent;
-        yellow(): $MutableComponent;
-        red(): $MutableComponent;
-        font(s: $ResourceLocation_): $MutableComponent;
-        aqua(): $MutableComponent;
-        black(): $MutableComponent;
-        gray(): $MutableComponent;
-        blue(): $MutableComponent;
-        white(): $MutableComponent;
-        italic(): $MutableComponent;
         italic(value: boolean): $MutableComponent;
+        italic(): $MutableComponent;
         click(s: $ClickEvent_): $MutableComponent;
-        gold(): $MutableComponent;
         bold(value: boolean): $MutableComponent;
         bold(): $MutableComponent;
+        color(c: $KubeColor_): $MutableComponent;
+        yellow(): $MutableComponent;
+        blue(): $MutableComponent;
+        red(): $MutableComponent;
+        aqua(): $MutableComponent;
+        black(): $MutableComponent;
+        font(s: $ResourceLocation_): $MutableComponent;
+        gray(): $MutableComponent;
+        hover(s: $Component_): $MutableComponent;
+        white(): $MutableComponent;
+        green(): $MutableComponent;
+        gold(): $MutableComponent;
         get codec(): $Codec<never>;
     }
     export class $MinecraftClientKJS {
     }
     export interface $MinecraftClientKJS extends $MinecraftEnvironmentKJS {
-        getParticleTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
+        setStatusMessage(message: $Component_): void;
+        setActivePostShader(id: $ResourceLocation_): void;
+        getCurrentScreen(): $Screen;
+        setCurrentScreen(gui: $Screen): void;
+        getCurrentWorldName(): string;
+        getKeyBindPressedTicks(id: string): number;
+        /**
+         * Runs the specified console command client-side with the player's permission level. The command won't output any logs in chat nor console.
+         * 
+         * @param command The console command. Slash at the beginning is optional.
+         */
+        runCommandSilent(command: string): void;
+        isKeyMappingDown(key: $KeyMapping): boolean;
+        getBlockTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
+        self(): $Minecraft;
+        tell(message: $Component_): void;
         getTitle(): string;
-        isKeyDown(key: number): boolean;
-        isKeyDown(keyName: string): boolean;
-        setTitle(t: string): void;
-        isShiftDown(): boolean;
-        isCtrlDown(): boolean;
+        isKeyBindDown(id: string): boolean;
         /**
          * Runs the specified console command client-side with the player's permission level.
          * 
@@ -1324,33 +1335,22 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          */
         runCommand(command: string): void;
         getName(): $Component;
-        isKeyBindDown(id: string): boolean;
+        setTitle(t: string): void;
+        isShiftDown(): boolean;
+        isKeyDown(keyName: string): boolean;
+        isKeyDown(key: number): boolean;
+        isCtrlDown(): boolean;
         isAltDown(): boolean;
-        getCurrentScreen(): $Screen;
-        setStatusMessage(message: $Component_): void;
-        setActivePostShader(id: $ResourceLocation_): void;
-        setCurrentScreen(gui: $Screen): void;
-        getKeyBindPressedTicks(id: string): number;
-        getBlockTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
-        isKeyMappingDown(key: $KeyMapping): boolean;
-        /**
-         * Runs the specified console command client-side with the player's permission level. The command won't output any logs in chat nor console.
-         * 
-         * @param command The console command. Slash at the beginning is optional.
-         */
-        runCommandSilent(command: string): void;
-        getCurrentWorldName(): string;
-        self(): $Minecraft;
-        tell(message: $Component_): void;
-        get particleTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
-        get shiftDown(): boolean;
-        get ctrlDown(): boolean;
-        get name(): $Component;
-        get altDown(): boolean;
+        getParticleTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
         set statusMessage(value: $Component_);
         set activePostShader(value: $ResourceLocation_);
-        get blockTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
         get currentWorldName(): string;
+        get blockTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
+        get name(): $Component;
+        get shiftDown(): boolean;
+        get ctrlDown(): boolean;
+        get altDown(): boolean;
+        get particleTextureAtlas(): $Function<$ResourceLocation, $TextureAtlasSprite>;
     }
     /**
      * Values that may be interpreted as {@link $MinecraftClientKJS}.
@@ -1371,47 +1371,47 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     }
     export interface $ContainerKJS extends $InventoryKJS {
         getBlock(level: $Level_): $LevelBlock;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         setStackInSlot(slot: number, stack: $ItemStack_): void;
-        setChanged(): void;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
-        asContainer(): $Container;
-        getSlots(): number;
-        isMutable(): boolean;
-        getWidth(): number;
         getHeight(): number;
+        setChanged(): void;
+        getWidth(): number;
+        asContainer(): $Container;
+        isMutable(): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        clear(): void;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         self(): $Container;
-        get slots(): number;
-        get mutable(): boolean;
-        get width(): number;
+        clear(): void;
         get height(): number;
+        get width(): number;
+        get mutable(): boolean;
+        get slots(): number;
     }
     export class $IngredientKJS {
     }
     export interface $IngredientKJS extends $ItemPredicate, $Replaceable, $WithCodec, $ItemMatch {
         matches(cx: $RecipeMatchContext, arg1: $Ingredient_, exact: boolean): boolean;
         matches(cx: $RecipeMatchContext, item: $ItemStack_, exact: boolean): boolean;
-        getStackArray(): $ItemStack[];
-        asStack(): $SizedIngredient;
-        getTagKey(): $TagKey<$Item>;
-        containsAnyTag(): boolean;
-        getCodec(): $Codec<never>;
-        isWildcard(): boolean;
-        withCount(count: number): $SizedIngredient;
-        toIngredientString(ops: $DynamicOps<$Tag_>): string;
         asIngredient(): $Ingredient;
-        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
+        getCodec(): $Codec<never>;
+        and(ingredient: $Ingredient_): $Ingredient;
         except(subtracted: $Ingredient_): $Ingredient;
         or(ingredient: $Ingredient_): $Ingredient;
-        and(ingredient: $Ingredient_): $Ingredient;
+        getStackArray(): $ItemStack[];
+        containsAnyTag(): boolean;
+        asStack(): $SizedIngredient;
+        getTagKey(): $TagKey<$Item>;
+        isWildcard(): boolean;
+        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
         self(): $Ingredient;
+        withCount(count: number): $SizedIngredient;
+        toIngredientString(ops: $DynamicOps<$Tag_>): string;
+        get codec(): $Codec<never>;
         get stackArray(): $ItemStack[];
         get tagKey(): $TagKey<$Item>;
-        get codec(): $Codec<never>;
         get wildcard(): boolean;
     }
     /**
@@ -1421,20 +1421,20 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $ItemEntityKJS {
     }
     export interface $ItemEntityKJS extends $EntityKJS {
-        getLifespan(): number;
-        setNoDespawn(): void;
-        setLifespan(lifespan: number): void;
+        isItem(): this is $ItemEntity;
+        setDefaultPickUpDelay(): void;
+        setNoPickUpDelay(): void;
+        setInfinitePickUpDelay(): void;
+        setTicksUntilDespawn(ticks: number): void;
+        getTicksUntilDespawn(): number;
         /**
          * Gets the item stack corresponding to the item contained in the item entity.
          * Will be `null` if the contained stack is empty.
          */
         getItem(): $ItemStack;
-        isItem(): this is $ItemEntity;
-        setInfinitePickUpDelay(): void;
-        getTicksUntilDespawn(): number;
-        setNoPickUpDelay(): void;
-        setDefaultPickUpDelay(): void;
-        setTicksUntilDespawn(ticks: number): void;
+        setLifespan(lifespan: number): void;
+        getLifespan(): number;
+        setNoDespawn(): void;
     }
     export class $NoMixinException extends $IllegalStateException {
         constructor();
@@ -1442,8 +1442,8 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
     export class $ReloadableServerResourceHolderKJS {
     }
     export interface $ReloadableServerResourceHolderKJS {
-        kjs$setResources(resources: $ReloadableServerResourcesKJS): void;
         kjs$getResources(): $ReloadableServerResourcesKJS;
+        kjs$setResources(resources: $ReloadableServerResourcesKJS): void;
     }
     export class $ItemStackKJS {
         get<T extends keyof DataComponentTypes.OutputMap>(type: T): DataComponentTypes.OutputMap[T] | null;
@@ -1452,60 +1452,60 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
         set<T extends keyof DataComponentTypes.InputMap>(type: T, data: DataComponentTypes.InputMap[T]): this;
     }
     export interface $ItemStackKJS extends $SpecialEquality, $WithCodec, $IngredientSupplierKJS, $ToStringJS, $Replaceable, $ItemComponentFunctions, $MutableDataComponentHolderFunctions, $ItemMatch, $RegistryObjectKJS<$Item> {
-        matches(cx: $RecipeMatchContext, s: $ItemStack_, exact: boolean): boolean;
         matches(cx: $RecipeMatchContext, itemLike: $ItemLike_, exact: boolean): boolean;
+        matches(cx: $RecipeMatchContext, s: $ItemStack_, exact: boolean): boolean;
         matches(cx: $RecipeMatchContext, arg1: $Ingredient_, exact: boolean): boolean;
+        asIngredient(): $Ingredient;
+        specialEquals(o: $Object, shallow: boolean): boolean;
+        getId(): string;
         getCodec(): $Codec<$ItemStack>;
+        getComponentString(): string;
+        getMod(): string;
         getTypeData(): $Map<string, $Object>;
-        toStringJS(): string;
         getBlock(): $Block;
-        enchant(enchantments: $ItemEnchantments_): this;
+        getRegistryId(): $ResourceKey<$Registry<$Item>>;
+        getWebIconURL(ops: $DynamicOps<$Tag_>, size: number): $RelativeURL;
+        getIdLocation(): $ResourceLocation;
+        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
+        asHolder(): $Holder<$Item>;
+        getRegistry(): $Registry<$Item>;
+        toStringJS(): string;
+        self(): $ItemStack;
+        getKey(): $ResourceKey<$Item>;
+        getEnchantments(): $ItemEnchantments;
+        areComponentsEqual(other: $ItemStack_): boolean;
+        equalsIgnoringCount(stack: $ItemStack_): boolean;
+        getHarvestSpeed(block: $LevelBlock): number;
+        getHarvestSpeed(): number;
+        areItemsEqual(other: $ItemStack_): boolean;
+        hasEnchantment(enchantment: $Holder_<$Enchantment>, level: number): boolean;
+        toItemString0(dynamicOps: $DynamicOps<$Tag_>): string;
+        withLore(lines: $Component_[], styledLines: $Component_[]): this;
+        withLore(lines: $Component_[]): this;
+        withCustomName(name: $Component_): this;
+        withCount(c: number): this;
+        toItemString(): string;
         enchant(enchantment: $Holder_<$Enchantment>, level: number): this;
+        enchant(enchantments: $ItemEnchantments_): this;
         /**
          * @deprecated
          */
         withChance(chance: number): $ItemStack;
-        toItemString0(dynamicOps: $DynamicOps<$Tag_>): string;
-        toItemString(): string;
-        withCustomName(name: $Component_): this;
-        withLore(lines: $Component_[]): this;
-        withLore(lines: $Component_[], styledLines: $Component_[]): this;
-        areItemsEqual(other: $ItemStack_): boolean;
-        hasEnchantment(enchantment: $Holder_<$Enchantment>, level: number): boolean;
-        withCount(c: number): this;
-        areComponentsEqual(other: $ItemStack_): boolean;
-        getEnchantments(): $ItemEnchantments;
-        getHarvestSpeed(): number;
-        getHarvestSpeed(block: $LevelBlock): number;
-        equalsIgnoringCount(stack: $ItemStack_): boolean;
-        getMod(): string;
-        asIngredient(): $Ingredient;
-        getRegistry(): $Registry<$Item>;
-        replaceThisWith(cx: $RecipeScriptContext, arg1: $Object): $Object;
-        asHolder(): $Holder<$Item>;
-        getRegistryId(): $ResourceKey<$Registry<$Item>>;
-        getWebIconURL(ops: $DynamicOps<$Tag_>, size: number): $RelativeURL;
-        getIdLocation(): $ResourceLocation;
-        specialEquals(o: $Object, shallow: boolean): boolean;
-        getComponentString(): string;
-        self(): $ItemStack;
-        getKey(): $ResourceKey<$Item>;
-        getId(): string;
         get<T extends keyof DataComponentTypes.OutputMap>(type: T): DataComponentTypes.OutputMap[T] | null;
         getOrDefault<T extends keyof DataComponentTypes.OutputMap>(type: T, _default: DataComponentTypes.OutputMap[T]): DataComponentTypes.OutputMap[T];
         set(components: $DataComponentMap_): this;
         set<T extends keyof DataComponentTypes.InputMap>(type: T, data: DataComponentTypes.InputMap[T]): this;
+        get id(): string;
         get codec(): $Codec<$ItemStack>;
+        get componentString(): string;
+        get mod(): string;
         get typeData(): $Map<string, $Object>;
         get block(): $Block;
-        get enchantments(): $ItemEnchantments;
-        get mod(): string;
-        get registry(): $Registry<$Item>;
         get registryId(): $ResourceKey<$Registry<$Item>>;
         get idLocation(): $ResourceLocation;
-        get componentString(): string;
+        get registry(): $Registry<$Item>;
         get key(): $ResourceKey<$Item>;
-        get id(): string;
+        get enchantments(): $ItemEnchantments;
     }
     export class $ClientPlayerKJS {
     }
@@ -1514,13 +1514,13 @@ declare module "@package/dev/latvian/mods/kubejs/core" {
          * Checks if the entity is a client-side player.
          */
         isClientPlayer(): this is $AbstractClientPlayer;
-        getStats(): $PlayerStatsJS;
         isMiningBlock(): boolean;
+        getStats(): $PlayerStatsJS;
         sendData(channel: string, data: $CompoundTag_): void;
         notify(notification: $NotificationToastData_): void;
         get clientPlayer(): boolean;
-        get stats(): $PlayerStatsJS;
         get miningBlock(): boolean;
+        get stats(): $PlayerStatsJS;
     }
     /**
      * Values that may be interpreted as {@link $ClientPlayerKJS}.

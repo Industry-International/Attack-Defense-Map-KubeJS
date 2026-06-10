@@ -13,16 +13,16 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/foliageplace
     export interface $FoliagePlacerType extends RegistryMarked<RegistryTypes.WorldgenFoliagePlacerTypeTag, RegistryTypes.WorldgenFoliagePlacerType> {}
     export class $FoliagePlacer {
         type(): $FoliagePlacerType<never>;
-        shouldSkipLocationSigned(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean): boolean;
         placeLeavesRowWithHangingLeavesBelow(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_, arg5: number, arg6: number, arg7: boolean, arg8: number, arg9: number): void;
-        foliageHeight(arg0: $RandomSource, arg1: number, arg2: $TreeConfiguration): number;
-        foliageRadius(arg0: $RandomSource, arg1: number): number;
+        shouldSkipLocationSigned(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean): boolean;
         shouldSkipLocation(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean): boolean;
-        placeLeavesRow(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_, arg5: number, arg6: number, arg7: boolean): void;
-        static foliagePlacerParts<P extends $FoliagePlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P2<$RecordCodecBuilder$Mu<P>, $IntProvider, $IntProvider>;
+        static tryPlaceLeaf(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_): boolean;
         createFoliage(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: number, arg5: $FoliagePlacer$FoliageAttachment, arg6: number, arg7: number, arg8: number): void;
         createFoliage(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: number, arg5: $FoliagePlacer$FoliageAttachment, arg6: number, arg7: number): void;
-        static tryPlaceLeaf(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_): boolean;
+        foliageRadius(arg0: $RandomSource, arg1: number): number;
+        static foliagePlacerParts<P extends $FoliagePlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P2<$RecordCodecBuilder$Mu<P>, $IntProvider, $IntProvider>;
+        placeLeavesRow(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_, arg5: number, arg6: number, arg7: boolean): void;
+        foliageHeight(arg0: $RandomSource, arg1: number, arg2: $TreeConfiguration): number;
         static CODEC: $Codec<$FoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;

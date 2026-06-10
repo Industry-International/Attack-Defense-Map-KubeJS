@@ -9,8 +9,8 @@ declare module "@package/dev/engine_room/flywheel/impl/extension" {
     export class $BlockEntityTypeExtension<T extends $BlockEntity> {
     }
     export interface $BlockEntityTypeExtension<T extends $BlockEntity> {
-        flywheel$getVisualizer(): $BlockEntityVisualizer<T>;
         flywheel$setVisualizer(arg0: $BlockEntityVisualizer<T>): void;
+        flywheel$getVisualizer(): $BlockEntityVisualizer<T>;
     }
     export class $LevelExtension {
         static getAllLoadedEntities(level: $Level_): $Iterable<$Entity>;
@@ -34,7 +34,7 @@ declare module "@package/dev/engine_room/flywheel/impl/extension" {
     export class $EntityTypeExtension<T extends $Entity> {
     }
     export interface $EntityTypeExtension<T extends $Entity> {
-        flywheel$getVisualizer(): $EntityVisualizer<T>;
         flywheel$setVisualizer(arg0: $EntityVisualizer<T>): void;
+        flywheel$getVisualizer(): $EntityVisualizer<T>;
     }
 }

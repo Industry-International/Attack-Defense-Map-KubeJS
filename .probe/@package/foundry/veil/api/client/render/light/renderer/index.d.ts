@@ -4,7 +4,7 @@ import { $VertexConsumer } from "@package/com/mojang/blaze3d/vertex";
 import { $LightData } from "@package/foundry/veil/api/client/render/light/data";
 import { $AdvancedFbo } from "@package/foundry/veil/api/client/render/framebuffer";
 import { $Map, $Collection } from "@package/java/util";
-import { $LightTypeRegistry$LightType, $LightTypeRegistry$LightType_ } from "@package/foundry/veil/api/client/registry";
+import { $LightTypeRegistry$LightType_, $LightTypeRegistry$LightType } from "@package/foundry/veil/api/client/registry";
 import { $NativeResource } from "@package/org/lwjgl/system";
 
 declare module "@package/foundry/veil/api/client/render/light/renderer" {
@@ -34,12 +34,12 @@ declare module "@package/foundry/veil/api/client/render/light/renderer" {
         static createQuad(arg0: $VertexConsumer): void;
     }
     export interface $LightTypeRenderer<T extends $LightData> extends $NativeResource {
-        getVisibleLights(): number;
-        renderLights(arg0: $LightRenderer): void;
         prepareLights(arg0: $LightRenderer, arg1: $CullFrustum): void;
+        renderLights(arg0: $LightRenderer): void;
+        getVisibleLights(): number;
         addLight(arg0: T): $LightRenderHandle<T>;
-        getLights(): $Collection<$LightRenderHandle<T>>;
         steal(arg0: $LightRenderHandle<T>): $LightRenderHandle<T>;
+        getLights(): $Collection<$LightRenderHandle<T>>;
         get visibleLights(): number;
         get lights(): $Collection<$LightRenderHandle<T>>;
     }

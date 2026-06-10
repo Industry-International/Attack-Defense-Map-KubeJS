@@ -27,13 +27,13 @@ export * as target from "@package/net/minecraft/world/entity/ai/goal/target";
 declare module "@package/net/minecraft/world/entity/ai/goal" {
     export class $WrappedGoal extends $Goal {
         getPriority(): number;
-        getGoal(): $Goal;
         isRunning(): boolean;
+        getGoal(): $Goal;
         canBeReplacedBy(arg0: $WrappedGoal): boolean;
         constructor(arg0: number, arg1: $Goal);
         get priority(): number;
-        get goal(): $Goal;
         get running(): boolean;
+        get goal(): $Goal;
     }
     export class $MoveTowardsRestrictionGoal extends $Goal {
         constructor(arg0: $PathfinderMob, arg1: number);
@@ -92,13 +92,13 @@ declare module "@package/net/minecraft/world/entity/ai/goal" {
     }
     export class $GoalSelector {
         tick(): void;
-        addGoal(arg0: number, arg1: $Goal): void;
         removeGoal(arg0: $Goal): void;
-        disableControlFlag(arg0: $Goal$Flag_): void;
         tickRunningGoals(arg0: boolean): void;
+        disableControlFlag(arg0: $Goal$Flag_): void;
         removeAllGoals(arg0: $Predicate_<$Goal>): void;
-        enableControlFlag(arg0: $Goal$Flag_): void;
         getAvailableGoals(): $Set<$WrappedGoal>;
+        enableControlFlag(arg0: $Goal$Flag_): void;
+        addGoal(arg0: number, arg1: $Goal): void;
         setControlFlag(arg0: $Goal$Flag_, arg1: boolean): void;
         constructor(arg0: $Supplier_<$ProfilerFiller>);
         get availableGoals(): $Set<$WrappedGoal>;
@@ -134,13 +134,13 @@ declare module "@package/net/minecraft/world/entity/ai/goal" {
         set minAttackInterval(value: number);
     }
     export class $MoveToBlockGoal extends $Goal {
-        acceptedDistance(): number;
+        findNearestBlock(): boolean;
         isValidTarget(arg0: $LevelReader, arg1: $BlockPos_): boolean;
+        isReachedTarget(): boolean;
         nextStartTick(arg0: $PathfinderMob): number;
         moveMobToBlock(): void;
-        isReachedTarget(): boolean;
+        acceptedDistance(): number;
         getMoveToTarget(): $BlockPos;
-        findNearestBlock(): boolean;
         shouldRecalculatePath(): boolean;
         speedModifier: number;
         mob: $PathfinderMob;
@@ -340,9 +340,9 @@ declare module "@package/net/minecraft/world/entity/ai/goal" {
     }
     export class $PanicGoal extends $Goal {
         isRunning(): boolean;
-        findRandomPosition(): boolean;
         shouldPanic(): boolean;
         lookForWater(arg0: $BlockGetter, arg1: $Entity, arg2: number): $BlockPos;
+        findRandomPosition(): boolean;
         static WATER_CHECK_DISTANCE_VERTICAL: number;
         speedModifier: number;
         posX: number;
@@ -367,16 +367,16 @@ declare module "@package/net/minecraft/world/entity/ai/goal" {
         constructor(arg0: $TamableAnimal, arg1: number, arg2: number, arg3: number);
     }
     export class $MeleeAttackGoal extends $Goal {
+        isTimeToAttack(): boolean;
         canPerformAttack(arg0: $LivingEntity): boolean;
         getAttackInterval(): number;
-        isTimeToAttack(): boolean;
-        getTicksUntilNextAttack(): number;
         resetAttackCooldown(): void;
+        getTicksUntilNextAttack(): number;
         checkAndPerformAttack(arg0: $LivingEntity): void;
         mob: $PathfinderMob;
         constructor(arg0: $PathfinderMob, arg1: number, arg2: boolean);
-        get attackInterval(): number;
         get timeToAttack(): boolean;
+        get attackInterval(): number;
         get ticksUntilNextAttack(): number;
     }
     export class $Goal {
@@ -385,12 +385,12 @@ declare module "@package/net/minecraft/world/entity/ai/goal" {
         canUse(): boolean;
         tick(): void;
         getFlags(): $EnumSet<$Goal$Flag>;
-        isInterruptable(): boolean;
+        static reducedTickDelay(arg0: number): number;
         adjustedTickDelay(arg0: number): number;
         canContinueToUse(): boolean;
-        static reducedTickDelay(arg0: number): number;
-        requiresUpdateEveryTick(): boolean;
+        isInterruptable(): boolean;
         setFlags(arg0: $EnumSet<$Goal$Flag_>): void;
+        requiresUpdateEveryTick(): boolean;
         constructor();
         get interruptable(): boolean;
     }

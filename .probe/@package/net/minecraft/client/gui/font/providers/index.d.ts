@@ -27,8 +27,8 @@ declare module "@package/net/minecraft/client/gui/font/providers" {
         calculateWidth(): number;
     }
     export class $UnihexProvider$Glyph extends $Record implements $GlyphInfo {
-        getShadowOffset(): number;
         getAdvance(arg0: boolean): number;
+        getShadowOffset(): number;
         getBoldOffset(): number;
         get shadowOffset(): number;
         get boldOffset(): number;
@@ -74,12 +74,12 @@ declare module "@package/net/minecraft/client/gui/font/providers" {
         calculateWidth(): number;
     }
     export class $UnihexProvider implements $GlyphProvider {
+        static readFromStream(arg0: $InputStream, arg1: $UnihexProvider$ReaderOutput_): void;
+        static decodeHex(arg0: number, arg1: $ByteList, arg2: number): number;
+        getGlyph(arg0: number): $GlyphInfo;
+        getSupportedGlyphs(): $IntSet;
         static unpackBitsToBytes(arg0: $IntBuffer, arg1: $UnihexProvider$LineData, arg2: number, arg3: number): void;
         static unpackBitsToBytes(arg0: $IntBuffer, arg1: number, arg2: number, arg3: number): void;
-        static readFromStream(arg0: $InputStream, arg1: $UnihexProvider$ReaderOutput_): void;
-        getSupportedGlyphs(): $IntSet;
-        getGlyph(arg0: number): $GlyphInfo;
-        static decodeHex(arg0: number, arg1: $ByteList, arg2: number): number;
         close(): void;
         static LOGGER: $Logger;
         constructor(arg0: $CodepointMap<$UnihexProvider$Glyph_>);
@@ -96,8 +96,8 @@ declare module "@package/net/minecraft/client/gui/font/providers" {
     export type $GlyphProviderDefinition$Loader_ = ((arg0: $ResourceManager) => $GlyphProvider);
     export class $BitmapProvider implements $GlyphProvider {
         close(): void;
-        getSupportedGlyphs(): $IntSet;
         getGlyph(arg0: number): $GlyphInfo;
+        getSupportedGlyphs(): $IntSet;
         static LOGGER: $Logger;
         constructor(arg0: $NativeImage, arg1: $CodepointMap<$BitmapProvider$Glyph_>);
         get supportedGlyphs(): $IntSet;
@@ -192,12 +192,12 @@ declare module "@package/net/minecraft/client/gui/font/providers" {
         image(): $NativeImage;
         height(): number;
         ascent(): number;
-        offsetX(): number;
-        offsetY(): number;
-        bake(arg0: $Function_<$SheetGlyphInfo, $BakedGlyph>): $BakedGlyph;
         getAdvance(): number;
-        getShadowOffset(): number;
+        offsetY(): number;
+        offsetX(): number;
+        bake(arg0: $Function_<$SheetGlyphInfo, $BakedGlyph>): $BakedGlyph;
         getAdvance(arg0: boolean): number;
+        getShadowOffset(): number;
         getBoldOffset(): number;
         constructor(arg0: number, arg1: $NativeImage, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number);
         get shadowOffset(): number;

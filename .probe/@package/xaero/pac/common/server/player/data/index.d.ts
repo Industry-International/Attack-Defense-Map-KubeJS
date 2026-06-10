@@ -5,7 +5,7 @@ declare module "@package/xaero/pac/common/server/player/data" {
     export class $IOpenPACServerPlayer {
     }
     export interface $IOpenPACServerPlayer {
-        setXaero_OPAC_PlayerData(arg0: $ServerPlayerDataAPI): void;
         getXaero_OPAC_PlayerData(): $ServerPlayerDataAPI;
+        setXaero_OPAC_PlayerData(arg0: $ServerPlayerDataAPI): void;
     }
 }

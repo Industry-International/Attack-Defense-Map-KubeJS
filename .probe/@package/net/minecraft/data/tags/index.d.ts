@@ -196,8 +196,8 @@ declare module "@package/net/minecraft/data/tags" {
          * @deprecated
          */
         getModID(): string;
-        addOptionalTag(arg0: $ResourceLocation_): $TagsProvider$TagAppender<T>;
         getInternalBuilder(): $TagBuilder;
+        addOptionalTag(arg0: $ResourceLocation_): $TagsProvider$TagAppender<T>;
         remove(arg0: $TagKey_<T>, ...arg1: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
         remove(arg0: $ResourceLocation_, ...arg1: $ResourceLocation_[]): $TagsProvider$TagAppender<T>;
         remove(arg0: $ResourceKey_<T>): $TagsProvider$TagAppender<T>;
@@ -207,8 +207,8 @@ declare module "@package/net/minecraft/data/tags" {
         replace(arg0: boolean): $TagsProvider$TagAppender<T>;
         replace(): $TagsProvider$TagAppender<T>;
         addTags(...arg0: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
-        addOptionalTag(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
         addOptionalTags(...arg0: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
+        addOptionalTag(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
         builder: $TagBuilder;
         constructor(arg0: $TagBuilder);
         /**

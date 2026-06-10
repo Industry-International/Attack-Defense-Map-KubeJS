@@ -72,9 +72,9 @@ declare module "@package/net/minecraft/network/chat" {
         static root(arg0: $UUID_, arg1: $UUID_): $SignedMessageLink;
         advance(): $SignedMessageLink;
         static unsigned(arg0: $UUID_): $SignedMessageLink;
-        sessionId(): $UUID;
-        sender(): $UUID;
         isDescendantOf(arg0: $SignedMessageLink_): boolean;
+        sender(): $UUID;
+        sessionId(): $UUID;
         updateSignature(arg0: $SignatureUpdater$Output_): void;
         static CODEC: $Codec<$SignedMessageLink>;
         constructor(arg0: number, arg1: $UUID_, arg2: $UUID_);
@@ -82,10 +82,10 @@ declare module "@package/net/minecraft/network/chat" {
     export class $SignedMessageBody extends $Record {
         content(): string;
         static unsigned(arg0: string): $SignedMessageBody;
-        pack(arg0: $MessageSignatureCache): $SignedMessageBody$Packed;
-        timeStamp(): $Instant;
-        lastSeen(): $LastSeenMessages;
         salt(): number;
+        timeStamp(): $Instant;
+        pack(arg0: $MessageSignatureCache): $SignedMessageBody$Packed;
+        lastSeen(): $LastSeenMessages;
         updateSignature(arg0: $SignatureUpdater$Output_): void;
         static MAP_CODEC: $MapCodec<$SignedMessageBody>;
         constructor(arg0: string, arg1: $Instant, arg2: number, arg3: $LastSeenMessages_);
@@ -103,12 +103,12 @@ declare module "@package/net/minecraft/network/chat" {
      */
     export type $ComponentContents_ = (() => $ComponentContents$Type_<never>);
     export class $RemoteChatSession extends $Record {
-        hasExpired(): boolean;
         asData(): $RemoteChatSession$Data;
+        hasExpired(): boolean;
         sessionId(): $UUID;
-        createMessageValidator(arg0: $Duration_): $SignedMessageValidator;
         profilePublicKey(): $ProfilePublicKey;
         createMessageDecoder(arg0: $UUID_): $SignedMessageChain$Decoder;
+        createMessageValidator(arg0: $Duration_): $SignedMessageValidator;
         constructor(arg0: $UUID_, arg1: $ProfilePublicKey_);
     }
     export class $ChatType extends $Record {
@@ -116,8 +116,8 @@ declare module "@package/net/minecraft/network/chat" {
         static bind(arg0: $ResourceKey_<$ChatType>, arg1: $Entity): $ChatType$Bound;
         static bind(arg0: $ResourceKey_<$ChatType>, arg1: $RegistryAccess, arg2: $Component_): $ChatType$Bound;
         static bind(arg0: $ResourceKey_<$ChatType>, arg1: $CommandSourceStack): $ChatType$Bound;
-        chat(): $ChatTypeDecoration;
         narration(): $ChatTypeDecoration;
+        chat(): $ChatTypeDecoration;
         static SAY_COMMAND: $ResourceKey<$ChatType>;
         static MSG_COMMAND_OUTGOING: $ResourceKey<$ChatType>;
         static MSG_COMMAND_INCOMING: $ResourceKey<$ChatType>;
@@ -198,10 +198,10 @@ declare module "@package/net/minecraft/network/chat" {
     export class $SignedMessageBody$Packed extends $Record {
         write(arg0: $FriendlyByteBuf): void;
         content(): string;
+        salt(): number;
         timeStamp(): $Instant;
         unpack(arg0: $MessageSignatureCache): ($SignedMessageBody) | undefined;
         lastSeen(): $LastSeenMessages$Packed;
-        salt(): number;
         constructor(arg0: $FriendlyByteBuf);
         constructor(arg0: string, arg1: $Instant, arg2: number, arg3: $LastSeenMessages$Packed_);
     }
@@ -250,30 +250,30 @@ declare module "@package/net/minecraft/network/chat" {
     }
     export class $Style {
         isEmpty(): boolean;
-        getColor(): $TextColor;
         isObfuscated(): boolean;
-        getHoverEvent(): $HoverEvent;
+        applyFormat(arg0: $ChatFormatting_): $Style;
+        withHoverEvent(arg0: $HoverEvent): $Style;
+        withInsertion(arg0: string): $Style;
         withUnderlined(arg0: boolean): $Style;
         applyFormats(...arg0: $ChatFormatting_[]): $Style;
         withObfuscated(arg0: boolean): $Style;
-        applyFormat(arg0: $ChatFormatting_): $Style;
-        withHoverEvent(arg0: $HoverEvent): $Style;
-        isStrikethrough(): boolean;
+        withStrikethrough(arg0: boolean): $Style;
         isUnderlined(): boolean;
         getInsertion(): string;
+        isStrikethrough(): boolean;
         applyLegacyFormat(arg0: $ChatFormatting_): $Style;
         getClickEvent(): $ClickEvent;
-        withStrikethrough(arg0: boolean): $Style;
-        withInsertion(arg0: string): $Style;
-        applyTo(arg0: $Style): $Style;
-        withClickEvent(arg0: $ClickEvent_): $Style;
-        getFont(): $ResourceLocation;
-        withColor(arg0: $TextColor_): $Style;
+        getColor(): $TextColor;
+        getHoverEvent(): $HoverEvent;
         withColor(arg0: $ChatFormatting_): $Style;
         withColor(arg0: number): $Style;
-        withFont(arg0: $ResourceLocation_): $Style;
+        withColor(arg0: $TextColor_): $Style;
+        getFont(): $ResourceLocation;
+        withClickEvent(arg0: $ClickEvent_): $Style;
+        applyTo(arg0: $Style): $Style;
         withItalic(arg0: boolean): $Style;
         withBold(arg0: boolean): $Style;
+        withFont(arg0: $ResourceLocation_): $Style;
         isBold(): boolean;
         isItalic(): boolean;
         hoverEvent: $HoverEvent;
@@ -414,16 +414,16 @@ declare module "@package/net/minecraft/network/chat" {
     export class $TextColor implements $KubeColor {
         getValue(): number;
         serialize(): string;
-        static parseColor(arg0: string): $DataResult<$TextColor>;
-        kjs$getRGB(): number;
+        static fromLegacyFormat(arg0: $ChatFormatting_): $TextColor;
         formatValue(): string;
         kjs$getARGB(): number;
-        static fromLegacyFormat(arg0: $ChatFormatting_): $TextColor;
+        static parseColor(arg0: string): $DataResult<$TextColor>;
+        kjs$getRGB(): number;
         static fromRgb(arg0: number): $TextColor;
-        createTextColor(): $TextColor;
-        getFireworkRGB(): number;
-        toHexString(): string;
         specialEquals(o: $Object, shallow: boolean): boolean;
+        createTextColor(): $TextColor;
+        toHexString(): string;
+        getFireworkRGB(): number;
         serialize(): string;
         static CODEC: $Codec<$TextColor>;
         static NAMED_COLORS: $Map<string, $TextColor>;
@@ -455,11 +455,11 @@ declare module "@package/net/minecraft/network/chat" {
         static hours(arg0: number): $MutableComponent;
         static minutes(arg0: number): $MutableComponent;
         static optionNameValue(arg0: $Component_, arg1: $Component_): $MutableComponent;
-        static joinForNarration(...arg0: $Component_[]): $MutableComponent;
-        static joinLines(arg0: $Collection_<$Component_>): $Component;
-        static joinLines(...arg0: $Component_[]): $Component;
         static optionStatus(arg0: $Component_, arg1: boolean): $MutableComponent;
         static optionStatus(arg0: boolean): $Component;
+        static joinForNarration(...arg0: $Component_[]): $MutableComponent;
+        static joinLines(...arg0: $Component_[]): $Component;
+        static joinLines(arg0: $Collection_<$Component_>): $Component;
         static GUI_TO_TITLE: $Component;
         static GUI_OPEN_IN_BROWSER: $Component;
         static CONNECT_FAILED: $Component;
@@ -520,11 +520,11 @@ declare module "@package/net/minecraft/network/chat" {
         set filtered(value: number);
     }
     export class $Component$Serializer {
+        static toJson(arg0: $Component_, arg1: $HolderLookup$Provider): string;
         static deserialize(arg0: $JsonElement_, arg1: $HolderLookup$Provider): $MutableComponent;
         static serialize(arg0: $Component_, arg1: $HolderLookup$Provider): $JsonElement;
         static fromJson(arg0: string, arg1: $HolderLookup$Provider): $MutableComponent;
         static fromJson(arg0: $JsonElement_, arg1: $HolderLookup$Provider): $MutableComponent;
-        static toJson(arg0: $Component_, arg1: $HolderLookup$Provider): string;
         static fromJsonLenient(arg0: string, arg1: $HolderLookup$Provider): $MutableComponent;
     }
     export class $FormattedText$ContentConsumer<T> {
@@ -542,14 +542,14 @@ declare module "@package/net/minecraft/network/chat" {
         static formatList<T>(arg0: $Collection_<T>, arg1: ($Component_) | undefined, arg2: $Function_<T, $Component>): $MutableComponent;
         static formatList(arg0: $Collection_<$Component_>, arg1: $Component_): $Component;
         static formatList<T>(arg0: $Collection_<T>, arg1: $Component_, arg2: $Function_<T, $Component>): $MutableComponent;
-        static mergeStyles(arg0: $MutableComponent_, arg1: $Style): $MutableComponent;
-        static wrapInSquareBrackets(arg0: $Component_): $MutableComponent;
-        static updateForEntity(arg0: $CommandSourceStack, arg1: $Component_, arg2: $Entity, arg3: number): $MutableComponent;
         static updateForEntity(arg0: $CommandSourceStack, arg1: ($Component_) | undefined, arg2: $Entity, arg3: number): ($MutableComponent) | undefined;
+        static updateForEntity(arg0: $CommandSourceStack, arg1: $Component_, arg2: $Entity, arg3: number): $MutableComponent;
+        static wrapInSquareBrackets(arg0: $Component_): $MutableComponent;
         static fromMessage(arg0: $Message_): $Component;
+        static mergeStyles(arg0: $MutableComponent_, arg1: $Style): $MutableComponent;
         static isTranslationResolvable(arg0: $Component_): boolean;
-        static copyOnClickText(arg0: string): $MutableComponent;
         static formatAndSortList<T extends $Comparable<T>>(arg0: $Collection_<T>, arg1: $Function_<T, $Component>): $Component;
+        static copyOnClickText(arg0: string): $MutableComponent;
         static DEFAULT_NO_STYLE_SEPARATOR: $Component;
         static DEFAULT_SEPARATOR_TEXT: string;
         static DEFAULT_SEPARATOR: $Component;
@@ -598,9 +598,9 @@ declare module "@package/net/minecraft/network/chat" {
     export class $LocalChatSession extends $Record {
         static create(arg0: $ProfileKeyPair_): $LocalChatSession;
         asRemote(): $RemoteChatSession;
+        keyPair(): $ProfileKeyPair;
         sessionId(): $UUID;
         createMessageEncoder(arg0: $UUID_): $SignedMessageChain$Encoder;
-        keyPair(): $ProfileKeyPair;
         constructor(arg0: $UUID_, arg1: $ProfileKeyPair_);
     }
     export class $ComponentContents$Type<T extends $ComponentContents> extends $Record implements $StringRepresentable {
@@ -627,8 +627,8 @@ declare module "@package/net/minecraft/network/chat" {
     export class $ComponentSerialization$StrictEither<T> extends $MapCodec<T> {
     }
     export class $LastSeenMessagesValidator {
-        applyOffset(arg0: number): boolean;
         addPending(arg0: $MessageSignature_): void;
+        applyOffset(arg0: number): boolean;
         applyUpdate(arg0: $LastSeenMessages$Update_): ($LastSeenMessages) | undefined;
         trackedMessagesCount(): number;
         constructor(arg0: number);
@@ -638,41 +638,41 @@ declare module "@package/net/minecraft/network/chat" {
         static empty(): $MutableComponent;
         static literal(arg0: string): $MutableComponent;
         static selector(arg0: string, arg1: ($Component_) | undefined): $MutableComponent;
-        static score(arg0: string, arg1: string): $MutableComponent;
-        static nullToEmpty(arg0: string): $Component;
+        static translatableEscape(arg0: string, ...arg1: $Object[]): $MutableComponent;
+        static translationArg(arg0: $Message_): $Component;
+        static translationArg(arg0: $Date): $Component;
+        static translationArg(arg0: $UUID_): $Component;
+        static translationArg(arg0: $ChunkPos): $Component;
+        static translationArg(arg0: $ResourceLocation_): $Component;
+        static translationArg(arg0: $URI): $Component;
         static translatableWithFallback(arg0: string, arg1: string, ...arg2: $Object[]): $MutableComponent;
         static translatableWithFallback(arg0: string, arg1: string): $MutableComponent;
-        static translatable(arg0: string): $MutableComponent;
+        static score(arg0: string, arg1: string): $MutableComponent;
+        static nullToEmpty(arg0: string): $Component;
         static translatable(arg0: string, ...arg1: $Object[]): $MutableComponent;
-        static translationArg(arg0: $Message_): $Component;
-        static translationArg(arg0: $UUID_): $Component;
-        static translationArg(arg0: $ResourceLocation_): $Component;
-        static translationArg(arg0: $ChunkPos): $Component;
-        static translationArg(arg0: $URI): $Component;
-        static translationArg(arg0: $Date): $Component;
-        static translatableEscape(arg0: string, ...arg1: $Object[]): $MutableComponent;
-        static nbt(arg0: string, arg1: boolean, arg2: ($Component_) | undefined, arg3: $DataSource): $MutableComponent;
+        static translatable(arg0: string): $MutableComponent;
         static keybind(arg0: string): $MutableComponent;
+        static nbt(arg0: string, arg1: boolean, arg2: ($Component_) | undefined, arg3: $DataSource): $MutableComponent;
     }
     export interface $Component extends $Message, $FormattedText {
         contains(arg0: $Component_): boolean;
         copy(): $MutableComponent;
         visit<T>(arg0: $FormattedText$StyledContentConsumer_<T>, arg1: $Style): (T) | undefined;
         visit<T>(arg0: $FormattedText$ContentConsumer_<T>): (T) | undefined;
-        getString(arg0: number): string;
         getString(): string;
+        getString(arg0: number): string;
         getContents(): $ComponentContents;
+        getSiblings(): $List<$Component>;
+        tryCollapseToString(): string;
         getStyle(): $Style;
         getVisualOrderText(): $FormattedCharSequence;
-        tryCollapseToString(): string;
-        getSiblings(): $List<$Component>;
-        plainCopy(): $MutableComponent;
         toFlatList(arg0: $Style): $List<$Component>;
         toFlatList(): $List<$Component>;
+        plainCopy(): $MutableComponent;
         get contents(): $ComponentContents;
+        get siblings(): $List<$Component>;
         get style(): $Style;
         get visualOrderText(): $FormattedCharSequence;
-        get siblings(): $List<$Component>;
     }
     /**
      * Values that may be interpreted as {@link $Component}.
@@ -689,9 +689,9 @@ declare module "@package/net/minecraft/network/chat" {
     export class $LastSeenMessagesTracker {
         offset(): number;
         addPending(arg0: $MessageSignature_, arg1: boolean): boolean;
-        ignorePending(arg0: $MessageSignature_): void;
         generateAndApplyUpdate(): $LastSeenMessagesTracker$Update;
         getAndClearOffset(): number;
+        ignorePending(arg0: $MessageSignature_): void;
         constructor(arg0: number);
         get andClearOffset(): number;
     }
@@ -714,8 +714,8 @@ declare module "@package/net/minecraft/network/chat" {
         get plainText(): string;
     }
     export class $HoverEvent$EntityTooltipInfo {
-        static legacyCreate(arg0: $Component_, arg1: $RegistryOps<never>): $DataResult<$HoverEvent$EntityTooltipInfo>;
         getTooltipLines(): $List<$Component>;
+        static legacyCreate(arg0: $Component_, arg1: $RegistryOps<never>): $DataResult<$HoverEvent$EntityTooltipInfo>;
         static CODEC: $Codec<$HoverEvent$EntityTooltipInfo>;
         name: ($Component) | undefined;
         id: $UUID;
@@ -733,25 +733,25 @@ declare module "@package/net/minecraft/network/chat" {
         link(): $SignedMessageLink;
         isSystem(): boolean;
         static unsigned(arg0: $UUID_, arg1: string): $PlayerChatMessage;
+        salt(): number;
         timeStamp(): $Instant;
+        hasSignature(): boolean;
+        hasExpiredServer(arg0: $Instant): boolean;
+        withUnsignedContent(arg0: $Component_): $PlayerChatMessage;
+        sender(): $UUID;
+        filterMask(): $FilterMask;
+        decoratedContent(): $Component;
+        signedContent(): string;
+        hasSignatureFrom(arg0: $UUID_): boolean;
+        unsignedContent(): $Component;
+        signedBody(): $SignedMessageBody;
         chatheads$getOwner(): $PlayerInfo;
         chatheads$setOwner(playerInfo: $PlayerInfo): void;
-        filterMask(): $FilterMask;
-        unsignedContent(): $Component;
-        salt(): number;
-        withUnsignedContent(arg0: $Component_): $PlayerChatMessage;
-        hasSignature(): boolean;
-        hasSignatureFrom(arg0: $UUID_): boolean;
-        signedContent(): string;
-        decoratedContent(): $Component;
-        sender(): $UUID;
-        isFullyFiltered(): boolean;
         removeUnsignedContent(): $PlayerChatMessage;
-        signedBody(): $SignedMessageBody;
-        hasExpiredServer(arg0: $Instant): boolean;
+        isFullyFiltered(): boolean;
+        static updateSignature(arg0: $SignatureUpdater$Output_, arg1: $SignedMessageLink_, arg2: $SignedMessageBody_): void;
         hasExpiredClient(arg0: $Instant): boolean;
         removeSignature(): $PlayerChatMessage;
-        static updateSignature(arg0: $SignatureUpdater$Output_, arg1: $SignedMessageLink_, arg2: $SignedMessageBody_): void;
         static MESSAGE_EXPIRES_AFTER_SERVER: $Duration;
         static MAP_CODEC: $MapCodec<$PlayerChatMessage>;
         static MESSAGE_EXPIRES_AFTER_CLIENT: $Duration;
@@ -762,9 +762,9 @@ declare module "@package/net/minecraft/network/chat" {
         append(arg0: $Component_): $MutableComponent;
         static create(arg0: $ComponentContents_): $MutableComponent;
         getContents(): $ComponentContents;
+        getSiblings(): $List<$Component>;
         getStyle(): $Style;
         getVisualOrderText(): $FormattedCharSequence;
-        getSiblings(): $List<$Component>;
         withStyle(arg0: $UnaryOperator_<$Style>): $MutableComponent;
         withStyle(...arg0: $ChatFormatting_[]): $MutableComponent;
         withStyle(arg0: $ChatFormatting_): $MutableComponent;
@@ -775,75 +775,75 @@ declare module "@package/net/minecraft/network/chat" {
         copy(): $MutableComponent;
         visit<T>(arg0: $FormattedText$StyledContentConsumer_<T>, arg1: $Style): (T) | undefined;
         visit<T>(arg0: $FormattedText$ContentConsumer_<T>): (T) | undefined;
-        getString(arg0: number): string;
         getString(): string;
+        getString(arg0: number): string;
         tryCollapseToString(): string;
-        plainCopy(): $MutableComponent;
         toFlatList(arg0: $Style): $List<$Component>;
         toFlatList(): $List<$Component>;
+        plainCopy(): $MutableComponent;
         forEach(action: $Consumer_<$Component>): void;
-        getCodec(): $Codec<never>;
-        clickChangePage(page: string): $MutableComponent;
-        clickSuggestCommand(command: string): $MutableComponent;
-        clickRunCommand(command: string): $MutableComponent;
-        obfuscated(): $MutableComponent;
-        obfuscated(value: boolean): $MutableComponent;
-        strikethrough(value: boolean): $MutableComponent;
-        strikethrough(): $MutableComponent;
-        darkRed(): $MutableComponent;
-        noColor(): $MutableComponent;
         asIterable(): $Iterable<$Component>;
         underlined(): $MutableComponent;
         underlined(value: boolean): $MutableComponent;
+        hasStyle(): boolean;
         darkPurple(): $MutableComponent;
-        darkGreen(): $MutableComponent;
         darkBlue(): $MutableComponent;
-        isEmpty(): boolean;
-        /**
-         * @deprecated
-         */
-        rawComponent(): $MutableComponent;
+        darkGreen(): $MutableComponent;
+        darkGray(): $MutableComponent;
+        noColor(): $MutableComponent;
+        insertion(s: string): $MutableComponent;
+        strikethrough(): $MutableComponent;
+        strikethrough(value: boolean): $MutableComponent;
+        clickCopy(text: string): $MutableComponent;
+        darkAqua(): $MutableComponent;
+        lightPurple(): $MutableComponent;
+        hasSiblings(): boolean;
+        obfuscated(value: boolean): $MutableComponent;
+        obfuscated(): $MutableComponent;
+        darkRed(): $MutableComponent;
         /**
          * @deprecated
          */
         rawCopy(): $MutableComponent;
-        lightPurple(): $MutableComponent;
-        hasSiblings(): boolean;
-        hasStyle(): boolean;
-        darkGray(): $MutableComponent;
         clickOpenUrl(url: string): $MutableComponent;
+        /**
+         * @deprecated
+         */
+        rawComponent(): $MutableComponent;
         clickOpenFile(path: string): $MutableComponent;
+        isEmpty(): boolean;
         /**
          * @deprecated
          */
         component(): $Component;
-        insertion(s: string): $MutableComponent;
-        darkAqua(): $MutableComponent;
-        clickCopy(text: string): $MutableComponent;
+        clickSuggestCommand(command: string): $MutableComponent;
+        clickChangePage(page: string): $MutableComponent;
+        clickRunCommand(command: string): $MutableComponent;
+        getCodec(): $Codec<never>;
         self(): $MutableComponent;
-        hover(s: $Component_): $MutableComponent;
-        green(): $MutableComponent;
-        color(c: $KubeColor_): $MutableComponent;
-        yellow(): $MutableComponent;
-        red(): $MutableComponent;
-        font(s: $ResourceLocation_): $MutableComponent;
-        aqua(): $MutableComponent;
-        black(): $MutableComponent;
-        gray(): $MutableComponent;
-        blue(): $MutableComponent;
-        white(): $MutableComponent;
-        italic(): $MutableComponent;
         italic(value: boolean): $MutableComponent;
+        italic(): $MutableComponent;
         click(s: $ClickEvent_): $MutableComponent;
-        gold(): $MutableComponent;
         bold(value: boolean): $MutableComponent;
         bold(): $MutableComponent;
+        color(c: $KubeColor_): $MutableComponent;
+        yellow(): $MutableComponent;
+        blue(): $MutableComponent;
+        red(): $MutableComponent;
+        aqua(): $MutableComponent;
+        black(): $MutableComponent;
+        font(s: $ResourceLocation_): $MutableComponent;
+        gray(): $MutableComponent;
+        hover(s: $Component_): $MutableComponent;
+        white(): $MutableComponent;
+        green(): $MutableComponent;
+        gold(): $MutableComponent;
         toJson(): $JsonElement;
         toNBT(): $Tag;
         contents: $ComponentContents;
         constructor(arg0: $ComponentContents_, arg1: $List_<$Component_>, arg2: $Style);
-        get visualOrderText(): $FormattedCharSequence;
         get siblings(): $List<$Component>;
+        get visualOrderText(): $FormattedCharSequence;
         get codec(): $Codec<never>;
     }
     /**
@@ -856,9 +856,9 @@ declare module "@package/net/minecraft/network/chat" {
         name(): $Component;
         targetName(): ($Component) | undefined;
         decorate(arg0: $Component_): $Component;
-        chatType(): $Holder<$ChatType>;
-        decorateNarration(arg0: $Component_): $Component;
         withTargetName(arg0: $Component_): $ChatType$Bound;
+        decorateNarration(arg0: $Component_): $Component;
+        chatType(): $Holder<$ChatType>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ChatType$Bound>;
         constructor(arg0: $Holder_<$ChatType>, arg1: $Component_);
         constructor(arg0: $Holder_<$ChatType>, arg1: $Component_, arg2: ($Component_) | undefined);

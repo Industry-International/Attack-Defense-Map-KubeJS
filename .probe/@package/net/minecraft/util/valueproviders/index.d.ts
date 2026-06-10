@@ -62,8 +62,8 @@ declare module "@package/net/minecraft/util/valueproviders" {
         getType(): $IntProviderType<never>;
         getMinValue(): number;
         getMaxValue(): number;
-        static validateCodec<T extends $IntProvider>(arg0: number, arg1: number, arg2: $Codec<T>): $Codec<T>;
         static codec(arg0: number, arg1: number): $Codec<$IntProvider>;
+        static validateCodec<T extends $IntProvider>(arg0: number, arg1: number, arg2: $Codec<T>): $Codec<T>;
         sample(arg0: $RandomSource): number;
         static CODEC: $Codec<$IntProvider>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;

@@ -9,8 +9,8 @@ declare module "@package/dev/lambdaurora/lambdynlights/accessor" {
         static cast<T extends $Entity>(entityType: $EntityType_<T>): $DynamicLightHandlerHolder<T>;
     }
     export interface $DynamicLightHandlerHolder<T> {
-        lambdynlights$getName(): $Component;
         lambdynlights$getSetting(): $LightSourceSettingEntry;
+        lambdynlights$getName(): $Component;
         lambdynlights$getId(): $ResourceLocation;
     }
     export class $FrustumStorage {

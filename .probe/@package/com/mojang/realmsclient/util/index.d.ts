@@ -10,9 +10,9 @@ export * as task from "@package/com/mojang/realmsclient/util/task";
 
 declare module "@package/com/mojang/realmsclient/util" {
     export class $RealmsUtil {
-        static convertToAgePresentation(arg0: number): $Component;
         static renderPlayerFace(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $UUID_): void;
         static convertToAgePresentationFromInstant(arg0: $Date): $Component;
+        static convertToAgePresentation(arg0: number): $Component;
         constructor();
     }
     export class $RealmsTextureManager$RealmsTexture extends $Record {
@@ -41,22 +41,22 @@ declare module "@package/com/mojang/realmsclient/util" {
     }
     export class $WorldGenerationInfo extends $Record {
         seed(): string;
-        generateStructures(): boolean;
         levelType(): $LevelType;
+        generateStructures(): boolean;
         experiments(): $Set<string>;
         constructor(arg0: string, arg1: $LevelType_, arg2: boolean, arg3: $Set_<string>);
     }
     export class $JsonUtils {
-        static getRequired<T>(arg0: string, arg1: $JsonObject_, arg2: $Function_<$JsonObject, T>): T;
         static getOptional<T>(arg0: string, arg1: $JsonObject_, arg2: $Function_<$JsonObject, T>): T;
-        static getBooleanOr(arg0: string, arg1: $JsonObject_, arg2: boolean): boolean;
-        static getRequiredStringOr(arg0: string, arg1: $JsonObject_, arg2: string): string;
-        static getStringOr(arg0: string, arg1: $JsonObject_, arg2: string): string;
-        static getDateOr(arg0: string, arg1: $JsonObject_): $Date;
+        static getRequiredString(arg0: string, arg1: $JsonObject_): string;
+        static getRequired<T>(arg0: string, arg1: $JsonObject_, arg2: $Function_<$JsonObject, T>): T;
         static getLongOr(arg0: string, arg1: $JsonObject_, arg2: number): number;
         static getUuidOr(arg0: string, arg1: $JsonObject_, arg2: $UUID_): $UUID;
         static getIntOr(arg0: string, arg1: $JsonObject_, arg2: number): number;
-        static getRequiredString(arg0: string, arg1: $JsonObject_): string;
+        static getStringOr(arg0: string, arg1: $JsonObject_, arg2: string): string;
+        static getBooleanOr(arg0: string, arg1: $JsonObject_, arg2: boolean): boolean;
+        static getRequiredStringOr(arg0: string, arg1: $JsonObject_, arg2: string): string;
+        static getDateOr(arg0: string, arg1: $JsonObject_): $Date;
         constructor();
     }
     export class $RealmsTextureManager {
@@ -86,9 +86,9 @@ declare module "@package/com/mojang/realmsclient/util" {
     export type $LevelType_ = "default" | "flat" | "large_biomes" | "amplified";
     export class $TextRenderingUtils$LineSegment {
         static link(arg0: string, arg1: string): $TextRenderingUtils$LineSegment;
+        getLinkUrl(): string;
         isLink(): boolean;
         renderedText(): string;
-        getLinkUrl(): string;
         get linkUrl(): string;
     }
 }

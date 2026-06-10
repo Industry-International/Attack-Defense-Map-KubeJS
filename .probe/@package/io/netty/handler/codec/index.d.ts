@@ -7,9 +7,9 @@ declare module "@package/io/netty/handler/codec" {
         acceptInboundMessage(arg0: $Object): boolean;
     }
     export class $ByteToMessageDecoder extends $ChannelInboundHandlerAdapter {
-        setCumulator(arg0: $ByteToMessageDecoder$Cumulator_): void;
         setSingleDecode(arg0: boolean): void;
         isSingleDecode(): boolean;
+        setCumulator(arg0: $ByteToMessageDecoder$Cumulator_): void;
         setDiscardAfterReads(arg0: number): void;
         static COMPOSITE_CUMULATOR: $ByteToMessageDecoder$Cumulator;
         static MERGE_CUMULATOR: $ByteToMessageDecoder$Cumulator;

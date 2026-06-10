@@ -10,9 +10,9 @@ declare module "@package/com/moulberry/axiom/world_properties/client" {
         getLocalizedName(): string;
         ackChangesUpTo(updateId: number): void;
         setRemoteValue(bytes: number[]): void;
-        changeLocalValue(value: T): void;
-        getLocalValue(): T;
         renderImgui(): void;
+        getLocalValue(): T;
+        changeLocalValue(value: T): void;
         constructor(id: $ResourceLocation_, name: string, localizeName: boolean, initialValue: T);
         get id(): $ResourceLocation;
         get type(): $WorldPropertyDataType<T>;

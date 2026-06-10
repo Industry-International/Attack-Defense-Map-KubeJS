@@ -41,11 +41,11 @@ declare module "@package/net/minecraft/world/level/storage/loot/parameters" {
     }
     export class $LootContextParamSet {
         static builder(): $LootContextParamSet$Builder;
-        validateUser(arg0: $ValidationContext, arg1: $LootContextUser): void;
+        getAllowed(): $Set<$LootContextParam<never>>;
         validateUser(arg0: $ProblemReporter, arg1: $LootContextUser): void;
+        validateUser(arg0: $ValidationContext, arg1: $LootContextUser): void;
         getRequired(): $Set<$LootContextParam<never>>;
         isAllowed(arg0: $LootContextParam<never>): boolean;
-        getAllowed(): $Set<$LootContextParam<never>>;
         constructor(arg0: $Set_<$LootContextParam<never>>, arg1: $Set_<$LootContextParam<never>>);
         get required(): $Set<$LootContextParam<never>>;
     }

@@ -58,8 +58,8 @@ declare module "@package/net/minecraft/client/renderer/texture/atlas/sources" {
     }
     export class $PalettedPermutations$PalettedSpriteSupplier extends $Record implements $SpriteSource$SpriteSupplier {
         apply(arg0: $SpriteResourceLoader_): $SpriteContents;
-        discard(): void;
         palette(): $Supplier<$IntUnaryOperator>;
+        discard(): void;
         permutationLocation(): $ResourceLocation;
         baseImage(): $LazyLoadedImage;
         compose<V>(arg0: $Function_<V, $SpriteResourceLoader>): $Function<V, $SpriteContents>;
