@@ -7,78 +7,18 @@
 // 权限: OP 2 级
 // ============================================================
 // 模块划分:
-//   1. 兵种基础配置（护甲 + 额外物品）
-//   2. 武器解析器（TACZ / 非 TACZ）
-//   3. 弹药发放（TACZ 弹药盒 / 非 TACZ 物品）
-//   4. 配件应用（仅 TACZ）
-//   5. 装备发放核心（主武器 + 副武器 + 特殊武器 + 护甲 + 弹药）
-//   6. 目标解析
-//   7. 命令入口
+//   1. 武器解析器（TACZ / 非 TACZ）
+//   2. 弹药发放（TACZ 弹药盒 / 非 TACZ 物品）
+//   3. 配件应用（仅 TACZ）
+//   4. 装备发放核心（主武器 + 副武器 + 特殊武器 + 护甲 + 弹药）
+//   5. 目标解析
+//   6. 命令入口
 // ============================================================
+// 注意: getProfConfig()（护甲 + 额外物品）已移至 prof_configs/z_tacz_config_build.js
 
 var $EntityArgument = Java.loadClass('net.minecraft.commands.arguments.EntityArgument')
 
-// ========== 1. 兵种基础配置 ==========
-
-/** 根据兵种ID获取护甲与额外物品 */
-function getProfConfig(id) {
-  switch (id) {
-    case 'assault':
-      return {
-        armor: [
-          'minecraft:iron_boots',
-          'minecraft:iron_leggings',
-          'minecraft:iron_chestplate',
-          'minecraft:iron_helmet',
-        ],
-        extras: [
-          { item: 'minecraft:cooked_beef', count: 32 },
-        ],
-      }
-    case 'scout':
-      return {
-        armor: [
-          'minecraft:leather_boots',
-          'minecraft:leather_leggings',
-          'minecraft:leather_chestplate',
-          'minecraft:leather_helmet',
-        ],
-        extras: [
-          { item: 'minecraft:cooked_beef', count: 16 },
-        ],
-      }
-    case 'medic':
-      return {
-        armor: [
-          'minecraft:chainmail_boots',
-          'minecraft:chainmail_leggings',
-          'minecraft:chainmail_chestplate',
-          'minecraft:golden_helmet',
-        ],
-        extras: [
-          { item: 'minecraft:cooked_beef', count: 16 },
-          { item: 'minecraft:splash_potion', count: 6, tag: { 'minecraft:potion_contents': { potion: 'minecraft:healing' } } },
-          { item: 'minecraft:potion',        count: 3, tag: { 'minecraft:potion_contents': { potion: 'minecraft:regeneration' } } },
-        ],
-      }
-    case 'support':
-      return {
-        armor: [
-          'minecraft:chainmail_boots',
-          'minecraft:chainmail_leggings',
-          'minecraft:diamond_chestplate',
-          'minecraft:chainmail_helmet',
-        ],
-        extras: [
-          { item: 'minecraft:cooked_beef', count: 32 },
-        ],
-      }
-    default:
-      return null
-  }
-}
-
-// ========== 2. 武器解析器 ==========
+// ========== 1. 武器解析器 ==========
 
 /** 判断武器是否为 TACZ 枪械（通过 getTaczConfig 查表） */
 function isTaczWeapon(id) {

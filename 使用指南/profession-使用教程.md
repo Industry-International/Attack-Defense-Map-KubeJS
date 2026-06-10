@@ -2,26 +2,25 @@
 
 ## 目录结构
 
-```
+\`\`\`
 server_scripts/profession/
-├── 使用教程（已移入 使用指南/ 目录）  ← 本文件现位于 使用指南/profession-使用教程.md
 ├── profession_gui.js               ← GUI 交互（职业选择、武器配置、配件改装）
 ├── profequip_cmd.js                ← /profequip 指令（装备发放）
 ├── kubejsadmin_cmd.js              ← /kubejsadmin 指令（管理员清空）
 ├── config/
-│   └── a_tacz_config.js            ← 共享配置（物品映射、弹药表、配件 GUI）
+│   └── a_tacz_config.js            ← 共享工具（Java 类加载、GUI 布局、持久化函数）
 └── prof_configs/
-    ├── b_tacz_prof_assault.js      ← 突击兵武器配置
-    ├── b_tacz_prof_medic.js        ← 医疗兵武器配置
-    ├── b_tacz_prof_scout.js        ← 侦察兵武器配置
-    ├── b_tacz_prof_support.js      ← 支援兵武器配置
-    └── z_tacz_config_build.js      ← 汇总构建（最后加载，生成查表函数）
-```
+    ├── b_tacz_prof_assault.js      ← 突击兵全套配置（TACZ枪械+非TACZ武器+护甲+额外物品）
+    ├── b_tacz_prof_medic.js        ← 医疗兵全套配置（同上）
+    ├── b_tacz_prof_scout.js        ← 侦察兵全套配置（同上）
+    ├── b_tacz_prof_support.js      ← 支援兵全套配置（同上）
+    └── z_tacz_config_build.js      ← 汇总构建（最后加载，生成查表函数 + getProfConfig）
+\`\`\`
 
 加载顺序（由文件名前缀控制）：
-1. `config/a_tacz_config.js` — 基础配置
-2. `prof_configs/b_tacz_prof_*.js` — 各职业武器数据
-3. `prof_configs/z_tacz_config_build.js` — 汇总查表
+1. `config/a_tacz_config.js` — 基础工具 + PROF_CONFIGS 容器
+2. `prof_configs/b_tacz_prof_*.js` — 各职业**完整配置**（TACZ + 非TACZ + 护甲 + 额外物品）
+3. `prof_configs/z_tacz_config_build.js` — 汇总查表 + getProfConfig
 4. `profession_gui.js` — GUI
 5. `profequip_cmd.js` — 装备发放
 6. `kubejsadmin_cmd.js` — 管理指令
@@ -69,10 +68,11 @@ server_scripts/profession/
 
 使用 `tacz:modern_kinetic_gun` 物品 + GunId NBT 区分。
 
-**配置文件示例（`b_tacz_prof_assault.js`）：**
+**配置文件示例（`b_tacz_prof_assault.js` — 完整结构）：**
 
 ```js
 PROF_CONFIGS.assault = {
+  // ===== TACZ 枪械 =====
   guns: {
     primary: {                    // 主武器
       ak47: {                     // 武器 ID（内部标识）
@@ -97,39 +97,55 @@ PROF_CONFIGS.assault = {
   weapons: {
     primary:   ['ak47', 'scar_l'],   // 主武器可选列表
     secondary: ['mars'],             // 副武器可选列表
-    tertiary:  ['sentinel'],         // 特殊武器可选列表
+    tertiary:  ['snowball'],         // 特殊武器可选列表
   },
+
+  // ===== 非 TACZ 武器（可选）=====
+  nonTaczDisplay: {
+    snowball: { item: 'minecraft:snowball', i18n: true },
+  },
+  nonTaczAmmo: {
+    snowball: { item: 'minecraft:snowball', count: 16 },
+  },
+
+  // ===== 护甲 =====
+  armor: [
+    'minecraft:iron_boots',
+    'minecraft:iron_leggings',
+    'minecraft:iron_chestplate',
+    'minecraft:iron_helmet',
+  ],
+
+  // ===== 额外物品 =====
+  extras: [
+    { item: 'minecraft:cooked_beef', count: 32 },
+  ],
 }
 ```
 
 ### 2. 非 TACZ 武器（特殊武器）
 
-使用 `VANILLA_WEAPON_DISPLAY` 表映射为实际物品。
+在 **`b_tacz_prof_xxx.js` 内** 用 `nonTaczDisplay` 表映射为实际物品。
 
-**三处必须配置：**
+**配置示例（含弹药）：**
 
 ```js
-// a_tacz_config.js
+// b_tacz_prof_assault.js（与 guns/weapons 同级）
+PROF_CONFIGS.assault = {
+  // ... TACZ guns + weapons ...
 
-// (1) 物品映射
-const VANILLA_WEAPON_DISPLAY = {
-  sentinel: { item: 'superbwarfare:sentinel' },          // 无 i18n → 用模组自带名
-  snowball: { item: 'minecraft:snowball', i18n: true },  // 有 i18n → 用 KubeJS 翻译
-}
-
-// (2) 弹药配置（可选，无弹药可不写）
-const VANILLA_WEAPON_AMMO = {
-  sentinel: { item: 'superbwarfare:sniper_ammo', count: 30 },
-  snowball: { item: 'minecraft:snowball',        count: 16 },
+  // ===== 非 TACZ 武器 =====
+  nonTaczDisplay: {
+    snowball: { item: 'minecraft:snowball', i18n: true },  // 有 i18n → 用 KubeJS 翻译键
+  },
+  nonTaczAmmo: {
+    snowball: { item: 'minecraft:snowball', count: 16 },
+  },
 }
 ```
 
-```js
-// b_tacz_prof_xxx.js（在 weapons.tertiary 中引用）
-weapons: {
-  tertiary: ['sentinel'],
-}
-```
+> 所有职业的 `nonTaczDisplay` / `nonTaczAmmo` 在 `z_tacz_config_build.js` 加载时自动合并为全局查表。
+> 如需新增非 TACZ 武器，只需在对应职业的 `b_tacz_prof_xxx.js` 中添加即可。
 
 ### i18n 标记说明
 
@@ -158,10 +174,11 @@ ammo: { ammoId: 'tacz:762x39', main: 210 }
 
 ### 非 TACZ 弹药
 
-在 `a_tacz_config.js` 的 `VANILLA_WEAPON_AMMO` 中配置：
+在 `b_tacz_prof_*.js` 的 `nonTaczAmmo` 中配置（与 TACZ 弹药的 `guns.ammo` 路径不同）：
 
 ```js
-const VANILLA_WEAPON_AMMO = {
+// 在职业配置的 nonTaczAmmo 中定义
+nonTaczAmmo: {
   sentinel: { item: 'superbwarfare:sniper_ammo', count: 30 },
   snowball: { item: 'minecraft:snowball',        count: 16 },
 }
@@ -226,15 +243,15 @@ const VANILLA_WEAPON_AMMO = {
 
 ### 新增非 TACZ 特殊武器
 
-1. `a_tacz_config.js` → `VANILLA_WEAPON_DISPLAY` 添加物品映射
-2. `a_tacz_config.js` → `VANILLA_WEAPON_AMMO` 添加弹药（可选）
+1. `b_tacz_prof_xxx.js` → `nonTaczDisplay` 添加物品映射 + 名称来源（`i18n` 标记）
+2. `b_tacz_prof_xxx.js` → `nonTaczAmmo` 添加弹药（可选）
 3. `b_tacz_prof_xxx.js` → `weapons.tertiary` 添加武器 ID
 4. 语言文件（仅当需要 KubeJS 覆写名称时）
 
 ### 新增职业
 
 1. `profession_gui.js` → `PROFESSIONS` 数组添加职业 ID
-2. 新建 `b_tacz_prof_xxx.js` 武器配置
+2. 新建 `b_tacz_prof_xxx.js` **完整配置**（TACZ枪械 + 非TACZ武器 + 护甲 + 额外物品）
 3. `a_tacz_config.js` → `PROF_TAG_LIST` 添加标签
 4. 语言文件添加职业名和描述
 

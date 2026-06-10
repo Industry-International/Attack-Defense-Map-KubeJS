@@ -42,24 +42,6 @@ const SLOT_TRANSLATE_KEY = {
 }
 
 const PROF_CONFIGS = {}
-//非 TACZ 武器
-const VANILLA_WEAPON_DISPLAY = {
-  sword:    { item: 'minecraft:iron_sword' },
-  bow:      { item: 'minecraft:bow' },
-  crossbow: { item: 'minecraft:crossbow' },
-  trident:  { item: 'minecraft:trident' },
-  shield:   { item: 'minecraft:shield' },
-  totem:    { item: 'minecraft:totem_of_undying' },
-  snowball: { item: 'minecraft:snowball', i18n: true },
-}
-
-// ========== 非 TACZ 武器弹药配置 ==========
-// key: 武器 ID (与 VANILLA_WEAPON_DISPLAY 一致)
-// value: { item: 物品ID, count: 数量 }
-// TACZ 武器的弹药在 b_tacz_prof_*.js 的 ammo 字段中配置
-const VANILLA_WEAPON_AMMO = {
-  snowball: { item: 'minecraft:snowball', count: 16 },
-}
 
 // 武器配置在 prof_configs/ 目录下:
 //   b_tacz_prof_assault.js / _medic.js / _scout.js / _support.js

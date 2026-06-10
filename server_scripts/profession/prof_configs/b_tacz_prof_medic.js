@@ -58,4 +58,27 @@ PROF_CONFIGS.medic = {
     tertiary: {},
   },
   weapons: { primary: ['hk_mp5a5','aug'], secondary: ['glock_17'], tertiary: ['snowball'] },
+
+  // ===== 非 TACZ 武器 =====
+  nonTaczDisplay: {
+    snowball: { item: 'minecraft:snowball', i18n: true },
+  },
+  nonTaczAmmo: {
+    snowball: { item: 'minecraft:snowball', count: 16 },
+  },
+
+  // ===== 护甲 =====
+  armor: [
+    'minecraft:chainmail_boots',
+    'minecraft:chainmail_leggings',
+    'minecraft:chainmail_chestplate',
+    'minecraft:golden_helmet',
+  ],
+
+  // ===== 额外物品 =====
+  extras: [
+    { item: 'minecraft:cooked_beef', count: 16 },
+    { item: 'minecraft:splash_potion', count: 6, tag: { 'minecraft:potion_contents': { potion: 'minecraft:healing' } } },
+    { item: 'minecraft:potion',        count: 3, tag: { 'minecraft:potion_contents': { potion: 'minecraft:regeneration' } } },
+  ],
 }

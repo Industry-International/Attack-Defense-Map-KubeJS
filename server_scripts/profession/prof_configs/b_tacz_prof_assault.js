@@ -56,4 +56,25 @@ PROF_CONFIGS.assault = {
     tertiary: {},
   },
   weapons: { primary: ['ak47','scar_l'], secondary: ['mars'], tertiary: ['snowball'] },
+
+  // ===== 非 TACZ 武器 =====
+  nonTaczDisplay: {
+    snowball: { item: 'minecraft:snowball', i18n: true },
+  },
+  nonTaczAmmo: {
+    snowball: { item: 'minecraft:snowball', count: 16 },
+  },
+
+  // ===== 护甲 =====
+  armor: [
+    'minecraft:iron_boots',
+    'minecraft:iron_leggings',
+    'minecraft:iron_chestplate',
+    'minecraft:iron_helmet',
+  ],
+
+  // ===== 额外物品 =====
+  extras: [
+    { item: 'minecraft:cooked_beef', count: 32 },
+  ],
 }

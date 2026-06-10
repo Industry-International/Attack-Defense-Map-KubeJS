@@ -57,4 +57,25 @@ PROF_CONFIGS.scout = {
     tertiary: {},
   },
   weapons: { primary: ['m4a1','sks_tactical'], secondary: ['p320'], tertiary: ['snowball'] },
+
+  // ===== 非 TACZ 武器 =====
+  nonTaczDisplay: {
+    snowball: { item: 'minecraft:snowball', i18n: true },
+  },
+  nonTaczAmmo: {
+    snowball: { item: 'minecraft:snowball', count: 16 },
+  },
+
+  // ===== 护甲 =====
+  armor: [
+    'minecraft:leather_boots',
+    'minecraft:leather_leggings',
+    'minecraft:leather_chestplate',
+    'minecraft:leather_helmet',
+  ],
+
+  // ===== 额外物品 =====
+  extras: [
+    { item: 'minecraft:cooked_beef', count: 16 },
+  ],
 }

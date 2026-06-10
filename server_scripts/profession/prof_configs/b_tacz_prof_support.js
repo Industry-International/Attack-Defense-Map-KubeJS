@@ -54,4 +54,25 @@ PROF_CONFIGS.support = {
     tertiary: {},
   },
   weapons: { primary: ['m249','rpk'], secondary: ['deagle'], tertiary: ['snowball'] },
+
+  // ===== 非 TACZ 武器 =====
+  nonTaczDisplay: {
+    snowball: { item: 'minecraft:snowball', i18n: true },
+  },
+  nonTaczAmmo: {
+    snowball: { item: 'minecraft:snowball', count: 16 },
+  },
+
+  // ===== 护甲 =====
+  armor: [
+    'minecraft:chainmail_boots',
+    'minecraft:chainmail_leggings',
+    'minecraft:diamond_chestplate',
+    'minecraft:chainmail_helmet',
+  ],
+
+  // ===== 额外物品 =====
+  extras: [
+    { item: 'minecraft:cooked_beef', count: 32 },
+  ],
 }

@@ -2,6 +2,28 @@
 // TACZ 汇总构建（最后加载，此时 PROF_CONFIGS 已被 b_*.js 填充）
 // ============================================================
 
+// 0. 从各职业配置合并非 TACZ 武器显示/弹药表
+var VANILLA_WEAPON_DISPLAY = {}
+var VANILLA_WEAPON_AMMO = {}
+for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
+  var prof = PROF_TAG_LIST[pi], profCfg = PROF_CONFIGS[prof]
+  if (!profCfg) continue
+  // 合并非 TACZ 显示配置
+  var ntDisplay = profCfg.nonTaczDisplay
+  if (ntDisplay) {
+    for (var id in ntDisplay) {
+      if (ntDisplay.hasOwnProperty(id)) VANILLA_WEAPON_DISPLAY[id] = ntDisplay[id]
+    }
+  }
+  // 合并非 TACZ 弹药配置
+  var ntAmmo = profCfg.nonTaczAmmo
+  if (ntAmmo) {
+    for (var id in ntAmmo) {
+      if (ntAmmo.hasOwnProperty(id)) VANILLA_WEAPON_AMMO[id] = ntAmmo[id]
+    }
+  }
+}
+
 // 1. 扁平查表 (weaponId → config)
 var GUN_TACZ_FLAT = {}
 for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
@@ -72,4 +94,11 @@ function getProfessionWeaponList(profession, category) {
     result.push({ id: id, display: 'minecraft:barrier' })
   }
   return result
+}
+
+// 6. 职业基础配置（护甲 + 额外物品，从各职业 PROF_CONFIGS 读取）
+function getProfConfig(id) {
+  var cfg = PROF_CONFIGS[cleanId(id)]
+  if (!cfg || !cfg.armor) return null
+  return { armor: cfg.armor, extras: cfg.extras || [] }
 }
