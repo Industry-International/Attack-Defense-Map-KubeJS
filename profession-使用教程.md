@@ -254,3 +254,4 @@ const VANILLA_WEAPON_AMMO = {
 3. **配件改装**：仅 TACZ 枪械支持，非 TACZ 武器右键无配件菜单
 4. **弹药发放**：自动走背包优先（9~35号槽），背包满才放快捷栏
 5. **修改后刷新**：`/kubejs reload`（脚本）+ `F3+T`（语言文件）
+6. **TACZ 配件 ID 必须完整**：`tacz:oem_stock_tactical` 中的 `oem_` 是 OEM 原厂配件的**命名约定**，不是会被剥离的前缀，必须完整写入。写 `tacz:stock_tactical`（缺 `oem_`）是不存在的 ID 且无效。具体每把枪允许哪些配件，查阅 `data/tacz/tacz_tags/attachments/allow_attachments/` 下的对应文件。

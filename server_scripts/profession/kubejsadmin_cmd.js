@@ -17,7 +17,9 @@ ServerEvents.basicCommand('kubejsadmin', event => {
     // event.input 是参数部分，不包含指令名
     // 用户输入: /kubejsadmin profession @a
     // input    : "profession @a"
-    var args = event.input.split(' ')
+    var args = event.input.trim().split(/\s+/)
+    // 兼容 KubeJS 7 部分版本 event.input 含指令名的情况
+    if (args[0] === 'kubejsadmin') args = args.slice(1)
 
     if (args.length < 2) {
         player.tell(Component.translatable('msg.kubejsadmin.usage'))

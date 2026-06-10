@@ -238,18 +238,16 @@ function giveLoadout(target) {
   var offWp  = target.persistentData.offhandWeapon
   var spWp   = target.persistentData.specialWeapon
 
-  // -------- 前置检查（职业 / 主武器 / 副武器 为必选）--------
+  // -------- 前置检查（职业为必选，主/副武器缺失仅警告不阻塞）--------
   if (!prof) {
     target.tell(Component.string('§c[装备发放] 请先使用职业选择器选择兵种！'))
     return false
   }
   if (!mainWp) {
-    target.tell(Component.string('§c[装备发放] 请先选择主武器！'))
-    return false
+    target.tell(Component.string('§e[装备发放] 未选择主武器，跳过主武器发放'))
   }
   if (!offWp) {
-    target.tell(Component.string('§c[装备发放] 请先选择副武器！'))
-    return false
+    target.tell(Component.string('§e[装备发放] 未选择副武器，跳过副武器发放'))
   }
 
   var config = getProfConfig(prof)
@@ -258,9 +256,9 @@ function giveLoadout(target) {
     return false
   }
 
-  var pureMain = cleanId(mainWp)
-  var pureOff  = cleanId(offWp)
-  var pureSp   = spWp ? cleanId(spWp) : null
+  var pureMain = mainWp ? cleanId(mainWp) : null
+  var pureOff  = offWp  ? cleanId(offWp)  : null
+  var pureSp   = spWp   ? cleanId(spWp)   : null
 
   // -------- ① 清空全身(护甲槽) + 背包（保留职业选择器）--------
   var armorSlots = ['feet', 'legs', 'chest', 'head']
@@ -362,12 +360,23 @@ function getPlayerSummary(target) {
 
 ServerEvents.basicCommand('profequip', event => {
   var player = event.getPlayer()
+  // 兼容控制台执行（player 为 null 时静默忽略）
   if (!player || !player.isOp()) {
-    player.tell(Component.string('§c你没有权限使用此指令'))
+    if (player) player.tell(Component.string('§c你没有权限使用此指令'))
     return
   }
 
-  var args = event.input.trim().split(/\s+/)
+  // ===== 临时调试：显示 event.input 原始值 =====
+  player.tell(Component.string('§e[DEBUG] raw input: "' + String(event.input) + '"'))
+  player.tell(Component.string('§e[DEBUG] input length: ' + String(event.input).length))
+  // ==========================================
+
+  var raw = String(event.input)
+  var args = raw.trim().split(/\s+/)
+  player.tell(Component.string('§e[DEBUG] args[0]="' + args[0] + '" len=' + args.length))
+  // 兼容 KubeJS 7 部分版本 event.input 含指令名的情况
+  if (args[0] === 'profequip' || args[0] === '/profequip') args = args.slice(1)
+  player.tell(Component.string('§e[DEBUG] after fix args[0]="' + (args[0] || '') + '"'))
   var subCmd = args[0] || ''
 
   // ---------- help ----------
