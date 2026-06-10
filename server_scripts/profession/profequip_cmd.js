@@ -181,15 +181,15 @@ function giveLoadout(target, fromGui) {
   var spWp   = target.persistentData.specialWeapon
 
   // -------- 前置检查 --------
-  // GUI 内按钮调用可绕过 guiOpen / no_loadout 守卫（玩家已在界面内主动操作）
+  // GUI 内按钮调用可绕过容器 / no_loadout 守卫（玩家已在界面内主动操作）
   if (!fromGui) {
-    // ① GUI打开时禁止发放（防止在配置过程中误领）
-    if (target.persistentData.guiOpen) {
-      target.tell(Component.string('§c[装备发放] 请先关闭职业选择界面再领取装备！'))
+    // ① 有容器打开时禁止发放（直接检查容器状态）
+    if (target.containerMenu !== target.inventoryMenu) {
+      target.tell(Component.string('§c[装备发放] 请先关闭当前打开的界面再领取装备！'))
       return false
     }
     // ② 检查 no_loadout 标签（玩家尚未领取过装备）
-    if (target.hasTag('no_loadout')) {
+    if (target.getTags().contains('no_loadout')) {
       target.tell(Component.string('§c[装备发放] 你尚未选择完整的职业装备，请先使用职业选择器配置！'))
       return false
     }

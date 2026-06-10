@@ -3,27 +3,33 @@
 ## 目录结构
 
 ```
-server_scripts/profession/
-├── profession_gui.js               ← GUI 交互（职业选择、武器配置、配件改装）
-├── profequip_cmd.js                ← /profequip 指令（装备发放）
-├── kubejsadmin_cmd.js              ← /kubejsadmin 指令（管理员清空）
-├── config/
-│   └── a_tacz_config.js            ← 共享工具（Java 类加载、GUI 布局、持久化函数）
-└── prof_configs/
-    ├── b_tacz_prof_assault.js      ← 突击兵全套配置（TACZ枪械+非TACZ武器+护甲+额外物品）
-    ├── b_tacz_prof_medic.js        ← 医疗兵全套配置（同上）
-    ├── b_tacz_prof_scout.js        ← 侦察兵全套配置（同上）
-    ├── b_tacz_prof_support.js      ← 支援兵全套配置（同上）
-    └── z_tacz_config_build.js      ← 汇总构建（最后加载，生成查表函数 + getProfConfig）
+server_scripts/
+├── profession/                          ← 职业系统
+│   ├── profession_gui.js                ← GUI 交互（职业选择、武器配置、配件改装、给予装备）
+│   ├── profession_backpack.js           ← 背包系统（5槽位/职业，保存加载武器+配件配置）
+│   ├── profequip_cmd.js                 ← /profequip 指令（装备发放 + 容器守卫 + 标签守卫）
+│   ├── kubejsadmin_cmd.js               ← /kubejsadmin 指令（管理员清空）
+│   ├── config/
+│   │   └── a_tacz_config.js             ← 共享工具（Java 类加载、GUI 布局、配件持久化）
+│   └── prof_configs/
+│       ├── b_tacz_prof_assault.js       ← 突击兵全套配置（同上）
+│       ├── b_tacz_prof_medic.js         ← 医疗兵全套配置（同上）
+│       ├── b_tacz_prof_scout.js         ← 侦察兵全套配置（同上）
+│       ├── b_tacz_prof_support.js       ← 支援兵全套配置（同上）
+│       └── z_tacz_config_build.js       ← 汇总构建（最后加载，生成查表函数）
+└── team/
+    └── team_selector_gui.js             ← 队伍选择器 GUI
 ```
 
 加载顺序（由文件名前缀控制）：
 1. `config/a_tacz_config.js` — 基础工具 + PROF_CONFIGS 容器
 2. `prof_configs/b_tacz_prof_*.js` — 各职业**完整配置**（TACZ + 非TACZ + 护甲 + 额外物品）
-3. `prof_configs/z_tacz_config_build.js` — 汇总查表 + getProfConfig
-4. `profession_gui.js` — GUI
-5. `profequip_cmd.js` — 装备发放
-6. `kubejsadmin_cmd.js` — 管理指令
+3. `prof_configs/z_tacz_config_build.js` — 汇总查表 + getProfConfig + getProfessionWeaponList
+4. `profequip_cmd.js` — 装备发放 + 守卫逻辑
+5. `profession_backpack.js` — 背包系统函数
+6. `profession_gui.js` — GUI 交互
+7. `kubejsadmin_cmd.js` — 管理指令
+8. `team/team_selector_gui.js` — 队伍选择器 GUI
 
 ---
 
@@ -39,15 +45,41 @@ server_scripts/profession/
                         │
                         ▼
                    【武器配置页】 ←── 左上角「取消选择职业」可返回
-                   ┌──────────────┐
+                   ┌──────────────────────┐
                    │ 主武器 │ 副武器 │ 特殊武器 │  ← 左键进入选择列表
-                   │  (已选显示实际武器)    │     ← 右键清空该选择
-                   └──────────────┘
+                   │    (已选显示实际武器)     │  ← 右键清空该选择
+                   ├──────────────────────┤
+                   │ ⬆加载背包 │ ★给予装备 │ ⬇保存背包 │
+                   └──────────────────────┘
                         │
                     选择武器 → 返回武器配置页
                         │
                     TACZ 枪械可右键打开【配件改装】
 ```
+
+### 武器配置页按钮一览
+
+| 位置 | 按钮 | 功能 |
+|------|------|------|
+| (0,0) | `§c← 取消选择职业` | 清空职业+武器选择，返回职业选择页 |
+| (2,3) | 主武器图标 | 左键进入主武器列表，右键清空主武器 |
+| (4,3) | 副武器图标 | 左键进入副武器列表，右键清空副武器 |
+| (6,3) | 特殊武器图标 | 左键进入特殊武器列表，右键清空特殊武器 |
+| (0,5) | `⬆ 加载背包` | 从已保存的背包槽位加载武器配置 |
+| **(4,5)** | **`§a✔ 给予装备`** | **清空背包 → 发放全套职业装备（护甲+武器+弹药+配件+额外物品）** |
+| (8,5) | `⬇ 保存到背包` | 将当前武器配置保存到背包槽位 |
+| (8,0) | `✖ 删除背包` | 删除指定背包槽位的数据 |
+
+> 点击 **"给予装备"** 会自动关闭配置界面并执行完整的装备发放流程（与 `/profequip give` 指令逻辑一致）。
+
+### 配件改装页按钮一览
+
+| 位置 | 按钮 | 功能 |
+|------|------|------|
+| (0,0) | `§c← 返回` | 返回上级武器选择列表 |
+| (8,0) | `§c✖ 退出` | 直接关闭 GUI |
+| (0,5) | `§a✔ 保存配件` | **保存当前配件配置，保存后自动返回上级菜单** |
+| (8,5) | `§c✖ 清空所有配件` | 清空该枪械所有配件 |
 
 ### 各页面标题规则
 
@@ -188,7 +220,89 @@ nonTaczAmmo: {
 
 ---
 
-## 四、指令参考
+## 四、背包系统
+
+每个职业独立拥有 **5 个背包槽位**，每位玩家数据独立。背包可保存**武器配置 + 配件配置**，用于快速切换不同方案。
+
+### 操作入口
+
+在武器配置页底部：
+
+| 按钮 | 操作 |
+|------|------|
+| `⬆ 加载背包`（左下角） | 选择一个已保存的槽位，加载其武器配置到当前选择 |
+| `⬇ 保存到背包`（右下角） | 将当前选择的武器+配件配置保存到一个槽位 |
+| `✖ 删除背包`（右上角） | 选择一个有数据的槽位删除 |
+
+### 数据保存内容
+
+每个背包槽位保存以下数据：
+- `mainWeapon` — 主武器 ID
+- `offhandWeapon` — 副武器 ID
+- `specialWeapon` — 特殊武器 ID
+- `attachments` — 所有已配置的 TACZ 配件（完整副本）
+
+### 背包槽位界面
+
+```
+┌─────────────────────────────────┐
+│  ← 返回              §8选择要保存的背包 │
+├─────────────────────────────────┤
+│                                 │
+│  [槽位1]   [槽位2]   [槽位3]    │
+│                                 │
+│     [槽位4]   [槽位5]           │
+│                                 │
+├─────────────────────────────────┤
+│           操作提示               │
+└─────────────────────────────────┘
+```
+
+- 有数据的槽位显示为末影箱（紫色），显示摘要信息（主武器/副武器/特殊武器名称、配件数量）
+- 空槽位显示为普通箱子（褐色）
+- 点击有数据的槽位执行对应操作（加载/保存/删除）
+
+---
+
+## 五、`no_loadout` 标签系统
+
+系统使用 Minecraft 原版 **scoreboard 标签** `no_loadout` 标记玩家的装备状态，可通过原版 `/tag` 指令查看和管理。
+
+### 标签生命周期
+
+| 时机 | 操作 | 说明 |
+|------|------|------|
+| 打开职业选择 GUI | `player.addTag('no_loadout')` | 标记玩家尚未领取装备 |
+| 关闭 GUI（Esc/退出按钮） | `player.removeTag('no_loadout')` | 清除标记 |
+| 退出登录 | `player.removeTag('no_loadout')` | 清除标记 |
+| 成功发放装备 | `player.removeTag('no_loadout')` | 清除标记 |
+
+### 管理员查询
+
+```mcfunction
+# 查看某玩家是否拥有 no_loadout 标签
+/tag xkmxz2503 list
+
+# 手动添加/移除标签
+/tag xkmxz2503 add no_loadout
+/tag xkmxz2503 remove no_loadout
+
+# 查看所有带 no_loadout 标签的玩家
+/tag @a[tag=no_loadout] list
+```
+
+### 守卫机制
+
+当通过 `/profequip give` 指令发放装备时：
+
+1. **容器守卫** — 若玩家当前有容器打开（职业选择 GUI、箱子、工作台等），则拒绝发放并提示"请先关闭当前打开的界面"
+2. **标签守卫** — 若玩家仍有 `no_loadout` 标签（表示尚未完成配置），也拒绝发放
+
+> GUI 内的"给予装备"按钮跳过这两个守卫，因为玩家已在界面内主动操作。
+
+---
+
+## 六、指令参考
 
 详细的指令使用说明请参阅 **[指令使用.md](./指令使用.md)**，此处仅作简要说明。
 
@@ -213,7 +327,43 @@ nonTaczAmmo: {
 
 ---
 
-## 五、语言文件
+## 七、队伍选择器
+
+队伍选择器是独立于职业系统的 GUI，通过物品 `kubejs:team_selector` 右键打开。
+
+### GUI 布局
+
+```
+┌─────────────────────────────────┐
+│ ✖                  §8队伍选择    │
+├─────────────────────────────────┤
+│                                 │
+│  ⚔进攻方    👁观战    🛡防守方   │
+│                                 │
+│                                 │
+│         ✖ 退出队伍              │
+│                                 │
+├─────────────────────────────────┤
+└─────────────────────────────────┘
+```
+
+### 功能说明
+
+| 按钮 | 位置 | 功能 |
+|------|------|------|
+| 进攻方（铁剑） | (2,2) | 加入进攻方队伍，播放拾取音效 |
+| 观战（末影之眼） | (4,2) | 切换观战模式，播放拾取音效 |
+| 防守方（盾牌） | (6,2) | 加入防守方队伍，播放拾取音效 |
+| 退出队伍（红色叉号） | (4,4) | 离开当前队伍，播放拒绝音效（仅在有队伍时显示） |
+| 退出 GUI（左箭头）| (0,0) | 直接关闭 GUI |
+
+- 当前队伍对应的图标会显示**附魔光效**
+- 队伍加入/离开逻辑由**数据包 function**（`game:teams/join_attacker`、`game:teams/join_defender`、`game:teams/leave_team` 等）处理
+- 状态存储在 `player.persistentData.team` 中
+
+---
+
+## 八、语言文件
 
 位置：`assets/kubejs/lang/{en_us,zh_cn}.json`
 
@@ -230,10 +380,16 @@ nonTaczAmmo: {
 | `offhand.kubejs.<id>` | 非 TACZ 副/特殊武器名称（i18n 用） |
 | `msg.kubejs.profession_select.main_weapon` | 选择主武器消息 |
 | `msg.kubejs.profession_select.main_cleared` | 清空主武器消息 |
+| `gui.kubejs.profession_select.give_equipment` | **给予装备**按钮名称 |
+| `gui.kubejs.profession_select.give_equipment.lore` | 给予装备按钮描述 |
+| `gui.kubejs.backpack.load_btn` | 加载背包按钮名称 |
+| `gui.kubejs.backpack.save_btn` | 保存到背包按钮名称 |
+| `gui.kubejs.backpack.delete_btn` | 删除背包按钮名称 |
+| `gui.kubejs.attach.save` | 保存配件按钮名称 |
 
 ---
 
-## 六、新增武器快速指南
+## 九、新增武器快速指南
 
 ### 新增 TACZ 枪械
 
@@ -257,7 +413,7 @@ nonTaczAmmo: {
 
 ---
 
-## 七、注意事项
+## 十、注意事项
 
 1. **cleanId**：从 `player.persistentData` 读取的 ID 用于翻译键时，必须用 `cleanId()` 消去引号
 2. **文件加载顺序**：`config/` → `prof_configs/b_*.js` → `prof_configs/z_*.js` → 其他
