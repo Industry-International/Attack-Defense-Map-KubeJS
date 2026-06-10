@@ -17,8 +17,8 @@ server_scripts/
 │       ├── b_tacz_prof_scout.js         ← 侦察兵全套配置（同上）
 │       ├── b_tacz_prof_support.js       ← 支援兵全套配置（同上）
 │       └── z_tacz_config_build.js       ← 汇总构建（最后加载，生成查表函数）
-└── team/
-    └── team_selector_gui.js             ← 队伍选择器 GUI
+└── team/                                   ← 队伍选择器（独立模块）
+    └── team_selector_gui.js                ← 详见 [team-使用教程.md](./team-使用教程.md)
 ```
 
 加载顺序（由文件名前缀控制）：
@@ -29,7 +29,7 @@ server_scripts/
 5. `profession_backpack.js` — 背包系统函数
 6. `profession_gui.js` — GUI 交互
 7. `kubejsadmin_cmd.js` — 管理指令
-8. `team/team_selector_gui.js` — 队伍选择器 GUI
+8. `team/team_selector_gui.js` — 队伍选择器（详见独立文档）
 
 ---
 
@@ -328,43 +328,11 @@ nonTaczAmmo: {
 
 ---
 
-## 七、队伍选择器
-
-队伍选择器是独立于职业系统的 GUI，通过物品 `kubejs:team_selector` 右键打开。
-
-### GUI 布局
-
-```
-┌─────────────────────────────────┐
-│ ✖                  §8队伍选择    │
-├─────────────────────────────────┤
-│                                 │
-│  ⚔进攻方    👁观战    🛡防守方   │
-│                                 │
-│                                 │
-│         ✖ 退出队伍              │
-│                                 │
-├─────────────────────────────────┤
-└─────────────────────────────────┘
-```
-
-### 功能说明
-
-| 按钮 | 位置 | 功能 |
-|------|------|------|
-| 进攻方（铁剑） | (2,2) | 加入进攻方队伍，播放拾取音效 |
-| 观战（末影之眼） | (4,2) | 切换观战模式，播放拾取音效 |
-| 防守方（盾牌） | (6,2) | 加入防守方队伍，播放拾取音效 |
-| 退出队伍（红色叉号） | (4,4) | 离开当前队伍，播放拒绝音效（仅在有队伍时显示） |
-| 退出 GUI（左箭头）| (0,0) | 直接关闭 GUI |
-
-- 当前队伍对应的图标会显示**附魔光效**
-- 队伍加入/离开逻辑由**数据包 function**（`game:teams/join_attacker`、`game:teams/join_defender`、`game:teams/leave_team` 等）处理
-- 状态存储在 `player.persistentData.team` 中
+> 队伍选择器是独立模块，详见 **[team-使用教程.md](./team-使用教程.md)**。
 
 ---
 
-## 八、语言文件
+## 七、语言文件
 
 位置：`assets/kubejs/lang/{en_us,zh_cn}.json`
 
@@ -390,7 +358,7 @@ nonTaczAmmo: {
 
 ---
 
-## 九、新增武器快速指南
+## 八、新增武器快速指南
 
 ### 新增 TACZ 枪械
 
@@ -414,7 +382,7 @@ nonTaczAmmo: {
 
 ---
 
-## 十、注意事项
+## 九、注意事项
 
 1. **cleanId**：从 `player.persistentData` 读取的 ID 用于翻译键时，必须用 `cleanId()` 消去引号
 2. **文件加载顺序**：`config/` → `prof_configs/b_*.js` → `prof_configs/z_*.js` → 其他
