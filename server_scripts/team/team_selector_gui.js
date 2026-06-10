@@ -8,13 +8,7 @@
 
 // ========== UI 组件 ==========
 
-function filler(color) {
-  return Item.of(color).withCustomName(Component.literal(''))
-}
-const PANE = {
-  black: filler('minecraft:black_stained_glass_pane'),
-  gray:  filler('minecraft:gray_stained_glass_pane'),
-}
+// PANE / filler 由 profession/config/a_tacz_config.js 全局定义，此处直接使用
 
 const TEAM_ATTACK    = 'attack'
 const TEAM_DEFENSE   = 'defense'
@@ -26,7 +20,23 @@ function runTeamFunction(player, functionPath) {
   player.server.runCommandSilent('execute as ' + player.username + ' run function ' + functionPath)
 }
 
-/** 从 persistentData.team 读取当前队伍（由数据包 function 维护） */
+/**
+ * 更新本地 persistentData.team（让 GUI 光效即时同步）
+ * 同时运行数据包 function 确保数据包侧逻辑一致
+ * 使用 runCommandSilent 播放音效（无声执行，playsound 无需 OP 权限）
+ */
+function setTeamAndRun(player, team, functionPath) {
+  if (team === TEAM_NONE) {
+    delete player.persistentData.team
+    player.runCommandSilent('playsound minecraft:entity.villager.no master ' + player.username + ' ~ ~ ~ 0.5 1')
+  } else {
+    player.persistentData.team = team
+    player.runCommandSilent('playsound minecraft:entity.experience_orb.pickup master ' + player.username + ' ~ ~ ~ 0.5 1')
+  }
+  runTeamFunction(player, functionPath)
+}
+
+/** 从 persistentData.team 读取当前队伍 */
 function getPlayerTeam(player) {
   return player.persistentData.team || TEAM_NONE
 }
@@ -36,17 +46,13 @@ function getPlayerTeam(player) {
 function renderTeamSelect(gui, player, openPage) {
   var current = getPlayerTeam(player)
 
-  // Row 0: 返回 / 标题 / 退出
+  // Row 0: 退出 / 标题
   gui.slot(0, 0, function(slot) {
-    slot.setItem(Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.team_select.back')))
+    slot.setItem(Item.of('createdeco:decal_left').withCustomName(Text.translate('gui.kubejs.team_select.exit')))
     slot.setLeftClicked(function() { player.closeMenu() })
   })
   gui.slot(4, 0, function(slot) {
-    slot.setItem(Item.of('minecraft:feather').withCustomName(Text.translate('gui.kubejs.team_select.title')))
-  })
-  gui.slot(8, 0, function(slot) {
-    slot.setItem(Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.team_select.exit')))
-    slot.setLeftClicked(function() { player.closeMenu() })
+    slot.setItem(Item.of('createdeco:decal_warning').withCustomName(Text.translate('gui.kubejs.team_select.title')))
   })
 
   // Row 1: 灰色分隔线
@@ -65,7 +71,7 @@ function renderTeamSelect(gui, player, openPage) {
     }
     slot.setItem(item)
     slot.setLeftClicked(function() {
-      runTeamFunction(player, 'game:teams/join_attacker')
+      setTeamAndRun(player, TEAM_ATTACK, 'game:teams/join_attacker')
       openPage(player)
     })
   })
@@ -79,7 +85,7 @@ function renderTeamSelect(gui, player, openPage) {
     }
     slot.setItem(item)
     slot.setLeftClicked(function() {
-      runTeamFunction(player, 'game:teams/join_spectator')
+      setTeamAndRun(player, TEAM_SPECTATOR, 'game:teams/join_spectator')
       openPage(player)
     })
   })
@@ -93,7 +99,7 @@ function renderTeamSelect(gui, player, openPage) {
     }
     slot.setItem(item)
     slot.setLeftClicked(function() {
-      runTeamFunction(player, 'game:teams/join_defender')
+      setTeamAndRun(player, TEAM_DEFENSE, 'game:teams/join_defender')
       openPage(player)
     })
   })
@@ -103,11 +109,11 @@ function renderTeamSelect(gui, player, openPage) {
   gui.slot(4, 4, function(slot) {
     if (current !== TEAM_NONE) {
       slot.setItem(
-        Item.of('minecraft:barrier')
+        Item.of('createdeco:decal_cross')
           .withCustomName(Text.translate('gui.kubejs.team_select.leave'))
       )
       slot.setLeftClicked(function() {
-        runTeamFunction(player, 'game:teams/leave_team')
+        setTeamAndRun(player, TEAM_NONE, 'game:teams/leave_team')
         openPage(player)
       })
     } else {
