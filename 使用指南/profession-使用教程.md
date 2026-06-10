@@ -4,7 +4,7 @@
 
 ```
 server_scripts/profession/
-├── 使用教程.md                      ← 本文件
+├── 使用教程（已移入 使用指南/ 目录）  ← 本文件现位于 使用指南/profession-使用教程.md
 ├── profession_gui.js               ← GUI 交互（职业选择、武器配置、配件改装）
 ├── profequip_cmd.js                ← /profequip 指令（装备发放）
 ├── kubejsadmin_cmd.js              ← /kubejsadmin 指令（管理员清空）
@@ -173,32 +173,25 @@ const VANILLA_WEAPON_AMMO = {
 
 ## 四、指令参考
 
+详细的指令使用说明请参阅 **[指令使用.md](./指令使用.md)**，此处仅作简要说明。
+
 ### `/profequip`
 
-装备发放指令，需要 OP 2 级权限。
+装备发放指令，需要 OP 2 级权限。支持控制台/命令方块/数据包/玩家。
 
 ```
-/profequip give [<target>]  发放装备（留空给自己）
-/profequip list             查看在线玩家的选择状态
-/profequip help             显示帮助
+/profequip give [<targets>]  发放装备（留空给自己，控制台必须指定目标）
+/profequip list              查看在线玩家的选择状态
+/profequip help              显示帮助
 ```
-
-目标支持：`@a` `@p` `@s` `@r` `<玩家名>`
-
-发放内容：
-- 职业对应护甲
-- 主武器 + 配件 + 弹药
-- 副武器 + 配件 + 弹药
-- 特殊武器（可选）+ 弹药
-- 职业额外物品（食物、药水等）
 
 ### `/kubejsadmin`
 
-管理员清空指令。
+管理员清空指令，需要 OP 2 级权限。
 
 ```
-/kubejsadmin profession <target>  清空职业选择 + 移除标签
-/kubejsadmin menu <target>        清空队伍配置
+/kubejsadmin profession <targets>  清空职业选择 + 移除标签
+/kubejsadmin menu <targets>        清空队伍配置
 ```
 
 ---
