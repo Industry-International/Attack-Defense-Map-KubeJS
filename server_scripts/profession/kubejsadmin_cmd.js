@@ -1,86 +1,79 @@
 // ============================================================
-// KubeJSAdmin - 管理指令（i18n 规范）
+// KubeJSAdmin - 管理指令（i18n 规范，Brigadier 版）
 // 清空玩家的职业选择/队伍配置 + 职业标签
 // ============================================================
 // 指令格式: /kubejsadmin <profession|menu> <targets>
 // 示例:     /kubejsadmin profession @a   — 清空职业选择 + 移除标签
 //           /kubejsadmin menu @a        — 清空队伍配置
-// 权限:     仅 OP
+// 权限:     仅 OP 2 级
+// 来源:     控制台 / 命令方块 / 数据包 / 玩家
 // ============================================================
-
 // PROF_TAG_LIST 已迁移至 config/a_tacz_config.js（共享定义）
 
-ServerEvents.basicCommand('kubejsadmin', event => {
-    var player = event.getPlayer()
-    if (!player || !player.isOp()) return
+var $EntityArgument = Java.loadClass('net.minecraft.commands.arguments.EntityArgument')
 
-    // event.input 是参数部分，不包含指令名
-    // 用户输入: /kubejsadmin profession @a
-    // input    : "profession @a"
-    var args = event.input.trim().split(/\s+/)
-    // 兼容 KubeJS 7 部分版本 event.input 含指令名的情况
-    if (args[0] === 'kubejsadmin') args = args.slice(1)
+ServerEvents.commandRegistry(event => {
+  var cmd = event.commands
+  var args = event.arguments
 
-    if (args.length < 2) {
-        player.tell(Component.translatable('msg.kubejsadmin.usage'))
-        return
-    }
+  event.register(
+    cmd.literal('kubejsadmin')
+      .requires(function(s) { return s.hasPermission(2) })
 
-    var type = args[0].toLowerCase()
-    var targetStr = args[1]
-    var server = event.getServer()
-    var allPlayers = server.getPlayers()
-    var targets = []
+      // ---- profession ----
+      .then(
+        cmd.literal('profession')
+          .then(
+            cmd.argument('targets', args.PLAYERS.create(event))
+              .executes(function(ctx) {
+                var source = ctx.getSource()
+                var targets = $EntityArgument.getPlayers(ctx, 'targets') // Collection<ServerPlayer>
+                var server = source.getServer()
+                var iterator = targets.iterator()
+                var count = 0
+                while (iterator.hasNext()) {
+                  var p = iterator.next()
+                  // 移除职业标签（通过原版指令确保 /tag 可见）
+                  PROF_TAG_LIST.forEach(function(tag) { server.runCommandSilent('tag ' + p.username + ' remove ' + tag) })
+                  // 清除选中状态
+                  delete p.persistentData.profession
+                  delete p.persistentData.mainWeapon
+                  delete p.persistentData.offhandWeapon
+                  delete p.persistentData.specialWeapon
+                  count++
+                }
+                source.sendSuccess(Component.translatable('msg.kubejsadmin.clear.profession', String(count)), true)
+                return count
+              })
+          )
+      )
 
-    // 解析目标选择器
-    if (targetStr === '@a') {
-        for (var i = 0; i < allPlayers.size(); i++) {
-            targets.push(allPlayers.get(i))
-        }
-    } else if (targetStr === '@p' || targetStr === '@s') {
-        targets.push(player)
-    } else if (targetStr === '@r') {
-        var size = allPlayers.size()
-        if (size > 0) {
-            var idx = Math.floor(Math.random() * size)
-            targets.push(allPlayers.get(idx))
-        }
-    } else {
-        for (var i = 0; i < allPlayers.size(); i++) {
-            var p = allPlayers.get(i)
-            if (p.getName().getString().equalsIgnoreCase(targetStr)) {
-                targets.push(p)
-                break
-            }
-        }
-    }
+      // ---- menu ----
+      .then(
+        cmd.literal('menu')
+          .then(
+            cmd.argument('targets', args.PLAYERS.create(event))
+              .executes(function(ctx) {
+                var source = ctx.getSource()
+                var targets = $EntityArgument.getPlayers(ctx, 'targets')
+                var iterator = targets.iterator()
+                var count = 0
+                while (iterator.hasNext()) {
+                  var p = iterator.next()
+                  delete p.persistentData.team
+                  count++
+                }
+                source.sendSuccess(Component.translatable('msg.kubejsadmin.clear.menu', String(count)), true)
+                return count
+              })
+          )
+      )
 
-    if (targets.length === 0) {
-        player.tell(Component.translatable('msg.kubejsadmin.no_target'))
-        return
-    }
-
-    var count = 0
-
-    if (type === 'profession') {
-        targets.forEach(function(p) {
-            // 移除职业标签（通过原版指令确保 /tag 可见）
-            PROF_TAG_LIST.forEach(function(tag) { server.runCommandSilent('tag ' + p.username + ' remove ' + tag) })
-            // 清除选中状态
-            delete p.persistentData.profession
-            delete p.persistentData.mainWeapon
-            delete p.persistentData.offhandWeapon
-            delete p.persistentData.specialWeapon
-            count++
-        })
-        player.tell(Component.translatable('msg.kubejsadmin.clear.profession', count))
-    } else if (type === 'menu') {
-        targets.forEach(function(p) {
-            delete p.persistentData.team
-            count++
-        })
-        player.tell(Component.translatable('msg.kubejsadmin.clear.menu', count))
-    } else {
-        player.tell(Component.translatable('msg.kubejsadmin.usage'))
-    }
+      // ---- 默认 → 用法提示 ----
+      .executes(function(ctx) {
+        var source = ctx.getSource()
+        source.sendFailure(Component.translatable('msg.kubejsadmin.usage'))
+        return 0
+      })
+  )
 })

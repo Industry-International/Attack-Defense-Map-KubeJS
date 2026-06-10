@@ -16,6 +16,8 @@
 //   7. 命令入口
 // ============================================================
 
+var $EntityArgument = Java.loadClass('net.minecraft.commands.arguments.EntityArgument')
+
 // ========== 1. 兵种基础配置 ==========
 
 /** 根据兵种ID获取护甲与额外物品 */
@@ -356,75 +358,86 @@ function getPlayerSummary(target) {
   return '§e' + pName + ' §7→ 职业: §f' + prof + ' §7| 主手: §f' + mainWp + ' §7| 副手: §f' + offWp + ' §7| 特殊: §f' + spWp
 }
 
-// ========== 7. 命令入口 ==========
+// ========== 7. 命令入口（Brigadier）- 支持 控制台/命令方块/数据包/玩家 ==========
 
-ServerEvents.basicCommand('profequip', event => {
-  var player = event.getPlayer()
-  // 兼容控制台执行（player 为 null 时静默忽略）
-  if (!player || !player.isOp()) {
-    if (player) player.tell(Component.string('§c你没有权限使用此指令'))
-    return
-  }
+ServerEvents.commandRegistry(event => {
+  var cmd = event.commands
+  var args = event.arguments
 
-  // ===== 临时调试：显示 event.input 原始值 =====
-  player.tell(Component.string('§e[DEBUG] raw input: "' + String(event.input) + '"'))
-  player.tell(Component.string('§e[DEBUG] input length: ' + String(event.input).length))
-  // ==========================================
+  event.register(
+    cmd.literal('profequip')
+      .requires(function(s) { return s.hasPermission(2) })
 
-  var raw = String(event.input)
-  var args = raw.trim().split(/\s+/)
-  player.tell(Component.string('§e[DEBUG] args[0]="' + args[0] + '" len=' + args.length))
-  // 兼容 KubeJS 7 部分版本 event.input 含指令名的情况
-  if (args[0] === 'profequip' || args[0] === '/profequip') args = args.slice(1)
-  player.tell(Component.string('§e[DEBUG] after fix args[0]="' + (args[0] || '') + '"'))
-  var subCmd = args[0] || ''
+      // ---- help ----
+      .then(
+        cmd.literal('help')
+          .executes(function(ctx) {
+            var source = ctx.getSource()
+            source.sendSuccess(Component.literal('§6===== /profequip 帮助 ====='), false)
+            source.sendSuccess(Component.literal('§e/profequip give [<target>] §7— 发放装备 (留空=自己)'), false)
+            source.sendSuccess(Component.literal('§e/profequip list          §7— 查看在线玩家选择'), false)
+            source.sendSuccess(Component.literal('§e/profequip help          §7— 显示此帮助'), false)
+            source.sendSuccess(Component.literal('§7目标支持: @a @p @s @r <玩家名>'), false)
+            return 1
+          })
+      )
 
-  // ---------- help ----------
-  if (subCmd === 'help' || subCmd === '?') {
-    player.tell(Component.string('§6===== /profequip 帮助 ====='))
-    player.tell(Component.string('§e/profequip give [<target>] §7— 发放装备 (留空=自己)'))
-    player.tell(Component.string('§e/profequip list          §7— 查看在线玩家选择'))
-    player.tell(Component.string('§e/profequip help          §7— 显示此帮助'))
-    player.tell(Component.string('§7目标支持: @a @p @s @r <玩家名>'))
-    return
-  }
+      // ---- list ----
+      .then(
+        cmd.literal('list')
+          .executes(function(ctx) {
+            var source = ctx.getSource()
+            var server = source.getServer()
+            var all = server.getPlayers()
+            source.sendSuccess(Component.literal('§6===== 当前在线玩家职业选择 ====='), false)
+            for (var i = 0; i < all.size(); i++) {
+              source.sendSuccess(Component.literal(getPlayerSummary(all.get(i))), false)
+            }
+            return 1
+          })
+      )
 
-  // ---------- list ----------
-  if (subCmd === 'list') {
-    var server = event.getServer()
-    var all = server.getPlayers()
-    player.tell(Component.string('§6===== 当前在线玩家职业选择 ====='))
-    for (var i = 0; i < all.size(); i++) {
-      player.tell(Component.string(getPlayerSummary(all.get(i))))
-    }
-    return
-  }
+      // ---- give ----
+      .then(
+        cmd.literal('give')
+          // /profequip give (无参数) → 给自己（仅玩家）或报错（控制台）
+          .executes(function(ctx) {
+            var source = ctx.getSource()
+            var player = source.getPlayer()
+            if (!player) {
+              source.sendFailure(Component.literal('§c用法: /profequip give <target> — 控制台必须指定目标'))
+              return 0
+            }
+            return giveLoadout(player) ? 1 : 0
+          })
+          // /profequip give <targets>
+          .then(
+            cmd.argument('targets', args.PLAYERS.create(event))
+              .executes(function(ctx) {
+                var source = ctx.getSource()
+                var targets = $EntityArgument.getPlayers(ctx, 'targets') // Collection<ServerPlayer>
+                var iterator = targets.iterator()
+                var success = 0
+                var total = 0
+                while (iterator.hasNext()) {
+                  var t = iterator.next()
+                  total++
+                  if (giveLoadout(t)) success++
+                }
+                source.sendSuccess(Component.literal('§a已为 ' + success + ' / ' + total + ' 名玩家发放装备'), true)
+                return success
+              })
+          )
+      )
 
-  // ---------- give [<target>] ----------
-  if (subCmd === 'give' || subCmd === '') {
-    if (args.length < 2 || subCmd === '') {
-      giveLoadout(player)
-      return
-    }
-
-    var targetStr = args[1]
-    var server = event.getServer()
-    var targets = parseTargets(targetStr, player, server)
-
-    if (targets.length === 0) {
-      player.tell(Component.string('§c未找到有效的目标玩家'))
-      return
-    }
-
-    var success = 0
-    targets.forEach(function(t) {
-      if (giveLoadout(t)) success++
-    })
-
-    player.tell(Component.string('§a已为 ' + success + ' 名玩家发放装备'))
-    return
-  }
-
-  // ---------- 未知子命令 ----------
-  player.tell(Component.string('§c用法: /profequip give [<target>] | list | help'))
+      // ---- 默认（无子命令）→ 帮助 ----
+      .executes(function(ctx) {
+        var source = ctx.getSource()
+        source.sendSuccess(Component.literal('§6===== /profequip 帮助 ====='), false)
+        source.sendSuccess(Component.literal('§e/profequip give [<target>] §7— 发放装备 (留空=自己)'), false)
+        source.sendSuccess(Component.literal('§e/profequip list          §7— 查看在线玩家选择'), false)
+        source.sendSuccess(Component.literal('§e/profequip help          §7— 显示此帮助'), false)
+        return 1
+      })
+  )
 })
