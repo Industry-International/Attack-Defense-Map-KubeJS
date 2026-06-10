@@ -9,9 +9,9 @@ declare module "@package/com/simibubi/create/content/kinetics/transmission/seque
     export class $SequencerInstructions extends $Enum<$SequencerInstructions> {
         static values(): $SequencerInstructions[];
         static valueOf(arg0: string): $SequencerInstructions;
-        static invokeInit$create_connected_$md$d64506$0(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_): $SequencerInstructions;
-        static invokeInit$create_connected_$md$d64506$1(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_, arg4: boolean, arg5: boolean, arg6: number, arg7: number, arg8: number): $SequencerInstructions;
         needsPropagation(): boolean;
+        static invokeInit$create_connected_$md$9aa1a5$0(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_): $SequencerInstructions;
+        static invokeInit$create_connected_$md$9aa1a5$1(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_, arg4: boolean, arg5: boolean, arg6: number, arg7: number, arg8: number): $SequencerInstructions;
         translationKey: string;
         maxValue: number;
         defaultValue: number;
@@ -34,10 +34,10 @@ declare module "@package/com/simibubi/create/content/kinetics/transmission/seque
     export type $SequencerInstructions_ = "turn_angle" | "turn_distance" | "delay" | "await" | "end" | "turn_await" | "turn_time" | "loop";
     export class $SequencedGearshiftBlockEntity$SequenceContext extends $Record implements $ISnappingSequenceContext {
         instruction(): $SequencerInstructions;
-        serializeNBT(): $CompoundTag;
         static fromNBT(arg0: $CompoundTag_): $SequencedGearshiftBlockEntity$SequenceContext;
-        getEffectiveValue(arg0: number): number;
+        serializeNBT(): $CompoundTag;
         shouldSnapToZero(): boolean;
+        getEffectiveValue(arg0: number): number;
         relativeValue(): number;
         static fromGearshift(arg0: $SequencerInstructions_, arg1: number, arg2: number): $SequencedGearshiftBlockEntity$SequenceContext;
         setSnapToZero(arg0: boolean): void;

@@ -32,9 +32,9 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/worldgen" {
     export class $ISpawnBoxStructure {
     }
     export interface $ISpawnBoxStructure extends $ISpecialSpawnsStructure {
-        ml$setSpawnBoxSettings(arg0: $SpawnBoxSettings_): void;
         ml$getSpecialSpawns(arg0: $StructureManager, arg1: $Structure_, arg2: $BlockPos_, arg3: $LongSet, arg4: $MobCategory_): $WeightedRandomList<$MobSpawnSettings$SpawnerData>;
         ml$getSpawnBoxSettings(): $SpawnBoxSettings;
+        ml$setSpawnBoxSettings(arg0: $SpawnBoxSettings_): void;
     }
     /**
      * Values that may be interpreted as {@link $ISpawnBoxStructure}.

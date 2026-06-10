@@ -22,32 +22,32 @@ declare module "@package/com/replaymod/replay/mixin" {
     }
     export interface $FirstPersonRendererAccessor {
         setItemStackMainHand(arg0: $ItemStack_): void;
-        setEquippedProgressMainHand(arg0: number): void;
-        setPrevEquippedProgressOffHand(arg0: number): void;
-        setPrevEquippedProgressMainHand(arg0: number): void;
-        setEquippedProgressOffHand(arg0: number): void;
         setItemStackOffHand(arg0: $ItemStack_): void;
+        setEquippedProgressOffHand(arg0: number): void;
+        setEquippedProgressMainHand(arg0: number): void;
+        setPrevEquippedProgressMainHand(arg0: number): void;
+        setPrevEquippedProgressOffHand(arg0: number): void;
         set itemStackMainHand(value: $ItemStack_);
-        set equippedProgressMainHand(value: number);
-        set prevEquippedProgressOffHand(value: number);
-        set prevEquippedProgressMainHand(value: number);
-        set equippedProgressOffHand(value: number);
         set itemStackOffHand(value: $ItemStack_);
+        set equippedProgressOffHand(value: number);
+        set equippedProgressMainHand(value: number);
+        set prevEquippedProgressMainHand(value: number);
+        set prevEquippedProgressOffHand(value: number);
     }
     export class $EntityLivingBaseAccessor {
     }
     export interface $EntityLivingBaseAccessor {
-        getInterpTargetY(): number;
-        getInterpTargetYaw(): number;
-        getInterpTargetX(): number;
-        getInterpTargetZ(): number;
         setActiveItemStackUseCount(arg0: number): void;
         getInterpTargetPitch(): number;
         getActiveItemStackUseCount(): number;
+        getInterpTargetZ(): number;
+        getInterpTargetX(): number;
+        getInterpTargetY(): number;
+        getInterpTargetYaw(): number;
+        get interpTargetPitch(): number;
+        get interpTargetZ(): number;
+        get interpTargetX(): number;
         get interpTargetY(): number;
         get interpTargetYaw(): number;
-        get interpTargetX(): number;
-        get interpTargetZ(): number;
-        get interpTargetPitch(): number;
     }
 }

@@ -10,9 +10,9 @@ declare module "@package/com/simibubi/create/content/equipment/wrench" {
         static playRemoveSound(arg0: $Level_, arg1: $BlockPos_): void;
     }
     export interface $IWrenchable {
+        onSneakWrenched(arg0: $BlockState_, arg1: $UseOnContext): $InteractionResult;
         updateAfterWrenched(arg0: $BlockState_, arg1: $UseOnContext): $BlockState;
         getRotatedBlockState(arg0: $BlockState_, arg1: $Direction_): $BlockState;
         onWrenched(arg0: $BlockState_, arg1: $UseOnContext): $InteractionResult;
-        onSneakWrenched(arg0: $BlockState_, arg1: $UseOnContext): $InteractionResult;
     }
 }

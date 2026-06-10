@@ -10,12 +10,12 @@ declare module "@package/xfacthd/framedblocks/api/block/cache" {
         framedblocks$getCache(): $StateCache;
     }
     export class $StateCache {
-        canConnectDetailed(arg0: $Direction_, arg1: $Direction_): boolean;
-        canConnectFullEdge(arg0: $Direction_, arg1: $Direction_): boolean;
         hasAnyFullFace(): boolean;
+        canConnectFullEdge(arg0: $Direction_, arg1: $Direction_): boolean;
+        canConnectDetailed(arg0: $Direction_, arg1: $Direction_): boolean;
         hasAnyDetailedConnections(): boolean;
-        isFullFace(arg0: $Direction_): boolean;
         mayConnect(arg0: $Direction_): boolean;
+        isFullFace(arg0: $Direction_): boolean;
         static EMPTY: $StateCache;
         constructor(arg0: $BlockState_, arg1: $IBlockType);
     }

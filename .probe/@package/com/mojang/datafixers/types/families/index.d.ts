@@ -16,10 +16,10 @@ declare module "@package/com/mojang/datafixers/types/families" {
         name(): string;
         size(): number;
         template(): $TypeTemplate;
-        buildMuType<A>(arg0: $Type<A>, arg1: $RecursiveTypeFamily): $RecursivePoint$RecursivePointType<A>;
-        findType<A, B>(arg0: number, arg1: $Type<A>, arg2: $Type<B>, arg3: $Type$TypeMatcher_<A, B>, arg4: boolean): $Either<$TypedOptic<never, never, A, B>, $Type$FieldNotFoundException>;
         fold(arg0: $Algebra, arg1: $RecursiveTypeFamily): $IntFunction<$RewriteResult<never, never>>;
         everywhere(arg0: number, arg1: $TypeRewriteRule_, arg2: $PointFreeRule_): ($RewriteResult<never, never>) | undefined;
+        buildMuType<A>(arg0: $Type<A>, arg1: $RecursiveTypeFamily): $RecursivePoint$RecursivePointType<A>;
+        findType<A, B>(arg0: number, arg1: $Type<A>, arg2: $Type<B>, arg3: $Type$TypeMatcher_<A, B>, arg4: boolean): $Either<$TypedOptic<never, never, A, B>, $Type$FieldNotFoundException>;
         apply(arg0: number): $Type<never>;
         constructor(arg0: string, arg1: $TypeTemplate);
     }

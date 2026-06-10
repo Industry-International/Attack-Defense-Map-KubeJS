@@ -221,24 +221,24 @@ declare module "@package/dev/latvian/mods/kubejs/integration/jei" {
         constructor(recipeManager: $IRecipeManager, categories: $Map_<$ResourceLocation_, $IRecipeCategory<never>>);
     }
     export class $KubeJSJEIPlugin implements $IModPlugin {
-        registerItemSubtypes(registration: $ISubtypeRegistration): void;
-        registerFluidSubtypes<T>(registration: $ISubtypeRegistration, platformFluidHelper: $IPlatformFluidHelper<T>): void;
+        loadRemote(event: $RemoteRecipeViewerDataUpdatedEvent): void;
+        getPluginUid(): $ResourceLocation;
         registerRecipes(registration: $IRecipeRegistration): void;
         onRuntimeAvailable(runtime: $IJeiRuntime): void;
-        getPluginUid(): $ResourceLocation;
-        loadRemote(event: $RemoteRecipeViewerDataUpdatedEvent): void;
+        registerItemSubtypes(registration: $ISubtypeRegistration): void;
+        registerFluidSubtypes<T>(registration: $ISubtypeRegistration, platformFluidHelper: $IPlatformFluidHelper<T>): void;
+        registerVanillaCategoryExtensions(arg0: $IVanillaCategoryExtensionRegistration): void;
+        registerRecipeTransferHandlers(arg0: $IRecipeTransferRegistration): void;
+        registerAdvanced(arg0: $IAdvancedRegistration): void;
+        registerCategories(arg0: $IRecipeCategoryRegistration): void;
+        registerRuntime(arg0: $IRuntimeRegistration): void;
+        registerModInfo(arg0: $IModInfoRegistration_): void;
         registerIngredients(arg0: $IModIngredientRegistration): void;
         registerExtraIngredients(arg0: $IExtraIngredientRegistration_): void;
         registerIngredientAliases(arg0: $IIngredientAliasRegistration): void;
-        registerModInfo(arg0: $IModInfoRegistration_): void;
-        registerAdvanced(arg0: $IAdvancedRegistration): void;
-        registerRuntime(arg0: $IRuntimeRegistration): void;
-        registerCategories(arg0: $IRecipeCategoryRegistration): void;
-        registerVanillaCategoryExtensions(arg0: $IVanillaCategoryExtensionRegistration): void;
-        registerRecipeTransferHandlers(arg0: $IRecipeTransferRegistration): void;
         registerRecipeCatalysts(arg0: $IRecipeCatalystRegistration): void;
-        onConfigManagerAvailable(arg0: $IJeiConfigManager_): void;
         registerGuiHandlers(arg0: $IGuiHandlerRegistration): void;
+        onConfigManagerAvailable(arg0: $IJeiConfigManager_): void;
         onRuntimeUnavailable(): void;
         static DISABLED: boolean;
         static ID: $ResourceLocation;

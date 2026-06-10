@@ -37,7 +37,7 @@ declare module "@package/net/neoforged/neoforge/client/textures" {
     export type $SpriteContentsConstructor_ = ((arg0: $ResourceLocation, arg1: $FrameSize, arg2: $NativeImage, arg3: $ResourceMetadata) => $SpriteContents);
     export class $FluidSpriteCache {
         static reload(): void;
-        static getFluidSprites(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState): $TextureAtlasSprite[];
         static getSprite(arg0: $ResourceLocation_): $TextureAtlasSprite;
+        static getFluidSprites(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState): $TextureAtlasSprite[];
     }
 }

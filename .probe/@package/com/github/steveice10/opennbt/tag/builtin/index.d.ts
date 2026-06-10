@@ -1,7 +1,7 @@
 import { $DataInput, $DataOutput } from "@package/java/io";
 import { $Consumer_ } from "@package/java/util/function";
 import { $Object, $Iterable, $Cloneable } from "@package/java/lang";
-import { $Spliterator, $Iterator, $LinkedHashMap, $Map_, $Collection, $Map$Entry, $Set } from "@package/java/util";
+import { $Spliterator, $Iterator, $LinkedHashMap, $Map_, $Map$Entry, $Collection, $Set } from "@package/java/util";
 
 declare module "@package/com/github/steveice10/opennbt/tag/builtin" {
     export class $CompoundTag extends $Tag implements $Iterable<$Map$Entry<string, $Tag>> {

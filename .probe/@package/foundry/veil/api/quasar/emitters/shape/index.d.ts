@@ -10,8 +10,8 @@ declare module "@package/foundry/veil/api/quasar/emitters/shape" {
         static CODEC: $Codec<$EmitterShape>;
     }
     export interface $EmitterShape {
-        renderShape(arg0: $PoseStack, arg1: $VertexConsumer, arg2: $Vector3fc, arg3: $Vector3fc): void;
         getPoint(arg0: $RandomSource, arg1: $Vector3fc, arg2: $Vector3fc, arg3: $Vector3dc, arg4: boolean): $Vector3d;
+        renderShape(arg0: $PoseStack, arg1: $VertexConsumer, arg2: $Vector3fc, arg3: $Vector3fc): void;
     }
     /**
      * Values that may be interpreted as {@link $EmitterShape}.

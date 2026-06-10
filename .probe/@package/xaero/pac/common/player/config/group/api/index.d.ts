@@ -5,9 +5,9 @@ declare module "@package/xaero/pac/common/player/config/group/api" {
     export class $PlayerConfigGroupActionError extends $Enum<$PlayerConfigGroupActionError> {
         static values(): $PlayerConfigGroupActionError[];
         static valueOf(arg0: string): $PlayerConfigGroupActionError;
-        shouldRefreshGroupScreen(): boolean;
-        getCommandMessage(): $Component;
         getDesyncScreenMessage(): $Component;
+        getCommandMessage(): $Component;
+        shouldRefreshGroupScreen(): boolean;
         static GROUP_TO_REMOVE_NOT_FOUND: $PlayerConfigGroupActionError;
         static GROUP_ID_TOO_LONG: $PlayerConfigGroupActionError;
         static UNKNOWN_PLAYER: $PlayerConfigGroupActionError;
@@ -22,8 +22,8 @@ declare module "@package/xaero/pac/common/player/config/group/api" {
         static GROUP_INCLUSION_NOT_FOUND: $PlayerConfigGroupActionError;
         static GROUP_ALREADY_INCLUDED: $PlayerConfigGroupActionError;
         static GROUP_TO_EDIT_NOT_FOUND: $PlayerConfigGroupActionError;
-        get commandMessage(): $Component;
         get desyncScreenMessage(): $Component;
+        get commandMessage(): $Component;
     }
     /**
      * Values that may be interpreted as {@link $PlayerConfigGroupActionError}.

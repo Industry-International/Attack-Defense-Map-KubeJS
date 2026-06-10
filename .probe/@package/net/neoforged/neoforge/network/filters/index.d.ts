@@ -12,15 +12,15 @@ declare module "@package/net/neoforged/neoforge/network/filters" {
         isNecessary(arg0: $Connection): boolean;
     }
     export class $NetworkFilters {
-        static injectIfNecessary(arg0: $Connection): void;
         static cleanIfNecessary(arg0: $Connection): void;
+        static injectIfNecessary(arg0: $Connection): void;
     }
     export class $GenericPacketSplitter extends $MessageToMessageEncoder<$Packet<never>> implements $DynamicChannelHandler {
-        handler$fka000$fabric_networking_api_v1$encode(arg0: $ChannelHandlerContext, arg1: $Packet<any>, arg2: $List_<any>, arg3: $CallbackInfo): void;
+        handler$fkb000$fabric_networking_api_v1$encode(arg0: $ChannelHandlerContext, arg1: $Packet<any>, arg2: $List_<any>, arg3: $CallbackInfo): void;
         static getRemoteCompatibility(arg0: $Connection): $GenericPacketSplitter$RemoteCompatibility;
         static determineMaxPayloadSize(arg0: number): number;
-        isNecessary(arg0: $Connection): boolean;
         static isRemoteCompatible(arg0: $Connection): boolean;
+        isNecessary(arg0: $Connection): boolean;
         static CHANNEL_HANDLER_NAME: string;
         constructor();
     }

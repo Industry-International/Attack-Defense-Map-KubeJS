@@ -9,40 +9,40 @@ declare module "@package/com/sighs/apricityui/style" {
         offset(arg0: string): number;
         static createTransition(arg0: $Style, arg1: $Style, arg2: $List_<$Transition_>, arg3: string, arg4: number, arg5: number): void;
         elementSize(): $Size;
+        innerSize(): $Size;
+        getBorderLeft(): number;
+        getBorderTop(): number;
+        getBorderHorizontal(): number;
+        getMarginHorizontal(): number;
+        getPaddingHorizontal(): number;
+        getBoxSizing(): string;
+        applyPadding(arg0: string, arg1: string): void;
+        applyPaddingAll(arg0: string): void;
+        getBorderRight(): number;
+        getCalculatedRadii(arg0: number, arg1: number, arg2: number): number[];
+        static parseShadow(arg0: string): $Box$Shadow;
+        getBorderBottom(): number;
+        applyMargin(arg0: string, arg1: string): void;
+        static parseBorderImage(arg0: $Style): $Box$BorderImage;
+        static parseShadowList(arg0: string): $List<$Box$Shadow>;
+        static matchStyleName(arg0: string): boolean;
+        static parseSideBorder(arg0: string): $Box$SideBorder;
+        applyBorderAll(arg0: string): void;
+        applyBorder(arg0: string, arg1: string): void;
+        applyMarginAll(arg0: string): void;
+        isBorderBox(): boolean;
+        getPaddingVertical(): number;
+        getBorderVertical(): number;
+        getMarginVertical(): number;
+        static normalizeBoxSizing(arg0: string): string;
         getPaddingRight(): number;
-        getPaddingTop(): number;
         getPaddingLeft(): number;
+        getPaddingTop(): number;
         getPaddingBottom(): number;
         getMarginTop(): number;
         getMarginLeft(): number;
         getMarginRight(): number;
         getMarginBottom(): number;
-        isBorderBox(): boolean;
-        getPaddingVertical(): number;
-        getMarginVertical(): number;
-        static normalizeBoxSizing(arg0: string): string;
-        getBorderVertical(): number;
-        getBorderLeft(): number;
-        innerSize(): $Size;
-        getBorderTop(): number;
-        getBorderHorizontal(): number;
-        getPaddingHorizontal(): number;
-        getMarginHorizontal(): number;
-        static parseShadowList(arg0: string): $List<$Box$Shadow>;
-        getBorderBottom(): number;
-        getCalculatedRadii(arg0: number, arg1: number, arg2: number): number[];
-        applyBorderAll(arg0: string): void;
-        static parseSideBorder(arg0: string): $Box$SideBorder;
-        static matchStyleName(arg0: string): boolean;
-        applyPaddingAll(arg0: string): void;
-        static parseBorderImage(arg0: $Style): $Box$BorderImage;
-        applyMarginAll(arg0: string): void;
-        applyPadding(arg0: string, arg1: string): void;
-        getBorderRight(): number;
-        applyBorder(arg0: string, arg1: string): void;
-        getBoxSizing(): string;
-        applyMargin(arg0: string, arg1: string): void;
-        static parseShadow(arg0: string): $Box$Shadow;
         border: $HashMap<string, $Box$SideBorder>;
         static SIDE: $List<string>;
         static BOX_SIZING_BORDER_BOX: string;
@@ -55,32 +55,32 @@ declare module "@package/com/sighs/apricityui/style" {
         shadows: $List<$Box$Shadow>;
         element: $Element;
         constructor();
+        get borderLeft(): number;
+        get borderTop(): number;
+        get borderHorizontal(): number;
+        get marginHorizontal(): number;
+        get paddingHorizontal(): number;
+        get boxSizing(): string;
+        get borderRight(): number;
+        get borderBottom(): number;
+        get borderBox(): boolean;
+        get paddingVertical(): number;
+        get borderVertical(): number;
+        get marginVertical(): number;
         get paddingRight(): number;
-        get paddingTop(): number;
         get paddingLeft(): number;
+        get paddingTop(): number;
         get paddingBottom(): number;
         get marginTop(): number;
         get marginLeft(): number;
         get marginRight(): number;
         get marginBottom(): number;
-        get borderBox(): boolean;
-        get paddingVertical(): number;
-        get marginVertical(): number;
-        get borderVertical(): number;
-        get borderLeft(): number;
-        get borderTop(): number;
-        get borderHorizontal(): number;
-        get paddingHorizontal(): number;
-        get marginHorizontal(): number;
-        get borderBottom(): number;
-        get borderRight(): number;
-        get boxSizing(): string;
     }
     export class $Transform {
         static parse(arg0: string): $List<$Transform>;
         static createTransition(arg0: $Style, arg1: $Style, arg2: $List_<$Transition_>, arg3: number, arg4: number): void;
-        static interpolateTransform(arg0: $List_<$Transition$Change_>, arg1: string, arg2: string, arg3: number): void;
         static readTransition(arg0: $List_<$Transition$Change_>, arg1: $Style): void;
+        static interpolateTransform(arg0: $List_<$Transition$Change_>, arg1: string, arg2: string, arg3: number): void;
     }
     export interface $Transform {
     }
@@ -96,10 +96,10 @@ declare module "@package/com/sighs/apricityui/style" {
         static isActive(arg0: $Element): boolean;
         static getOffset(arg0: string, arg1: number, arg2: number, arg3: number): number;
         static parseTime(arg0: string): number;
-        static applyChanges(arg0: $Style, arg1: $List_<$Transition$Change_>): void;
         static updateStyle(arg0: $Element, arg1: $Style): boolean;
-        static parseStyle(arg0: string, arg1: string): number;
+        static applyChanges(arg0: $Style, arg1: $List_<$Transition$Change_>): void;
         static affectsFilter(arg0: $Element): boolean;
+        static parseStyle(arg0: string, arg1: string): number;
         constructor(name: string, start: number, end: number, duration: number, delay: number, startTime: number);
     }
     export class $Color {
@@ -111,9 +111,9 @@ declare module "@package/com/sighs/apricityui/style" {
         getA(): number;
         getB(): number;
         getG(): number;
-        getR(): number;
-        static mixColors(arg0: number, arg1: number, arg2: number): number;
         toRgbaString(): string;
+        static mixColors(arg0: number, arg1: number, arg2: number): number;
+        getR(): number;
         static BLACK: $Color;
         constructor(arg0: string);
         constructor(arg0: $Number);
@@ -125,9 +125,9 @@ declare module "@package/com/sighs/apricityui/style" {
     }
     export class $Background {
         static of(arg0: $Element): $Background;
+        static splitTopLevelComma(arg0: string): $List<string>;
         getLayers(): $List<$Background$Layer>;
         static resolveImagePaths(arg0: string, arg1: string): $List<string>;
-        static splitTopLevelComma(arg0: string): $List<string>;
         size: string;
         color: string;
         imagePath: string;
@@ -148,17 +148,17 @@ declare module "@package/com/sighs/apricityui/style" {
     }
     export class $Filter$FilterState extends $Record {
         isEmpty(): boolean;
+        hueRotate(): number;
         opacity(): number;
         invert(): number;
-        brightness(): number;
-        grayscale(): number;
-        blurRadius(): number;
-        dropShadowBlur(): number;
-        dropShadowColor(): number;
-        hasDropShadow(): boolean;
-        dropShadowX(): number;
         dropShadowY(): number;
-        hueRotate(): number;
+        hasDropShadow(): boolean;
+        dropShadowBlur(): number;
+        dropShadowX(): number;
+        dropShadowColor(): number;
+        grayscale(): number;
+        brightness(): number;
+        blurRadius(): number;
         static EMPTY: $Filter$FilterState;
         constructor(blurRadius: number, brightness: number, grayscale: number, invert: number, hueRotate: number, opacity: number, dropShadowX: number, dropShadowY: number, dropShadowBlur: number, dropShadowColor: number);
         get empty(): boolean;
@@ -166,9 +166,9 @@ declare module "@package/com/sighs/apricityui/style" {
     export class $Text$WrappedTextCache extends $Record {
         wrapped(): $Text$WrappedText;
         contentLen(): number;
+        contentHash(): number;
         wrapWidthBits(): number;
         metricsHash(): number;
-        contentHash(): number;
         constructor(metricsHash: number, contentHash: number, contentLen: number, wrapWidthBits: number, wrapped: $Text$WrappedText_);
     }
     export class $Gradient {
@@ -216,17 +216,17 @@ declare module "@package/com/sighs/apricityui/style" {
         static wrap(arg0: $Text, arg1: number): $Text$WrappedText;
         static of(arg0: $Element): $Text;
         toKey(): string;
-        static splitLines(arg0: string): $List<string>;
-        static measureText(arg0: $Text): number;
-        static measureText(arg0: $Element, arg1: string): number;
-        static normalizeWhiteSpaceContent(arg0: string, arg1: string): string;
-        static allowsSoftWrap(arg0: string): boolean;
-        static measureLine(arg0: $Text, arg1: string): number;
-        isBold(): boolean;
         isOblique(): boolean;
-        static wrapCached(arg0: $Element, arg1: $Text): $Text$WrappedText;
+        static splitLines(arg0: string): $List<string>;
         isRtl(): boolean;
+        static wrapCached(arg0: $Element, arg1: $Text): $Text$WrappedText;
+        static measureLine(arg0: $Text, arg1: string): number;
+        static allowsSoftWrap(arg0: string): boolean;
         static calculateLineHeight(arg0: number, arg1: string): number;
+        static measureText(arg0: $Element, arg1: string): number;
+        static measureText(arg0: $Text): number;
+        static normalizeWhiteSpaceContent(arg0: string, arg1: string): string;
+        isBold(): boolean;
         hasStroke(): boolean;
         oblique: boolean;
         strokeWidth: number;
@@ -245,8 +245,8 @@ declare module "@package/com/sighs/apricityui/style" {
         fontWeight: number;
         direction: string;
         constructor();
-        get bold(): boolean;
         get rtl(): boolean;
+        get bold(): boolean;
     }
     export class $Box$SideBorder extends $Record {
         size(): number;
@@ -263,14 +263,14 @@ declare module "@package/com/sighs/apricityui/style" {
         static box(arg0: $Element): $Size;
         width(): number;
         static parseNumber(arg0: string): number;
-        static isPercent(arg0: string): boolean;
         height(): number;
-        static getTextSize(arg0: $Element): $Size;
-        static measureText(arg0: $Element, arg1: string): number;
         static getWindowSize(): $Size;
+        static measureText(arg0: $Element, arg1: string): number;
         static getScaleHeight(arg0: $Element): number;
         static resolveLength(arg0: string, arg1: number, arg2: number): number;
         static getScaleWidth(arg0: $Element): number;
+        static isPercent(arg0: string): boolean;
+        static getTextSize(arg0: $Element): $Size;
         static lerp(arg0: number, arg1: number): number;
         static getContentSize(arg0: $Element): $Size;
         static ZERO: $Size;

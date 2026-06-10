@@ -55,19 +55,19 @@ declare module "@package/com/mojang/authlib/minecraft" {
     export class $MinecraftSessionService {
     }
     export interface $MinecraftSessionService {
-        unpackTextures(arg0: $Property_): $MinecraftProfileTextures;
-        getPackedTextures(arg0: $GameProfile): $Property;
-        hasJoinedServer(arg0: string, arg1: string, arg2: $InetAddress): $ProfileResult;
+        joinServer(arg0: $UUID_, arg1: string, arg2: string): void;
         getSecurePropertyValue(arg0: $Property_): string;
+        unpackTextures(arg0: $Property_): $MinecraftProfileTextures;
+        hasJoinedServer(arg0: string, arg1: string, arg2: $InetAddress): $ProfileResult;
+        getPackedTextures(arg0: $GameProfile): $Property;
         getTextures(arg0: $GameProfile): $MinecraftProfileTextures;
         fetchProfile(arg0: $UUID_, arg1: boolean): $ProfileResult;
-        joinServer(arg0: $UUID_, arg1: string, arg2: string): void;
     }
     export class $MinecraftProfileTextures extends $Record {
-        signatureState(): $SignatureState;
-        elytra(): $MinecraftProfileTexture;
-        skin(): $MinecraftProfileTexture;
         cape(): $MinecraftProfileTexture;
+        skin(): $MinecraftProfileTexture;
+        elytra(): $MinecraftProfileTexture;
+        signatureState(): $SignatureState;
         static EMPTY: $MinecraftProfileTextures;
         constructor(skin: $MinecraftProfileTexture, cape: $MinecraftProfileTexture, elytra: $MinecraftProfileTexture, signatureState: $SignatureState_);
     }
@@ -90,22 +90,22 @@ declare module "@package/com/mojang/authlib/minecraft" {
         static OFFLINE: $UserApiService;
     }
     export interface $UserApiService {
-        isBlockedPlayer(arg0: $UUID_): boolean;
-        reportAbuse(arg0: $AbuseReportRequest_): void;
-        refreshBlockList(): void;
-        canSendReports(): boolean;
+        getKeyPair(): $KeyPairResponse;
         getAbuseReportLimits(): $AbuseReportLimits;
         newTelemetrySession(arg0: $Executor_): $TelemetrySession;
+        canSendReports(): boolean;
+        reportAbuse(arg0: $AbuseReportRequest_): void;
+        isBlockedPlayer(arg0: $UUID_): boolean;
+        refreshBlockList(): void;
         fetchProperties(): $UserApiService$UserProperties;
-        getKeyPair(): $KeyPairResponse;
-        get abuseReportLimits(): $AbuseReportLimits;
         get keyPair(): $KeyPairResponse;
+        get abuseReportLimits(): $AbuseReportLimits;
     }
     export class $BanDetails extends $Record {
         id(): $UUID;
         reason(): string;
-        reasonMessage(): string;
         expires(): $Instant;
+        reasonMessage(): string;
         static MULTIPLAYER_SCOPE: string;
         constructor(id: $UUID_, expires: $Instant, reason: string, reasonMessage: string);
     }

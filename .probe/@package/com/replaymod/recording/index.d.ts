@@ -8,7 +8,7 @@ declare module "@package/com/replaymod/recording" {
         static from(base: $ServerData): $ServerInfoExt;
     }
     export interface $ServerInfoExt {
-        setAutoRecording(arg0: boolean): void;
         getAutoRecording(): boolean;
+        setAutoRecording(arg0: boolean): void;
     }
 }

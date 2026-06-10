@@ -9,20 +9,20 @@ declare module "@package/xaero/pac/common/server/player/config/group/custom/api"
     export interface $ICustomPlayerConfigGroupAPI extends $ICustomPlayerConfigGroupDataAPI {
         getSize(): number;
         copyData(): $ICustomPlayerConfigGroupDataAPI;
-        groupIdIsIncluded(arg0: string): boolean;
-        includeMember(arg0: $UUID_, arg1: string): $Either<$ICustomPlayerGroupMemberAPI, $PlayerConfigGroupActionError>;
-        getDirectMembers(): $Set<$ICustomPlayerGroupMemberAPI>;
-        getDirectGroupIds(): $Set<string>;
-        includeGroup(arg0: string): ($PlayerConfigGroupActionError) | undefined;
-        playerIdIsIncluded(arg0: $UUID_): boolean;
-        includeGroupLimited(arg0: string): ($PlayerConfigGroupActionError) | undefined;
         playerNameIsIncluded(arg0: string): boolean;
         excludeGroup(arg0: string): ($PlayerConfigGroupActionError) | undefined;
-        excludeMember(arg0: $ICustomPlayerGroupMemberAPI): ($PlayerConfigGroupActionError) | undefined;
         excludeMember(arg0: $UUID_, arg1: string): ($PlayerConfigGroupActionError) | undefined;
+        excludeMember(arg0: $ICustomPlayerGroupMemberAPI): ($PlayerConfigGroupActionError) | undefined;
+        includeGroupLimited(arg0: string): ($PlayerConfigGroupActionError) | undefined;
         includeMemberLimited(arg0: $UUID_, arg1: string): $Either<$ICustomPlayerGroupMemberAPI, $PlayerConfigGroupActionError>;
+        includeMember(arg0: $UUID_, arg1: string): $Either<$ICustomPlayerGroupMemberAPI, $PlayerConfigGroupActionError>;
+        includeGroup(arg0: string): ($PlayerConfigGroupActionError) | undefined;
+        playerIdIsIncluded(arg0: $UUID_): boolean;
+        groupIdIsIncluded(arg0: string): boolean;
+        getDirectGroupIds(): $Set<string>;
+        getDirectMembers(): $Set<$ICustomPlayerGroupMemberAPI>;
         get size(): number;
-        get directMembers(): $Set<$ICustomPlayerGroupMemberAPI>;
         get directGroupIds(): $Set<string>;
+        get directMembers(): $Set<$ICustomPlayerGroupMemberAPI>;
     }
 }

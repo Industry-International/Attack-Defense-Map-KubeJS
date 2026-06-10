@@ -28,55 +28,55 @@ export * as radar from "@package/xaero/common/minimap/render/radar";
 
 declare module "@package/xaero/common/minimap/render" {
     export class $MinimapFBORenderer extends $MinimapRenderer {
-        onRadarIconModelRenderTrace(arg0: $EntityModel<never>, arg1: $VertexConsumer, arg2: number): void;
-        onEntityIconModelPartRenderTrace(arg0: $ModelPart, arg1: number): void;
-        resetEntityIcons(): void;
+        isTriedFBO(): boolean;
         deleteFramebuffers(): void;
+        isLoadedFBO(): boolean;
+        resetEntityIcons(): void;
+        assumeUsingFBO(): boolean;
         resetEntityIconsResources(): void;
-        renderChunksToFBO(arg0: $MinimapSession, arg1: $GuiGraphics, arg2: $MinimapProcessor, arg3: $Vec3_, arg4: $ResourceKey_<$Level>, arg5: number, arg6: number, arg7: number, arg8: number, arg9: boolean, arg10: boolean, arg11: number, arg12: number, arg13: number, arg14: boolean, arg15: $CustomVertexConsumers): void;
+        renderMainEntityDot(arg0: $GuiGraphics, arg1: $Entity, arg2: boolean, arg3: $MultiBufferSource$BufferSource): void;
+        getEntityRadarRenderer(): $RadarRenderer$1;
         loadFrameBuffer(arg0: $MinimapProcessor): void;
-        setLoadedFBO(arg0: boolean): void;
+        renderChunksToFBO(arg0: $MinimapSession, arg1: $GuiGraphics, arg2: $MinimapProcessor, arg3: $Vec3_, arg4: $ResourceKey_<$Level>, arg5: number, arg6: number, arg7: number, arg8: number, arg9: boolean, arg10: boolean, arg11: number, arg12: number, arg13: number, arg14: boolean, arg15: $CustomVertexConsumers): void;
         /**
          * @deprecated
          */
         getRadarRenderer(): $RadarRenderer;
-        isTriedFBO(): boolean;
-        renderMainEntityDot(arg0: $GuiGraphics, arg1: $Entity, arg2: boolean, arg3: $MultiBufferSource$BufferSource): void;
-        getEntityRadarRenderer(): $RadarRenderer$1;
-        assumeUsingFBO(): boolean;
-        isLoadedFBO(): boolean;
+        setLoadedFBO(arg0: boolean): void;
+        onRadarIconModelRenderTrace(arg0: $EntityModel<never>, arg1: $VertexConsumer, arg2: number): void;
+        onEntityIconModelPartRenderTrace(arg0: $ModelPart, arg1: number): void;
         static black: number;
         static slime: number;
         constructor(arg0: $HudMod, arg1: $Minecraft, arg2: $WaypointMapRenderer, arg3: $Minimap, arg4: $CompassRenderer);
-        get radarRenderer(): $RadarRenderer;
         get triedFBO(): boolean;
         get entityRadarRenderer(): $RadarRenderer$1;
+        get radarRenderer(): $RadarRenderer;
     }
     export class $MinimapRendererHelper {
-        prepareMyTexturedColoredModalRect(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: $MultiTextureRenderTypeRenderer): void;
-        addColoredLineToExistingBuffer(arg0: $PoseStack$Pose, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        addTexturedRectToExistingBuffer(arg0: $Matrix4f, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        static restoreDefaultShaderBlendState(): void;
+        drawMyTexturedModalRect(arg0: $PoseStack, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number): void;
+        drawMyTexturedModalRect(arg0: $PoseStack, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: boolean): void;
+        prepareMyTexturedModalRect(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $MultiTextureRenderTypeRenderer): void;
         defaultOrtho(arg0: $RenderTarget): void;
         drawMyColoredRect(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
         drawMyColoredRect(arg0: $PoseStack, arg1: number, arg2: number, arg3: number, arg4: number): void;
         drawIconOutline(arg0: $PoseStack, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        drawMyTexturedModalRect(arg0: $PoseStack, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: boolean): void;
-        drawMyTexturedModalRect(arg0: $PoseStack, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number): void;
-        prepareMyTexturedModalRect(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $MultiTextureRenderTypeRenderer): void;
+        addTexturedRectToExistingBuffer(arg0: $Matrix4f, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+        static restoreDefaultShaderBlendState(): void;
+        prepareMyTexturedColoredModalRect(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: $MultiTextureRenderTypeRenderer): void;
+        addColoredLineToExistingBuffer(arg0: $PoseStack$Pose, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
         constructor();
     }
     export class $MinimapRenderer {
-        getRenderAngle(arg0: boolean): number;
-        getZoom(): number;
-        getHelper(): $MinimapRendererHelper;
         setZoom(arg0: number): void;
+        getHelper(): $MinimapRendererHelper;
+        getZoom(): number;
         getSunBrightness(arg0: $MinimapProcessor, arg1: boolean): number;
+        renderMinimap(arg0: $MinimapSession, arg1: $GuiGraphics, arg2: $MinimapProcessor, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CustomVertexConsumers): void;
+        getRenderAngle(arg0: boolean): number;
         /**
          * @deprecated
          */
         getLastPlayerDimDiv(): number;
-        renderMinimap(arg0: $MinimapSession, arg1: $GuiGraphics, arg2: $MinimapProcessor, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CustomVertexConsumers): void;
         static black: number;
         static slime: number;
         constructor(arg0: $HudMod, arg1: $Minecraft, arg2: $WaypointMapRenderer, arg3: $Minimap, arg4: $CompassRenderer);

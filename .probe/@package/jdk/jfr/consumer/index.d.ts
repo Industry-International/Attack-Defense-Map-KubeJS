@@ -27,13 +27,13 @@ declare module "@package/jdk/jfr/consumer" {
         getMethod(): $RecordedMethod;
         getType(): string;
         getLineNumber(): number;
-        isJavaFrame(): boolean;
         getBytecodeIndex(): number;
+        isJavaFrame(): boolean;
         get method(): $RecordedMethod;
         get type(): string;
         get lineNumber(): number;
-        get javaFrame(): boolean;
         get bytecodeIndex(): number;
+        get javaFrame(): boolean;
     }
     export class $RecordedClass extends $RecordedObject {
         getName(): string;
@@ -80,16 +80,16 @@ declare module "@package/jdk/jfr/consumer" {
         isVirtual(): boolean;
         getThreadGroup(): $RecordedThreadGroup;
         getId(): number;
+        getJavaName(): string;
         getOSThreadId(): number;
         getJavaThreadId(): number;
-        getJavaName(): string;
         getOSName(): string;
         get virtual(): boolean;
         get threadGroup(): $RecordedThreadGroup;
         get id(): number;
+        get javaName(): string;
         get OSThreadId(): number;
         get javaThreadId(): number;
-        get javaName(): string;
         get OSName(): string;
     }
     export class $RecordedEvent extends $RecordedObject {

@@ -16,9 +16,9 @@ declare module "@package/com/github/steveice10/packetlib/tcp/io" {
         writeLong(l: number): void;
         writeDouble(d: number): void;
         writeString(s: string): void;
+        writeUUID(uuid: $UUID_): void;
         writeVarInt(i: number): void;
         writeVarLong(l: number): void;
-        writeUUID(uuid: $UUID_): void;
         writeInts(i: number[], length: number): void;
         writeInts(i: number[]): void;
         writeLongs(l: number[]): void;
@@ -43,9 +43,9 @@ declare module "@package/com/github/steveice10/packetlib/tcp/io" {
         readLong(): number;
         readDouble(): number;
         readString(): string;
-        readVarLong(): number;
         readVarInt(): number;
         readUUID(): $UUID;
+        readVarLong(): number;
         readInts(i: number[], offset: number, length: number): number;
         readInts(i: number[]): number;
         readInts(length: number): number[];

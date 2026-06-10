@@ -46,8 +46,8 @@ declare module "@package/com/atsuishio/superbwarfare/resource/gun" {
         getModel(): $ModelResource;
         limit(): void;
         copy(): $DefaultGunResource;
-        fromJson(arg0: $JsonObject_): $DefaultGunResource;
         toJson(): $JsonObject;
+        fromJson(arg0: $JsonObject_): $DefaultGunResource;
         flareSize: number;
         useOldHandRenderer: boolean;
         dischargeSound: $SoundEvent;

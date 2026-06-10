@@ -2,7 +2,7 @@ import { $Stream } from "@package/java/util/stream";
 import { $Logger } from "@package/org/slf4j";
 import { $IEnvironment } from "@package/cpw/mods/modlauncher/api";
 import { $Path_ } from "@package/java/nio/file";
-import { $ServiceLoader$Provider, $List } from "@package/java/util";
+import { $List, $ServiceLoader$Provider } from "@package/java/util";
 import { $Class } from "@package/java/lang";
 import { $ModLoadingIssue_, $ModLoadingIssue } from "@package/net/neoforged/fml";
 export * as earlywindow from "@package/net/neoforged/neoforgespi/earlywindow";
@@ -17,10 +17,10 @@ declare module "@package/net/neoforged/neoforgespi" {
         mods(): $List<string>;
         environment(): $IEnvironment;
         loadServices<T>(arg0: $Class<T>): $Stream<$ServiceLoader$Provider<T>>;
-        mavenRoots(): $List<string>;
-        addLocated(arg0: $Path_): boolean;
         modLists(): $List<string>;
         isLocated(arg0: $Path_): boolean;
+        addLocated(arg0: $Path_): boolean;
+        mavenRoots(): $List<string>;
     }
     export class $IIssueReporting {
     }

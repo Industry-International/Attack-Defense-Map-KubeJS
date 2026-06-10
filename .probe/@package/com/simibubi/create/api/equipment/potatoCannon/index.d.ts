@@ -44,21 +44,21 @@ declare module "@package/com/simibubi/create/api/equipment/potatoCannon" {
     export class $PotatoCannonProjectileType extends $Record {
         split(): number;
         sticky(): boolean;
-        soundPitch(): number;
+        drag(): number;
         items(): $HolderSet<$Item>;
+        knockback(): number;
         gravityMultiplier(): number;
         damage(): number;
-        knockback(): number;
-        drag(): number;
-        static getTypeForItem(arg0: $RegistryAccess, arg1: $Item_): ($Holder$Reference<$PotatoCannonProjectileType>) | undefined;
+        soundPitch(): number;
+        renderMode(): $PotatoProjectileRenderMode;
         velocityMultiplier(): number;
+        static getTypeForItem(arg0: $RegistryAccess, arg1: $Item_): ($Holder$Reference<$PotatoCannonProjectileType>) | undefined;
         reloadTicks(): number;
         preEntityHit(arg0: $ItemStack_, arg1: $EntityHitResult): boolean;
         preEntityHit(): ($PotatoProjectileEntityHitAction) | undefined;
-        onEntityHit(arg0: $ItemStack_, arg1: $EntityHitResult): boolean;
         onEntityHit(): ($PotatoProjectileEntityHitAction) | undefined;
+        onEntityHit(arg0: $ItemStack_, arg1: $EntityHitResult): boolean;
         dropStack(): $ItemStack;
-        renderMode(): $PotatoProjectileRenderMode;
         onBlockHit(): ($PotatoProjectileBlockHitAction) | undefined;
         onBlockHit(arg0: $LevelAccessor, arg1: $ItemStack_, arg2: $BlockHitResult): boolean;
         static CODEC: $Codec<$PotatoCannonProjectileType>;

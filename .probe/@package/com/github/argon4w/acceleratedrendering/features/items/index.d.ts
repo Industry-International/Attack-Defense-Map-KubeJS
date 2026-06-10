@@ -14,15 +14,15 @@ declare module "@package/com/github/argon4w/acceleratedrendering/features/items"
     export class $IAcceleratedBakedModel {
     }
     export interface $IAcceleratedBakedModel {
-        isAccelerated(): boolean;
         isAcceleratedInHand(): boolean;
         renderBlockFast(arg0: $BlockState_, arg1: $RandomSource, arg2: $PoseStack$Pose, arg3: $IAcceleratedVertexConsumer, arg4: number, arg5: number, arg6: number, arg7: $ModelData, arg8: $RenderType): void;
-        getCustomColor(arg0: number, arg1: number): number;
-        isAcceleratedInGui(): boolean;
         renderItemFast(arg0: $ItemStack_, arg1: $RandomSource, arg2: $PoseStack$Pose, arg3: $IAcceleratedVertexConsumer, arg4: number, arg5: number): void;
-        get accelerated(): boolean;
+        isAcceleratedInGui(): boolean;
+        getCustomColor(arg0: number, arg1: number): number;
+        isAccelerated(): boolean;
         get acceleratedInHand(): boolean;
         get acceleratedInGui(): boolean;
+        get accelerated(): boolean;
     }
     export class $IAcceleratedBakedQuad {
     }

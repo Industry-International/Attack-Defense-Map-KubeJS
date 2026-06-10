@@ -12,9 +12,9 @@ declare module "@package/foundry/veil/api/client/render/light/data" {
         setColor(arg0: number): $LightData;
         setColor(arg0: $Vector3fc): $LightData;
         getColor(): $Color;
+        getBrightness(): number;
         setTo(arg0: $Camera): $LightData;
         isVisible(arg0: $CullFrustum): boolean;
-        getBrightness(): number;
         setBrightness(arg0: number): $LightData;
         constructor();
         get type(): $LightTypeRegistry$LightType<never>;

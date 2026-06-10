@@ -2,11 +2,14 @@ import { $ToIntFunction } from "@package/java/util/function";
 import { $Event, $ICancellableEvent } from "@package/net/neoforged/bus/api";
 import { $MultiBufferSource$BufferSource } from "@package/net/minecraft/client/renderer";
 import { $ClientGunTooltip } from "@package/com/tacz/guns/client/tooltip";
+import { $GunsmithLibAnimationStateMachineScriptExtension } from "@package/mod/chloeprime/gunsmithlib/api/client/scripting_v2";
 import { $MutableInt } from "@package/org/apache/commons/lang3/mutable";
+import { $CommonScriptingExtension } from "@package/mod/chloeprime/gunsmithlib/api/common";
 import { $Record } from "@package/java/lang";
 import { $Font } from "@package/net/minecraft/client/gui";
 import { $GunInfo_, $GunInfo } from "@package/mod/chloeprime/gunsmithlib/api/util";
 import { $Matrix4f } from "@package/org/joml";
+export * as scripting_v2 from "@package/mod/chloeprime/gunsmithlib/api/client/scripting_v2";
 
 declare module "@package/mod/chloeprime/gunsmithlib/api/client" {
     export class $RenderGunTooltipTextEvent$AfterUpgradeTip extends $RenderGunTooltipTextEvent implements $ICancellableEvent {
@@ -28,26 +31,26 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/client" {
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $GunTooltipEvent$ComputeHeight extends $GunTooltipEvent$ComputeSize {
+        getOriginalHeight(): number;
+        pumpHeight(arg0: number): void;
         getHeight(): number;
         setHeight(arg0: number): void;
-        pumpHeight(arg0: number): void;
-        getOriginalHeight(): number;
         constructor(arg0: $GunTooltipContext_, arg1: number);
         get originalHeight(): number;
     }
     export class $GunTooltipEvent$ComputeWidth extends $GunTooltipEvent$ComputeSize {
         getWidth(): number;
-        setWidth(arg0: number): void;
-        pumpWidth(arg0: number): void;
         getOriginalWidth(): number;
+        pumpWidth(arg0: number): void;
+        setWidth(arg0: number): void;
         constructor(arg0: $GunTooltipContext_, arg1: number);
         get originalWidth(): number;
     }
     export class $RenderGunTooltipTextEvent extends $GunTooltipEvent {
         enqueue(arg0: $RenderGunTooltipTextEvent$RenderFunc_): void;
+        pumpHeight(arg0: number): void;
         getHeight(): number;
         doRender(): void;
-        pumpHeight(arg0: number): void;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
         get height(): number;
     }
@@ -73,10 +76,10 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/client" {
         constructor(arg0: $GunTooltipContext_);
     }
     export class $GunTooltipEvent extends $Event {
-        getTooltipComponent(): $ClientGunTooltip;
         getGunInfo(): ($GunInfo) | undefined;
-        get tooltipComponent(): $ClientGunTooltip;
+        getTooltipComponent(): $ClientGunTooltip;
         get gunInfo(): ($GunInfo) | undefined;
+        get tooltipComponent(): $ClientGunTooltip;
     }
     export class $GunTooltipContext extends $Record {
         instance(): $ClientGunTooltip;
@@ -90,6 +93,11 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/client" {
     }
     export class $GunTooltipEvent$ComputeSize extends $GunTooltipEvent {
         constructor(arg0: $GunTooltipContext_);
+    }
+    export class $GunAnimationStateContextExtension {
+    }
+    export interface $GunAnimationStateContextExtension extends $CommonScriptingExtension {
+        gunsmithlib_extension(): $GunsmithLibAnimationStateMachineScriptExtension;
     }
     export class $RenderGunTooltipTextEvent$RenderContext extends $Record {
         x(): number;

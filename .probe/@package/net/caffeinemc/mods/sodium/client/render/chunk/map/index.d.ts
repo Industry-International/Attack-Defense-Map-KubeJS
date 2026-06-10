@@ -17,8 +17,8 @@ declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/map" {
     export interface $ClientChunkEventListener {
         onChunkStatusRemoved(arg0: number, arg1: number, arg2: number): void;
         onChunkStatusAdded(arg0: number, arg1: number, arg2: number): void;
-        updateLoadDistance(arg0: number): void;
         updateMapCenter(arg0: number, arg1: number): void;
+        updateLoadDistance(arg0: number): void;
     }
     export class $ChunkTracker$ChunkEventHandler {
     }
@@ -30,13 +30,13 @@ declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/map" {
      */
     export type $ChunkTracker$ChunkEventHandler_ = ((arg0: number, arg1: number) => void);
     export class $ChunkTracker implements $ClientChunkEventListener {
+        static forEachChunk(arg0: $LongCollection, arg1: $ChunkTracker$ChunkEventHandler_): void;
         onChunkStatusRemoved(arg0: number, arg1: number, arg2: number): void;
         onChunkStatusAdded(arg0: number, arg1: number, arg2: number): void;
-        static forEachChunk(arg0: $LongCollection, arg1: $ChunkTracker$ChunkEventHandler_): void;
-        forEachEvent(arg0: $ChunkTracker$ChunkEventHandler_, arg1: $ChunkTracker$ChunkEventHandler_): void;
         getReadyChunks(): $LongCollection;
-        updateLoadDistance(arg0: number): void;
+        forEachEvent(arg0: $ChunkTracker$ChunkEventHandler_, arg1: $ChunkTracker$ChunkEventHandler_): void;
         updateMapCenter(arg0: number, arg1: number): void;
+        updateLoadDistance(arg0: number): void;
         constructor();
         get readyChunks(): $LongCollection;
     }

@@ -27,8 +27,8 @@ declare module "@package/net/neoforged/neoforge/client/model/renderable" {
         data(): $ModelData;
         state(): $BlockState;
         seed(): number;
-        randomSource(): $RandomSource;
         faces(): $Direction[];
+        randomSource(): $RandomSource;
         tint(): $Vector4f;
         constructor(arg0: $ModelData);
         constructor(state: $BlockState_, faces: $Direction_[], randomSource: $RandomSource, seed: number, data: $ModelData, tint: $Vector4f);
@@ -58,8 +58,8 @@ declare module "@package/net/neoforged/neoforge/client/model/renderable" {
         static of(arg0: $ModelResourceLocation_): $BakedModelRenderable;
         static of(arg0: $BakedModel): $BakedModelRenderable;
         render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $ITextureRenderTypeLookup_, arg3: number, arg4: number, arg5: number, arg6: $BakedModelRenderable$Context_): void;
-        withContext(arg0: $ModelData): $IRenderable<$Unit>;
         withModelDataContext(): $IRenderable<$ModelData>;
+        withContext(arg0: $ModelData): $IRenderable<$Unit>;
         withContext(arg0: $BakedModelRenderable$Context_): $IRenderable<$Unit>;
     }
     export class $CompositeRenderable$Component {

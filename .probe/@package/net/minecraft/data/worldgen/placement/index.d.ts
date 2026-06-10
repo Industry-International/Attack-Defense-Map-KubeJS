@@ -203,9 +203,9 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
     }
     export class $VegetationPlacements {
         static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
-        static worldSurfaceSquaredWithCount(arg0: number): $List<$PlacementModifier>;
         static treePlacement(arg0: $PlacementModifier): $List<$PlacementModifier>;
         static treePlacement(arg0: $PlacementModifier, arg1: $Block_): $List<$PlacementModifier>;
+        static worldSurfaceSquaredWithCount(arg0: number): $List<$PlacementModifier>;
         static TREES_WINDSWEPT_FOREST: $ResourceKey<$PlacedFeature>;
         static GRASS_BONEMEAL: $ResourceKey<$PlacedFeature>;
         static TREES_CHERRY: $ResourceKey<$PlacedFeature>;

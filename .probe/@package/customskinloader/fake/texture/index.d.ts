@@ -5,14 +5,14 @@ declare module "@package/customskinloader/fake/texture" {
     export class $FakeImage {
     }
     export interface $FakeImage {
-        close(): void;
         getWidth(): number;
+        close(): void;
+        copyArea(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean, arg7: boolean): void;
         getRatio(): number;
         createImage(arg0: number, arg1: number): $FakeImage;
         createImage(arg0: $InputStream): $FakeImage;
-        getHeight(): number;
         setRGBA(arg0: number, arg1: number, arg2: number): void;
-        copyArea(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean, arg7: boolean): void;
+        getHeight(): number;
         fillArea(arg0: number, arg1: number, arg2: number, arg3: number): void;
         setRatio(arg0: number): void;
         copyImageData(arg0: $FakeImage): void;
@@ -21,15 +21,15 @@ declare module "@package/customskinloader/fake/texture" {
         get height(): number;
     }
     export class $FakeNativeImage implements $FakeImage {
-        close(): void;
         getWidth(): number;
-        getRatio(): number;
-        createImage(arg0: number, arg1: number): $FakeImage;
-        createImage(arg0: $InputStream): $FakeImage;
-        getImage(): $NativeImage;
-        getHeight(): number;
-        setRGBA(arg0: number, arg1: number, arg2: number): void;
+        close(): void;
         copyArea(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean, arg7: boolean): void;
+        getRatio(): number;
+        createImage(arg0: $InputStream): $FakeImage;
+        createImage(arg0: number, arg1: number): $FakeImage;
+        setRGBA(arg0: number, arg1: number, arg2: number): void;
+        getHeight(): number;
+        getImage(): $NativeImage;
         fillArea(arg0: number, arg1: number, arg2: number, arg3: number): void;
         setRatio(arg0: number): void;
         copyImageData(arg0: $FakeImage): void;
@@ -37,7 +37,7 @@ declare module "@package/customskinloader/fake/texture" {
         constructor(arg0: number, arg1: number);
         constructor(arg0: $NativeImage);
         get width(): number;
-        get image(): $NativeImage;
         get height(): number;
+        get image(): $NativeImage;
     }
 }

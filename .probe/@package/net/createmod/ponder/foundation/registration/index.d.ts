@@ -15,23 +15,23 @@ import { $Couple } from "@package/net/createmod/catnip/data";
 
 declare module "@package/net/createmod/ponder/foundation/registration" {
     export class $PonderLocalization implements $LangRegistryAccess {
+        handler$gdg000$ponderjs$getTagName(arg0: $ResourceLocation_, arg1: $CallbackInfoReturnable<any>): void;
         clearAll(): void;
         getTagName(arg0: $ResourceLocation_): string;
         registerTag(arg0: $ResourceLocation_, arg1: string, arg2: string): void;
+        handler$gdg000$ponderjs$getTagDescription(arg0: $ResourceLocation_, arg1: $CallbackInfoReturnable<any>): void;
+        handler$gdg000$ponderjs$getSpecific(arg0: $ResourceLocation_, arg1: string, arg2: $CallbackInfoReturnable<any>): void;
+        handler$gdg000$ponderjs$getSpecific(arg0: $ResourceLocation_, arg1: string, arg2: $Object[], arg3: $CallbackInfoReturnable<any>): void;
+        provideLang(arg0: string, arg1: $BiConsumer_<string, string>): void;
+        clearShared(): void;
         getShared(arg0: $ResourceLocation_, ...arg1: $Object[]): string;
         getShared(arg0: $ResourceLocation_): string;
-        provideLang(arg0: string, arg1: $BiConsumer_<string, string>): void;
+        generateSceneLang(): void;
+        registerShared(arg0: $ResourceLocation_, arg1: string): void;
         getTagDescription(arg0: $ResourceLocation_): string;
+        registerSpecific(arg0: $ResourceLocation_, arg1: string, arg2: string): void;
         getSpecific(arg0: $ResourceLocation_, arg1: string): string;
         getSpecific(arg0: $ResourceLocation_, arg1: string, ...arg2: $Object[]): string;
-        registerSpecific(arg0: $ResourceLocation_, arg1: string, arg2: string): void;
-        registerShared(arg0: $ResourceLocation_, arg1: string): void;
-        generateSceneLang(): void;
-        handler$gce000$ponderjs$getTagDescription(arg0: $ResourceLocation_, arg1: $CallbackInfoReturnable<any>): void;
-        handler$gce000$ponderjs$getSpecific(arg0: $ResourceLocation_, arg1: string, arg2: $Object[], arg3: $CallbackInfoReturnable<any>): void;
-        handler$gce000$ponderjs$getSpecific(arg0: $ResourceLocation_, arg1: string, arg2: $CallbackInfoReturnable<any>): void;
-        handler$gce000$ponderjs$getTagName(arg0: $ResourceLocation_, arg1: $CallbackInfoReturnable<any>): void;
-        clearShared(): void;
         shared: $Map<$ResourceLocation, string>;
         static UI_PREFIX: string;
         tag: $Map<$ResourceLocation, $Couple<string>>;
@@ -42,14 +42,14 @@ declare module "@package/net/createmod/ponder/foundation/registration" {
     export class $PonderSceneRegistry implements $SceneRegistryAccess, $PonderSceneRegistryAccessor {
         compile(arg0: $Collection_<$StoryBoardEntry>): $List<$PonderScene>;
         compile(arg0: $ResourceLocation_): $List<$PonderScene>;
-        getRegisteredEntries(): $Collection<$Map$Entry<$ResourceLocation, $StoryBoardEntry>>;
-        addStoryBoard(arg0: $StoryBoardEntry): void;
-        doScenesExistForId(arg0: $ResourceLocation_): boolean;
-        static compileScene(arg0: $PonderLocalization, arg1: $StoryBoardEntry, arg2: $PonderLevel): $PonderScene;
-        static loadSchematic(arg0: $InputStream): $StructureTemplate;
         static loadSchematic(arg0: $ResourceManager, arg1: $ResourceLocation_): $StructureTemplate;
+        static loadSchematic(arg0: $InputStream): $StructureTemplate;
         static loadSchematic(arg0: $ResourceLocation_): $StructureTemplate;
         clearRegistry(): void;
+        static compileScene(arg0: $PonderLocalization, arg1: $StoryBoardEntry, arg2: $PonderLevel): $PonderScene;
+        doScenesExistForId(arg0: $ResourceLocation_): boolean;
+        addStoryBoard(arg0: $StoryBoardEntry): void;
+        getRegisteredEntries(): $Collection<$Map$Entry<$ResourceLocation, $StoryBoardEntry>>;
         ponderjs$scenes(): $Multimap<$ResourceLocation, $StoryBoardEntry>;
         constructor(arg0: $PonderLocalization);
         get registeredEntries(): $Collection<$Map$Entry<$ResourceLocation, $StoryBoardEntry>>;

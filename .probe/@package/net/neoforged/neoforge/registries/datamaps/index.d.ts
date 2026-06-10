@@ -21,21 +21,21 @@ declare module "@package/net/neoforged/neoforge/registries/datamaps" {
     export class $DataMapFile<T, R> extends $Record {
         values(): $Map<$Either<$TagKey<R>, $ResourceKey<R>>, ($WithConditions<$DataMapEntry<T>>) | undefined>;
         replace(): boolean;
-        static codec<T, R>(arg0: $ResourceKey_<$Registry<R>>, arg1: $DataMapType<R, T>): $Codec<$DataMapFile<T, R>>;
         removals(): $List<$DataMapEntry$Removal<T, R>>;
+        static codec<T, R>(arg0: $ResourceKey_<$Registry<R>>, arg1: $DataMapType<R, T>): $Codec<$DataMapFile<T, R>>;
         constructor(replace: boolean, values: $Map_<$Either<$TagKey_<R>, $ResourceKey_<R>>, ($WithConditions_<$DataMapEntry_<T>>) | undefined>, removals: $List_<$DataMapEntry$Removal_<T, R>>);
     }
     export class $DataMapsUpdatedEvent extends $Event {
         getCause(): $DataMapsUpdatedEvent$UpdateCause;
-        ifRegistry<T>(arg0: $ResourceKey_<$Registry<T>>, arg1: $Consumer_<$Registry<T>>): void;
+        getRegistries(): $RegistryAccess;
         getRegistryKey(): $ResourceKey<$Registry<never>>;
         getRegistry(): $Registry<never>;
-        getRegistries(): $RegistryAccess;
+        ifRegistry<T>(arg0: $ResourceKey_<$Registry<T>>, arg1: $Consumer_<$Registry<T>>): void;
         constructor(arg0: $RegistryAccess, arg1: $Registry<never>, arg2: $DataMapsUpdatedEvent$UpdateCause_);
         get cause(): $DataMapsUpdatedEvent$UpdateCause;
+        get registries(): $RegistryAccess;
         get registryKey(): $ResourceKey<$Registry<never>>;
         get registry(): $Registry<never>;
-        get registries(): $RegistryAccess;
     }
     export class $AdvancedDataMapType<R, T, VR extends $DataMapValueRemover<R, T>> extends $DataMapType<R, T> {
         static builder<T, R>(arg0: $ResourceLocation_, arg1: $ResourceKey_<$Registry<R>>, arg2: $Codec<T>): $AdvancedDataMapType$Builder<T, R, $DataMapValueRemover$Default<T, R>>;
@@ -46,9 +46,9 @@ declare module "@package/net/neoforged/neoforge/registries/datamaps" {
         static builder<T, R>(arg0: $ResourceLocation_, arg1: $ResourceKey_<$Registry<R>>, arg2: $Codec<T>): $DataMapType$Builder<T, R>;
         id(): $ResourceLocation;
         codec(): $Codec<T>;
-        registryKey(): $ResourceKey<$Registry<R>>;
         networkCodec(): $Codec<T>;
         mandatorySync(): boolean;
+        registryKey(): $ResourceKey<$Registry<R>>;
     }
     export class $DataMapValueRemover<R, T> {
     }
@@ -71,9 +71,9 @@ declare module "@package/net/neoforged/neoforge/registries/datamaps" {
     export type $DataMapsUpdatedEvent$UpdateCause_ = "client_sync" | "server_reload";
     export class $DataMapValueMerger<R, T> {
         static mapMerger<K, V, R>(): $DataMapValueMerger<R, $Map<K, V>>;
+        static defaultMerger<T, R>(): $DataMapValueMerger<R, T>;
         static listMerger<T, R>(): $DataMapValueMerger<R, $List<T>>;
         static setMerger<T, R>(): $DataMapValueMerger<R, $Set<T>>;
-        static defaultMerger<T, R>(): $DataMapValueMerger<R, T>;
     }
     export interface $DataMapValueMerger<R, T> {
         merge(arg0: $Registry<R>, arg1: $Either<$TagKey_<R>, $ResourceKey_<R>>, arg2: T, arg3: $Either<$TagKey_<R>, $ResourceKey_<R>>, arg4: T): T;

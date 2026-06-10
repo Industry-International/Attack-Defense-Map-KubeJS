@@ -5,8 +5,8 @@ declare module "@package/com/verr1/taovreturned/floating" {
     export class $SubmergedFloaterContainerAccess {
     }
     export interface $SubmergedFloaterContainerAccess {
-        taovReturned$getAdventureFloaters(): $List<$Vector3d>;
         taovReturned$translateAdventureFloaters(arg0: $Vector3dc): void;
+        taovReturned$getAdventureFloaters(): $List<$Vector3d>;
     }
     /**
      * Values that may be interpreted as {@link $SubmergedFloaterContainerAccess}.

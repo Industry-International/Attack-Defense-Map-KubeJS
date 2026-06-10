@@ -40,29 +40,29 @@ declare module "@package/net/minecraft/world/level/levelgen/structure/templatesy
     }
     export class $StructurePlaceSettings {
         copy(): $StructurePlaceSettings;
-        setKnownShape(arg0: boolean): $StructurePlaceSettings;
-        popProcessor(arg0: $StructureProcessor): $StructurePlaceSettings;
         getProcessors(): $List<$StructureProcessor>;
+        getMirror(): $Mirror;
+        setMirror(arg0: $Mirror_): $StructurePlaceSettings;
         getRotation(): $Rotation;
         setRotation(arg0: $Rotation_): $StructurePlaceSettings;
+        getRandom(arg0: $BlockPos_): $RandomSource;
         setFinalizeEntities(arg0: boolean): $StructurePlaceSettings;
         setBoundingBox(arg0: $BoundingBox): $StructurePlaceSettings;
-        getBoundingBox(): $BoundingBox;
-        isIgnoreEntities(): boolean;
-        setIgnoreEntities(arg0: boolean): $StructurePlaceSettings;
-        addProcessor(arg0: $StructureProcessor): $StructurePlaceSettings;
-        clearProcessors(): $StructurePlaceSettings;
-        setMirror(arg0: $Mirror_): $StructurePlaceSettings;
-        setRandom(arg0: $RandomSource): $StructurePlaceSettings;
-        getMirror(): $Mirror;
-        getRotationPivot(): $BlockPos;
-        getRandom(arg0: $BlockPos_): $RandomSource;
-        setLiquidSettings(arg0: $LiquidSettings_): $StructurePlaceSettings;
+        popProcessor(arg0: $StructureProcessor): $StructurePlaceSettings;
+        setKnownShape(arg0: boolean): $StructurePlaceSettings;
         setRotationPivot(arg0: $BlockPos_): $StructurePlaceSettings;
+        setLiquidSettings(arg0: $LiquidSettings_): $StructurePlaceSettings;
+        addProcessor(arg0: $StructureProcessor): $StructurePlaceSettings;
+        setIgnoreEntities(arg0: boolean): $StructurePlaceSettings;
+        isIgnoreEntities(): boolean;
+        clearProcessors(): $StructurePlaceSettings;
+        getBoundingBox(): $BoundingBox;
+        setRandom(arg0: $RandomSource): $StructurePlaceSettings;
+        getRotationPivot(): $BlockPos;
         getRandomPalette(arg0: $List_<$StructureTemplate$Palette>, arg1: $BlockPos_): $StructureTemplate$Palette;
         getKnownShape(): boolean;
-        shouldFinalizeEntities(): boolean;
         shouldApplyWaterlogging(): boolean;
+        shouldFinalizeEntities(): boolean;
         constructor();
         get processors(): $List<$StructureProcessor>;
         set finalizeEntities(value: boolean);
@@ -102,37 +102,37 @@ declare module "@package/net/minecraft/world/level/levelgen/structure/templatesy
         static transform(arg0: $Vec3_, arg1: $Mirror_, arg2: $Rotation_, arg3: $BlockPos_): $Vec3;
         static transform(arg0: $BlockPos_, arg1: $Mirror_, arg2: $Rotation_, arg3: $BlockPos_): $BlockPos;
         save(arg0: $CompoundTag_): $CompoundTag;
-        getSize(arg0: $Rotation_): $Vec3i;
         getSize(): $Vec3i;
+        getSize(arg0: $Rotation_): $Vec3i;
         getEntities(): $List<any>;
-        static processBlockInfos(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $List_<$StructureTemplate$StructureBlockInfo_>): $List<$StructureTemplate$StructureBlockInfo>;
-        static processBlockInfos(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $List_<$StructureTemplate$StructureBlockInfo_>, arg5: $StructureTemplate): $List<$StructureTemplate$StructureBlockInfo>;
         getZeroPositionWithTransform(arg0: $BlockPos_, arg1: $Mirror_, arg2: $Rotation_): $BlockPos;
         static getZeroPositionWithTransform(arg0: $BlockPos_, arg1: $Mirror_, arg2: $Rotation_, arg3: number, arg4: number): $BlockPos;
-        handler$dfp000$immersiveengineering$addConnectionsToWorld(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $RandomSource, arg5: number, arg6: $CallbackInfoReturnable<any>): void;
-        handler$dfp000$immersiveengineering$writeConnectionsToNBT(arg0: $CompoundTag_, arg1: $CallbackInfoReturnable<any>): void;
-        handler$dfp000$immersiveengineering$readConnectionsFromNBT(arg0: $HolderGetter<any>, arg1: $CompoundTag_, arg2: $CallbackInfo): void;
+        static processBlockInfos(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $List_<$StructureTemplate$StructureBlockInfo_>): $List<$StructureTemplate$StructureBlockInfo>;
+        static processBlockInfos(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $List_<$StructureTemplate$StructureBlockInfo_>, arg5: $StructureTemplate): $List<$StructureTemplate$StructureBlockInfo>;
+        static updateShapeAtEdge(arg0: $LevelAccessor, arg1: number, arg2: $DiscreteVoxelShape, arg3: number, arg4: number, arg5: number): void;
+        static updateShapeAtEdge(arg0: $LevelAccessor, arg1: number, arg2: $DiscreteVoxelShape, arg3: $BlockPos_): void;
+        filterBlocks(arg0: $BlockPos_, arg1: $StructurePlaceSettings, arg2: $Block_): $List<$StructureTemplate$StructureBlockInfo>;
+        filterBlocks(arg0: $BlockPos_, arg1: $StructurePlaceSettings, arg2: $Block_, arg3: boolean): $ObjectArrayList<$StructureTemplate$StructureBlockInfo>;
+        fillFromWorld(arg0: $Level_, arg1: $BlockPos_, arg2: $Vec3i, arg3: boolean, arg4: $Block_): void;
+        placeInWorld(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $RandomSource, arg5: number): boolean;
         static getBoundingBox(arg0: $BlockPos_, arg1: $Rotation_, arg2: $BlockPos_, arg3: $Mirror_, arg4: $Vec3i): $BoundingBox;
         getBoundingBox(arg0: $StructurePlaceSettings, arg1: $BlockPos_): $BoundingBox;
         getBoundingBox(arg0: $BlockPos_, arg1: $Rotation_, arg2: $BlockPos_, arg3: $Mirror_): $BoundingBox;
-        placeInWorld(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $RandomSource, arg5: number): boolean;
-        fillFromWorld(arg0: $Level_, arg1: $BlockPos_, arg2: $Vec3i, arg3: boolean, arg4: $Block_): void;
-        setAuthor(arg0: string): void;
         getAuthor(): string;
-        handler$dfp000$immersiveengineering$takeConnectionsFromWorld(arg0: $Level_, arg1: $BlockPos_, arg2: $Vec3i, arg3: boolean, arg4: $Block_, arg5: $CallbackInfo): void;
-        static updateShapeAtEdge(arg0: $LevelAccessor, arg1: number, arg2: $DiscreteVoxelShape, arg3: $BlockPos_): void;
-        static updateShapeAtEdge(arg0: $LevelAccessor, arg1: number, arg2: $DiscreteVoxelShape, arg3: number, arg4: number, arg5: number): void;
-        filterBlocks(arg0: $BlockPos_, arg1: $StructurePlaceSettings, arg2: $Block_, arg3: boolean): $ObjectArrayList<$StructureTemplate$StructureBlockInfo>;
-        filterBlocks(arg0: $BlockPos_, arg1: $StructurePlaceSettings, arg2: $Block_): $List<$StructureTemplate$StructureBlockInfo>;
-        static calculateRelativePosition(arg0: $StructurePlaceSettings, arg1: $BlockPos_): $BlockPos;
+        setAuthor(arg0: string): void;
         getBorderSize(): $Vec3i;
-        static transformedVec3d(arg0: $StructurePlaceSettings, arg1: $Vec3_): $Vec3;
-        static processEntityInfos(arg0: $StructureTemplate, arg1: $LevelAccessor, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $List_<$StructureTemplate$StructureEntityInfo>): $List<$StructureTemplate$StructureEntityInfo>;
+        static calculateRelativePosition(arg0: $StructurePlaceSettings, arg1: $BlockPos_): $BlockPos;
+        handler$dfo000$immersiveengineering$readConnectionsFromNBT(arg0: $HolderGetter<any>, arg1: $CompoundTag_, arg2: $CallbackInfo): void;
+        handler$dfo000$immersiveengineering$addConnectionsToWorld(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $RandomSource, arg5: number, arg6: $CallbackInfoReturnable<any>): void;
+        handler$dfo000$immersiveengineering$writeConnectionsToNBT(arg0: $CompoundTag_, arg1: $CallbackInfoReturnable<any>): void;
         getPalettes(): $List<any>;
-        calculateConnectedPosition(arg0: $StructurePlaceSettings, arg1: $BlockPos_, arg2: $StructurePlaceSettings, arg3: $BlockPos_): $BlockPos;
+        sable$getSubLevels(): $List<any>;
+        static processEntityInfos(arg0: $StructureTemplate, arg1: $LevelAccessor, arg2: $BlockPos_, arg3: $StructurePlaceSettings, arg4: $List_<$StructureTemplate$StructureEntityInfo>): $List<$StructureTemplate$StructureEntityInfo>;
+        static transformedVec3d(arg0: $StructurePlaceSettings, arg1: $Vec3_): $Vec3;
         getStoredConnections(): $List<any>;
         axiom$fillFromClipboard(clipboardObject: $ClipboardObject): void;
-        sable$getSubLevels(): $List<any>;
+        calculateConnectedPosition(arg0: $StructurePlaceSettings, arg1: $BlockPos_, arg2: $StructurePlaceSettings, arg3: $BlockPos_): $BlockPos;
+        handler$dfo000$immersiveengineering$takeConnectionsFromWorld(arg0: $Level_, arg1: $BlockPos_, arg2: $Vec3i, arg3: boolean, arg4: $Block_, arg5: $CallbackInfo): void;
         setSize(arg0: $Vec3i): void;
         static ENTITY_TAG_POS: string;
         static BLOCK_TAG_NBT: string;
@@ -159,7 +159,7 @@ declare module "@package/net/minecraft/world/level/levelgen/structure/templatesy
     export class $StructureTemplate$Palette implements $PaletteAccess {
         blocks(arg0: $Block_): $List<$StructureTemplate$StructureBlockInfo>;
         blocks(): $List<$StructureTemplate$StructureBlockInfo>;
-        static construct$immersiveengineering_$md$d64506$0(arg0: $List_<any>): $StructureTemplate$Palette;
+        static construct$immersiveengineering_$md$9aa1a5$0(arg0: $List_<any>): $StructureTemplate$Palette;
         constructor(arg0: $List_<$StructureTemplate$StructureBlockInfo_>);
     }
     export class $RuleTestType<P extends $RuleTest> {
@@ -214,12 +214,12 @@ declare module "@package/net/minecraft/world/level/levelgen/structure/templatesy
     export class $StructureProcessor {
         getType(): $StructureProcessorType<never>;
         process(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructureTemplate$StructureBlockInfo_, arg4: $StructureTemplate$StructureBlockInfo_, arg5: $StructurePlaceSettings, arg6: $StructureTemplate): $StructureTemplate$StructureBlockInfo;
+        processEntity(arg0: $LevelReader, arg1: $BlockPos_, arg2: $StructureTemplate$StructureEntityInfo, arg3: $StructureTemplate$StructureEntityInfo, arg4: $StructurePlaceSettings, arg5: $StructureTemplate): $StructureTemplate$StructureEntityInfo;
+        finalizeProcessing(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $List_<$StructureTemplate$StructureBlockInfo_>, arg4: $List_<$StructureTemplate$StructureBlockInfo_>, arg5: $StructurePlaceSettings): $List<$StructureTemplate$StructureBlockInfo>;
         /**
          * @deprecated
          */
         processBlock(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $StructureTemplate$StructureBlockInfo_, arg4: $StructureTemplate$StructureBlockInfo_, arg5: $StructurePlaceSettings): $StructureTemplate$StructureBlockInfo;
-        finalizeProcessing(arg0: $ServerLevelAccessor, arg1: $BlockPos_, arg2: $BlockPos_, arg3: $List_<$StructureTemplate$StructureBlockInfo_>, arg4: $List_<$StructureTemplate$StructureBlockInfo_>, arg5: $StructurePlaceSettings): $List<$StructureTemplate$StructureBlockInfo>;
-        processEntity(arg0: $LevelReader, arg1: $BlockPos_, arg2: $StructureTemplate$StructureEntityInfo, arg3: $StructureTemplate$StructureEntityInfo, arg4: $StructurePlaceSettings, arg5: $StructureTemplate): $StructureTemplate$StructureEntityInfo;
         constructor();
         get type(): $StructureProcessorType<never>;
     }
@@ -303,11 +303,11 @@ declare module "@package/net/minecraft/world/level/levelgen/structure/templatesy
         remove(arg0: $ResourceLocation_): void;
         get(arg0: $ResourceLocation_): ($StructureTemplate) | undefined;
         save(arg0: $ResourceLocation_): boolean;
+        createAndValidatePathToGeneratedStructure(arg0: $ResourceLocation_, arg1: string): $Path;
         getOrCreate(arg0: $ResourceLocation_): $StructureTemplate;
         readStructure(arg0: $CompoundTag_): $StructureTemplate;
         listTemplates(): $Stream<$ResourceLocation>;
         onResourceManagerReload(arg0: $ResourceManager): void;
-        createAndValidatePathToGeneratedStructure(arg0: $ResourceLocation_, arg1: string): $Path;
         static STRUCTURE_RESOURCE_DIRECTORY_NAME: string;
         constructor(arg0: $ResourceManager, arg1: $LevelStorageSource$LevelStorageAccess, arg2: $DataFixer, arg3: $HolderGetter<$Block_>);
     }
@@ -340,14 +340,14 @@ declare module "@package/net/minecraft/world/level/levelgen/structure/templatesy
         state(): $BlockState;
         getId(): string;
         pos(): $BlockPos;
-        getNbt(): $CompoundTag;
         getBlock(): $Block;
         setBlock(arg0: $ResourceLocation_, arg1: $Map_<any, any>): void;
         setBlock(arg0: $ResourceLocation_): void;
+        getNbt(): $CompoundTag;
         getPosition(): $BlockPos;
         nbt(): $CompoundTag;
-        hasNbt(): boolean;
         setNbt(arg0: $CompoundTag_): void;
+        hasNbt(): boolean;
         constructor(pos: $BlockPos_, state: $BlockState_, nbt: $CompoundTag_);
         get properties(): $Map<any, any>;
         get id(): string;

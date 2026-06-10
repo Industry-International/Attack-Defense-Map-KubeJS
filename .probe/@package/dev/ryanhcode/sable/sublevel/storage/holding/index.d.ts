@@ -15,20 +15,20 @@ import { $ServerSubLevelContainer } from "@package/dev/ryanhcode/sable/api/suble
 declare module "@package/dev/ryanhcode/sable/sublevel/storage/holding" {
     export class $GlobalSavedSubLevelPointer extends $Record {
         local(): $SavedSubLevelPointer;
-        chunkPos(): $ChunkPos;
-        storageIndex(): number;
         subLevelIndex(): number;
+        storageIndex(): number;
+        chunkPos(): $ChunkPos;
         static CODEC: $Codec<$GlobalSavedSubLevelPointer>;
         constructor(chunkPos: $ChunkPos, storageIndex: number, subLevelIndex: number);
     }
     export class $SubLevelHoldingChunkMap implements $AutoCloseable, $SubLevelHoldingChunkMapAccessor {
         close(): void;
-        updateChunkStatus(arg0: $ChunkPos, arg1: boolean): void;
         getStorage(): $SubLevelStorage;
+        getHoldingSubLevel(arg0: $UUID_): $HoldingSubLevel;
+        processChanges(): void;
+        updateChunkStatus(arg0: $ChunkPos, arg1: boolean): void;
         saveAll(): void;
         queueDeletion(arg0: $ServerSubLevel): void;
-        processChanges(): void;
-        getHoldingSubLevel(arg0: $UUID_): $HoldingSubLevel;
         moveToUnloaded(arg0: $ServerSubLevel, arg1: $ChunkPos): void;
         waystonesSable$getLoadedHoldingChunks(): $Long2ObjectMap<$SubLevelHoldingChunk>;
         static VERBOSE: boolean;
@@ -36,18 +36,18 @@ declare module "@package/dev/ryanhcode/sable/sublevel/storage/holding" {
         get storage(): $SubLevelStorage;
     }
     export class $SavedSubLevelPointer extends $Record {
-        static unpack(arg0: number): $SavedSubLevelPointer;
         packed(): number;
-        storageIndex(): number;
+        static unpack(arg0: number): $SavedSubLevelPointer;
         subLevelIndex(): number;
+        storageIndex(): number;
         constructor(storageIndex: number, subLevelIndex: number);
     }
     export class $SubLevelHoldingChunk implements $SubLevelHoldingChunkAccessor {
         static from(arg0: $ChunkPos, arg1: $CompoundTag_): $SubLevelHoldingChunk;
         writeTo(arg0: $CompoundTag_): void;
         getChunkPos(): $ChunkPos;
-        acceptHoldingSubLevel(arg0: $HoldingSubLevel): void;
         getSubLevelPointers(): $List<$SavedSubLevelPointer>;
+        acceptHoldingSubLevel(arg0: $HoldingSubLevel): void;
         getLoadedHoldingSubLevels(): $Iterable<$HoldingSubLevel>;
         collectReadySubLevels(arg0: $ServerLevel, arg1: $Object2ObjectMap<$UUID_, $HoldingSubLevel>): void;
         waystonesSable$getLoadedHoldingSubLevels(): $Object2ObjectMap<$UUID, $HoldingSubLevel>;

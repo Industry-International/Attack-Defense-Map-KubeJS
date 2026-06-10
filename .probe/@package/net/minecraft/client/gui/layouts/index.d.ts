@@ -9,18 +9,18 @@ import { $Font } from "@package/net/minecraft/client/gui";
 
 declare module "@package/net/minecraft/client/gui/layouts" {
     export class $GridLayout extends $AbstractLayout {
+        spacing(arg0: number): $GridLayout;
         addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number, arg3: number, arg4: number): T;
-        addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number, arg3: $Consumer_<$LayoutSettings>): T;
         addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $LayoutSettings): T;
         addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $Consumer_<$LayoutSettings>): T;
-        addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number, arg3: $LayoutSettings): T;
         addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number): T;
-        columnSpacing(arg0: number): $GridLayout;
-        defaultCellSetting(): $LayoutSettings;
-        rowSpacing(arg0: number): $GridLayout;
+        addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number, arg3: $LayoutSettings): T;
+        addChild<T extends $LayoutElement>(arg0: T, arg1: number, arg2: number, arg3: $Consumer_<$LayoutSettings>): T;
         newCellSettings(): $LayoutSettings;
-        spacing(arg0: number): $GridLayout;
+        defaultCellSetting(): $LayoutSettings;
         createRowHelper(arg0: number): $GridLayout$RowHelper;
+        columnSpacing(arg0: number): $GridLayout;
+        rowSpacing(arg0: number): $GridLayout;
         width: number;
         height: number;
         constructor();
@@ -33,9 +33,9 @@ declare module "@package/net/minecraft/client/gui/layouts" {
         addChild<T extends $LayoutElement>(arg0: T, arg1: $LayoutSettings): T;
         addChild<T extends $LayoutElement>(arg0: T, arg1: number): T;
         addChild<T extends $LayoutElement>(arg0: T): T;
+        newCellSettings(): $LayoutSettings;
         defaultCellSetting(): $LayoutSettings;
         getGrid(): $GridLayout;
-        newCellSettings(): $LayoutSettings;
         this$0: $GridLayout;
         constructor(arg0: $GridLayout, arg1: number);
         get grid(): $GridLayout;
@@ -49,49 +49,49 @@ declare module "@package/net/minecraft/client/gui/layouts" {
     }
     export interface $Layout extends $LayoutElement {
         visitChildren(arg0: $Consumer_<$LayoutElement>): void;
-        visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
         arrangeElements(): void;
+        visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
     }
     export class $FrameLayout extends $AbstractLayout {
         addChild<T extends $LayoutElement>(arg0: T): T;
         addChild<T extends $LayoutElement>(arg0: T, arg1: $LayoutSettings): T;
         addChild<T extends $LayoutElement>(arg0: T, arg1: $Consumer_<$LayoutSettings>): T;
-        static centerInRectangle(arg0: $LayoutElement, arg1: number, arg2: number, arg3: number, arg4: number): void;
         static centerInRectangle(arg0: $LayoutElement, arg1: $ScreenRectangle_): void;
+        static centerInRectangle(arg0: $LayoutElement, arg1: number, arg2: number, arg3: number, arg4: number): void;
         static alignInRectangle(arg0: $LayoutElement, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): void;
         static alignInRectangle(arg0: $LayoutElement, arg1: $ScreenRectangle_, arg2: number, arg3: number): void;
-        setMinWidth(arg0: number): $FrameLayout;
         setMinHeight(arg0: number): $FrameLayout;
-        setMinDimensions(arg0: number, arg1: number): $FrameLayout;
-        static alignInDimension(arg0: number, arg1: number, arg2: number, arg3: $Consumer_<number>, arg4: number): void;
+        setMinWidth(arg0: number): $FrameLayout;
         newChildLayoutSettings(): $LayoutSettings;
         defaultChildLayoutSetting(): $LayoutSettings;
+        setMinDimensions(arg0: number, arg1: number): $FrameLayout;
+        static alignInDimension(arg0: number, arg1: number, arg2: number, arg3: $Consumer_<number>, arg4: number): void;
         children: $List<$FrameLayout$ChildContainer>;
         width: number;
         height: number;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number);
         constructor(arg0: number, arg1: number);
         constructor();
-        set minWidth(value: number);
         set minHeight(value: number);
+        set minWidth(value: number);
     }
     export class $LinearLayout implements $Layout {
         getWidth(): number;
-        addChild<T extends $LayoutElement>(arg0: T, arg1: $LayoutSettings): T;
+        spacing(arg0: number): $LinearLayout;
         addChild<T extends $LayoutElement>(arg0: T): T;
         addChild<T extends $LayoutElement>(arg0: T, arg1: $Consumer_<$LayoutSettings>): T;
-        static vertical(): $LinearLayout;
+        addChild<T extends $LayoutElement>(arg0: T, arg1: $LayoutSettings): T;
         getY(): number;
         getX(): number;
         visitChildren(arg0: $Consumer_<$LayoutElement>): void;
-        getHeight(): number;
-        setY(arg0: number): void;
-        setX(arg0: number): void;
         static horizontal(): $LinearLayout;
-        defaultCellSetting(): $LayoutSettings;
-        arrangeElements(): void;
+        setX(arg0: number): void;
+        setY(arg0: number): void;
+        getHeight(): number;
         newCellSettings(): $LayoutSettings;
-        spacing(arg0: number): $LinearLayout;
+        arrangeElements(): void;
+        static vertical(): $LinearLayout;
+        defaultCellSetting(): $LayoutSettings;
         visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
         setPosition(arg0: number, arg1: number): void;
         getRectangle(): $ScreenRectangle;
@@ -105,11 +105,11 @@ declare module "@package/net/minecraft/client/gui/layouts" {
         getWidth(): number;
         getY(): number;
         getX(): number;
-        getHeight(): number;
-        setY(arg0: number): void;
         setX(arg0: number): void;
-        visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
+        setY(arg0: number): void;
+        getHeight(): number;
         arrangeElements(): void;
+        visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
         setPosition(arg0: number, arg1: number): void;
         getRectangle(): $ScreenRectangle;
         width: number;
@@ -123,12 +123,12 @@ declare module "@package/net/minecraft/client/gui/layouts" {
         getWidth(): number;
         getY(): number;
         getX(): number;
+        setX(arg0: number): void;
+        setY(arg0: number): void;
         setPosition(arg0: number, arg1: number): void;
         getHeight(): number;
-        setY(arg0: number): void;
-        setX(arg0: number): void;
-        visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
         getRectangle(): $ScreenRectangle;
+        visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
         get width(): number;
         get height(): number;
         get rectangle(): $ScreenRectangle;
@@ -136,8 +136,8 @@ declare module "@package/net/minecraft/client/gui/layouts" {
     export class $LinearLayout$Orientation extends $Enum<$LinearLayout$Orientation> {
         static values(): $LinearLayout$Orientation[];
         static valueOf(arg0: string): $LinearLayout$Orientation;
-        addChild<T extends $LayoutElement>(arg0: $GridLayout, arg1: T, arg2: number, arg3: $LayoutSettings): T;
         setSpacing(arg0: $GridLayout, arg1: number): void;
+        addChild<T extends $LayoutElement>(arg0: $GridLayout, arg1: T, arg2: number, arg3: $LayoutSettings): T;
         static VERTICAL: $LinearLayout$Orientation;
         static HORIZONTAL: $LinearLayout$Orientation;
     }
@@ -149,47 +149,47 @@ declare module "@package/net/minecraft/client/gui/layouts" {
         static defaults(): $LayoutSettings;
     }
     export interface $LayoutSettings {
-        copy(): $LayoutSettings;
-        padding(arg0: number): $LayoutSettings;
         padding(arg0: number, arg1: number, arg2: number, arg3: number): $LayoutSettings;
         padding(arg0: number, arg1: number): $LayoutSettings;
+        padding(arg0: number): $LayoutSettings;
+        copy(): $LayoutSettings;
         align(arg0: number, arg1: number): $LayoutSettings;
+        alignHorizontallyLeft(): $LayoutSettings;
+        alignHorizontallyRight(): $LayoutSettings;
+        alignHorizontallyCenter(): $LayoutSettings;
+        alignVerticallyBottom(): $LayoutSettings;
         paddingLeft(arg0: number): $LayoutSettings;
         paddingRight(arg0: number): $LayoutSettings;
         paddingBottom(arg0: number): $LayoutSettings;
         paddingTop(arg0: number): $LayoutSettings;
-        alignHorizontallyLeft(): $LayoutSettings;
-        alignHorizontallyRight(): $LayoutSettings;
-        alignHorizontallyCenter(): $LayoutSettings;
         alignVerticallyTop(): $LayoutSettings;
-        paddingVertical(arg0: number): $LayoutSettings;
-        paddingHorizontal(arg0: number): $LayoutSettings;
         alignVerticallyMiddle(): $LayoutSettings;
+        paddingHorizontal(arg0: number): $LayoutSettings;
+        paddingVertical(arg0: number): $LayoutSettings;
         getExposed(): $LayoutSettings$LayoutSettingsImpl;
         alignHorizontally(arg0: number): $LayoutSettings;
         alignVertically(arg0: number): $LayoutSettings;
-        alignVerticallyBottom(): $LayoutSettings;
         get exposed(): $LayoutSettings$LayoutSettingsImpl;
     }
     export class $SpacerElement implements $LayoutElement {
-        static width(arg0: number): $SpacerElement;
         getWidth(): number;
+        static width(arg0: number): $SpacerElement;
         getY(): number;
         getX(): number;
         static height(arg0: number): $SpacerElement;
-        getHeight(): number;
-        setY(arg0: number): void;
         setX(arg0: number): void;
+        setY(arg0: number): void;
+        getHeight(): number;
         visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
         setPosition(arg0: number, arg1: number): void;
         getRectangle(): $ScreenRectangle;
-        constructor(arg0: number, arg1: number);
         constructor(arg0: number, arg1: number, arg2: number, arg3: number);
+        constructor(arg0: number, arg1: number);
         get rectangle(): $ScreenRectangle;
     }
     export class $CommonLayouts {
-        static labeledElement(arg0: $Font, arg1: $LayoutElement, arg2: $Component_): $Layout;
         static labeledElement(arg0: $Font, arg1: $LayoutElement, arg2: $Component_, arg3: $Consumer_<$LayoutSettings>): $Layout;
+        static labeledElement(arg0: $Font, arg1: $LayoutElement, arg2: $Component_): $Layout;
     }
     export class $EqualSpacingLayout extends $AbstractLayout {
         addChild<T extends $LayoutElement>(arg0: T, arg1: $Consumer_<$LayoutSettings>): T;
@@ -203,26 +203,26 @@ declare module "@package/net/minecraft/client/gui/layouts" {
         constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: $EqualSpacingLayout$Orientation_);
     }
     export class $LayoutSettings$LayoutSettingsImpl implements $LayoutSettings {
-        copy(): $LayoutSettings$LayoutSettingsImpl;
         padding(arg0: number, arg1: number): $LayoutSettings$LayoutSettingsImpl;
-        padding(arg0: number): $LayoutSettings$LayoutSettingsImpl;
+        align(arg0: number, arg1: number): $LayoutSettings$LayoutSettingsImpl;
+        paddingLeft(arg0: number): $LayoutSettings$LayoutSettingsImpl;
         paddingRight(arg0: number): $LayoutSettings$LayoutSettingsImpl;
-        paddingTop(arg0: number): $LayoutSettings$LayoutSettingsImpl;
+        paddingVertical(arg0: number): $LayoutSettings$LayoutSettingsImpl;
         getExposed(): $LayoutSettings$LayoutSettingsImpl;
-        alignHorizontally(arg0: number): $LayoutSettings$LayoutSettingsImpl;
-        alignVertically(arg0: number): $LayoutSettings$LayoutSettingsImpl;
         alignHorizontallyLeft(): $LayoutSettings;
         alignHorizontallyRight(): $LayoutSettings;
         alignHorizontallyCenter(): $LayoutSettings;
+        alignVerticallyBottom(): $LayoutSettings;
         alignVerticallyTop(): $LayoutSettings;
         alignVerticallyMiddle(): $LayoutSettings;
-        alignVerticallyBottom(): $LayoutSettings;
         padding(arg0: number, arg1: number, arg2: number, arg3: number): $LayoutSettings;
-        align(arg0: number, arg1: number): $LayoutSettings;
-        paddingLeft(arg0: number): $LayoutSettings;
+        padding(arg0: number): $LayoutSettings;
+        copy(): $LayoutSettings;
         paddingBottom(arg0: number): $LayoutSettings;
-        paddingVertical(arg0: number): $LayoutSettings;
+        paddingTop(arg0: number): $LayoutSettings;
         paddingHorizontal(arg0: number): $LayoutSettings;
+        alignHorizontally(arg0: number): $LayoutSettings;
+        alignVertically(arg0: number): $LayoutSettings;
         yAlignment: number;
         xAlignment: number;
         constructor();
@@ -233,13 +233,13 @@ declare module "@package/net/minecraft/client/gui/layouts" {
         static values(): $EqualSpacingLayout$Orientation[];
         static valueOf(arg0: string): $EqualSpacingLayout$Orientation;
         getPrimaryPosition(arg0: $LayoutElement): number;
+        getSecondaryPosition(arg0: $LayoutElement): number;
+        setSecondaryPosition(arg0: $EqualSpacingLayout$ChildContainer, arg1: number, arg2: number): void;
+        getPrimaryLength(arg0: $LayoutElement): number;
+        getPrimaryLength(arg0: $EqualSpacingLayout$ChildContainer): number;
         setPrimaryPosition(arg0: $EqualSpacingLayout$ChildContainer, arg1: number): void;
         getSecondaryLength(arg0: $LayoutElement): number;
         getSecondaryLength(arg0: $EqualSpacingLayout$ChildContainer): number;
-        getPrimaryLength(arg0: $EqualSpacingLayout$ChildContainer): number;
-        getPrimaryLength(arg0: $LayoutElement): number;
-        setSecondaryPosition(arg0: $EqualSpacingLayout$ChildContainer, arg1: number, arg2: number): void;
-        getSecondaryPosition(arg0: $LayoutElement): number;
         static VERTICAL: $EqualSpacingLayout$Orientation;
         static HORIZONTAL: $EqualSpacingLayout$Orientation;
     }
@@ -254,30 +254,30 @@ declare module "@package/net/minecraft/client/gui/layouts" {
         getY(): number;
         getX(): number;
         visitChildren(arg0: $Consumer_<$LayoutElement>): void;
-        getContentHeight(): number;
-        getHeight(): number;
-        setY(arg0: number): void;
         setX(arg0: number): void;
-        addTitleHeader(arg0: $Component_, arg1: $Font): void;
+        setY(arg0: number): void;
+        getContentHeight(): number;
+        setHeaderHeight(arg0: number): void;
+        addToHeader<T extends $LayoutElement>(arg0: T, arg1: $Consumer_<$LayoutSettings>): T;
+        addToHeader<T extends $LayoutElement>(arg0: T): T;
+        setFooterHeight(arg0: number): void;
+        getHeaderHeight(): number;
+        getFooterHeight(): number;
+        getHeight(): number;
+        arrangeElements(): void;
         addToFooter<T extends $LayoutElement>(arg0: T, arg1: $Consumer_<$LayoutSettings>): T;
         addToFooter<T extends $LayoutElement>(arg0: T): T;
         addToContents<T extends $LayoutElement>(arg0: T): T;
         addToContents<T extends $LayoutElement>(arg0: T, arg1: $Consumer_<$LayoutSettings>): T;
-        arrangeElements(): void;
-        setFooterHeight(arg0: number): void;
-        setHeaderHeight(arg0: number): void;
-        addToHeader<T extends $LayoutElement>(arg0: T, arg1: $Consumer_<$LayoutSettings>): T;
-        addToHeader<T extends $LayoutElement>(arg0: T): T;
-        getFooterHeight(): number;
-        getHeaderHeight(): number;
+        addTitleHeader(arg0: $Component_, arg1: $Font): void;
         visitWidgets(arg0: $Consumer_<$AbstractWidget>): void;
         setPosition(arg0: number, arg1: number): void;
         getRectangle(): $ScreenRectangle;
         headerFrame: $FrameLayout;
         static DEFAULT_HEADER_AND_FOOTER_HEIGHT: number;
+        constructor(arg0: $Screen);
         constructor(arg0: $Screen, arg1: number, arg2: number);
         constructor(arg0: $Screen, arg1: number);
-        constructor(arg0: $Screen);
         get width(): number;
         get contentHeight(): number;
         get height(): number;

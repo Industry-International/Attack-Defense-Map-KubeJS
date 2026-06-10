@@ -34,14 +34,14 @@ declare module "@package/net/minecraft/client/resources/metadata/animation" {
      */
     export type $VillagerMetaDataSection$Hat_ = "none" | "partial" | "full";
     export class $AnimationMetadataSection implements $AnimationMetadataSectionAccessor {
+        calculateFrameSize(arg0: number, arg1: number): $FrameSize;
+        forEachFrame(arg0: $AnimationMetadataSection$FrameOutput_): void;
         getDefaultFrameTime(): number;
         isInterpolatedFrames(): boolean;
-        forEachFrame(arg0: $AnimationMetadataSection$FrameOutput_): void;
-        calculateFrameSize(arg0: number, arg1: number): $FrameSize;
         getFrameHeight(): number;
         getFrameWidth(): number;
-        setFrameWidth(arg0: number): void;
         setFrameHeight(arg0: number): void;
+        setFrameWidth(arg0: number): void;
         static SECTION_NAME: string;
         frameHeight: number;
         frameWidth: number;

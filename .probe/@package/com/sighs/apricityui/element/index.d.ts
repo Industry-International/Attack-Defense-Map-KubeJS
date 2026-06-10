@@ -1,5 +1,5 @@
 import { $CopyOnWriteArrayList } from "@package/java/util/concurrent";
-import { $Set, $UUID, $HashMap } from "@package/java/util";
+import { $Set, $HashMap, $UUID } from "@package/java/util";
 import { $Style, $Document, $Element, $Event } from "@package/com/sighs/apricityui/init";
 
 declare module "@package/com/sighs/apricityui/element" {

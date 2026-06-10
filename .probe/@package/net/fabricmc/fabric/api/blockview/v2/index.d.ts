@@ -12,8 +12,8 @@ declare module "@package/net/fabricmc/fabric/api/blockview/v2" {
     export class $FabricBlockView {
     }
     export interface $FabricBlockView {
-        getBlockEntityRenderData(arg0: $BlockPos_): $Object;
         hasBiomes(): boolean;
         getBiomeFabric(arg0: $BlockPos_): $Holder<$Biome>;
+        getBlockEntityRenderData(arg0: $BlockPos_): $Object;
     }
 }

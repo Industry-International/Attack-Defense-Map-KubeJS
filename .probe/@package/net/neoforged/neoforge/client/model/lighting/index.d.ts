@@ -31,8 +31,8 @@ declare module "@package/net/neoforged/neoforge/client/model/lighting" {
         process(arg0: $VertexConsumer, arg1: $PoseStack$Pose, arg2: $BakedQuad, arg3: number): void;
         static calculateShade(arg0: number, arg1: number, arg2: number, arg3: boolean): number;
         getComputedLightmap(): number[];
-        computeLightingForQuad(arg0: number[], arg1: boolean): void;
         computeLightingForQuad(arg0: $BakedQuad): void;
+        computeLightingForQuad(arg0: number[], arg1: boolean): void;
         getComputedBrightness(): number[];
         get computedLightmap(): number[];
         get computedBrightness(): number[];

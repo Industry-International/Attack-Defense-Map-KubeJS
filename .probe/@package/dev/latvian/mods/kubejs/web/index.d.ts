@@ -43,8 +43,8 @@ declare module "@package/dev/latvian/mods/kubejs/web" {
         json(): $Lazy<number[]>;
         toBytes(): number[];
         transferTo(connection: $HTTPConnection<never>): void;
-        hasData(): boolean;
         bodyPublisher(): $HttpRequest$BodyPublisher;
+        hasData(): boolean;
         constructor(json: $Lazy<number[]>);
     }
     export class $KJSHTTPServer$RequestFactory extends $Record implements $Supplier<$KJSHTTPRequest> {
@@ -65,19 +65,19 @@ declare module "@package/dev/latvian/mods/kubejs/web" {
         ws<WSS extends $WSSession<REQ>>(path: string): $WSHandler<$KJSHTTPRequest, WSS>;
         post(path: string, handler: $HTTPHandler_<$KJSHTTPRequest>): void;
         redirect(path: string, redirect: string): void;
+        acceptPostTask(path: string, task: $Runnable_): void;
+        acceptPostString(path: string, handler: $Consumer_<string>): void;
         singleFile(path: string, file: $Path_, responseHandler: $FileResponseHandler_): void;
         staticFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
         dynamicFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
-        acceptPostTask(path: string, task: $Runnable_): void;
-        acceptPostString(path: string, handler: $Consumer_<string>): void;
     }
     export class $KJSHTTPRequest extends $HTTPRequest {
         id(): $ResourceLocation;
         id(ns: string, path: string): $ResourceLocation;
-        runInMainThread(task: $Runnable_): void;
         components(ops: $DynamicOps<$Tag_>): $DataComponentPatch;
-        supplyInMainThread<T>(task: $Supplier_<T>): T;
         registries(): $RegistryAccessContainer;
+        runInMainThread(task: $Runnable_): void;
+        supplyInMainThread<T>(task: $Supplier_<T>): T;
         eventLoop: $BlockableEventLoop<never>;
         constructor(eventLoop: $BlockableEventLoop<never>);
     }

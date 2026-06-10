@@ -1,7 +1,7 @@
 import { $TagKey, $TagKey_ } from "@package/net/minecraft/tags";
 import { $TypeInfo_ } from "@package/dev/latvian/mods/rhino/type";
 import { $Predicate, $Predicate_ } from "@package/java/util/function";
-import { $Holder_, $Holder, $Holder$Reference, $Registry } from "@package/net/minecraft/core";
+import { $Holder_, $Holder, $Registry, $Holder$Reference } from "@package/net/minecraft/core";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
 import { $List } from "@package/java/util";
 import { $Pattern } from "@package/java/util/regex";

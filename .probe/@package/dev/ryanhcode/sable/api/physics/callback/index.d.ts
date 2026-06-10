@@ -14,8 +14,8 @@ declare module "@package/dev/ryanhcode/sable/api/physics/callback" {
      */
     export type $BlockSubLevelCollisionCallback_ = ((arg0: $BlockPos, arg1: $Vector3d, arg2: number) => $BlockSubLevelCollisionCallback$CollisionResult_);
     export class $BlockSubLevelCollisionCallback$CollisionResult extends $Record {
-        removeCollision(): boolean;
         tangentMotion(): $Vector3dc;
+        removeCollision(): boolean;
         static NONE: $BlockSubLevelCollisionCallback$CollisionResult;
         constructor(tangentMotion: $Vector3dc, removeCollision: boolean);
     }

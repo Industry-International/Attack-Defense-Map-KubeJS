@@ -25,16 +25,16 @@ declare module "@package/net/neoforged/neoforge/network/handling" {
     export class $ServerPayloadContext extends $Record implements $IPayloadContext {
         handle(arg0: $CustomPacketPayload_): void;
         listener(): $ServerCommonPacketListener;
-        finishCurrentTask(arg0: $ConfigurationTask$Type_): void;
         payloadId(): $ResourceLocation;
         enqueueWork<T>(arg0: $Supplier_<T>): $CompletableFuture<T>;
         enqueueWork(arg0: $Runnable_): $CompletableFuture<void>;
         flow(): $PacketFlow;
+        finishCurrentTask(arg0: $ConfigurationTask$Type_): void;
         handle(arg0: $Packet<never>): void;
         protocol(): $ConnectionProtocol;
         connection(): $Connection;
-        disconnect(arg0: $Component_): void;
         reply(arg0: $CustomPacketPayload_): void;
+        disconnect(arg0: $Component_): void;
         channelHandlerContext(): $ChannelHandlerContext;
         player(): $Player;
         constructor(listener: $ServerCommonPacketListener, payloadId: $ResourceLocation_);
@@ -47,34 +47,34 @@ declare module "@package/net/neoforged/neoforge/network/handling" {
         protocol(): $ConnectionProtocol;
         connection(): $Connection;
         listener(): $ICommonPacketListener;
-        finishCurrentTask(arg0: $ConfigurationTask$Type_): void;
-        disconnect(arg0: $Component_): void;
         reply(arg0: $CustomPacketPayload_): void;
+        disconnect(arg0: $Component_): void;
+        player(): $Player;
         enqueueWork(arg0: $Runnable_): $CompletableFuture<void>;
         enqueueWork<T>(arg0: $Supplier_<T>): $CompletableFuture<T>;
         flow(): $PacketFlow;
-        player(): $Player;
         channelHandlerContext(): $ChannelHandlerContext;
+        finishCurrentTask(arg0: $ConfigurationTask$Type_): void;
     }
     export class $DirectionalPayloadHandler<T extends $CustomPacketPayload> extends $Record implements $IPayloadHandler<T> {
         handle(arg0: T, arg1: $IPayloadContext): void;
-        clientSide(): $IPayloadHandler<T>;
         serverSide(): $IPayloadHandler<T>;
+        clientSide(): $IPayloadHandler<T>;
         constructor(clientSide: $IPayloadHandler_<T>, serverSide: $IPayloadHandler_<T>);
     }
     export class $ClientPayloadContext extends $Record implements $IPayloadContext {
         handle(arg0: $CustomPacketPayload_): void;
-        finishCurrentTask(arg0: $ConfigurationTask$Type_): void;
         payloadId(): $ResourceLocation;
+        player(): $Player;
         enqueueWork(arg0: $Runnable_): $CompletableFuture<void>;
         enqueueWork<T>(arg0: $Supplier_<T>): $CompletableFuture<T>;
         flow(): $PacketFlow;
-        player(): $Player;
+        finishCurrentTask(arg0: $ConfigurationTask$Type_): void;
         handle(arg0: $Packet<never>): void;
         protocol(): $ConnectionProtocol;
         connection(): $Connection;
-        disconnect(arg0: $Component_): void;
         reply(arg0: $CustomPacketPayload_): void;
+        disconnect(arg0: $Component_): void;
         channelHandlerContext(): $ChannelHandlerContext;
         listener(): $ICommonPacketListener;
         constructor(listener: $ClientCommonPacketListener, payloadId: $ResourceLocation_);

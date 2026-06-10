@@ -48,8 +48,8 @@ declare module "@package/net/minecraft/world" {
         static load(arg0: number, arg1: $CompoundTag_): $RandomSequences;
         clear(): number;
         static factory(arg0: number): $SavedData$Factory<$RandomSequences>;
-        forAllSequences(arg0: $BiConsumer_<$ResourceLocation, $RandomSequence>): void;
         setSeedDefaults(arg0: number, arg1: boolean, arg2: boolean): void;
+        forAllSequences(arg0: $BiConsumer_<$ResourceLocation, $RandomSequence>): void;
         constructor(arg0: number);
     }
     export class $BossEvent$BossBarColor extends $Enum<$BossEvent$BossBarColor> {
@@ -72,16 +72,16 @@ declare module "@package/net/minecraft/world" {
      */
     export type $BossEvent$BossBarColor_ = "pink" | "blue" | "red" | "green" | "yellow" | "purple" | "white";
     export class $DifficultyInstance {
-        getSpecialMultiplier(): number;
-        getDifficulty(): $Difficulty;
-        getEffectiveDifficulty(): number;
-        isHarderThan(arg0: number): boolean;
         isHard(): boolean;
+        getSpecialMultiplier(): number;
+        getEffectiveDifficulty(): number;
+        getDifficulty(): $Difficulty;
+        isHarderThan(arg0: number): boolean;
         constructor(arg0: $Difficulty_, arg1: number, arg2: number, arg3: number);
-        get specialMultiplier(): number;
-        get difficulty(): $Difficulty;
-        get effectiveDifficulty(): number;
         get hard(): boolean;
+        get specialMultiplier(): number;
+        get effectiveDifficulty(): number;
+        get difficulty(): $Difficulty;
     }
     export class $BossEvent$BossBarOverlay extends $Enum<$BossEvent$BossBarOverlay> {
         getName(): string;
@@ -129,72 +129,72 @@ declare module "@package/net/minecraft/world" {
         isEmpty(): boolean;
         contains(arg0: $Container): boolean;
         getItem(arg0: number): $ItemStack;
-        clearContent(): void;
-        getMaxStackSize(): number;
         removeItem(arg0: number, arg1: number): $ItemStack;
-        stopOpen(arg0: $Player): void;
+        clearContent(): void;
+        canPlaceItem(arg0: number, arg1: $ItemStack_): boolean;
         startOpen(arg0: $Player): void;
-        setItem(arg0: number, arg1: $ItemStack_): void;
+        stopOpen(arg0: $Player): void;
         getContainerSize(): number;
         removeItemNoUpdate(arg0: number): $ItemStack;
+        getMaxStackSize(): number;
+        setChanged(): void;
         stillValid(arg0: $Player): boolean;
-        setChanged(): void;
-        canPlaceItem(arg0: number, arg1: $ItemStack_): boolean;
-        getMaxStackSize(arg0: $ItemStack_): number;
-        countItem(arg0: $Item_): number;
-        hasAnyOf(arg0: $Set_<$Item_>): boolean;
-        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        setItem(arg0: number, arg1: $ItemStack_): void;
         hasAnyMatching(arg0: $Predicate_<$ItemStack>): boolean;
+        hasAnyOf(arg0: $Set_<$Item_>): boolean;
+        countItem(arg0: $Item_): number;
+        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        getMaxStackSize(arg0: $ItemStack_): number;
         getBlock(level: $Level_): $LevelBlock;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         setStackInSlot(slot: number, stack: $ItemStack_): void;
-        setChanged(): void;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
-        asContainer(): $Container;
-        getSlots(): number;
-        isMutable(): boolean;
-        getWidth(): number;
         getHeight(): number;
+        setChanged(): void;
+        getWidth(): number;
+        asContainer(): $Container;
+        isMutable(): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        clear(): void;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         self(): $Container;
+        clear(): void;
+        isEmpty(): boolean;
         insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        getAllItems(): $List<$ItemStack>;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
-        getContainer2FTBL(): $Container;
-        getContainer1FTBL(): $Container;
-        fabric_getFirst(): $Container;
+        clear(match: $ItemPredicate_): void;
         fabric_getSecond(): $Container;
+        fabric_getFirst(): $Container;
+        getContainer1FTBL(): $Container;
+        getContainer2FTBL(): $Container;
         constructor(arg0: $Container, arg1: $Container);
         get containerSize(): number;
-        get slots(): number;
-        get mutable(): boolean;
-        get width(): number;
         get height(): number;
+        get width(): number;
+        get mutable(): boolean;
+        get slots(): number;
         get allItems(): $List<$ItemStack>;
-        get container2FTBL(): $Container;
         get container1FTBL(): $Container;
+        get container2FTBL(): $Container;
     }
     export class $RandomSequences$DirtyMarkingRandomSource implements $RandomSource {
         nextInt(arg0: number, arg1: number): number;
-        consumeCount(arg0: number): void;
         triangle(arg0: number, arg1: number): number;
+        consumeCount(arg0: number): void;
         nextIntBetweenInclusive(arg0: number, arg1: number): number;
     }
     export class $LockCode extends $Record {
         key(): string;
+        unlocksWith(arg0: $ItemStack_): boolean;
         addToTag(arg0: $CompoundTag_): void;
         static fromTag(arg0: $CompoundTag_): $LockCode;
-        unlocksWith(arg0: $ItemStack_): boolean;
         static CODEC: $Codec<$LockCode>;
         static NO_LOCK: $LockCode;
         static TAG_LOCK: string;
@@ -203,69 +203,69 @@ declare module "@package/net/minecraft/world" {
     export class $SimpleContainer implements $Container, $StackedContentsCompatible, $SpecialLogicInventory {
         isEmpty(): boolean;
         getItem(arg0: number): $ItemStack;
-        addItem(arg0: $ItemStack_): $ItemStack;
-        createTag(arg0: $HolderLookup$Provider): $ListTag;
-        clearContent(): void;
+        redirect$fmn000$fabric_transfer_api_v1$fabric_redirectMarkDirty(arg0: $SimpleContainer): void;
         removeAllItems(): $List<$ItemStack>;
         removeItem(arg0: number, arg1: number): $ItemStack;
-        addListener(arg0: $ContainerListener_): void;
+        addItem(arg0: $ItemStack_): $ItemStack;
         removeListener(arg0: $ContainerListener_): void;
+        createTag(arg0: $HolderLookup$Provider): $ListTag;
+        addListener(arg0: $ContainerListener_): void;
         fabric_onFinalCommit(arg0: number, arg1: $ItemStack_, arg2: $ItemStack_): void;
-        setItem(arg0: number, arg1: $ItemStack_): void;
+        fillStackedContents(arg0: $StackedContents): void;
+        clearContent(): void;
+        fabric_setSuppress(arg0: boolean): void;
         getContainerSize(): number;
         removeItemNoUpdate(arg0: number): $ItemStack;
+        getItems(): $NonNullList<$ItemStack>;
+        removeItemType(arg0: $Item_, arg1: number): $ItemStack;
+        setChanged(): void;
         stillValid(arg0: $Player): boolean;
         fromTag(arg0: $ListTag_, arg1: $HolderLookup$Provider): void;
-        setChanged(): void;
-        fillStackedContents(arg0: $StackedContents): void;
-        removeItemType(arg0: $Item_, arg1: number): $ItemStack;
+        setItem(arg0: number, arg1: $ItemStack_): void;
         canAddItem(arg0: $ItemStack_): boolean;
-        redirect$fmm000$fabric_transfer_api_v1$fabric_redirectMarkDirty(arg0: $SimpleContainer): void;
-        getItems(): $NonNullList<$ItemStack>;
-        fabric_setSuppress(arg0: boolean): void;
-        getMaxStackSize(arg0: $ItemStack_): number;
-        getMaxStackSize(): number;
-        stopOpen(arg0: $Player): void;
-        countItem(arg0: $Item_): number;
-        startOpen(arg0: $Player): void;
-        hasAnyOf(arg0: $Set_<$Item_>): boolean;
-        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
         canPlaceItem(arg0: number, arg1: $ItemStack_): boolean;
         hasAnyMatching(arg0: $Predicate_<$ItemStack>): boolean;
+        startOpen(arg0: $Player): void;
+        hasAnyOf(arg0: $Set_<$Item_>): boolean;
+        stopOpen(arg0: $Player): void;
+        countItem(arg0: $Item_): number;
+        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        getMaxStackSize(): number;
+        getMaxStackSize(arg0: $ItemStack_): number;
         fabric_onTransfer(arg0: number, arg1: $TransactionContext): void;
         getBlock(level: $Level_): $LevelBlock;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         setStackInSlot(slot: number, stack: $ItemStack_): void;
-        setChanged(): void;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
-        asContainer(): $Container;
-        getSlots(): number;
-        isMutable(): boolean;
-        getWidth(): number;
         getHeight(): number;
+        setChanged(): void;
+        getWidth(): number;
+        asContainer(): $Container;
+        isMutable(): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        clear(): void;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         self(): $Container;
+        clear(): void;
+        isEmpty(): boolean;
         insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        getAllItems(): $List<$ItemStack>;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
+        clear(match: $ItemPredicate_): void;
         items: $NonNullList<$ItemStack>;
         constructor(arg0: number);
         constructor(...arg0: $ItemStack_[]);
         get containerSize(): number;
-        get slots(): number;
-        get mutable(): boolean;
-        get width(): number;
         get height(): number;
+        get width(): number;
+        get mutable(): boolean;
+        get slots(): number;
         get allItems(): $List<$ItemStack>;
     }
     export class $Clearable {
@@ -281,56 +281,56 @@ declare module "@package/net/minecraft/world" {
     export class $TickRateManager {
         isFrozen(): boolean;
         tick(): void;
-        isSteppingForward(): boolean;
-        nanosecondsPerTick(): number;
-        isEntityFrozen(arg0: $Entity): boolean;
-        tickrate(): number;
-        setFrozen(arg0: boolean): void;
-        setTickRate(arg0: number): void;
-        setFrozenTicksToRun(arg0: number): void;
         millisecondsPerTick(): number;
+        nanosecondsPerTick(): number;
         runsNormally(): boolean;
+        setFrozen(arg0: boolean): void;
+        isEntityFrozen(arg0: $Entity): boolean;
+        setFrozenTicksToRun(arg0: number): void;
+        tickrate(): number;
+        setTickRate(arg0: number): void;
+        isSteppingForward(): boolean;
         frozenTicksToRun(): number;
         static MIN_TICKRATE: number;
         runGameElements: boolean;
         constructor();
-        get steppingForward(): boolean;
         set tickRate(value: number);
+        get steppingForward(): boolean;
     }
     export class $ContainerHelper {
         static removeItem(arg0: $List_<$ItemStack_>, arg1: number, arg2: number): $ItemStack;
-        static takeItem(arg0: $List_<$ItemStack_>, arg1: number): $ItemStack;
+        static clearOrCountMatchingItems(arg0: $ItemStack_, arg1: $Predicate_<$ItemStack>, arg2: number, arg3: boolean): number;
+        static clearOrCountMatchingItems(arg0: $Container, arg1: $Predicate_<$ItemStack>, arg2: number, arg3: boolean): number;
         static loadAllItems(arg0: $CompoundTag_, arg1: $NonNullList<$ItemStack_>, arg2: $HolderLookup$Provider): void;
         static saveAllItems(arg0: $CompoundTag_, arg1: $NonNullList<$ItemStack_>, arg2: boolean, arg3: $HolderLookup$Provider): $CompoundTag;
         static saveAllItems(arg0: $CompoundTag_, arg1: $NonNullList<$ItemStack_>, arg2: $HolderLookup$Provider): $CompoundTag;
-        static clearOrCountMatchingItems(arg0: $Container, arg1: $Predicate_<$ItemStack>, arg2: number, arg3: boolean): number;
-        static clearOrCountMatchingItems(arg0: $ItemStack_, arg1: $Predicate_<$ItemStack>, arg2: number, arg3: boolean): number;
+        static takeItem(arg0: $List_<$ItemStack_>, arg1: number): $ItemStack;
         static TAG_ITEMS: string;
         constructor();
     }
     export class $Container {
-        static stillValidBlockEntity(arg0: $BlockEntity, arg1: $Player, arg2: number): boolean;
         static stillValidBlockEntity(arg0: $BlockEntity, arg1: $Player): boolean;
+        static stillValidBlockEntity(arg0: $BlockEntity, arg1: $Player, arg2: number): boolean;
         static DEFAULT_DISTANCE_BUFFER: number;
     }
     export interface $Container extends $Clearable, $ContainerKJS {
         isEmpty(): boolean;
         getItem(arg0: number): $ItemStack;
-        getMaxStackSize(arg0: $ItemStack_): number;
-        getMaxStackSize(): number;
         removeItem(arg0: number, arg1: number): $ItemStack;
-        stopOpen(arg0: $Player): void;
-        countItem(arg0: $Item_): number;
-        startOpen(arg0: $Player): void;
-        hasAnyOf(arg0: $Set_<$Item_>): boolean;
-        setItem(arg0: number, arg1: $ItemStack_): void;
-        getContainerSize(): number;
-        removeItemNoUpdate(arg0: number): $ItemStack;
-        stillValid(arg0: $Player): boolean;
-        setChanged(): void;
-        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
         canPlaceItem(arg0: number, arg1: $ItemStack_): boolean;
         hasAnyMatching(arg0: $Predicate_<$ItemStack>): boolean;
+        startOpen(arg0: $Player): void;
+        hasAnyOf(arg0: $Set_<$Item_>): boolean;
+        stopOpen(arg0: $Player): void;
+        countItem(arg0: $Item_): number;
+        canTakeItem(arg0: $Container, arg1: number, arg2: $ItemStack_): boolean;
+        getContainerSize(): number;
+        removeItemNoUpdate(arg0: number): $ItemStack;
+        getMaxStackSize(): number;
+        getMaxStackSize(arg0: $ItemStack_): number;
+        setChanged(): void;
+        stillValid(arg0: $Player): boolean;
+        setItem(arg0: number, arg1: $ItemStack_): void;
         get empty(): boolean;
         get containerSize(): number;
     }
@@ -348,13 +348,13 @@ declare module "@package/net/minecraft/world" {
         setColor(arg0: $BossEvent$BossBarColor_): void;
         getColor(): $BossEvent$BossBarColor;
         setOverlay(arg0: $BossEvent$BossBarOverlay_): void;
-        shouldDarkenScreen(): boolean;
+        getProgress(): number;
         shouldCreateWorldFog(): boolean;
-        shouldPlayBossMusic(): boolean;
+        getOverlay(): $BossEvent$BossBarOverlay;
         setProgress(arg0: number): void;
         setDarkenScreen(arg0: boolean): $BossEvent;
-        getProgress(): number;
-        getOverlay(): $BossEvent$BossBarOverlay;
+        shouldDarkenScreen(): boolean;
+        shouldPlayBossMusic(): boolean;
         setPlayBossMusic(arg0: boolean): $BossEvent;
         setCreateWorldFog(arg0: boolean): $BossEvent;
         darkenScreen: boolean;
@@ -370,8 +370,8 @@ declare module "@package/net/minecraft/world" {
     export class $WorldlyContainer {
     }
     export interface $WorldlyContainer extends $Container {
-        canPlaceItemThroughFace(arg0: number, arg1: $ItemStack_, arg2: $Direction_): boolean;
         canTakeItemThroughFace(arg0: number, arg1: $ItemStack_, arg2: $Direction_): boolean;
+        canPlaceItemThroughFace(arg0: number, arg1: $ItemStack_, arg2: $Direction_): boolean;
         getSlotsForFace(arg0: $Direction_): number[];
     }
     export class $ContainerListener {
@@ -386,8 +386,8 @@ declare module "@package/net/minecraft/world" {
     export class $InteractionResult extends $Enum<$InteractionResult> {
         static values(): $InteractionResult[];
         static valueOf(arg0: string): $InteractionResult;
-        static sidedSuccess(arg0: boolean): $InteractionResult;
         indicateItemUse(): boolean;
+        static sidedSuccess(arg0: boolean): $InteractionResult;
         consumesAction(): boolean;
         shouldSwing(): boolean;
         static SUCCESS: $InteractionResult;
@@ -429,11 +429,11 @@ declare module "@package/net/minecraft/world" {
      */
     export type $InteractionHand_ = "main_hand" | "off_hand";
     export class $Containers {
-        static dropContents(arg0: $Level_, arg1: $BlockPos_, arg2: $NonNullList<$ItemStack_>): void;
-        static dropContents(arg0: $Level_, arg1: $Entity, arg2: $Container): void;
-        static dropContents(arg0: $Level_, arg1: $BlockPos_, arg2: $Container): void;
-        static dropItemStack(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $ItemStack_): void;
         static dropContentsOnDestroy(arg0: $BlockState_, arg1: $BlockState_, arg2: $Level_, arg3: $BlockPos_): void;
+        static dropContents(arg0: $Level_, arg1: $BlockPos_, arg2: $NonNullList<$ItemStack_>): void;
+        static dropContents(arg0: $Level_, arg1: $BlockPos_, arg2: $Container): void;
+        static dropContents(arg0: $Level_, arg1: $Entity, arg2: $Container): void;
+        static dropItemStack(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $ItemStack_): void;
         constructor();
     }
     export class $RandomizableContainer {
@@ -443,15 +443,15 @@ declare module "@package/net/minecraft/world" {
     }
     export interface $RandomizableContainer extends $Container {
         getLevel(): $Level;
-        getLootTable(): $ResourceKey<$LootTable>;
-        getLootTableSeed(): number;
-        getBlockPos(): $BlockPos;
-        trySaveLootTable(arg0: $CompoundTag_): boolean;
+        unpackLootTable(arg0: $Player): void;
         setLootTableSeed(arg0: number): void;
         tryLoadLootTable(arg0: $CompoundTag_): boolean;
-        setLootTable(arg0: $ResourceKey_<$LootTable>): void;
         setLootTable(arg0: $ResourceKey_<$LootTable>, arg1: number): void;
-        unpackLootTable(arg0: $Player): void;
+        setLootTable(arg0: $ResourceKey_<$LootTable>): void;
+        trySaveLootTable(arg0: $CompoundTag_): boolean;
+        getBlockPos(): $BlockPos;
+        getLootTableSeed(): number;
+        getLootTable(): $ResourceKey<$LootTable>;
         get level(): $Level;
         get blockPos(): $BlockPos;
     }

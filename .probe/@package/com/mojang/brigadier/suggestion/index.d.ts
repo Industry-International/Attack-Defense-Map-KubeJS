@@ -9,12 +9,12 @@ declare module "@package/com/mojang/brigadier/suggestion" {
         add(arg0: $SuggestionsBuilder): $SuggestionsBuilder;
         build(): $Suggestions;
         getRemaining(): string;
-        getStart(): number;
-        getInput(): string;
         getRemainingLowerCase(): string;
+        getStart(): number;
         restart(): $SuggestionsBuilder;
         buildFuture(): $CompletableFuture<$Suggestions>;
         createOffset(arg0: number): $SuggestionsBuilder;
+        getInput(): string;
         suggest(arg0: string): $SuggestionsBuilder;
         suggest(arg0: number, arg1: $Message_): $SuggestionsBuilder;
         suggest(arg0: number): $SuggestionsBuilder;
@@ -22,9 +22,9 @@ declare module "@package/com/mojang/brigadier/suggestion" {
         constructor(arg0: string, arg1: string, arg2: number);
         constructor(arg0: string, arg1: number);
         get remaining(): string;
+        get remainingLowerCase(): string;
         get start(): number;
         get input(): string;
-        get remainingLowerCase(): string;
     }
     export class $Suggestions {
         isEmpty(): boolean;

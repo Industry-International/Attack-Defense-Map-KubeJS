@@ -394,12 +394,12 @@ declare module "@package/javax/swing/event" {
         get menuSelectionManager(): $MenuSelectionManager;
     }
     export class $ListSelectionEvent extends $EventObject {
-        getValueIsAdjusting(): boolean;
         getLastIndex(): number;
+        getValueIsAdjusting(): boolean;
         getFirstIndex(): number;
         constructor(arg0: $Object, arg1: number, arg2: number, arg3: boolean);
-        get valueIsAdjusting(): boolean;
         get lastIndex(): number;
+        get valueIsAdjusting(): boolean;
         get firstIndex(): number;
     }
     export class $DocumentEvent$ElementChange {
@@ -469,9 +469,9 @@ declare module "@package/javax/swing/event" {
         ancestorRemoved(arg0: $AncestorEvent): void;
     }
     export class $AncestorEvent extends $AWTEvent {
-        getAncestorParent(): $Container;
         getAncestor(): $Container;
         getComponent(): $JComponent;
+        getAncestorParent(): $Container;
         static ADJUSTMENT_EVENT_MASK: number;
         static MOUSE_EVENT_MASK: number;
         static COMPONENT_EVENT_MASK: number;
@@ -496,9 +496,9 @@ declare module "@package/javax/swing/event" {
         static MOUSE_MOTION_EVENT_MASK: number;
         static WINDOW_FOCUS_EVENT_MASK: number;
         constructor(arg0: $JComponent, arg1: number, arg2: $Container, arg3: $Container);
-        get ancestorParent(): $Container;
         get ancestor(): $Container;
         get component(): $JComponent;
+        get ancestorParent(): $Container;
     }
     export class $PopupMenuEvent extends $EventObject {
         constructor(arg0: $Object);
@@ -534,9 +534,9 @@ declare module "@package/javax/swing/event" {
     export class $ListDataListener {
     }
     export interface $ListDataListener extends $EventListener {
+        contentsChanged(arg0: $ListDataEvent): void;
         intervalAdded(arg0: $ListDataEvent): void;
         intervalRemoved(arg0: $ListDataEvent): void;
-        contentsChanged(arg0: $ListDataEvent): void;
     }
     export class $ChangeEvent extends $EventObject {
         constructor(arg0: $Object);

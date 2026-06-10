@@ -70,15 +70,15 @@ declare module "@package/net/minecraft/world/entity/animal/sniffer" {
         static get temptations(): $Predicate<$ItemStack>;
     }
     export class $Sniffer extends $Animal {
-        isTempted(): boolean;
-        canSniff(): boolean;
-        canDig(): boolean;
-        static createAttributes(): $AttributeSupplier$Builder;
         onDiggingComplete(arg0: boolean): $Sniffer;
-        isSearching(): boolean;
         transitionTo(arg0: $Sniffer$State_): $Sniffer;
+        isSearching(): boolean;
         calculateDigPosition(): ($BlockPos) | undefined;
         canPlayDiggingSound(): boolean;
+        canSniff(): boolean;
+        canDig(): boolean;
+        isTempted(): boolean;
+        static createAttributes(): $AttributeSupplier$Builder;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -257,8 +257,8 @@ declare module "@package/net/minecraft/world/entity/animal/sniffer" {
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
         constructor(arg0: $EntityType_<$Animal>, arg1: $Level_);
-        get tempted(): boolean;
         get searching(): boolean;
+        get tempted(): boolean;
     }
     export class $Sniffer$State extends $Enum<$Sniffer$State> {
         static values(): $Sniffer$State[];

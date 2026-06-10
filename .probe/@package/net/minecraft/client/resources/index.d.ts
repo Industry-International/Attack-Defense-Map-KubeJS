@@ -1,6 +1,6 @@
 import { $Executor_, $CompletableFuture } from "@package/java/util/concurrent";
 import { $User } from "@package/net/minecraft/client";
-import { $ResourceManager, $SimplePreparableReloadListener, $PreparableReloadListener, $PreparableReloadListener$PreparationBarrier_ } from "@package/net/minecraft/server/packs/resources";
+import { $ResourceManager, $SimplePreparableReloadListener, $PreparableReloadListener$PreparationBarrier_, $PreparableReloadListener } from "@package/net/minecraft/server/packs/resources";
 import { $UUID, $List, $UUID_, $Set_, $List_ } from "@package/java/util";
 import { $PaintingVariant_ } from "@package/net/minecraft/world/entity/decoration";
 import { $MetadataSectionSerializer } from "@package/net/minecraft/server/packs/metadata";
@@ -57,8 +57,8 @@ declare module "@package/net/minecraft/client/resources" {
     export class $TextureAtlasHolder implements $PreparableReloadListener, $AutoCloseable, $TextureAtlasExtension {
         close(): void;
         reload(arg0: $PreparableReloadListener$PreparationBarrier_, arg1: $ResourceManager, arg2: $ProfilerFiller, arg3: $ProfilerFiller, arg4: $Executor_, arg5: $Executor_): $CompletableFuture<void>;
-        veil$hasTexture(arg0: $ResourceLocation_): boolean;
         getSprite(arg0: $ResourceLocation_): $TextureAtlasSprite;
+        veil$hasTexture(arg0: $ResourceLocation_): boolean;
         getName(): string;
         textureAtlas: $TextureAtlas;
         constructor(arg0: $TextureManager, arg1: $ResourceLocation_, arg2: $ResourceLocation_);
@@ -102,8 +102,8 @@ declare module "@package/net/minecraft/client/resources" {
         constructor(arg0: $TextureManager);
     }
     export class $SkinManager$CacheKey extends $Record {
-        packedTextures(): $Property;
         profileId(): $UUID;
+        packedTextures(): $Property;
         constructor(arg0: $UUID_, arg1: $Property_);
     }
     export class $DefaultPlayerSkin {
@@ -114,19 +114,19 @@ declare module "@package/net/minecraft/client/resources" {
         static get defaultTexture(): $ResourceLocation;
     }
     export class $PlayerSkin extends $Record {
+        texture(): $ResourceLocation;
         model(): $PlayerSkin$Model;
         secure(): boolean;
-        elytraTexture(): $ResourceLocation;
-        texture(): $ResourceLocation;
         textureUrl(): string;
+        elytraTexture(): $ResourceLocation;
         capeTexture(): $ResourceLocation;
         constructor(arg0: $ResourceLocation_, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $PlayerSkin$Model_, arg5: boolean);
     }
     export class $SkinManager {
         registerTextures(arg0: $UUID_, arg1: $MinecraftProfileTextures_): $CompletableFuture<$PlayerSkin>;
         getOrLoad(arg0: $GameProfile): $CompletableFuture<$PlayerSkin>;
-        lookupInsecure(arg0: $GameProfile): $Supplier<$PlayerSkin>;
         getInsecureSkin(arg0: $GameProfile): $PlayerSkin;
+        lookupInsecure(arg0: $GameProfile): $Supplier<$PlayerSkin>;
         static LOGGER: $Logger;
         constructor(arg0: $TextureManager, arg1: $Path_, arg2: $MinecraftSessionService, arg3: $Executor_);
     }

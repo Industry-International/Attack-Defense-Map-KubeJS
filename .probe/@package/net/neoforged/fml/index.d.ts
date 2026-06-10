@@ -15,37 +15,37 @@ export * as event from "@package/net/neoforged/fml/event";
 declare module "@package/net/neoforged/fml" {
     export class $ModContainer {
         getNamespace(): string;
-        getModId(): string;
-        registerConfig(arg0: $ModConfig$Type_, arg1: $IConfigSpec, arg2: string): void;
-        registerConfig(arg0: $ModConfig$Type_, arg1: $IConfigSpec): void;
         getModInfo(): $IModInfo;
-        registerExtensionPoint<T extends $IExtensionPoint>(arg0: $Class<T>, arg1: T): void;
+        registerConfig(arg0: $ModConfig$Type_, arg1: $IConfigSpec): void;
+        registerConfig(arg0: $ModConfig$Type_, arg1: $IConfigSpec, arg2: string): void;
+        getModId(): string;
         registerExtensionPoint<T extends $IExtensionPoint>(arg0: $Class<T>, arg1: $Supplier_<T>): void;
-        getCustomExtension<T extends $IExtensionPoint>(arg0: $Class<T>): (T) | undefined;
+        registerExtensionPoint<T extends $IExtensionPoint>(arg0: $Class<T>, arg1: T): void;
         acceptEvent<T extends $Event>(arg0: T): void;
         acceptEvent<T extends $Event>(arg0: $EventPriority_, arg1: T): void;
         getEventBus(): $IEventBus;
+        getCustomExtension<T extends $IExtensionPoint>(arg0: $Class<T>): (T) | undefined;
         constructor(arg0: $IModInfo);
         get namespace(): string;
-        get modId(): string;
         get modInfo(): $IModInfo;
+        get modId(): string;
         get eventBus(): $IEventBus;
     }
     export class $ModLoadingIssue extends $Record {
         cause(): $Throwable;
         static error(arg0: string, ...arg1: $Object[]): $ModLoadingIssue;
         static warning(arg0: string, ...arg1: $Object[]): $ModLoadingIssue;
-        affectedMod(): $IModInfo;
-        withAffectedMod(arg0: $IModInfo): $ModLoadingIssue;
         translationArgs(): $List<$Object>;
         affectedModFile(): $IModFile;
+        affectedMod(): $IModInfo;
+        withAffectedMod(arg0: $IModInfo): $ModLoadingIssue;
         severity(): $ModLoadingIssue$Severity;
-        translationKey(): string;
         affectedPath(): $Path;
-        withCause(arg0: $Throwable): $ModLoadingIssue;
+        translationKey(): string;
         withAffectedPath(arg0: $Path_): $ModLoadingIssue;
-        withAffectedModFile(arg0: $IModFile): $ModLoadingIssue;
         withSeverity(arg0: $ModLoadingIssue$Severity_): $ModLoadingIssue;
+        withCause(arg0: $Throwable): $ModLoadingIssue;
+        withAffectedModFile(arg0: $IModFile): $ModLoadingIssue;
         constructor(arg0: $ModLoadingIssue$Severity_, arg1: string, arg2: $List_<$Object>);
         constructor(severity: $ModLoadingIssue$Severity_, translationKey: string, translationArgs: $List_<$Object>, cause: $Throwable, affectedPath: $Path_, affectedModFile: $IModFile, affectedMod: $IModInfo);
     }
@@ -109,9 +109,9 @@ declare module "@package/net/neoforged/fml" {
     export class $VersionChecker$Status extends $Enum<$VersionChecker$Status> {
         static values(): $VersionChecker$Status[];
         static valueOf(arg0: string): $VersionChecker$Status;
-        getSheetOffset(): number;
         shouldDraw(): boolean;
         isAnimated(): boolean;
+        getSheetOffset(): number;
         static FAILED: $VersionChecker$Status;
         static AHEAD: $VersionChecker$Status;
         static BETA_OUTDATED: $VersionChecker$Status;
@@ -119,8 +119,8 @@ declare module "@package/net/neoforged/fml" {
         static OUTDATED: $VersionChecker$Status;
         static PENDING: $VersionChecker$Status;
         static BETA: $VersionChecker$Status;
-        get sheetOffset(): number;
         get animated(): boolean;
+        get sheetOffset(): number;
     }
     /**
      * Values that may be interpreted as {@link $VersionChecker$Status}.

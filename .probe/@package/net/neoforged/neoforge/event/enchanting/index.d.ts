@@ -12,25 +12,25 @@ declare module "@package/net/neoforged/neoforge/event/enchanting" {
         getPos(): $BlockPos;
         getPower(): number;
         getEnchantLevel(): number;
-        getOriginalLevel(): number;
         setEnchantLevel(arg0: number): void;
         getEnchantRow(): number;
+        getOriginalLevel(): number;
         constructor(arg0: $Level_, arg1: $BlockPos_, arg2: number, arg3: number, arg4: $ItemStack_, arg5: number);
         get level(): $Level;
         get item(): $ItemStack;
         get pos(): $BlockPos;
         get power(): number;
-        get originalLevel(): number;
         get enchantRow(): number;
+        get originalLevel(): number;
     }
     export class $GetEnchantmentLevelEvent extends $Event {
         getStack(): $ItemStack;
         getLookup(): $HolderLookup$RegistryLookup<$Enchantment>;
-        getEnchantments(): $ItemEnchantments$Mutable;
         getHolder(arg0: $ResourceKey_<$Enchantment>): ($Holder$Reference<$Enchantment>) | undefined;
-        getTargetEnchant(): $Holder<$Enchantment>;
+        getEnchantments(): $ItemEnchantments$Mutable;
         isTargetting(arg0: $Holder_<$Enchantment>): boolean;
         isTargetting(arg0: $ResourceKey_<$Enchantment>): boolean;
+        getTargetEnchant(): $Holder<$Enchantment>;
         constructor(arg0: $ItemStack_, arg1: $ItemEnchantments$Mutable, arg2: $Holder_<$Enchantment>, arg3: $HolderLookup$RegistryLookup<$Enchantment_>);
         get stack(): $ItemStack;
         get lookup(): $HolderLookup$RegistryLookup<$Enchantment>;

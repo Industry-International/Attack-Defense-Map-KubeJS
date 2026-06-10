@@ -8,9 +8,9 @@ declare module "@package/net/fabricmc/fabric/mixin/item" {
     }
     export interface $EnchantmentBuilderAccessor {
         getDefinition(): $Enchantment$EnchantmentDefinition;
-        invokeGetEffectsList<E>(arg0: $DataComponentType_<$List_<E>>): $List<E>;
         getEffectMap(): $DataComponentMap$Builder;
         getExclusiveSet(): $HolderSet<$Enchantment>;
+        invokeGetEffectsList<E>(arg0: $DataComponentType_<$List_<E>>): $List<E>;
         get definition(): $Enchantment$EnchantmentDefinition;
         get effectMap(): $DataComponentMap$Builder;
         get exclusiveSet(): $HolderSet<$Enchantment>;

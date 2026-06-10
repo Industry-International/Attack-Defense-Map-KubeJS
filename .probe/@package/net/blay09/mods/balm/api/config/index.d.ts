@@ -1,5 +1,5 @@
 import { $Predicate_ } from "@package/java/util/function";
-import { $ConfiguredProperty, $BalmConfigSchema } from "@package/net/blay09/mods/balm/api/config/schema";
+import { $BalmConfigSchema, $ConfiguredProperty } from "@package/net/blay09/mods/balm/api/config/schema";
 export * as schema from "@package/net/blay09/mods/balm/api/config/schema";
 
 declare module "@package/net/blay09/mods/balm/api/config" {
@@ -14,7 +14,7 @@ declare module "@package/net/blay09/mods/balm/api/config" {
     export interface $MutableLoadedConfig extends $LoadedConfig {
         copy(): $MutableLoadedConfig;
         setRaw<T>(arg0: $ConfiguredProperty<T>, arg1: T): void;
-        applyFrom(arg0: $BalmConfigSchema, arg1: $LoadedConfig): void;
         applyFrom(arg0: $BalmConfigSchema, arg1: $LoadedConfig, arg2: $Predicate_<$ConfiguredProperty<never>>): void;
+        applyFrom(arg0: $BalmConfigSchema, arg1: $LoadedConfig): void;
     }
 }

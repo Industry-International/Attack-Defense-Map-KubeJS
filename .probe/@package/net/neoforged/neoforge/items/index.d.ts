@@ -33,55 +33,55 @@ declare module "@package/net/neoforged/neoforge/items" {
         static giveItemToPlayer(arg0: $Player, arg1: $ItemStack_, arg2: number): void;
         static giveItemToPlayer(arg0: $Player, arg1: $ItemStack_): void;
         static insertItem(arg0: $IItemHandler, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        static insertItemStacked(arg0: $IItemHandler, arg1: $ItemStack_, arg2: boolean): $ItemStack;
         static calcRedstoneFromInventory(arg0: $IItemHandler): number;
+        static insertItemStacked(arg0: $IItemHandler, arg1: $ItemStack_, arg2: boolean): $ItemStack;
         constructor();
     }
     export class $ItemStackHandler implements $IItemHandler, $IItemHandlerModifiable, $INBTSerializable<$CompoundTag>, $ItemStackHandlerAccessor {
         setSize(arg0: number): void;
         getSlots(): number;
+        getStackInSlot(arg0: number): $ItemStack;
+        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
+        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
         getSlotLimit(arg0: number): number;
         isItemValid(arg0: number, arg1: $ItemStack_): boolean;
-        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
+        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
         insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        getStackInSlot(arg0: number): $ItemStack;
         kjs$getBlock(level: $Level_): $LevelBlock;
         kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
         kjs$isMutable(): boolean;
         kjs$self(): $IItemHandler;
-        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
+        isEmpty(): boolean;
+        getHeight(): number;
         setChanged(): void;
-        getAllItems(): $List<$ItemStack>;
+        getWidth(): number;
         asContainer(): $Container;
+        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        getWidth(): number;
-        getHeight(): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(): void;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
-        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
+        clear(): void;
+        clear(match: $ItemPredicate_): void;
         create$getStacks(): $NonNullList<$ItemStack>;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         constructor(arg0: $NonNullList<$ItemStack_>);
         constructor(arg0: number);
         constructor();
         set size(value: number);
-        get allItems(): $List<$ItemStack>;
-        get width(): number;
-        get height(): number;
         get empty(): boolean;
+        get height(): number;
+        get width(): number;
+        get allItems(): $List<$ItemStack>;
     }
     export class $StackCopySlot extends $Slot {
         container: $Container;
@@ -94,21 +94,21 @@ declare module "@package/net/neoforged/neoforge/items" {
     }
     export interface $IItemHandler extends $InventoryKJS {
         getSlots(): number;
+        getStackInSlot(arg0: number): $ItemStack;
         kjs$getBlock(level: $Level_): $LevelBlock;
-        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
+        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
         getSlotLimit(arg0: number): number;
         isItemValid(arg0: number, arg1: $ItemStack_): boolean;
+        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
         kjs$isMutable(): boolean;
-        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
-        insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        getStackInSlot(arg0: number): $ItemStack;
         kjs$self(): $IItemHandler;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
         getSlotLimit(slot: number): number;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
     }
     export class $SlotItemHandler extends $Slot {
         initialize(arg0: $ItemStack_): void;
@@ -122,42 +122,42 @@ declare module "@package/net/neoforged/neoforge/items" {
     }
     export class $ComponentItemHandler implements $IItemHandlerModifiable {
         getSlots(): number;
-        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
+        getStackInSlot(arg0: number): $ItemStack;
+        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
         getSlotLimit(arg0: number): number;
         isItemValid(arg0: number, arg1: $ItemStack_): boolean;
-        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
+        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
         insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        getStackInSlot(arg0: number): $ItemStack;
         kjs$getBlock(level: $Level_): $LevelBlock;
         kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
         kjs$isMutable(): boolean;
         kjs$self(): $IItemHandler;
-        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
+        isEmpty(): boolean;
+        getHeight(): number;
         setChanged(): void;
-        getAllItems(): $List<$ItemStack>;
+        getWidth(): number;
         asContainer(): $Container;
+        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        getWidth(): number;
-        getHeight(): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(): void;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        clear(): void;
+        clear(match: $ItemPredicate_): void;
         getSlotLimit(slot: number): number;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         constructor(arg0: $MutableDataComponentHolder, arg1: $DataComponentType_<$ItemContainerContents>, arg2: number);
-        get allItems(): $List<$ItemStack>;
-        get width(): number;
-        get height(): number;
         get empty(): boolean;
+        get height(): number;
+        get width(): number;
+        get allItems(): $List<$ItemStack>;
     }
     export class $IItemHandlerModifiable {
     }
@@ -168,10 +168,10 @@ declare module "@package/net/neoforged/neoforge/items" {
         constructor(arg0: $HopperBlockEntity);
     }
     export class $VanillaInventoryCodeHooks {
+        static insertCrafterOutput(arg0: $Level_, arg1: $BlockPos_, arg2: $CrafterBlockEntity, arg3: $ItemStack_): $ItemStack;
         static dropperInsertHook(arg0: $Level_, arg1: $BlockPos_, arg2: $DispenserBlockEntity, arg3: number, arg4: $ItemStack_): boolean;
         static insertHook(arg0: $HopperBlockEntity): boolean;
         static extractHook(arg0: $Level_, arg1: $Hopper): boolean;
-        static insertCrafterOutput(arg0: $Level_, arg1: $BlockPos_, arg2: $CrafterBlockEntity, arg3: $ItemStack_): $ItemStack;
         constructor();
     }
 }

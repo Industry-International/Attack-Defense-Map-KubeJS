@@ -65,13 +65,13 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $ServerPackManager {
         popAll(): void;
         tick(): void;
-        rejectServerPacks(): void;
-        resetPromptStatus(): void;
+        pushPack(arg0: $UUID_, arg1: $URL, arg2: $HashCode): void;
+        popPack(arg0: $UUID_): void;
         pushLocalPack(arg0: $UUID_, arg1: $Path_): void;
         allowServerPacks(): void;
+        resetPromptStatus(): void;
+        rejectServerPacks(): void;
         registerForUpdate(): void;
-        popPack(arg0: $UUID_): void;
-        pushPack(arg0: $UUID_, arg1: $URL, arg2: $HashCode): void;
         packLoadFeedback: $PackLoadFeedback;
         packs: $List<$ServerPackManager$ServerPackData>;
         constructor(arg0: $PackDownloader_, arg1: $PackLoadFeedback, arg2: $PackReloadConfig_, arg3: $Runnable_, arg4: $ServerPackManager$PackPromptStatus_);
@@ -79,8 +79,8 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $PackLoadFeedback {
     }
     export interface $PackLoadFeedback {
-        reportUpdate(arg0: $UUID_, arg1: $PackLoadFeedback$Update_): void;
         reportFinalResult(arg0: $UUID_, arg1: $PackLoadFeedback$FinalResult_): void;
+        reportUpdate(arg0: $UUID_, arg1: $PackLoadFeedback$Update_): void;
     }
     export class $ServerPackManager$PackDownloadStatus extends $Enum<$ServerPackManager$PackDownloadStatus> {
     }
@@ -91,21 +91,21 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $DownloadedPackSource implements $AutoCloseable {
         popAll(): void;
         close(): void;
-        handler$bom000$chat_heads$chatheads$checkForDisableResource(list: $List_<any>, cir: $CallbackInfoReturnable<any>): void;
-        onRecovery(): void;
-        rejectServerPacks(): void;
-        pushLocalPack(arg0: $UUID_, arg1: $Path_): void;
-        allowServerPacks(): void;
-        configureForLocalWorld(): void;
-        waitForPackFeedback(arg0: $UUID_): $CompletableFuture<void>;
-        createDownloadNotifier(arg0: number): $HttpUtil$DownloadProgressListener;
-        configureForServerControl(arg0: $Connection, arg1: $ServerPackManager$PackPromptStatus_): void;
-        onReloadSuccess(): void;
-        onRecoveryFailure(): void;
-        popPack(arg0: $UUID_): void;
         pushPack(arg0: $UUID_, arg1: $URL, arg2: string): void;
+        popPack(arg0: $UUID_): void;
         createRepositorySource(): $RepositorySource;
         cleanupAfterDisconnect(): void;
+        createDownloadNotifier(arg0: number): $HttpUtil$DownloadProgressListener;
+        configureForLocalWorld(): void;
+        waitForPackFeedback(arg0: $UUID_): $CompletableFuture<void>;
+        configureForServerControl(arg0: $Connection, arg1: $ServerPackManager$PackPromptStatus_): void;
+        onRecovery(): void;
+        pushLocalPack(arg0: $UUID_, arg1: $Path_): void;
+        allowServerPacks(): void;
+        rejectServerPacks(): void;
+        handler$bol000$chat_heads$chatheads$checkForDisableResource(list: $List_<any>, cir: $CallbackInfoReturnable<any>): void;
+        onReloadSuccess(): void;
+        onRecoveryFailure(): void;
         minecraft: $Minecraft;
         manager: $ServerPackManager;
         static LOGGER: $Logger;
@@ -139,8 +139,8 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $PackReloadConfig$Callbacks {
     }
     export interface $PackReloadConfig$Callbacks {
-        packsToLoad(): $List<$PackReloadConfig$IdAndPath>;
         onFailure(arg0: boolean): void;
         onSuccess(): void;
+        packsToLoad(): $List<$PackReloadConfig$IdAndPath>;
     }
 }

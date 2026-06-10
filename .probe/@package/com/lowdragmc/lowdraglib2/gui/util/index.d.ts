@@ -16,8 +16,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/util" {
         setValid(arg0: $Predicate_<$FileNode>): $FileNode;
         flatten(): $List<$ITreeNode<$File, void>>;
         getChild(arg0: $File_): $ITreeNode<$File, void>;
-        isBranch(): boolean;
         getSiblingIndex(): number;
+        isBranch(): boolean;
         getKey(): $File;
         getParent(): $ITreeNode<$File, void>;
         parent: $FileNode;
@@ -28,25 +28,25 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/util" {
         get leaf(): boolean;
         get children(): $List<$FileNode>;
         set valid(value: $Predicate_<$FileNode>);
-        get branch(): boolean;
         get siblingIndex(): number;
+        get branch(): boolean;
     }
     export class $TreeNode<T, K> implements $ITreeNode<T, K> {
         getKey(): T;
         getContent(): K;
         getChildren(): $List<$TreeNode<T, K>>;
-        getDimension(): number;
-        removeChild(arg0: $TreeNode<T, K>): void;
-        removeChild(arg0: T): void;
         createChild(arg0: T): $TreeNode<T, K>;
+        removeChild(arg0: T): void;
+        removeChild(arg0: $TreeNode<T, K>): void;
+        getDimension(): number;
         addContent(arg0: T, arg1: K): void;
         getOrCreateChild(arg0: T): $TreeNode<T, K>;
         setValid(arg0: $Predicate_<$TreeNode<T, K>>): $TreeNode<T, K>;
         flatten(): $List<$ITreeNode<T, K>>;
         isLeaf(): boolean;
         getChild(arg0: T): $ITreeNode<T, K>;
-        isBranch(): boolean;
         getSiblingIndex(): number;
+        isBranch(): boolean;
         getParent(): $ITreeNode<T, K>;
         parent: $TreeNode<T, K>;
         dimension: number;
@@ -57,8 +57,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/util" {
         get children(): $List<$TreeNode<T, K>>;
         set valid(value: $Predicate_<$TreeNode<T, K>>);
         get leaf(): boolean;
-        get branch(): boolean;
         get siblingIndex(): number;
+        get branch(): boolean;
     }
     export class $TreeBuilder<K, V> {
         remove(arg0: K): $TreeBuilder<K, V>;
@@ -68,10 +68,10 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/util" {
         build(): $TreeNode<K, V>;
         content(arg0: V): $TreeBuilder<K, V>;
         branch(arg0: K, arg1: $Consumer_<$TreeBuilder<K, V>>): $TreeBuilder<K, V>;
-        endBranch(): $TreeBuilder<K, V>;
-        diveBranch(arg0: $List_<K>, arg1: $Consumer_<$TreeBuilder<K, V>>): $TreeBuilder<K, V>;
         leaf(arg0: K, arg1: V): $TreeBuilder<K, V>;
         startBranch(arg0: K): $TreeBuilder<K, V>;
+        diveBranch(arg0: $List_<K>, arg1: $Consumer_<$TreeBuilder<K, V>>): $TreeBuilder<K, V>;
+        endBranch(): $TreeBuilder<K, V>;
         constructor(arg0: K);
         get empty(): boolean;
     }
@@ -83,17 +83,18 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/util" {
         static handle(arg0: $ITreeNode<$Tuple<$IGuiTexture_, $Component_>, $Runnable_>): void;
         branch(arg0: $IGuiTexture_, arg1: string, arg2: $Consumer_<$TreeBuilder$Menu>): $TreeBuilder$Menu;
         branch(arg0: $Component_, arg1: $Consumer_<$TreeBuilder$Menu>): $TreeBuilder$Menu;
-        branch(arg0: string, arg1: $Consumer_<$TreeBuilder$Menu>): $TreeBuilder$Menu;
         branch(arg0: $IGuiTexture_, arg1: $Component_, arg2: $Consumer_<$TreeBuilder$Menu>): $TreeBuilder$Menu;
-        static uiProvider(arg0: $Tuple<$IGuiTexture_, $Component_>): $UIElement;
-        static getIcon(arg0: $Tuple<$IGuiTexture_, $Component_>): $IGuiTexture;
-        leaf(arg0: string, arg1: $Runnable_): $TreeBuilder$Menu;
-        leaf(arg0: $Component_, arg1: $Runnable_): $TreeBuilder$Menu;
-        leaf(arg0: $IGuiTexture_, arg1: string, arg2: $Runnable_): $TreeBuilder$Menu;
-        leaf(arg0: $IGuiTexture_, arg1: $Component_, arg2: $Runnable_): $TreeBuilder$Menu;
-        static hoverTextureProvider(arg0: $ITreeNode<$Tuple<$IGuiTexture_, $Component_>, $Runnable_>): $IGuiTexture;
+        branch(arg0: string, arg1: $Consumer_<$TreeBuilder$Menu>): $TreeBuilder$Menu;
         crossLine(): $TreeBuilder$Menu;
+        static getIcon(arg0: $Tuple<$IGuiTexture_, $Component_>): $IGuiTexture;
+        static uiProvider(arg0: $Tuple<$IGuiTexture_, $Component_>): $UIElement;
+        static hoverTextureProvider(arg0: $ITreeNode<$Tuple<$IGuiTexture_, $Component_>, $Runnable_>): $IGuiTexture;
+        leaf(arg0: $IGuiTexture_, arg1: $Component_, arg2: $Runnable_): $TreeBuilder$Menu;
+        leaf(arg0: string, arg1: $Runnable_): $TreeBuilder$Menu;
+        leaf(arg0: $IGuiTexture_, arg1: string, arg2: $Runnable_): $TreeBuilder$Menu;
+        leaf(arg0: $Component_, arg1: $Runnable_): $TreeBuilder$Menu;
         static isCrossLine(arg0: $Tuple<$IGuiTexture_, $Component_>): boolean;
+        endBranch(): $TreeBuilder$Menu;
         static CROSS_LINE: $Tuple<$IGuiTexture, $Component>;
     }
     export class $ITickable {
@@ -116,15 +117,15 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/util" {
         getChild(arg0: KEY): $ITreeNode<KEY, CONTENT>;
         getChildren(): $List<$ITreeNode<KEY, CONTENT>>;
         getDimension(): number;
-        isBranch(): boolean;
         getSiblingIndex(): number;
+        isBranch(): boolean;
         get key(): KEY;
         get parent(): $ITreeNode<KEY, CONTENT>;
         get content(): CONTENT;
         get leaf(): boolean;
         get children(): $List<$ITreeNode<KEY, CONTENT>>;
         get dimension(): number;
-        get branch(): boolean;
         get siblingIndex(): number;
+        get branch(): boolean;
     }
 }

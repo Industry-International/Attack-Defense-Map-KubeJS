@@ -22,15 +22,15 @@ declare module "@package/net/createmod/ponder/foundation/ui" {
         static of(arg0: $ItemStack_, arg1: $PonderTag): $PonderUI;
         static of(arg0: $ItemStack_): $PonderUI;
         getSubject(): $ItemStack;
-        static getPartialTicks(): number;
         getFontRenderer(): $Font;
+        static getPartialTicks(): number;
         seekToTime(arg0: number): void;
-        static renderSpeechBox(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean, arg6: $Pointing_, arg7: boolean): void;
-        getActiveScene(): $PonderScene;
         coolDownAfterSkip(): void;
-        updateIdentifiedItem(arg0: $PonderScene): void;
+        getActiveScene(): $PonderScene;
+        static renderSpeechBox(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean, arg6: $Pointing_, arg7: boolean): void;
         getHoveredTooltipItem(): $ItemStack;
         setComfyReadingEnabled(arg0: boolean): void;
+        updateIdentifiedItem(arg0: $PonderScene): void;
         isComfyReadingEnabled(): boolean;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -80,8 +80,8 @@ declare module "@package/net/createmod/ponder/foundation/ui" {
         static EXIT: string;
         font: $Font;
         get subject(): $ItemStack;
-        static get partialTicks(): number;
         get fontRenderer(): $Font;
+        static get partialTicks(): number;
         get activeScene(): $PonderScene;
         get hoveredTooltipItem(): $ItemStack;
     }

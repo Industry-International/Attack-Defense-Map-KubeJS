@@ -5,15 +5,15 @@ declare module "@package/javax/xml/transform" {
         static PI_DISABLE_OUTPUT_ESCAPING: string;
     }
     export interface $Result {
-        getSystemId(): string;
         setSystemId(arg0: string): void;
+        getSystemId(): string;
     }
     export class $Source {
     }
     export interface $Source {
         isEmpty(): boolean;
-        getSystemId(): string;
         setSystemId(arg0: string): void;
+        getSystemId(): string;
         get empty(): boolean;
     }
 }

@@ -9,13 +9,13 @@ declare module "@package/com/replaymod/replaystudio/lib/guava/base" {
         transform<V>(arg0: $Function<T, V>): $Optional<V>;
         isPresent(): boolean;
         or(arg0: $Supplier_<T>): T;
-        or(arg0: T): T;
         or(arg0: $Optional<T>): $Optional<T>;
-        static absent<T>(): $Optional<T>;
+        or(arg0: T): T;
         asSet(): $Set<T>;
-        orNull(): T;
-        static fromNullable<T>(nullableReference: T): $Optional<T>;
         static presentInstances<T>(optionals: $Iterable_<$Optional<T>>): $Iterable<T>;
+        static fromNullable<T>(nullableReference: T): $Optional<T>;
+        static absent<T>(): $Optional<T>;
+        orNull(): T;
         get present(): boolean;
     }
     export class $Supplier<T> {

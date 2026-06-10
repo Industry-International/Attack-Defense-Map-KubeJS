@@ -91,12 +91,12 @@ declare module "@package/net/caffeinemc/mods/sodium/client/gl/buffer" {
     export class $GlBufferMapping {
         write(arg0: $ByteBuffer, arg1: number): void;
         dispose(): void;
-        getBufferObject(): $GlBuffer;
         isDisposed(): boolean;
         getMemoryBuffer(): $ByteBuffer;
+        getBufferObject(): $GlBuffer;
         constructor(arg0: $GlBuffer, arg1: $ByteBuffer);
-        get bufferObject(): $GlBuffer;
         get disposed(): boolean;
         get memoryBuffer(): $ByteBuffer;
+        get bufferObject(): $GlBuffer;
     }
 }

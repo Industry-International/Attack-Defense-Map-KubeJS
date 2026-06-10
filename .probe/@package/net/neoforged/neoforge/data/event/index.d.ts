@@ -20,10 +20,10 @@ import { $IModBusEvent } from "@package/net/neoforged/fml/event";
 declare module "@package/net/neoforged/neoforge/data/event" {
     export class $GatherDataEvent$DataGeneratorConfig {
         getInputs(): $Collection<$Path>;
-        makeGenerator(arg0: $Function_<$Path, $Path>, arg1: boolean): $DataGenerator;
         getMods(): $Set<string>;
-        runAll(): void;
+        makeGenerator(arg0: $Function_<$Path, $Path>, arg1: boolean): $DataGenerator;
         isFlat(): boolean;
+        runAll(): void;
         /**
          * @deprecated
          */
@@ -63,33 +63,33 @@ declare module "@package/net/neoforged/neoforge/data/event" {
     export class $GatherDataEvent extends $Event implements $IModBusEvent {
         validate(): boolean;
         addProvider<T extends $DataProvider>(arg0: T): T;
-        createBlockAndItemTags(arg0: $GatherDataEvent$DataProviderFromOutputLookup_<$TagsProvider<$Block>>, arg1: $GatherDataEvent$ItemTagsProvider_): void;
         getInputs(): $Collection<$Path>;
         getGenerator(): $DataGenerator;
-        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Map_<$ResourceKey_<never>, $List_<$ICondition>>): void;
-        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Consumer_<$BiConsumer<$ResourceKey<never>, $ICondition>>): void;
-        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Map_<$ResourceKey_<never>, $List_<$ICondition>>, arg2: $Set_<string>): void;
-        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Set_<string>): void;
-        createDatapackRegistryObjects(arg0: $RegistrySetBuilder): void;
-        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Consumer_<$BiConsumer<$ResourceKey<never>, $ICondition>>, arg2: $Set_<string>): void;
+        getExistingFileHelper(): $ExistingFileHelper;
         getModContainer(): $ModContainer;
+        getMods(): $Set<string>;
+        getResourceManager(arg0: $PackType_): $ResourceManager;
+        includeServer(): boolean;
         getLookupProvider(): $CompletableFuture<$HolderLookup$Provider>;
         includeClient(): boolean;
-        includeServer(): boolean;
-        getMods(): $Set<string>;
         includeDev(): boolean;
-        getResourceManager(arg0: $PackType_): $ResourceManager;
-        getExistingFileHelper(): $ExistingFileHelper;
         createProvider<T extends $DataProvider>(arg0: $GatherDataEvent$DataProviderFromOutputLookup_<T>): T;
         createProvider<T extends $DataProvider>(arg0: $GatherDataEvent$DataProviderFromOutput_<T>): T;
+        createBlockAndItemTags(arg0: $GatherDataEvent$DataProviderFromOutputLookup_<$TagsProvider<$Block>>, arg1: $GatherDataEvent$ItemTagsProvider_): void;
+        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Map_<$ResourceKey_<never>, $List_<$ICondition>>): void;
+        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Map_<$ResourceKey_<never>, $List_<$ICondition>>, arg2: $Set_<string>): void;
+        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Consumer_<$BiConsumer<$ResourceKey<never>, $ICondition>>): void;
+        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Consumer_<$BiConsumer<$ResourceKey<never>, $ICondition>>, arg2: $Set_<string>): void;
+        createDatapackRegistryObjects(arg0: $RegistrySetBuilder, arg1: $Set_<string>): void;
+        createDatapackRegistryObjects(arg0: $RegistrySetBuilder): void;
         includeReports(): boolean;
         constructor(arg0: $ModContainer, arg1: $DataGenerator, arg2: $GatherDataEvent$DataGeneratorConfig, arg3: $ExistingFileHelper);
         get inputs(): $Collection<$Path>;
         get generator(): $DataGenerator;
-        get modContainer(): $ModContainer;
-        get lookupProvider(): $CompletableFuture<$HolderLookup$Provider>;
-        get mods(): $Set<string>;
         get existingFileHelper(): $ExistingFileHelper;
+        get modContainer(): $ModContainer;
+        get mods(): $Set<string>;
+        get lookupProvider(): $CompletableFuture<$HolderLookup$Provider>;
     }
     export class $GatherDataEvent$ItemTagsProvider {
     }

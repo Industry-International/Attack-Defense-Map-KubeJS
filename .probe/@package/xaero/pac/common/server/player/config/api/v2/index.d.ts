@@ -11,18 +11,18 @@ declare module "@package/xaero/pac/common/server/player/config/api/v2" {
     export class $IPlayerConfigManagerAPI {
     }
     export interface $IPlayerConfigManagerAPI {
-        getAllOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
         getLoadedConfig(arg0: $UUID_): $IPlayerConfigAPI;
+        getServerClaimConfig(): $IPlayerConfigAPI;
+        getOptionForId(arg0: string): $IPlayerConfigOptionSpecAPI<never>;
         getDefaultConfig(): $IPlayerConfigAPI;
         getExpiredClaimConfig(): $IPlayerConfigAPI;
         getWildernessConfig(): $IPlayerConfigAPI;
-        getServerClaimConfig(): $IPlayerConfigAPI;
-        getOptionForId(arg0: string): $IPlayerConfigOptionSpecAPI<never>;
-        get allOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
+        getAllOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
+        get serverClaimConfig(): $IPlayerConfigAPI;
         get defaultConfig(): $IPlayerConfigAPI;
         get expiredClaimConfig(): $IPlayerConfigAPI;
         get wildernessConfig(): $IPlayerConfigAPI;
-        get serverClaimConfig(): $IPlayerConfigAPI;
+        get allOptionsStream(): $Stream<$IPlayerConfigOptionSpecAPI<never>>;
     }
     export class $IPlayerConfigOptionSpecAPI<T> {
     }
@@ -35,16 +35,16 @@ declare module "@package/xaero/pac/common/server/player/config/api/v2" {
         getTranslationArgs(): string[];
         isOverridable(): boolean;
         getTranslation(): string;
-        isDirectlyConfigurable(): boolean;
-        getServerSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
         getCommentTranslationArgs(): string[];
-        getClientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
+        getServerSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
         getCommandInputParser(): $Function<string, T>;
         getConfigTypeFilter(): $Predicate<$PlayerConfigType>;
+        isDirectlyConfigurable(): boolean;
+        getClientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
         getCommentTranslation(): string;
+        getComponentWriter(): $Function<T, $Component>;
         getShortenedId(): string;
         getTooltipPrefix(): string;
-        getComponentWriter(): $Function<T, $Component>;
         get id(): string;
         get type(): $Class<T>;
         get defaultValue(): T;
@@ -53,57 +53,57 @@ declare module "@package/xaero/pac/common/server/player/config/api/v2" {
         get translationArgs(): string[];
         get overridable(): boolean;
         get translation(): string;
-        get directlyConfigurable(): boolean;
-        get serverSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
         get commentTranslationArgs(): string[];
-        get clientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
+        get serverSideValidator(): $BiPredicate<$IPlayerConfigAPI, T>;
         get commandInputParser(): $Function<string, T>;
         get configTypeFilter(): $Predicate<$PlayerConfigType>;
+        get directlyConfigurable(): boolean;
+        get clientSideValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
         get commentTranslation(): string;
+        get componentWriter(): $Function<T, $Component>;
         get shortenedId(): string;
         get tooltipPrefix(): string;
-        get componentWriter(): $Function<T, $Component>;
     }
     export class $IPlayerConfigAPI {
     }
     export interface $IPlayerConfigAPI {
         getType(): $PlayerConfigType;
-        getRaw<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
-        getUsedServerSubConfig(): $IPlayerConfigAPI;
-        getSubConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
-        getFromEffectiveConfig<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
         createSubConfig(arg0: string): $IPlayerConfigAPI;
-        tryToReset<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): $IPlayerConfigAPI$SetResult;
+        getRaw<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
         tryToSet<T>(arg0: $IPlayerConfigOptionSpecAPI<T>, arg1: T): $IPlayerConfigAPI$SetResult;
+        getEffectiveSubConfig(arg0: number): $IPlayerConfigAPI;
+        getEffectiveSubConfig(arg0: string): $IPlayerConfigAPI;
+        getSubId(): string;
         getPlayerId(): $UUID;
-        isBeingDeleted(): boolean;
-        getSubConfigIds(): $List<string>;
-        getUsedSubConfig(): $IPlayerConfigAPI;
+        getUsedServerSubConfig(): $IPlayerConfigAPI;
+        getFromEffectiveConfig<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
+        getEffective<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
+        getSubConfigLimit(): number;
+        getSubConfig(arg0: string): $IPlayerConfigAPI;
+        getSubCount(): number;
+        getPlayerGroups(): $IServerPlayerConfigGroupManagerAPI;
+        subConfigExists(arg0: string): boolean;
+        subConfigExists(arg0: number): boolean;
         getDefaultRawValue<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
         getSubIndex(): number;
         isOptionAllowed(arg0: $IPlayerConfigOptionSpecAPI<never>): boolean;
-        getEffective<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): T;
-        getEffectiveSubConfig(arg0: string): $IPlayerConfigAPI;
-        getEffectiveSubConfig(arg0: number): $IPlayerConfigAPI;
-        getSubId(): string;
-        getSubConfig(arg0: string): $IPlayerConfigAPI;
-        subConfigExists(arg0: string): boolean;
-        subConfigExists(arg0: number): boolean;
-        getSubConfigLimit(): number;
-        getPlayerGroups(): $IServerPlayerConfigGroupManagerAPI;
-        getSubCount(): number;
+        getUsedSubConfig(): $IPlayerConfigAPI;
+        isBeingDeleted(): boolean;
+        getSubConfigIds(): $List<string>;
+        getSubConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
+        tryToReset<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): $IPlayerConfigAPI$SetResult;
         get type(): $PlayerConfigType;
-        get usedServerSubConfig(): $IPlayerConfigAPI;
-        get subConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
+        get subId(): string;
         get playerId(): $UUID;
+        get usedServerSubConfig(): $IPlayerConfigAPI;
+        get subConfigLimit(): number;
+        get subCount(): number;
+        get playerGroups(): $IServerPlayerConfigGroupManagerAPI;
+        get subIndex(): number;
+        get usedSubConfig(): $IPlayerConfigAPI;
         get beingDeleted(): boolean;
         get subConfigIds(): $List<string>;
-        get usedSubConfig(): $IPlayerConfigAPI;
-        get subIndex(): number;
-        get subId(): string;
-        get subConfigLimit(): number;
-        get playerGroups(): $IServerPlayerConfigGroupManagerAPI;
-        get subCount(): number;
+        get subConfigAPIStream(): $Stream<$IPlayerConfigAPI>;
     }
     export class $IPlayerConfigAPI$SetResult extends $Enum<$IPlayerConfigAPI$SetResult> {
         static values(): $IPlayerConfigAPI$SetResult[];

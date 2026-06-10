@@ -21,15 +21,15 @@ declare module "@package/net/minecraft/world/ticks" {
     export interface $ContainerSingleItem extends $Container {
         isEmpty(): boolean;
         getItem(arg0: number): $ItemStack;
-        clearContent(): void;
         removeItem(arg0: number, arg1: number): $ItemStack;
-        setItem(arg0: number, arg1: $ItemStack_): void;
+        getTheItem(): $ItemStack;
+        setTheItem(arg0: $ItemStack_): void;
+        clearContent(): void;
+        splitTheItem(arg0: number): $ItemStack;
+        removeTheItem(): $ItemStack;
         getContainerSize(): number;
         removeItemNoUpdate(arg0: number): $ItemStack;
-        removeTheItem(): $ItemStack;
-        splitTheItem(arg0: number): $ItemStack;
-        setTheItem(arg0: $ItemStack_): void;
-        getTheItem(): $ItemStack;
+        setItem(arg0: number, arg1: $ItemStack_): void;
         get empty(): boolean;
         get containerSize(): number;
     }
@@ -38,8 +38,8 @@ declare module "@package/net/minecraft/world/ticks" {
         type(): T;
         pos(): $BlockPos;
         static probe<T>(arg0: T, arg1: $BlockPos_): $ScheduledTick<T>;
-        triggerTick(): number;
         subTickOrder(): number;
+        triggerTick(): number;
         static INTRA_TICK_DRAIN_ORDER: $Comparator<$ScheduledTick<never>>;
         static UNIQUE_TICK_HASH: $Hash$Strategy<$ScheduledTick<never>>;
         static DRAIN_ORDER: $Comparator<$ScheduledTick<never>>;
@@ -50,13 +50,13 @@ declare module "@package/net/minecraft/world/ticks" {
         count(): number;
         schedule(arg0: $ScheduledTick_<T>): void;
         tick(arg0: number, arg1: number, arg2: $BiConsumer_<$BlockPos, T>): void;
-        willTickThisTick(arg0: $BlockPos_, arg1: T): boolean;
         addContainer(arg0: $ChunkPos, arg1: $LevelChunkTicks<T>): void;
-        removeContainer(arg0: $ChunkPos): void;
-        hasScheduledTick(arg0: $BlockPos_, arg1: T): boolean;
         copyArea(arg0: $BoundingBox, arg1: $Vec3i): void;
-        clearArea(arg0: $BoundingBox): void;
+        willTickThisTick(arg0: $BlockPos_, arg1: T): boolean;
+        hasScheduledTick(arg0: $BlockPos_, arg1: T): boolean;
+        removeContainer(arg0: $ChunkPos): void;
         copyAreaFrom(arg0: $LevelTicks<T>, arg1: $BoundingBox, arg2: $Vec3i): void;
+        clearArea(arg0: $BoundingBox): void;
         constructor(arg0: $LongPredicate_, arg1: $Supplier_<$ProfilerFiller>);
     }
     export class $TickPriority extends $Enum<$TickPriority> {
@@ -120,8 +120,8 @@ declare module "@package/net/minecraft/world/ticks" {
         getAll(): $Stream<$ScheduledTick<T>>;
         unpack(arg0: number): void;
         hasScheduledTick(arg0: $BlockPos_, arg1: T): boolean;
-        setOnTickAdded(arg0: $BiConsumer_<$LevelChunkTicks<T>, $ScheduledTick<T>>): void;
         sable$copy(arg0: $LevelChunkTicks<any>): void;
+        setOnTickAdded(arg0: $BiConsumer_<$LevelChunkTicks<T>, $ScheduledTick<T>>): void;
         getTicks(): $List<$SavedTick<T>>;
         getTickQueue(): $Queue<$ScheduledTick<T>>;
         constructor();
@@ -149,16 +149,16 @@ declare module "@package/net/minecraft/world/ticks" {
         count(): number;
         schedule(arg0: $ScheduledTick_<T>): void;
         save(arg0: number, arg1: $Function_<T, string>): $Tag;
-        hasScheduledTick(arg0: $BlockPos_, arg1: T): boolean;
         scheduledTicks(): $List<$SavedTick<T>>;
+        hasScheduledTick(arg0: $BlockPos_, arg1: T): boolean;
         getScheduledTicks(): $List<$SavedTick<T>>;
         constructor();
     }
     export class $ContainerSingleItem$BlockContainerSingleItem {
     }
     export interface $ContainerSingleItem$BlockContainerSingleItem extends $ContainerSingleItem {
-        stillValid(arg0: $Player): boolean;
         getContainerBlockEntity(): $BlockEntity;
+        stillValid(arg0: $Player): boolean;
         get containerBlockEntity(): $BlockEntity;
     }
     export class $SavedTick<T> extends $Record {
@@ -169,8 +169,8 @@ declare module "@package/net/minecraft/world/ticks" {
         pos(): $BlockPos;
         static probe<T>(arg0: T, arg1: $BlockPos_): $SavedTick<T>;
         unpack(arg0: number, arg1: number): $ScheduledTick<T>;
-        static loadTickList<T>(arg0: $ListTag_, arg1: $Function_<string, (T) | undefined>, arg2: $ChunkPos, arg3: $Consumer_<$SavedTick<T>>): void;
         static loadTick<T>(arg0: $CompoundTag_, arg1: $Function_<string, (T) | undefined>): ($SavedTick<T>) | undefined;
+        static loadTickList<T>(arg0: $ListTag_, arg1: $Function_<string, (T) | undefined>, arg2: $ChunkPos, arg3: $Consumer_<$SavedTick<T>>): void;
         static saveTick<T>(arg0: $ScheduledTick_<T>, arg1: $Function_<T, string>, arg2: number): $CompoundTag;
         static UNIQUE_TICK_HASH: $Hash$Strategy<$SavedTick<never>>;
         constructor(arg0: T, arg1: $BlockPos_, arg2: number, arg3: $TickPriority_);

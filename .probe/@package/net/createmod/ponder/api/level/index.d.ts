@@ -1,4 +1,4 @@
-import { $Level, $Level_ } from "@package/net/minecraft/world/level";
+import { $Level, $EntityGetter, $Level_ } from "@package/net/minecraft/world/level";
 import { $PonderScene } from "@package/net/createmod/ponder/foundation";
 import { $Codec } from "@package/com/mojang/serialization";
 import { $MultiBufferSource_ } from "@package/net/minecraft/client/renderer";
@@ -23,19 +23,20 @@ import { $NeighborUpdater } from "@package/net/minecraft/world/level/redstone";
 declare module "@package/net/createmod/ponder/api/level" {
     export class $PonderLevel extends $SchematicLevel implements $PonderWorldAccessor {
         tick(): void;
-        addParticle(arg0: $Particle): void;
-        restore(): void;
         clearMask(): void;
         setMask(arg0: $Selection): void;
+        restore(): void;
+        popLight(): void;
+        addParticle(arg0: $Particle): void;
         renderParticles(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $Camera, arg3: number): void;
         restoreBlocks(arg0: $Selection): void;
         pushFakeLight(arg0: number): void;
-        renderEntities(arg0: $PoseStack, arg1: $SuperRenderTypeBuffer, arg2: $Camera, arg3: number): void;
-        addBlockDestroyEffects(arg0: $BlockPos_, arg1: $BlockState_): void;
-        setBlockBreakingProgress(arg0: $BlockPos_, arg1: number): void;
-        createBackup(): void;
-        popLight(): void;
         getBlockBreakingProgressions(): $Map<$BlockPos, number>;
+        createBackup(): void;
+        renderEntities(arg0: $PoseStack, arg1: $SuperRenderTypeBuffer, arg2: $Camera, arg3: number): void;
+        setBlockBreakingProgress(arg0: $BlockPos_, arg1: number): void;
+        addBlockDestroyEffects(arg0: $BlockPos_, arg1: $BlockState_): void;
+        self(): $EntityGetter;
         ponderjs$makeParticle<T extends $ParticleOptions>(arg0: T, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $Particle;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;

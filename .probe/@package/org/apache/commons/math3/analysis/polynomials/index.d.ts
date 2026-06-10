@@ -11,17 +11,17 @@ declare module "@package/org/apache/commons/math3/analysis/polynomials" {
         subtract(arg0: $PolynomialFunction): $PolynomialFunction;
         negate(): $PolynomialFunction;
         degree(): number;
-        getCoefficients(): number[];
         derivative(): $UnivariateFunction;
         polynomialDerivative(): $PolynomialFunction;
+        getCoefficients(): number[];
         constructor(arg0: number[]);
         get coefficients(): number[];
     }
     export class $PolynomialSplineFunction implements $UnivariateDifferentiableFunction, $DifferentiableUnivariateFunction {
         value(arg0: $DerivativeStructure): $DerivativeStructure;
         value(arg0: number): number;
-        getPolynomials(): $PolynomialFunction[];
         derivative(): $UnivariateFunction;
+        getPolynomials(): $PolynomialFunction[];
         isValidPoint(arg0: number): boolean;
         getN(): number;
         getKnots(): number[];

@@ -7,42 +7,42 @@ declare module "@package/com/tacz/guns/resource/pojo/data/attachment" {
     export class $EffectData {
         getTime(): number;
         getAmplifier(): number;
-        getEffectId(): $ResourceLocation;
         isHideParticles(): boolean;
+        getEffectId(): $ResourceLocation;
         constructor();
         get time(): number;
         get amplifier(): number;
-        get effectId(): $ResourceLocation;
         get hideParticles(): boolean;
+        get effectId(): $ResourceLocation;
     }
     export class $AttachmentData implements $EnhancedAttachmentData {
         getWeight(): number;
-        addModifier(arg0: string, arg1: $JsonProperty<never>): void;
+        getMeleeData(): $MeleeData;
         getModifier(): $Map<string, $JsonProperty<never>>;
         gunsmith$getGunsmithLibExtension(): $Optional<any>;
-        getMeleeData(): $MeleeData;
+        addModifier(arg0: string, arg1: $JsonProperty<never>): void;
         getExtendedMagLevel(): number;
         constructor();
         get weight(): number;
-        get modifier(): $Map<string, $JsonProperty<never>>;
         get meleeData(): $MeleeData;
+        get modifier(): $Map<string, $JsonProperty<never>>;
         get extendedMagLevel(): number;
     }
     export class $MeleeData {
-        getDamage(): number;
-        getKnockback(): number;
-        getRangeAngle(): number;
         getDistance(): number;
         getEffects(): $List<$EffectData>;
         getCooldown(): number;
+        getKnockback(): number;
+        getDamage(): number;
+        getRangeAngle(): number;
         getPrepTime(): number;
         constructor();
-        get damage(): number;
-        get knockback(): number;
-        get rangeAngle(): number;
         get distance(): number;
         get effects(): $List<$EffectData>;
         get cooldown(): number;
+        get knockback(): number;
+        get damage(): number;
+        get rangeAngle(): number;
         get prepTime(): number;
     }
 }

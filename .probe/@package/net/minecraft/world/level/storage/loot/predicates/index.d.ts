@@ -29,9 +29,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
     export class $WeatherCheck extends $Record implements $LootItemCondition {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        static weather(): $WeatherCheck$Builder;
         isRaining(): (boolean) | undefined;
         isThundering(): (boolean) | undefined;
+        static weather(): $WeatherCheck$Builder;
         validate(arg0: $ValidationContext): void;
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
@@ -57,9 +57,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         values(): $List<number>;
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        enchantment(): $Holder<$Enchantment>;
         static bonusLevelFlatChance(arg0: $Holder_<$Enchantment>, ...arg1: number[]): $LootItemCondition$Builder;
+        enchantment(): $Holder<$Enchantment>;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -72,11 +72,11 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
     export class $LootItemRandomChanceWithEnchantedBonusCondition extends $Record implements $LootItemCondition {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
+        enchantment(): $Holder<$Enchantment>;
+        static randomChanceAndLootingBoost(arg0: $HolderLookup$Provider, arg1: number, arg2: number): $LootItemCondition$Builder;
         unenchantedChance(): number;
         enchantedChance(): $LevelBasedValue;
-        static randomChanceAndLootingBoost(arg0: $HolderLookup$Provider, arg1: number, arg2: number): $LootItemCondition$Builder;
-        enchantment(): $Holder<$Enchantment>;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -98,8 +98,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
         predicate(): ($ItemPredicate) | undefined;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static toolMatches(arg0: $ItemPredicate$Builder): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -113,8 +113,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
         predicate(): ($DamageSourcePredicate) | undefined;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static hasDamageSource(arg0: $DamageSourcePredicate$Builder): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -128,11 +128,11 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
         predicate(): ($EntityPredicate) | undefined;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         entityTarget(): $LootContext$EntityTarget;
-        static entityPresent(arg0: $LootContext$EntityTarget_): $LootItemCondition$Builder;
         static hasProperties(arg0: $LootContext$EntityTarget_, arg1: $EntityPredicate_): $LootItemCondition$Builder;
         static hasProperties(arg0: $LootContext$EntityTarget_, arg1: $EntityPredicate$Builder): $LootItemCondition$Builder;
+        static entityPresent(arg0: $LootContext$EntityTarget_): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -179,9 +179,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
     export class $LootItemRandomChanceCondition extends $Record implements $LootItemCondition {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        chance(): $NumberProvider;
-        static randomChance(arg0: $NumberProvider_): $LootItemCondition$Builder;
         static randomChance(arg0: number): $LootItemCondition$Builder;
+        static randomChance(arg0: $NumberProvider_): $LootItemCondition$Builder;
+        chance(): $NumberProvider;
         validate(arg0: $ValidationContext): void;
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
@@ -196,9 +196,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
         active(): boolean;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        static enchantmentInactiveCheck(): $LootItemCondition$Builder;
         static enchantmentActiveCheck(): $LootItemCondition$Builder;
+        static enchantmentInactiveCheck(): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -247,8 +247,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
     export class $ExplosionCondition implements $LootItemCondition {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static survivesExplosion(): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -274,8 +274,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         validate(arg0: $ValidationContext): void;
         getType(): $LootItemConditionType;
         static invert(arg0: $LootItemCondition$Builder_): $LootItemCondition$Builder;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         term(): $LootItemCondition;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
         and(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
@@ -289,8 +289,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         properties(): ($StatePropertiesPredicate) | undefined;
         getType(): $LootItemConditionType;
         block(): $Holder<$Block>;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static hasBlockStateProperties(arg0: $Block_): $LootItemBlockStatePropertyCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -332,11 +332,11 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
     export class $EntityHasScoreCondition extends $Record implements $LootItemCondition {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        entityTarget(): $LootContext$EntityTarget;
-        hasScore(arg0: $LootContext, arg1: $Entity, arg2: $Scoreboard, arg3: string, arg4: $IntRange): boolean;
         scores(): $Map<string, $IntRange>;
         static hasScores(arg0: $LootContext$EntityTarget_): $EntityHasScoreCondition$Builder;
+        hasScore(arg0: $LootContext, arg1: $Entity, arg2: $Scoreboard, arg3: string, arg4: $IntRange): boolean;
+        entityTarget(): $LootContext$EntityTarget;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -364,8 +364,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
     export class $LootItemKilledByPlayerCondition implements $LootItemCondition {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static killedByPlayer(): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;
@@ -385,9 +385,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/predicates" {
         offset(): $BlockPos;
         getType(): $LootItemConditionType;
         predicate(): ($LocationPredicate) | undefined;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        static checkLocation(arg0: $LocationPredicate$Builder): $LootItemCondition$Builder;
         static checkLocation(arg0: $LocationPredicate$Builder, arg1: $BlockPos_): $LootItemCondition$Builder;
+        static checkLocation(arg0: $LocationPredicate$Builder): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;

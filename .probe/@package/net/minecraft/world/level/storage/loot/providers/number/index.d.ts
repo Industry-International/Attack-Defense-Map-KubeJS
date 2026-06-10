@@ -80,9 +80,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/providers/number
         scale(): number;
         getType(): $LootNumberProviderType;
         score(): string;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        static fromScoreboard(arg0: $LootContext$EntityTarget_, arg1: string, arg2: number): $ScoreboardValue;
         static fromScoreboard(arg0: $LootContext$EntityTarget_, arg1: string): $ScoreboardValue;
+        static fromScoreboard(arg0: $LootContext$EntityTarget_, arg1: string, arg2: number): $ScoreboardValue;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         getInt(arg0: $LootContext): number;
         validate(arg0: $ValidationContext): void;
         static CODEC: $MapCodec<$ScoreboardValue>;

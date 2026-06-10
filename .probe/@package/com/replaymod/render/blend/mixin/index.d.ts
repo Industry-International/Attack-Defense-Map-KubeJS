@@ -7,15 +7,15 @@ declare module "@package/com/replaymod/render/blend/mixin" {
         getPosY(): number;
         getPosX(): number;
         getXo(): number;
+        getPosZ(): number;
         getYo(): number;
         getZo(): number;
-        getPosZ(): number;
         get posY(): number;
         get posX(): number;
         get xo(): number;
+        get posZ(): number;
         get yo(): number;
         get zo(): number;
-        get posZ(): number;
     }
     export class $ItemRendererAccessor {
     }

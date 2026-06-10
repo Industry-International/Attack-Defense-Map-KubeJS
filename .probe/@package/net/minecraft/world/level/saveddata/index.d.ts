@@ -11,8 +11,8 @@ declare module "@package/net/minecraft/world/level/saveddata" {
         save(arg0: $File_, arg1: $HolderLookup$Provider): void;
         save(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): $CompoundTag;
         isDirty(): boolean;
-        setDirty(arg0: boolean): void;
         setDirty(): void;
+        setDirty(arg0: boolean): void;
         constructor();
     }
     export class $SavedData$Factory<T extends $SavedData> extends $Record {

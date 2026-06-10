@@ -13,24 +13,24 @@ import { $SodiumAuxiliaryLightManager } from "@package/net/caffeinemc/mods/sodiu
 
 declare module "@package/net/caffeinemc/mods/sodium/client/world/cloned" {
     export class $ClonedChunkSection {
-        getPosition(): $SectionPos;
         getAuxLightManager(): $SodiumAuxiliaryLightManager;
-        getBlockData(): $PalettedContainerRO<$BlockState>;
-        setLastUsedTimestamp(arg0: number): void;
-        getLastUsedTimestamp(): number;
-        getBlockEntityRenderDataMap(): $Int2ReferenceMap<$Object>;
-        getBiomeData(): $PalettedContainerRO<$Holder<$Biome>>;
-        getBlockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
-        getModelMap(): $SodiumModelDataContainer;
+        getPosition(): $SectionPos;
         getLightArray(arg0: $LightLayer_): $DataLayer;
+        getBlockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
+        getBiomeData(): $PalettedContainerRO<$Holder<$Biome>>;
+        getModelMap(): $SodiumModelDataContainer;
+        getBlockData(): $PalettedContainerRO<$BlockState>;
+        getLastUsedTimestamp(): number;
+        setLastUsedTimestamp(arg0: number): void;
+        getBlockEntityRenderDataMap(): $Int2ReferenceMap<$Object>;
         constructor(arg0: $Level_, arg1: $LevelChunk, arg2: $LevelChunkSection, arg3: $SectionPos);
-        get position(): $SectionPos;
         get auxLightManager(): $SodiumAuxiliaryLightManager;
+        get position(): $SectionPos;
+        get blockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
+        get biomeData(): $PalettedContainerRO<$Holder<$Biome>>;
+        get modelMap(): $SodiumModelDataContainer;
         get blockData(): $PalettedContainerRO<$BlockState>;
         get blockEntityRenderDataMap(): $Int2ReferenceMap<$Object>;
-        get biomeData(): $PalettedContainerRO<$Holder<$Biome>>;
-        get blockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
-        get modelMap(): $SodiumModelDataContainer;
     }
     export class $ChunkRenderContext {
         getOrigin(): $SectionPos;

@@ -9,12 +9,12 @@ declare module "@package/xaero/hud/path" {
         static root(arg0: string): $XaeroPath;
         getRoot(): $XaeroPath;
         resolveSibling(arg0: string): $XaeroPath;
+        isSubOf(arg0: $XaeroPath): boolean;
+        applyToFilePath(arg0: $Path_): $Path;
         getNodeCount(): number;
         getAtIndex(arg0: number): $XaeroPath;
-        getSubPath(arg0: number): $XaeroPath;
         getLastNode(): string;
-        applyToFilePath(arg0: $Path_): $Path;
-        isSubOf(arg0: $XaeroPath): boolean;
+        getSubPath(arg0: number): $XaeroPath;
         get parent(): $XaeroPath;
         get nodeCount(): number;
         get lastNode(): string;

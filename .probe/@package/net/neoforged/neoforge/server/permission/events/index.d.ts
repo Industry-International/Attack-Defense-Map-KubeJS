@@ -7,8 +7,8 @@ import { $Map, $Collection } from "@package/java/util";
 
 declare module "@package/net/neoforged/neoforge/server/permission/events" {
     export class $PermissionGatherEvent$Handler extends $PermissionGatherEvent {
-        addPermissionHandler(arg0: $ResourceLocation_, arg1: $IPermissionHandlerFactory_): void;
         getAvailablePermissionHandlerFactories(): $Map<$ResourceLocation, $IPermissionHandlerFactory>;
+        addPermissionHandler(arg0: $ResourceLocation_, arg1: $IPermissionHandlerFactory_): void;
         constructor();
         get availablePermissionHandlerFactories(): $Map<$ResourceLocation, $IPermissionHandlerFactory>;
     }

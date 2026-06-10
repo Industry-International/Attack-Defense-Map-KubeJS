@@ -33,26 +33,26 @@ import { $RegisterCapabilitiesEvent } from "@package/net/neoforged/neoforge/capa
 declare module "@package/com/simibubi/create/content/trains/station" {
     export class $StationBlockEntity extends $SmartBlockEntity implements $TransformableBlockEntity {
         transform(arg0: $BlockEntity, arg1: $StructureTransform): void;
-        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
+        getStation(): $GlobalStation;
         assemble(arg0: $UUID_): void;
+        trackClicked(arg0: $Player, arg1: $InteractionHand_, arg2: $ITrackBlock, arg3: $BlockState_, arg4: $BlockPos_): boolean;
+        resolveFlagAngle(): boolean;
+        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
         tryEnterAssemblyMode(): boolean;
         refreshAssemblyInfo(): void;
+        getAssemblyDirection(): $Direction;
         isAssembling(): boolean;
         dropSchedule(arg0: $ServerPlayer, arg1: $Train): void;
-        getStation(): $GlobalStation;
+        getAutoSchedule(): $ItemStack;
+        cancelAssembly(): void;
+        updateName(arg0: string): boolean;
         tryDisassembleTrain(arg0: $ServerPlayer): boolean;
         attachPackagePort(arg0: $PackagePortBlockEntity): void;
-        removePackagePort(arg0: $PackagePortBlockEntity): void;
         enterAssemblyMode(arg0: $ServerPlayer): boolean;
         exitAssemblyMode(): boolean;
-        updateMapColor(arg0: number): void;
         isValidBogeyOffset(arg0: number): boolean;
-        trackClicked(arg0: $Player, arg1: $InteractionHand_, arg2: $ITrackBlock, arg3: $BlockState_, arg4: $BlockPos_): boolean;
-        getAssemblyDirection(): $Direction;
-        getAutoSchedule(): $ItemStack;
-        updateName(arg0: string): boolean;
-        resolveFlagAngle(): boolean;
-        cancelAssembly(): void;
+        removePackagePort(arg0: $PackagePortBlockEntity): void;
+        updateMapColor(arg0: number): void;
         worldPosition: $BlockPos;
         lastDisassembledTrainName: $Component;
         flag: $LerpedFloat;
@@ -64,27 +64,27 @@ declare module "@package/com/simibubi/create/content/trains/station" {
         computerBehaviour: $AbstractComputerBehaviour;
         edgePoint: $TrackTargetingBehaviour<$GlobalStation>;
         constructor(arg0: $BlockEntityType_<never>, arg1: $BlockPos_, arg2: $BlockState_);
-        get assembling(): boolean;
         get station(): $GlobalStation;
         get assemblyDirection(): $Direction;
+        get assembling(): boolean;
         get autoSchedule(): $ItemStack;
     }
     export class $GlobalStation extends $SingleBlockEntityEdgePoint implements $CPLGlobalStation, $ILimitedGlobalStation {
         getLoader(): $StationChunkLoader;
+        isLimitEnabled(): boolean;
+        orDisablingTrain(arg0: $Train, arg1: $Train): $Train;
+        canApproachFrom(arg0: $TrackNode): boolean;
+        trainDeparted(arg0: $Train): void;
+        getNearestTrain(): $Train;
+        getImminentTrain(): $Train;
+        getDisablingTrain(): $Train;
+        setLimitEnabled(arg0: boolean): void;
+        runMailTransfer(): void;
+        isStationEnabled(): boolean;
+        cancelReservation(arg0: $Train): void;
+        getPresentTrain(): $Train;
         setLoader(arg0: $StationChunkLoader): void;
         reserveFor(arg0: $Train): void;
-        getPresentTrain(): $Train;
-        canApproachFrom(arg0: $TrackNode): boolean;
-        getNearestTrain(): $Train;
-        isLimitEnabled(): boolean;
-        runMailTransfer(): void;
-        getImminentTrain(): $Train;
-        trainDeparted(arg0: $Train): void;
-        isStationEnabled(): boolean;
-        orDisablingTrain(arg0: $Train, arg1: $Train): $Train;
-        cancelReservation(arg0: $Train): void;
-        setLimitEnabled(arg0: boolean): void;
-        getDisablingTrain(): $Train;
         edgeLocation: $Couple<$TrackNodeLocation>;
         blockEntityPos: $BlockPos;
         cpl$chunkLoader: $StationChunkLoader;
@@ -96,14 +96,14 @@ declare module "@package/com/simibubi/create/content/trains/station" {
         position: number;
         nearestTrain: $WeakReference<$Train>;
         constructor();
-        get presentTrain(): $Train;
         get imminentTrain(): $Train;
-        get stationEnabled(): boolean;
         get disablingTrain(): $Train;
+        get stationEnabled(): boolean;
+        get presentTrain(): $Train;
     }
     export class $GlobalPackagePort {
-        restoreOfflineBuffer(arg0: $IItemHandlerModifiable): void;
         saveOfflineBuffer(arg0: $IItemHandlerModifiable): void;
+        restoreOfflineBuffer(arg0: $IItemHandlerModifiable): void;
         address: string;
         primed: boolean;
         offlineBuffer: $ItemStackHandler;

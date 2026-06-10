@@ -28,7 +28,7 @@ declare module "@package/net/fabricmc/fabric/impl/object/builder" {
         static createMob<T extends $Mob>(arg0: $EntityType$EntityFactory_<T>, arg1: $MobCategory_, arg2: $UnaryOperator_<$FabricEntityType$Builder$Mob<T>>): $EntityType$Builder<T>;
     }
     export interface $FabricEntityTypeImpl$Builder {
-        fabric_setMobEntityBuilder(arg0: $FabricEntityTypeImpl$Builder$Mob<$Mob>): void;
         fabric_setLivingEntityBuilder(arg0: $FabricEntityTypeImpl$Builder$Living<$LivingEntity>): void;
+        fabric_setMobEntityBuilder(arg0: $FabricEntityTypeImpl$Builder$Mob<$Mob>): void;
     }
 }

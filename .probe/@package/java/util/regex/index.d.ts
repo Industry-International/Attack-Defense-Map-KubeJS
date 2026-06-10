@@ -2,7 +2,7 @@ import { $Serializable } from "@package/java/io";
 import { $Predicate, $Function_ } from "@package/java/util/function";
 import { $Stream } from "@package/java/util/stream";
 import { $Map } from "@package/java/util";
-import { $CharSequence, $StringBuilder, $StringBuffer } from "@package/java/lang";
+import { $CharSequence, $StringBuffer, $StringBuilder } from "@package/java/lang";
 
 declare module "@package/java/util/regex" {
     export class $Matcher implements $MatchResult {

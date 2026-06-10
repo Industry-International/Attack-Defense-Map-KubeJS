@@ -27,34 +27,34 @@ declare module "@package/net/minecraft/world/level/block/state/pattern" {
         get pos(): $BlockPos;
     }
     export class $BlockPattern {
+        getWidth(): number;
         matches(arg0: $LevelReader, arg1: $BlockPos_, arg2: $Direction_, arg3: $Direction_): $BlockPattern$BlockPatternMatch;
         find(arg0: $LevelReader, arg1: $BlockPos_): $BlockPattern$BlockPatternMatch;
-        getWidth(): number;
         getDepth(): number;
-        getHeight(): number;
-        getPattern(): $Predicate<$BlockInWorld>[][][];
         static createLevelCache(arg0: $LevelReader, arg1: boolean): $LoadingCache<$BlockPos, $BlockInWorld>;
+        getPattern(): $Predicate<$BlockInWorld>[][][];
+        getHeight(): number;
         static translateAndRotate(arg0: $BlockPos_, arg1: $Direction_, arg2: $Direction_, arg3: number, arg4: number, arg5: number): $BlockPos;
         constructor(arg0: $Predicate_<$BlockInWorld>[][][]);
         get width(): number;
         get depth(): number;
-        get height(): number;
         get pattern(): $Predicate<$BlockInWorld>[][][];
+        get height(): number;
     }
     export class $BlockPattern$BlockPatternMatch {
         getWidth(): number;
-        getBlock(arg0: number, arg1: number, arg2: number): $BlockInWorld;
-        getFrontTopLeft(): $BlockPos;
         getDepth(): number;
+        getBlock(arg0: number, arg1: number, arg2: number): $BlockInWorld;
         getForwards(): $Direction;
-        getHeight(): number;
         getUp(): $Direction;
+        getHeight(): number;
+        getFrontTopLeft(): $BlockPos;
         constructor(arg0: $BlockPos_, arg1: $Direction_, arg2: $Direction_, arg3: $LoadingCache<$BlockPos_, $BlockInWorld>, arg4: number, arg5: number, arg6: number);
         get width(): number;
-        get frontTopLeft(): $BlockPos;
         get depth(): number;
         get forwards(): $Direction;
-        get height(): number;
         get up(): $Direction;
+        get height(): number;
+        get frontTopLeft(): $BlockPos;
     }
 }

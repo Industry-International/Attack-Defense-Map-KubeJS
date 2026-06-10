@@ -19,8 +19,8 @@ declare module "@package/mezz/jei/api/recipe/category/extensions/vanilla/smithin
     export interface $ISmithingCategoryExtension<R extends $SmithingRecipe> {
         setBase<T extends $IIngredientAcceptor<T>>(arg0: R, arg1: T): void;
         setOutput<T extends $IIngredientAcceptor<T>>(arg0: R, arg1: T): void;
-        onDisplayedIngredientsUpdate(arg0: R, arg1: $IRecipeSlotDrawable, arg2: $IRecipeSlotDrawable, arg3: $IRecipeSlotDrawable, arg4: $IRecipeSlotDrawable, arg5: $IFocusGroup): void;
-        setTemplate<T extends $IIngredientAcceptor<T>>(arg0: R, arg1: T): void;
         setAddition<T extends $IIngredientAcceptor<T>>(arg0: R, arg1: T): void;
+        setTemplate<T extends $IIngredientAcceptor<T>>(arg0: R, arg1: T): void;
+        onDisplayedIngredientsUpdate(arg0: R, arg1: $IRecipeSlotDrawable, arg2: $IRecipeSlotDrawable, arg3: $IRecipeSlotDrawable, arg4: $IRecipeSlotDrawable, arg5: $IFocusGroup): void;
     }
 }

@@ -16,20 +16,20 @@ declare module "@package/net/mehvahdjukaar/vista/common/cassette" {
     export class $IBroadcastSource {
     }
     export interface $IBroadcastSource {
-        getBroadcastVideo(): $IVideoSource;
-        ensureLinked(arg0: $Level_, arg1: $IBroadcastLocation): void;
         removeLink(arg0: $Level_): void;
+        ensureLinked(arg0: $Level_, arg1: $IBroadcastLocation): void;
         getBroadcastUUID(): $UUID;
-        get broadcastVideo(): $IVideoSource;
+        getBroadcastVideo(): $IVideoSource;
         get broadcastUUID(): $UUID;
+        get broadcastVideo(): $IVideoSource;
     }
     export class $CassetteTape extends $Record {
         color(): number;
-        comparatorOutput(): number;
-        soundDuration(): (number) | undefined;
-        getRedstoneOutput(): number;
         soundEvent(): ($Holder<$SoundEvent>) | undefined;
         assetId(): $ResourceLocation;
+        comparatorOutput(): number;
+        getRedstoneOutput(): number;
+        soundDuration(): (number) | undefined;
         static DIRECT_CODEC: $Codec<$CassetteTape>;
         static DIRECT_STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $CassetteTape>;
         constructor(assetId: $ResourceLocation_, color: number, soundEvent: ($Holder_<$SoundEvent>) | undefined, soundDuration: (number) | undefined, comparatorOutput: number);

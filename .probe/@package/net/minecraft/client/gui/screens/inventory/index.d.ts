@@ -141,10 +141,10 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         constructor(arg0: $EnchantmentMenu, arg1: $Inventory, arg2: $Component_);
     }
     export class $BookViewScreen$BookAccess extends $Record {
-        static fromItem(arg0: $ItemStack_): $BookViewScreen$BookAccess;
+        pages(): $List<$Component>;
         getPageCount(): number;
         getPage(arg0: number): $FormattedText;
-        pages(): $List<$Component>;
+        static fromItem(arg0: $ItemStack_): $BookViewScreen$BookAccess;
         constructor(arg0: $List_<$Component_>);
         get pageCount(): number;
     }
@@ -285,31 +285,31 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         constructor(arg0: $BrewingStandMenu, arg1: $Inventory, arg2: $Component_);
     }
     export class $CreativeModeInventoryScreen extends $EffectRenderingInventoryScreen<$CreativeModeInventoryScreen$ItemPickerMenu> implements $FabricCreativeInventoryScreen, $CreativeModeInventoryScreenExt {
-        getPageCount(): number;
-        getPage(arg0: $CreativeModeTab_): number;
-        wrapOperation$inj000$axiom$renderTabButton_selectedTab(original: $Operation_<any>): $CreativeModeTab;
-        static handleHotbarLoadOrSave(arg0: $Minecraft, arg1: number, arg2: boolean, arg3: boolean): void;
-        isInventoryOpen(): boolean;
         getCurrentPage(): number;
-        handler$inj002$axiom$render(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number, ci: $CallbackInfo): void;
-        handler$inj001$axiom$keyPressed(key: number, j: number, k: number, cir: $CallbackInfoReturnable<any>): void;
-        checkTabClicked(arg0: $CreativeModeTab_, arg1: number, arg2: number): boolean;
-        checkTabHovering(arg0: $GuiGraphics, arg1: $CreativeModeTab_, arg2: number, arg3: number): boolean;
-        switchToPage(arg0: number): boolean;
-        hasAdditionalPages(): boolean;
-        axiom$selectTab(creativeModeTab: $CreativeModeTab_): void;
-        insideScrollbar(arg0: number, arg1: number): boolean;
-        setCurrentPage(arg0: $CreativeTabsScreenPage): void;
-        switchToNextPage(): boolean;
-        renderTabButton(arg0: $GuiGraphics, arg1: $CreativeModeTab_): void;
-        getSelectedItemGroup(): $CreativeModeTab;
-        handler$inj009$axiom$init(ci: $CallbackInfo): void;
-        axiom$renderTabButton(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, creativeModeTab: $CreativeModeTab_, forceDeselected: boolean): void;
         getItemGroupsOnPage(arg0: number): $List<any>;
+        getSelectedItemGroup(): $CreativeModeTab;
+        axiom$renderTabButton(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, creativeModeTab: $CreativeModeTab_, forceDeselected: boolean): void;
+        handler$jhb009$axiom$init(ci: $CallbackInfo): void;
         setSelectedItemGroup(arg0: $CreativeModeTab_): boolean;
+        axiom$checkTabClicked(creativeModeTab: $CreativeModeTab_, mouseX: number, mouseY: number): boolean;
         switchToPreviousPage(): boolean;
         axiom$checkTabHovering(guiGraphics: $GuiGraphics, creativeModeTab: $CreativeModeTab_, mouseX: number, mouseY: number): boolean;
-        axiom$checkTabClicked(creativeModeTab: $CreativeModeTab_, mouseX: number, mouseY: number): boolean;
+        getPageCount(): number;
+        getPage(arg0: $CreativeModeTab_): number;
+        static handleHotbarLoadOrSave(arg0: $Minecraft, arg1: number, arg2: boolean, arg3: boolean): void;
+        handler$jhb001$axiom$keyPressed(key: number, j: number, k: number, cir: $CallbackInfoReturnable<any>): void;
+        handler$jhb002$axiom$render(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number, ci: $CallbackInfo): void;
+        setCurrentPage(arg0: $CreativeTabsScreenPage): void;
+        insideScrollbar(arg0: number, arg1: number): boolean;
+        switchToNextPage(): boolean;
+        hasAdditionalPages(): boolean;
+        checkTabClicked(arg0: $CreativeModeTab_, arg1: number, arg2: number): boolean;
+        checkTabHovering(arg0: $GuiGraphics, arg1: $CreativeModeTab_, arg2: number, arg3: number): boolean;
+        renderTabButton(arg0: $GuiGraphics, arg1: $CreativeModeTab_): void;
+        switchToPage(arg0: number): boolean;
+        axiom$selectTab(creativeModeTab: $CreativeModeTab_): void;
+        wrapOperation$jhb000$axiom$renderTabButton_selectedTab(original: $Operation_<any>): $CreativeModeTab;
+        isInventoryOpen(): boolean;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -484,15 +484,15 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         y: number;
     }
     export class $BookViewScreen extends $Screen {
-        pageForward(): void;
         setPage(arg0: number): boolean;
-        closeScreen(): void;
         getClickedComponentStyleAt(arg0: number, arg1: number): $Style;
-        forcePage(arg0: number): boolean;
-        createPageControlButtons(): void;
-        pageBack(): void;
+        closeScreen(): void;
+        pageForward(): void;
         setBookAccess(arg0: $BookViewScreen$BookAccess_): void;
         createMenuControls(): void;
+        pageBack(): void;
+        forcePage(arg0: number): boolean;
+        createPageControlButtons(): void;
         static BOOK_LOCATION: $ResourceLocation;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -525,9 +525,9 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         set bookAccess(value: $BookViewScreen$BookAccess_);
     }
     export class $BeaconScreen extends $AbstractContainerScreen<$BeaconMenu> {
-        static access$100(arg0: $BeaconScreen): $Minecraft;
         static access$000(arg0: $BeaconScreen): $Minecraft;
         static access$200(arg0: $BeaconScreen): $Minecraft;
+        static access$100(arg0: $BeaconScreen): $Minecraft;
         updateButtons(): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -637,8 +637,8 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
     export class $InventoryScreen extends $EffectRenderingInventoryScreen<$InventoryMenu> implements $RecipeUpdateListener {
         static renderEntityInInventory(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $Vector3f, arg5: $Quaternionf, arg6: $Quaternionf, arg7: $LivingEntity): void;
         getRecipeBookComponent(): $RecipeBookComponent;
-        static renderEntityInInventoryFollowsMouse(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: $LivingEntity): void;
         static renderEntityInInventoryFollowsAngle(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: $LivingEntity): void;
+        static renderEntityInInventoryFollowsMouse(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: $LivingEntity): void;
         recipesUpdated(): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -976,68 +976,68 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
     }
     export class $EnchantmentNames {
         static getInstance(): $EnchantmentNames;
-        initSeed(arg0: number): void;
         getRandomName(arg0: $Font, arg1: number): $FormattedText;
+        initSeed(arg0: number): void;
         static get instance(): $EnchantmentNames;
     }
     export class $AbstractContainerScreen<T extends $AbstractContainerMenu> extends $Screen implements $MenuAccess<T>, $AbstractContainerScreenAccessor$2, $AbstractContainerScreenAccessor$1, $ContainerEventHandler, $AbstractContainerScreenAccessor$3, $AbstractContainerScreenAccessor, $CreativeModeInventoryScreenAccessor {
-        findSlot(arg0: number, arg1: number): $Slot;
-        getMenu(): T;
+        handler$fgo000$inventoryprofilesnext$afterSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
+        handler$cia000$acceleratedrendering$startRenderHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
+        wrapMethod$cil000$acceleratedrendering$startBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $Operation_<any>): void;
         getYSize(): number;
         getXSize(): number;
-        recalculateQuickCraftRemaining(): void;
-        getTooltipFromContainerItem(arg0: $ItemStack_): $List<$Component>;
-        isHovering(arg0: $Slot, arg1: number, arg2: number): boolean;
-        isHovering(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): boolean;
-        renderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
-        getGuiTop(): number;
-        getGuiLeft(): number;
-        renderBg(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
         getSlotColor(arg0: number): number;
-        renderTooltip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        handler$fgo000$inventoryprofilesnext$slotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
-        handler$fgo000$inventoryprofilesnext$afterSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
-        handler$cib000$acceleratedrendering$startItemBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        handler$cib000$acceleratedrendering$stopRenderHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        handler$cib000$acceleratedrendering$flushItemBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        handler$cib000$acceleratedrendering$startRenderHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        wrapMethod$cim000$acceleratedrendering$startBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $Operation_<any>): void;
-        checkHotbarKeyPressed(arg0: number, arg1: number): boolean;
         handleSlotStateChanged(arg0: number, arg1: number, arg2: boolean): void;
         static renderSlotHighlight(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        static renderSlotHighlight(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
         renderSlotHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number): void;
-        handler$cib000$acceleratedrendering$startBackgroundBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        handler$cib000$acceleratedrendering$flushBackgroundBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        hasClickedOutside(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
+        static renderSlotHighlight(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
+        checkHotbarKeyPressed(arg0: number, arg1: number): boolean;
+        recalculateQuickCraftRemaining(): void;
+        getTooltipFromContainerItem(arg0: $ItemStack_): $List<$Component>;
+        handler$fgo000$inventoryprofilesnext$slotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
+        handler$cia000$acceleratedrendering$stopRenderHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
+        renderTooltip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        renderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
+        getGuiLeft(): number;
+        getGuiTop(): number;
+        handler$cia000$acceleratedrendering$startItemBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
+        handler$cia000$acceleratedrendering$flushItemBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
+        isHovering(arg0: $Slot, arg1: number, arg2: number): boolean;
+        isHovering(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): boolean;
+        renderBg(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
+        handler$cia000$acceleratedrendering$flushBackgroundBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
+        handler$cia000$acceleratedrendering$startBackgroundBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
         renderLabels(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        containerTick(): void;
         slotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_): void;
-        getSlotUnderMouse(): $Slot;
+        containerTick(): void;
+        hasClickedOutside(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
         renderFloatingItem(arg0: $GuiGraphics, arg1: $ItemStack_, arg2: number, arg3: number, arg4: string): void;
-        renderSlotContents(arg0: $GuiGraphics, arg1: $ItemStack_, arg2: $Slot, arg3: string): void;
         clearDraggingState(): void;
-        apricityui$getQuickCraftingType(): number;
-        mousetweaks$setSkipNextRelease(arg0: boolean): void;
-        apricityui$isSplittingStack(): boolean;
-        mousetweaks$invokeSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_): void;
-        mousetweaks$getIsQuickCrafting(): boolean;
-        mousetweaks$setIsQuickCrafting(arg0: boolean): void;
-        apricityui$getQuickCraftSlots(): $Set<$Slot>;
-        mousetweaks$getQuickCraftingButton(): number;
-        getTopPos(): number;
-        getLeftPos(): number;
+        getSlotUnderMouse(): $Slot;
+        renderSlotContents(arg0: $GuiGraphics, arg1: $ItemStack_, arg2: $Slot, arg3: string): void;
+        findSlot(arg0: number, arg1: number): $Slot;
+        getMenu(): T;
         fairylights$getLeftPos(): number;
+        apricityui$getClickedSlot(): $Slot;
         apricityui$getDraggingItem(): $ItemStack;
         mousetweaks$invokeFindSlot(arg0: number, arg1: number): $Slot;
-        apricityui$getClickedSlot(): $Slot;
         apricityui$isQuickCrafting(): boolean;
         fairylights$getTopPos(): number;
-        getImageWidth(): number;
-        getHoveredSlot(): $Slot;
-        getImageHeight(): number;
-        callRenderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
+        apricityui$getQuickCraftingType(): number;
+        mousetweaks$getIsQuickCrafting(): boolean;
+        mousetweaks$invokeSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_): void;
+        apricityui$isSplittingStack(): boolean;
+        apricityui$getQuickCraftSlots(): $Set<$Slot>;
+        mousetweaks$setIsQuickCrafting(arg0: boolean): void;
+        mousetweaks$getQuickCraftingButton(): number;
+        mousetweaks$setSkipNextRelease(arg0: boolean): void;
+        getLeftPos(): number;
+        getTopPos(): number;
         callIsHovering(arg0: $Slot, arg1: number, arg2: number): boolean;
+        getImageWidth(): number;
+        getImageHeight(): number;
+        getHoveredSlot(): $Slot;
+        callRenderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -1081,13 +1081,13 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         constructor(arg0: T, arg1: $Inventory, arg2: $Component_);
         get YSize(): number;
         get XSize(): number;
-        get guiTop(): number;
         get guiLeft(): number;
+        get guiTop(): number;
         get slotUnderMouse(): $Slot;
     }
     export class $CreativeInventoryListener implements $ContainerListener {
-        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
         slotChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
+        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
         constructor(arg0: $Minecraft);
     }
     export class $BlastFurnaceScreen extends $AbstractFurnaceScreen<$BlastFurnaceMenu> {
@@ -1271,11 +1271,11 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         constructor(arg0: $BaseCommandBlock);
     }
     export class $ItemCombinerScreen<T extends $ItemCombinerMenu> extends $AbstractContainerScreen<T> implements $ContainerListener {
-        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
         slotChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
+        renderErrorIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
         subInit(): void;
         renderFg(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        renderErrorIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -1319,8 +1319,8 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         constructor(arg0: T, arg1: $Inventory, arg2: $Component_, arg3: $ResourceLocation_);
     }
     export class $LecternScreen extends $BookViewScreen implements $MenuAccess<$LecternMenu> {
-        bookChanged(): void;
         pageChanged(): void;
+        bookChanged(): void;
         getMenu(): $LecternMenu;
         static BOOK_LOCATION: $ResourceLocation;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -1421,11 +1421,11 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         get recipeBookComponent(): $RecipeBookComponent;
     }
     export class $MerchantScreen extends $AbstractContainerScreen<$MerchantMenu> {
-        static access$100(arg0: $MerchantScreen): $Font;
         static access$000(arg0: $MerchantScreen): $Font;
         static access$200(arg0: $MerchantScreen): $Font;
-        handler$fhb000$inventoryprofilesnext$render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo, arg5: $MerchantOffers, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: $Iterator<any>, arg12: $MerchantOffer, arg13: $ItemStack_, arg14: $ItemStack_, arg15: $ItemStack_, arg16: $ItemStack_): void;
+        static access$100(arg0: $MerchantScreen): $Font;
         postButtonClick(): void;
+        handler$fhb000$inventoryprofilesnext$render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo, arg5: $MerchantOffers, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: $Iterator<any>, arg12: $MerchantOffer, arg13: $ItemStack_, arg14: $ItemStack_, arg15: $ItemStack_, arg16: $ItemStack_): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -1521,10 +1521,10 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
     }
     export class $CreativeModeInventoryScreen$ItemPickerMenu extends $AbstractContainerMenu {
         canScroll(): boolean;
-        scrollTo(arg0: number): void;
-        subtractInputFromScroll(arg0: number, arg1: number): number;
-        getRowIndexForScroll(arg0: number): number;
         getScrollForRowIndex(arg0: number): number;
+        getRowIndexForScroll(arg0: number): number;
+        subtractInputFromScroll(arg0: number, arg1: number): number;
+        scrollTo(arg0: number): void;
         calculateRowCount(): number;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
@@ -1703,9 +1703,9 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         constructor(arg0: $AnvilMenu, arg1: $Inventory, arg2: $Component_);
     }
     export class $AbstractSignEditScreen extends $Screen {
+        getSignTextScale(): $Vector3f;
         offsetSign(arg0: $GuiGraphics, arg1: $BlockState_): void;
         renderSignBackground(arg0: $GuiGraphics, arg1: $BlockState_): void;
-        getSignTextScale(): $Vector3f;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;

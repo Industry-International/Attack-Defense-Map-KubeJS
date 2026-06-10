@@ -32,15 +32,15 @@ declare module "@package/net/minecraft/server/dedicated" {
         get<V>(arg0: string, arg1: $Function_<string, V>, arg2: $Function_<V, string>, arg3: V): V;
         store(arg0: $Path_): void;
         reload(arg0: $RegistryAccess, arg1: $Properties): T;
-        getMutable(arg0: string, arg1: number): $Settings$MutableValue<number>;
-        getMutable(arg0: string, arg1: boolean): $Settings$MutableValue<boolean>;
+        static loadFromFile(arg0: $Path_): $Properties;
+        getLegacy<V>(arg0: string, arg1: $Function_<string, V>): V;
+        getLegacyBoolean(arg0: string): boolean;
+        getLegacyString(arg0: string): string;
         getMutable<V>(arg0: string, arg1: $Function_<string, V>, arg2: $Function_<V, string>, arg3: V): $Settings$MutableValue<V>;
         getMutable<V>(arg0: string, arg1: $Function_<string, V>, arg2: V): $Settings$MutableValue<V>;
-        getLegacy<V>(arg0: string, arg1: $Function_<string, V>): V;
-        static loadFromFile(arg0: $Path_): $Properties;
-        getLegacyBoolean(arg0: string): boolean;
+        getMutable(arg0: string, arg1: boolean): $Settings$MutableValue<boolean>;
+        getMutable(arg0: string, arg1: number): $Settings$MutableValue<number>;
         static dispatchNumberOrString<V>(arg0: $IntFunction_<V>, arg1: $Function_<string, V>): $Function<string, V>;
-        getLegacyString(arg0: string): string;
         cloneProperties(): $Properties;
         invokeCloneProperties(): $Properties;
         invokeGetStringRaw(arg0: string): string;
@@ -61,6 +61,7 @@ declare module "@package/net/minecraft/server/dedicated" {
         constructor(arg0: $DedicatedServer);
     }
     export class $DedicatedPlayerList extends $PlayerList {
+        getServer(): $DedicatedServer;
         static WHITELIST_FILE: $File;
         maxPlayers: number;
         static USERBANLIST_FILE: $File;
@@ -69,6 +70,7 @@ declare module "@package/net/minecraft/server/dedicated" {
         static CHAT_FILTERED_FULL: $Component;
         static DUPLICATE_LOGIN_DISCONNECT_MESSAGE: $Component;
         constructor(arg0: $DedicatedServer, arg1: $LayeredRegistryAccess<$RegistryLayer_>, arg2: $PlayerDataStorage);
+        get server(): $DedicatedServer;
     }
     export class $Settings$MutableValue<V> implements $Supplier<V> {
         get(): V;
@@ -79,15 +81,15 @@ declare module "@package/net/minecraft/server/dedicated" {
         getProperties(): $DedicatedServerProperties;
         runCommand(arg0: string): string;
         getPlayerList(): $DedicatedPlayerList;
+        showGui(): void;
         getServerName(): string;
         handleConsoleInputs(): void;
         storeUsingWhiteList(arg0: boolean): void;
-        showGui(): void;
         convertOldUsers(): boolean;
         handleConsoleInput(arg0: string, arg1: $CommandSourceStack): void;
+        getServerIp(): string;
         getLevelIdName(): string;
         getMaxTickLength(): number;
-        getServerIp(): string;
         getServerPort(): number;
         getPluginNames(): string;
         getSettings(): $DedicatedServerSettings;
@@ -107,16 +109,16 @@ declare module "@package/net/minecraft/server/dedicated" {
         get properties(): $DedicatedServerProperties;
         get playerList(): $DedicatedPlayerList;
         get serverName(): string;
+        get serverIp(): string;
         get levelIdName(): string;
         get maxTickLength(): number;
-        get serverIp(): string;
         get serverPort(): number;
         get pluginNames(): string;
         get settings(): $DedicatedServerSettings;
     }
     export class $DedicatedServerProperties extends $Settings<$DedicatedServerProperties> {
-        static fromFile(arg0: $Path_): $DedicatedServerProperties;
         createDimensions(arg0: $RegistryAccess): $WorldDimensions;
+        static fromFile(arg0: $Path_): $DedicatedServerProperties;
         onlineMode: boolean;
         opPermissionLevel: number;
         allowNether: boolean;

@@ -9,39 +9,39 @@ declare module "@package/foundry/veil/api/client/render/rendertype" {
     export interface $VeilRenderTypeBuilder {
         create(arg0: $RenderType$OutlineProperty_): $RenderType$CompositeState;
         create(arg0: boolean): $RenderType$CompositeState;
-        textureState(arg0: $RenderStateShard$EmptyTextureStateShard): $VeilRenderTypeBuilder;
-        texturingState(arg0: $RenderStateShard$TexturingStateShard): $VeilRenderTypeBuilder;
-        overlayState(arg0: $RenderStateShard$OverlayStateShard): $VeilRenderTypeBuilder;
-        shaderState(arg0: $RenderStateShard$ShaderStateShard): $VeilRenderTypeBuilder;
-        transparencyState(arg0: $RenderStateShard$TransparencyStateShard): $VeilRenderTypeBuilder;
-        writeMaskState(arg0: $RenderStateShard$WriteMaskStateShard): $VeilRenderTypeBuilder;
-        colorLogicState(arg0: $RenderStateShard$ColorLogicStateShard): $VeilRenderTypeBuilder;
-        lightmapState(arg0: $RenderStateShard$LightmapStateShard): $VeilRenderTypeBuilder;
-        layeringState(arg0: $RenderStateShard$LayeringStateShard): $VeilRenderTypeBuilder;
-        depthTestState(arg0: $RenderStateShard$DepthTestStateShard): $VeilRenderTypeBuilder;
         lineState(arg0: $RenderStateShard$LineStateShard): $VeilRenderTypeBuilder;
         addLayer(arg0: $RenderStateShard): $VeilRenderTypeBuilder;
-        outputState(arg0: $RenderStateShard$OutputStateShard): $VeilRenderTypeBuilder;
         cullState(arg0: $RenderStateShard$CullStateShard): $VeilRenderTypeBuilder;
+        outputState(arg0: $RenderStateShard$OutputStateShard): $VeilRenderTypeBuilder;
+        textureState(arg0: $RenderStateShard$EmptyTextureStateShard): $VeilRenderTypeBuilder;
+        texturingState(arg0: $RenderStateShard$TexturingStateShard): $VeilRenderTypeBuilder;
+        lightmapState(arg0: $RenderStateShard$LightmapStateShard): $VeilRenderTypeBuilder;
+        shaderState(arg0: $RenderStateShard$ShaderStateShard): $VeilRenderTypeBuilder;
+        colorLogicState(arg0: $RenderStateShard$ColorLogicStateShard): $VeilRenderTypeBuilder;
+        depthTestState(arg0: $RenderStateShard$DepthTestStateShard): $VeilRenderTypeBuilder;
+        layeringState(arg0: $RenderStateShard$LayeringStateShard): $VeilRenderTypeBuilder;
+        writeMaskState(arg0: $RenderStateShard$WriteMaskStateShard): $VeilRenderTypeBuilder;
+        overlayState(arg0: $RenderStateShard$OverlayStateShard): $VeilRenderTypeBuilder;
+        transparencyState(arg0: $RenderStateShard$TransparencyStateShard): $VeilRenderTypeBuilder;
     }
     export class $VeilRenderTypeAccessor {
     }
     export interface $VeilRenderTypeAccessor {
         states(): $List<$RenderStateShard>;
+        lineState(): $RenderStateShard$LineStateShard;
+        cullState(): $RenderStateShard$CullStateShard;
+        outputState(): $RenderStateShard$OutputStateShard;
         outlineProperty(): $RenderType$OutlineProperty;
         textureState(): $RenderStateShard$EmptyTextureStateShard;
         texturingState(): $RenderStateShard$TexturingStateShard;
-        overlayState(): $RenderStateShard$OverlayStateShard;
-        veilShaderId(): $ResourceLocation;
-        shaderState(): $RenderStateShard$ShaderStateShard;
-        transparencyState(): $RenderStateShard$TransparencyStateShard;
-        writeMaskState(): $RenderStateShard$WriteMaskStateShard;
-        colorLogicState(): $RenderStateShard$ColorLogicStateShard;
         lightmapState(): $RenderStateShard$LightmapStateShard;
-        layeringState(): $RenderStateShard$LayeringStateShard;
+        shaderState(): $RenderStateShard$ShaderStateShard;
+        veilShaderId(): $ResourceLocation;
+        colorLogicState(): $RenderStateShard$ColorLogicStateShard;
         depthTestState(): $RenderStateShard$DepthTestStateShard;
-        lineState(): $RenderStateShard$LineStateShard;
-        outputState(): $RenderStateShard$OutputStateShard;
-        cullState(): $RenderStateShard$CullStateShard;
+        layeringState(): $RenderStateShard$LayeringStateShard;
+        writeMaskState(): $RenderStateShard$WriteMaskStateShard;
+        overlayState(): $RenderStateShard$OverlayStateShard;
+        transparencyState(): $RenderStateShard$TransparencyStateShard;
     }
 }

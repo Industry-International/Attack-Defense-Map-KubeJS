@@ -17,12 +17,12 @@ declare module "@package/net/minecraft/recipebook" {
      */
     export type $PlaceRecipe_<T> = ((arg0: T, arg1: number, arg2: number, arg3: number, arg4: number) => void);
     export class $ServerPlaceRecipe<I extends $RecipeInput, R extends $Recipe<I>> implements $PlaceRecipe<number> {
+        addItemToSlot(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
         getStackSize(arg0: boolean, arg1: number, arg2: boolean): number;
         recipeClicked(arg0: $ServerPlayer, arg1: $RecipeHolder_<R>, arg2: boolean): void;
         clearGrid(): void;
-        addItemToSlot(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        handleRecipeClicked(arg0: $RecipeHolder_<R>, arg1: boolean): void;
         moveItemToGrid(arg0: $Slot, arg1: $ItemStack_, arg2: number): number;
+        handleRecipeClicked(arg0: $RecipeHolder_<R>, arg1: boolean): void;
         placeRecipe(arg0: number, arg1: number, arg2: number, arg3: $RecipeHolder_<never>, arg4: $Iterator<number>, arg5: number): void;
         stackedContents: $StackedContents;
         inventory: $Inventory;

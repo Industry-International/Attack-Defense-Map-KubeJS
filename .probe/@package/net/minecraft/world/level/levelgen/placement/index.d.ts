@@ -31,9 +31,9 @@ declare module "@package/net/minecraft/world/level/levelgen/placement" {
     export class $PlacedFeature extends $Record {
         feature(): $Holder<$ConfiguredFeature<never, never>>;
         place(arg0: $WorldGenLevel, arg1: $ChunkGenerator, arg2: $RandomSource, arg3: $BlockPos_): boolean;
-        getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
-        placement(): $List<$PlacementModifier>;
         placeWithBiomeCheck(arg0: $WorldGenLevel, arg1: $ChunkGenerator, arg2: $RandomSource, arg3: $BlockPos_): boolean;
+        placement(): $List<$PlacementModifier>;
+        getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$Holder<$PlacedFeature>>;
         static DIRECT_CODEC: $Codec<$PlacedFeature>;
         static LIST_CODEC: $Codec<$HolderSet<$PlacedFeature>>;
@@ -53,15 +53,15 @@ declare module "@package/net/minecraft/world/level/levelgen/placement" {
         static values(): $CaveSurface[];
         static valueOf(arg0: string): $CaveSurface;
         getY(): number;
-        getDirection(): $Direction;
         getSerializedName(): string;
+        getDirection(): $Direction;
         getRemappedEnumConstantName(): string;
         static FLOOR: $CaveSurface;
         static CODEC: $Codec<$CaveSurface>;
         static CEILING: $CaveSurface;
         get y(): number;
-        get direction(): $Direction;
         get serializedName(): string;
+        get direction(): $Direction;
         get remappedEnumConstantName(): string;
     }
     /**
@@ -83,8 +83,8 @@ declare module "@package/net/minecraft/world/level/levelgen/placement" {
     }
     export class $RandomOffsetPlacement extends $PlacementModifier {
         static of(arg0: $IntProvider_, arg1: $IntProvider_): $RandomOffsetPlacement;
-        static vertical(arg0: $IntProvider_): $RandomOffsetPlacement;
         static horizontal(arg0: $IntProvider_): $RandomOffsetPlacement;
+        static vertical(arg0: $IntProvider_): $RandomOffsetPlacement;
         static CODEC: $MapCodec<$RandomOffsetPlacement>;
     }
     export class $FixedPlacement extends $PlacementModifier {
@@ -172,11 +172,11 @@ declare module "@package/net/minecraft/world/level/levelgen/placement" {
     export class $PlacementContext extends $WorldGenerationContext {
         generator(): $ChunkGenerator;
         getLevel(): $WorldGenLevel;
+        topFeature(): ($PlacedFeature) | undefined;
         getBlockState(arg0: $BlockPos_): $BlockState;
         getMinBuildHeight(): number;
         getHeight(arg0: $Heightmap$Types_, arg1: number, arg2: number): number;
         getCarvingMask(arg0: $ChunkPos, arg1: $GenerationStep$Carving_): $CarvingMask;
-        topFeature(): ($PlacedFeature) | undefined;
         constructor(arg0: $WorldGenLevel, arg1: $ChunkGenerator, arg2: ($PlacedFeature_) | undefined);
         get level(): $WorldGenLevel;
         get minBuildHeight(): number;

@@ -5,8 +5,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/misc" {
     export class $IFluidHandlerModifiable {
     }
     export interface $IFluidHandlerModifiable extends $IFluidHandler {
-        supportsFill(arg0: number): boolean;
         setFluidInTank(arg0: number, arg1: $FluidStack_): void;
+        supportsFill(arg0: number): boolean;
         supportsDrain(arg0: number): boolean;
     }
 }

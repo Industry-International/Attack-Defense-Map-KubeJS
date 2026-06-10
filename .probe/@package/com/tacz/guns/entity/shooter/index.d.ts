@@ -9,6 +9,7 @@ declare module "@package/com/tacz/guns/entity/shooter" {
         initialData(): void;
         drawTimestamp: number;
         meleeTimestamp: number;
+        chargeProgress: number;
         isBolting: boolean;
         shootCount: number;
         currentPutAwayTimeS: number;

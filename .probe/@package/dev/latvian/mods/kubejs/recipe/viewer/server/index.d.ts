@@ -103,10 +103,10 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/viewer/server" {
         isEmpty(): boolean;
         static collect(): $ItemData;
         info(): $List<$ItemData$Info>;
-        completelyRemovedEntries(): $List<$Ingredient>;
         dataComponentSubtypes(): $List<$ItemData$DataComponentSubtypes>;
-        addedEntries(): $List<$ItemStack>;
+        completelyRemovedEntries(): $List<$Ingredient>;
         removedEntries(): $List<$Ingredient>;
+        addedEntries(): $List<$ItemStack>;
         groupedEntries(): $List<$ItemData$Group>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ItemData>;
         constructor(addedEntries: $List_<$ItemStack_>, removedEntries: $List_<$Ingredient_>, completelyRemovedEntries: $List_<$Ingredient_>, groupedEntries: $List_<$ItemData$Group_>, info: $List_<$ItemData$Info_>, dataComponentSubtypes: $List_<$ItemData$DataComponentSubtypes_>);
@@ -174,9 +174,9 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/viewer/server" {
     export class $RecipeViewerData extends $Record {
         isEmpty(): boolean;
         static collect(): $RecipeViewerData;
-        itemData(): $ItemData;
-        removedCategories(): $List<$ResourceLocation>;
         fluidData(): $FluidData;
+        removedCategories(): $List<$ResourceLocation>;
+        itemData(): $ItemData;
         categoryData(): $List<$CategoryData>;
         removedGlobalRecipes(): $List<$ResourceLocation>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $RecipeViewerData>;
@@ -193,10 +193,10 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/viewer/server" {
         isEmpty(): boolean;
         static collect(): $FluidData;
         info(): $List<$FluidData$Info>;
-        completelyRemovedEntries(): $List<$FluidIngredient>;
         dataComponentSubtypes(): $List<$FluidData$DataComponentSubtypes>;
-        addedEntries(): $List<$FluidStack>;
+        completelyRemovedEntries(): $List<$FluidIngredient>;
         removedEntries(): $List<$FluidIngredient>;
+        addedEntries(): $List<$FluidStack>;
         groupedEntries(): $List<$FluidData$Group>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $FluidData>;
         constructor(addedEntries: $List_<$FluidStack_>, removedEntries: $List_<$FluidIngredient_>, completelyRemovedEntries: $List_<$FluidIngredient_>, groupedEntries: $List_<$FluidData$Group_>, info: $List_<$FluidData$Info_>, dataComponentSubtypes: $List_<$FluidData$DataComponentSubtypes_>);

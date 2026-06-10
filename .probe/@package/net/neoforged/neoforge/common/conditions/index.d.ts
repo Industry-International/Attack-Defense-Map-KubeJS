@@ -35,11 +35,11 @@ declare module "@package/net/neoforged/neoforge/common/conditions" {
         constructor(arg0: string);
     }
     export class $ConditionalOps$ConditionalEncoder<A> implements $Encoder<($WithConditions<A>) | undefined> {
-        encodeStart<T>(arg0: $DynamicOps<T>, arg1: ($WithConditions_<A>) | undefined): $DataResult<T>;
-        withLifecycle(arg0: $Lifecycle): $Encoder<($WithConditions<A>) | undefined>;
         comap<B>(arg0: $Function_<B, ($WithConditions<A>) | undefined>): $Encoder<B>;
         fieldOf(arg0: string): $MapEncoder<($WithConditions<A>) | undefined>;
         flatComap<B>(arg0: $Function_<B, $DataResult<($WithConditions<A>) | undefined>>): $Encoder<B>;
+        withLifecycle(arg0: $Lifecycle): $Encoder<($WithConditions<A>) | undefined>;
+        encodeStart<T>(arg0: $DynamicOps<T>, arg1: ($WithConditions_<A>) | undefined): $DataResult<T>;
     }
     export class $FalseCondition implements $ICondition {
         test(arg0: $ICondition$IContext_): boolean;
@@ -48,11 +48,11 @@ declare module "@package/net/neoforged/neoforge/common/conditions" {
         static INSTANCE: $FalseCondition;
     }
     export class $ConditionalOps<T> extends $RegistryOps<T> {
-        static createConditionalCodecWithConditions<T>(arg0: $Codec<T>, arg1: string): $Codec<($WithConditions<T>) | undefined>;
+        static retrieveContext(): $MapCodec<$ICondition$IContext>;
         static createConditionalCodecWithConditions<T>(arg0: $Codec<T>): $Codec<($WithConditions<T>) | undefined>;
+        static createConditionalCodecWithConditions<T>(arg0: $Codec<T>, arg1: string): $Codec<($WithConditions<T>) | undefined>;
         static createConditionalCodec<T>(arg0: $Codec<T>, arg1: string): $Codec<(T) | undefined>;
         static createConditionalCodec<T>(arg0: $Codec<T>): $Codec<(T) | undefined>;
-        static retrieveContext(): $MapCodec<$ICondition$IContext>;
         static decodeListWithElementConditions<T>(arg0: $Codec<T>): $Codec<$List<T>>;
         delegate: $DynamicOps<T>;
         static DEFAULT_CONDITIONS_KEY: string;
@@ -72,14 +72,14 @@ declare module "@package/net/neoforged/neoforge/common/conditions" {
         decode<T>(arg0: $Dynamic<T>): $DataResult<$Pair<($WithConditions<A>) | undefined, T>>;
         map<B>(arg0: $Function_<($WithConditions<A>) | undefined, B>): $Decoder<B>;
         flatMap<B>(arg0: $Function_<($WithConditions<A>) | undefined, $DataResult<B>>): $Decoder<B>;
-        parse<T>(arg0: $Dynamic<T>): $DataResult<($WithConditions<A>) | undefined>;
         parse<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<($WithConditions<A>) | undefined>;
+        parse<T>(arg0: $Dynamic<T>): $DataResult<($WithConditions<A>) | undefined>;
         boxed(): $Decoder$Boxed<($WithConditions<A>) | undefined>;
         terminal(): $Decoder$Terminal<($WithConditions<A>) | undefined>;
-        withLifecycle(arg0: $Lifecycle): $Decoder<($WithConditions<A>) | undefined>;
-        promotePartial(arg0: $Consumer_<string>): $Decoder<($WithConditions<A>) | undefined>;
         fieldOf(arg0: string): $MapDecoder<($WithConditions<A>) | undefined>;
         simple(): $Decoder$Simple<($WithConditions<A>) | undefined>;
+        withLifecycle(arg0: $Lifecycle): $Decoder<($WithConditions<A>) | undefined>;
+        promotePartial(arg0: $Consumer_<string>): $Decoder<($WithConditions<A>) | undefined>;
     }
     export class $NotCondition extends $Record implements $ICondition {
         value(): $ICondition;
@@ -89,12 +89,12 @@ declare module "@package/net/neoforged/neoforge/common/conditions" {
         constructor(value: $ICondition);
     }
     export class $ICondition {
-        static getWithConditionalCodec<V, T>(arg0: $Codec<(T) | undefined>, arg1: $DynamicOps<V>, arg2: V): (T) | undefined;
         static getWithWithConditionsCodec<V, T>(arg0: $Codec<($WithConditions_<T>) | undefined>, arg1: $DynamicOps<V>, arg2: V): (T) | undefined;
-        static getConditionally<V, T>(arg0: $Codec<T>, arg1: $DynamicOps<V>, arg2: V): (T) | undefined;
-        static writeConditions(arg0: $DynamicOps<$JsonElement_>, arg1: $JsonObject_, arg2: $List_<$ICondition>): void;
+        static getWithConditionalCodec<V, T>(arg0: $Codec<(T) | undefined>, arg1: $DynamicOps<V>, arg2: V): (T) | undefined;
         static writeConditions(arg0: $HolderLookup$Provider, arg1: $JsonObject_, ...arg2: $ICondition[]): void;
         static writeConditions(arg0: $HolderLookup$Provider, arg1: $JsonObject_, arg2: $List_<$ICondition>): void;
+        static writeConditions(arg0: $DynamicOps<$JsonElement_>, arg1: $JsonObject_, arg2: $List_<$ICondition>): void;
+        static getConditionally<V, T>(arg0: $Codec<T>, arg1: $DynamicOps<V>, arg2: V): (T) | undefined;
         static conditionsMatched<V>(arg0: $DynamicOps<V>, arg1: V): boolean;
         static CODEC: $Codec<$ICondition>;
         static LIST_CODEC: $Codec<$List<$ICondition>>;

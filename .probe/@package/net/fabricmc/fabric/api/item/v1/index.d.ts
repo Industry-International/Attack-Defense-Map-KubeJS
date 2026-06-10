@@ -24,11 +24,11 @@ declare module "@package/net/fabricmc/fabric/api/item/v1" {
     export class $FabricItem {
     }
     export interface $FabricItem {
-        getCreatorNamespace(arg0: $ItemStack_): string;
-        getRecipeRemainder(arg0: $ItemStack_): $ItemStack;
         canBeEnchantedWith(arg0: $ItemStack_, arg1: $Holder_<$Enchantment>, arg2: $EnchantingContext_): boolean;
-        allowComponentsUpdateAnimation(arg0: $Player, arg1: $InteractionHand_, arg2: $ItemStack_, arg3: $ItemStack_): boolean;
+        getRecipeRemainder(arg0: $ItemStack_): $ItemStack;
+        getCreatorNamespace(arg0: $ItemStack_): string;
         allowContinuingBlockBreaking(arg0: $Player, arg1: $ItemStack_, arg2: $ItemStack_): boolean;
+        allowComponentsUpdateAnimation(arg0: $Player, arg1: $InteractionHand_, arg2: $ItemStack_, arg3: $ItemStack_): boolean;
     }
     export class $EquipmentSlotProvider {
     }
@@ -58,11 +58,11 @@ declare module "@package/net/fabricmc/fabric/api/item/v1" {
     export class $FabricItemStack {
     }
     export interface $FabricItemStack extends $IItemStackExtension {
-        getCreatorNamespace(): string;
-        getRecipeRemainder(): $ItemStack;
         canBeEnchantedWith(arg0: $Holder_<$Enchantment>, arg1: $EnchantingContext_): boolean;
-        get creatorNamespace(): string;
+        getRecipeRemainder(): $ItemStack;
+        getCreatorNamespace(): string;
         get recipeRemainder(): $ItemStack;
+        get creatorNamespace(): string;
     }
     export class $FabricItem$Settings {
     }

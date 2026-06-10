@@ -9,22 +9,22 @@ import { $IItemHandler, $IItemHandlerModifiable } from "@package/net/neoforged/n
 declare module "@package/com/simibubi/create/foundation/item" {
     export class $SmartInventory extends $ItemHandlerContainer implements $IItemHandlerModifiable, $INBTSerializable<$CompoundTag> {
         getSlots(): number;
+        getStackInSlot(arg0: number): $ItemStack;
         deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
-        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
+        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
         getSlotLimit(arg0: number): number;
         isItemValid(arg0: number, arg1: $ItemStack_): boolean;
-        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
+        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
         insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        getStackInSlot(arg0: number): $ItemStack;
-        whenContentsChanged(arg0: $Consumer_<number>): $SmartInventory;
         getStackLimit(arg0: number, arg1: $ItemStack_): number;
-        forbidInsertion(): $SmartInventory;
-        withMaxStackSize(arg0: number): $SmartInventory;
-        forbidExtraction(): $SmartInventory;
-        allowInsertion(): $SmartInventory;
+        whenContentsChanged(arg0: $Consumer_<number>): $SmartInventory;
         allowExtraction(): $SmartInventory;
+        forbidExtraction(): $SmartInventory;
+        forbidInsertion(): $SmartInventory;
+        allowInsertion(): $SmartInventory;
+        withMaxStackSize(arg0: number): $SmartInventory;
         kjs$self(): $IItemHandler;
+        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         constructor(arg0: $IItemHandlerModifiable, arg1: number, arg2: boolean);
         constructor(arg0: number, arg1: $SyncedBlockEntity, arg2: number, arg3: boolean, arg4: $BiPredicate_<number, $ItemStack>);
         constructor(arg0: number, arg1: $SyncedBlockEntity, arg2: number, arg3: boolean);

@@ -10,11 +10,11 @@ declare module "@package/xaero/lib/common/config/option/value/redirect" {
         register<T>(arg0: $ConfigOption<T>, arg1: $Supplier_<T>, arg2: $Predicate_<$ConfigChannel>): void;
         freeze(): void;
         setChannel(arg0: $ConfigChannel): void;
-        setChangeListener(arg0: $IConfigChangeListener): void;
         getCacheConfig(): $Config;
         shouldRedirect(arg0: $ConfigOption<never>): boolean;
+        setChangeListener(arg0: $IConfigChangeListener): void;
         set channel(value: $ConfigChannel);
-        set changeListener(value: $IConfigChangeListener);
         get cacheConfig(): $Config;
+        set changeListener(value: $IConfigChangeListener);
     }
 }

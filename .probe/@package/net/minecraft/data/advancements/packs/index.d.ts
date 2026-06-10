@@ -15,8 +15,8 @@ declare module "@package/net/minecraft/data/advancements/packs" {
     export class $VanillaAdventureAdvancements implements $AdvancementSubProvider {
         generate(arg0: $HolderLookup$Provider, arg1: $Consumer_<$AdvancementHolder>): void;
         static addBiomes(arg0: $Advancement$Builder, arg1: $HolderLookup$Provider, arg2: $List_<$ResourceKey_<$Biome>>): $Advancement$Builder;
-        static createAdventuringTime(arg0: $HolderLookup$Provider, arg1: $Consumer_<$AdvancementHolder>, arg2: $AdvancementHolder_, arg3: $MultiNoiseBiomeSourceParameterList$Preset_): void;
         static createMonsterHunterAdvancement(arg0: $AdvancementHolder_, arg1: $Consumer_<$AdvancementHolder>, arg2: $List_<$EntityType_<never>>): $AdvancementHolder;
+        static createAdventuringTime(arg0: $HolderLookup$Provider, arg1: $Consumer_<$AdvancementHolder>, arg2: $AdvancementHolder_, arg3: $MultiNoiseBiomeSourceParameterList$Preset_): void;
         static MOBS_TO_KILL: $List<$EntityType<never>>;
         constructor();
     }

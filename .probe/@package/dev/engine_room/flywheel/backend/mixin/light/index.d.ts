@@ -15,8 +15,8 @@ declare module "@package/dev/engine_room/flywheel/backend/mixin/light" {
     export class $SkyDataLayerStorageMapAccessor {
     }
     export interface $SkyDataLayerStorageMapAccessor {
-        flywheel$currentLowestY(): number;
         flywheel$topSections(): $Long2IntOpenHashMap;
+        flywheel$currentLowestY(): number;
     }
     export class $LightEngineAccessor<M extends $DataLayerStorageMap<M>, S extends $LayerLightSectionStorage<M>> {
     }

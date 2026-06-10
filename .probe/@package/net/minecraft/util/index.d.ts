@@ -81,8 +81,8 @@ declare module "@package/net/minecraft/util" {
         getAndSet(arg0: number, arg1: number): number;
         getAll(arg0: $IntConsumer_): void;
         getBits(): number;
-        getRaw(): number[];
         unpack(arg0: number[]): void;
+        getRaw(): number[];
         sodium$unpack(arg0: $Object[], arg1: $Palette<any>): void;
         constructor(arg0: number, arg1: number, arg2: number[]);
         constructor(arg0: number, arg1: number);
@@ -97,8 +97,8 @@ declare module "@package/net/minecraft/util" {
     export class $StringRepresentable$EnumCodec<E extends $Enum<E>> extends $StringRepresentable$StringRepresentableCodec<E> {
         byName(arg0: string): E;
         byName(arg0: string, arg1: E): E;
-        withLifecycle(arg0: $Lifecycle): $Encoder<E>;
         fieldOf(arg0: string): $MapEncoder<E>;
+        promotePartial(arg0: $Consumer_<string>): $Decoder<E>;
         constructor(arg0: E[], arg1: $Function_<string, E>);
     }
     export class $LowerCaseEnumTypeAdapterFactory implements $TypeAdapterFactory {
@@ -150,17 +150,17 @@ declare module "@package/net/minecraft/util" {
         close(): void;
         constructor(arg0: $Path_);
     }
-    export class $NativeModuleLister {
-        static listModules(): $List<$NativeModuleLister$NativeModuleInfo>;
-        static addCrashSection(arg0: $CrashReportCategory): void;
-        constructor();
-    }
     /**
      * @deprecated
      */
     export class $LazyLoadedValue<T> {
         get(): T;
         constructor(arg0: $Supplier_<T>);
+    }
+    export class $NativeModuleLister {
+        static listModules(): $List<$NativeModuleLister$NativeModuleInfo>;
+        static addCrashSection(arg0: $CrashReportCategory): void;
+        constructor();
     }
     export class $TimeSource {
     }
@@ -176,29 +176,29 @@ declare module "@package/net/minecraft/util" {
     }
     export class $ExtraCodecs {
         static converter<T>(arg0: $DynamicOps<T>): $Codec<T>;
-        static intRange(arg0: number, arg1: number): $Codec<number>;
+        static nonEmptyList<T>(arg0: $Codec<$List_<T>>): $Codec<$List<T>>;
+        static optionalEmptyMap<A>(arg0: $Codec<A>): $Codec<(A) | undefined>;
+        static overrideLifecycle<E>(arg0: $Codec<E>, arg1: $Function_<E, $Lifecycle>): $Codec<E>;
+        static overrideLifecycle<E>(arg0: $Codec<E>, arg1: $Function_<E, $Lifecycle>, arg2: $Function_<E, $Lifecycle>): $Codec<E>;
+        static sizeLimitedMap<K, V>(arg0: $Codec<$Map_<K, V>>, arg1: number): $Codec<$Map<K, V>>;
+        static nonEmptyHolderSet<T>(arg0: $Codec<$HolderSet_<T>>): $Codec<$HolderSet<T>>;
+        static retrieveContext<E>(arg0: $Function_<$DynamicOps<never>, $DataResult<E>>): $MapCodec<E>;
+        static orElsePartial<A>(arg0: A): $Codec$ResultFunction<A>;
+        static temporalCodec(arg0: $DateTimeFormatter): $Codec<$TemporalAccessor>;
+        static asOptionalLong(arg0: $MapCodec_<(number) | undefined>): $MapCodec<$OptionalLong>;
+        static ensureHomogenous<E, L extends $Collection<E>, T>(arg0: $Function_<E, T>): $Function<L, $DataResult<L>>;
+        static object2BooleanMap<T>(arg0: $Codec<T>): $Codec<$Object2BooleanMap<T>>;
+        static strictUnboundedMap<K, V>(arg0: $Codec<K>, arg1: $Codec<V>): $ExtraCodecs$StrictUnboundedMapCodec<K, V>;
         static catchDecoderException<A>(arg0: $Codec<A>): $Codec<A>;
         /**
          * @deprecated
          */
         static dispatchOptionalValue<K, V>(arg0: string, arg1: string, arg2: $Codec<K>, arg3: $Function_<V, K>, arg4: $Function_<K, $Codec<V>>): $MapCodec<V>;
-        static orCompressed<E>(arg0: $MapCodec_<E>, arg1: $MapCodec_<E>): $MapCodec<E>;
+        static intRange(arg0: number, arg1: number): $Codec<number>;
         static orCompressed<E>(arg0: $Codec<E>, arg1: $Codec<E>): $Codec<E>;
+        static orCompressed<E>(arg0: $MapCodec_<E>, arg1: $MapCodec_<E>): $MapCodec<E>;
         static idResolverCodec<E>(arg0: $ToIntFunction_<E>, arg1: $IntFunction_<E>, arg2: number): $Codec<E>;
-        static nonEmptyList<T>(arg0: $Codec<$List_<T>>): $Codec<$List<T>>;
-        static nonEmptyHolderSet<T>(arg0: $Codec<$HolderSet_<T>>): $Codec<$HolderSet<T>>;
-        static sizeLimitedMap<K, V>(arg0: $Codec<$Map_<K, V>>, arg1: number): $Codec<$Map<K, V>>;
-        static temporalCodec(arg0: $DateTimeFormatter): $Codec<$TemporalAccessor>;
-        static retrieveContext<E>(arg0: $Function_<$DynamicOps<never>, $DataResult<E>>): $MapCodec<E>;
-        static orElsePartial<A>(arg0: A): $Codec$ResultFunction<A>;
-        static strictUnboundedMap<K, V>(arg0: $Codec<K>, arg1: $Codec<V>): $ExtraCodecs$StrictUnboundedMapCodec<K, V>;
         static intervalCodec<P, I>(arg0: $Codec<P>, arg1: string, arg2: string, arg3: $BiFunction_<P, P, $DataResult<I>>, arg4: $Function_<I, P>, arg5: $Function_<I, P>): $Codec<I>;
-        static ensureHomogenous<E, L extends $Collection<E>, T>(arg0: $Function_<E, T>): $Function<L, $DataResult<L>>;
-        static asOptionalLong(arg0: $MapCodec_<(number) | undefined>): $MapCodec<$OptionalLong>;
-        static object2BooleanMap<T>(arg0: $Codec<T>): $Codec<$Object2BooleanMap<T>>;
-        static overrideLifecycle<E>(arg0: $Codec<E>, arg1: $Function_<E, $Lifecycle>, arg2: $Function_<E, $Lifecycle>): $Codec<E>;
-        static overrideLifecycle<E>(arg0: $Codec<E>, arg1: $Function_<E, $Lifecycle>): $Codec<E>;
-        static optionalEmptyMap<A>(arg0: $Codec<A>): $Codec<(A) | undefined>;
         static JAVA: $Codec<$Object>;
         static POSITIVE_FLOAT: $Codec<number>;
         static QUATERNIONF: $Codec<$Quaternionf>;
@@ -237,18 +237,18 @@ declare module "@package/net/minecraft/util" {
      */
     export type $Crypt$ByteArrayToKeyFunction_<T> = (() => void);
     export class $Crypt {
-        static byteToPublicKey(arg0: number[]): $PublicKey;
         static generateKeyPair(): $KeyPair;
-        static digestData(arg0: string, arg1: $PublicKey, arg2: $SecretKey): number[];
-        static getCipher(arg0: number, arg1: $Key): $Cipher;
         static stringToRsaPublicKey(arg0: string): $PublicKey;
         static stringToPemRsaPrivateKey(arg0: string): $PrivateKey;
+        static byteToPublicKey(arg0: number[]): $PublicKey;
+        static getCipher(arg0: number, arg1: $Key): $Cipher;
+        static digestData(arg0: string, arg1: $PublicKey, arg2: $SecretKey): number[];
         static pemRsaPrivateKeyToString(arg0: $PrivateKey): string;
-        static rsaPublicKeyToString(arg0: $PublicKey): string;
         static decryptByteToSecretKey(arg0: $PrivateKey, arg1: number[]): $SecretKey;
-        static decryptUsingKey(arg0: $Key, arg1: number[]): number[];
-        static encryptUsingKey(arg0: $Key, arg1: number[]): number[];
+        static rsaPublicKeyToString(arg0: $PublicKey): string;
         static generateSecretKey(): $SecretKey;
+        static encryptUsingKey(arg0: $Key, arg1: number[]): number[];
+        static decryptUsingKey(arg0: $Key, arg1: number[]): number[];
         static PUBLIC_KEY_CODEC: $Codec<$PublicKey>;
         static PRIVATE_KEY_CODEC: $Codec<$PrivateKey>;
         static SIGNATURE_BYTES: number;
@@ -278,11 +278,11 @@ declare module "@package/net/minecraft/util" {
         toDegrees(arg0: number): number;
         normalize(arg0: number): number;
         getMask(): number;
+        isSameAxis(arg0: number, arg1: number): boolean;
+        fromDegreesWithTurns(arg0: number): number;
         fromDegrees(arg0: number): number;
         fromDirection(arg0: $Direction_): number;
         toDegreesWithTurns(arg0: number): number;
-        fromDegreesWithTurns(arg0: number): number;
-        isSameAxis(arg0: number, arg1: number): boolean;
         constructor(arg0: number);
         get mask(): number;
     }
@@ -315,10 +315,10 @@ declare module "@package/net/minecraft/util" {
     }
     export interface $ProgressListener {
         stop(): void;
+        progressStagePercentage(arg0: number): void;
+        progressStartNoAbort(arg0: $Component_): void;
         progressStage(arg0: $Component_): void;
         progressStart(arg0: $Component_): void;
-        progressStartNoAbort(arg0: $Component_): void;
-        progressStagePercentage(arg0: number): void;
     }
     export class $CommonLinks {
         static extendRealms(arg0: string, arg1: $UUID_, arg2: boolean): string;
@@ -434,70 +434,70 @@ declare module "@package/net/minecraft/util" {
          * @deprecated
          */
         static getSeed(arg0: $Vec3i): number;
-        static smallestEncompassingPowerOfTwo(arg0: number): number;
+        static ceillog2(arg0: number): number;
         static isPowerOfTwo(arg0: number): boolean;
+        static lengthSquared(arg0: number, arg1: number, arg2: number): number;
+        static lengthSquared(arg0: number, arg1: number, arg2: number): number;
+        static lengthSquared(arg0: number, arg1: number): number;
         static log2(arg0: number): number;
-        static createInsecureUUID(arg0: $RandomSource): $UUID;
+        static absMax(arg0: number, arg1: number): number;
+        static rotLerp(arg0: number, arg1: number, arg2: number): number;
+        static rotLerp(arg0: number, arg1: number, arg2: number): number;
+        static smallestEncompassingPowerOfTwo(arg0: number): number;
+        static lfloor(arg0: number): number;
+        static approach(arg0: number, arg1: number, arg2: number): number;
+        static lerp2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): number;
+        static hsvToArgb(arg0: number, arg1: number, arg2: number, arg3: number): number;
+        static lerp3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number): number;
+        static frac(arg0: number): number;
+        static frac(arg0: number): number;
+        static lerpInt(arg0: number, arg1: number, arg2: number): number;
+        static hsvToRgb(arg0: number, arg1: number, arg2: number): number;
+        static smoothstep(arg0: number): number;
+        static wobble(arg0: number): number;
+        static catmullrom(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): number;
+        static clampedMap(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): number;
+        static clampedMap(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): number;
+        static quantize(arg0: number, arg1: number): number;
+        static wrapDegrees(arg0: number): number;
+        static wrapDegrees(arg0: number): number;
+        static wrapDegrees(arg0: number): number;
         static createInsecureUUID(): $UUID;
-        static murmurHash3Mixer(arg0: number): number;
+        static createInsecureUUID(arg0: $RandomSource): $UUID;
+        static degreesDifference(arg0: number, arg1: number): number;
         static approachDegrees(arg0: number, arg1: number, arg2: number): number;
-        static lerpDiscrete(arg0: number, arg1: number, arg2: number): number;
+        static positiveModulo(arg0: number, arg1: number): number;
+        static positiveModulo(arg0: number, arg1: number): number;
+        static positiveModulo(arg0: number, arg1: number): number;
+        static rotateIfNecessary(arg0: number, arg1: number, arg2: number): number;
+        static inverseLerp(arg0: number, arg1: number, arg2: number): number;
+        static inverseLerp(arg0: number, arg1: number, arg2: number): number;
+        static rayIntersectsAABB(arg0: $Vec3_, arg1: $Vec3_, arg2: $AABB_): boolean;
         /**
          * @deprecated
          */
         static fastInvSqrt(arg0: number): number;
+        static clampedLerp(arg0: number, arg1: number, arg2: number): number;
+        static clampedLerp(arg0: number, arg1: number, arg2: number): number;
+        static fastInvCubeRoot(arg0: number): number;
+        static murmurHash3Mixer(arg0: number): number;
+        static isMultipleOf(arg0: number, arg1: number): boolean;
+        static lerpDiscrete(arg0: number, arg1: number, arg2: number): number;
+        static positiveCeilDiv(arg0: number, arg1: number): number;
+        static mulAndTruncate(arg0: $Fraction, arg1: number): number;
         static outFromOrigin(arg0: number, arg1: number, arg2: number, arg3: number): $IntStream;
         static outFromOrigin(arg0: number, arg1: number, arg2: number): $IntStream;
-        static rayIntersectsAABB(arg0: $Vec3_, arg1: $Vec3_, arg2: $AABB_): boolean;
-        static positiveCeilDiv(arg0: number, arg1: number): number;
-        static clampedLerp(arg0: number, arg1: number, arg2: number): number;
-        static clampedLerp(arg0: number, arg1: number, arg2: number): number;
-        static inverseLerp(arg0: number, arg1: number, arg2: number): number;
-        static inverseLerp(arg0: number, arg1: number, arg2: number): number;
-        static roundToward(arg0: number, arg1: number): number;
         static rotationAroundAxis(arg0: $Vector3f, arg1: $Quaternionf, arg2: $Quaternionf): $Quaternionf;
-        static mulAndTruncate(arg0: $Fraction, arg1: number): number;
-        static positiveModulo(arg0: number, arg1: number): number;
-        static positiveModulo(arg0: number, arg1: number): number;
-        static positiveModulo(arg0: number, arg1: number): number;
-        static isMultipleOf(arg0: number, arg1: number): boolean;
-        static triangleWave(arg0: number, arg1: number): number;
-        static degreesDifference(arg0: number, arg1: number): number;
-        static rotateIfNecessary(arg0: number, arg1: number, arg2: number): number;
+        static roundToward(arg0: number, arg1: number): number;
         static randomBetween(arg0: $RandomSource, arg1: number, arg2: number): number;
-        static fastInvCubeRoot(arg0: number): number;
-        static frac(arg0: number): number;
-        static frac(arg0: number): number;
-        static approach(arg0: number, arg1: number, arg2: number): number;
-        static absMax(arg0: number, arg1: number): number;
-        static lfloor(arg0: number): number;
-        static wrapDegrees(arg0: number): number;
-        static wrapDegrees(arg0: number): number;
-        static wrapDegrees(arg0: number): number;
-        static rotLerp(arg0: number, arg1: number, arg2: number): number;
-        static rotLerp(arg0: number, arg1: number, arg2: number): number;
-        static ceillog2(arg0: number): number;
-        static catmullrom(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): number;
-        static lerp2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): number;
-        static hsvToArgb(arg0: number, arg1: number, arg2: number, arg3: number): number;
-        static lerp3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number): number;
-        static hsvToRgb(arg0: number, arg1: number, arg2: number): number;
-        static lerpInt(arg0: number, arg1: number, arg2: number): number;
-        static smoothstep(arg0: number): number;
-        static clampedMap(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): number;
-        static clampedMap(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): number;
-        static wobble(arg0: number): number;
-        static quantize(arg0: number, arg1: number): number;
-        static lengthSquared(arg0: number, arg1: number, arg2: number): number;
-        static lengthSquared(arg0: number, arg1: number, arg2: number): number;
-        static lengthSquared(arg0: number, arg1: number): number;
-        static smoothstepDerivative(arg0: number): number;
+        static triangleWave(arg0: number, arg1: number): number;
+        static lerp(arg0: number, arg1: number, arg2: number): number;
+        static lerp(arg0: number, arg1: number, arg2: number): number;
+        static invSqrt(arg0: number): number;
+        static invSqrt(arg0: number): number;
         static degreesDifferenceAbs(arg0: number, arg1: number): number;
+        static smoothstepDerivative(arg0: number): number;
         static randomBetweenInclusive(arg0: $RandomSource, arg1: number, arg2: number): number;
-        static lerp(arg0: number, arg1: number, arg2: number): number;
-        static lerp(arg0: number, arg1: number, arg2: number): number;
-        static invSqrt(arg0: number): number;
-        static invSqrt(arg0: number): number;
         static SQRT_OF_TWO: number;
         static PI: number;
         static TWO_PI: number;
@@ -513,18 +513,18 @@ declare module "@package/net/minecraft/util" {
     export class $HttpUtil$DownloadProgressListener {
     }
     export interface $HttpUtil$DownloadProgressListener {
-        downloadStart(arg0: $OptionalLong): void;
-        downloadedBytes(arg0: number): void;
-        requestFinished(arg0: boolean): void;
         requestStart(): void;
+        requestFinished(arg0: boolean): void;
+        downloadedBytes(arg0: number): void;
+        downloadStart(arg0: $OptionalLong): void;
     }
     export class $CubicSpline$Constant<C, I extends $ToFloatFunction<C>> extends $Record implements $CubicSpline<C, I> {
         value(): number;
         apply(arg0: C): number;
         maxValue(): number;
+        mapAll(arg0: $CubicSpline$CoordinateVisitor_<I>): $CubicSpline<C, I>;
         minValue(): number;
         parityString(): string;
-        mapAll(arg0: $CubicSpline$CoordinateVisitor_<I>): $CubicSpline<C, I>;
         comap<C2>(arg0: $Function_<C2, C>): $ToFloatFunction<C2>;
         constructor(arg0: number);
     }
@@ -542,8 +542,8 @@ declare module "@package/net/minecraft/util" {
         static create<A>(arg0: number): $CrudeIncrementalIntIdentityHashBiMap<A>;
         addMapping(arg0: K, arg1: number): void;
         byId(arg0: number): K;
-        getIdOrThrow(arg0: K): number;
         byIdOrThrow(arg0: number): K;
+        getIdOrThrow(arg0: K): number;
         spliterator(): $Spliterator<K>;
         forEach(arg0: $Consumer_<K>): void;
         [Symbol.iterator](): Iterator<K>
@@ -551,10 +551,10 @@ declare module "@package/net/minecraft/util" {
     export class $ModCheck extends $Record {
         merge(arg0: $ModCheck_): $ModCheck;
         description(): string;
+        shouldReportAsModified(): boolean;
         static identify(arg0: string, arg1: $Supplier_<string>, arg2: string, arg3: $Class<never>): $ModCheck;
         confidence(): $ModCheck$Confidence;
         fullDescription(): string;
-        shouldReportAsModified(): boolean;
         constructor(arg0: $ModCheck$Confidence_, arg1: string);
     }
     export class $SignatureUpdater$Output {
@@ -579,10 +579,10 @@ declare module "@package/net/minecraft/util" {
         static average(arg0: number, arg1: number): number;
         static blue(arg0: number): number;
         static green(arg0: number): number;
-        static alpha(arg0: number): number;
         static colorFromFloat(arg0: number, arg1: number, arg2: number, arg3: number): number;
-        static lerp(arg0: number, arg1: number, arg2: number): number;
+        static alpha(arg0: number): number;
         static opaque(arg0: number): number;
+        static lerp(arg0: number, arg1: number, arg2: number): number;
         constructor();
     }
     export class $ExtraCodecs$TagOrElementLocation extends $Record {
@@ -613,53 +613,53 @@ declare module "@package/net/minecraft/util" {
         empty(): $Unit;
         emptyList(): $Unit;
         getByteBuffer(arg0: $Unit_): $DataResult<$ByteBuffer>;
+        emptyMap(): $Unit;
         getMap(arg0: $Unit_): $DataResult<$MapLike<$Unit>>;
         createMap(arg0: $Map_<$Unit_, $Unit_>): $Unit;
         createMap(arg0: $Stream<$Pair<$Unit_, $Unit_>>): $Unit;
-        createString(arg0: string): $Unit;
         getStream(arg0: $Unit_): $DataResult<$Stream<$Unit>>;
-        mergeToList(arg0: $Unit_, arg1: $Unit_): $DataResult<$Unit>;
-        mergeToList(arg0: $Unit_, arg1: $List_<$Unit_>): $DataResult<$Unit>;
-        createShort(arg0: number): $Unit;
-        getMapEntries(arg0: $Unit_): $DataResult<$Consumer<$BiConsumer<$Unit, $Unit>>>;
-        createByteList(arg0: $ByteBuffer): $Unit;
-        getMapValues(arg0: $Unit_): $DataResult<$Stream<$Pair<$Unit, $Unit>>>;
-        getNumberValue(arg0: $Unit_): $DataResult<$Number>;
-        createIntList(arg0: $IntStream): $Unit;
-        getLongStream(arg0: $Unit_): $DataResult<$LongStream>;
-        getIntStream(arg0: $Unit_): $DataResult<$IntStream>;
-        createByte(arg0: number): $Unit;
-        getList(arg0: $Unit_): $DataResult<$Consumer<$Consumer<$Unit>>>;
-        mergeToMap(arg0: $Unit_, arg1: $Map_<$Unit_, $Unit_>): $DataResult<$Unit>;
-        mergeToMap(arg0: $Unit_, arg1: $Unit_, arg2: $Unit_): $DataResult<$Unit>;
-        mergeToMap(arg0: $Unit_, arg1: $MapLike<$Unit_>): $DataResult<$Unit>;
+        getBooleanValue(arg0: $Unit_): $DataResult<boolean>;
+        getStringValue(arg0: $Unit_): $DataResult<string>;
+        createFloat(arg0: number): $Unit;
         convertTo<U>(arg0: $DynamicOps<U>, arg1: $Unit_): U;
         createInt(arg0: number): $Unit;
         mapBuilder(): $RecordBuilder<$Unit>;
-        getBooleanValue(arg0: $Unit_): $DataResult<boolean>;
-        getStringValue(arg0: $Unit_): $DataResult<string>;
+        createByte(arg0: number): $Unit;
+        mergeToMap(arg0: $Unit_, arg1: $Map_<$Unit_, $Unit_>): $DataResult<$Unit>;
+        mergeToMap(arg0: $Unit_, arg1: $Unit_, arg2: $Unit_): $DataResult<$Unit>;
+        mergeToMap(arg0: $Unit_, arg1: $MapLike<$Unit_>): $DataResult<$Unit>;
+        getList(arg0: $Unit_): $DataResult<$Consumer<$Consumer<$Unit>>>;
+        getNumberValue(arg0: $Unit_): $DataResult<$Number>;
+        createIntList(arg0: $IntStream): $Unit;
+        createLongList(arg0: $LongStream): $Unit;
+        getLongStream(arg0: $Unit_): $DataResult<$LongStream>;
+        createShort(arg0: number): $Unit;
+        mergeToList(arg0: $Unit_, arg1: $Unit_): $DataResult<$Unit>;
+        mergeToList(arg0: $Unit_, arg1: $List_<$Unit_>): $DataResult<$Unit>;
+        createBoolean(arg0: boolean): $Unit;
+        getMapEntries(arg0: $Unit_): $DataResult<$Consumer<$BiConsumer<$Unit, $Unit>>>;
+        getIntStream(arg0: $Unit_): $DataResult<$IntStream>;
+        getMapValues(arg0: $Unit_): $DataResult<$Stream<$Pair<$Unit, $Unit>>>;
         get(arg0: $Unit_, arg1: string): $DataResult<$Unit>;
         update(arg0: $Unit_, arg1: string, arg2: $Function_<$Unit, $Unit>): $Unit;
         set(arg0: $Unit_, arg1: string, arg2: $Unit_): $Unit;
-        mergeToPrimitive(arg0: $Unit_, arg1: $Unit_): $DataResult<$Unit>;
-        withEncoder<E>(arg0: $Encoder_<E>): $Function<E, $DataResult<$Unit>>;
-        withDecoder<E>(arg0: $Decoder_<E>): $Function<$Unit, $DataResult<$Pair<E, $Unit>>>;
-        convertList<U>(arg0: $DynamicOps<U>, arg1: $Unit_): U;
-        getNumberValue(arg0: $Unit_, arg1: $Number): $Number;
-        compressMaps(): boolean;
-        updateGeneric(arg0: $Unit_, arg1: $Unit_, arg2: $Function_<$Unit, $Unit>): $Unit;
-        listBuilder(): $ListBuilder<$Unit>;
-        convertMap<U>(arg0: $DynamicOps<U>, arg1: $Unit_): U;
         getGeneric(arg0: $Unit_, arg1: $Unit_): $DataResult<$Unit>;
         withParser<E>(arg0: $Decoder_<E>): $Function<$Unit, $DataResult<E>>;
-        emptyMap(): $Unit;
+        convertMap<U>(arg0: $DynamicOps<U>, arg1: $Unit_): U;
+        listBuilder(): $ListBuilder<$Unit>;
+        convertList<U>(arg0: $DynamicOps<U>, arg1: $Unit_): U;
+        updateGeneric(arg0: $Unit_, arg1: $Unit_, arg2: $Function_<$Unit, $Unit>): $Unit;
+        withEncoder<E>(arg0: $Encoder_<E>): $Function<E, $DataResult<$Unit>>;
+        withDecoder<E>(arg0: $Decoder_<E>): $Function<$Unit, $DataResult<$Pair<E, $Unit>>>;
+        mergeToPrimitive(arg0: $Unit_, arg1: $Unit_): $DataResult<$Unit>;
+        getNumberValue(arg0: $Unit_, arg1: $Number): $Number;
+        compressMaps(): boolean;
         createLong(arg0: number): $Unit;
+        createString(arg0: string): $Unit;
         createList(arg0: $Stream<$Unit_>): $Unit;
-        createBoolean(arg0: boolean): $Unit;
-        createNumeric(arg0: $Number): $Unit;
-        createLongList(arg0: $LongStream): $Unit;
-        createFloat(arg0: number): $Unit;
         createDouble(arg0: number): $Unit;
+        createByteList(arg0: $ByteBuffer): $Unit;
+        createNumeric(arg0: $Number): $Unit;
         static INSTANCE: $NullOps;
     }
     export class $Unit extends $Enum<$Unit> {
@@ -700,77 +700,77 @@ declare module "@package/net/minecraft/util" {
         static parse(arg0: string, arg1: boolean): $JsonObject;
         static parse(arg0: string): $JsonObject;
         static getType(arg0: $JsonElement_): string;
-        static getAsInt(arg0: $JsonObject_, arg1: string): number;
         static getAsInt(arg0: $JsonObject_, arg1: string, arg2: number): number;
-        static getAsDouble(arg0: $JsonObject_, arg1: string): number;
+        static getAsInt(arg0: $JsonObject_, arg1: string): number;
         static getAsDouble(arg0: $JsonObject_, arg1: string, arg2: number): number;
+        static getAsDouble(arg0: $JsonObject_, arg1: string): number;
         static getAsLong(arg0: $JsonObject_, arg1: string): number;
         static getAsLong(arg0: $JsonObject_, arg1: string, arg2: number): number;
-        static getAsBoolean(arg0: $JsonObject_, arg1: string): boolean;
         static getAsBoolean(arg0: $JsonObject_, arg1: string, arg2: boolean): boolean;
+        static getAsBoolean(arg0: $JsonObject_, arg1: string): boolean;
         static parseArray(arg0: $Reader): $JsonArray;
         static parseArray(arg0: string): $JsonArray;
-        static getAsObject<T>(arg0: $JsonObject_, arg1: string, arg2: T, arg3: $JsonDeserializationContext_, arg4: $Class<T>): T;
-        static getAsObject<T>(arg0: $JsonObject_, arg1: string, arg2: $JsonDeserializationContext_, arg3: $Class<T>): T;
         static getAsString(arg0: $JsonObject_, arg1: string, arg2: string): string;
         static getAsString(arg0: $JsonObject_, arg1: string): string;
-        static getAsJsonArray(arg0: $JsonObject_, arg1: string, arg2: $JsonArray_): $JsonArray;
-        static getAsJsonArray(arg0: $JsonObject_, arg1: string): $JsonArray;
         static getAsBigDecimal(arg0: $JsonObject_, arg1: string): $BigDecimal;
         static getAsBigDecimal(arg0: $JsonObject_, arg1: string, arg2: $BigDecimal): $BigDecimal;
         static getAsJsonObject(arg0: $JsonObject_, arg1: string, arg2: $JsonObject_): $JsonObject;
         static getAsJsonObject(arg0: $JsonObject_, arg1: string): $JsonObject;
-        static getAsBigInteger(arg0: $JsonObject_, arg1: string): $BigInteger;
-        static getAsBigInteger(arg0: $JsonObject_, arg1: string, arg2: $BigInteger): $BigInteger;
         static getAsCharacter(arg0: $JsonObject_, arg1: string, arg2: string): string;
         static getAsCharacter(arg0: $JsonObject_, arg1: string): string;
-        static writeValue(arg0: $JsonWriter, arg1: $JsonElement_, arg2: $Comparator<string>): void;
-        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $TypeToken<T>): T;
-        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $TypeToken<T>, arg3: boolean): T;
-        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $Class<T>, arg3: boolean): T;
-        static fromJson<T>(arg0: $Gson, arg1: string, arg2: $Class<T>): T;
-        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $Class<T>): T;
-        static fromJson<T>(arg0: $Gson, arg1: string, arg2: $Class<T>, arg3: boolean): T;
-        static getAsShort(arg0: $JsonObject_, arg1: string, arg2: number): number;
-        static getAsShort(arg0: $JsonObject_, arg1: string): number;
-        static getAsByte(arg0: $JsonObject_, arg1: string, arg2: number): number;
-        static getAsByte(arg0: $JsonObject_, arg1: string): number;
+        static getAsBigInteger(arg0: $JsonObject_, arg1: string, arg2: $BigInteger): $BigInteger;
+        static getAsBigInteger(arg0: $JsonObject_, arg1: string): $BigInteger;
+        static getAsJsonArray(arg0: $JsonObject_, arg1: string): $JsonArray;
+        static getAsJsonArray(arg0: $JsonObject_, arg1: string, arg2: $JsonArray_): $JsonArray;
         static getAsFloat(arg0: $JsonObject_, arg1: string): number;
         static getAsFloat(arg0: $JsonObject_, arg1: string, arg2: number): number;
-        static getNonNull(arg0: $JsonObject_, arg1: string): $JsonElement;
-        static getAsItem(arg0: $JsonObject_, arg1: string, arg2: $Holder_<$Item>): $Holder<$Item>;
+        static getAsByte(arg0: $JsonObject_, arg1: string): number;
+        static getAsByte(arg0: $JsonObject_, arg1: string, arg2: number): number;
+        static getAsShort(arg0: $JsonObject_, arg1: string): number;
+        static getAsShort(arg0: $JsonObject_, arg1: string, arg2: number): number;
+        static writeValue(arg0: $JsonWriter, arg1: $JsonElement_, arg2: $Comparator<string>): void;
+        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $Class<T>, arg3: boolean): T;
+        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $TypeToken<T>, arg3: boolean): T;
+        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $TypeToken<T>): T;
+        static fromJson<T>(arg0: $Gson, arg1: $Reader, arg2: $Class<T>): T;
+        static fromJson<T>(arg0: $Gson, arg1: string, arg2: $Class<T>): T;
+        static fromJson<T>(arg0: $Gson, arg1: string, arg2: $Class<T>, arg3: boolean): T;
+        static getAsObject<T>(arg0: $JsonObject_, arg1: string, arg2: T, arg3: $JsonDeserializationContext_, arg4: $Class<T>): T;
+        static getAsObject<T>(arg0: $JsonObject_, arg1: string, arg2: $JsonDeserializationContext_, arg3: $Class<T>): T;
+        static convertToObject<T>(arg0: $JsonElement_, arg1: string, arg2: $JsonDeserializationContext_, arg3: $Class<T>): T;
+        static convertToDouble(arg0: $JsonElement_, arg1: string): number;
         static getAsItem(arg0: $JsonObject_, arg1: string): $Holder<$Item>;
-        static convertToInt(arg0: $JsonElement_, arg1: string): number;
-        static isNumberValue(arg0: $JsonObject_, arg1: string): boolean;
-        static isNumberValue(arg0: $JsonElement_): boolean;
-        static convertToShort(arg0: $JsonElement_, arg1: string): number;
-        static isBooleanValue(arg0: $JsonElement_): boolean;
-        static isBooleanValue(arg0: $JsonObject_, arg1: string): boolean;
-        static convertToByte(arg0: $JsonElement_, arg1: string): number;
-        static isValidNode(arg0: $JsonObject_, arg1: string): boolean;
-        static convertToFloat(arg0: $JsonElement_, arg1: string): number;
-        static isArrayNode(arg0: $JsonObject_, arg1: string): boolean;
+        static getAsItem(arg0: $JsonObject_, arg1: string, arg2: $Holder_<$Item>): $Holder<$Item>;
+        static getNonNull(arg0: $JsonObject_, arg1: string): $JsonElement;
         static convertToCharacter(arg0: $JsonElement_, arg1: string): string;
         static convertToJsonArray(arg0: $JsonElement_, arg1: string): $JsonArray;
-        static convertToBoolean(arg0: $JsonElement_, arg1: string): boolean;
-        static isStringValue(arg0: $JsonObject_, arg1: string): boolean;
-        static isStringValue(arg0: $JsonElement_): boolean;
+        static isBooleanValue(arg0: $JsonObject_, arg1: string): boolean;
+        static isBooleanValue(arg0: $JsonElement_): boolean;
         static isValidPrimitive(arg0: $JsonObject_, arg1: string): boolean;
-        static convertToItem(arg0: $JsonElement_, arg1: string): $Holder<$Item>;
-        static isObjectNode(arg0: $JsonObject_, arg1: string): boolean;
         static convertToString(arg0: $JsonElement_, arg1: string): string;
-        static convertToLong(arg0: $JsonElement_, arg1: string): number;
-        static fromNullableJson<T>(arg0: $Gson, arg1: $Reader, arg2: $TypeToken<T>, arg3: boolean): T;
-        static fromNullableJson<T>(arg0: $Gson, arg1: string, arg2: $TypeToken<T>, arg3: boolean): T;
-        static fromNullableJson<T>(arg0: $Gson, arg1: $Reader, arg2: $Class<T>, arg3: boolean): T;
-        static fromNullableJson<T>(arg0: $Gson, arg1: string, arg2: $TypeToken<T>): T;
-        static fromNullableJson<T>(arg0: $Gson, arg1: string, arg2: $Class<T>, arg3: boolean): T;
+        static convertToInt(arg0: $JsonElement_, arg1: string): number;
+        static isArrayNode(arg0: $JsonObject_, arg1: string): boolean;
+        static convertToByte(arg0: $JsonElement_, arg1: string): number;
+        static isNumberValue(arg0: $JsonElement_): boolean;
+        static isNumberValue(arg0: $JsonObject_, arg1: string): boolean;
         static toStableString(arg0: $JsonElement_): string;
-        static convertToDouble(arg0: $JsonElement_, arg1: string): number;
-        static convertToObject<T>(arg0: $JsonElement_, arg1: string, arg2: $JsonDeserializationContext_, arg3: $Class<T>): T;
-        static convertToJsonObject(arg0: $JsonElement_, arg1: string): $JsonObject;
-        static convertToBigInteger(arg0: $JsonElement_, arg1: string): $BigInteger;
+        static convertToLong(arg0: $JsonElement_, arg1: string): number;
+        static isValidNode(arg0: $JsonObject_, arg1: string): boolean;
+        static convertToShort(arg0: $JsonElement_, arg1: string): number;
+        static isObjectNode(arg0: $JsonObject_, arg1: string): boolean;
+        static fromNullableJson<T>(arg0: $Gson, arg1: string, arg2: $TypeToken<T>): T;
+        static fromNullableJson<T>(arg0: $Gson, arg1: $Reader, arg2: $Class<T>, arg3: boolean): T;
+        static fromNullableJson<T>(arg0: $Gson, arg1: string, arg2: $Class<T>, arg3: boolean): T;
+        static fromNullableJson<T>(arg0: $Gson, arg1: string, arg2: $TypeToken<T>, arg3: boolean): T;
+        static fromNullableJson<T>(arg0: $Gson, arg1: $Reader, arg2: $TypeToken<T>, arg3: boolean): T;
+        static isStringValue(arg0: $JsonElement_): boolean;
+        static isStringValue(arg0: $JsonObject_, arg1: string): boolean;
+        static convertToItem(arg0: $JsonElement_, arg1: string): $Holder<$Item>;
+        static convertToBoolean(arg0: $JsonElement_, arg1: string): boolean;
+        static convertToFloat(arg0: $JsonElement_, arg1: string): number;
         static convertToBigDecimal(arg0: $JsonElement_, arg1: string): $BigDecimal;
+        static convertToBigInteger(arg0: $JsonElement_, arg1: string): $BigInteger;
+        static convertToJsonObject(arg0: $JsonElement_, arg1: string): $JsonObject;
         constructor();
     }
     export class $SignatureValidator {
@@ -838,14 +838,14 @@ declare module "@package/net/minecraft/util" {
         forEachRemaining(arg0: $Consumer_<T>): void;
     }
     export class $ParticleUtils {
+        static spawnParticlesAlongAxis(arg0: $Direction$Axis_, arg1: $Level_, arg2: $BlockPos_, arg3: number, arg4: $ParticleOptions_, arg5: $UniformInt): void;
         static spawnParticles(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: number, arg3: number, arg4: number, arg5: boolean, arg6: $ParticleOptions_): void;
-        static spawnParticleBelow(arg0: $Level_, arg1: $BlockPos_, arg2: $RandomSource, arg3: $ParticleOptions_): void;
-        static spawnSmashAttackParticles(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: number): void;
         static spawnParticlesOnBlockFaces(arg0: $Level_, arg1: $BlockPos_, arg2: $ParticleOptions_, arg3: $IntProvider_): void;
         static spawnParticlesOnBlockFace(arg0: $Level_, arg1: $BlockPos_, arg2: $ParticleOptions_, arg3: $IntProvider_, arg4: $Direction_, arg5: $Supplier_<$Vec3>, arg6: number): void;
-        static spawnParticleOnFace(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $ParticleOptions_, arg4: $Vec3_, arg5: number): void;
+        static spawnSmashAttackParticles(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: number): void;
         static spawnParticleInBlock(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: number, arg3: $ParticleOptions_): void;
-        static spawnParticlesAlongAxis(arg0: $Direction$Axis_, arg1: $Level_, arg2: $BlockPos_, arg3: number, arg4: $ParticleOptions_, arg5: $UniformInt): void;
+        static spawnParticleBelow(arg0: $Level_, arg1: $BlockPos_, arg2: $RandomSource, arg3: $ParticleOptions_): void;
+        static spawnParticleOnFace(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $ParticleOptions_, arg4: $Vec3_, arg5: number): void;
         constructor();
     }
     export class $TimeUtil {
@@ -881,9 +881,9 @@ declare module "@package/net/minecraft/util" {
         nextFloat(): number;
         nextGaussian(): number;
         fork(): $RandomSource;
+        triangle(arg0: number, arg1: number): number;
         forkPositional(): $PositionalRandomFactory;
         consumeCount(arg0: number): void;
-        triangle(arg0: number, arg1: number): number;
         nextIntBetweenInclusive(arg0: number, arg1: number): number;
         set seed(value: number);
     }
@@ -891,59 +891,58 @@ declare module "@package/net/minecraft/util" {
         decode<T>(arg0: $DynamicOps<T>, arg1: $MapLike<T>): $DataResult<$Map<K, V>>;
         decode<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<$Pair<$Map<K, V>, T>>;
         encode<T>(arg0: $Map_<K, V>, arg1: $DynamicOps<T>, arg2: T): $DataResult<T>;
-        elementCodec(): $Codec<V>;
         keyCodec(): $Codec<K>;
+        elementCodec(): $Codec<V>;
         dispatch<E>(arg0: string, arg1: $Function_<E, $Map<K, V>>, arg2: $Function_<$Map<K, V>, $MapCodec<E>>): $Codec<E>;
         dispatch<E>(arg0: $Function_<E, $Map<K, V>>, arg1: $Function_<$Map<K, V>, $MapCodec<E>>): $Codec<E>;
         validate(arg0: $Function_<$Map<K, V>, $DataResult<$Map<K, V>>>): $Codec<$Map<K, V>>;
         orElse(arg0: $UnaryOperator_<string>, arg1: $Map_<K, V>): $Codec<$Map<K, V>>;
         orElse(arg0: $Map_<K, V>): $Codec<$Map<K, V>>;
         orElse(arg0: $Consumer_<string>, arg1: $Map_<K, V>): $Codec<$Map<K, V>>;
-        orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<$Map<K, V>>): $Codec<$Map<K, V>>;
-        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<$Map<K, V>>): $Codec<$Map<K, V>>;
         orElseGet(arg0: $Supplier_<$Map<K, V>>): $Codec<$Map<K, V>>;
-        lenientOptionalFieldOf(arg0: string): $MapCodec<($Map<K, V>) | undefined>;
-        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: $Map_<K, V>, arg3: $Lifecycle): $MapCodec<$Map<K, V>>;
-        lenientOptionalFieldOf(arg0: string, arg1: $Map_<K, V>, arg2: $Lifecycle): $MapCodec<$Map<K, V>>;
-        lenientOptionalFieldOf(arg0: string, arg1: $Map_<K, V>): $MapCodec<$Map<K, V>>;
-        comapFlatMap<S>(arg0: $Function_<$Map<K, V>, $DataResult<S>>, arg1: $Function_<S, $Map<K, V>>): $Codec<S>;
-        optionalFieldOf(arg0: string): $MapCodec<($Map<K, V>) | undefined>;
-        optionalFieldOf(arg0: string, arg1: $Map_<K, V>): $MapCodec<$Map<K, V>>;
-        optionalFieldOf(arg0: string, arg1: $Map_<K, V>, arg2: $Lifecycle): $MapCodec<$Map<K, V>>;
-        optionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: $Map_<K, V>, arg3: $Lifecycle): $MapCodec<$Map<K, V>>;
-        dispatchStable<E>(arg0: $Function_<E, $Map<K, V>>, arg1: $Function_<$Map<K, V>, $MapCodec<E>>): $Codec<E>;
-        sizeLimitedListOf(arg0: number): $Codec<$List<$Map<K, V>>>;
-        dispatchMap<E>(arg0: $Function_<E, $Map<K, V>>, arg1: $Function_<$Map<K, V>, $MapCodec<E>>): $MapCodec<E>;
-        dispatchMap<E>(arg0: string, arg1: $Function_<E, $Map<K, V>>, arg2: $Function_<$Map<K, V>, $MapCodec<E>>): $MapCodec<E>;
-        promotePartial(arg0: $Consumer_<string>): $Codec<$Map<K, V>>;
-        flatComapMap<S>(arg0: $Function_<$Map<K, V>, S>, arg1: $Function_<S, $DataResult<$Map<K, V>>>): $Codec<S>;
-        partialDispatch<E>(arg0: string, arg1: $Function_<E, $DataResult<$Map<K, V>>>, arg2: $Function_<$Map<K, V>, $DataResult<$MapCodec<E>>>): $Codec<E>;
-        xmap<S>(arg0: $Function_<$Map<K, V>, S>, arg1: $Function_<S, $Map<K, V>>): $Codec<S>;
-        stable(): $Codec<$Map<K, V>>;
-        deprecated(arg0: number): $Codec<$Map<K, V>>;
-        listOf(arg0: number, arg1: number): $Codec<$List<$Map<K, V>>>;
+        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<$Map<K, V>>): $Codec<$Map<K, V>>;
+        orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<$Map<K, V>>): $Codec<$Map<K, V>>;
         listOf(): $Codec<$List<$Map<K, V>>>;
+        listOf(arg0: number, arg1: number): $Codec<$List<$Map<K, V>>>;
+        deprecated(arg0: number): $Codec<$Map<K, V>>;
         mapResult(arg0: $Codec$ResultFunction<$Map_<K, V>>): $Codec<$Map<K, V>>;
         flatXmap<S>(arg0: $Function_<$Map<K, V>, $DataResult<S>>, arg1: $Function_<S, $DataResult<$Map<K, V>>>): $Codec<S>;
+        xmap<S>(arg0: $Function_<$Map<K, V>, S>, arg1: $Function_<S, $Map<K, V>>): $Codec<S>;
+        stable(): $Codec<$Map<K, V>>;
+        lenientOptionalFieldOf(arg0: string, arg1: $Map_<K, V>): $MapCodec<$Map<K, V>>;
+        lenientOptionalFieldOf(arg0: string, arg1: $Map_<K, V>, arg2: $Lifecycle): $MapCodec<$Map<K, V>>;
+        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: $Map_<K, V>, arg3: $Lifecycle): $MapCodec<$Map<K, V>>;
+        lenientOptionalFieldOf(arg0: string): $MapCodec<($Map<K, V>) | undefined>;
+        dispatchMap<E>(arg0: string, arg1: $Function_<E, $Map<K, V>>, arg2: $Function_<$Map<K, V>, $MapCodec<E>>): $MapCodec<E>;
+        dispatchMap<E>(arg0: $Function_<E, $Map<K, V>>, arg1: $Function_<$Map<K, V>, $MapCodec<E>>): $MapCodec<E>;
+        partialDispatch<E>(arg0: string, arg1: $Function_<E, $DataResult<$Map<K, V>>>, arg2: $Function_<$Map<K, V>, $DataResult<$MapCodec<E>>>): $Codec<E>;
+        dispatchStable<E>(arg0: $Function_<E, $Map<K, V>>, arg1: $Function_<$Map<K, V>, $MapCodec<E>>): $Codec<E>;
+        sizeLimitedListOf(arg0: number): $Codec<$List<$Map<K, V>>>;
+        flatComapMap<S>(arg0: $Function_<$Map<K, V>, S>, arg1: $Function_<S, $DataResult<$Map<K, V>>>): $Codec<S>;
+        comapFlatMap<S>(arg0: $Function_<$Map<K, V>, $DataResult<S>>, arg1: $Function_<S, $Map<K, V>>): $Codec<S>;
+        withLifecycle(arg0: $Lifecycle): $Codec<$Map<K, V>>;
+        optionalFieldOf(arg0: string, arg1: $Map_<K, V>, arg2: $Lifecycle): $MapCodec<$Map<K, V>>;
+        optionalFieldOf(arg0: string, arg1: $Map_<K, V>): $MapCodec<$Map<K, V>>;
+        optionalFieldOf(arg0: string): $MapCodec<($Map<K, V>) | undefined>;
+        optionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: $Map_<K, V>, arg3: $Lifecycle): $MapCodec<$Map<K, V>>;
         encode<T>(arg0: $Map_<K, V>, arg1: $DynamicOps<T>, arg2: $RecordBuilder<T>): $RecordBuilder<T>;
-        encodeStart<T>(arg0: $DynamicOps<T>, arg1: $Map_<K, V>): $DataResult<T>;
         comap<B>(arg0: $Function_<B, $Map<K, V>>): $Encoder<B>;
         flatComap<B>(arg0: $Function_<B, $DataResult<$Map<K, V>>>): $Encoder<B>;
+        encodeStart<T>(arg0: $DynamicOps<T>, arg1: $Map_<K, V>): $DataResult<T>;
         decode<T>(arg0: $Dynamic<T>): $DataResult<$Pair<$Map<K, V>, T>>;
         map<B>(arg0: $Function_<$Map<K, V>, B>): $Decoder<B>;
         flatMap<B>(arg0: $Function_<$Map<K, V>, $DataResult<B>>): $Decoder<B>;
-        parse<T>(arg0: $Dynamic<T>): $DataResult<$Map<K, V>>;
         parse<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<$Map<K, V>>;
+        parse<T>(arg0: $Dynamic<T>): $DataResult<$Map<K, V>>;
         boxed(): $Decoder$Boxed<$Map<K, V>>;
         terminal(): $Decoder$Terminal<$Map<K, V>>;
         simple(): $Decoder$Simple<$Map<K, V>>;
-        withLifecycle(arg0: $Lifecycle): $Encoder<$Map<K, V>>;
         fieldOf(arg0: string): $MapEncoder<$Map<K, V>>;
+        promotePartial(arg0: $Consumer_<string>): $Decoder<$Map<K, V>>;
         constructor(arg0: $Codec<K>, arg1: $Codec<V>);
     }
     export class $ArrayListDeque<T> extends $AbstractList<T> implements $ListAndDeque<T> {
         capacity(): number;
-        reversed(): $ListAndDeque<T>;
         pollFirst(): T;
         pollLast(): T;
         offerLast(arg0: T): boolean;
@@ -973,8 +972,8 @@ declare module "@package/net/minecraft/util" {
         getAndSet(arg0: number, arg1: number): number;
         getAll(arg0: $IntConsumer_): void;
         getBits(): number;
-        getRaw(): number[];
         unpack(arg0: number[]): void;
+        getRaw(): number[];
         get size(): number;
         get bits(): number;
         get raw(): number[];
@@ -1010,11 +1009,11 @@ declare module "@package/net/minecraft/util" {
         static create<C, I extends $ToFloatFunction<C>>(arg0: I, arg1: number[], arg2: $List_<$CubicSpline<C, I>>, arg3: number[]): $CubicSpline$Multipoint<C, I>;
         locations(): number[];
         maxValue(): number;
-        minValue(): number;
-        parityString(): string;
-        derivatives(): number[];
-        coordinate(): I;
         mapAll(arg0: $CubicSpline$CoordinateVisitor_<I>): $CubicSpline<C, I>;
+        minValue(): number;
+        coordinate(): I;
+        derivatives(): number[];
+        parityString(): string;
         comap<C2>(arg0: $Function_<C2, C>): $ToFloatFunction<C2>;
         constructor(arg0: I, arg1: number[], arg2: $List_<$CubicSpline<C, I>>, arg3: number[], arg4: number, arg5: number);
     }
@@ -1048,14 +1047,14 @@ declare module "@package/net/minecraft/util" {
         visitRequiredDependencies(arg0: $Consumer_<K>): void;
     }
     export class $HttpUtil {
-        static downloadFile(arg0: $Path_, arg1: $URL, arg2: $Map_<string, string>, arg3: $HashFunction, arg4: $HashCode, arg5: number, arg6: $Proxy, arg7: $HttpUtil$DownloadProgressListener): $Path;
         static getAvailablePort(): number;
+        static downloadFile(arg0: $Path_, arg1: $URL, arg2: $Map_<string, string>, arg3: $HashFunction, arg4: $HashCode, arg5: number, arg6: $Proxy, arg7: $HttpUtil$DownloadProgressListener): $Path;
         static isPortAvailable(arg0: number): boolean;
         static get availablePort(): number;
     }
     export class $ThreadingDetector {
-        checkAndLock(): void;
         checkAndUnlock(): void;
+        checkAndLock(): void;
         static makeThreadingException(arg0: string, arg1: $Thread): $ReportedException;
         lock: $Semaphore;
         constructor(arg0: string);
@@ -1064,10 +1063,10 @@ declare module "@package/net/minecraft/util" {
     }
     export class $StringRepresentable {
         static keys(arg0: $StringRepresentable_[]): $Keyable;
-        static fromValues<T extends $StringRepresentable>(arg0: $Supplier_<T[]>): $Codec<T>;
-        static fromEnum<E extends $Enum<E>>(arg0: $Supplier_<E[]>): $StringRepresentable$EnumCodec<E>;
         static fromEnumWithMapping<E extends $Enum<E>>(arg0: $Supplier_<E[]>, arg1: $Function_<string, string>): $StringRepresentable$EnumCodec<E>;
         static createNameLookup<T extends $StringRepresentable>(arg0: T[], arg1: $Function_<string, string>): $Function<string, T>;
+        static fromEnum<E extends $Enum<E>>(arg0: $Supplier_<E[]>): $StringRepresentable$EnumCodec<E>;
+        static fromValues<T extends $StringRepresentable>(arg0: $Supplier_<T[]>): $Codec<T>;
         static PRE_BUILT_MAP_THRESHOLD: number;
     }
     export interface $StringRepresentable extends $RemappedEnumConstant {
@@ -1104,9 +1103,9 @@ declare module "@package/net/minecraft/util" {
         static create<T>(arg0: number, arg1: number, arg2: number, arg3: $StaticCache2D$Initializer_<T>): $StaticCache2D<T>;
     }
     export class $ResourceLocationPattern {
-        namespacePredicate(): $Predicate<string>;
-        pathPredicate(): $Predicate<string>;
         locationPredicate(): $Predicate<$ResourceLocation>;
+        pathPredicate(): $Predicate<string>;
+        namespacePredicate(): $Predicate<string>;
         static CODEC: $Codec<$ResourceLocationPattern>;
     }
     export class $Tuple<A, B> {
@@ -1139,12 +1138,12 @@ declare module "@package/net/minecraft/util" {
     }
     export class $StringDecomposer {
         static iterate(arg0: string, arg1: $Style, arg2: $FormattedCharSink_): boolean;
-        static filterBrokenSurrogates(arg0: string): string;
-        static iterateFormatted(arg0: $FormattedText, arg1: $Style, arg2: $FormattedCharSink_): boolean;
-        static iterateFormatted(arg0: string, arg1: $Style, arg2: $FormattedCharSink_): boolean;
-        static iterateFormatted(arg0: string, arg1: number, arg2: $Style, arg3: $FormattedCharSink_): boolean;
-        static iterateFormatted(arg0: string, arg1: number, arg2: $Style, arg3: $Style, arg4: $FormattedCharSink_): boolean;
         static iterateBackwards(arg0: string, arg1: $Style, arg2: $FormattedCharSink_): boolean;
+        static filterBrokenSurrogates(arg0: string): string;
+        static iterateFormatted(arg0: string, arg1: number, arg2: $Style, arg3: $FormattedCharSink_): boolean;
+        static iterateFormatted(arg0: string, arg1: $Style, arg2: $FormattedCharSink_): boolean;
+        static iterateFormatted(arg0: $FormattedText, arg1: $Style, arg2: $FormattedCharSink_): boolean;
+        static iterateFormatted(arg0: string, arg1: number, arg2: $Style, arg3: $Style, arg4: $FormattedCharSink_): boolean;
         static getPlainText(arg0: $FormattedText): string;
         constructor();
     }
@@ -1207,16 +1206,16 @@ declare module "@package/net/minecraft/util" {
     export class $FormattedCharSequence {
         static fromList(arg0: $List_<$FormattedCharSequence_>): $FormattedCharSequence;
         static codepoint(arg0: number, arg1: $Style): $FormattedCharSequence;
-        static forward(arg0: string, arg1: $Style, arg2: $Int2IntFunction_): $FormattedCharSequence;
-        static forward(text: string, style: $Style): $FormattedCharSequence;
-        static composite(arg0: $List_<$FormattedCharSequence_>): $FormattedCharSequence;
         static composite(...arg0: $FormattedCharSequence_[]): $FormattedCharSequence;
         static composite(arg0: $FormattedCharSequence_, arg1: $FormattedCharSequence_): $FormattedCharSequence;
+        static composite(arg0: $List_<$FormattedCharSequence_>): $FormattedCharSequence;
         static composite(arg0: $FormattedCharSequence_): $FormattedCharSequence;
         static composite(): $FormattedCharSequence;
-        static backward(arg0: string, arg1: $Style): $FormattedCharSequence;
-        static backward(arg0: string, arg1: $Style, arg2: $Int2IntFunction_): $FormattedCharSequence;
         static decorateOutput(arg0: $FormattedCharSink_, arg1: $Int2IntFunction_): $FormattedCharSink;
+        static forward(text: string, style: $Style): $FormattedCharSequence;
+        static forward(arg0: string, arg1: $Style, arg2: $Int2IntFunction_): $FormattedCharSequence;
+        static backward(arg0: string, arg1: $Style, arg2: $Int2IntFunction_): $FormattedCharSequence;
+        static backward(arg0: string, arg1: $Style): $FormattedCharSequence;
         static fromPair(arg0: $FormattedCharSequence_, arg1: $FormattedCharSequence_): $FormattedCharSequence;
         static EMPTY: $FormattedCharSequence;
     }
@@ -1228,8 +1227,8 @@ declare module "@package/net/minecraft/util" {
      */
     export type $FormattedCharSequence_ = ((arg0: $FormattedCharSink) => boolean);
     export class $ByIdMap {
-        static continuous<T>(arg0: $ToIntFunction_<T>, arg1: T[], arg2: $ByIdMap$OutOfBoundsStrategy_): $IntFunction<T>;
         static sparse<T>(arg0: $ToIntFunction_<T>, arg1: T[], arg2: T): $IntFunction<T>;
+        static continuous<T>(arg0: $ToIntFunction_<T>, arg1: T[], arg2: $ByIdMap$OutOfBoundsStrategy_): $IntFunction<T>;
         constructor();
     }
     export class $TimeSource$NanoTimeSource {
@@ -1258,10 +1257,10 @@ declare module "@package/net/minecraft/util" {
     export class $InclusiveRange<T extends $Comparable<T>> extends $Record {
         contains(arg0: $InclusiveRange_<T>): boolean;
         static create<T extends $Comparable<T>>(arg0: T, arg1: T): $DataResult<$InclusiveRange<T>>;
-        minInclusive(): T;
-        maxInclusive(): T;
         static codec<T extends $Comparable<T>>(arg0: $Codec<T>, arg1: T, arg2: T): $Codec<$InclusiveRange<T>>;
         static codec<T extends $Comparable<T>>(arg0: $Codec<T>): $Codec<$InclusiveRange<T>>;
+        maxInclusive(): T;
+        minInclusive(): T;
         isValueInRange(arg0: T): boolean;
         static INT: $Codec<$InclusiveRange<number>>;
         constructor(arg0: T, arg1: T);
@@ -1282,14 +1281,14 @@ declare module "@package/net/minecraft/util" {
      */
     export type $SpawnUtil$Strategy_ = ((arg0: $ServerLevel, arg1: $BlockPos, arg2: $BlockState, arg3: $BlockPos, arg4: $BlockState) => boolean);
     export class $CubicSpline<C, I extends $ToFloatFunction<C>> {
-        static builder<C, I extends $ToFloatFunction<C>>(arg0: I, arg1: $ToFloatFunction<number>): $CubicSpline$Builder<C, I>;
         static builder<C, I extends $ToFloatFunction<C>>(arg0: I): $CubicSpline$Builder<C, I>;
+        static builder<C, I extends $ToFloatFunction<C>>(arg0: I, arg1: $ToFloatFunction<number>): $CubicSpline$Builder<C, I>;
         static constant<C, I extends $ToFloatFunction<C>>(arg0: number): $CubicSpline<C, I>;
         static codec<C, I extends $ToFloatFunction<C>>(arg0: $Codec<I>): $Codec<$CubicSpline<C, I>>;
     }
     export interface $CubicSpline<C, I extends $ToFloatFunction<C>> extends $ToFloatFunction<C> {
-        parityString(): string;
         mapAll(arg0: $CubicSpline$CoordinateVisitor_<I>): $CubicSpline<C, I>;
+        parityString(): string;
     }
     export class $SortedArraySet<T> extends $AbstractSet<T> {
         get(arg0: T): T;
@@ -1311,8 +1310,8 @@ declare module "@package/net/minecraft/util" {
         getAndSet(arg0: number, arg1: number): number;
         getAll(arg0: $IntConsumer_): void;
         getBits(): number;
-        getRaw(): number[];
         unpack(arg0: number[]): void;
+        getRaw(): number[];
         sodium$unpack(arg0: $Object[], arg1: $Palette<any>): void;
         static RAW: number[];
         constructor(arg0: number);
@@ -1329,45 +1328,45 @@ declare module "@package/net/minecraft/util" {
         orElse(arg0: $UnaryOperator_<string>, arg1: S): $Codec<S>;
         orElse(arg0: S): $Codec<S>;
         orElse(arg0: $Consumer_<string>, arg1: S): $Codec<S>;
-        orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<S>): $Codec<S>;
-        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<S>): $Codec<S>;
         orElseGet(arg0: $Supplier_<S>): $Codec<S>;
-        lenientOptionalFieldOf(arg0: string): $MapCodec<(S) | undefined>;
-        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: S, arg3: $Lifecycle): $MapCodec<S>;
-        lenientOptionalFieldOf(arg0: string, arg1: S, arg2: $Lifecycle): $MapCodec<S>;
-        lenientOptionalFieldOf(arg0: string, arg1: S): $MapCodec<S>;
-        comapFlatMap<S>(arg0: $Function_<S, $DataResult<S>>, arg1: $Function_<S, S>): $Codec<S>;
-        optionalFieldOf(arg0: string): $MapCodec<(S) | undefined>;
-        optionalFieldOf(arg0: string, arg1: S): $MapCodec<S>;
-        optionalFieldOf(arg0: string, arg1: S, arg2: $Lifecycle): $MapCodec<S>;
-        optionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: S, arg3: $Lifecycle): $MapCodec<S>;
-        dispatchStable<E>(arg0: $Function_<E, S>, arg1: $Function_<S, $MapCodec<E>>): $Codec<E>;
-        sizeLimitedListOf(arg0: number): $Codec<$List<S>>;
-        dispatchMap<E>(arg0: $Function_<E, S>, arg1: $Function_<S, $MapCodec<E>>): $MapCodec<E>;
-        dispatchMap<E>(arg0: string, arg1: $Function_<E, S>, arg2: $Function_<S, $MapCodec<E>>): $MapCodec<E>;
-        promotePartial(arg0: $Consumer_<string>): $Codec<S>;
-        flatComapMap<S>(arg0: $Function_<S, S>, arg1: $Function_<S, $DataResult<S>>): $Codec<S>;
-        partialDispatch<E>(arg0: string, arg1: $Function_<E, $DataResult<S>>, arg2: $Function_<S, $DataResult<$MapCodec<E>>>): $Codec<E>;
-        xmap<S>(arg0: $Function_<S, S>, arg1: $Function_<S, S>): $Codec<S>;
-        stable(): $Codec<S>;
-        deprecated(arg0: number): $Codec<S>;
-        listOf(arg0: number, arg1: number): $Codec<$List<S>>;
+        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<S>): $Codec<S>;
+        orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<S>): $Codec<S>;
         listOf(): $Codec<$List<S>>;
+        listOf(arg0: number, arg1: number): $Codec<$List<S>>;
+        deprecated(arg0: number): $Codec<S>;
         mapResult(arg0: $Codec$ResultFunction<S>): $Codec<S>;
         flatXmap<S>(arg0: $Function_<S, $DataResult<S>>, arg1: $Function_<S, $DataResult<S>>): $Codec<S>;
-        encodeStart<T>(arg0: $DynamicOps<T>, arg1: S): $DataResult<T>;
+        xmap<S>(arg0: $Function_<S, S>, arg1: $Function_<S, S>): $Codec<S>;
+        stable(): $Codec<S>;
+        lenientOptionalFieldOf(arg0: string, arg1: S): $MapCodec<S>;
+        lenientOptionalFieldOf(arg0: string, arg1: S, arg2: $Lifecycle): $MapCodec<S>;
+        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: S, arg3: $Lifecycle): $MapCodec<S>;
+        lenientOptionalFieldOf(arg0: string): $MapCodec<(S) | undefined>;
+        dispatchMap<E>(arg0: string, arg1: $Function_<E, S>, arg2: $Function_<S, $MapCodec<E>>): $MapCodec<E>;
+        dispatchMap<E>(arg0: $Function_<E, S>, arg1: $Function_<S, $MapCodec<E>>): $MapCodec<E>;
+        partialDispatch<E>(arg0: string, arg1: $Function_<E, $DataResult<S>>, arg2: $Function_<S, $DataResult<$MapCodec<E>>>): $Codec<E>;
+        dispatchStable<E>(arg0: $Function_<E, S>, arg1: $Function_<S, $MapCodec<E>>): $Codec<E>;
+        sizeLimitedListOf(arg0: number): $Codec<$List<S>>;
+        flatComapMap<S>(arg0: $Function_<S, S>, arg1: $Function_<S, $DataResult<S>>): $Codec<S>;
+        comapFlatMap<S>(arg0: $Function_<S, $DataResult<S>>, arg1: $Function_<S, S>): $Codec<S>;
+        withLifecycle(arg0: $Lifecycle): $Codec<S>;
+        optionalFieldOf(arg0: string, arg1: S, arg2: $Lifecycle): $MapCodec<S>;
+        optionalFieldOf(arg0: string, arg1: S): $MapCodec<S>;
+        optionalFieldOf(arg0: string): $MapCodec<(S) | undefined>;
+        optionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: S, arg3: $Lifecycle): $MapCodec<S>;
         comap<B>(arg0: $Function_<B, S>): $Encoder<B>;
         flatComap<B>(arg0: $Function_<B, $DataResult<S>>): $Encoder<B>;
+        encodeStart<T>(arg0: $DynamicOps<T>, arg1: S): $DataResult<T>;
         decode<T>(arg0: $Dynamic<T>): $DataResult<$Pair<S, T>>;
         map<B>(arg0: $Function_<S, B>): $Decoder<B>;
         flatMap<B>(arg0: $Function_<S, $DataResult<B>>): $Decoder<B>;
-        parse<T>(arg0: $Dynamic<T>): $DataResult<S>;
         parse<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<S>;
+        parse<T>(arg0: $Dynamic<T>): $DataResult<S>;
         boxed(): $Decoder$Boxed<S>;
         terminal(): $Decoder$Terminal<S>;
         simple(): $Decoder$Simple<S>;
-        withLifecycle(arg0: $Lifecycle): $Encoder<S>;
         fieldOf(arg0: string): $MapEncoder<S>;
+        promotePartial(arg0: $Consumer_<string>): $Decoder<S>;
         constructor(arg0: S[], arg1: $Function_<string, S>, arg2: $ToIntFunction_<S>);
     }
     export class $EncoderCache implements $EncoderCacheAccessor {
@@ -1383,24 +1382,24 @@ declare module "@package/net/minecraft/util" {
         static blue(arg0: number): number;
         static green(arg0: number): number;
         static alpha(arg0: number): number;
+        static fromArgb32(arg0: number): number;
         static transparent(arg0: number): number;
         static opaque(arg0: number): number;
-        static fromArgb32(arg0: number): number;
         constructor();
     }
     export class $StringUtil {
         static isWhitespace(arg0: number): boolean;
         static isBlank(arg0: string): boolean;
         static isNullOrEmpty(arg0: string): boolean;
-        static trimChatMessage(arg0: string): string;
-        static filterText(arg0: string): string;
-        static filterText(arg0: string, arg1: boolean): string;
-        static formatTickDuration(arg0: number, arg1: number): string;
         static isValidPlayerName(arg0: string): boolean;
-        static isAllowedChatCharacter(arg0: string): boolean;
-        static endsWithNewLine(arg0: string): boolean;
-        static lineCount(arg0: string): number;
         static stripColor(arg0: string): string;
+        static lineCount(arg0: string): number;
+        static filterText(arg0: string, arg1: boolean): string;
+        static filterText(arg0: string): string;
+        static endsWithNewLine(arg0: string): boolean;
+        static isAllowedChatCharacter(arg0: string): boolean;
+        static formatTickDuration(arg0: number, arg1: number): string;
+        static trimChatMessage(arg0: string): string;
         static truncateStringIfNecessary(arg0: string, arg1: number, arg2: boolean): string;
         constructor();
     }

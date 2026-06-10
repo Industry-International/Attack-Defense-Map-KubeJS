@@ -29,9 +29,9 @@ declare module "@package/net/minecraft/world/level/portal" {
     export class $PortalShape {
         isValid(): boolean;
         static findCollisionFreePosition(arg0: $Vec3_, arg1: $ServerLevel, arg2: $Entity, arg3: $EntityDimensions_): $Vec3;
-        createPortalBlocks(): void;
         isComplete(): boolean;
         static findEmptyPortalShape(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $Direction$Axis_): ($PortalShape) | undefined;
+        createPortalBlocks(): void;
         static getRelativePosition(arg0: $BlockUtil$FoundRectangle, arg1: $Direction$Axis_, arg2: $Vec3_, arg3: $EntityDimensions_): $Vec3;
         static findPortalShape(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $Predicate_<$PortalShape>, arg3: $Direction$Axis_): ($PortalShape) | undefined;
         static MAX_WIDTH: number;
@@ -43,11 +43,11 @@ declare module "@package/net/minecraft/world/level/portal" {
     export class $DimensionTransition extends $Record {
         pos(): $Vec3;
         newLevel(): $ServerLevel;
-        missingRespawnBlock(): boolean;
-        static missingRespawnBlock(arg0: $ServerLevel, arg1: $Entity, arg2: $DimensionTransition$PostDimensionTransition_): $DimensionTransition;
-        speed(): $Vec3;
         yRot(): number;
         xRot(): number;
+        speed(): $Vec3;
+        static missingRespawnBlock(arg0: $ServerLevel, arg1: $Entity, arg2: $DimensionTransition$PostDimensionTransition_): $DimensionTransition;
+        missingRespawnBlock(): boolean;
         postDimensionTransition(): $DimensionTransition$PostDimensionTransition;
         static PLACE_PORTAL_TICKET: $DimensionTransition$PostDimensionTransition;
         static PLAY_PORTAL_SOUND: $DimensionTransition$PostDimensionTransition;

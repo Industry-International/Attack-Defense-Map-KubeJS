@@ -71,8 +71,8 @@ declare module "@package/com/mojang/realmsclient/gui" {
         getBottom(): number;
         onClick(arg0: number): void;
         static rowButtonMouseClicked(arg0: $RealmsObjectSelectionList<never>, arg1: $ObjectSelectionList$Entry<never>, arg2: $List_<$RowButton>, arg3: number, arg4: number, arg5: number): void;
-        static drawButtonsInRow(arg0: $GuiGraphics, arg1: $List_<$RowButton>, arg2: $RealmsObjectSelectionList<never>, arg3: number, arg4: number, arg5: number, arg6: number): void;
         drawForRowAt(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
+        static drawButtonsInRow(arg0: $GuiGraphics, arg1: $List_<$RowButton>, arg2: $RealmsObjectSelectionList<never>, arg3: number, arg4: number, arg5: number, arg6: number): void;
         yOffset: number;
         xOffset: number;
         width: number;
@@ -88,9 +88,9 @@ declare module "@package/com/mojang/realmsclient/gui" {
         constructor(arg0: $RealmsServer, arg1: number);
     }
     export class $RealmsNewsManager {
+        newsLink(): string;
         updateUnreadNews(arg0: $RealmsNews): void;
         hasUnreadNews(): boolean;
-        newsLink(): string;
         constructor(arg0: $RealmsPersistence);
     }
     export class $RealmsServerList implements $Iterable<$RealmsServer> {

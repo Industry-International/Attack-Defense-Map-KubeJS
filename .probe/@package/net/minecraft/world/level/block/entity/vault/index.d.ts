@@ -17,18 +17,18 @@ import { $BlockEntity } from "@package/net/minecraft/world/level/block/entity";
 declare module "@package/net/minecraft/world/level/block/entity/vault" {
     export class $VaultBlockEntity$Server {
         static tick(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: $VaultConfig_, arg4: $VaultServerData, arg5: $VaultSharedData): void;
-        static setVaultState(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockState_, arg4: $VaultConfig_, arg5: $VaultSharedData): void;
-        static tryInsertKey(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: $VaultConfig_, arg4: $VaultServerData, arg5: $VaultSharedData, arg6: $Player, arg7: $ItemStack_): void;
         static cycleDisplayItemFromLootTable(arg0: $ServerLevel, arg1: $VaultState_, arg2: $VaultConfig_, arg3: $VaultSharedData, arg4: $BlockPos_): void;
+        static tryInsertKey(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: $VaultConfig_, arg4: $VaultServerData, arg5: $VaultSharedData, arg6: $Player, arg7: $ItemStack_): void;
+        static setVaultState(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockState_, arg4: $VaultConfig_, arg5: $VaultSharedData): void;
         constructor();
     }
     export class $VaultBlockEntity extends $BlockEntity {
         static access$000(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): void;
         getConfig(): $VaultConfig;
-        setConfig(arg0: $VaultConfig_): void;
         getSharedData(): $VaultSharedData;
         getClientData(): $VaultClientData;
         getServerData(): $VaultServerData;
+        setConfig(arg0: $VaultConfig_): void;
         worldPosition: $BlockPos;
         level: $Level;
         static ATTACHMENTS_NBT_KEY: string;
@@ -53,13 +53,13 @@ declare module "@package/net/minecraft/world/level/block/entity/vault" {
         constructor();
     }
     export class $VaultConfig extends $Record {
-        entitySelector(): $PlayerDetector$EntitySelector;
-        playerDetector(): $PlayerDetector;
-        activationRange(): number;
-        deactivationRange(): number;
-        overrideLootTableToDisplay(): ($ResourceKey<$LootTable>) | undefined;
-        keyItem(): $ItemStack;
         lootTable(): $ResourceKey<$LootTable>;
+        keyItem(): $ItemStack;
+        playerDetector(): $PlayerDetector;
+        entitySelector(): $PlayerDetector$EntitySelector;
+        deactivationRange(): number;
+        activationRange(): number;
+        overrideLootTableToDisplay(): ($ResourceKey<$LootTable>) | undefined;
         static CODEC: $Codec<$VaultConfig>;
         static DEFAULT: $VaultConfig;
         static TAG_NAME: string;
@@ -74,19 +74,19 @@ declare module "@package/net/minecraft/world/level/block/entity/vault" {
     export type $VaultState$LightLevel_ = "half_lit" | "lit";
     export class $VaultServerData {
         set(arg0: $VaultServerData): void;
-        popNextItemToEject(): $ItemStack;
-        setItemsToEject(arg0: $List_<$ItemStack_>): void;
-        ejectionProgress(): number;
-        getRewardedPlayers(): $Set<$UUID>;
         hasRewardedPlayer(arg0: $Player): boolean;
+        getRewardedPlayers(): $Set<$UUID>;
+        ejectionProgress(): number;
+        popNextItemToEject(): $ItemStack;
         getItemsToEject(): $List<$ItemStack>;
+        setItemsToEject(arg0: $List_<$ItemStack_>): void;
         getNextItemToEject(): $ItemStack;
-        stateUpdatingResumesAt(): number;
+        getLastInsertFailTimestamp(): number;
         markEjectionFinished(): void;
+        setLastInsertFailTimestamp(arg0: number): void;
         addToRewardedPlayers(arg0: $Player): void;
         pauseStateUpdatingUntil(arg0: number): void;
-        setLastInsertFailTimestamp(arg0: number): void;
-        getLastInsertFailTimestamp(): number;
+        stateUpdatingResumesAt(): number;
         static CODEC: $Codec<$VaultServerData>;
         isDirty: boolean;
         static TAG_NAME: string;
@@ -97,13 +97,13 @@ declare module "@package/net/minecraft/world/level/block/entity/vault" {
     }
     export class $VaultSharedData {
         set(arg0: $VaultSharedData): void;
-        hasDisplayItem(): boolean;
-        getDisplayItem(): $ItemStack;
+        updateConnectedPlayersWithinRange(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultServerData, arg3: $VaultConfig_, arg4: number): void;
         setDisplayItem(arg0: $ItemStack_): void;
+        getDisplayItem(): $ItemStack;
+        hasDisplayItem(): boolean;
+        getConnectedPlayers(): $Set<$UUID>;
         hasConnectedPlayers(): boolean;
         connectedParticlesRange(): number;
-        getConnectedPlayers(): $Set<$UUID>;
-        updateConnectedPlayersWithinRange(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultServerData, arg3: $VaultConfig_, arg4: number): void;
         static CODEC: $Codec<$VaultSharedData>;
         isDirty: boolean;
         static TAG_NAME: string;
@@ -115,11 +115,11 @@ declare module "@package/net/minecraft/world/level/block/entity/vault" {
         static values(): $VaultState[];
         static valueOf(arg0: string): $VaultState;
         onExit(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultConfig_, arg3: $VaultSharedData): void;
-        tickAndGetNext(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultConfig_, arg3: $VaultServerData, arg4: $VaultSharedData): $VaultState;
-        onTransition(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultState_, arg3: $VaultConfig_, arg4: $VaultSharedData, arg5: boolean): void;
+        onEnter(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultConfig_, arg3: $VaultSharedData, arg4: boolean): void;
         lightLevel(): number;
         getSerializedName(): string;
-        onEnter(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultConfig_, arg3: $VaultSharedData, arg4: boolean): void;
+        onTransition(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultState_, arg3: $VaultConfig_, arg4: $VaultSharedData, arg5: boolean): void;
+        tickAndGetNext(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $VaultConfig_, arg3: $VaultServerData, arg4: $VaultSharedData): $VaultState;
         getRemappedEnumConstantName(): string;
         static ACTIVE: $VaultState;
         static INACTIVE: $VaultState;

@@ -17,20 +17,20 @@ declare module "@package/com/moulberry/axiom/collections" {
         clear(): void;
         copy(): $Position2ObjectMap<T>;
         forEachEntry(consumer: $PositionConsumer_<T>): void;
-        getAndPut(x: number, y: number, z: number, v: T): T;
-        putChunk(pos: number, array: T[]): void;
-        putChunk(xC: number, yC: number, zC: number, array: T[]): void;
-        getChunk(pos: number): T[];
-        getChunk(xC: number, yC: number, zC: number): T[];
-        getOrCreate(x: number, y: number, z: number): T;
-        calculateChunksChanged(other: $Position2ObjectMap<T>): $LongSet;
-        mergeAllFrom(other: $Position2ObjectMap<T>, keys: $LongSet): void;
-        removeChunk(pos: number): T[];
         removeChunk(xC: number, yC: number, zC: number): T[];
-        forEachChunk(consumer: $PositionConsumer_<T[]>): void;
+        removeChunk(pos: number): T[];
+        putChunk(xC: number, yC: number, zC: number, array: T[]): void;
+        putChunk(pos: number, array: T[]): void;
+        chunkKeySet(): $LongSet;
         getOrCreateChunk(pos: number): T[];
         getOrCreateChunk(xC: number, yC: number, zC: number): T[];
-        chunkKeySet(): $LongSet;
+        mergeAllFrom(other: $Position2ObjectMap<T>, keys: $LongSet): void;
+        forEachChunk(consumer: $PositionConsumer_<T[]>): void;
+        getOrCreate(x: number, y: number, z: number): T;
+        calculateChunksChanged(other: $Position2ObjectMap<T>): $LongSet;
+        getChunk(xC: number, yC: number, zC: number): T[];
+        getChunk(pos: number): T[];
+        getAndPut(x: number, y: number, z: number, v: T): T;
         constructor(defaultChunkSupplier: $LongFunction_<T[]>);
     }
 }

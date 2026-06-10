@@ -22,14 +22,14 @@ declare module "@package/net/minecraft/client/gui/screens/advancements" {
     export class $AdvancementTabType$Sprites extends $Record {
     }
     export class $AdvancementsScreen extends $Screen implements $ClientAdvancements$Listener {
-        onUpdateAdvancementProgress(arg0: $AdvancementNode, arg1: $AdvancementProgress): void;
-        onAdvancementsCleared(): void;
-        onSelectedTabChanged(arg0: $AdvancementHolder_): void;
         onAddAdvancementRoot(arg0: $AdvancementNode): void;
         onRemoveAdvancementRoot(arg0: $AdvancementNode): void;
+        onAddAdvancementTask(arg0: $AdvancementNode): void;
         getAdvancementWidget(arg0: $AdvancementNode): $AdvancementWidget;
         onRemoveAdvancementTask(arg0: $AdvancementNode): void;
-        onAddAdvancementTask(arg0: $AdvancementNode): void;
+        onAdvancementsCleared(): void;
+        onSelectedTabChanged(arg0: $AdvancementHolder_): void;
+        onUpdateAdvancementProgress(arg0: $AdvancementNode, arg1: $AdvancementProgress): void;
         renderWindow(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -75,38 +75,38 @@ declare module "@package/net/minecraft/client/gui/screens/advancements" {
         getType(): $AdvancementTabType;
         static create(arg0: $Minecraft, arg1: $AdvancementsScreen, arg2: number, arg3: $AdvancementNode): $AdvancementTab;
         getIndex(): number;
-        getRootNode(): $AdvancementNode;
         getTitle(): $Component;
+        getRootNode(): $AdvancementNode;
         getPage(): number;
-        getScreen(): $AdvancementsScreen;
+        scroll(arg0: number, arg1: number): void;
         getWidget(arg0: $AdvancementHolder_): $AdvancementWidget;
+        isMouseOver(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
         drawTab(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: boolean): void;
         drawIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        isMouseOver(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
-        scroll(arg0: number, arg1: number): void;
-        drawContents(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        getScreen(): $AdvancementsScreen;
         drawTooltips(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
+        drawContents(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         addAdvancement(arg0: $AdvancementNode): void;
         getDisplay(): $DisplayInfo;
         constructor(arg0: $Minecraft, arg1: $AdvancementsScreen, arg2: $AdvancementTabType_, arg3: number, arg4: $AdvancementNode, arg5: $DisplayInfo);
         constructor(arg0: $Minecraft, arg1: $AdvancementsScreen, arg2: $AdvancementTabType_, arg3: number, arg4: number, arg5: $AdvancementNode, arg6: $DisplayInfo);
         get type(): $AdvancementTabType;
         get index(): number;
-        get rootNode(): $AdvancementNode;
         get title(): $Component;
+        get rootNode(): $AdvancementNode;
         get page(): number;
         get screen(): $AdvancementsScreen;
         get display(): $DisplayInfo;
     }
     export class $AdvancementWidget {
         getWidth(): number;
-        drawHover(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
         addChild(arg0: $AdvancementWidget): void;
         getY(): number;
         getX(): number;
         draw(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        setProgress(arg0: $AdvancementProgress): void;
+        drawHover(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
         isMouseOver(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
+        setProgress(arg0: $AdvancementProgress): void;
         drawConnectivity(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: boolean): void;
         attachToParent(): void;
         constructor(arg0: $AdvancementTab, arg1: $Minecraft, arg2: $AdvancementNode, arg3: $DisplayInfo);

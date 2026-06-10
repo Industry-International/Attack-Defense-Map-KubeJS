@@ -30,30 +30,30 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/map" {
         load(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
         save(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
         getType(): $CustomMapData$Type<P, never>;
-        onItemUpdate(arg0: $MapItemSavedData, arg1: $Entity): boolean;
-        setDirty(arg0: $MapItemSavedData, arg1: $Consumer_<C>): void;
         onItemTooltip(arg0: $MapItemSavedData, arg1: $ItemStack_): $Component;
-        persistOnRescale(): boolean;
+        setDirty(arg0: $MapItemSavedData, arg1: $Consumer_<C>): void;
+        onItemUpdate(arg0: $MapItemSavedData, arg1: $Entity): boolean;
         createDirtyCounter(): C;
-        createUpdatePatch(arg0: C): P;
         applyUpdatePatch(arg0: P): void;
+        persistOnRescale(): boolean;
+        createUpdatePatch(arg0: C): P;
         persistOnCopyOrLock(): boolean;
         get type(): $CustomMapData$Type<P, never>;
     }
     export class $ExpandedMapData {
     }
     export interface $ExpandedMapData {
-        ml$copy(): $MapItemSavedData;
         ml$getCustomData(): $Map<$CustomMapData$Type<never, never>, $CustomMapData<never, never>>;
         ml$getCustomDecorations(): $Map<string, $MLMapDecoration>;
-        ml$setCustomDecorationsDirty(): void;
         ml$getVanillaDecorationSize(): number;
         ml$addCustomMarker<M extends $MLMapMarker<never>>(arg0: M): void;
         ml$setCustomDataDirty<H extends $CustomMapData$DirtyCounter>(arg0: $CustomMapData$Type_<never, never>, arg1: $Consumer_<H>): void;
-        ml$getCustomMarkers(): $Map<string, $MLMapMarker<never>>;
+        ml$setCustomDecorationsDirty(): void;
+        ml$copy(): $MapItemSavedData;
         ml$toggleCustomDecoration(arg0: $LevelAccessor, arg1: $BlockPos_): boolean;
-        ml$resetCustomDecoration(): void;
+        ml$getCustomMarkers(): $Map<string, $MLMapMarker<never>>;
         ml$removeCustomMarker(arg0: string): boolean;
+        ml$resetCustomDecoration(): void;
     }
     export class $CustomMapData$DirtyDataPatch<P, D extends $CustomMapData<never, P>> extends $Record {
         type(): $CustomMapData$Type<P, D>;

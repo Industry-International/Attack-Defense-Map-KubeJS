@@ -8,7 +8,7 @@ import { $StagingBufferPool$StagingBuffer } from "@package/com/github/argon4w/ac
 declare module "@package/com/github/argon4w/acceleratedrendering/core/programs/dispatchers" {
     export class $MeshUploadingProgramDispatcher {
         dispatch(arg0: $Collection_<$AcceleratedBufferBuilder>, arg1: $AcceleratedRingBuffers$Buffers): void;
-        handler$chc000$acceleratedrendering$addIrisData(arg0: $Collection_<any>, arg1: $AcceleratedRingBuffers$Buffers, arg2: $CallbackInfo, arg3: $IMeshInfoCache, arg4: $AcceleratedBufferBuilder, arg5: number, arg6: number, arg7: number): void;
+        handler$chb000$acceleratedrendering$addIrisData(arg0: $Collection_<any>, arg1: $AcceleratedRingBuffers$Buffers, arg2: $CallbackInfo, arg3: $IMeshInfoCache, arg4: $AcceleratedBufferBuilder, arg5: number, arg6: number, arg7: number): void;
         resetOverride(): void;
         static SPARSE_MESH_BUFFER_INDEX: number;
         static MESH_BUFFER_INDEX: number;

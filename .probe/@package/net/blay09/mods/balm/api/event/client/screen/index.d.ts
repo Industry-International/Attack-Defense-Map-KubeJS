@@ -53,28 +53,28 @@ declare module "@package/net/blay09/mods/balm/api/event/client/screen" {
         constructor(arg0: $Screen, arg1: $GuiGraphics, arg2: number, arg3: number, arg4: number);
     }
     export class $ScreenDrawEvent extends $BalmEvent {
+        getMouseX(): number;
+        getMouseY(): number;
         getScreen(): $Screen;
         getGuiGraphics(): $GuiGraphics;
-        getMouseY(): number;
-        getMouseX(): number;
         getTickDelta(): number;
         constructor(arg0: $Screen, arg1: $GuiGraphics, arg2: number, arg3: number, arg4: number);
+        get mouseX(): number;
+        get mouseY(): number;
         get screen(): $Screen;
         get guiGraphics(): $GuiGraphics;
-        get mouseY(): number;
-        get mouseX(): number;
         get tickDelta(): number;
     }
     export class $ScreenMouseEvent extends $BalmEvent {
-        getScreen(): $Screen;
-        getMouseY(): number;
-        getMouseX(): number;
         getButton(): number;
+        getMouseX(): number;
+        getMouseY(): number;
+        getScreen(): $Screen;
         constructor(arg0: $Screen, arg1: number, arg2: number, arg3: number);
-        get screen(): $Screen;
-        get mouseY(): number;
-        get mouseX(): number;
         get button(): number;
+        get mouseX(): number;
+        get mouseY(): number;
+        get screen(): $Screen;
     }
     export class $ScreenInitEvent$Pre extends $ScreenInitEvent {
         constructor(arg0: $Screen);
@@ -83,15 +83,15 @@ declare module "@package/net/blay09/mods/balm/api/event/client/screen" {
         constructor(arg0: $Screen, arg1: number, arg2: number, arg3: number);
     }
     export class $ContainerScreenDrawEvent extends $BalmEvent {
+        getMouseX(): number;
+        getMouseY(): number;
         getScreen(): $Screen;
         getGuiGraphics(): $GuiGraphics;
-        getMouseY(): number;
-        getMouseX(): number;
         constructor(arg0: $Screen, arg1: $GuiGraphics, arg2: number, arg3: number);
+        get mouseX(): number;
+        get mouseY(): number;
         get screen(): $Screen;
         get guiGraphics(): $GuiGraphics;
-        get mouseY(): number;
-        get mouseX(): number;
     }
     export class $ScreenInitEvent extends $BalmEvent {
         getScreen(): $Screen;

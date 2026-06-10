@@ -48,8 +48,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
     export class $ApplyBonusCount extends $LootItemConditionalFunction {
         static addUniformBonusCount(arg0: $Holder_<$Enchantment>, arg1: number): $LootItemConditionalFunction$Builder<never>;
         static addUniformBonusCount(arg0: $Holder_<$Enchantment>): $LootItemConditionalFunction$Builder<never>;
-        static addOreBonusCount(arg0: $Holder_<$Enchantment>): $LootItemConditionalFunction$Builder<never>;
         static addBonusBinomialDistributionCount(arg0: $Holder_<$Enchantment>, arg1: number, arg2: number): $LootItemConditionalFunction$Builder<never>;
+        static addOreBonusCount(arg0: $Holder_<$Enchantment>): $LootItemConditionalFunction$Builder<never>;
         predicates: $List<$LootItemCondition>;
         static CODEC: $MapCodec<$ApplyBonusCount>;
     }
@@ -61,9 +61,7 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
     }
     export class $EnchantWithLevelsFunction$Builder extends $LootItemConditionalFunction$Builder<$EnchantWithLevelsFunction$Builder> {
         fromOptions(arg0: $HolderSet_<$Enchantment>): $EnchantWithLevelsFunction$Builder;
-        getThis(): $EnchantWithLevelsFunction$Builder;
         constructor(arg0: $NumberProvider_);
-        get this(): $EnchantWithLevelsFunction$Builder;
     }
     export class $LimitCount extends $LootItemConditionalFunction {
         static limitCount(arg0: $IntRange): $LootItemConditionalFunction$Builder<never>;
@@ -85,8 +83,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
         constructor();
     }
     export class $SetAttributesFunction extends $LootItemConditionalFunction {
-        static modifier(arg0: $ResourceLocation_, arg1: $Holder_<$Attribute>, arg2: $AttributeModifier$Operation_, arg3: $NumberProvider_): $SetAttributesFunction$ModifierBuilder;
         static setAttributes(): $SetAttributesFunction$Builder;
+        static modifier(arg0: $ResourceLocation_, arg1: $Holder_<$Attribute>, arg2: $AttributeModifier$Operation_, arg3: $NumberProvider_): $SetAttributesFunction$ModifierBuilder;
         predicates: $List<$LootItemCondition>;
         static CODEC: $MapCodec<$SetAttributesFunction>;
         constructor(arg0: $List_<$LootItemCondition>, arg1: $List_<$SetAttributesFunction$Modifier_>, arg2: boolean);
@@ -274,10 +272,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
     }
     export class $SetAttributesFunction$Builder extends $LootItemConditionalFunction$Builder<$SetAttributesFunction$Builder> {
         withModifier(arg0: $SetAttributesFunction$ModifierBuilder): $SetAttributesFunction$Builder;
-        getThis(): $SetAttributesFunction$Builder;
         constructor(arg0: boolean);
         constructor();
-        get this(): $SetAttributesFunction$Builder;
     }
     export class $EnchantedCountIncreaseFunction$Builder extends $LootItemConditionalFunction$Builder<$EnchantedCountIncreaseFunction$Builder> {
         setLimit(arg0: number): $EnchantedCountIncreaseFunction$Builder;
@@ -300,7 +296,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
     }
     export class $SetContainerContents$Builder extends $LootItemConditionalFunction$Builder<$SetContainerContents$Builder> {
         withEntry(arg0: $LootPoolEntryContainer$Builder<never>): $SetContainerContents$Builder;
+        getThis(): $SetContainerContents$Builder;
         constructor(arg0: $ContainerComponentManipulator<never>);
+        get this(): $SetContainerContents$Builder;
     }
     export class $CopyCustomDataFunction$MergeStrategy extends $Enum<$CopyCustomDataFunction$MergeStrategy> implements $StringRepresentable {
         static values(): $CopyCustomDataFunction$MergeStrategy[];
@@ -332,15 +330,15 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
     export class $ExplorationMapFunction$Builder extends $LootItemConditionalFunction$Builder<$ExplorationMapFunction$Builder> {
         setDestination(arg0: $TagKey_<$Structure>): $ExplorationMapFunction$Builder;
         setZoom(arg0: number): $ExplorationMapFunction$Builder;
+        setMapDecoration(arg0: $Holder_<$MapDecorationType>): $ExplorationMapFunction$Builder;
         setSearchRadius(arg0: number): $ExplorationMapFunction$Builder;
         setSkipKnownStructures(arg0: boolean): $ExplorationMapFunction$Builder;
-        setMapDecoration(arg0: $Holder_<$MapDecorationType>): $ExplorationMapFunction$Builder;
         constructor();
         set destination(value: $TagKey_<$Structure>);
         set zoom(value: number);
+        set mapDecoration(value: $Holder_<$MapDecorationType>);
         set searchRadius(value: number);
         set skipKnownStructures(value: boolean);
-        set mapDecoration(value: $Holder_<$MapDecorationType>);
     }
     export class $SetStewEffectFunction extends $LootItemConditionalFunction {
         static stewEffect(): $SetStewEffectFunction$Builder;
@@ -401,8 +399,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
     export class $ApplyBonusCount$BinomialWithBonusCount extends $Record implements $ApplyBonusCount$Formula {
     }
     export class $EnchantRandomlyFunction extends $LootItemConditionalFunction {
-        static randomEnchantment(): $EnchantRandomlyFunction$Builder;
         static randomApplicableEnchantment(arg0: $HolderLookup$Provider): $EnchantRandomlyFunction$Builder;
+        static randomEnchantment(): $EnchantRandomlyFunction$Builder;
         predicates: $List<$LootItemCondition>;
         static CODEC: $MapCodec<$EnchantRandomlyFunction>;
         constructor(arg0: $List_<$LootItemCondition>, arg1: ($HolderSet_<$Enchantment>) | undefined, arg2: boolean);
@@ -467,8 +465,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
     }
     export class $EnchantRandomlyFunction$Builder extends $LootItemConditionalFunction$Builder<$EnchantRandomlyFunction$Builder> {
         withOneOf(arg0: $HolderSet_<$Enchantment>): $EnchantRandomlyFunction$Builder;
-        allowingIncompatibleEnchantments(): $EnchantRandomlyFunction$Builder;
         withEnchantment(arg0: $Holder_<$Enchantment>): $EnchantRandomlyFunction$Builder;
+        allowingIncompatibleEnchantments(): $EnchantRandomlyFunction$Builder;
         constructor();
     }
     export interface $LootItemFunctionType extends RegistryMarked<RegistryTypes.LootFunctionTypeTag, RegistryTypes.LootFunctionType> {}
@@ -535,13 +533,13 @@ declare module "@package/net/minecraft/world/level/storage/loot/functions" {
         get(arg0: $LootContext): $DataComponentMap;
         static values(): $CopyComponentsFunction$Source[];
         static valueOf(arg0: string): $CopyComponentsFunction$Source;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         getSerializedName(): string;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         getRemappedEnumConstantName(): string;
         static CODEC: $Codec<$CopyComponentsFunction$Source>;
         static BLOCK_ENTITY: $CopyComponentsFunction$Source;
-        get referencedContextParams(): $Set<$LootContextParam<never>>;
         get serializedName(): string;
+        get referencedContextParams(): $Set<$LootContextParam<never>>;
         get remappedEnumConstantName(): string;
     }
     /**

@@ -13,10 +13,10 @@ declare module "@package/eu/ha3/presencefootsteps/sound/acoustics" {
     export class $AcousticLibrary {
     }
     export interface $AcousticLibrary {
-        think(): void;
         playStep(arg0: $Association_, arg1: $State_, arg2: $Options): void;
-        addAcoustic(arg0: string, arg1: $Acoustic): void;
         playAcoustic(arg0: $LivingEntity, arg1: $SoundsKey_, arg2: $State_, arg3: $Options): void;
+        addAcoustic(arg0: string, arg1: $Acoustic): void;
+        think(): void;
     }
     export class $Acoustic {
         static read(arg0: $AcousticsFile_, arg1: $JsonElement_): $Acoustic;
@@ -30,10 +30,10 @@ declare module "@package/eu/ha3/presencefootsteps/sound/acoustics" {
     export class $AcousticsFile extends $Record {
         write(arg0: $JsonObjectWriter_, arg1: $Map_<string, $Acoustic>): void;
         static read(arg0: $Reader, arg1: $BiConsumer_<string, $Acoustic>, arg2: boolean): $AcousticsFile;
-        getSoundName(arg0: string): string;
-        defaultVolume(): $Range;
-        defaultPitch(): $Range;
         soundRoot(): string;
+        getSoundName(arg0: string): string;
+        defaultPitch(): $Range;
+        defaultVolume(): $Range;
         constructor(defaultVolume: $Range_, defaultPitch: $Range_, soundRoot: string);
     }
     export class $Acoustic$Serializer {

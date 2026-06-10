@@ -33,8 +33,8 @@ export * as multipart from "@package/net/minecraft/client/renderer/block/model/m
 
 declare module "@package/net/minecraft/client/renderer/block/model" {
     export class $BlockElement {
-        uvsByFace(arg0: $Direction_): number[];
         getFaceData(): $ExtraFaceData;
+        uvsByFace(arg0: $Direction_): number[];
         setFaceData(arg0: $ExtraFaceData_): void;
         rotation: $BlockElementRotation;
         shade: boolean;
@@ -47,8 +47,8 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
     export class $BlockFaceUV {
         getV(arg0: number): number;
         getU(arg0: number): number;
-        setMissingUv(arg0: number[]): void;
         getReverseIndex(arg0: number): number;
+        setMissingUv(arg0: number[]): void;
         uvs: number[];
         rotation: number;
         constructor(arg0: number[], arg1: number);
@@ -87,32 +87,32 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
     export type $BlockModel$GuiLight_ = "front" | "side";
     export class $BakedQuad implements $IAcceleratedBakedQuad, $BakedQuadView, $BakedQuadAccess {
         getFlags(): number;
-        getColor(arg0: number): number;
         getY(arg0: number): number;
         getX(arg0: number): number;
-        getDirection(): $Direction;
-        getVertices(): number[];
-        getCustomColor(arg0: number): number;
         getZ(arg0: number): number;
-        getColorIndex(): number;
-        getTintIndex(): number;
-        getLightFace(): $Direction;
-        getVertexNormal(arg0: number): number;
-        getFaceNormal(): number;
+        getColor(arg0: number): number;
+        getCustomColor(arg0: number): number;
         isTinted(): boolean;
-        getTexV(arg0: number): number;
         getTexU(arg0: number): number;
+        getTexV(arg0: number): number;
         getLight(arg0: number): number;
+        getVertices(): number[];
+        getDirection(): $Direction;
         getSprite(): $TextureAtlasSprite;
-        hasShade(): boolean;
-        hasAmbientOcclusion(): boolean;
-        renderFast(arg0: $Matrix4f, arg1: $Matrix3f, arg2: $IAcceleratedVertexConsumer, arg3: number, arg4: number, arg5: number): void;
-        hasAO(): boolean;
+        getVertexNormal(arg0: number): number;
+        getColorIndex(): number;
+        getFaceNormal(): number;
+        getLightFace(): $Direction;
+        getTintIndex(): number;
         isShade(): boolean;
+        hasShade(): boolean;
+        renderFast(arg0: $Matrix4f, arg1: $Matrix3f, arg2: $IAcceleratedVertexConsumer, arg3: number, arg4: number, arg5: number): void;
+        hasAmbientOcclusion(): boolean;
         getNormalFace(): $ModelQuadFacing;
-        getAccurateNormal(arg0: number): number;
-        calculateNormal(): number;
+        hasAO(): boolean;
         hasColor(): boolean;
+        calculateNormal(): number;
+        getAccurateNormal(arg0: number): number;
         setVertices(arg0: number[]): void;
         tintIndex: number;
         vertices: number[];
@@ -121,10 +121,10 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
         constructor(arg0: number[], arg1: number, arg2: $Direction_, arg3: $TextureAtlasSprite, arg4: boolean);
         constructor(arg0: number[], arg1: number, arg2: $Direction_, arg3: $TextureAtlasSprite, arg4: boolean, arg5: boolean);
         get flags(): number;
-        get colorIndex(): number;
-        get lightFace(): $Direction;
-        get faceNormal(): number;
         get tinted(): boolean;
+        get colorIndex(): number;
+        get faceNormal(): number;
+        get lightFace(): $Direction;
         get shade(): boolean;
         get normalFace(): $ModelQuadFacing;
     }
@@ -178,21 +178,21 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
          * @deprecated
          */
         getElements(): $List<$BlockElement>;
+        getMaterial(arg0: string): $Material;
         getOverrides(): $List<$ItemOverride>;
         getOverrides(arg0: $ModelBaker, arg1: $BlockModel, arg2: $Function_<$Material, $TextureAtlasSprite>): $ItemOverrides;
         getDependencies(): $Collection<$ResourceLocation>;
-        getTransforms(): $ItemTransforms;
-        getMaterial(arg0: string): $Material;
-        bake(arg0: $ModelBaker, arg1: $BlockModel, arg2: $Function_<$Material, $TextureAtlasSprite>, arg3: $ModelState, arg4: boolean): $BakedModel;
-        bake(arg0: $ModelBaker, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState): $BakedModel;
-        hasTexture(arg0: string): boolean;
         resolveParents(arg0: $Function_<$ResourceLocation, $UnbakedModel>): void;
-        getParentLocation(): $ResourceLocation;
+        getTransforms(): $ItemTransforms;
         static bakeFace(arg0: $BlockElement, arg1: $BlockElementFace_, arg2: $TextureAtlasSprite, arg3: $Direction_, arg4: $ModelState): $BakedQuad;
+        hasTexture(arg0: string): boolean;
+        bake(arg0: $ModelBaker, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState): $BakedModel;
+        bake(arg0: $ModelBaker, arg1: $BlockModel, arg2: $Function_<$Material, $TextureAtlasSprite>, arg3: $ModelState, arg4: boolean): $BakedModel;
+        getParentLocation(): $ResourceLocation;
         hasAmbientOcclusion(): boolean;
+        bakeVanilla(arg0: $ModelBaker, arg1: $BlockModel, arg2: $Function_<$Material, $TextureAtlasSprite>, arg3: $ModelState, arg4: boolean): $BakedModel;
         getGuiLight(): $BlockModel$GuiLight;
         getRootModel(): $BlockModel;
-        bakeVanilla(arg0: $ModelBaker, arg1: $BlockModel, arg2: $Function_<$Material, $TextureAtlasSprite>, arg3: $ModelState, arg4: boolean): $BakedModel;
         static isTextureReference(arg0: string): boolean;
         parent: $BlockModel;
         parentLocation: $ResourceLocation;
@@ -217,8 +217,8 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
     export type $ItemModelGenerator$SpanFacing_ = "up" | "down" | "left" | "right";
     export class $ItemTransform {
         apply(arg0: boolean, arg1: $PoseStack): void;
-        handler$jbc000$flerovium$init(arg0: $Vector3f, arg1: $Vector3f, arg2: $Vector3f, arg3: $Vector3f, arg4: $CallbackInfo): void;
-        handler$jbc000$flerovium$apply(arg0: boolean, arg1: $PoseStack, arg2: $CallbackInfo): void;
+        handler$jkk000$flerovium$init(arg0: $Vector3f, arg1: $Vector3f, arg2: $Vector3f, arg3: $Vector3f, arg4: $CallbackInfo): void;
+        handler$jkk000$flerovium$apply(arg0: boolean, arg1: $PoseStack, arg2: $CallbackInfo): void;
         flerovium$sinX: number;
         flerovium$sinY: number;
         static NO_TRANSFORM: $ItemTransform;
@@ -266,11 +266,11 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
     }
     export class $BlockElementFace extends $Record {
         parent(): $MutableObject<$BlockElement>;
-        uv(): $BlockFaceUV;
         texture(): string;
-        faceData(): $ExtraFaceData;
-        tintIndex(): number;
+        uv(): $BlockFaceUV;
         cullForDirection(): $Direction;
+        tintIndex(): number;
+        faceData(): $ExtraFaceData;
         static NO_TINT: number;
         constructor(arg0: $Direction_, arg1: number, arg2: string, arg3: $BlockFaceUV);
         constructor(cullForDirection: $Direction_, tintIndex: number, texture: string, uv: $BlockFaceUV, faceData: $ExtraFaceData_, parent: $MutableObject<$BlockElement>);
@@ -280,8 +280,8 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
     export class $MultiVariant implements $UnbakedModel {
         getVariants(): $List<$Variant>;
         getDependencies(): $Collection<$ResourceLocation>;
-        bake(arg0: $ModelBaker, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState): $BakedModel;
         resolveParents(arg0: $Function_<any, any>): void;
+        bake(arg0: $ModelBaker, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState): $BakedModel;
         constructor(arg0: $List_<$Variant>);
         get variants(): $List<$Variant>;
         get dependencies(): $Collection<$ResourceLocation>;
@@ -353,16 +353,16 @@ declare module "@package/net/minecraft/client/renderer/block/model" {
         constructor();
     }
     export class $Variant implements $ModelState {
-        getWeight(): number;
-        getRotation(): $Transformation;
         getModelLocation(): $ResourceLocation;
+        getWeight(): number;
         isUvLocked(): boolean;
+        getRotation(): $Transformation;
         mayApplyArbitraryRotation(): boolean;
         constructor(arg0: $ResourceLocation_, arg1: $Transformation, arg2: boolean, arg3: number);
-        get weight(): number;
-        get rotation(): $Transformation;
         get modelLocation(): $ResourceLocation;
+        get weight(): number;
         get uvLocked(): boolean;
+        get rotation(): $Transformation;
     }
     export class $ItemTransforms$Deserializer implements $JsonDeserializer<$ItemTransforms> {
         deserialize(arg0: $JsonElement_, arg1: $Type, arg2: $JsonDeserializationContext_): $ItemTransforms;

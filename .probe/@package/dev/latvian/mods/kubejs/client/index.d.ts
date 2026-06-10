@@ -66,13 +66,13 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
     export class $KeybindRegistryKubeEvent$Builder {
         modifier(modifier: $KeyModifier_): $KeybindRegistryKubeEvent$Builder;
         category(category: string): $KeybindRegistryKubeEvent$Builder;
+        defaultKey(keyName: string): $KeybindRegistryKubeEvent$Builder;
+        inputType(inputType: $InputConstants$Type_): $KeybindRegistryKubeEvent$Builder;
+        mouseInputType(): $KeybindRegistryKubeEvent$Builder;
+        scanCodeInputType(): $KeybindRegistryKubeEvent$Builder;
         gui(): $KeybindRegistryKubeEvent$Builder;
         inGame(): $KeybindRegistryKubeEvent$Builder;
         conflictContext(keyConflictContext: $KeyConflictContext_): $KeybindRegistryKubeEvent$Builder;
-        inputType(inputType: $InputConstants$Type_): $KeybindRegistryKubeEvent$Builder;
-        defaultKey(keyName: string): $KeybindRegistryKubeEvent$Builder;
-        scanCodeInputType(): $KeybindRegistryKubeEvent$Builder;
-        mouseInputType(): $KeybindRegistryKubeEvent$Builder;
     }
     export class $ClientAssetPacks {
         inject(original: $List_<$PackResources>): $List<$PackResources>;
@@ -112,22 +112,22 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         getLevel(): $ClientLevel;
         getY(): number;
         getX(): number;
-        onTick(tick: $Consumer_<$KubeAnimatedParticle>): void;
-        setFasterWhenYMotionBlocked(b: boolean): void;
         getZ(): number;
+        onTick(tick: $Consumer_<$KubeAnimatedParticle>): void;
         getRandom(): $RandomSource;
         setSpeed(speed: $Vec3_): void;
-        getSpriteSet(): $SpriteSet;
         setGravity(g: number): void;
+        getSpriteSet(): $SpriteSet;
+        setFasterWhenYMotionBlocked(b: boolean): void;
         /**
          * Sets teh friction of the particle, the particle's motion is multiplied by this value every tick
          */
         setFriction(f: number): void;
+        setLightColor(arg0: $Float2IntFunction_): void;
+        setPhysicality(hasPhysics: boolean): void;
+        getXSpeed(): number;
         getYSpeed(): number;
         getZSpeed(): number;
-        getXSpeed(): number;
-        setPhysicality(hasPhysics: boolean): void;
-        setLightColor(arg0: $Float2IntFunction_): void;
         speedUpWhenYMotionIsBlocked: boolean;
         lifetime: number;
         roll: number;
@@ -162,27 +162,27 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         bbWidth: number;
         age: number;
         constructor(level: $ClientLevel, x: number, y: number, z: number, sprites: $SpriteSet);
-        set fasterWhenYMotionBlocked(value: boolean);
         set speed(value: $Vec3_);
         get spriteSet(): $SpriteSet;
+        set fasterWhenYMotionBlocked(value: boolean);
+        set lightColor(value: $Float2IntFunction_);
+        set physicality(value: boolean);
+        get XSpeed(): number;
         get YSpeed(): number;
         get ZSpeed(): number;
-        get XSpeed(): number;
-        set physicality(value: boolean);
-        set lightColor(value: $Float2IntFunction_);
     }
     export class $LangKubeEvent extends $Record implements $KubeEvent {
         add(namespace: string, key: string, value: string): void;
         add(key: string, value: string): void;
         map(): $Map<$LangKubeEvent$Key, string>;
-        addAll(map: $Map_<string, string>): void;
         addAll(namespace: string, map: $Map_<string, string>): void;
+        addAll(map: $Map_<string, string>): void;
         lang(): string;
-        renameBlock(block: $Block_, name: string): void;
         painting(paintingId: $ResourceLocation_, title: string, author: string): void;
-        renameItem(item: $ItemStack_, name: string): void;
-        renameEntity(id: $ResourceLocation_, name: string): void;
+        renameBlock(block: $Block_, name: string): void;
         renameBiome(id: $ResourceLocation_, name: string): void;
+        renameEntity(id: $ResourceLocation_, name: string): void;
+        renameItem(item: $ItemStack_, name: string): void;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -311,8 +311,8 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
     }
     export class $SoundsGenerator {
         toJson(): $JsonObject;
-        addSound(path: string, consumer: $Consumer_<$SoundsGenerator$SoundGen>): void;
         addSound(path: string, consumer: $Consumer_<$SoundsGenerator$SoundGen>, overlayExisting: boolean): void;
+        addSound(path: string, consumer: $Consumer_<$SoundsGenerator$SoundGen>): void;
         constructor();
     }
     export class $LoadedTexture {
@@ -339,9 +339,9 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
     export class $VariantBlockStateGenerator$Model {
         x(x: number): $VariantBlockStateGenerator$Model;
         y(y: number): $VariantBlockStateGenerator$Model;
+        toJson(): $JsonObject;
         model(s: $ResourceLocation_): $VariantBlockStateGenerator$Model;
         uvlock(): $VariantBlockStateGenerator$Model;
-        toJson(): $JsonObject;
         constructor();
     }
     export class $LangKubeEvent$Key extends $Record {
@@ -398,8 +398,8 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
     }
     export class $NotificationToast implements $Toast {
         width(): number;
-        render(graphics: $GuiGraphics, toastComponent: $ToastComponent, l: number): $Toast$Visibility;
         height(): number;
+        render(graphics: $GuiGraphics, toastComponent: $ToastComponent, l: number): $Toast$Visibility;
         slotCount(): number;
         getToken(): $Object;
         constructor(mc: $Minecraft, notification: $NotificationToastData_);
@@ -459,19 +459,19 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         parent(s: $ResourceLocation_): void;
         override(model: $ResourceLocation_, override: $Consumer_<$ModelGenerator$Override>): void;
         element(consumer: $Consumer_<$ModelGenerator$Element>): void;
-        custom(json: $Consumer_<$JsonObject>): void;
         toJson(): $JsonObject;
         texture(name: string[], texture: string): void;
         textures(map: $Map_<string, string>): void;
+        custom(json: $Consumer_<$JsonObject>): void;
         constructor();
     }
     export class $SoundsGenerator$SoundGen {
         replace(): $SoundsGenerator$SoundGen;
         replace(b: boolean): $SoundsGenerator$SoundGen;
         toJson(): $JsonObject;
-        sounds(...sounds: string[]): $SoundsGenerator$SoundGen;
-        sound(file: string, consumer: $Consumer_<$SoundsGenerator$SoundInstance>): $SoundsGenerator$SoundGen;
         sound(file: string): $SoundsGenerator$SoundGen;
+        sound(file: string, consumer: $Consumer_<$SoundsGenerator$SoundInstance>): $SoundsGenerator$SoundGen;
+        sounds(...sounds: string[]): $SoundsGenerator$SoundGen;
         subtitle(subtitle: string): $SoundsGenerator$SoundGen;
         constructor();
     }
@@ -519,9 +519,9 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         get client(): $Minecraft;
     }
     export class $ModelGenerator$Face {
-        uv(u0: number, v0: number, u1: number, v1: number): $ModelGenerator$Face;
         toJson(): $JsonObject;
         tex(t: string): $ModelGenerator$Face;
+        uv(u0: number, v0: number, u1: number, v1: number): $ModelGenerator$Face;
         tintindex(i: number): $ModelGenerator$Face;
         cull(): $ModelGenerator$Face;
         cull(d: $Direction_): $ModelGenerator$Face;
@@ -568,15 +568,15 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
          */
         success(value: $Object): $Object;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         getEntity(): $LivingEntity;
         constructor(player: $LocalPlayer);
         get player(): $LocalPlayer;
         get client(): $Minecraft;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $AtlasSpriteRegistryKubeEvent implements $KubeEvent {
@@ -675,17 +675,17 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         get showDebug(): boolean;
     }
     export class $VariantBlockStateGenerator$Variant {
-        model(s: $ResourceLocation_): $VariantBlockStateGenerator$Model;
         toJson(): $JsonElement;
+        model(s: $ResourceLocation_): $VariantBlockStateGenerator$Model;
         constructor();
     }
     export class $KubeJSClient extends $KubeJSCommon {
         static formatNumber(count: number): string;
-        static loadPostChains(mc: $Minecraft): void;
-        static resizePostChains(width: number, height: number): void;
-        static drawStackSize(graphics: $GuiGraphics, font: $Font, size: number, x: number, y: number, color: number, dropShadow: boolean): number;
         static reloadClientScripts(): void;
         static copyDefaultOptionsFile(optionsFile: $File_): void;
+        static drawStackSize(graphics: $GuiGraphics, font: $Font, size: number, x: number, y: number, color: number, dropShadow: boolean): number;
+        static loadPostChains(mc: $Minecraft): void;
+        static resizePostChains(width: number, height: number): void;
         static CLIENT_PACKS: $Map<$GeneratedDataStage, $VirtualAssetPack>;
         static WHITE_TEXTURE: $ResourceLocation;
         static clientItemTooltips: $List<$ItemTooltipData>;
@@ -701,30 +701,30 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         constructor(errorList: $KubeJSErrorScreen$ErrorList, minecraft: $Minecraft, index: number, line: $ConsoleLine, calendar: $Calendar);
     }
     export class $KubeJSClientEventHandler {
-        static onItemTooltip(event: $ItemTooltipEvent): void;
-        static clientTick(event: $ClientTickEvent$Pre): void;
-        static itemColors(event: $RegisterColorHandlersEvent$Item): void;
-        static blockColors(event: $RegisterColorHandlersEvent$Block): void;
-        static setScreen(screen: $Screen): $Screen;
-        static tagsUpdated(event: $TagsUpdatedEvent): void;
-        static registerMenuScreens(event: $RegisterMenuScreensEvent): void;
         static debugInfo(event: $CustomizeGuiOverlayEvent$DebugText): void;
-        static registerParticleProviders(event: $RegisterParticleProvidersEvent): void;
         static registerRenderers(event: $EntityRenderersEvent$RegisterRenderers): void;
         static registerKeyMappings(event: $RegisterKeyMappingsEvent): void;
+        static blockColors(event: $RegisterColorHandlersEvent$Block): void;
+        static setScreen(screen: $Screen): $Screen;
+        static itemColors(event: $RegisterColorHandlersEvent$Item): void;
         static setupClient(event: $FMLClientSetupEvent): void;
+        static clientTick(event: $ClientTickEvent$Pre): void;
+        static tagsUpdated(event: $TagsUpdatedEvent): void;
+        static registerMenuScreens(event: $RegisterMenuScreensEvent): void;
+        static onRegisterClientCommands(event: $RegisterClientCommandsEvent): void;
+        static onItemTooltip(event: $ItemTooltipEvent): void;
+        static registerParticleProviders(event: $RegisterParticleProvidersEvent): void;
+        static registerClientExtensions(event: $RegisterClientExtensionsEvent): void;
+        static loggingIn(event: $ClientPlayerNetworkEvent$LoggingIn): void;
+        static loggingOut(event: $ClientPlayerNetworkEvent$LoggingOut): void;
+        static testRequirements(mc: $Minecraft, event: $DynamicItemTooltipsKubeEvent, r: $TooltipRequirements_): boolean;
         static addClientPacks(event: $AddPackFindersEvent): void;
         static guiPostInit(event: $ScreenEvent$Init$Post): void;
-        static testRequirements(mc: $Minecraft, event: $DynamicItemTooltipsKubeEvent, r: $TooltipRequirements_): boolean;
-        static openScreenEvent(event: $ScreenEvent$Opening): void;
-        static worldRender(event: $RenderLevelStageEvent): void;
-        static hudPostDraw(event: $RenderGuiEvent$Post): void;
         static screenPostDraw(event: $ScreenEvent$Render$Post): void;
-        static onRegisterClientCommands(event: $RegisterClientCommandsEvent): void;
+        static openScreenEvent(event: $ScreenEvent$Opening): void;
+        static hudPostDraw(event: $RenderGuiEvent$Post): void;
+        static worldRender(event: $RenderLevelStageEvent): void;
         static registerCoreShaders(event: $RegisterShadersEvent): void;
-        static registerClientExtensions(event: $RegisterClientExtensionsEvent): void;
-        static loggingOut(event: $ClientPlayerNetworkEvent$LoggingOut): void;
-        static loggingIn(event: $ClientPlayerNetworkEvent$LoggingIn): void;
         static COMPONENT_ERROR: $Pattern;
         constructor();
         static set screen(value: $Screen);
@@ -743,13 +743,13 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
     export class $SoundsGenerator$SoundInstance {
         stream(): $SoundsGenerator$SoundInstance;
         stream(b: boolean): $SoundsGenerator$SoundInstance;
-        weight(i: number): $SoundsGenerator$SoundInstance;
         toJson(): $JsonElement;
-        attenuationDistance(i: number): $SoundsGenerator$SoundInstance;
-        volume(f: number): $SoundsGenerator$SoundInstance;
+        weight(i: number): $SoundsGenerator$SoundInstance;
+        pitch(f: number): $SoundsGenerator$SoundInstance;
         preload(): $SoundsGenerator$SoundInstance;
         preload(b: boolean): $SoundsGenerator$SoundInstance;
-        pitch(f: number): $SoundsGenerator$SoundInstance;
+        volume(f: number): $SoundsGenerator$SoundInstance;
+        attenuationDistance(i: number): $SoundsGenerator$SoundInstance;
         asReferenceToEvent(): $SoundsGenerator$SoundInstance;
         constructor(fileLocation: string);
     }
@@ -782,8 +782,8 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         constructor();
     }
     export class $EditorExt {
-        static openFile(path: $Path_, line: number, column: number): void;
         static isKnownVSCode(): boolean;
+        static openFile(path: $Path_, line: number, column: number): void;
         static VSCODE_OSS: string;
         static VSCODE: string;
         static VSCODIUM: string;
@@ -791,8 +791,8 @@ declare module "@package/dev/latvian/mods/kubejs/client" {
         static get knownVSCode(): boolean;
     }
     export class $MultipartBlockStateGenerator$Part {
-        model(s: $ResourceLocation_): $VariantBlockStateGenerator$Model;
         toJson(): $JsonObject;
+        model(s: $ResourceLocation_): $VariantBlockStateGenerator$Model;
         constructor();
     }
     export class $ModelGenerator$Element {

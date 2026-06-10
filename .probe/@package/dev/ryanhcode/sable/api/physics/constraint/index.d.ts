@@ -7,8 +7,8 @@ declare module "@package/dev/ryanhcode/sable/api/physics/constraint" {
     export interface $PhysicsConstraintHandle {
         remove(): void;
         isValid(): boolean;
-        setMotor(arg0: $ConstraintJointAxis_, arg1: number, arg2: number, arg3: number, arg4: boolean, arg5: number): void;
         setContactsEnabled(arg0: boolean): void;
+        setMotor(arg0: $ConstraintJointAxis_, arg1: number, arg2: number, arg3: number, arg4: boolean, arg5: number): void;
         getJointImpulses(arg0: $Vector3d, arg1: $Vector3d): void;
         get valid(): boolean;
         set contactsEnabled(value: boolean);

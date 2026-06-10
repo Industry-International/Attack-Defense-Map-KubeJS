@@ -17,32 +17,32 @@ declare module "@package/com/replaymod/replaystudio/protocol" {
         getType(): $PacketType;
         copy(): $Packet;
         release(): boolean;
-        getBuf(): $ByteBuf;
-        overwrite(): $Packet$Writer;
-        retain(): $Packet;
         atLeast(protocolVersion: $ProtocolVersion): boolean;
         atMost(protocolVersion: $ProtocolVersion): boolean;
+        overwrite(): $Packet$Writer;
+        retain(): $Packet;
         getRegistry(): $PacketTypeRegistry;
-        getProtocolVersion(): $ProtocolVersion;
         olderThan(protocolVersion: $ProtocolVersion): boolean;
+        getProtocolVersion(): $ProtocolVersion;
+        getBuf(): $ByteBuf;
         constructor(registry: $PacketTypeRegistry, id: number, type: $PacketType_, buf: $ByteBuf);
         constructor(registry: $PacketTypeRegistry, packetId: number, buf: $ByteBuf);
         constructor(registry: $PacketTypeRegistry, type: $PacketType_, buf: $ByteBuf);
         constructor(registry: $PacketTypeRegistry, type: $PacketType_);
         get id(): number;
         get type(): $PacketType;
-        get buf(): $ByteBuf;
         get registry(): $PacketTypeRegistry;
         get protocolVersion(): $ProtocolVersion;
+        get buf(): $ByteBuf;
     }
     export class $Packet$Writer extends $ByteBufNetOutput implements $AutoCloseable {
         close(): void;
-        static writeBitSet(registry: $PacketTypeRegistry, out: $NetOutput, bitSet: $BitSet): void;
-        writeBitSet(bitSet: $BitSet): void;
-        static writeNBT(registry: $PacketTypeRegistry, out: $NetOutput, tag: $Tag): void;
-        writeNBT(tag: $Tag): void;
         static writeList<T>(registry: $PacketTypeRegistry, out: $NetOutput, list: $List_<T>, entryWriter: $IOConsumer_<T>): void;
         writeList<T>(list: $List_<T>, entryWriter: $IOConsumer_<T>): void;
+        static writeNBT(registry: $PacketTypeRegistry, out: $NetOutput, tag: $Tag): void;
+        writeNBT(tag: $Tag): void;
+        writeBitSet(bitSet: $BitSet): void;
+        static writeBitSet(registry: $PacketTypeRegistry, out: $NetOutput, bitSet: $BitSet): void;
         writeText(value: $StringOrNbtText): void;
         writePosition(pos: $IPosition): void;
         static writePosition(registry: $PacketTypeRegistry, out: $NetOutput, pos: $IPosition): void;
@@ -55,10 +55,10 @@ declare module "@package/com/replaymod/replaystudio/protocol" {
         getState(): $State;
         getType(id: number): $PacketType;
         getVersion(): $ProtocolVersion;
-        withState(state: $State_): $PacketTypeRegistry;
         atLeast(protocolVersion: $ProtocolVersion): boolean;
         atMost(protocolVersion: $ProtocolVersion): boolean;
         olderThan(protocolVersion: $ProtocolVersion): boolean;
+        withState(state: $State_): $PacketTypeRegistry;
         withLoginSuccess(): $PacketTypeRegistry;
         get state(): $State;
         get version(): $ProtocolVersion;
@@ -185,16 +185,16 @@ declare module "@package/com/replaymod/replaystudio/protocol" {
     export type $PacketType_ = "unknownlogin" | "unknownconfiguration" | "unknownplay" | "loginsuccess" | "configcustompayload" | "configdisconnect" | "configfinish" | "configkeepalive" | "configping" | "configregistries" | "configfeatures" | "configtags" | "configselectknownpacks" | "keepalive" | "joingame" | "chat" | "updatetime" | "entityequipment" | "spawnposition" | "updatehealth" | "respawn" | "playerpositionrotation" | "changehelditem" | "playerusebed" | "entityanimation" | "spawnplayer" | "entitycollectitem" | "spawnobject" | "spawnmob" | "spawnpainting" | "spawnexporb" | "entityvelocity" | "destroyentities" | "entitymovement" | "entityposition" | "entityrotation" | "entitypositionrotation" | "entityteleport" | "entityheadlook" | "entitystatus" | "entityattach" | "entitymetadata" | "entityeffect" | "entityremoveeffect" | "setexperience" | "entityproperties" | "chunkdata" | "multiblockchange" | "blockchange" | "blockvalue" | "blockbreakanim" | "bulkchunkdata" | "explosion" | "playeffect" | "playsound" | "spawnparticle" | "notifyclient" | "spawnglobalentity" | "openwindow" | "closewindow" | "setslot" | "windowitems" | "windowproperty" | "confirmtransaction" | "updatesign" | "mapdata" | "updatetileentity" | "opentileentityeditor" | "statistics" | "playerlistentry" | "playerabilities" | "tabcomplete" | "scoreboardobjective" | "updatescore" | "displayscoreboard" | "team" | "pluginmessage" | "disconnect" | "difficulty" | "combat" | "switchcamera" | "worldborder" | "entitynbtupdate" | "unloadchunk" | "setpassengers" | "openhorsewindow" | "updatelight" | "tradelist" | "updateviewposition" | "updateviewdistance" | "entitysoundeffect" | "tags" | "playeractionack" | "combatend" | "combatenter" | "combatentitydead" | "destroyentity" | "updatesimulationdistance" | "features" | "playerlistentryremove" | "bundle" | "reconfigure";
     export class $Packet$Reader extends $ByteBufNetInput implements $AutoCloseable {
         close(): void;
-        static readBitSet(registry: $PacketTypeRegistry, arg1: $NetInput): $BitSet;
         readBitSet(): $BitSet;
-        static readGlobalPosition(registry: $PacketTypeRegistry, arg1: $NetInput): $IGlobalPosition;
+        static readBitSet(registry: $PacketTypeRegistry, arg1: $NetInput): $BitSet;
         readGlobalPosition(): $IGlobalPosition;
-        readPosition(): $IPosition;
+        static readGlobalPosition(registry: $PacketTypeRegistry, arg1: $NetInput): $IGlobalPosition;
         static readPosition(registry: $PacketTypeRegistry, arg1: $NetInput): $IPosition;
-        static readList<T>(registry: $PacketTypeRegistry, arg1: $NetInput, entryReader: $IOSupplier_<T>): $List<T>;
-        readList<T>(entryReader: $IOSupplier_<T>): $List<T>;
+        readPosition(): $IPosition;
         static readNBT(registry: $PacketTypeRegistry, arg1: $NetInput): $CompoundTag;
         readNBT(): $CompoundTag;
+        static readList<T>(registry: $PacketTypeRegistry, arg1: $NetInput, entryReader: $IOSupplier_<T>): $List<T>;
+        readList<T>(entryReader: $IOSupplier_<T>): $List<T>;
         readText(): $StringOrNbtText;
     }
 }

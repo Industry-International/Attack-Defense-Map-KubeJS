@@ -56,53 +56,53 @@ declare module "@package/com/atsuishio/superbwarfare/api/event" {
     export class $ProjectileHitEvent$HitEntity extends $ProjectileHitEvent {
         getTarget(): $Entity;
         getResult(): $ExtendedEntityRayTraceResult;
-        isHeadshot(): boolean;
         isLegShot(): boolean;
+        isHeadshot(): boolean;
         constructor(arg0: $Entity, arg1: $Projectile, arg2: $Entity, arg3: $Vec3_);
         constructor(arg0: $Entity, arg1: $Projectile, arg2: $ExtendedEntityRayTraceResult);
         get target(): $Entity;
         get result(): $ExtendedEntityRayTraceResult;
-        get headshot(): boolean;
         get legShot(): boolean;
+        get headshot(): boolean;
     }
     export class $LoadingJsonEvent extends $Event implements $ICancellableEvent {
         getId(): string;
-        getAsJsonObject(): $JsonObject$1;
-        setJsonStr(arg0: string): void;
-        getJsonStr(): string;
         getAsGsonObject(): $JsonObject;
+        getAsJsonObject(): $JsonObject$1;
+        getJsonStr(): string;
+        setJsonStr(arg0: string): void;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: string, arg1: string);
         get id(): string;
-        get asJsonObject(): $JsonObject$1;
         get asGsonObject(): $JsonObject;
+        get asJsonObject(): $JsonObject$1;
     }
     export class $ShootEvent extends $Event {
         getParameters(): $ShootParameters;
         getLevel(): $ServerLevel;
         getData(): $GunData;
-        getSpread(): number;
-        getZoom(): boolean;
         getShooter(): $Entity;
+        getZoom(): boolean;
+        getSpread(): number;
         constructor(arg0: $ShootParameters_, arg1: $DefaultConstructorMarker);
         get parameters(): $ShootParameters;
         get level(): $ServerLevel;
         get data(): $GunData;
-        get spread(): number;
-        get zoom(): boolean;
         get shooter(): $Entity;
+        get zoom(): boolean;
+        get spread(): number;
     }
     export class $ProjectileHitEvent extends $Event implements $ICancellableEvent {
         getOwner(): $Entity;
-        getProjectile(): $Projectile;
         getHitVec(): $Vec3;
+        getProjectile(): $Projectile;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $Entity, arg1: $Projectile, arg2: $Vec3_, arg3: $DefaultConstructorMarker);
         get owner(): $Entity;
-        get projectile(): $Projectile;
         get hitVec(): $Vec3;
+        get projectile(): $Projectile;
     }
     export class $ReloadEvent$Pre extends $ReloadEvent {
         constructor(arg0: $Entity, arg1: $GunData);
@@ -139,10 +139,10 @@ declare module "@package/com/atsuishio/superbwarfare/api/event" {
     export class $RenderPlayerArmEvent extends $Event implements $ICancellableEvent {
         getStack(): $PoseStack;
         getRenderType(): $RenderType;
-        getBone(): $GeoBone;
+        getTransformType(): $ItemDisplayContext;
         getLocalPlayer(): $LocalPlayer;
         getArm(): $HumanoidArm;
-        getTransformType(): $ItemDisplayContext;
+        getBone(): $GeoBone;
         getCurrentBuffer(): $MultiBufferSource;
         getPackedLightIn(): number;
         isUseOldHandRender(): boolean;
@@ -151,10 +151,10 @@ declare module "@package/com/atsuishio/superbwarfare/api/event" {
         constructor(arg0: $LocalPlayer, arg1: $ItemDisplayContext_, arg2: $PoseStack, arg3: $HumanoidArm_, arg4: $GeoBone, arg5: $MultiBufferSource_, arg6: $RenderType, arg7: number, arg8: boolean);
         get stack(): $PoseStack;
         get renderType(): $RenderType;
-        get bone(): $GeoBone;
+        get transformType(): $ItemDisplayContext;
         get localPlayer(): $LocalPlayer;
         get arm(): $HumanoidArm;
-        get transformType(): $ItemDisplayContext;
+        get bone(): $GeoBone;
         get currentBuffer(): $MultiBufferSource;
         get packedLightIn(): number;
         get useOldHandRender(): boolean;

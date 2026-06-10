@@ -13,20 +13,20 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style/animation" {
     export class $TransitionAnimation<T> implements $IFrameValueHandler<T> {
         accept(arg0: $AnimationRuntime, arg1: T): void;
         stop(): void;
-        play(arg0: T, arg1: T): void;
-        getCurrentValue(): T;
-        onFinished(arg0: $AnimationRuntime): void;
         getInitialValue(): T;
-        getTargetValue(): T;
+        getCurrentValue(): T;
+        play(arg0: T, arg1: T): void;
+        onFinished(arg0: $AnimationRuntime): void;
         getSubscription(): $ISubscription;
+        getTargetValue(): T;
         styleBag: $StyleBag;
         property: $Property<T>;
         animation: $Animation;
         constructor(arg0: $StyleBag, arg1: $Property<T>, arg2: $Animation_);
-        get currentValue(): T;
         get initialValue(): T;
-        get targetValue(): T;
+        get currentValue(): T;
         get subscription(): $ISubscription;
+        get targetValue(): T;
     }
     export class $Transition extends $Record {
         animations(): $Map<$Property<never>, $Animation>;
@@ -44,12 +44,12 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style/animation" {
         style<T>(arg0: $Property<T>, arg1: T): $StyleAnimation;
         select(arg0: string): $StyleAnimation;
         select(arg0: $UIElement): $StyleAnimation;
+        ease(arg0: $IEase_): $StyleAnimation;
+        lss(arg0: string, arg1: $Object): $StyleAnimation;
+        onFinished(arg0: $Consumer_<$UIElement>): $StyleAnimation;
         sourceOrder(arg0: number): $StyleAnimation;
         specificity(arg0: number): $StyleAnimation;
-        onFinished(arg0: $Consumer_<$UIElement>): $StyleAnimation;
-        lss(arg0: string, arg1: $Object): $StyleAnimation;
-        ease(arg0: $IEase_): $StyleAnimation;
-        animationOrigin(arg0: $StyleOrigin_): $StyleAnimation;
         onInterpolate(arg0: $BiConsumer_<$AnimationRuntime, $UIElement>): $StyleAnimation;
+        animationOrigin(arg0: $StyleOrigin_): $StyleAnimation;
     }
 }

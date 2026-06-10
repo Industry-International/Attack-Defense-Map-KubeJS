@@ -48,9 +48,9 @@ declare module "@package/com/mojang/brigadier/exceptions" {
     export class $CommandSyntaxException extends $Exception {
         getContext(): string;
         getType(): $CommandExceptionType;
+        getRawMessage(): $Message;
         getCursor(): number;
         getInput(): string;
-        getRawMessage(): $Message;
         static BUILT_IN_EXCEPTIONS: $BuiltInExceptionProvider;
         static ENABLE_COMMAND_STACK_TRACES: boolean;
         static CONTEXT_AMOUNT: number;
@@ -58,39 +58,39 @@ declare module "@package/com/mojang/brigadier/exceptions" {
         constructor(arg0: $CommandExceptionType, arg1: $Message_, arg2: string, arg3: number);
         get context(): string;
         get type(): $CommandExceptionType;
+        get rawMessage(): $Message;
         get cursor(): number;
         get input(): string;
-        get rawMessage(): $Message;
     }
     export class $BuiltInExceptionProvider {
     }
     export interface $BuiltInExceptionProvider {
-        dispatcherExpectedArgumentSeparator(): $SimpleCommandExceptionType;
+        doubleTooLow(): $Dynamic2CommandExceptionType;
+        doubleTooHigh(): $Dynamic2CommandExceptionType;
+        floatTooHigh(): $Dynamic2CommandExceptionType;
+        integerTooLow(): $Dynamic2CommandExceptionType;
+        floatTooLow(): $Dynamic2CommandExceptionType;
+        integerTooHigh(): $Dynamic2CommandExceptionType;
+        longTooHigh(): $Dynamic2CommandExceptionType;
+        literalIncorrect(): $DynamicCommandExceptionType;
+        readerInvalidBool(): $DynamicCommandExceptionType;
+        readerInvalidInt(): $DynamicCommandExceptionType;
+        readerExpectedInt(): $SimpleCommandExceptionType;
+        readerInvalidLong(): $DynamicCommandExceptionType;
+        readerExpectedLong(): $SimpleCommandExceptionType;
+        readerInvalidFloat(): $DynamicCommandExceptionType;
+        readerExpectedBool(): $SimpleCommandExceptionType;
+        readerExpectedDouble(): $SimpleCommandExceptionType;
         readerInvalidDouble(): $DynamicCommandExceptionType;
-        dispatcherParseException(): $DynamicCommandExceptionType;
+        readerExpectedStartOfQuote(): $SimpleCommandExceptionType;
         readerExpectedEndOfQuote(): $SimpleCommandExceptionType;
+        readerInvalidEscape(): $DynamicCommandExceptionType;
+        readerExpectedFloat(): $SimpleCommandExceptionType;
+        readerExpectedSymbol(): $DynamicCommandExceptionType;
         dispatcherUnknownCommand(): $SimpleCommandExceptionType;
         dispatcherUnknownArgument(): $SimpleCommandExceptionType;
-        readerExpectedStartOfQuote(): $SimpleCommandExceptionType;
-        readerInvalidEscape(): $DynamicCommandExceptionType;
-        readerExpectedDouble(): $SimpleCommandExceptionType;
-        readerExpectedSymbol(): $DynamicCommandExceptionType;
-        readerExpectedFloat(): $SimpleCommandExceptionType;
-        readerInvalidInt(): $DynamicCommandExceptionType;
-        readerInvalidLong(): $DynamicCommandExceptionType;
-        doubleTooHigh(): $Dynamic2CommandExceptionType;
-        integerTooLow(): $Dynamic2CommandExceptionType;
-        literalIncorrect(): $DynamicCommandExceptionType;
-        floatTooLow(): $Dynamic2CommandExceptionType;
-        floatTooHigh(): $Dynamic2CommandExceptionType;
-        readerExpectedLong(): $SimpleCommandExceptionType;
-        readerInvalidBool(): $DynamicCommandExceptionType;
-        readerInvalidFloat(): $DynamicCommandExceptionType;
-        readerExpectedInt(): $SimpleCommandExceptionType;
-        longTooHigh(): $Dynamic2CommandExceptionType;
-        integerTooHigh(): $Dynamic2CommandExceptionType;
-        readerExpectedBool(): $SimpleCommandExceptionType;
-        doubleTooLow(): $Dynamic2CommandExceptionType;
+        dispatcherParseException(): $DynamicCommandExceptionType;
+        dispatcherExpectedArgumentSeparator(): $SimpleCommandExceptionType;
         longTooLow(): $Dynamic2CommandExceptionType;
     }
 }

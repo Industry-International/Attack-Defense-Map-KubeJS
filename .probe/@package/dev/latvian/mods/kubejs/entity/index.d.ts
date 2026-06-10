@@ -47,16 +47,16 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         getLevel(): $Level;
         /**
-         * The spawner that spawned the entity.
-         */
-        getSpawner(): $WrappedSpawner;
-        /**
          * The block the entity is being spawned on.
          */
         getBlock(): $LevelBlock;
+        /**
+         * The spawner that spawned the entity.
+         */
+        getSpawner(): $WrappedSpawner;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -100,11 +100,11 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         constructor(entity: $LivingEntity, level: $Level_, x: number, y: number, z: number, type: $MobSpawnType_, spawnerEither: $Either<$BlockEntity, $Entity>);
         get type(): $MobSpawnType;
         get level(): $Level;
-        get spawner(): $WrappedSpawner;
         get block(): $LevelBlock;
+        get spawner(): $WrappedSpawner;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $KubeEntityEvent {
@@ -123,16 +123,16 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
     export type $KubeEntityEvent_ = (() => $Entity);
     export class $AttributeBuilder extends $BuilderBase<$Attribute> {
         range(defaultValue: number, min: number, max: number): this;
-        bool(defaultValue: boolean): this;
-        attachTo(entityType: $Predicate_<$EntityType<never>>): this;
-        syncable(watch: boolean): this;
         sentiment(sentiment: $Attribute$Sentiment_): this;
-        negativeSentiment(): this;
-        attachToMonsters(): this;
+        syncable(watch: boolean): this;
+        bool(defaultValue: boolean): this;
+        transformObject(attribute: $Attribute_): $Attribute;
         attachToPlayers(): this;
+        negativeSentiment(): this;
         neutralSentiment(): this;
         attachToCategory(category: $MobCategory_): this;
-        transformObject(attribute: $Attribute_): $Attribute;
+        attachToMonsters(): this;
+        attachTo(entityType: $Predicate_<$EntityType<never>>): this;
         registryKey: $ResourceKey<$Registry<$Attribute>>;
         sourceLine: $SourceLine;
         predicateList: $List<$Predicate<$EntityType<never>>>;
@@ -154,8 +154,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getEntity(): $LivingEntity;
         getLevel(): $Level;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -197,8 +197,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         get entity(): $LivingEntity;
         get level(): $Level;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $EntitySpawnedKubeEvent implements $KubeEntityEvent {
         /**
@@ -210,8 +210,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         getEntity(): $Entity;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -252,8 +252,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         get level(): $Level;
         get entity(): $Entity;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $BeforeLivingEntityHurtKubeEvent implements $KubeLivingEntityEvent {
         /**
@@ -270,8 +270,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getDamage(): number;
         getLevel(): $Level;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -313,20 +313,20 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         get source(): $DamageSource;
         get level(): $Level;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $LivingEntityDropsKubeEvent implements $KubeLivingEntityEvent {
         getSource(): $DamageSource;
-        addDrop(stack: $ItemStack_, chance: number): $ItemEntity;
-        addDrop(stack: $ItemStack_): $ItemEntity;
         isRecentlyHit(): boolean;
         getDrops(): $List<$ItemEntity>;
+        addDrop(stack: $ItemStack_, chance: number): $ItemEntity;
+        addDrop(stack: $ItemStack_): $ItemEntity;
         getLevel(): $Level;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -371,8 +371,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         get drops(): $List<$ItemEntity>;
         get level(): $Level;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $AttributeBuilder$Range extends $Record {
@@ -399,8 +399,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getDamage(): number;
         getLevel(): $Level;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -443,13 +443,13 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         get damage(): number;
         get level(): $Level;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $KubeRayTraceResult {
         getHitY(): number;
-        getHitZ(): number;
         getHitX(): number;
+        getHitZ(): number;
         hit: $Vec3;
         fromEntity: $Entity;
         distance: number;
@@ -460,16 +460,16 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         constructor(from: $Entity, result: $HitResult, d: number);
         constructor(from: $Entity, result: $HitResult);
         get hitY(): number;
-        get hitZ(): number;
         get hitX(): number;
+        get hitZ(): number;
     }
     export class $KubeJSEntityEventHandler {
         static livingDrops(event: $LivingDropsEvent): void;
         static checkSpawn(event: $FinalizeSpawnEvent): void;
         static livingDeath(event: $LivingDeathEvent): void;
-        static entitySpawned(event: $EntityJoinLevelEvent): void;
-        static beforeLivingHurt(event: $LivingDamageEvent$Pre): void;
         static afterLivingHurt(event: $LivingDamageEvent$Post): void;
+        static beforeLivingHurt(event: $LivingDamageEvent$Pre): void;
+        static entitySpawned(event: $EntityJoinLevelEvent): void;
         constructor();
     }
     export class $KubeLivingEntityEvent {

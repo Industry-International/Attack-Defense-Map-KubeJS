@@ -24,17 +24,17 @@ declare module "@package/dev/simulated_team/simulated/content/entities/launched_
         getTarget(): $Vec3;
         getData<T>(arg0: $EntityDataAccessor_<T>): T;
         setData<T>(arg0: $EntityDataAccessor_<T>, arg1: T): void;
-        physicsTick(arg0: $ServerSubLevel, arg1: $RigidBodyHandle, arg2: number): void;
         setOther(arg0: $LaunchedPlungerEntity): void;
-        getClientTarget(arg0: number): $Vec3;
+        isPlunged(): boolean;
+        getOther(): $LaunchedPlungerEntity;
+        physicsTick(arg0: $ServerSubLevel, arg1: $RigidBodyHandle, arg2: number): void;
         resetPlunged(): void;
         getAttachmentPos(arg0: number): $Vec3;
         getAttachmentPos(): $Vec3;
         getPlungedTime(): number;
         getAnimationOffset(): number;
+        getClientTarget(arg0: number): $Vec3;
         getClientSmoothedVelocity(arg0: number): $Vec3;
-        isPlunged(): boolean;
-        getOther(): $LaunchedPlungerEntity;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -118,8 +118,8 @@ declare module "@package/dev/simulated_team/simulated/content/entities/launched_
         horizontalCollision: boolean;
         constructor(arg0: $EntityType_<$LaunchedPlungerEntity>, arg1: $Level_);
         get target(): $Vec3;
+        get plunged(): boolean;
         get plungedTime(): number;
         get animationOffset(): number;
-        get plunged(): boolean;
     }
 }

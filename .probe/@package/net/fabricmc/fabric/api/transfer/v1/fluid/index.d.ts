@@ -17,7 +17,7 @@ declare module "@package/net/fabricmc/fabric/api/transfer/v1/fluid" {
     export interface $FluidVariant extends $TransferVariant<$Fluid> {
         getFluid(): $Fluid;
         getRegistryEntry(): $Holder<$Fluid>;
-        withComponentChanges(arg0: $DataComponentPatch_): $FluidVariant;
+        withComponentChanges(arg0: $DataComponentPatch_): $TransferVariant<$Fluid>;
         get fluid(): $Fluid;
         get registryEntry(): $Holder<$Fluid>;
     }

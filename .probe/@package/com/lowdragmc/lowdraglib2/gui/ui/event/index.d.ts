@@ -60,22 +60,22 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/event" {
         constructor(tooltipTexts: $List_<$Component_>, tooltipComponent: $TooltipComponent, tooltipFont: $Font, tooltipStack: $ItemStack_);
     }
     export class $DragHandler {
-        setStartY(arg0: number): void;
-        setStartX(arg0: number): void;
+        startDrag(arg0: $Object, arg1: $IGuiTexture_): void;
         startDrag(arg0: $Object, arg1: $IGuiTexture_, arg2: $UIElement): void;
         startDrag(arg0: $Object, arg1: $IGuiTexture_, arg2: $UIElement, arg3: $UIElement): void;
-        startDrag(): void;
         startDrag(arg0: $Object): void;
-        startDrag(arg0: $Object, arg1: $IGuiTexture_): void;
+        startDrag(): void;
+        setOffsetY(arg0: number): void;
+        setOffsetX(arg0: number): void;
+        stopDrag(arg0: $UIElement): void;
+        stopDrag(): void;
+        setDragTexture(arg0: number, arg1: number, arg2: number, arg3: number): void;
         isDragging(): boolean;
         setWidth(arg0: number): void;
         setHeight(arg0: number): void;
         getDraggingObject<T>(): T;
-        setDragTexture(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        setOffsetX(arg0: number): void;
-        setOffsetY(arg0: number): void;
-        stopDrag(): void;
-        stopDrag(arg0: $UIElement): void;
+        setStartX(arg0: number): void;
+        setStartY(arg0: number): void;
         dragTexture: $IGuiTexture;
         offsetX: number;
         offsetY: number;
@@ -126,11 +126,11 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/event" {
         static create(arg0: string): $UIEvent;
         stopPropagation(): void;
         isShiftDown(): boolean;
-        isCtrlDown(): boolean;
-        stopImmediatePropagation(): void;
+        stopLaterPropagation(): void;
         isAltDown(): boolean;
         isKeyDown(arg0: number): boolean;
-        stopLaterPropagation(): void;
+        isCtrlDown(): boolean;
+        stopImmediatePropagation(): void;
         currentListener: $UIEventListener;
         deltaX: number;
         deltaY: number;
@@ -163,7 +163,7 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/event" {
         propagationStopped: boolean;
         hasHandler: boolean;
         get shiftDown(): boolean;
-        get ctrlDown(): boolean;
         get altDown(): boolean;
+        get ctrlDown(): boolean;
     }
 }

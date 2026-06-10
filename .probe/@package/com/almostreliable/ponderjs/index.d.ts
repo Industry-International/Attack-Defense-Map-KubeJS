@@ -72,10 +72,10 @@ declare module "@package/com/almostreliable/ponderjs" {
     export class $PonderItemTagEventJS implements $KubeEvent {
         remove(arg0: $PonderTag, arg1: $Ingredient_): void;
         add(arg0: $PonderTag, arg1: $Ingredient_): void;
+        removeTag(...arg0: $PonderTag[]): void;
         createTag(arg0: string, arg1: $Consumer_<$PonderItemTagEventJS$Builder>): void;
         createTag(arg0: string, arg1: $Item_, arg2: string, arg3: string, arg4: $Ingredient_): void;
         createTag(arg0: string, arg1: $Item_, arg2: string, arg3: string): void;
-        removeTag(...arg0: $PonderTag[]): void;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 

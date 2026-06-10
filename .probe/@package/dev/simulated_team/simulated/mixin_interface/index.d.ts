@@ -13,8 +13,8 @@ declare module "@package/dev/simulated_team/simulated/mixin_interface" {
     export class $PlayerLaunchedPlungerExtension {
     }
     export interface $PlayerLaunchedPlungerExtension {
-        simulated$setLaunchedPlunger(arg0: $LaunchedPlungerEntity): void;
         simulated$getLaunchedPlunger(): $LaunchedPlungerEntity;
+        simulated$setLaunchedPlunger(arg0: $LaunchedPlungerEntity): void;
     }
     export class $SpriteContentsExtension {
     }
@@ -25,8 +25,8 @@ declare module "@package/dev/simulated_team/simulated/mixin_interface" {
     export class $TickerExtension {
     }
     export interface $TickerExtension {
-        simulated$isPlaying(): boolean;
         simulated$setPlaying(arg0: boolean): void;
+        simulated$isPlaying(): boolean;
     }
     export class $PlayerTypewriterExtension {
     }
@@ -37,9 +37,9 @@ declare module "@package/dev/simulated_team/simulated/mixin_interface" {
     export class $PrimaryLevelDataExtension {
     }
     export interface $PrimaryLevelDataExtension {
+        setEndDragonFight(arg0: $EndDragonFight$Data_): void;
         setPreset(arg0: $ResourceLocation_): void;
         getPreset(): $ResourceLocation;
-        setEndDragonFight(arg0: $EndDragonFight$Data_): void;
         set endDragonFight(value: $EndDragonFight$Data_);
     }
 }

@@ -60,17 +60,13 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         getItem(): $ItemStack;
         /**
-         * The player that clicked with the item.
-         */
-        getEntity(): $Player;
-        /**
          * The hand that the item was clicked with.
          */
         getHand(): $InteractionHand;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -107,15 +103,16 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        getEntity(): $LivingEntity;
         constructor(player: $Player, hand: $InteractionHand_, item: $ItemStack_);
         get target(): $KubeRayTraceResult;
         get item(): $ItemStack;
-        get entity(): $Player;
         get hand(): $InteractionHand;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
+        get entity(): $LivingEntity;
     }
     export class $ItemBuilder$HurtEnemyContext extends $Record {
         getTarget(): $LivingEntity;
@@ -133,14 +130,12 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         saturation(s: number): $FoodBuilder;
         /**
-         * Sets the hunger restored.
+         * Sets a callback that is called when the food is eaten.
+         * 
+         * Note: This is currently not having effect in `ItemEvents.modification`,
+         * as firing this callback requires an `ItemBuilder` instance in the `Item`.
          */
-        nutrition(h: number): $FoodBuilder;
-        usingConvertsTo(stack: $ItemStack_): $FoodBuilder;
-        /**
-         * Removes an effect from the food.
-         */
-        removeEffect(mobEffect: $MobEffect_): $FoodBuilder;
+        eaten(e: $Consumer_<$FoodEatenKubeEvent>): $FoodBuilder;
         /**
          * Adds an effect to the food. Note that the effect duration is in ticks (20 ticks = 1 second).
          * 
@@ -151,17 +146,6 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         effect(mobEffectId: $ResourceLocation_, duration: number, amplifier: number, probability: number): $FoodBuilder;
         /**
-         * Sets a callback that is called when the food is eaten.
-         * 
-         * Note: This is currently not having effect in `ItemEvents.modification`,
-         * as firing this callback requires an `ItemBuilder` instance in the `Item`.
-         */
-        eaten(e: $Consumer_<$FoodEatenKubeEvent>): $FoodBuilder;
-        /**
-         * Sets seconds it takes to eat the food.
-         */
-        eatSeconds(seconds: number): $FoodBuilder;
-        /**
          * Sets the food is always edible.
          */
         alwaysEdible(): $FoodBuilder;
@@ -169,6 +153,19 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          * Sets whether the food is always edible.
          */
         alwaysEdible(flag: boolean): $FoodBuilder;
+        usingConvertsTo(stack: $ItemStack_): $FoodBuilder;
+        /**
+         * Sets the hunger restored.
+         */
+        nutrition(h: number): $FoodBuilder;
+        /**
+         * Removes an effect from the food.
+         */
+        removeEffect(mobEffect: $MobEffect_): $FoodBuilder;
+        /**
+         * Sets seconds it takes to eat the food.
+         */
+        eatSeconds(seconds: number): $FoodBuilder;
         /**
          * Sets the food is fast to eat (having half of the eating time).
          */
@@ -187,8 +184,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getInventory(): $InventoryKJS;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -231,17 +228,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         get inventory(): $InventoryKJS;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $ModifyItemTooltipsKubeEvent implements $KubeEvent {
-        add(filter: $Ingredient_, requirements: $TooltipRequirements_, text: $List_<$Component_>): void;
         add(filter: $Ingredient_, text: $List_<$Component_>): void;
+        add(filter: $Ingredient_, requirements: $TooltipRequirements_, text: $List_<$Component_>): void;
         modify(filter: $Ingredient_, consumer: $Consumer_<$TextActionBuilder>): void;
         modify(filter: $Ingredient_, requirements: $TooltipRequirements_, consumer: $Consumer_<$TextActionBuilder>): void;
-        modifyAll(requirements: $TooltipRequirements_, consumer: $Consumer_<$TextActionBuilder>): void;
         modifyAll(consumer: $Consumer_<$TextActionBuilder>): void;
+        modifyAll(requirements: $TooltipRequirements_, consumer: $Consumer_<$TextActionBuilder>): void;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -295,8 +292,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getHand(): $InteractionHand;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -340,8 +337,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         get hand(): $InteractionHand;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $ItemStackKey {
@@ -425,8 +422,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getItemEntity(): $ItemEntity;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -469,8 +466,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         get itemEntity(): $ItemEntity;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $ItemSmeltedKubeEvent implements $KubePlayerEvent {
@@ -484,8 +481,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getEntity(): $Player;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -527,52 +524,52 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         get entity(): $Player;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $ArmorMaterialBuilder extends $BuilderBase<$ArmorMaterial> {
         layers(v: $ArmorMaterial$Layer[]): this;
-        enchantmentValue(v: number): this;
-        repairIngredient(v: $Supplier_<$Ingredient>): this;
         toughness(v: number): this;
         equipSound(sound: $Holder_<$SoundEvent>): this;
         knockbackResistance(v: number): this;
         defense(v: $Map_<$ArmorItem$Type_, number>): this;
+        repairIngredient(v: $Supplier_<$Ingredient>): this;
+        enchantmentValue(v: number): this;
         registryKey: $ResourceKey<$Registry<$ArmorMaterial>>;
         sourceLine: $SourceLine;
         id: $ResourceLocation;
         constructor(i: $ResourceLocation_);
     }
     export class $RangedWrapper implements $InventoryKJS {
-        kjs$insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
-        kjs$isItemValid(slot: number, stack: $ItemStack_): boolean;
-        kjs$extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         kjs$getSlotLimit(slot: number): number;
-        kjs$getSlots(): number;
         kjs$isMutable(): boolean;
+        kjs$extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        kjs$insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        kjs$getSlots(): number;
         kjs$getStackInSlot(slot: number): $ItemStack;
+        kjs$isItemValid(slot: number, stack: $ItemStack_): boolean;
+        isEmpty(): boolean;
         getBlock(level: $Level_): $LevelBlock;
-        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getHeight(): number;
         setChanged(): void;
-        getAllItems(): $List<$ItemStack>;
+        getWidth(): number;
         asContainer(): $Container;
+        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
         countNonEmpty(): number;
         countNonEmpty(match: $ItemPredicate_): number;
-        getWidth(): number;
-        getHeight(): number;
-        count(): number;
+        getAllItems(): $List<$ItemStack>;
         count(match: $ItemPredicate_): number;
-        clear(): void;
-        clear(match: $ItemPredicate_): void;
+        count(): number;
         find(): number;
         find(match: $ItemPredicate_): number;
-        isEmpty(): boolean;
+        clear(): void;
+        clear(match: $ItemPredicate_): void;
         constructor(compose: $InventoryKJS, minSlot: number, maxSlotExclusive: number);
-        get allItems(): $List<$ItemStack>;
-        get width(): number;
-        get height(): number;
         get empty(): boolean;
+        get height(): number;
+        get width(): number;
+        get allItems(): $List<$ItemStack>;
     }
     export class $ItemStackSet implements $Iterable<$ItemStack> {
         remove(stack: $ItemStack_): void;
@@ -623,8 +620,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getEntity(): $Entity;
         getLevel(): $Level;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -666,8 +663,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         get entity(): $Entity;
         get level(): $Level;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $ItemBuilder$ReleaseUsingCallback {
     }
@@ -684,24 +681,24 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         constructor();
     }
     export class $MutableToolTier implements $Tier {
-        getEnchantmentValue(): number;
-        getUses(): number;
-        getIncorrectBlocksForDrops(): $TagKey<$Block>;
-        getVanillaRepairIngredient(): $Ingredient;
-        setSpeed(f: number): void;
         getSpeed(): number;
-        getAttackDamageBonus(): number;
-        setAttackDamageBonus(f: number): void;
-        setRepairIngredient(arg0: $Ingredient_): void;
-        setEnchantmentValue(i: number): void;
+        getUses(): number;
+        getEnchantmentValue(): number;
         getIncorrectBlocksForDropsTag(): $ResourceLocation;
         setIncorrectBlocksForDropsTag(tag: $ResourceLocation_): void;
+        setSpeed(f: number): void;
+        getVanillaRepairIngredient(): $Ingredient;
+        getIncorrectBlocksForDrops(): $TagKey<$Block>;
+        getAttackDamageBonus(): number;
+        setAttackDamageBonus(f: number): void;
+        setEnchantmentValue(i: number): void;
+        setRepairIngredient(arg0: $Ingredient_): void;
         setUses(i: number): void;
         createToolProperties(arg0: $TagKey_<$Block>): $Tool;
         parent: $Tier;
         constructor(p: $Tier_);
-        get incorrectBlocksForDrops(): $TagKey<$Block>;
         get vanillaRepairIngredient(): $Ingredient;
+        get incorrectBlocksForDrops(): $TagKey<$Block>;
         set repairIngredient(value: $Ingredient_);
     }
     export class $ItemBuilder$NameCallback {
@@ -770,8 +767,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     }
     export class $JukeboxSongBuilder extends $BuilderBase<$JukeboxSong> {
         description(description: $Component_): this;
-        comparatorOutput(comparatorOutput: number): this;
         song(sound: $Holder_<$SoundEvent>, length: number): this;
+        comparatorOutput(comparatorOutput: number): this;
         registryKey: $ResourceKey<$Registry<$JukeboxSong>>;
         sourceLine: $SourceLine;
         id: $ResourceLocation;
@@ -782,8 +779,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getHand(): $InteractionHand;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -826,8 +823,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         get hand(): $InteractionHand;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $DynamicItemTooltipsKubeEvent implements $KubeEvent {
@@ -895,67 +892,25 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         use(use: $ItemBuilder$UseCallback_): this;
         /**
-         * Colorizes item's texture of the given index. Index is used when you have multiple layers, e.g. a crushed ore (of rock + ore).
-         */
-        color(index: number, color: $ItemTintFunction_): this;
-        /**
          * Colorizes item's texture of the given index. Useful for coloring items, like GT ores ore dusts.
          */
         color(callback: $ItemTintFunction_): this;
+        /**
+         * Colorizes item's texture of the given index. Index is used when you have multiple layers, e.g. a crushed ore (of rock + ore).
+         */
+        color(index: number, color: $ItemTintFunction_): this;
         /**
          * Sets the item's max stack size. Default is 64.
          */
         maxStackSize(v: number): this;
         /**
-         * Makes the item glow like enchanted, even if it's not enchanted.
+         * Set the food nutrition and saturation of the item.
          */
-        glow(v: boolean): this;
+        food(nutrition: number, saturation: number): this;
         /**
-         * Determines the width of the item's durability bar. Defaulted to vanilla behavior.
-         * 
-         * The function should return a value between 0 and 13 (max width of the bar).
+         * Set the food properties of the item.
          */
-        barWidth(barWidth: $ToIntFunction_<$ItemStack>): this;
-        /**
-         * Determines the color of the item's durability bar. Defaulted to vanilla behavior.
-         */
-        barColor(barColor: $Function_<$ItemStack, $KubeColor>): this;
-        /**
-         * Sets the item's burn time. Default is 0 (Not a fuel).
-         */
-        burnTime(v: $TickDuration_): this;
-        /**
-         * Sets the item's max damage. Default is 0 (No durability).
-         */
-        maxDamage(v: number): this;
-        /**
-         * Gets called when the item is used to hurt an entity.
-         * 
-         * For example, when using a sword to hit a mob, this is called.
-         */
-        hurtEnemy(context: $Predicate_<$ItemBuilder$HurtEnemyContext>): this;
-        /**
-         * When players did not finish using the item but released the right mouse button halfway through.
-         * 
-         * An example is the bow, where the arrow is shot when the player releases the right mouse button.
-         * 
-         * To ensure the bow won't finish using, Minecraft sets the `useDuration` to a very high number (1h).
-         */
-        releaseUsing(releaseUsing: $ItemBuilder$ReleaseUsingCallback_): this;
-        /**
-         * Makes the item fire resistant like netherite tools (or not).
-         */
-        fireResistant(isFireResistant: boolean): this;
-        /**
-         * Makes the item fire resistant like netherite tools.
-         */
-        fireResistant(): this;
-        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>, showInTooltip: boolean): this;
-        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>): this;
-        /**
-         * Sets the item's rarity.
-         */
-        rarity(v: $Rarity_): this;
+        food(b: $Consumer_<$FoodBuilder>): this;
         /**
          * When players finish using the item.
          * 
@@ -972,17 +927,59 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         useDuration(useDuration: $ToIntBiFunction_<$ItemStack, $LivingEntity>): this;
         /**
+         * Sets the item's rarity.
+         */
+        rarity(v: $Rarity_): this;
+        /**
          * Adds a tooltip to the item.
          */
         tooltip(text: $Component_): this;
         /**
-         * Set the food nutrition and saturation of the item.
+         * When players did not finish using the item but released the right mouse button halfway through.
+         * 
+         * An example is the bow, where the arrow is shot when the player releases the right mouse button.
+         * 
+         * To ensure the bow won't finish using, Minecraft sets the `useDuration` to a very high number (1h).
          */
-        food(nutrition: number, saturation: number): this;
+        releaseUsing(releaseUsing: $ItemBuilder$ReleaseUsingCallback_): this;
         /**
-         * Set the food properties of the item.
+         * Sets the item's max damage. Default is 0 (No durability).
          */
-        food(b: $Consumer_<$FoodBuilder>): this;
+        maxDamage(v: number): this;
+        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>, showInTooltip: boolean): this;
+        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>): this;
+        /**
+         * Determines the width of the item's durability bar. Defaulted to vanilla behavior.
+         * 
+         * The function should return a value between 0 and 13 (max width of the bar).
+         */
+        barWidth(barWidth: $ToIntFunction_<$ItemStack>): this;
+        /**
+         * Makes the item glow like enchanted, even if it's not enchanted.
+         */
+        glow(v: boolean): this;
+        /**
+         * Sets the item's burn time. Default is 0 (Not a fuel).
+         */
+        burnTime(v: $TickDuration_): this;
+        /**
+         * Determines the color of the item's durability bar. Defaulted to vanilla behavior.
+         */
+        barColor(barColor: $Function_<$ItemStack, $KubeColor>): this;
+        /**
+         * Makes the item fire resistant like netherite tools.
+         */
+        fireResistant(): this;
+        /**
+         * Makes the item fire resistant like netherite tools (or not).
+         */
+        fireResistant(isFireResistant: boolean): this;
+        /**
+         * Gets called when the item is used to hurt an entity.
+         * 
+         * For example, when using a sword to hit a mob, this is called.
+         */
+        hurtEnemy(context: $Predicate_<$ItemBuilder$HurtEnemyContext>): this;
         /**
          * Adds subtypes to the item. The function should return a collection of item stacks, each with a different subtype.
          * 
@@ -993,16 +990,16 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          * Determines the animation of the item when used, e.g. eating food.
          */
         useAnimation(animation: $UseAnim_): this;
-        disableRepair(): this;
-        /**
-         * Makes the item not stackable, equivalent to setting the item's max stack size to 1.
-         */
-        unstackable(): this;
-        transformObject(obj: $Item_): $Item;
         /**
          * Sets the item's container item, e.g. a bucket for a milk bucket.
          */
         containerItem(id: $ResourceLocation_): this;
+        transformObject(obj: $Item_): $Item;
+        /**
+         * Makes the item not stackable, equivalent to setting the item's max stack size to 1.
+         */
+        unstackable(): this;
+        disableRepair(): this;
         createItemProperties(): $Item$Properties;
         sourceLine: $SourceLine;
         id: $ResourceLocation;
@@ -1020,8 +1017,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getItemEntity(): $ItemEntity;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -1064,8 +1061,8 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         get itemEntity(): $ItemEntity;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $PlayerMainInvWrapper extends $RangedWrapper {
@@ -1075,131 +1072,131 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     }
     export class $ItemModificationKubeEvent$ItemModifications extends $Record implements $ItemComponentFunctions {
         item(): $Item;
-        setBurnTime(i: $TickDuration_): void;
-        getComponentMap(): $DataComponentMap;
-        disableRepair(): void;
         setNameKey(key: string): void;
-        setCraftingRemainder(item: $Item_): void;
+        getComponentMap(): $DataComponentMap;
+        setBurnTime(i: $TickDuration_): void;
+        disableRepair(): void;
         setTier(builder: $Consumer_<$MutableToolTier>): void;
-        setUnbreakableWithTooltip(): void;
-        setFood(foodProperties: $FoodProperties_): void;
-        setFood(nutrition: number, saturation: number): void;
+        setCraftingRemainder(item: $Item_): void;
+        setBundleContents(items: $List_<$ItemStack_>): void;
+        setBucketEntityData(tag: $CompoundTag_): void;
+        setNoteBlockSound(id: $ResourceLocation_): void;
+        setChargedProjectiles(items: $List_<$ItemStack_>): void;
+        setMapItemColor(color: $KubeColor_): void;
+        getAttributeModifiers(): $ItemAttributeModifiers;
+        setMaxStackSize(size: number): void;
+        setFireResistant(): void;
+        setBlockEntityData(tag: $CompoundTag_): void;
+        setFireworkExplosion(explosion: $FireworkExplosion_): void;
         setUnbreakable(): void;
-        setItemName(component: $Component_): void;
-        setRepairCost(repairCost: number): void;
-        setTool(tool: $Tool_): void;
         setMaxDamage(maxDamage: number): void;
         setDamage(damage: number): void;
+        setRepairCost(repairCost: number): void;
+        setTool(tool: $Tool_): void;
         modifyFood(foodBuilder: $Consumer_<$FoodBuilder>): void;
         setInstrument(instrument: $Holder_<$Instrument>): void;
+        setFood(foodProperties: $FoodProperties_): void;
+        setFood(nutrition: number, saturation: number): void;
         setFireworks(fireworks: $Fireworks_): void;
-        setBucketEntityData(tag: $CompoundTag_): void;
-        setFireResistant(): void;
-        setBundleContents(items: $List_<$ItemStack_>): void;
-        getAttributeModifiers(): $ItemAttributeModifiers;
-        setNoteBlockSound(id: $ResourceLocation_): void;
-        setFireworkExplosion(explosion: $FireworkExplosion_): void;
-        setMaxStackSize(size: number): void;
-        setMapItemColor(color: $KubeColor_): void;
-        setBlockEntityData(tag: $CompoundTag_): void;
-        setChargedProjectiles(items: $List_<$ItemStack_>): void;
+        setItemName(component: $Component_): void;
+        setUnbreakableWithTooltip(): void;
         setAdditionalTooltipHidden(): void;
-        setBlockStateProperties(properties: $Map_<string, string>): void;
         setDyedColorWithTooltip(color: $KubeColor_): void;
-        remove(type: $DataComponentType_<never>): $ComponentFunctions;
-        patch(components: $DataComponentPatch_): $ComponentFunctions;
-        setDyedColor(color: $KubeColor_): void;
-        setBaseColor(color: $DyeColor_): void;
-        setUnit(component: $DataComponentType_<$Unit_>): $ComponentFunctions;
-        setPotionId(potion: $Holder_<$Potion>): void;
-        setEntityData(tag: $CompoundTag_): void;
-        setRarity(rarity: $Rarity_): void;
-        setCustomData(tag: $CompoundTag_): void;
-        setCustomName(name: $Component_): void;
-        getCustomName(): $Component;
-        setLore(lines: $List_<$Component_>): void;
-        setLore(lines: $List_<$Component_>, styledLines: $List_<$Component_>): void;
-        getCustomData(): $CompoundTag;
-        setProfile(name: string, uuid: $UUID_): void;
-        setProfile(profile: $GameProfile): void;
-        setLockCode(lock: string): void;
+        setBlockStateProperties(properties: $Map_<string, string>): void;
+        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>, seed: number): void;
+        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>): void;
         resetComponents(): $ComponentFunctions;
-        getComponentString(): string;
         setGlintOverride(override: boolean): void;
+        setCustomModelData(data: number): void;
+        getComponentString(): string;
         setPotionContents(contents: $PotionContents_): void;
         setTooltipHidden(): void;
-        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>): void;
-        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>, seed: number): void;
-        setCustomModelData(data: number): void;
+        setBaseColor(color: $DyeColor_): void;
+        setLockCode(lock: string): void;
+        setProfile(name: string, uuid: $UUID_): void;
+        setProfile(profile: $GameProfile): void;
+        setEntityData(tag: $CompoundTag_): void;
+        setDyedColor(color: $KubeColor_): void;
+        setPotionId(potion: $Holder_<$Potion>): void;
+        getCustomData(): $CompoundTag;
+        setUnit(component: $DataComponentType_<$Unit_>): $ComponentFunctions;
+        setCustomData(tag: $CompoundTag_): void;
+        setRarity(rarity: $Rarity_): void;
+        setCustomName(name: $Component_): void;
+        getCustomName(): $Component;
+        setLore(lines: $List_<$Component_>, styledLines: $List_<$Component_>): void;
+        setLore(lines: $List_<$Component_>): void;
+        remove(type: $DataComponentType_<never>): $ComponentFunctions;
+        patch(components: $DataComponentPatch_): $ComponentFunctions;
         setAttributeModifiersWithTooltip(modifiers: $List_<$ItemAttributeModifiers$Entry_>): void;
-        /**
-         * Sets the attack speed of this item to the given value, **removing** all other modifiers to attack speed.
-         * Note that players have a default attack speed of 4.0, so this modifier is added on top of that.
-         * (Example: Swords have an attack speed of -2.4, leading to a total value of 1.6 without any other changes.)
-         */
-        setAttackSpeed(speed: number): void;
-        getAttackSpeed(): number;
-        hasAttributeModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): boolean;
-        /**
-         * Overrides the *base* attack speed of this item to be the given value, keeping other modifiers intact.
-         * Note that players have a default attack speed of 4.0, so this modifier is added on top of that.
-         */
-        setBaseAttackSpeed(speed: number): void;
+        getAttributeModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): $AttributeModifier;
+        getBaseAttackSpeed(): number;
         /**
          * Overrides the *base* attack damage of this item to be the given value, keeping other modifiers intact.
          * Note that since players have a default attack damage of 1.0, total damage will be (dmg + 1.0) before other modifiers.
          */
         setBaseAttackDamage(dmg: number): void;
-        getAttributeModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): $AttributeModifier;
-        getAttackDamage(): number;
-        setAttributeModifiers(modifiers: $List_<$ItemAttributeModifiers$Entry_>): void;
+        addAttributeModifier(attribute: $Holder_<$Attribute>, mod: $AttributeModifier_, slot: $EquipmentSlotGroup_): void;
+        hasAttributeModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): boolean;
         /**
          * Sets the attack damage of this item to the given value, **removing** all other modifiers to attack damage.
          * Note that since players have a default attack damage of 1.0, total damage will be (dmg + 1.0) before other modifiers.
          * (In practice, this simply means that most weapons have this value set to 1 less than what you might think.)
          */
         setAttackDamage(dmg: number): void;
+        setAttributeModifiers(modifiers: $List_<$ItemAttributeModifiers$Entry_>): void;
         getBaseAttackDamage(): number;
-        addAttributeModifier(attribute: $Holder_<$Attribute>, mod: $AttributeModifier_, slot: $EquipmentSlotGroup_): void;
-        getBaseAttackSpeed(): number;
+        getAttackDamage(): number;
+        /**
+         * Overrides the *base* attack speed of this item to be the given value, keeping other modifiers intact.
+         * Note that players have a default attack speed of 4.0, so this modifier is added on top of that.
+         */
+        setBaseAttackSpeed(speed: number): void;
+        getAttackSpeed(): number;
+        /**
+         * Sets the attack speed of this item to the given value, **removing** all other modifiers to attack speed.
+         * Note that players have a default attack speed of 4.0, so this modifier is added on top of that.
+         * (Example: Swords have an attack speed of -2.4, leading to a total value of 1.6 without any other changes.)
+         */
+        setAttackSpeed(speed: number): void;
         constructor(item: $Item_);
         get<T extends keyof DataComponentTypes.OutputMap>(type: T): DataComponentTypes.OutputMap[T] | null;
         getOrDefault<T extends keyof DataComponentTypes.OutputMap>(type: T, _default: DataComponentTypes.OutputMap[T]): DataComponentTypes.OutputMap[T];
         set(components: $DataComponentMap_): this;
         set<T extends keyof DataComponentTypes.InputMap>(type: T, data: DataComponentTypes.InputMap[T]): this;
-        set burnTime(value: $TickDuration_);
-        get componentMap(): $DataComponentMap;
         set nameKey(value: string);
-        set craftingRemainder(value: $Item_);
+        get componentMap(): $DataComponentMap;
+        set burnTime(value: $TickDuration_);
         set tier(value: $Consumer_<$MutableToolTier>);
-        set itemName(value: $Component_);
-        set repairCost(value: number);
-        set tool(value: $Tool_);
+        set craftingRemainder(value: $Item_);
+        set bundleContents(value: $List_<$ItemStack_>);
+        set bucketEntityData(value: $CompoundTag_);
+        set noteBlockSound(value: $ResourceLocation_);
+        set chargedProjectiles(value: $List_<$ItemStack_>);
+        set mapItemColor(value: $KubeColor_);
+        set maxStackSize(value: number);
+        set blockEntityData(value: $CompoundTag_);
+        set fireworkExplosion(value: $FireworkExplosion_);
         set maxDamage(value: number);
         set damage(value: number);
+        set repairCost(value: number);
+        set tool(value: $Tool_);
         set instrument(value: $Holder_<$Instrument>);
         set fireworks(value: $Fireworks_);
-        set bucketEntityData(value: $CompoundTag_);
-        set bundleContents(value: $List_<$ItemStack_>);
-        set noteBlockSound(value: $ResourceLocation_);
-        set fireworkExplosion(value: $FireworkExplosion_);
-        set maxStackSize(value: number);
-        set mapItemColor(value: $KubeColor_);
-        set blockEntityData(value: $CompoundTag_);
-        set chargedProjectiles(value: $List_<$ItemStack_>);
-        set blockStateProperties(value: $Map_<string, string>);
+        set itemName(value: $Component_);
         set dyedColorWithTooltip(value: $KubeColor_);
-        set dyedColor(value: $KubeColor_);
-        set baseColor(value: $DyeColor_);
-        set unit(value: $DataComponentType_<$Unit_>);
-        set potionId(value: $Holder_<$Potion>);
-        set entityData(value: $CompoundTag_);
-        set rarity(value: $Rarity_);
-        set lockCode(value: string);
-        get componentString(): string;
+        set blockStateProperties(value: $Map_<string, string>);
         set glintOverride(value: boolean);
-        set potionContents(value: $PotionContents_);
         set customModelData(value: number);
+        get componentString(): string;
+        set potionContents(value: $PotionContents_);
+        set baseColor(value: $DyeColor_);
+        set lockCode(value: string);
+        set entityData(value: $CompoundTag_);
+        set dyedColor(value: $KubeColor_);
+        set potionId(value: $Holder_<$Potion>);
+        set unit(value: $DataComponentType_<$Unit_>);
+        set rarity(value: $Rarity_);
         set attributeModifiersWithTooltip(value: $List_<$ItemAttributeModifiers$Entry_>);
     }
     export class $ItemPredicate {
@@ -1210,23 +1207,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     }
     export interface $ItemPredicate extends $Predicate<$ItemStack>, $IngredientSupplierKJS {
         test(itemStack: $ItemStack_): boolean;
-        getStackArray(): $ItemStack[];
-        testItem(item: $Item_): boolean;
-        getFirst(): $ItemStack;
-        getItemStream(): $Stream<$Item>;
-        getStacks(): $ItemStackSet;
-        getItemTypes(): $Set<$Item>;
+        asIngredient(): $Ingredient;
         getItemIds(): $Set<string>;
+        getStackArray(): $ItemStack[];
+        getFirst(): $ItemStack;
+        getStacks(): $ItemStackSet;
+        testItem(item: $Item_): boolean;
+        getItemStream(): $Stream<$Item>;
+        getItemTypes(): $Set<$Item>;
         isWildcard(): boolean;
         getDisplayStacks(): $ItemStackSet;
         canBeUsedForMatching(): boolean;
-        asIngredient(): $Ingredient;
+        get itemIds(): $Set<string>;
         get stackArray(): $ItemStack[];
         get first(): $ItemStack;
-        get itemStream(): $Stream<$Item>;
         get stacks(): $ItemStackSet;
+        get itemStream(): $Stream<$Item>;
         get itemTypes(): $Set<$Item>;
-        get itemIds(): $Set<string>;
         get wildcard(): boolean;
         get displayStacks(): $ItemStackSet;
     }
@@ -1262,15 +1259,15 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     export class $FoodBuilder$EffectSupplier implements $Supplier<$MobEffectInstance> {
     }
     export class $KubeJSItemEventHandler {
-        static rightClick(event: $PlayerInteractEvent$RightClickItem): void;
-        static smelted(event: $PlayerEvent$ItemSmeltedEvent): void;
         static crafted(event: $PlayerEvent$ItemCraftedEvent): void;
+        static smelted(event: $PlayerEvent$ItemSmeltedEvent): void;
+        static rightClick(event: $PlayerInteractEvent$RightClickItem): void;
         static itemDrop(event: $ItemTossEvent): void;
         static leftClickEmpty(event: $PlayerInteractEvent$LeftClickEmpty): void;
         static itemPickupPost(event: $ItemEntityPickupEvent$Post): void;
         static entityInteract(event: $PlayerInteractEvent$EntityInteract): void;
-        static itemPickupPre(event: $ItemEntityPickupEvent$Pre): void;
         static itemDestroyed(event: $PlayerDestroyItemEvent): void;
+        static itemPickupPre(event: $ItemEntityPickupEvent$Pre): void;
         constructor();
     }
 }

@@ -51,25 +51,25 @@ declare module "@package/com/simibubi/create/content/trains/schedule" {
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Schedule>;
         cyclic: boolean;
         savedProgress: number;
-        constructor(arg0: $List_<$ScheduleEntry>, arg1: boolean, arg2: number);
         constructor();
+        constructor(arg0: $List_<$ScheduleEntry>, arg1: boolean, arg2: number);
     }
     export class $ScheduleRuntime implements $AccessorScheduleRuntime {
         write(arg0: $HolderLookup$Provider): $CompoundTag;
         read(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
         tick(arg0: $Level_): void;
-        submitPredictions(): $Collection<$GlobalTrainDisplayData$TrainDeparturePrediction>;
         getSchedule(): $Schedule;
-        setSchedulePresentClientside(arg0: boolean): void;
-        destinationReached(): void;
         setSchedule(arg0: $Schedule, arg1: boolean): void;
-        startCurrentInstruction(arg0: $Level_): $DiscoveredPath;
+        submitPredictions(): $Collection<$GlobalTrainDisplayData$TrainDeparturePrediction>;
         getWaitingStatus(arg0: $Level_): $MutableComponent;
+        startCooldown(): void;
+        destinationReached(): void;
         returnSchedule(arg0: $HolderLookup$Provider): $ItemStack;
         discardSchedule(): void;
-        startCooldown(): void;
-        transitInterrupted(): void;
+        startCurrentInstruction(arg0: $Level_): $DiscoveredPath;
+        setSchedulePresentClientside(arg0: boolean): void;
         tickConditions(arg0: $Level_): void;
+        transitInterrupted(): void;
         setCooldown(arg0: number): void;
         getTrain(): $Train;
         paused: boolean;

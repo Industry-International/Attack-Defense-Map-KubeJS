@@ -50,45 +50,45 @@ declare module "@package/net/neoforged/neoforge/client/extensions" {
     export class $IMenuProviderExtension {
     }
     export interface $IMenuProviderExtension {
-        writeClientSideData(arg0: $AbstractContainerMenu, arg1: $RegistryFriendlyByteBuf): void;
         shouldTriggerClientSideContainerClosingOnOpen(): boolean;
+        writeClientSideData(arg0: $AbstractContainerMenu, arg1: $RegistryFriendlyByteBuf): void;
     }
     export class $IMinecraftExtension {
     }
     export interface $IMinecraftExtension {
         getLocale(): $Locale;
-        popGuiLayer(): void;
         pushGuiLayer(arg0: $Screen): void;
+        popGuiLayer(): void;
         get locale(): $Locale;
     }
     export class $IVertexConsumerExtension {
     }
     export interface $IVertexConsumerExtension {
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean): void;
-        applyBakedLighting(arg0: number, arg1: $ByteBuffer): number;
         applyBakedNormals(arg0: $Vector3f, arg1: $ByteBuffer, arg2: $Matrix3f): void;
+        applyBakedLighting(arg0: number, arg1: $ByteBuffer): number;
+        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean): void;
         misc(arg0: $VertexFormatElement_, ...arg1: number[]): $VertexConsumer;
     }
     export class $IBakedModelExtension {
     }
     export interface $IBakedModelExtension {
-        getQuads(arg0: $BlockState_, arg1: $Direction_, arg2: $RandomSource, arg3: $ModelData, arg4: $RenderType): $List<$BakedQuad>;
-        getRenderPasses(arg0: $ItemStack_, arg1: boolean): $List<$BakedModel>;
-        applyTransform(arg0: $ItemDisplayContext_, arg1: $PoseStack, arg2: boolean): $BakedModel;
-        getRenderTypes(arg0: $ItemStack_, arg1: boolean): $List<$RenderType>;
-        getRenderTypes(arg0: $BlockState_, arg1: $RandomSource, arg2: $ModelData): $ChunkRenderTypeSet;
         getModelData(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $BlockState_, arg3: $ModelData): $ModelData;
         useAmbientOcclusion(arg0: $BlockState_, arg1: $ModelData, arg2: $RenderType): $TriState;
+        applyTransform(arg0: $ItemDisplayContext_, arg1: $PoseStack, arg2: boolean): $BakedModel;
+        getRenderTypes(arg0: $BlockState_, arg1: $RandomSource, arg2: $ModelData): $ChunkRenderTypeSet;
+        getRenderTypes(arg0: $ItemStack_, arg1: boolean): $List<$RenderType>;
+        getRenderPasses(arg0: $ItemStack_, arg1: boolean): $List<$BakedModel>;
+        getQuads(arg0: $BlockState_, arg1: $Direction_, arg2: $RandomSource, arg3: $ModelData, arg4: $RenderType): $List<$BakedQuad>;
         getParticleIcon(arg0: $ModelData): $TextureAtlasSprite;
     }
     export class $IDimensionSpecialEffectsExtension {
     }
     export interface $IDimensionSpecialEffectsExtension {
+        renderSky(arg0: $ClientLevel, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $Camera, arg5: $Matrix4f, arg6: boolean, arg7: $Runnable_): boolean;
+        adjustLightmapColors(arg0: $ClientLevel, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: $Vector3f): void;
+        tickRain(arg0: $ClientLevel, arg1: number, arg2: $Camera): boolean;
         renderSnowAndRain(arg0: $ClientLevel, arg1: number, arg2: number, arg3: $LightTexture, arg4: number, arg5: number, arg6: number): boolean;
         renderClouds(arg0: $ClientLevel, arg1: number, arg2: number, arg3: $PoseStack, arg4: number, arg5: number, arg6: number, arg7: $Matrix4f, arg8: $Matrix4f): boolean;
-        renderSky(arg0: $ClientLevel, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $Camera, arg5: $Matrix4f, arg6: boolean, arg7: $Runnable_): boolean;
-        tickRain(arg0: $ClientLevel, arg1: number, arg2: $Camera): boolean;
-        adjustLightmapColors(arg0: $ClientLevel, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: $Vector3f): void;
     }
     export class $IAbstractWidgetExtension {
     }
@@ -101,19 +101,19 @@ declare module "@package/net/neoforged/neoforge/client/extensions" {
         getKey(): $InputConstants$Key;
         getDisplayName(): $Component;
         setToDefault(): void;
-        getDefaultKeyModifier(): $KeyModifier;
-        setKeyConflictContext(arg0: $IKeyConflictContext): void;
         setKeyModifierAndCode(arg0: $KeyModifier_, arg1: $InputConstants$Key): void;
-        hasKeyModifierConflict(arg0: $KeyMapping): boolean;
+        getDefaultKeyModifier(): $KeyModifier;
         getKeyConflictContext(): $IKeyConflictContext;
-        isConflictContextAndModifierActive(): boolean;
-        getKeyModifier(): $KeyModifier;
+        hasKeyModifierConflict(arg0: $KeyMapping): boolean;
+        setKeyConflictContext(arg0: $IKeyConflictContext): void;
         isActiveAndMatches(arg0: $InputConstants$Key): boolean;
+        getKeyModifier(): $KeyModifier;
+        isConflictContextAndModifierActive(): boolean;
         get key(): $InputConstants$Key;
         get displayName(): $Component;
         get defaultKeyModifier(): $KeyModifier;
-        get conflictContextAndModifierActive(): boolean;
         get keyModifier(): $KeyModifier;
+        get conflictContextAndModifierActive(): boolean;
     }
     export class $IGuiGraphicsExtension {
         static DEFAULT_BORDER_COLOR_START: number;
@@ -149,8 +149,8 @@ declare module "@package/net/neoforged/neoforge/client/extensions" {
     export interface $IModelBakerExtension {
         bake(arg0: $ResourceLocation_, arg1: $ModelState, arg2: $Function_<$Material, $TextureAtlasSprite>): $BakedModel;
         getTopLevelModel(arg0: $ModelResourceLocation_): $UnbakedModel;
-        bakeUncached(arg0: $UnbakedModel, arg1: $ModelState, arg2: $Function_<$Material, $TextureAtlasSprite>): $BakedModel;
         getModelTextureGetter(): $Function<$Material, $TextureAtlasSprite>;
+        bakeUncached(arg0: $UnbakedModel, arg1: $ModelState, arg2: $Function_<$Material, $TextureAtlasSprite>): $BakedModel;
         get modelTextureGetter(): $Function<$Material, $TextureAtlasSprite>;
     }
 }

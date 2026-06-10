@@ -18,23 +18,23 @@ declare module "@package/com/simibubi/create/api/behaviour/movement" {
     export interface $MovementBehaviour {
         isActive(arg0: $MovementContext): boolean;
         tick(arg0: $MovementContext): void;
-        writeExtraData(arg0: $MovementContext): void;
-        visitNewPosition(arg0: $MovementContext, arg1: $BlockPos_): void;
-        onSpeedChanged(arg0: $MovementContext, arg1: $Vec3_, arg2: $Vec3_): void;
-        createVisual(arg0: $VisualizationContext, arg1: $VirtualRenderWorld, arg2: $MovementContext): $ActorVisual;
-        canBeDisabledVia(arg0: $MovementContext): $ItemStack;
-        collectOrDropItem(arg0: $MovementContext, arg1: $ItemStack_): void;
-        startMoving(arg0: $MovementContext): void;
-        cancelStall(arg0: $MovementContext): void;
+        mustTickWhileDisabled(): boolean;
+        renderInContraption(arg0: $MovementContext, arg1: $VirtualRenderWorld, arg2: $ContraptionMatrices, arg3: $MultiBufferSource_): void;
         getActiveAreaOffset(arg0: $MovementContext): $Vec3;
         onDisabledByControls(arg0: $MovementContext): void;
-        renderInContraption(arg0: $MovementContext, arg1: $VirtualRenderWorld, arg2: $ContraptionMatrices, arg3: $MultiBufferSource_): void;
-        mustTickWhileDisabled(): boolean;
+        stopMoving(arg0: $MovementContext): void;
+        disableBlockEntityRendering(): boolean;
         /**
          * @deprecated
          */
         dropItem(arg0: $MovementContext, arg1: $ItemStack_): void;
-        stopMoving(arg0: $MovementContext): void;
-        disableBlockEntityRendering(): boolean;
+        onSpeedChanged(arg0: $MovementContext, arg1: $Vec3_, arg2: $Vec3_): void;
+        writeExtraData(arg0: $MovementContext): void;
+        createVisual(arg0: $VisualizationContext, arg1: $VirtualRenderWorld, arg2: $MovementContext): $ActorVisual;
+        visitNewPosition(arg0: $MovementContext, arg1: $BlockPos_): void;
+        collectOrDropItem(arg0: $MovementContext, arg1: $ItemStack_): void;
+        canBeDisabledVia(arg0: $MovementContext): $ItemStack;
+        startMoving(arg0: $MovementContext): void;
+        cancelStall(arg0: $MovementContext): void;
     }
 }

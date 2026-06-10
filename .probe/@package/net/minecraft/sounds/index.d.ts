@@ -11,14 +11,14 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/net/minecraft/sounds" {
     export class $Music {
         getEvent(): $Holder<$SoundEvent>;
-        getMaxDelay(): number;
         getMinDelay(): number;
+        getMaxDelay(): number;
         replaceCurrentMusic(): boolean;
         static CODEC: $Codec<$Music>;
         constructor(arg0: $Holder_<$SoundEvent>, arg1: number, arg2: number, arg3: boolean);
         get event(): $Holder<$SoundEvent>;
-        get maxDelay(): number;
         get minDelay(): number;
+        get maxDelay(): number;
     }
     export interface $SoundEvent extends RegistryMarked<RegistryTypes.SoundEventTag, RegistryTypes.SoundEvent> {}
     export class $SoundEvent {

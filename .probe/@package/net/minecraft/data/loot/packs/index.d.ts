@@ -66,32 +66,32 @@ declare module "@package/net/minecraft/data/loot/packs" {
     export class $VanillaChestLoot extends $Record implements $LootTableSubProvider {
         generate(arg0: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
         registries(): $HolderLookup$Provider;
-        jungleTempleLootTable(): $LootTable$Builder;
-        pillagerOutpostLootTable(): $LootTable$Builder;
-        desertPyramidLootTable(): $LootTable$Builder;
-        ancientCityLootTable(): $LootTable$Builder;
-        bastionTreasureLootTable(): $LootTable$Builder;
-        shipwreckSupplyLootTable(): $LootTable$Builder;
-        shipwreckMapLootTable(): $LootTable$Builder;
-        netherBridgeLootTable(): $LootTable$Builder;
-        woodlandMansionLootTable(): $LootTable$Builder;
-        bastionBridgeLootTable(): $LootTable$Builder;
-        endCityTreasureLootTable(): $LootTable$Builder;
-        strongholdLibraryLootTable(): $LootTable$Builder;
-        bastionOtherLootTable(): $LootTable$Builder;
-        shipwreckTreasureLootTable(): $LootTable$Builder;
-        bastionHoglinStableLootTable(): $LootTable$Builder;
         strongholdCorridorLootTable(): $LootTable$Builder;
+        bastionHoglinStableLootTable(): $LootTable$Builder;
         spawnerLootTables(arg0: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
+        strongholdLibraryLootTable(): $LootTable$Builder;
+        woodlandMansionLootTable(): $LootTable$Builder;
+        shipwreckMapLootTable(): $LootTable$Builder;
+        pillagerOutpostLootTable(): $LootTable$Builder;
+        bastionOtherLootTable(): $LootTable$Builder;
+        ancientCityLootTable(): $LootTable$Builder;
+        desertPyramidLootTable(): $LootTable$Builder;
+        jungleTempleLootTable(): $LootTable$Builder;
+        bastionBridgeLootTable(): $LootTable$Builder;
+        bastionTreasureLootTable(): $LootTable$Builder;
+        endCityTreasureLootTable(): $LootTable$Builder;
+        netherBridgeLootTable(): $LootTable$Builder;
+        shipwreckSupplyLootTable(): $LootTable$Builder;
+        shipwreckTreasureLootTable(): $LootTable$Builder;
         constructor(arg0: $HolderLookup$Provider);
     }
     export class $TradeRebalanceChestLoot extends $Record implements $LootTableSubProvider {
         generate(arg0: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
         registries(): $HolderLookup$Provider;
-        jungleTempleLootTable(): $LootTable$Builder;
         pillagerOutpostLootTable(): $LootTable$Builder;
-        desertPyramidLootTable(): $LootTable$Builder;
         ancientCityLootTable(): $LootTable$Builder;
+        desertPyramidLootTable(): $LootTable$Builder;
+        jungleTempleLootTable(): $LootTable$Builder;
         constructor(arg0: $HolderLookup$Provider);
     }
     export class $VanillaGiftLoot extends $Record implements $LootTableSubProvider {

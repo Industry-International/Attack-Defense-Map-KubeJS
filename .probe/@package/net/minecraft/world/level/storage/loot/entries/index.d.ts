@@ -77,7 +77,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
      */
     export type $LootPoolSingletonContainer$EntryConstructor_ = (() => void);
     export class $AlternativesEntry$Builder extends $LootPoolEntryContainer$Builder<$AlternativesEntry$Builder> {
+        getThis(): $AlternativesEntry$Builder;
         constructor(...arg0: $LootPoolEntryContainer$Builder<never>[]);
+        get this(): $AlternativesEntry$Builder;
     }
     export class $DynamicLoot extends $LootPoolSingletonContainer {
         static dynamicEntry(arg0: $ResourceLocation_): $LootPoolSingletonContainer$Builder<never>;
@@ -106,8 +108,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         constructor(arg0: $List_<$LootPoolEntryContainer>, arg1: $List_<$LootItemCondition>);
     }
     export class $TagEntry extends $LootPoolSingletonContainer {
-        static tagContents(arg0: $TagKey_<$Item>): $LootPoolSingletonContainer$Builder<never>;
         static expandTag(arg0: $TagKey_<$Item>): $LootPoolSingletonContainer$Builder<never>;
+        static tagContents(arg0: $TagKey_<$Item>): $LootPoolSingletonContainer$Builder<never>;
         compositeFunction: $BiFunction<$ItemStack, $LootContext, $ItemStack>;
         static CODEC: $MapCodec<$TagEntry>;
         functions: $List<$LootItemFunction>;
@@ -133,13 +135,13 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
     export class $LootPoolEntry {
     }
     export interface $LootPoolEntry {
-        getWeight(arg0: number): number;
         createItemStack(arg0: $Consumer_<$ItemStack>, arg1: $LootContext): void;
+        getWeight(arg0: number): number;
     }
     export class $LootPoolSingletonContainer$Builder<T extends $LootPoolSingletonContainer$Builder<T>> extends $LootPoolEntryContainer$Builder<T> implements $FunctionUserBuilder<T> {
         getFunctions(): $List<$LootItemFunction>;
-        setQuality(arg0: number): T;
         setWeight(arg0: number): T;
+        setQuality(arg0: number): T;
         apply<E>(arg0: E[], arg1: $Function_<E, $LootItemFunction$Builder>): T;
         apply<E>(arg0: $Iterable_<E>, arg1: $Function_<E, $LootItemFunction$Builder>): T;
         apply(arg0: $LootItemFunction$Builder_): T;
@@ -211,8 +213,8 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         build(): $LootPoolEntryContainer;
         getConditions(): $List<$LootItemCondition>;
         then(arg0: $LootPoolEntryContainer$Builder<never>): $SequentialEntry$Builder;
-        getThis(): T;
         otherwise(arg0: $LootPoolEntryContainer$Builder<never>): $AlternativesEntry$Builder;
+        getThis(): T;
         when<E>(arg0: $Iterable_<E>, arg1: $Function_<E, $LootItemCondition$Builder>): T;
         when(arg0: $LootItemCondition$Builder_): T;
         constructor();

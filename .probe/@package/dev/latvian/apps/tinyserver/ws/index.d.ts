@@ -13,11 +13,11 @@ declare module "@package/dev/latvian/apps/tinyserver/ws" {
         static read(connection: $HTTPConnection<any>): $FrameInfo;
         mask(): boolean;
         opcode(): $Opcode;
-        fin(): boolean;
         applyMask(payload: number[]): void;
+        fin(): boolean;
         rsv1(): boolean;
-        rsv3(): boolean;
         rsv2(): boolean;
+        rsv3(): boolean;
         maskKey(): number;
         maskZero(): boolean;
         constructor(opcode: $Opcode_, mask: boolean, fin: boolean, rsv1: boolean, rsv2: boolean, rsv3: boolean, maskKey: number, size: number);
@@ -37,10 +37,10 @@ declare module "@package/dev/latvian/apps/tinyserver/ws" {
         info(): $FrameInfo;
         appendTo(previous: $Frame_): $Frame;
         static text(text: string): $Frame;
-        static simple(opcode: $Opcode_, mask: number, payload: number[]): $Frame;
-        static binary(buffer: number[]): $Frame;
-        static ping(buffer: number[]): $Frame;
         applyMask(): void;
+        static simple(opcode: $Opcode_, mask: number, payload: number[]): $Frame;
+        static ping(buffer: number[]): $Frame;
+        static binary(buffer: number[]): $Frame;
         constructor(info: $FrameInfo_, payload: number[]);
     }
     export class $WSCloseStatus extends $Enum<$WSCloseStatus> {
@@ -68,10 +68,10 @@ declare module "@package/dev/latvian/apps/tinyserver/ws" {
         onOpen(req: REQ): void;
         onTextMessage(message: string): void;
         onBinaryMessage(message: number[]): void;
-        sendText(payload: string): void;
         onPing(payload: number[]): void;
         sendPing(payload: number[]): void;
         onPong(payload: number[]): void;
+        sendText(payload: string): void;
         sendBinary(payload: number[]): void;
         constructor();
         get closed(): boolean;
@@ -100,12 +100,12 @@ declare module "@package/dev/latvian/apps/tinyserver/ws" {
         iterator(): $Iterator<WSS>;
         spliterator(): $Spliterator<WSS>;
         broadcast(frame: $Frame_): void;
-        broadcastText(payload: $Supplier_<string>): void;
-        broadcastText(payload: string): void;
-        broadcastBinary(payload: $Supplier_<number[]>): void;
         broadcastBinary(payload: number[]): void;
+        broadcastBinary(payload: $Supplier_<number[]>): void;
         broadcastPing(payload: number[]): void;
         broadcastPing(payload: $Supplier_<number[]>): void;
+        broadcastText(payload: string): void;
+        broadcastText(payload: $Supplier_<string>): void;
         sessions(): $Map<$UUID, WSS>;
         [Symbol.iterator](): Iterator<WSS>
     }

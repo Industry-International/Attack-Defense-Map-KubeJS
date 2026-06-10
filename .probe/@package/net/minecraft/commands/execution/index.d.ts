@@ -15,14 +15,14 @@ declare module "@package/net/minecraft/commands/execution" {
         profiler(): $ProfilerFiller;
         tracer(): $TraceCallbacks;
         tracer(arg0: $TraceCallbacks): void;
-        static queueInitialCommandExecution<T extends $ExecutionCommandSource<T>>(arg0: $ExecutionContext<T>, arg1: string, arg2: $ContextChain<T>, arg3: T, arg4: $CommandResultCallback_): void;
         runCommandQueue(): void;
-        static queueInitialFunctionCall<T extends $ExecutionCommandSource<T>>(arg0: $ExecutionContext<T>, arg1: $InstantiatedFunction<T>, arg2: T, arg3: $CommandResultCallback_): void;
+        static queueInitialCommandExecution<T extends $ExecutionCommandSource<T>>(arg0: $ExecutionContext<T>, arg1: string, arg2: $ContextChain<T>, arg3: T, arg4: $CommandResultCallback_): void;
+        incrementCost(): void;
         discardAtDepthOrHigher(arg0: number): void;
         frameControlForDepth(arg0: number): $Frame$FrameControl;
-        incrementCost(): void;
-        forkLimit(): number;
+        static queueInitialFunctionCall<T extends $ExecutionCommandSource<T>>(arg0: $ExecutionContext<T>, arg1: $InstantiatedFunction<T>, arg2: T, arg3: $CommandResultCallback_): void;
         queueNext(arg0: $CommandQueueEntry_<T>): void;
+        forkLimit(): number;
         constructor(arg0: number, arg1: number, arg2: $ProfilerFiller);
     }
     export class $ChainModifiers extends $Record {
@@ -48,8 +48,8 @@ declare module "@package/net/minecraft/commands/execution" {
     export interface $TraceCallbacks extends $AutoCloseable {
         close(): void;
         onError(arg0: string): void;
-        onReturn(arg0: number, arg1: string, arg2: number): void;
         onCall(arg0: number, arg1: $ResourceLocation_, arg2: number): void;
+        onReturn(arg0: number, arg1: string, arg2: number): void;
         onCommand(arg0: number, arg1: string): void;
     }
     export class $UnboundEntryAction<T> {
@@ -125,9 +125,9 @@ declare module "@package/net/minecraft/commands/execution" {
     export class $Frame extends $Record {
         depth(): number;
         discard(): void;
-        returnSuccess(arg0: number): void;
-        returnFailure(): void;
         frameControl(): $Frame$FrameControl;
+        returnFailure(): void;
+        returnSuccess(arg0: number): void;
         returnValueConsumer(): $CommandResultCallback;
         constructor(arg0: number, arg1: $CommandResultCallback_, arg2: $Frame$FrameControl_);
     }

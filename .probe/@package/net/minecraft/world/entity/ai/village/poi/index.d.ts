@@ -20,9 +20,9 @@ import { $IPOIUnloading } from "@package/com/ishland/c2me/rewrites/chunksystem/c
 declare module "@package/net/minecraft/world/entity/ai/village/poi" {
     export class $PoiType extends $Record {
         is(arg0: $BlockState_): boolean;
-        matchingStates(): $Set<$BlockState>;
         maxTickets(): number;
         validRange(): number;
+        matchingStates(): $Set<$BlockState>;
         static NONE: $Predicate<$Holder<$PoiType>>;
         constructor(matchingStates: $Set_<$BlockState_>, maxTickets: number, validRange: number);
     }
@@ -39,25 +39,25 @@ declare module "@package/net/minecraft/world/entity/ai/village/poi" {
         exists(arg0: $BlockPos_, arg1: $Predicate_<$Holder<$PoiType>>): boolean;
         findAll(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $Predicate_<$BlockPos>, arg2: $BlockPos_, arg3: number, arg4: $PoiManager$Occupancy_): $Stream<$BlockPos>;
         take(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BiPredicate_<$Holder<$PoiType>, $BlockPos>, arg2: $BlockPos_, arg3: number): ($BlockPos) | undefined;
-        existsAtPosition(arg0: $ResourceKey_<$PoiType>, arg1: $BlockPos_): boolean;
-        sectionsToVillage(arg0: $SectionPos): number;
-        findClosest(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): ($BlockPos) | undefined;
-        findClosest(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $Predicate_<$BlockPos>, arg2: $BlockPos_, arg3: number, arg4: $PoiManager$Occupancy_): ($BlockPos) | undefined;
-        getInRange(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
         getRandom(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $Predicate_<$BlockPos>, arg2: $PoiManager$Occupancy_, arg3: $BlockPos_, arg4: number, arg5: $RandomSource): ($BlockPos) | undefined;
+        getInRange(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
+        findClosest(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $Predicate_<$BlockPos>, arg2: $BlockPos_, arg3: number, arg4: $PoiManager$Occupancy_): ($BlockPos) | undefined;
+        findClosest(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): ($BlockPos) | undefined;
+        sectionsToVillage(arg0: $SectionPos): number;
         findAllWithType(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $Predicate_<$BlockPos>, arg2: $BlockPos_, arg3: number, arg4: $PoiManager$Occupancy_): $Stream<$Pair<$Holder<$PoiType>, $BlockPos>>;
-        findAllClosestFirstWithType(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $Predicate_<$BlockPos>, arg2: $BlockPos_, arg3: number, arg4: $PoiManager$Occupancy_): $Stream<$Pair<$Holder<$PoiType>, $BlockPos>>;
-        findClosestWithType(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): ($Pair<$Holder<$PoiType>, $BlockPos>) | undefined;
-        getInChunk(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $ChunkPos, arg2: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
-        checkConsistencyWithBlocks(arg0: $SectionPos, arg1: $LevelChunkSection): void;
+        existsAtPosition(arg0: $ResourceKey_<$PoiType>, arg1: $BlockPos_): boolean;
         ensureLoadedAndValid(arg0: $LevelReader, arg1: $BlockPos_, arg2: number): void;
-        getCountInRange(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): number;
-        isVillageCenter(arg0: number): boolean;
-        getInSquare(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
+        checkConsistencyWithBlocks(arg0: $SectionPos, arg1: $LevelChunkSection): void;
         /**
          * @deprecated
          */
         getFreeTickets(arg0: $BlockPos_): number;
+        isVillageCenter(arg0: number): boolean;
+        getInSquare(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
+        getCountInRange(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): number;
+        getInChunk(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $ChunkPos, arg2: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
+        findAllClosestFirstWithType(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $Predicate_<$BlockPos>, arg2: $BlockPos_, arg3: number, arg4: $PoiManager$Occupancy_): $Stream<$Pair<$Holder<$PoiType>, $BlockPos>>;
+        findClosestWithType(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $BlockPos_, arg2: number, arg3: $PoiManager$Occupancy_): ($Pair<$Holder<$PoiType>, $BlockPos>) | undefined;
         static MAX_VILLAGE_DISTANCE: number;
         static VILLAGE_SECTION_SIZE: number;
         levelHeightAccessor: $LevelHeightAccessor;
@@ -82,29 +82,29 @@ declare module "@package/net/minecraft/world/entity/ai/village/poi" {
      */
     export type $PoiManager$Occupancy_ = "has_space" | "is_occupied" | "any";
     export class $PoiRecord {
+        hasSpace(): boolean;
         static codec(arg0: $Runnable_): $Codec<$PoiRecord>;
         getPos(): $BlockPos;
-        hasSpace(): boolean;
         isOccupied(): boolean;
-        getPoiType(): $Holder<$PoiType>;
-        releaseTicket(): boolean;
-        acquireTicket(): boolean;
         /**
          * @deprecated
          */
         getFreeTickets(): number;
+        acquireTicket(): boolean;
+        releaseTicket(): boolean;
+        getPoiType(): $Holder<$PoiType>;
         constructor(arg0: $BlockPos_, arg1: $Holder_<$PoiType>, arg2: $Runnable_);
         get pos(): $BlockPos;
         get occupied(): boolean;
-        get poiType(): $Holder<$PoiType>;
         get freeTickets(): number;
+        get poiType(): $Holder<$PoiType>;
     }
     export class $PoiTypes {
         static register(arg0: $Registry<$PoiType_>, arg1: $ResourceKey_<$PoiType>, arg2: $Set_<$BlockState_>, arg3: number, arg4: number): $PoiType;
         static bootstrap(arg0: $Registry<$PoiType_>): $PoiType;
-        static registerBlockStates(arg0: $Holder_<$PoiType>, arg1: $Set_<$BlockState_>): void;
         static forState(arg0: $BlockState_): ($Holder<$PoiType>) | undefined;
         static hasPoi(arg0: $BlockState_): boolean;
+        static registerBlockStates(arg0: $Holder_<$PoiType>, arg1: $Set_<$BlockState_>): void;
         static CARTOGRAPHER: $ResourceKey<$PoiType>;
         static MASON: $ResourceKey<$PoiType>;
         static SHEPHERD: $ResourceKey<$PoiType>;
@@ -136,11 +136,11 @@ declare module "@package/net/minecraft/world/entity/ai/village/poi" {
         isValid(): boolean;
         static codec(arg0: $Runnable_): $Codec<$PoiSection>;
         refresh(arg0: $Consumer_<$BiConsumer<$BlockPos, $Holder<$PoiType>>>): void;
-        getRecords(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
         /**
          * @deprecated
          */
         getFreeTickets(arg0: $BlockPos_): number;
+        getRecords(arg0: $Predicate_<$Holder<$PoiType>>, arg1: $PoiManager$Occupancy_): $Stream<$PoiRecord>;
         constructor(arg0: $Runnable_);
         get valid(): boolean;
     }

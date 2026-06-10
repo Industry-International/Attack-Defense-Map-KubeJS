@@ -16,8 +16,8 @@ declare module "@package/com/github/argon4w/acceleratedrendering/core/meshes" {
         size(): number;
         offset(): number;
         write(arg0: $IAcceleratedVertexConsumer, arg1: number, arg2: number, arg3: number): void;
-        meshBuffer(): $IServerBuffer;
         forceDense(): boolean;
+        meshBuffer(): $IServerBuffer;
         constructor(size: number, offset: number, forceDense: boolean, meshBuffer: $IServerBuffer);
     }
 }

@@ -38,30 +38,30 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
         isDirty(): boolean;
         getBuffer(arg0: $RenderType): $VertexBuffer;
         getOrigin(): $BlockPos;
+        getDistToPlayerSqr(): number;
+        setCompiled(arg0: $SectionRenderDispatcher$CompiledSection): void;
+        createCompileTask(arg0: $RenderRegionCache): $SectionRenderDispatcher$RenderSection$CompileTask;
+        sable$setListening(arg0: boolean): void;
+        resortTransparency(arg0: $RenderType, arg1: $SectionRenderDispatcher): boolean;
+        isAxisAlignedWith(arg0: number, arg1: number, arg2: number): boolean;
+        releaseBuffers(): void;
+        vista$setPinned(arg0: boolean): void;
         rebuildSectionAsync(arg0: $SectionRenderDispatcher, arg1: $RenderRegionCache): void;
         updateGlobalBlockEntities(arg0: $Collection_<$BlockEntity>): void;
-        setDirty(arg0: boolean): void;
-        releaseBuffers(): void;
+        setOrigin(arg0: number, arg1: number, arg2: number): void;
         getBoundingBox(): $AABB;
         getCompiled(): $SectionRenderDispatcher$CompiledSection;
-        setNotDirty(): void;
         isDirtyFromPlayer(): boolean;
+        setNotDirty(): void;
         hasAllNeighbors(): boolean;
-        handler$hhf000$sable$setDirty(arg0: boolean, arg1: $CallbackInfo): void;
-        setOrigin(arg0: number, arg1: number, arg2: number): void;
-        vista$setPinned(arg0: boolean): void;
-        cancelTasks(): boolean;
-        sable$setListening(arg0: boolean): void;
-        isAxisAlignedWith(arg0: number, arg1: number, arg2: number): boolean;
-        setCompiled(arg0: $SectionRenderDispatcher$CompiledSection): void;
-        compileSync(arg0: $RenderRegionCache): void;
+        setDirty(arg0: boolean): void;
         getRelativeOrigin(arg0: $Direction_): $BlockPos;
         vista$isPinned(): boolean;
-        resortTransparency(arg0: $RenderType, arg1: $SectionRenderDispatcher): boolean;
-        createCompileTask(arg0: $RenderRegionCache): $SectionRenderDispatcher$RenderSection$CompileTask;
-        getDistToPlayerSqr(): number;
-        sable$addDirtyListener(arg0: $RenderSectionExtension$DirtyListener_): void;
+        compileSync(arg0: $RenderRegionCache): void;
+        cancelTasks(): boolean;
+        handler$hih000$sable$setDirty(arg0: boolean, arg1: $CallbackInfo): void;
         createVertexSorting(): $VertexSorting;
+        sable$addDirtyListener(arg0: $RenderSectionExtension$DirtyListener_): void;
         getGlobalBlockEntities(): $Set<$BlockEntity>;
         compiled: $AtomicReference<$SectionRenderDispatcher$CompiledSection>;
         static SIZE: number;
@@ -69,9 +69,9 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
         this$0: $SectionRenderDispatcher;
         index: number;
         constructor(arg0: $SectionRenderDispatcher, arg1: number, arg2: number, arg3: number, arg4: number);
+        get distToPlayerSqr(): number;
         get boundingBox(): $AABB;
         get dirtyFromPlayer(): boolean;
-        get distToPlayerSqr(): number;
         get globalBlockEntities(): $Set<$BlockEntity>;
     }
     export class $SectionRenderDispatcher implements $ForceChunkLoadingHook$IBlockOnChunkRebuilds {
@@ -79,18 +79,18 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
         setLevel(arg0: $ClientLevel): void;
         dispose(): void;
         getStats(): string;
-        uploadAllPendingUploads(): void;
         uploadEverythingBlocking(): boolean;
-        setCamera(arg0: $Vec3_): void;
+        uploadAllPendingUploads(): void;
+        uploadSectionIndexBuffer(arg0: $ByteBufferBuilder$Result, arg1: $VertexBuffer): $CompletableFuture<void>;
         blockUntilClear(): void;
         rebuildSectionSync(arg0: $SectionRenderDispatcher$RenderSection, arg1: $RenderRegionCache): void;
+        setCamera(arg0: $Vec3_): void;
         getCameraPosition(): $Vec3;
-        uploadSectionIndexBuffer(arg0: $ByteBufferBuilder$Result, arg1: $VertexBuffer): $CompletableFuture<void>;
-        getFreeBufferCount(): number;
-        getToBatchCount(): number;
-        getToUpload(): number;
         isQueueEmpty(): boolean;
+        getToBatchCount(): number;
         uploadSectionLayer(arg0: $MeshData, arg1: $VertexBuffer): $CompletableFuture<void>;
+        getFreeBufferCount(): number;
+        getToUpload(): number;
         bufferPool: $SectionBufferBuilderPool;
         renderer: $LevelRenderer;
         sectionCompiler: $SectionCompiler;
@@ -100,10 +100,10 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
         get stats(): string;
         set camera(value: $Vec3_);
         get cameraPosition(): $Vec3;
-        get freeBufferCount(): number;
-        get toBatchCount(): number;
-        get toUpload(): number;
         get queueEmpty(): boolean;
+        get toBatchCount(): number;
+        get freeBufferCount(): number;
+        get toUpload(): number;
     }
     export class $RenderRegionCache$ChunkInfo {
         chunk(): $LevelChunk;
@@ -115,8 +115,8 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
     export class $SectionRenderDispatcher$CompiledSection implements $CompiledSectionAccess {
         isEmpty(arg0: $RenderType): boolean;
         getRenderableBlockEntities(): $List<$BlockEntity>;
-        facesCanSeeEachother(arg0: $Direction_, arg1: $Direction_): boolean;
         hasNoRenderableLayers(): boolean;
+        facesCanSeeEachother(arg0: $Direction_, arg1: $Direction_): boolean;
         getHasBlocks(): $Set<$RenderType>;
         transparencyState: $MeshData$SortState;
         hasBlocks: $Set<$RenderType>;
@@ -128,48 +128,48 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
     }
     export class $RenderChunkRegion implements $BlockAndTintGetter, $RenderDataMapConsumer, $RenderAttachedBlockView, $SubLevelContainerHolder {
         static index(arg0: number, arg1: number, arg2: number, arg3: number): number;
-        getBlockState(arg0: $BlockPos_): $BlockState;
         getFluidState(arg0: $BlockPos_): $FluidState;
-        getBlockEntityRenderData(arg0: $BlockPos_): $Object;
-        getMinBuildHeight(): number;
-        hasBiomes(): boolean;
-        getShade(arg0: $Direction_, arg1: boolean): number;
-        getShade(arg0: number, arg1: number, arg2: number, arg3: boolean): number;
-        getHeight(): number;
-        getLightEngine(): $LevelLightEngine;
         getModelData(arg0: $BlockPos_): $ModelData;
         sable$getPlotContainer(): $SubLevelContainer;
-        getBiomeFabric(arg0: $BlockPos_): $Holder<any>;
-        getBlockTint(arg0: $BlockPos_, arg1: $ColorResolver_): number;
+        hasBiomes(): boolean;
+        getShade(arg0: number, arg1: number, arg2: number, arg3: boolean): number;
+        getShade(arg0: $Direction_, arg1: boolean): number;
         getAuxLightManager(arg0: $ChunkPos): $AuxiliaryLightManager;
+        getBlockTint(arg0: $BlockPos_, arg1: $ColorResolver_): number;
+        getBiomeFabric(arg0: $BlockPos_): $Holder<any>;
+        getBlockEntityRenderData(arg0: $BlockPos_): $Object;
+        getBlockState(arg0: $BlockPos_): $BlockState;
+        getMinBuildHeight(): number;
+        getHeight(): number;
         getBlockEntity(arg0: $BlockPos_): $BlockEntity;
+        getLightEngine(): $LevelLightEngine;
         fabric_acceptRenderDataMap(arg0: $Long2ObjectMap<any>): void;
         canSeeSky(arg0: $BlockPos_): boolean;
-        getBrightness(arg0: $LightLayer_, arg1: $BlockPos_): number;
         getRawBrightness(arg0: $BlockPos_, arg1: number): number;
+        getBrightness(arg0: $LightLayer_, arg1: $BlockPos_): number;
         /**
          * @deprecated
          */
         getBlockEntityRenderAttachment(arg0: $BlockPos_): $Object;
-        handler$iaa000$aero_cam_sync$shiftClipForCameraTilt(arg0: $ClipContext, arg1: $CallbackInfoReturnable<any>): void;
-        getBlockFloorHeight(arg0: $VoxelShape, arg1: $Supplier_<$VoxelShape>): number;
-        getBlockFloorHeight(arg0: $BlockPos_): number;
+        handler$ibc000$aero_cam_sync$shiftClipForCameraTilt(arg0: $ClipContext, arg1: $CallbackInfoReturnable<any>): void;
         clip(arg0: $ClipContext): $BlockHitResult;
         getLightEmission(arg0: $BlockPos_): number;
         clipWithInteractionOverride(arg0: $Vec3_, arg1: $Vec3_, arg2: $BlockPos_, arg3: $VoxelShape, arg4: $BlockState_): $BlockHitResult;
+        isBlockInLine(arg0: $ClipBlockStateContext): $BlockHitResult;
         getBlockStates(arg0: $AABB_): $Stream<$BlockState>;
         getMaxLightLevel(): number;
-        isBlockInLine(arg0: $ClipBlockStateContext): $BlockHitResult;
+        getBlockFloorHeight(arg0: $BlockPos_): number;
+        getBlockFloorHeight(arg0: $VoxelShape, arg1: $Supplier_<$VoxelShape>): number;
         getBlockEntity<T extends $BlockEntity>(arg0: $BlockPos_, arg1: $BlockEntityType_<T>): (T) | undefined;
-        isOutsideBuildHeight(arg0: $BlockPos_): boolean;
         isOutsideBuildHeight(arg0: number): boolean;
-        getSectionIndexFromSectionY(arg0: number): number;
-        getSectionYFromSectionIndex(arg0: number): number;
-        getSectionsCount(): number;
+        isOutsideBuildHeight(arg0: $BlockPos_): boolean;
         getMaxBuildHeight(): number;
+        getSectionsCount(): number;
         getMinSection(): number;
         getMaxSection(): number;
         getSectionIndex(arg0: number): number;
+        getSectionYFromSectionIndex(arg0: number): number;
+        getSectionIndexFromSectionY(arg0: number): number;
         getAuxLightManager(arg0: $BlockPos_): $AuxiliaryLightManager;
         static RADIUS: number;
         level: $Level;
@@ -184,8 +184,8 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
         get height(): number;
         get lightEngine(): $LevelLightEngine;
         get maxLightLevel(): number;
-        get sectionsCount(): number;
         get maxBuildHeight(): number;
+        get sectionsCount(): number;
         get minSection(): number;
         get maxSection(): number;
     }
@@ -211,8 +211,8 @@ declare module "@package/net/minecraft/client/renderer/chunk" {
         set all(value: boolean);
     }
     export class $RenderRegionCache {
-        createRegion(arg0: $Level_, arg1: $SectionPos, arg2: boolean): $RenderChunkRegion;
         createRegion(arg0: $Level_, arg1: $SectionPos): $RenderChunkRegion;
+        createRegion(arg0: $Level_, arg1: $SectionPos, arg2: boolean): $RenderChunkRegion;
         constructor();
     }
     export class $SectionRenderDispatcher$RenderSection$RebuildTask extends $SectionRenderDispatcher$RenderSection$CompileTask {

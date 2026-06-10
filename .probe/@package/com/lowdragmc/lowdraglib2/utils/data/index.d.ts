@@ -26,14 +26,14 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/data" {
         setEntityType(arg0: $EntityType_<never>): void;
     }
     export class $BlockInfo implements $IPersistedSerializable, $IConfigurable {
-        getBlockState(): $BlockState;
-        setTag(arg0: $CompoundTag_): void;
-        static fromBlock(arg0: $Block_): $BlockInfo;
         setBlockState(arg0: $BlockState_): void;
+        setTag(arg0: $CompoundTag_): void;
         static fromBlockState(arg0: $BlockState_): $BlockInfo;
-        setItemStack(arg0: $ItemStack_): void;
-        hasBlockEntity(): boolean;
         postEntity(arg0: $BlockEntity): void;
+        static fromBlock(arg0: $Block_): $BlockInfo;
+        getBlockState(): $BlockState;
+        hasBlockEntity(): boolean;
+        setItemStack(arg0: $ItemStack_): void;
         setPostCreate(arg0: $Consumer_<$BlockEntity>): void;
         getItemStackForm(arg0: $LevelReader, arg1: $BlockPos_): $ItemStack;
         getItemStackForm(): $ItemStack;
@@ -41,15 +41,15 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/data" {
         serializeAdditionalNBT(arg0: $HolderLookup$Provider): $Tag;
         deserializeAdditionalNBT(arg0: $Tag_, arg1: $HolderLookup$Provider): void;
         deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        afterDeserialize(): void;
         beforeSerialize(): void;
         writeToBuff(arg0: $ByteBuf): void;
-        beforeDeserialize(): void;
         afterSerialize(): void;
         readFromBuff(arg0: $ByteBuf): void;
-        createDirectConfigurator(): $Configurator;
-        getConfigurableName(): string;
+        afterDeserialize(): void;
+        beforeDeserialize(): void;
         createHistoryRecorder(): $IConfigurableHistory;
+        getConfigurableName(): string;
+        createDirectConfigurator(): $Configurator;
         buildConfigurator(arg0: $ConfiguratorGroup): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static EMPTY: $BlockInfo;

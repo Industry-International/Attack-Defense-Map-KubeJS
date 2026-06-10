@@ -42,20 +42,20 @@ declare module "@package/com/replaymod/core" {
     export class $ReplayModBackend {
         getVersion(): string;
         static construct(event: $FMLConstructModEvent): void;
-        isModLoaded(id: string): boolean;
         getMinecraftVersion(): string;
+        isModLoaded(id: string): boolean;
         constructor();
         get version(): string;
         get minecraftVersion(): string;
     }
     export class $KeyBindingRegistry$Binding {
         trigger(): void;
-        isBound(): boolean;
         registerAutoActivationSupport(active: boolean, update: $Consumer_<boolean>): void;
-        supportsAutoActivation(): boolean;
-        getBoundKey(): string;
-        isAutoActivating(): boolean;
         setAutoActivating(active: boolean): void;
+        isAutoActivating(): boolean;
+        supportsAutoActivation(): boolean;
+        isBound(): boolean;
+        getBoundKey(): string;
         keyBinding: $KeyMapping;
         name: string;
         constructor(this$0: $KeyBindingRegistry, name: string, keyBinding: $KeyMapping);
@@ -64,23 +64,23 @@ declare module "@package/com/replaymod/core" {
     }
     export class $ReplayMod implements $Module, $Scheduler {
         getVersion(): string;
-        isModLoaded(id: string): boolean;
-        getKeyBindingRegistry(): $KeyBindingRegistry;
-        getMinecraftVersion(): string;
-        runLaterWithoutLock(runnable: $Runnable_): void;
-        getBackgroundProcesses(): $GuiBackgroundProcesses;
-        registerKeyBindings(registry: $KeyBindingRegistry): void;
-        initClient(): void;
-        runLater(runnable: $Runnable_): void;
-        runTasks(): void;
-        runSync(runnable: $Runnable_): void;
-        getMinecraft(): $Minecraft;
-        getSettingsRegistry(): $SettingsRegistry;
         static isCompatible(fileFormatVersion: number, protocolVersion: number): boolean;
+        registerKeyBindings(registry: $KeyBindingRegistry): void;
+        getBackgroundProcesses(): $GuiBackgroundProcesses;
+        runLaterWithoutLock(runnable: $Runnable_): void;
+        getMinecraftVersion(): string;
+        isModLoaded(id: string): boolean;
         printWarningToChat(message: string, ...args: $Object[]): void;
         static isMinimalMode(): boolean;
         runPostStartup(runnable: $Runnable_): void;
         printInfoToChat(message: string, ...args: $Object[]): void;
+        getSettingsRegistry(): $SettingsRegistry;
+        getKeyBindingRegistry(): $KeyBindingRegistry;
+        getMinecraft(): $Minecraft;
+        runLater(runnable: $Runnable_): void;
+        runTasks(): void;
+        initClient(): void;
+        runSync(runnable: $Runnable_): void;
         initCommon(): void;
         static TEXTURE_SIZE: number;
         static TEXTURE: $ResourceLocation;
@@ -93,12 +93,12 @@ declare module "@package/com/replaymod/core" {
         static JGUI_RESOURCE_PACK_NAME: string;
         constructor(backend: $ReplayModBackend);
         get version(): string;
-        get keyBindingRegistry(): $KeyBindingRegistry;
-        get minecraftVersion(): string;
         get backgroundProcesses(): $GuiBackgroundProcesses;
-        get minecraft(): $Minecraft;
-        get settingsRegistry(): $SettingsRegistry;
+        get minecraftVersion(): string;
         static get minimalMode(): boolean;
+        get settingsRegistry(): $SettingsRegistry;
+        get keyBindingRegistry(): $KeyBindingRegistry;
+        get minecraft(): $Minecraft;
     }
     export class $Module {
     }
@@ -108,13 +108,13 @@ declare module "@package/com/replaymod/core" {
         initClient(): void;
     }
     export class $KeyBindingRegistry extends $EventRegistrations {
-        registerRaw(keyCode: number, whenPressed: $Supplier_<boolean>): void;
-        getBindings(): $Map<string, $KeyBindingRegistry$Binding>;
-        getOnlyInReplay(): $Set<$KeyMapping>;
-        registerKeyBinding(name: string, keyCode: number, whenPressed: $Runnable_, onlyInRepay: boolean): $KeyBindingRegistry$Binding;
-        static registerKeybinds(event: $RegisterKeyMappingsEvent): void;
-        registerRepeatedKeyBinding(name: string, keyCode: number, whenPressed: $Runnable_, onlyInRepay: boolean): $KeyBindingRegistry$Binding;
         handleRepeatedKeyBindings(): void;
+        registerRepeatedKeyBinding(name: string, keyCode: number, whenPressed: $Runnable_, onlyInRepay: boolean): $KeyBindingRegistry$Binding;
+        getBindings(): $Map<string, $KeyBindingRegistry$Binding>;
+        registerRaw(keyCode: number, whenPressed: $Supplier_<boolean>): void;
+        getOnlyInReplay(): $Set<$KeyMapping>;
+        static registerKeybinds(event: $RegisterKeyMappingsEvent): void;
+        registerKeyBinding(name: string, keyCode: number, whenPressed: $Runnable_, onlyInRepay: boolean): $KeyBindingRegistry$Binding;
         constructor();
         get bindings(): $Map<string, $KeyBindingRegistry$Binding>;
         get onlyInReplay(): $Set<$KeyMapping>;

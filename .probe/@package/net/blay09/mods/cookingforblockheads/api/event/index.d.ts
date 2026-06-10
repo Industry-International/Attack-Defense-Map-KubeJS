@@ -8,14 +8,14 @@ import { $BalmEvent } from "@package/net/blay09/mods/balm/api/event";
 declare module "@package/net/blay09/mods/cookingforblockheads/api/event" {
     export class $OvenItemSmeltedEvent extends $BalmEvent {
         getLevel(): $Level;
-        getPlayer(): $Player;
         getPos(): $BlockPos;
         getResultItem(): $ItemStack;
+        getPlayer(): $Player;
         constructor(arg0: $Player, arg1: $Level_, arg2: $BlockPos_, arg3: $ItemStack_);
         get level(): $Level;
-        get player(): $Player;
         get pos(): $BlockPos;
         get resultItem(): $ItemStack;
+        get player(): $Player;
     }
     export class $OvenCookedEvent extends $BalmEvent {
         getLevel(): $Level;
@@ -27,10 +27,10 @@ declare module "@package/net/blay09/mods/cookingforblockheads/api/event" {
         get resultItem(): $ItemStack;
     }
     export class $PopulateCookingRegistryEvent extends $BalmEvent {
-        getRecipeManager(): $RecipeManager;
         getRegistryAccess(): $RegistryAccess;
+        getRecipeManager(): $RecipeManager;
         constructor(arg0: $RecipeManager, arg1: $RegistryAccess);
-        get recipeManager(): $RecipeManager;
         get registryAccess(): $RegistryAccess;
+        get recipeManager(): $RecipeManager;
     }
 }

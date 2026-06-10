@@ -22,12 +22,12 @@ declare module "@package/com/github/argon4w/acceleratedrendering/core/utils" {
         getSize(): number;
         resize(arg0: number): void;
         isResized(): boolean;
-        afterExpand(): void;
         resetResized(): void;
+        afterExpand(): void;
         beforeExpand(): void;
+        resizeTo(arg0: number): void;
         doExpand(arg0: number, arg1: number): void;
         onExpand(arg0: number): void;
-        resizeTo(arg0: number): void;
         constructor(arg0: number);
         get size(): number;
         get resized(): boolean;

@@ -31,17 +31,17 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/misc" {
         getName(): string;
         getData(arg0: $Level_): D;
         setData(arg0: $Level_, arg1: D): void;
-        isSyncable(): boolean;
         getCodec(): $Codec<D>;
         getStreamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
+        isSyncable(): boolean;
         static CODEC: $Codec<$WorldSavedDataType<$WorldSavedData>>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $WorldSavedDataType<$WorldSavedData>>;
         constructor(arg0: $ResourceLocation_, arg1: $Function_<$ServerLevel, D>, arg2: $Supplier_<$Codec<D>>, arg3: $Supplier_<$StreamCodec<$RegistryFriendlyByteBuf, D>>);
         constructor(arg0: $ResourceLocation_, arg1: $Function_<$ServerLevel, D>, arg2: $Supplier_<$Codec<D>>, arg3: $Supplier_<$StreamCodec<$RegistryFriendlyByteBuf, D>>, arg4: $WorldSavedDataType$Scope_);
         get name(): string;
-        get syncable(): boolean;
         get codec(): $Codec<D>;
         get streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
+        get syncable(): boolean;
     }
     /**
      * Values that may be interpreted as {@link $WorldSavedDataType}.

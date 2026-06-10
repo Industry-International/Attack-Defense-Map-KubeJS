@@ -12,9 +12,9 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/dev/latvian/mods/kubejs/holder" {
     export class $HolderWrapper {
         static wrap(from: $Object, param: $TypeInfo_): $Holder<never>;
-        static wrapSimpleSet<T>(registry: $Registry<T>, from: $Object): $HolderSet<T>;
         static wrapSet(from: $Object, param: $TypeInfo_): $HolderSet<never>;
         static wrapRef(from: $Object, param: $TypeInfo_): $Holder$Reference<never>;
+        static wrapSimpleSet<T>(registry: $Registry<T>, from: $Object): $HolderSet<T>;
         static HOLDER: $TypeInfo;
         static HOLDER_SET: $TypeInfo;
     }

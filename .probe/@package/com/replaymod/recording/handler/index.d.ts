@@ -7,14 +7,14 @@ declare module "@package/com/replaymod/recording/handler" {
     export class $RecordingEventHandler$RecordingEventSender {
     }
     export interface $RecordingEventHandler$RecordingEventSender {
-        getRecordingEventHandler(): $RecordingEventHandler;
         setRecordingEventHandler(arg0: $RecordingEventHandler): void;
+        getRecordingEventHandler(): $RecordingEventHandler;
     }
     export class $RecordingEventHandler extends $EventRegistrations {
-        onBlockBreakAnim(breakerId: number, pos: $BlockPos_, progress: number): void;
-        onClientEffect(type: number, pos: $BlockPos_, data: number): void;
         spawnRecordingPlayer(): void;
         onPacket(packet: $Packet<never>): void;
+        onClientEffect(type: number, pos: $BlockPos_, data: number): void;
+        onBlockBreakAnim(breakerId: number, pos: $BlockPos_, progress: number): void;
         constructor(packetListener: $PacketListener);
     }
 }

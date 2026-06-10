@@ -246,10 +246,10 @@ declare module "@package/java/text" {
         setLocale(arg0: $Locale): void;
         getFormats(): $Format[];
         setFormat(arg0: number, arg1: $Format): void;
-        getFormatsByArgumentIndex(): $Format[];
         setFormats(arg0: $Format[]): void;
-        setFormatByArgumentIndex(arg0: number, arg1: $Format): void;
         setFormatsByArgumentIndex(arg0: $Format[]): void;
+        setFormatByArgumentIndex(arg0: number, arg1: $Format): void;
+        getFormatsByArgumentIndex(): $Format[];
         constructor(arg0: string);
         constructor(arg0: string, arg1: $Locale);
     }

@@ -18,8 +18,8 @@ declare module "@package/com/ishland/c2me/rewrites/chunksystem/common" {
         holder(): $ItemHolder<$ChunkPos, $ChunkState, $ChunkLoadingContext, $NewChunkHolderVanillaInterface>;
         dependencies(): $KeyStatusPair<$ChunkPos, $ChunkState, $ChunkLoadingContext>[];
         chunks(): $StaticCache2D<$GenerationChunkHolder>;
-        tacs(): $ChunkMap;
         schedulingManager(): $SchedulingManager;
+        tacs(): $ChunkMap;
         constructor(holder: $ItemHolder<$ChunkPos, $ChunkState_, $ChunkLoadingContext_, $NewChunkHolderVanillaInterface>, tacs: $ChunkMap, schedulingManager: $SchedulingManager, chunks: $StaticCache2D<$GenerationChunkHolder>, dependencies: $KeyStatusPair<$ChunkPos, $ChunkState_, $ChunkLoadingContext_>[]);
     }
     export class $ChunkState extends $Record {
@@ -56,11 +56,11 @@ declare module "@package/com/ishland/c2me/rewrites/chunksystem/common" {
         ordinal(): number;
         getDependencies(holder: $ItemHolder<$ChunkPos, $ChunkState_, $ChunkLoadingContext_, never>): $KeyStatusPair<$ChunkPos, $ChunkState, $ChunkLoadingContext>[];
         getEffectiveVanillaStatus(): $ChunkStatus;
-        toChunkLevelType(): $FullChunkStatus;
-        static fromVanillaLevel(level: number): $NewChunkStatus;
-        static fromVanillaStatus(status: $ChunkStatus_): $NewChunkStatus;
-        toVanillaLevel(): number;
         getAllStatuses(): $ItemStatus<$ChunkPos, $ChunkState, $ChunkLoadingContext>[];
+        static fromVanillaLevel(level: number): $NewChunkStatus;
+        toChunkLevelType(): $FullChunkStatus;
+        toVanillaLevel(): number;
+        static fromVanillaStatus(status: $ChunkStatus_): $NewChunkStatus;
         getNext(): $ItemStatus<$ChunkPos, $ChunkState, $ChunkLoadingContext>;
         getPrev(): $ItemStatus<$ChunkPos, $ChunkState, $ChunkLoadingContext>;
         getDependenciesToRemove(holder: $ItemHolder<$ChunkPos, $ChunkState_, $ChunkLoadingContext_, never>): $KeyStatusPair<$ChunkPos, $ChunkState, $ChunkLoadingContext>[];

@@ -11,8 +11,8 @@ declare module "@package/com/google/common/cache" {
         static from<V>(supplier: $Supplier_<V>): $CacheLoader<$Object, V>;
         static from<K, V>(arg0: $Function<K, V>): $CacheLoader<K, V>;
         reload(key: K, oldValue: V): $ListenableFuture<V>;
-        static asyncReloading<K, V>(loader: $CacheLoader<K, V>, executor: $Executor_): $CacheLoader<K, V>;
         loadAll(keys: $Iterable_<K>): $Map<K, V>;
+        static asyncReloading<K, V>(loader: $CacheLoader<K, V>, executor: $Executor_): $CacheLoader<K, V>;
     }
     export class $LoadingCache<K, V> {
     }
@@ -31,17 +31,17 @@ declare module "@package/com/google/common/cache" {
         minus(other: $CacheStats): $CacheStats;
         plus(other: $CacheStats): $CacheStats;
         missCount(): number;
-        hitRate(): number;
         missRate(): number;
         loadCount(): number;
+        hitRate(): number;
+        hitCount(): number;
+        totalLoadTime(): number;
+        requestCount(): number;
         loadExceptionCount(): number;
         loadExceptionRate(): number;
-        averageLoadPenalty(): number;
         loadSuccessCount(): number;
-        totalLoadTime(): number;
         evictionCount(): number;
-        requestCount(): number;
-        hitCount(): number;
+        averageLoadPenalty(): number;
         constructor(hitCount: number, missCount: number, loadSuccessCount: number, loadExceptionCount: number, totalLoadTime: number, evictionCount: number);
     }
     export class $Cache<K, V> {
@@ -51,13 +51,13 @@ declare module "@package/com/google/common/cache" {
         get(key: K, loader: $Callable_<V>): V;
         put(key: K, value: V): void;
         putAll(m: $Map_<K, V>): void;
-        stats(): $CacheStats;
         asMap(): $ConcurrentMap<K, V>;
+        stats(): $CacheStats;
+        invalidateAll(): void;
+        invalidateAll(keys: $Iterable_<never>): void;
         cleanUp(): void;
+        invalidate(key: $Object): void;
         getIfPresent(key: $Object): V;
         getAllPresent(keys: $Iterable_<never>): $ImmutableMap<K, V>;
-        invalidateAll(keys: $Iterable_<never>): void;
-        invalidateAll(): void;
-        invalidate(key: $Object): void;
     }
 }

@@ -20,7 +20,7 @@ declare module "@package/net/createmod/catnip/render" {
         getBuffer(arg0: $RenderType): $VertexConsumer;
         draw(arg0: $RenderType): void;
         draw(): void;
-        getEarlyBuffer(arg0: $RenderType): $VertexConsumer;
         getLateBuffer(arg0: $RenderType): $VertexConsumer;
+        getEarlyBuffer(arg0: $RenderType): $VertexConsumer;
     }
 }

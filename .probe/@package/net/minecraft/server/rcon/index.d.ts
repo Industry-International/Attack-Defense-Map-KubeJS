@@ -5,10 +5,10 @@ export * as thread from "@package/net/minecraft/server/rcon/thread";
 
 declare module "@package/net/minecraft/server/rcon" {
     export class $RconConsoleSource implements $CommandSource {
-        sendSystemMessage(arg0: $Component_): void;
         shouldInformAdmins(): boolean;
         acceptsSuccess(): boolean;
         acceptsFailure(): boolean;
+        sendSystemMessage(arg0: $Component_): void;
         createCommandSourceStack(): $CommandSourceStack;
         prepareForCommand(): void;
         getCommandResponse(): string;
@@ -29,8 +29,8 @@ declare module "@package/net/minecraft/server/rcon" {
     }
     export class $PktUtils {
         static toHexString(arg0: number): string;
-        static stringFromByteArray(arg0: number[], arg1: number, arg2: number): string;
         static intFromNetworkByteArray(arg0: number[], arg1: number, arg2: number): number;
+        static stringFromByteArray(arg0: number[], arg1: number, arg2: number): string;
         static intFromByteArray(arg0: number[], arg1: number, arg2: number): number;
         static intFromByteArray(arg0: number[], arg1: number): number;
         static MAX_PACKET_SIZE: number;

@@ -11,7 +11,7 @@ import { $AdvancementHolder } from "@package/net/minecraft/advancements";
 import { $BiConsumer, $Consumer, $Supplier_, $Consumer_ } from "@package/java/util/function";
 import { $HolderLookup$Provider, $Holder_, $RegistrySetBuilder$PatchedRegistries_, $Registry, $RegistrySetBuilder } from "@package/net/minecraft/core";
 import { $Path_ } from "@package/java/nio/file";
-import { $OverlayMetadataSection$OverlayEntry, $OverlayMetadataSection$OverlayEntry_, $PackType_, $PackType } from "@package/net/minecraft/server/packs";
+import { $OverlayMetadataSection$OverlayEntry_, $OverlayMetadataSection$OverlayEntry, $PackType_, $PackType } from "@package/net/minecraft/server/packs";
 import { $WithConditions$Builder, $WithConditions_, $ICondition, $WithConditions } from "@package/net/neoforged/neoforge/common/conditions";
 import { $Enum, $Record } from "@package/java/lang";
 import { $File_ } from "@package/java/io";
@@ -30,17 +30,17 @@ export * as fixes from "@package/net/neoforged/neoforge/common/data/fixes";
 
 declare module "@package/net/neoforged/neoforge/common/data" {
     export class $SoundDefinition$Sound {
-        stream(arg0: boolean): $SoundDefinition$Sound;
         stream(): $SoundDefinition$Sound;
+        stream(arg0: boolean): $SoundDefinition$Sound;
         weight(arg0: number): $SoundDefinition$Sound;
-        attenuationDistance(arg0: number): $SoundDefinition$Sound;
-        volume(arg0: number): $SoundDefinition$Sound;
-        volume(arg0: number): $SoundDefinition$Sound;
-        preload(): $SoundDefinition$Sound;
-        preload(arg0: boolean): $SoundDefinition$Sound;
+        pitch(arg0: number): $SoundDefinition$Sound;
+        pitch(arg0: number): $SoundDefinition$Sound;
         static sound(arg0: $ResourceLocation_, arg1: $SoundDefinition$SoundType_): $SoundDefinition$Sound;
-        pitch(arg0: number): $SoundDefinition$Sound;
-        pitch(arg0: number): $SoundDefinition$Sound;
+        preload(arg0: boolean): $SoundDefinition$Sound;
+        preload(): $SoundDefinition$Sound;
+        volume(arg0: number): $SoundDefinition$Sound;
+        volume(arg0: number): $SoundDefinition$Sound;
+        attenuationDistance(arg0: number): $SoundDefinition$Sound;
     }
     export class $GlobalLootModifierProvider implements $DataProvider {
         getName(): string;
@@ -144,11 +144,11 @@ declare module "@package/net/neoforged/neoforge/common/data" {
     }
     export class $ExistingFileHelper {
         isEnabled(): boolean;
-        getResource(arg0: $ResourceLocation_, arg1: $PackType_): $Resource;
         getResource(arg0: $ResourceLocation_, arg1: $PackType_, arg2: string, arg3: string): $Resource;
+        getResource(arg0: $ResourceLocation_, arg1: $PackType_): $Resource;
         exists(arg0: $ResourceLocation_, arg1: $PackType_, arg2: string, arg3: string): boolean;
-        exists(arg0: $ResourceLocation_, arg1: $ExistingFileHelper$IResourceType): boolean;
         exists(arg0: $ResourceLocation_, arg1: $PackType_): boolean;
+        exists(arg0: $ResourceLocation_, arg1: $ExistingFileHelper$IResourceType): boolean;
         trackGenerated(arg0: $ResourceLocation_, arg1: $ExistingFileHelper$IResourceType): void;
         trackGenerated(arg0: $ResourceLocation_, arg1: $PackType_, arg2: string, arg3: string): void;
         getResourceStack(arg0: $ResourceLocation_, arg1: $PackType_): $List<$Resource>;
@@ -177,26 +177,26 @@ declare module "@package/net/neoforged/neoforge/common/data" {
         replace(arg0: boolean): $SoundDefinition;
         "with"(...arg0: $SoundDefinition$Sound[]): $SoundDefinition;
         "with"(arg0: $SoundDefinition$Sound): $SoundDefinition;
-        subtitle(arg0: string): $SoundDefinition;
         static definition(): $SoundDefinition;
+        subtitle(arg0: string): $SoundDefinition;
     }
     export class $LanguageProvider implements $DataProvider {
         getName(): string;
         run(arg0: $CachedOutput_): $CompletableFuture<never>;
+        add(arg0: $ItemStack_, arg1: string): void;
         add(arg0: $TagKey_<never>, arg1: string): void;
         add(arg0: $Item_, arg1: string): void;
         add(arg0: $EntityType_<never>, arg1: string): void;
-        add(arg0: $ItemStack_, arg1: string): void;
         add(arg0: $MobEffect_, arg1: string): void;
-        add(arg0: $Block_, arg1: string): void;
         add(arg0: string, arg1: string): void;
+        add(arg0: $Block_, arg1: string): void;
         addItem(arg0: $Supplier_<$Item>, arg1: string): void;
-        addBlock(arg0: $Supplier_<$Block>, arg1: string): void;
-        addTag(arg0: $Supplier_<$TagKey<never>>, arg1: string): void;
-        addDimension(arg0: $ResourceKey_<$Level>, arg1: string): void;
         addItemStack(arg0: $Supplier_<$ItemStack>, arg1: string): void;
-        addEffect(arg0: $Supplier_<$MobEffect>, arg1: string): void;
+        addDimension(arg0: $ResourceKey_<$Level>, arg1: string): void;
+        addTag(arg0: $Supplier_<$TagKey<never>>, arg1: string): void;
         addEntityType(arg0: $Supplier_<$EntityType<never>>, arg1: string): void;
+        addEffect(arg0: $Supplier_<$MobEffect>, arg1: string): void;
+        addBlock(arg0: $Supplier_<$Block>, arg1: string): void;
         constructor(arg0: $PackOutput, arg1: string, arg2: string);
         get name(): string;
     }

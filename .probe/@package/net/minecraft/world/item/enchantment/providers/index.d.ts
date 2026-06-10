@@ -25,8 +25,8 @@ declare module "@package/net/minecraft/world/item/enchantment/providers" {
     export class $SingleEnchantment extends $Record implements $EnchantmentProvider {
         level(): $IntProvider;
         codec(): $MapCodec<$SingleEnchantment>;
-        enchant(arg0: $ItemStack_, arg1: $ItemEnchantments$Mutable, arg2: $RandomSource, arg3: $DifficultyInstance): void;
         enchantment(): $Holder<$Enchantment>;
+        enchant(arg0: $ItemStack_, arg1: $ItemEnchantments$Mutable, arg2: $RandomSource, arg3: $DifficultyInstance): void;
         static CODEC: $MapCodec<$SingleEnchantment>;
         constructor(arg0: $Holder_<$Enchantment>, arg1: $IntProvider_);
     }
@@ -77,19 +77,19 @@ declare module "@package/net/minecraft/world/item/enchantment/providers" {
     export interface $TradeRebalanceEnchantmentProviders {
     }
     export class $EnchantmentsByCost extends $Record implements $EnchantmentProvider {
-        codec(): $MapCodec<$EnchantmentsByCost>;
         cost(): $IntProvider;
-        enchant(arg0: $ItemStack_, arg1: $ItemEnchantments$Mutable, arg2: $RandomSource, arg3: $DifficultyInstance): void;
+        codec(): $MapCodec<$EnchantmentsByCost>;
         enchantments(): $HolderSet<$Enchantment>;
+        enchant(arg0: $ItemStack_, arg1: $ItemEnchantments$Mutable, arg2: $RandomSource, arg3: $DifficultyInstance): void;
         static CODEC: $MapCodec<$EnchantmentsByCost>;
         constructor(arg0: $HolderSet_<$Enchantment>, arg1: $IntProvider_);
     }
     export class $EnchantmentsByCostWithDifficulty extends $Record implements $EnchantmentProvider {
-        maxCostSpan(): number;
         codec(): $MapCodec<$EnchantmentsByCostWithDifficulty>;
-        enchant(arg0: $ItemStack_, arg1: $ItemEnchantments$Mutable, arg2: $RandomSource, arg3: $DifficultyInstance): void;
         enchantments(): $HolderSet<$Enchantment>;
         minCost(): number;
+        maxCostSpan(): number;
+        enchant(arg0: $ItemStack_, arg1: $ItemEnchantments$Mutable, arg2: $RandomSource, arg3: $DifficultyInstance): void;
         static CODEC: $MapCodec<$EnchantmentsByCostWithDifficulty>;
         static MAX_ALLOWED_VALUE_PART: number;
         constructor(arg0: $HolderSet_<$Enchantment>, arg1: number, arg2: number);

@@ -9,19 +9,19 @@ export * as opac from "@package/xaero/common/server/mods/opac";
 declare module "@package/xaero/common/server/mods" {
     export class $SupportServerMods {
         check(arg0: $IXaeroMinimap): void;
-        hasOpac(): boolean;
-        getOpac(): $SupportOPACServer;
-        getFtbTeams(): $SupportFTBTeamsServer;
+        getWorldmap(): $SupportWorldMapServer;
         hasFtbTeams(): boolean;
         hasArgonauts(): boolean;
         getArgonauts(): $SupportArgonautsServer;
+        getFtbTeams(): $SupportFTBTeamsServer;
         hasWorldmap(): boolean;
-        getWorldmap(): $SupportWorldMapServer;
+        hasOpac(): boolean;
+        getOpac(): $SupportOPACServer;
         constructor();
-        get opac(): $SupportOPACServer;
-        get ftbTeams(): $SupportFTBTeamsServer;
-        get argonauts(): $SupportArgonautsServer;
         get worldmap(): $SupportWorldMapServer;
+        get argonauts(): $SupportArgonautsServer;
+        get ftbTeams(): $SupportFTBTeamsServer;
+        get opac(): $SupportOPACServer;
     }
     export class $SupportWorldMapServer {
         supportsTrackedPlayers(): boolean;

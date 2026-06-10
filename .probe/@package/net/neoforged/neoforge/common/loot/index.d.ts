@@ -17,8 +17,8 @@ declare module "@package/net/neoforged/neoforge/common/loot" {
     export class $CanItemPerformAbility implements $LootItemCondition, $CanItemPerformAbilityAccess {
         test(arg0: $LootContext): boolean;
         getType(): $LootItemConditionType;
-        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static canItemPerformAbility(arg0: $ItemAbility_): $LootItemCondition$Builder;
+        getReferencedContextParams(): $Set<$LootContextParam<never>>;
         validate(arg0: $ValidationContext): void;
         or(arg0: $Predicate_<$LootContext>): $Predicate<$LootContext>;
         negate(): $Predicate<$LootContext>;

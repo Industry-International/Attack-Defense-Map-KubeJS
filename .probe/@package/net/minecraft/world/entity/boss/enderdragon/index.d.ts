@@ -34,10 +34,10 @@ export * as phases from "@package/net/minecraft/world/entity/boss/enderdragon/ph
 
 declare module "@package/net/minecraft/world/entity/boss/enderdragon" {
     export class $EndCrystal extends $Entity {
-        setShowBottom(arg0: boolean): void;
-        showsBottom(): boolean;
-        getBeamTarget(): $BlockPos;
         setBeamTarget(arg0: $BlockPos_): void;
+        getBeamTarget(): $BlockPos;
+        showsBottom(): boolean;
+        setShowBottom(arg0: boolean): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -115,22 +115,22 @@ declare module "@package/net/minecraft/world/entity/boss/enderdragon" {
         set showBottom(value: boolean);
     }
     export class $EnderDragon extends $Mob implements $Enemy {
-        getDragonFight(): $EndDragonFight;
-        setDragonFight(arg0: $EndDragonFight): void;
-        static createAttributes(): $AttributeSupplier$Builder;
-        reallyHurt(arg0: $DamageSource_, arg1: number): boolean;
-        hurt(arg0: $EnderDragonPart, arg1: $DamageSource_, arg2: number): boolean;
         findPath(arg0: number, arg1: number, arg2: $Node): $Path;
-        setFightOrigin(arg0: $BlockPos_): void;
-        getFightOrigin(): $BlockPos;
-        getLatencyPos(arg0: number, arg1: number): number[];
+        hurt(arg0: $EnderDragonPart, arg1: $DamageSource_, arg2: number): boolean;
+        static createAttributes(): $AttributeSupplier$Builder;
+        setDragonFight(arg0: $EndDragonFight): void;
+        getDragonFight(): $EndDragonFight;
         onCrystalDestroyed(arg0: $EndCrystal, arg1: $BlockPos_, arg2: $DamageSource_): void;
-        getHeadPartYOffset(arg0: number, arg1: number[], arg2: number[]): number;
         findClosestNode(): number;
         findClosestNode(arg0: number, arg1: number, arg2: number): number;
+        getHeadPartYOffset(arg0: number, arg1: number[], arg2: number[]): number;
+        getFightOrigin(): $BlockPos;
+        setFightOrigin(arg0: $BlockPos_): void;
         getPhaseManager(): $EnderDragonPhaseManager;
-        getSubEntities(): $EnderDragonPart[];
         getHeadLookVector(arg0: number): $Vec3;
+        getLatencyPos(arg0: number, arg1: number): number[];
+        getSubEntities(): $EnderDragonPart[];
+        reallyHurt(arg0: $DamageSource_, arg1: number): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;

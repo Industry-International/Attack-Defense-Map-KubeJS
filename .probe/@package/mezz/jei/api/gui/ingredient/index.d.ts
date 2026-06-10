@@ -17,21 +17,21 @@ declare module "@package/mezz/jei/api/gui/ingredient" {
         isEmpty(): boolean;
         getItemStacks(): $Stream<$ItemStack>;
         getIngredients<T>(arg0: $IIngredientType_<T>): $Stream<T>;
-        getDisplayedIngredient<T>(arg0: $IIngredientType_<T>): (T) | undefined;
         getDisplayedIngredient(): ($ITypedIngredient<never>) | undefined;
+        getDisplayedIngredient<T>(arg0: $IIngredientType_<T>): (T) | undefined;
         getAllIngredientsList(): $List<$ITypedIngredient<never>>;
         getDisplayedItemStack(): ($ItemStack) | undefined;
         getRole(): $RecipeIngredientRole;
-        getAllIngredients(): $Stream<$ITypedIngredient<never>>;
-        drawHighlight(arg0: $GuiGraphics, arg1: number): void;
         getSlotName(): (string) | undefined;
+        drawHighlight(arg0: $GuiGraphics, arg1: number): void;
+        getAllIngredients(): $Stream<$ITypedIngredient<never>>;
         get empty(): boolean;
         get itemStacks(): $Stream<$ItemStack>;
         get allIngredientsList(): $List<$ITypedIngredient<never>>;
         get displayedItemStack(): ($ItemStack) | undefined;
         get role(): $RecipeIngredientRole;
-        get allIngredients(): $Stream<$ITypedIngredient<never>>;
         get slotName(): (string) | undefined;
+        get allIngredients(): $Stream<$ITypedIngredient<never>>;
     }
     export class $IRecipeSlotRichTooltipCallback {
     }
@@ -57,29 +57,29 @@ declare module "@package/mezz/jei/api/gui/ingredient" {
     }
     export interface $IRecipeSlotDrawable extends $IRecipeSlotView {
         draw(arg0: $GuiGraphics): void;
-        setPosition(arg0: number, arg1: number): void;
         /**
          * @deprecated
          */
         getRect(): $Rect2i;
+        setPosition(arg0: number, arg1: number): void;
+        createDisplayOverrides(): $IIngredientConsumer;
+        clearDisplayOverrides(): void;
+        getAreaIncludingBackground(): $Rect2i;
         isMouseOver(arg0: number, arg1: number): boolean;
         /**
          * @deprecated
          */
-        getTooltip(): $List<$Component>;
+        getTooltip(arg0: $ITooltipBuilder): void;
         /**
          * @deprecated
          */
-        getTooltip(arg0: $ITooltipBuilder): void;
-        getAreaIncludingBackground(): $Rect2i;
-        createDisplayOverrides(): $IIngredientConsumer;
-        clearDisplayOverrides(): void;
+        getTooltip(): $List<$Component>;
+        drawTooltip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         drawHoverOverlays(arg0: $GuiGraphics): void;
         /**
          * @deprecated
          */
         addTooltipCallback(arg0: $IRecipeSlotTooltipCallback_): void;
-        drawTooltip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         get rect(): $Rect2i;
         get areaIncludingBackground(): $Rect2i;
     }
@@ -97,15 +97,15 @@ declare module "@package/mezz/jei/api/gui/ingredient" {
     export class $ICraftingGridHelper {
     }
     export interface $ICraftingGridHelper {
-        createAndSetInputs<T>(arg0: $IRecipeLayoutBuilder, arg1: $IIngredientType_<T>, arg2: $List_<$List_<T>>, arg3: number, arg4: number): $List<$IRecipeSlotBuilder>;
-        createAndSetInputs(arg0: $IRecipeLayoutBuilder, arg1: $List_<$List_<$ItemStack_>>, arg2: number, arg3: number): $List<$IRecipeSlotBuilder>;
-        setInputs<T>(arg0: $List_<$IRecipeSlotBuilder>, arg1: $IIngredientType_<T>, arg2: $List_<$List_<T>>, arg3: number, arg4: number): void;
         createAndSetNamedIngredients(arg0: $IRecipeLayoutBuilder, arg1: $List_<$Pair<string, $Ingredient_>>, arg2: number, arg3: number): $List<$IRecipeSlotBuilder>;
+        setInputs<T>(arg0: $List_<$IRecipeSlotBuilder>, arg1: $IIngredientType_<T>, arg2: $List_<$List_<T>>, arg3: number, arg4: number): void;
+        createAndSetInputs(arg0: $IRecipeLayoutBuilder, arg1: $List_<$List_<$ItemStack_>>, arg2: number, arg3: number): $List<$IRecipeSlotBuilder>;
+        createAndSetInputs<T>(arg0: $IRecipeLayoutBuilder, arg1: $IIngredientType_<T>, arg2: $List_<$List_<T>>, arg3: number, arg4: number): $List<$IRecipeSlotBuilder>;
+        createAndSetIngredients(arg0: $IRecipeLayoutBuilder, arg1: $List_<$Ingredient_>, arg2: number, arg3: number): void;
         createAndSetNamedInputs<T>(arg0: $IRecipeLayoutBuilder, arg1: $IIngredientType_<T>, arg2: $List_<$Pair<string, $List_<T>>>, arg3: number, arg4: number): $List<$IRecipeSlotBuilder>;
         createAndSetNamedInputs(arg0: $IRecipeLayoutBuilder, arg1: $List_<$Pair<string, $List_<$ItemStack_>>>, arg2: number, arg3: number): $List<$IRecipeSlotBuilder>;
         createAndSetOutputs(arg0: $IRecipeLayoutBuilder, arg1: $List_<$ItemStack_>): $IRecipeSlotBuilder;
         createAndSetOutputs<T>(arg0: $IRecipeLayoutBuilder, arg1: $IIngredientType_<T>, arg2: $List_<T>): $IRecipeSlotBuilder;
-        createAndSetIngredients(arg0: $IRecipeLayoutBuilder, arg1: $List_<$Ingredient_>, arg2: number, arg3: number): void;
     }
     /**
      * @deprecated
@@ -116,11 +116,11 @@ declare module "@package/mezz/jei/api/gui/ingredient" {
         /**
          * @deprecated
          */
-        onRichTooltip(arg0: $IRecipeSlotView, arg1: $ITooltipBuilder): void;
+        onTooltip(arg0: $IRecipeSlotView, arg1: $List_<$Component_>): void;
         /**
          * @deprecated
          */
-        onTooltip(arg0: $IRecipeSlotView, arg1: $List_<$Component_>): void;
+        onRichTooltip(arg0: $IRecipeSlotView, arg1: $ITooltipBuilder): void;
     }
     /**
      * Values that may be interpreted as {@link $IRecipeSlotTooltipCallback}.

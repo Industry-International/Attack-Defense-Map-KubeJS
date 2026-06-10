@@ -60,8 +60,8 @@ declare module "@package/foundry/veil/api/client/registry" {
     export type $PostPipelineStageRegistry$PipelineType_<T> = RegistryTypes.VeilPostPipelineStage;
     export interface $RenderTypeLayerRegistry$LayerType extends RegistryMarked<RegistryTypes.VeilRenderTypeLayerTag, RegistryTypes.VeilRenderTypeLayer> {}
     export class $PropertyRegistry$PropertyType<T, M extends $Property<T>> extends $Record {
-        codec(): $MapCodec<M>;
         glType(): $GlslTypeSpecifier$BuiltinType;
+        codec(): $MapCodec<M>;
         constructor(codec: $MapCodec_<M>, glType: $GlslTypeSpecifier$BuiltinType_);
     }
     /**

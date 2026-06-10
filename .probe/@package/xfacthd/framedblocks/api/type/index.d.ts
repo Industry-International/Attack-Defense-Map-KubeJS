@@ -11,27 +11,27 @@ declare module "@package/xfacthd/framedblocks/api/type" {
     export interface $IBlockType {
         getName(): string;
         compareTo(arg0: $IBlockType): number;
-        isDoubleBlock(): boolean;
-        supportsWaterLogging(): boolean;
+        consumesTwoCamosInCamoApplicationRecipe(): boolean;
         getSideSkipPredicate(): $SideSkipPredicate;
-        allowMakingIntangible(): boolean;
         canOccludeWithSolidCamo(): boolean;
+        supportsWaterLogging(): boolean;
+        allowMakingIntangible(): boolean;
         getFullFacePredicate(): $FullFacePredicate;
-        supportsConnectedTextures(): boolean;
         getConnectionPredicate(): $ConnectionPredicate;
+        supportsConnectedTextures(): boolean;
         canLockState(): boolean;
-        hasBlockItem(): boolean;
-        hasSpecialTile(): boolean;
+        isDoubleBlock(): boolean;
         hasSpecialHitbox(): boolean;
         generateShapes(arg0: $ImmutableList<$BlockState_>): $ShapeProvider;
-        consumesTwoCamosInCamoApplicationRecipe(): boolean;
-        generateOcclusionShapes(arg0: $ImmutableList<$BlockState_>, arg1: $ShapeProvider): $ShapeProvider;
+        hasBlockItem(): boolean;
+        hasSpecialTile(): boolean;
         getMinimumConTexMode(): $ConTexMode;
+        generateOcclusionShapes(arg0: $ImmutableList<$BlockState_>, arg1: $ShapeProvider): $ShapeProvider;
         get name(): string;
-        get doubleBlock(): boolean;
         get sideSkipPredicate(): $SideSkipPredicate;
         get fullFacePredicate(): $FullFacePredicate;
         get connectionPredicate(): $ConnectionPredicate;
+        get doubleBlock(): boolean;
         get minimumConTexMode(): $ConTexMode;
     }
 }

@@ -27,8 +27,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/core/mixins/accessor" {
     export class $ModelBakeryAccessor {
     }
     export interface $ModelBakeryAccessor {
-        getTopLevelModels(): $Map<$ModelResourceLocation, $UnbakedModel>;
         invokeGetModel(arg0: $ResourceLocation_): $UnbakedModel;
+        getTopLevelModels(): $Map<$ModelResourceLocation, $UnbakedModel>;
         get topLevelModels(): $Map<$ModelResourceLocation, $UnbakedModel>;
     }
     export class $ProgramTypeAccessor {
@@ -65,8 +65,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/core/mixins/accessor" {
     export interface $SlotAccessor {
         getY(): number;
         getX(): number;
-        setY(arg0: number): void;
         setX(arg0: number): void;
+        setY(arg0: number): void;
     }
     export class $DelegatingOpsAccessor<T> {
     }

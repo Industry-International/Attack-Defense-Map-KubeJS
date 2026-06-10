@@ -4,8 +4,8 @@ import { $RandomSource } from "@package/net/minecraft/util";
 
 declare module "@package/com/github/argon4w/acceleratedrendering/features/items/contexts" {
     export class $AcceleratedModelRenderContext extends $Record {
-        layerColors(): $ILayerColors;
         randomSource(): $RandomSource;
+        layerColors(): $ILayerColors;
         constructor(randomSource: $RandomSource, layerColors: $ILayerColors_);
     }
 }

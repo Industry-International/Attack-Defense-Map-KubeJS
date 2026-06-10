@@ -42,28 +42,28 @@ declare module "@package/xaero/hud/minimap/element/render" {
     }
     export class $MinimapElementReader<E, RC> {
         isHidden(arg0: E, arg1: RC): boolean;
+        isInteractable(arg0: $MinimapElementRenderLocation, arg1: E): boolean;
+        getMenuName(arg0: E): string;
+        getRenderBoxLeft(arg0: E, arg1: RC, arg2: number): number;
+        getCoordinateScale(arg0: E, arg1: RC, arg2: $MinimapElementRenderInfo): number;
         getRenderZ(arg0: E, arg1: RC, arg2: number): number;
         getRenderX(arg0: E, arg1: RC, arg2: number): number;
         getRenderY(arg0: E, arg1: RC, arg2: number): number;
-        isInteractable(arg0: $MinimapElementRenderLocation, arg1: E): boolean;
-        getCoordinateScale(arg0: E, arg1: RC, arg2: $MinimapElementRenderInfo): number;
-        getRenderBoxRight(arg0: E, arg1: RC, arg2: number): number;
-        getBoxScale(arg0: $MinimapElementRenderLocation, arg1: E, arg2: RC): number;
-        getRenderBoxLeft(arg0: E, arg1: RC, arg2: number): number;
-        getRenderBoxBottom(arg0: E, arg1: RC, arg2: number): number;
-        getLeftSideLength(arg0: E, arg1: $Minecraft): number;
-        getFilterName(arg0: E): string;
-        getRenderBoxTop(arg0: E, arg1: RC, arg2: number): number;
-        getMenuName(arg0: E): string;
-        isAlwaysHighlightedWhenHovered(arg0: E, arg1: RC): boolean;
-        shouldScaleBoxWithOptionalScale(): boolean;
-        shouldScalePartialCoordinates(arg0: E, arg1: RC, arg2: $MinimapElementRenderInfo): boolean;
-        getRightClickTitleBackgroundColor(arg0: E): number;
-        getInteractionBoxLeft(arg0: E, arg1: RC, arg2: number): number;
-        getMenuTextFillLeftPadding(arg0: E): number;
         getInteractionBoxRight(arg0: E, arg1: RC, arg2: number): number;
         getInteractionBoxTop(arg0: E, arg1: RC, arg2: number): number;
         getInteractionBoxBottom(arg0: E, arg1: RC, arg2: number): number;
+        getMenuTextFillLeftPadding(arg0: E): number;
+        getInteractionBoxLeft(arg0: E, arg1: RC, arg2: number): number;
+        getRenderBoxTop(arg0: E, arg1: RC, arg2: number): number;
+        getRenderBoxRight(arg0: E, arg1: RC, arg2: number): number;
+        getRenderBoxBottom(arg0: E, arg1: RC, arg2: number): number;
+        getLeftSideLength(arg0: E, arg1: $Minecraft): number;
+        getFilterName(arg0: E): string;
+        getBoxScale(arg0: $MinimapElementRenderLocation, arg1: E, arg2: RC): number;
+        shouldScalePartialCoordinates(arg0: E, arg1: RC, arg2: $MinimapElementRenderInfo): boolean;
+        shouldScaleBoxWithOptionalScale(): boolean;
+        isAlwaysHighlightedWhenHovered(arg0: E, arg1: RC): boolean;
+        getRightClickTitleBackgroundColor(arg0: E): number;
         constructor();
     }
     export class $MinimapElementRenderer<E, RC> implements $Comparable<$MinimapElementRenderer<never, never>> {
@@ -71,10 +71,10 @@ declare module "@package/xaero/hud/minimap/element/render" {
         getContext(): RC;
         getProvider(): $MinimapElementRenderProvider<E, RC>;
         getOrder(): number;
-        shouldRender(arg0: $MinimapElementRenderLocation): boolean;
         renderElement(arg0: E, arg1: boolean, arg2: boolean, arg3: number, arg4: number, arg5: number, arg6: number, arg7: $MinimapElementRenderInfo, arg8: $GuiGraphics, arg9: $MultiBufferSource$BufferSource): boolean;
-        postRender(arg0: $MinimapElementRenderInfo, arg1: $MultiBufferSource$BufferSource, arg2: $MultiTextureRenderTypeRendererProvider): void;
+        shouldRender(arg0: $MinimapElementRenderLocation): boolean;
         preRender(arg0: $MinimapElementRenderInfo, arg1: $MultiBufferSource$BufferSource, arg2: $MultiTextureRenderTypeRendererProvider): void;
+        postRender(arg0: $MinimapElementRenderInfo, arg1: $MultiBufferSource$BufferSource, arg2: $MultiTextureRenderTypeRendererProvider): void;
         getElementReader(): $MinimapElementReader<E, RC>;
         constructor(arg0: $MinimapElementReader<E, RC>, arg1: $MinimapElementRenderProvider<E, RC>, arg2: RC);
         get context(): RC;

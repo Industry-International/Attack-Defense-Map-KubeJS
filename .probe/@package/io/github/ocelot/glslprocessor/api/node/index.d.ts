@@ -6,7 +6,7 @@ import { $GlslVersionStatement, $GlslSpecifiedType } from "@package/io/github/oc
 import { $GlslIntConstantNode, $GlslDoubleConstantNode, $GlslBoolConstantNode, $GlslFloatConstantNode } from "@package/io/github/ocelot/glslprocessor/api/node/constant";
 import { $GlslInjectionPoint_ } from "@package/io/github/ocelot/glslprocessor/api";
 import { $Enum, $Object } from "@package/java/lang";
-import { $Spliterator, $Comparator, $Iterator, $List, $SequencedCollection, $Map_, $Map, $ListIterator, $Collection_ } from "@package/java/util";
+import { $Comparator, $Spliterator, $Iterator, $List, $SequencedCollection, $Map_, $Map, $ListIterator, $Collection_ } from "@package/java/util";
 import { $GlslTreeVisitor, $GlslNodeVisitor } from "@package/io/github/ocelot/glslprocessor/api/visitor";
 export * as constant from "@package/io/github/ocelot/glslprocessor/api/node/constant";
 export * as function from "@package/io/github/ocelot/glslprocessor/api/node/function";
@@ -16,24 +16,24 @@ export * as expression from "@package/io/github/ocelot/glslprocessor/api/node/ex
 
 declare module "@package/io/github/ocelot/glslprocessor/api/node" {
     export class $GlslNode {
-        static compound(...arg0: $GlslNode[]): $GlslNode;
-        static compound(arg0: $Collection_<$GlslNode>): $GlslNode;
-        static unsignedIntConstant(arg0: number): $GlslIntConstantNode;
-        static floatConstant(arg0: number): $GlslFloatConstantNode;
-        static booleanConstant(arg0: boolean): $GlslBoolConstantNode;
         static intConstant(arg0: number): $GlslIntConstantNode;
+        static floatConstant(arg0: number): $GlslFloatConstantNode;
         static doubleConstant(arg0: number): $GlslDoubleConstantNode;
+        static booleanConstant(arg0: boolean): $GlslBoolConstantNode;
+        static unsignedIntConstant(arg0: number): $GlslIntConstantNode;
+        static compound(arg0: $Collection_<$GlslNode>): $GlslNode;
+        static compound(...arg0: $GlslNode[]): $GlslNode;
     }
     export interface $GlslNode {
         toList(): $List<$GlslNode>;
         stream(): $Stream<$GlslNode>;
         getType(): $GlslSpecifiedType;
         visit(arg0: $GlslNodeVisitor): void;
-        toSourceString(): string;
         getNodeType(): $GlslNodeType;
+        toSourceString(): string;
         getBody(): $GlslNodeList;
-        setBody(...arg0: $GlslNode[]): boolean;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
+        setBody(...arg0: $GlslNode[]): boolean;
         get type(): $GlslSpecifiedType;
         get nodeType(): $GlslNodeType;
     }
@@ -43,16 +43,16 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node" {
         getName(): string;
         setName(arg0: string): $GlslRootNode;
         isField(): boolean;
-        isFunction(): boolean;
         isDeclaration(): boolean;
-        asFunction(): $GlslFunctionNode;
+        isFunction(): boolean;
         asField(): $GlslNewFieldNode;
         isStruct(): boolean;
-        asStruct(): $GlslStructDeclarationNode;
+        asFunction(): $GlslFunctionNode;
         asDeclaration(): $GlslVariableDeclarationNode;
+        asStruct(): $GlslStructDeclarationNode;
         get field(): boolean;
-        get function(): boolean;
         get declaration(): boolean;
+        get function(): boolean;
         get struct(): boolean;
     }
     export class $GlslNodeList implements $List<$GlslNode> {
@@ -108,14 +108,14 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node" {
         visit(arg0: $GlslTreeVisitor): void;
         functions(): $Stream<$GlslFunctionNode>;
         toSourceString(): string;
-        mainFunction(): ($GlslFunctionNode) | undefined;
-        containingBlock(arg0: $GlslNode): ($GlslTree$GlslBlock) | undefined;
-        markOutputs(): void;
         getMarkers(): $Map<string, $GlslNode>;
         getBody(): $GlslNodeList;
+        searchField(arg0: string): $Stream<$GlslNewFieldNode>;
         static stripGLMacros(arg0: $Map_<string, string>): void;
         getMacros(): $Map<string, string>;
-        searchField(arg0: string): $Stream<$GlslNewFieldNode>;
+        markOutputs(): void;
+        mainFunction(): ($GlslFunctionNode) | undefined;
+        containingBlock(arg0: $GlslNode): ($GlslTree$GlslBlock) | undefined;
         getVersionStatement(): $GlslVersionStatement;
         getDirectives(): $List<string>;
         constructor();

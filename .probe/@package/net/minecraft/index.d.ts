@@ -7,7 +7,7 @@ import { $SystemReportAccessor } from "@package/com/simibubi/create/foundation/m
 import { $UUID, $List, $Map_, $Date, $Collection_, $List_, $Collection, $Map, $Map$Entry } from "@package/java/util";
 import { $Typed, $DSL$TypeReference_ } from "@package/com/mojang/datafixers";
 import { $StringRepresentable, $SingleKeyCache, $RandomSource, $TimeSource$NanoTimeSource } from "@package/net/minecraft/util";
-import { $Predicate, $Consumer, $ToIntFunction, $Supplier_, $Function_, $Consumer_, $UnaryOperator_, $BiFunction, $Predicate_, $BiFunction_, $Supplier, $Function } from "@package/java/util/function";
+import { $Predicate, $Consumer, $ToIntFunction, $Supplier_, $Function_, $Consumer_, $UnaryOperator_, $BiFunction, $Predicate_, $BiFunction_, $Function, $Supplier } from "@package/java/util/function";
 import { $ObjectArrayList } from "@package/it/unimi/dsi/fastutil/objects";
 import { $BlockPos, $Direction$Axis_, $BlockPos_, $Direction_, $Registry } from "@package/net/minecraft/core";
 import { $Path, $Path_ } from "@package/java/nio/file";
@@ -63,22 +63,22 @@ declare module "@package/net/minecraft" {
         static valueOf(arg0: string): $ChatFormatting;
         getId(): number;
         static getByName(arg0: string): $ChatFormatting;
-        getColor(): number;
         static getNames(arg0: boolean, arg1: boolean): $Collection<string>;
-        isFormat(): boolean;
-        static getByCode(formattingCode: string): $ChatFormatting;
-        isColor(): boolean;
-        static getById(arg0: number): $ChatFormatting;
-        kjs$getRGB(): number;
+        getColor(): number;
+        getSerializedName(): string;
         kjs$getARGB(): number;
         static stripFormatting(arg0: string): string;
-        getSerializedName(): string;
+        isFormat(): boolean;
+        static getByCode(formattingCode: string): $ChatFormatting;
+        static getById(arg0: number): $ChatFormatting;
+        isColor(): boolean;
+        kjs$getRGB(): number;
         getRemappedEnumConstantName(): string;
-        createTextColor(): $TextColor;
-        getFireworkRGB(): number;
-        toHexString(): string;
-        serialize(): string;
         specialEquals(o: $Object, shallow: boolean): boolean;
+        createTextColor(): $TextColor;
+        toHexString(): string;
+        getFireworkRGB(): number;
+        serialize(): string;
         static ITALIC: $ChatFormatting;
         static GOLD: $ChatFormatting;
         static GRAY: $ChatFormatting;
@@ -105,8 +105,8 @@ declare module "@package/net/minecraft" {
         static DARK_GRAY: $ChatFormatting;
         get char(): string;
         get id(): number;
-        get format(): boolean;
         get serializedName(): string;
+        get format(): boolean;
         get remappedEnumConstantName(): string;
         get fireworkRGB(): number;
     }
@@ -128,10 +128,10 @@ declare module "@package/net/minecraft" {
     }
     export class $SharedConstants {
         static setVersion(arg0: $WorldVersion): void;
+        static debugVoidTerrain(arg0: $ChunkPos): boolean;
         static getCurrentVersion(): $WorldVersion;
         static getProtocolVersion(): number;
         static tryDetectVersion(): void;
-        static debugVoidTerrain(arg0: $ChunkPos): boolean;
         /**
          * @deprecated
          */
@@ -284,12 +284,12 @@ declare module "@package/net/minecraft" {
     export class $Util$OS extends $Enum<$Util$OS> {
         static values(): $Util$OS[];
         static valueOf(arg0: string): $Util$OS;
-        openFile(arg0: $File_): void;
-        openPath(arg0: $Path_): void;
         getOpenUriArguments(arg0: $URI): string[];
+        openFile(arg0: $File_): void;
         openUri(arg0: $URI): void;
         openUri(arg0: string): void;
         telemetryName(): string;
+        openPath(arg0: $Path_): void;
         static LINUX: $Util$OS;
         static OSX: $Util$OS;
         static WINDOWS: $Util$OS;
@@ -309,9 +309,9 @@ declare module "@package/net/minecraft" {
     }
     export class $ReportType extends $Record {
         header(): string;
-        appendHeader(arg0: $StringBuilder, arg1: $List_<string>): void;
         nuggets(): $List<string>;
         getErrorComment(): string;
+        appendHeader(arg0: $StringBuilder, arg1: $List_<string>): void;
         static CRASH: $ReportType;
         static PROFILE: $ReportType;
         static TEST: $ReportType;
@@ -322,16 +322,16 @@ declare module "@package/net/minecraft" {
     }
     export class $FileUtil {
         static resolvePath(arg0: $Path_, arg1: $List_<string>): $Path;
-        static getFullResourcePath(arg0: string): string;
-        static validatePath(...arg0: string[]): void;
-        static decomposePath(arg0: string): $DataResult<$List<string>>;
-        static sanitizeName(arg0: string): string;
+        static createDirectoriesSafe(arg0: $Path_): void;
         static normalizeResourcePath(arg0: string): string;
         static isValidStrictPathSegment(arg0: string): boolean;
-        static createDirectoriesSafe(arg0: $Path_): void;
-        static isPathPortable(arg0: $Path_): boolean;
-        static isPathNormalized(arg0: $Path_): boolean;
+        static getFullResourcePath(arg0: string): string;
         static findAvailableName(arg0: $Path_, arg1: string, arg2: string): string;
+        static sanitizeName(arg0: string): string;
+        static validatePath(...arg0: string[]): void;
+        static decomposePath(arg0: string): $DataResult<$List<string>>;
+        static isPathNormalized(arg0: $Path_): boolean;
+        static isPathPortable(arg0: $Path_): boolean;
         static createPathToResource(arg0: $Path_, arg1: string, arg2: string): $Path;
         constructor();
     }
@@ -364,38 +364,38 @@ declare module "@package/net/minecraft" {
     export class $CrashReportCategory {
         fillInStackTrace(arg0: number): number;
         setStackTrace(arg0: $StackTraceElement[]): void;
-        static formatLocation(arg0: $LevelHeightAccessor, arg1: number, arg2: number, arg3: number): string;
-        static formatLocation(arg0: $LevelHeightAccessor, arg1: number, arg2: number, arg3: number): string;
-        static formatLocation(arg0: $LevelHeightAccessor, arg1: $BlockPos_): string;
-        validateStackTrace(arg0: $StackTraceElement, arg1: $StackTraceElement): boolean;
-        getStacktrace(): $StackTraceElement[];
+        trimStacktrace(arg0: number): void;
         /**
          * @deprecated
          */
         applyStackTrace(arg0: $Throwable): void;
-        trimStacktrace(arg0: number): void;
         setDetailError(arg0: string, arg1: $Throwable): void;
         getDetails(arg0: $StringBuilder): void;
-        static populateBlockDetails(arg0: $CrashReportCategory, arg1: $LevelHeightAccessor, arg2: $BlockPos_, arg3: $BlockState_): void;
-        setDetail(arg0: string, arg1: $CrashReportDetail_<string>): $CrashReportCategory;
+        static formatLocation(arg0: $LevelHeightAccessor, arg1: number, arg2: number, arg3: number): string;
+        static formatLocation(arg0: $LevelHeightAccessor, arg1: number, arg2: number, arg3: number): string;
+        static formatLocation(arg0: $LevelHeightAccessor, arg1: $BlockPos_): string;
+        getStacktrace(): $StackTraceElement[];
+        validateStackTrace(arg0: $StackTraceElement, arg1: $StackTraceElement): boolean;
         setDetail(arg0: string, arg1: $Object): $CrashReportCategory;
+        setDetail(arg0: string, arg1: $CrashReportDetail_<string>): $CrashReportCategory;
+        static populateBlockDetails(arg0: $CrashReportCategory, arg1: $LevelHeightAccessor, arg2: $BlockPos_, arg3: $BlockState_): void;
         constructor(arg0: string);
         set stackTrace(value: $StackTraceElement[]);
         get stacktrace(): $StackTraceElement[];
     }
     export class $SystemReport implements $SystemReportAccessor {
-        static getJAVA_VERSION$create_$md$d64506$3(): string;
-        static getOPERATING_SYSTEM$create_$md$d64506$2(): string;
-        static sizeInMiB(arg0: number): number;
-        appendToCrashReportString(arg0: $StringBuilder): void;
-        setDetail(arg0: string, arg1: string): void;
-        setDetail(arg0: string, arg1: $Supplier_<string>): void;
         toLineSeparatedString(): string;
+        appendToCrashReportString(arg0: $StringBuilder): void;
+        static getOPERATING_SYSTEM$create_$md$9aa1a5$2(): string;
+        static getJAVA_VERSION$create_$md$9aa1a5$3(): string;
+        static sizeInMiB(arg0: number): number;
+        setDetail(arg0: string, arg1: $Supplier_<string>): void;
+        setDetail(arg0: string, arg1: string): void;
         getEntries(): $Map<string, string>;
         static BYTES_PER_MEBIBYTE: number;
         constructor();
-        static get JAVA_VERSION$create_$md$d64506$3(): string;
-        static get OPERATING_SYSTEM$create_$md$d64506$2(): string;
+        static get OPERATING_SYSTEM$create_$md$9aa1a5$2(): string;
+        static get JAVA_VERSION$create_$md$9aa1a5$3(): string;
         get entries(): $Map<string, string>;
     }
     export class $WorldVersion {
@@ -426,18 +426,18 @@ declare module "@package/net/minecraft" {
         saveToFile(arg0: $Path_, arg1: $ReportType_): boolean;
         saveToFile(arg0: $Path_, arg1: $ReportType_, arg2: $List_<string>): boolean;
         getTitle(): string;
-        handler$dmg000$yumi_mc_core$yumi$onCrashReportCreate(crashReportBuilder: $StringBuilder, ci: $CallbackInfo): void;
-        static preload(): void;
-        getDetails(): string;
         getDetails(arg0: $StringBuilder): void;
-        static forThrowable(arg0: $Throwable, arg1: string): $CrashReport;
+        getDetails(): string;
+        getExceptionMessage(): string;
+        handler$dmf000$yumi_mc_core$yumi$onCrashReportCreate(crashReportBuilder: $StringBuilder, ci: $CallbackInfo): void;
+        getSystemReport(): $SystemReport;
         addCategory(arg0: string, arg1: number): $CrashReportCategory;
         addCategory(arg0: string): $CrashReportCategory;
-        getExceptionMessage(): string;
-        getSystemReport(): $SystemReport;
+        static forThrowable(arg0: $Throwable, arg1: string): $CrashReport;
         getFriendlyReport(arg0: $ReportType_, arg1: $List_<string>): string;
         getFriendlyReport(arg0: $ReportType_): string;
         getSaveFile(): $Path;
+        static preload(): void;
         constructor(arg0: string, arg1: $Throwable);
         get exception(): $Throwable;
         get title(): string;
@@ -470,17 +470,17 @@ declare module "@package/net/minecraft" {
     export class $Optionull {
         static map<T, R>(arg0: T, arg1: $Function_<T, R>): R;
         static first<T>(arg0: $Collection_<T>): T;
-        static mapOrDefault<T, R>(arg0: T, arg1: $Function_<T, R>, arg2: R): R;
         static isNullOrEmpty(arg0: number[]): boolean;
         static isNullOrEmpty(arg0: number[]): boolean;
         static isNullOrEmpty(arg0: string[]): boolean;
         static isNullOrEmpty(arg0: number[]): boolean;
         static isNullOrEmpty(arg0: number[]): boolean;
         static isNullOrEmpty(arg0: number[]): boolean;
-        static isNullOrEmpty<T>(arg0: T[]): boolean;
-        static isNullOrEmpty(arg0: boolean[]): boolean;
         static isNullOrEmpty(arg0: number[]): boolean;
+        static isNullOrEmpty(arg0: boolean[]): boolean;
+        static isNullOrEmpty<T>(arg0: T[]): boolean;
         static mapOrElse<T, R>(arg0: T, arg1: $Function_<T, R>, arg2: $Supplier_<R>): R;
+        static mapOrDefault<T, R>(arg0: T, arg1: $Function_<T, R>, arg2: R): R;
         static firstOrDefault<T>(arg0: $Collection_<T>, arg1: T): T;
         static firstOrElse<T>(arg0: $Collection_<T>, arg1: $Supplier_<T>): T;
         constructor();
@@ -498,66 +498,66 @@ declare module "@package/net/minecraft" {
         static getMillis(): number;
         static allOf<T>(arg0: $List_<$Predicate_<T>>): $Predicate<T>;
         static getVmArguments(): $Stream<string>;
+        static getNanos(): number;
+        static getPropertyName<T extends $Comparable<T>>(arg0: $Property<T>, arg1: $Object): string;
+        static readTypedOrThrow<T>(arg0: $Type<T>, arg1: $Dynamic<never>): $Typed<T>;
+        static readTypedOrThrow<T>(arg0: $Type<T>, arg1: $Dynamic<never>, arg2: boolean): $Typed<T>;
+        static getPlatform(): $Util$OS;
+        static writeAndReadTypedOrThrow<A, B>(arg0: $Typed<A>, arg1: $Type<B>, arg2: $UnaryOperator_<$Dynamic<never>>): $Typed<B>;
+        static memoize<T, R>(arg0: $Function_<T, R>): $Function<T, R>;
+        static memoize<T, U, R>(arg0: $BiFunction_<T, U, R>): $BiFunction<T, U, R>;
+        static startTimerHackThread(): void;
+        static anyOf<T>(arg0: $List_<$Predicate_<T>>): $Predicate<T>;
         static fixedSize(arg0: $LongStream, arg1: number): $DataResult<number[]>;
         static fixedSize<T>(arg0: $List_<T>, arg1: number): $DataResult<$List<T>>;
         static fixedSize(arg0: $IntStream, arg1: number): $DataResult<number[]>;
-        static getPropertyName<T extends $Comparable<T>>(arg0: $Property<T>, arg1: $Object): string;
-        static getFilenameFormattedDateTime(): string;
-        static getNanos(): number;
-        static getPlatform(): $Util$OS;
-        static memoize<T, R>(arg0: $Function_<T, R>): $Function<T, R>;
-        static memoize<T, U, R>(arg0: $BiFunction_<T, U, R>): $BiFunction<T, U, R>;
-        static throwAsRuntime(arg0: $Throwable): void;
-        static nonCriticalIoPool(): $ExecutorService;
         static ifElse<T>(arg0: (T) | undefined, arg1: $Consumer_<T>, arg2: $Runnable_): (T) | undefined;
-        static offsetByCodepoints(arg0: string, arg1: number, arg2: number): number;
-        static getEpochMillis(): number;
-        static makeExecutor(arg0: string): $ExecutorService;
-        static toMutableList<T>(): $Collector<T, never, $List<T>>;
-        static fetchChoiceType(arg0: $DSL$TypeReference_, arg1: string): $Type<never>;
-        static isSymmetrical<T>(arg0: number, arg1: number, arg2: $List_<T>): boolean;
-        static describeError(arg0: $Throwable): string;
-        static logAndPauseIfInIde(arg0: string): void;
-        static logAndPauseIfInIde(arg0: string, arg1: $Throwable): void;
-        static findNextInIterable<T>(arg0: $Iterable_<T>, arg1: T): T;
-        static makeDescriptionId(arg0: string, arg1: $ResourceLocation_): string;
-        static singleKeyCache<K, V>(arg0: $Function_<K, V>): $SingleKeyCache<K, V>;
-        static toShuffledList<T>(arg0: $Stream<T>, arg1: $RandomSource): $List<T>;
-        static toShuffledList(arg0: $IntStream, arg1: $RandomSource): $IntArrayList;
-        static safeReplaceFile(arg0: $Path_, arg1: $Path_, arg2: $Path_): void;
-        static copyBetweenDirs(arg0: $Path_, arg1: $Path_, arg2: $Path_): void;
-        static backgroundExecutor(): $ExecutorService;
-        static shuffledCopy<T>(arg0: $ObjectArrayList<T>, arg1: $RandomSource): $List<T>;
-        static shuffledCopy<T>(arg0: T[], arg1: $RandomSource): $List<T>;
-        static blockUntilDone<T>(arg0: $Function_<$Executor, $CompletableFuture<T>>): $CompletableFuture<T>;
-        static blockUntilDone<T>(arg0: $Function_<$Executor, T>, arg1: $Predicate_<T>): T;
-        static sequenceFailFast(futures: $List_<any>): $CompletableFuture<any>;
-        static getRegisteredName<T>(arg0: $Registry<T>, arg1: T): string;
-        static sanitizeName(arg0: string, arg1: $CharPredicate_): string;
-        static getRandomSafe<T>(arg0: $List_<T>, arg1: $RandomSource): (T) | undefined;
         static pauseInIde<T extends $Throwable>(arg0: T): T;
         static setPause(arg0: $Consumer_<string>): void;
-        static copyAndPut<K, V>(arg0: $Map_<K, V>, arg1: K, arg2: V): $Map<K, V>;
-        static copyAndAdd<T>(arg0: T, arg1: $List_<T>): $List<T>;
         static copyAndAdd<T>(arg0: $List_<T>, arg1: T): $List<T>;
-        static anyOf<T>(arg0: $List_<$Predicate_<T>>): $Predicate<T>;
-        static startTimerHackThread(): void;
+        static copyAndAdd<T>(arg0: T, arg1: $List_<T>): $List<T>;
+        static copyAndPut<K, V>(arg0: $Map_<K, V>, arg1: K, arg2: V): $Map<K, V>;
         static getRandom<T>(arg0: T[], arg1: $RandomSource): T;
         static getRandom<T>(arg0: $List_<T>, arg1: $RandomSource): T;
         static getRandom(arg0: number[], arg1: $RandomSource): number;
-        static writeAndReadTypedOrThrow<A, B>(arg0: $Typed<A>, arg1: $Type<B>, arg2: $UnaryOperator_<$Dynamic<never>>): $Typed<B>;
-        static readTypedOrThrow<T>(arg0: $Type<T>, arg1: $Dynamic<never>, arg2: boolean): $Typed<T>;
-        static readTypedOrThrow<T>(arg0: $Type<T>, arg1: $Dynamic<never>): $Typed<T>;
         static createIndexLookup<T>(arg0: $List_<T>): $ToIntFunction<T>;
+        static nonCriticalIoPool(): $ExecutorService;
+        static throwAsRuntime(arg0: $Throwable): void;
+        static shutdownExecutors(): void;
+        static backgroundExecutor(): $ExecutorService;
+        static makeDescriptionId(arg0: string, arg1: $ResourceLocation_): string;
+        static getEpochMillis(): number;
+        static makeExecutor(arg0: string): $ExecutorService;
+        static isSymmetrical<T>(arg0: number, arg1: number, arg2: $List_<T>): boolean;
+        static toShuffledList<T>(arg0: $Stream<T>, arg1: $RandomSource): $List<T>;
+        static toShuffledList(arg0: $IntStream, arg1: $RandomSource): $IntArrayList;
+        static blockUntilDone<T>(arg0: $Function_<$Executor, T>, arg1: $Predicate_<T>): T;
+        static blockUntilDone<T>(arg0: $Function_<$Executor, $CompletableFuture<T>>): $CompletableFuture<T>;
+        static getRegisteredName<T>(arg0: $Registry<T>, arg1: T): string;
+        static singleKeyCache<K, V>(arg0: $Function_<K, V>): $SingleKeyCache<K, V>;
+        static shuffledCopy<T>(arg0: $ObjectArrayList<T>, arg1: $RandomSource): $List<T>;
+        static shuffledCopy<T>(arg0: T[], arg1: $RandomSource): $List<T>;
+        static sequenceFailFast(futures: $List_<any>): $CompletableFuture<any>;
+        static findNextInIterable<T>(arg0: $Iterable_<T>, arg1: T): T;
+        static describeError(arg0: $Throwable): string;
+        static getRandomSafe<T>(arg0: $List_<T>, arg1: $RandomSource): (T) | undefined;
+        static copyBetweenDirs(arg0: $Path_, arg1: $Path_, arg2: $Path_): void;
+        static sanitizeName(arg0: string, arg1: $CharPredicate_): string;
+        static fetchChoiceType(arg0: $DSL$TypeReference_, arg1: string): $Type<never>;
+        static safeReplaceFile(arg0: $Path_, arg1: $Path_, arg2: $Path_): void;
+        static offsetByCodepoints(arg0: string, arg1: number, arg2: number): number;
+        static logAndPauseIfInIde(arg0: string, arg1: $Throwable): void;
+        static logAndPauseIfInIde(arg0: string): void;
+        static ioPool(): $ExecutorService;
         static parseAndValidateUntrustedUri(arg0: string): $URI;
-        static findPreviousInIterable<T>(arg0: $Iterable_<T>, arg1: T): T;
+        static toMutableList<T>(): $Collector<T, never, $List<T>>;
+        static getFilenameFormattedDateTime(): string;
+        static createIndexIdentityLookup<T>(arg0: $List_<T>): $ToIntFunction<T>;
         static safeReplaceOrMoveFile(arg0: $Path_, arg1: $Path_, arg2: $Path_, arg3: boolean): boolean;
+        static sequenceFailFastAndCancel(futures: $List_<any>): $CompletableFuture<any>;
+        static findPreviousInIterable<T>(arg0: $Iterable_<T>, arg1: T): T;
         static wrapThreadWithTaskName(arg0: string, arg1: $Runnable_): $Runnable;
         static wrapThreadWithTaskName<V>(arg0: string, arg1: $Supplier_<V>): $Supplier<V>;
-        static sequenceFailFastAndCancel(futures: $List_<any>): $CompletableFuture<any>;
-        static createIndexIdentityLookup<T>(arg0: $List_<T>): $ToIntFunction<T>;
-        static ioPool(): $ExecutorService;
-        static shutdownExecutors(): void;
         static ZIP_FILE_SYSTEM_PROVIDER: $FileSystemProvider;
         static TICKER: $Ticker;
         static LINEAR_LOOKUP_THRESHOLD: number;
@@ -568,10 +568,10 @@ declare module "@package/net/minecraft" {
         constructor();
         static get millis(): number;
         static get vmArguments(): $Stream<string>;
-        static get filenameFormattedDateTime(): string;
         static get nanos(): number;
         static get platform(): $Util$OS;
-        static get epochMillis(): number;
         static set pause(value: $Consumer_<string>);
+        static get epochMillis(): number;
+        static get filenameFormattedDateTime(): string;
     }
 }

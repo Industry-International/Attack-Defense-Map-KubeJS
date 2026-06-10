@@ -5,7 +5,7 @@ import { $Logger } from "@package/org/slf4j";
 import { $CompletableFuture } from "@package/java/util/concurrent";
 import { $Entity$RemovalReason_, $Entity } from "@package/net/minecraft/world/entity";
 import { $UUID, $Set, $UUID_, $List_ } from "@package/java/util";
-import { $AbortableIterationConsumer$Continuation, $AbortableIterationConsumer_ } from "@package/net/minecraft/util";
+import { $AbortableIterationConsumer_, $AbortableIterationConsumer$Continuation } from "@package/net/minecraft/util";
 import { $Consumer_ } from "@package/java/util/function";
 import { $FullChunkStatus_, $FullChunkStatus } from "@package/net/minecraft/server/level";
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
@@ -64,8 +64,8 @@ declare module "@package/net/minecraft/world/level/entity" {
         getEntities(arg0: $AABB_, arg1: $AbortableIterationConsumer_<T>): $AbortableIterationConsumer$Continuation;
         getEntities(): $Stream<T>;
         getEntities<U extends T>(arg0: $EntityTypeTest<T, U>, arg1: $AABB_, arg2: $AbortableIterationConsumer_<U>): $AbortableIterationConsumer$Continuation;
-        updateChunkStatus(arg0: $Visibility_): $Visibility;
         getStatus(): $Visibility;
+        updateChunkStatus(arg0: $Visibility_): $Visibility;
         constructor(arg0: $Class<T>, arg1: $Visibility_);
         get empty(): boolean;
         get status(): $Visibility;
@@ -73,43 +73,43 @@ declare module "@package/net/minecraft/world/level/entity" {
     export class $PersistentEntitySectionManager$Callback implements $EntityInLevelCallback {
     }
     export class $EntityTypeTest<B, T extends B> {
-        static forClass<B, T extends B>(arg0: $Class<T>): $EntityTypeTest<B, T>;
         static forExactClass<B, T extends B>(arg0: $Class<T>): $EntityTypeTest<B, T>;
+        static forClass<B, T extends B>(arg0: $Class<T>): $EntityTypeTest<B, T>;
     }
     export interface $EntityTypeTest<B, T extends B> {
-        tryCast(arg0: B): T;
         getBaseClass(): $Class<B>;
+        tryCast(arg0: B): T;
         get baseClass(): $Class<B>;
     }
     export class $EntityAccess {
     }
     export interface $EntityAccess {
         getId(): number;
-        shouldBeSaved(): boolean;
-        setLevelCallback(arg0: $EntityInLevelCallback): void;
-        isAlwaysTicking(): boolean;
-        getBoundingBox(): $AABB;
         setRemoved(arg0: $Entity$RemovalReason_): void;
-        getPassengersAndSelf(): $Stream<$EntityAccess>;
-        getSelfAndPassengers(): $Stream<$EntityAccess>;
-        getUUID(): $UUID;
+        setLevelCallback(arg0: $EntityInLevelCallback): void;
+        shouldBeSaved(): boolean;
+        isAlwaysTicking(): boolean;
         blockPosition(): $BlockPos;
+        getUUID(): $UUID;
+        getBoundingBox(): $AABB;
+        getSelfAndPassengers(): $Stream<$EntityAccess>;
+        getPassengersAndSelf(): $Stream<$EntityAccess>;
         get id(): number;
+        set removed(value: $Entity$RemovalReason_);
         set levelCallback(value: $EntityInLevelCallback);
         get alwaysTicking(): boolean;
-        get boundingBox(): $AABB;
-        set removed(value: $Entity$RemovalReason_);
-        get passengersAndSelf(): $Stream<$EntityAccess>;
-        get selfAndPassengers(): $Stream<$EntityAccess>;
         get UUID(): $UUID;
+        get boundingBox(): $AABB;
+        get selfAndPassengers(): $Stream<$EntityAccess>;
+        get passengersAndSelf(): $Stream<$EntityAccess>;
     }
     export class $EntityLookup<T extends $EntityAccess> {
         remove(arg0: T): void;
         add(arg0: T): void;
         count(): number;
-        getEntities<U extends T>(arg0: $EntityTypeTest<T, U>, arg1: $AbortableIterationConsumer_<U>): void;
         getEntity(arg0: $UUID_): T;
         getEntity(arg0: number): T;
+        getEntities<U extends T>(arg0: $EntityTypeTest<T, U>, arg1: $AbortableIterationConsumer_<U>): void;
         getAllEntities(): $Iterable<T>;
         constructor();
         get allEntities(): $Iterable<T>;
@@ -130,38 +130,38 @@ declare module "@package/net/minecraft/world/level/entity" {
     export interface $LevelCallback<T> {
         onDestroyed(arg0: T): void;
         onCreated(arg0: T): void;
-        onTrackingEnd(arg0: T): void;
-        onSectionChange(arg0: T): void;
-        onTickingEnd(arg0: T): void;
         onTrackingStart(arg0: T): void;
         onTickingStart(arg0: T): void;
+        onSectionChange(arg0: T): void;
+        onTickingEnd(arg0: T): void;
+        onTrackingEnd(arg0: T): void;
     }
     export class $PersistentEntitySectionManager<T extends $EntityAccess> implements $AutoCloseable, $IServerEntityManager, $ITryFlushable {
         count(): number;
         close(): void;
         isLoaded(arg0: $UUID_): boolean;
         tick(): void;
+        redirect$dfj000$smoothchunk$processUnloadsSafe(arg0: $PersistentEntitySectionManager<any>): void;
+        addNewEntityWithoutEvent(arg0: T): boolean;
+        addLegacyChunkEntities(arg0: $Stream<T>): void;
+        addWorldGenChunkEntities(arg0: $Stream<T>): void;
+        startTracking(arg0: T): void;
+        gatherStats(): string;
         updateChunkStatus(arg0: $ChunkPos, arg1: $FullChunkStatus_): void;
         updateChunkStatus(arg0: $ChunkPos, arg1: $Visibility_): void;
-        areEntitiesLoaded(arg0: number): boolean;
-        dumpSections(arg0: $Writer): void;
+        addNewEntity(arg0: T): boolean;
         getEntityGetter(): $LevelEntityGetter<T>;
+        dumpSections(arg0: $Writer): void;
+        areEntitiesLoaded(arg0: number): boolean;
         canPositionTick(arg0: $ChunkPos): boolean;
         canPositionTick(arg0: $BlockPos_): boolean;
         c2me$tryFlush(): boolean;
-        addNewEntity(arg0: T): boolean;
-        saveAll(): void;
-        autoSave(): void;
-        startTracking(arg0: T): void;
         stopTicking(arg0: T): void;
         startTicking(arg0: T): void;
-        gatherStats(): string;
-        addLegacyChunkEntities(arg0: $Stream<T>): void;
-        addWorldGenChunkEntities(arg0: $Stream<T>): void;
-        addNewEntityWithoutEvent(arg0: T): boolean;
+        autoSave(): void;
+        saveAll(): void;
         stopTracking(arg0: T): void;
         static getEffectiveStatus<T extends $EntityAccess>(arg0: T, arg1: $Visibility_): $Visibility;
-        redirect$dfk000$smoothchunk$processUnloadsSafe(arg0: $PersistentEntitySectionManager<any>): void;
         removeSectionIfEmpty(arg0: number, arg1: $EntitySection<T>): void;
         invokeGetLoadedChunks(): $LongSet;
         visibleEntityStorage: $EntityLookup<T>;
@@ -190,12 +190,12 @@ declare module "@package/net/minecraft/world/level/entity" {
         count(): number;
         getEntities(arg0: $AABB_, arg1: $AbortableIterationConsumer_<T>): void;
         getEntities<U extends T>(arg0: $EntityTypeTest<T, U>, arg1: $AABB_, arg2: $AbortableIterationConsumer_<U>): void;
-        getSection(arg0: number): $EntitySection<T>;
         getOrCreateSection(arg0: number): $EntitySection<T>;
+        getSection(arg0: number): $EntitySection<T>;
         getExistingSectionsInChunk(arg0: number): $Stream<$EntitySection<T>>;
         getAllChunksWithExistingSections(): $LongSet;
-        forEachAccessibleNonEmptySection(arg0: $AABB_, arg1: $AbortableIterationConsumer_<$EntitySection<T>>): void;
         getExistingSectionPositionsInChunk(arg0: number): $LongStream;
+        forEachAccessibleNonEmptySection(arg0: $AABB_, arg1: $AbortableIterationConsumer_<$EntitySection<T>>): void;
         constructor(arg0: $Class<T>, arg1: $Long2ObjectFunction_<$Visibility>);
         get allChunksWithExistingSections(): $LongSet;
     }
@@ -203,11 +203,11 @@ declare module "@package/net/minecraft/world/level/entity" {
     }
     export class $TransientEntitySectionManager<T extends $EntityAccess> {
         count(): number;
+        gatherStats(): string;
         getEntityGetter(): $LevelEntityGetter<T>;
-        addEntity(arg0: T): void;
         stopTicking(arg0: $ChunkPos): void;
         startTicking(arg0: $ChunkPos): void;
-        gatherStats(): string;
+        addEntity(arg0: T): void;
         removeSectionIfEmpty(arg0: number, arg1: $EntitySection<T>): void;
         entityStorage: $EntityLookup<T>;
         callbacks: $LevelCallback<T>;

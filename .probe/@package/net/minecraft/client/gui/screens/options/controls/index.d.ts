@@ -15,10 +15,10 @@ import { $AccessKeyBindsScreen, $AccessKeyBindsScreenNeoForge } from "@package/c
 
 declare module "@package/net/minecraft/client/gui/screens/options/controls" {
     export class $KeyBindsList extends $ContainerObjectSelectionList<$KeyBindsList$Entry> {
-        static access$100(arg0: $KeyBindsList): $Minecraft;
         static access$000(arg0: $KeyBindsList): $Minecraft;
-        static access$300(arg0: $KeyBindsList): number;
         static access$200(arg0: $KeyBindsList): number;
+        static access$300(arg0: $KeyBindsList): number;
+        static access$100(arg0: $KeyBindsList): $Minecraft;
         static access$500(arg0: $KeyBindsList): $Minecraft;
         static access$400(arg0: $KeyBindsList): $Minecraft;
         static access$600(arg0: $KeyBindsList): $Minecraft;
@@ -95,16 +95,16 @@ declare module "@package/net/minecraft/client/gui/screens/options/controls" {
         constructor(arg0: $KeyBindsList, arg1: $KeyMapping, arg2: $Component_);
     }
     export class $KeyBindsScreen extends $OptionsSubScreen implements $AccessKeyBindsScreen, $AccessKeyBindsScreenNeoForge {
-        controlling$getResetButton(): $Button;
-        isIsLastModifierHeldDown(): boolean;
+        controlling$setKeyBindsList(arg0: $KeyBindsList): void;
+        controlling$getKeyBindsList(): $KeyBindsList;
+        setIsLastModifierHeldDown(arg0: boolean): void;
+        getLastPressedModifier(): $InputConstants$Key;
         setLastPressedModifier(arg0: $InputConstants$Key): void;
         controlling$setResetButton(arg0: $Button): void;
-        getLastPressedModifier(): $InputConstants$Key;
         isIsLastKeyHeldDown(): boolean;
-        setIsLastModifierHeldDown(arg0: boolean): void;
+        controlling$getResetButton(): $Button;
         setIsLastKeyHeldDown(arg0: boolean): void;
-        controlling$getKeyBindsList(): $KeyBindsList;
-        controlling$setKeyBindsList(arg0: $KeyBindsList): void;
+        isIsLastModifierHeldDown(): boolean;
         getLastPressedKey(): $InputConstants$Key;
         setLastPressedKey(arg0: $InputConstants$Key): void;
         selectedKey: $KeyMapping;

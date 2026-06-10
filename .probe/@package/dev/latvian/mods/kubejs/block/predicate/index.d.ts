@@ -29,11 +29,11 @@ declare module "@package/dev/latvian/mods/kubejs/block/predicate" {
         "with"(key: string, value: string): $BlockIDPredicate;
         check(b: $LevelBlock): boolean;
         checkState(state: $BlockState_): boolean;
-        getBlockProperties(): $List<$BlockIDPredicate$PropertyObject>;
         getBlockState(): $BlockState;
+        getBlockProperties(): $List<$BlockIDPredicate$PropertyObject>;
         constructor(i: $ResourceLocation_);
-        get blockProperties(): $List<$BlockIDPredicate$PropertyObject>;
         get blockState(): $BlockState;
+        get blockProperties(): $List<$BlockIDPredicate$PropertyObject>;
     }
     export class $BlockEntityPredicate implements $BlockPredicate {
         data(cd: $BlockEntityPredicateDataCheck_): $BlockEntityPredicate;

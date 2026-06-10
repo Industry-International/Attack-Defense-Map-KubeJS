@@ -5,7 +5,7 @@ declare module "@package/org/embeddedt/modernfix/common/mixin/perf/reduce_blocks
     export class $BlockBehaviourInvoker {
     }
     export interface $BlockBehaviourInvoker {
-        invokeGetFluidState(arg0: $BlockState_): $FluidState;
         invokeIsRandomlyTicking(arg0: $BlockState_): boolean;
+        invokeGetFluidState(arg0: $BlockState_): $FluidState;
     }
 }

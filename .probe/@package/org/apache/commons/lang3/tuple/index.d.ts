@@ -29,8 +29,8 @@ declare module "@package/org/apache/commons/lang3/tuple" {
         static of<L, R>(arg0: $Map$Entry<L, R>): $MutablePair<L, R>;
         static emptyArray<L, R>(): $MutablePair<L, R>[];
         static ofNonNull<L, R>(arg0: L, arg1: R): $MutablePair<L, R>;
-        setLeft(arg0: L): void;
         setRight(arg0: R): void;
+        setLeft(arg0: L): void;
         static EMPTY_ARRAY: $MutablePair<never, never>[];
         left: L;
         right: R;

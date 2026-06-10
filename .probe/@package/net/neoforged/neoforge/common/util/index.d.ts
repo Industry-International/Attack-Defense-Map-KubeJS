@@ -361,8 +361,8 @@ declare module "@package/net/neoforged/neoforge/common/util" {
      */
     export type $TriState_ = "true" | "default" | "false";
     export class $InsertableLinkedOpenCustomHashSet<T> extends $ObjectLinkedOpenCustomHashSet<T> {
-        addAfter(arg0: T, arg1: T): boolean;
         addBefore(arg0: T, arg1: T): boolean;
+        addAfter(arg0: T, arg1: T): boolean;
         reversed(): $SequencedSet<T>;
         constructor();
         constructor(arg0: $Hash$Strategy<T>);
@@ -375,13 +375,13 @@ declare module "@package/net/neoforged/neoforge/common/util" {
         getParameters(): $Object[];
         formatTo(arg0: $StringBuilder): void;
         getFormat(): string;
-        getFormattedMessage(): string;
         getThrowable(): $Throwable;
+        getFormattedMessage(): string;
         constructor(builder: $Consumer_<$StringBuilder>);
         get parameters(): $Object[];
         get format(): string;
-        get formattedMessage(): string;
         get throwable(): $Throwable;
+        get formattedMessage(): string;
     }
     export class $AttributeTooltipContext {
         static of(arg0: $Player, arg1: $Item$TooltipContext, arg2: $TooltipFlag): $AttributeTooltipContext;
@@ -444,17 +444,17 @@ declare module "@package/net/neoforged/neoforge/common/util" {
         static withAlternative<T>(arg0: $Codec<T>, arg1: $Codec<T>): $Codec<T>;
         static withAlternative<T>(arg0: $MapCodec_<T>, arg1: $MapCodec_<T>): $MapCodec<T>;
         static setOf<T>(arg0: $Codec<T>): $Codec<$Set<T>>;
-        static singularOrPluralCodec<T>(arg0: $Codec<T>, arg1: string, arg2: string): $MapCodec<$Set<T>>;
-        static singularOrPluralCodec<T>(arg0: $Codec<T>, arg1: string): $MapCodec<$Set<T>>;
-        static optionalFieldAlwaysWrite<T>(arg0: $Codec<T>, arg1: string, arg2: T): $MapCodec<T>;
+        static decodeOnly<A>(arg0: $Decoder_<A>): $Codec<A>;
         static listWithOptionalElements<A>(arg0: $Codec<(A) | undefined>): $Codec<$List<A>>;
-        static dispatchMapOrElse<A, E, B>(arg0: $Codec<A>, arg1: $Function_<E, A>, arg2: $Function_<A, $MapCodec<E>>, arg3: $MapCodec_<B>): $MapCodec<$Either<E, B>>;
-        static mapWithAlternative<T>(arg0: $MapCodec_<T>, arg1: $MapCodec_<T>): $MapCodec<T>;
-        static listWithoutEmpty<A>(arg0: $Codec<$List_<(A) | undefined>>): $Codec<$List<A>>;
-        static aliasedFieldOf<T>(arg0: $Codec<T>, ...arg1: string[]): $MapCodec<T>;
+        static optionalFieldAlwaysWrite<T>(arg0: $Codec<T>, arg1: string, arg2: T): $MapCodec<T>;
+        static singularOrPluralCodec<T>(arg0: $Codec<T>, arg1: string): $MapCodec<$Set<T>>;
+        static singularOrPluralCodec<T>(arg0: $Codec<T>, arg1: string, arg2: string): $MapCodec<$Set<T>>;
         static singularOrPluralCodecNotEmpty<T>(arg0: $Codec<T>, arg1: string, arg2: string): $MapCodec<$Set<T>>;
         static singularOrPluralCodecNotEmpty<T>(arg0: $Codec<T>, arg1: string): $MapCodec<$Set<T>>;
-        static decodeOnly<A>(arg0: $Decoder_<A>): $Codec<A>;
+        static mapWithAlternative<T>(arg0: $MapCodec_<T>, arg1: $MapCodec_<T>): $MapCodec<T>;
+        static aliasedFieldOf<T>(arg0: $Codec<T>, ...arg1: string[]): $MapCodec<T>;
+        static dispatchMapOrElse<A, E, B>(arg0: $Codec<A>, arg1: $Function_<E, A>, arg2: $Function_<A, $MapCodec<E>>, arg3: $MapCodec_<B>): $MapCodec<$Either<E, B>>;
+        static listWithoutEmpty<A>(arg0: $Codec<$List_<(A) | undefined>>): $Codec<$List<A>>;
         constructor();
         static set of(value: $Codec<T>);
     }
@@ -483,8 +483,8 @@ declare module "@package/net/neoforged/neoforge/common/util" {
         static parseFloatArray(arg0: $JsonElement_, arg1: number, arg2: string): number[];
         deserialize(arg0: $JsonElement_, arg1: $Type, arg2: $JsonDeserializationContext_): $Transformation;
         static parseRotation(arg0: $JsonElement_): $Quaternionf;
-        static parseMatrix(arg0: $JsonElement_): $Matrix4f;
         static parseAxisRotation(arg0: $JsonElement_): $Quaternionf;
+        static parseMatrix(arg0: $JsonElement_): $Matrix4f;
         constructor();
     }
     export class $FakePlayer$FakeConnection extends $Connection {
@@ -499,9 +499,9 @@ declare module "@package/net/neoforged/neoforge/common/util" {
     }
     export class $AttributeUtil {
         static sortedMap(): $Multimap<$Holder<$Attribute>, $AttributeModifier>;
-        static addPotionTooltip(arg0: $List_<$Pair<$Holder_<$Attribute>, $AttributeModifier_>>, arg1: $Consumer_<$Component>): void;
-        static addAttributeTooltips(arg0: $ItemStack_, arg1: $Consumer_<$Component>, arg2: $AttributeTooltipContext): void;
         static getSortedModifiers(arg0: $ItemStack_, arg1: $EquipmentSlotGroup_): $Multimap<$Holder<$Attribute>, $AttributeModifier>;
+        static addAttributeTooltips(arg0: $ItemStack_, arg1: $Consumer_<$Component>, arg2: $AttributeTooltipContext): void;
+        static addPotionTooltip(arg0: $List_<$Pair<$Holder_<$Attribute>, $AttributeModifier_>>, arg1: $Consumer_<$Component>): void;
         static applyTextFor(arg0: $ItemStack_, arg1: $Consumer_<$Component>, arg2: $Multimap<$Holder_<$Attribute>, $AttributeModifier_>, arg3: $AttributeTooltipContext): void;
         static applyModifierTooltips(arg0: $ItemStack_, arg1: $Consumer_<$Component>, arg2: $AttributeTooltipContext): void;
         static FAKE_MERGED_ID: $ResourceLocation;
@@ -512,8 +512,8 @@ declare module "@package/net/neoforged/neoforge/common/util" {
         constructor();
     }
     export class $ItemStackMap {
-        static createTypeAndTagLinkedMap<V>(): $Map<$ItemStack, V>;
         static createTypeAndTagMap<V>(): $Map<$ItemStack, V>;
+        static createTypeAndTagLinkedMap<V>(): $Map<$ItemStack, V>;
         constructor();
     }
     export class $Lazy<T> implements $Supplier<T> {
@@ -528,45 +528,45 @@ declare module "@package/net/neoforged/neoforge/common/util" {
         orElse(arg0: $UnaryOperator_<string>, arg1: T): $Codec<T>;
         orElse(arg0: T): $Codec<T>;
         orElse(arg0: $Consumer_<string>, arg1: T): $Codec<T>;
-        orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<T>): $Codec<T>;
-        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<T>): $Codec<T>;
         orElseGet(arg0: $Supplier_<T>): $Codec<T>;
-        lenientOptionalFieldOf(arg0: string): $MapCodec<(T) | undefined>;
-        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: T, arg3: $Lifecycle): $MapCodec<T>;
-        lenientOptionalFieldOf(arg0: string, arg1: T, arg2: $Lifecycle): $MapCodec<T>;
-        lenientOptionalFieldOf(arg0: string, arg1: T): $MapCodec<T>;
-        comapFlatMap<S>(arg0: $Function_<T, $DataResult<S>>, arg1: $Function_<S, T>): $Codec<S>;
-        optionalFieldOf(arg0: string): $MapCodec<(T) | undefined>;
-        optionalFieldOf(arg0: string, arg1: T): $MapCodec<T>;
-        optionalFieldOf(arg0: string, arg1: T, arg2: $Lifecycle): $MapCodec<T>;
-        optionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: T, arg3: $Lifecycle): $MapCodec<T>;
-        dispatchStable<E>(arg0: $Function_<E, T>, arg1: $Function_<T, $MapCodec<E>>): $Codec<E>;
-        sizeLimitedListOf(arg0: number): $Codec<$List<T>>;
-        dispatchMap<E>(arg0: $Function_<E, T>, arg1: $Function_<T, $MapCodec<E>>): $MapCodec<E>;
-        dispatchMap<E>(arg0: string, arg1: $Function_<E, T>, arg2: $Function_<T, $MapCodec<E>>): $MapCodec<E>;
-        promotePartial(arg0: $Consumer_<string>): $Codec<T>;
-        flatComapMap<S>(arg0: $Function_<T, S>, arg1: $Function_<S, $DataResult<T>>): $Codec<S>;
-        partialDispatch<E>(arg0: string, arg1: $Function_<E, $DataResult<T>>, arg2: $Function_<T, $DataResult<$MapCodec<E>>>): $Codec<E>;
-        xmap<S>(arg0: $Function_<T, S>, arg1: $Function_<S, T>): $Codec<S>;
-        stable(): $Codec<T>;
-        deprecated(arg0: number): $Codec<T>;
-        listOf(arg0: number, arg1: number): $Codec<$List<T>>;
+        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<T>): $Codec<T>;
+        orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<T>): $Codec<T>;
         listOf(): $Codec<$List<T>>;
+        listOf(arg0: number, arg1: number): $Codec<$List<T>>;
+        deprecated(arg0: number): $Codec<T>;
         mapResult(arg0: $Codec$ResultFunction<T>): $Codec<T>;
         flatXmap<S>(arg0: $Function_<T, $DataResult<S>>, arg1: $Function_<S, $DataResult<T>>): $Codec<S>;
-        encodeStart<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<T>;
+        xmap<S>(arg0: $Function_<T, S>, arg1: $Function_<S, T>): $Codec<S>;
+        stable(): $Codec<T>;
+        lenientOptionalFieldOf(arg0: string, arg1: T): $MapCodec<T>;
+        lenientOptionalFieldOf(arg0: string, arg1: T, arg2: $Lifecycle): $MapCodec<T>;
+        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: T, arg3: $Lifecycle): $MapCodec<T>;
+        lenientOptionalFieldOf(arg0: string): $MapCodec<(T) | undefined>;
+        dispatchMap<E>(arg0: string, arg1: $Function_<E, T>, arg2: $Function_<T, $MapCodec<E>>): $MapCodec<E>;
+        dispatchMap<E>(arg0: $Function_<E, T>, arg1: $Function_<T, $MapCodec<E>>): $MapCodec<E>;
+        partialDispatch<E>(arg0: string, arg1: $Function_<E, $DataResult<T>>, arg2: $Function_<T, $DataResult<$MapCodec<E>>>): $Codec<E>;
+        dispatchStable<E>(arg0: $Function_<E, T>, arg1: $Function_<T, $MapCodec<E>>): $Codec<E>;
+        sizeLimitedListOf(arg0: number): $Codec<$List<T>>;
+        flatComapMap<S>(arg0: $Function_<T, S>, arg1: $Function_<S, $DataResult<T>>): $Codec<S>;
+        comapFlatMap<S>(arg0: $Function_<T, $DataResult<S>>, arg1: $Function_<S, T>): $Codec<S>;
+        withLifecycle(arg0: $Lifecycle): $Codec<T>;
+        optionalFieldOf(arg0: string, arg1: T, arg2: $Lifecycle): $MapCodec<T>;
+        optionalFieldOf(arg0: string, arg1: T): $MapCodec<T>;
+        optionalFieldOf(arg0: string): $MapCodec<(T) | undefined>;
+        optionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: T, arg3: $Lifecycle): $MapCodec<T>;
         comap<B>(arg0: $Function_<B, T>): $Encoder<B>;
         flatComap<B>(arg0: $Function_<B, $DataResult<T>>): $Encoder<B>;
+        encodeStart<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<T>;
         decode<T>(arg0: $Dynamic<T>): $DataResult<$Pair<T, T>>;
         map<B>(arg0: $Function_<T, B>): $Decoder<B>;
         flatMap<B>(arg0: $Function_<T, $DataResult<B>>): $Decoder<B>;
-        parse<T>(arg0: $Dynamic<T>): $DataResult<T>;
         parse<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<T>;
+        parse<T>(arg0: $Dynamic<T>): $DataResult<T>;
         boxed(): $Decoder$Boxed<T>;
         terminal(): $Decoder$Terminal<T>;
         simple(): $Decoder$Simple<T>;
-        withLifecycle(arg0: $Lifecycle): $Encoder<T>;
         fieldOf(arg0: string): $MapEncoder<T>;
+        promotePartial(arg0: $Consumer_<string>): $Decoder<T>;
     }
     export class $TransformationHelper {
         static lerp(arg0: $Vector3f, arg1: $Vector3f, arg2: number): $Vector3f;
@@ -807,8 +807,8 @@ declare module "@package/net/neoforged/neoforge/common/util" {
     export class $INBTSerializable<T extends $Tag> {
     }
     export interface $INBTSerializable<T extends $Tag> {
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: T): void;
         serializeNBT(arg0: $HolderLookup$Provider): T;
+        deserializeNBT(arg0: $HolderLookup$Provider, arg1: T): void;
     }
     export class $SortedProperties extends $Properties {
         static store(arg0: $Properties, arg1: $Writer, arg2: string): void;
@@ -827,9 +827,9 @@ declare module "@package/net/neoforged/neoforge/common/util" {
     export class $TablePrinter$Header<T> {
     }
     export class $TextTable$Column {
+        getWidth(): number;
         format(arg0: string, arg1: string): string;
         getSeparator(arg0: string): string;
-        getWidth(): number;
         fit(arg0: string): void;
         resetWidth(): void;
         formatHeader(arg0: string): string;

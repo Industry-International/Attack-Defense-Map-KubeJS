@@ -23,18 +23,18 @@ declare module "@package/net/minecraft/client/resources/language" {
         getLanguage(arg0: string): $LanguageInfo;
         getSelected(): string;
         setSelected(arg0: string): void;
+        getFabricDependencies(): $Collection<any>;
         getFabricId(): $ResourceLocation;
         getJavaLocale(): $Locale;
-        getFabricDependencies(): $Collection<any>;
         onResourceManagerReload(arg0: $ResourceManager): void;
         getLanguages(): $SortedMap<string, $LanguageInfo>;
-        handler$inp001$axiom$onReload(resourceManager: $ResourceManager, ci: $CallbackInfo): void;
+        handler$jhh001$axiom$onReload(resourceManager: $ResourceManager, ci: $CallbackInfo): void;
         reload(arg0: $PreparableReloadListener$PreparationBarrier_, arg1: $ResourceManager, arg2: $ProfilerFiller, arg3: $ProfilerFiller, arg4: $Executor_, arg5: $Executor_): $CompletableFuture<void>;
         getName(): string;
         constructor(arg0: string, arg1: $Consumer_<$ClientLanguage>);
+        get fabricDependencies(): $Collection<any>;
         get fabricId(): $ResourceLocation;
         get javaLocale(): $Locale;
-        get fabricDependencies(): $Collection<any>;
         get languages(): $SortedMap<string, $LanguageInfo>;
         get name(): string;
     }

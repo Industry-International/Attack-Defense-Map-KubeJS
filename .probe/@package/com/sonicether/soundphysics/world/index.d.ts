@@ -23,55 +23,55 @@ import { $ShortList } from "@package/it/unimi/dsi/fastutil/shorts";
 
 declare module "@package/com/sonicether/soundphysics/world" {
     export class $ClonedClientLevel implements $ClientLevelProxy {
-        getTick(): number;
         getOrigin(): $BlockPos;
-        getBlockState(arg0: $BlockPos_): $BlockState;
         getFluidState(arg0: $BlockPos_): $FluidState;
-        getChunk(arg0: number, arg1: number): $ClonedLevelChunk;
+        getTick(): number;
+        getBlockState(arg0: $BlockPos_): $BlockState;
         getMinBuildHeight(): number;
         getHeight(): number;
         getBlockEntity(arg0: $BlockPos_): $BlockEntity;
-        handler$iaa000$aero_cam_sync$shiftClipForCameraTilt(arg0: $ClipContext, arg1: $CallbackInfoReturnable<any>): void;
-        getBlockFloorHeight(arg0: $VoxelShape, arg1: $Supplier_<$VoxelShape>): number;
-        getBlockFloorHeight(arg0: $BlockPos_): number;
+        getChunk(arg0: number, arg1: number): $ClonedLevelChunk;
+        handler$ibc000$aero_cam_sync$shiftClipForCameraTilt(arg0: $ClipContext, arg1: $CallbackInfoReturnable<any>): void;
         clip(arg0: $ClipContext): $BlockHitResult;
         getLightEmission(arg0: $BlockPos_): number;
         clipWithInteractionOverride(arg0: $Vec3_, arg1: $Vec3_, arg2: $BlockPos_, arg3: $VoxelShape, arg4: $BlockState_): $BlockHitResult;
+        isBlockInLine(arg0: $ClipBlockStateContext): $BlockHitResult;
         getBlockStates(arg0: $AABB_): $Stream<$BlockState>;
         getMaxLightLevel(): number;
-        isBlockInLine(arg0: $ClipBlockStateContext): $BlockHitResult;
+        getBlockFloorHeight(arg0: $BlockPos_): number;
+        getBlockFloorHeight(arg0: $VoxelShape, arg1: $Supplier_<$VoxelShape>): number;
         getBlockEntity<T extends $BlockEntity>(arg0: $BlockPos_, arg1: $BlockEntityType_<T>): (T) | undefined;
-        isOutsideBuildHeight(arg0: $BlockPos_): boolean;
         isOutsideBuildHeight(arg0: number): boolean;
-        getSectionIndexFromSectionY(arg0: number): number;
-        getSectionYFromSectionIndex(arg0: number): number;
-        getSectionsCount(): number;
+        isOutsideBuildHeight(arg0: $BlockPos_): boolean;
         getMaxBuildHeight(): number;
+        getSectionsCount(): number;
         getMinSection(): number;
         getMaxSection(): number;
         getSectionIndex(arg0: number): number;
+        getSectionYFromSectionIndex(arg0: number): number;
+        getSectionIndexFromSectionY(arg0: number): number;
         getModelData(arg0: $BlockPos_): $ModelData;
         getAuxLightManager(arg0: $ChunkPos): $AuxiliaryLightManager;
         getAuxLightManager(arg0: $BlockPos_): $AuxiliaryLightManager;
-        getBlockEntityRenderData(arg0: $BlockPos_): $Object;
         hasBiomes(): boolean;
         getBiomeFabric(arg0: $BlockPos_): $Holder<$Biome>;
+        getBlockEntityRenderData(arg0: $BlockPos_): $Object;
         constructor(arg0: $ClientLevel, arg1: $BlockPos_, arg2: number, arg3: number);
-        get tick(): number;
         get origin(): $BlockPos;
+        get tick(): number;
         get minBuildHeight(): number;
         get height(): number;
         get maxLightLevel(): number;
-        get sectionsCount(): number;
         get maxBuildHeight(): number;
+        get sectionsCount(): number;
         get minSection(): number;
         get maxSection(): number;
     }
     export class $CachingClientLevel {
     }
     export interface $CachingClientLevel {
-        sound_physics_remastered$getCachedClone(): $ClonedClientLevel;
         sound_physics_remastered$setCachedClone(arg0: $ClonedClientLevel): void;
+        sound_physics_remastered$getCachedClone(): $ClonedClientLevel;
     }
     export class $ClonedLevelChunk extends $ChunkAccess {
         upgradeData: $UpgradeData;

@@ -30,8 +30,8 @@ declare module "@package/dev/latvian/mods/kubejs/item/creativetab" {
     export class $CreativeTabCallbackForge extends $Record implements $CreativeTabCallback {
         remove(filter: $ItemPredicate_, removeParent: boolean, removeSearch: boolean): void;
         event(): $BuildCreativeModeTabContentsEvent;
-        addAfter(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
         addBefore(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
+        addAfter(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
         constructor(event: $BuildCreativeModeTabContentsEvent);
     }
     export class $CreativeTabBuilder extends $BuilderBase<$CreativeModeTab> {
@@ -49,14 +49,14 @@ declare module "@package/dev/latvian/mods/kubejs/item/creativetab" {
     }
     export class $CreativeTabKubeEvent implements $KubeEvent {
         remove(filter: $ItemPredicate_): void;
-        add(items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
         add(items: $ItemStack_[]): void;
+        add(items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
         setDisplayName(component: $Component_): void;
-        setIcon(icon: $ItemStack_): void;
+        addBefore(order: $ItemStack_, items: $ItemStack_[]): void;
+        addBefore(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
         addAfter(order: $ItemStack_, items: $ItemStack_[]): void;
         addAfter(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
-        addBefore(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
-        addBefore(order: $ItemStack_, items: $ItemStack_[]): void;
+        setIcon(icon: $ItemStack_): void;
         removeFromParent(filter: $ItemPredicate_): void;
         removeFromSearch(filter: $ItemPredicate_): void;
         /**
@@ -122,7 +122,7 @@ declare module "@package/dev/latvian/mods/kubejs/item/creativetab" {
     }
     export interface $CreativeTabCallback {
         remove(filter: $ItemPredicate_, removeParent: boolean, removeSearch: boolean): void;
-        addAfter(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
         addBefore(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
+        addAfter(order: $ItemStack_, items: $ItemStack_[], visibility: $CreativeModeTab$TabVisibility_): void;
     }
 }

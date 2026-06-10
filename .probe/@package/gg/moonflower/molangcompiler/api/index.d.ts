@@ -26,12 +26,12 @@ declare module "@package/gg/moonflower/molangcompiler/api" {
          */
         resolve(arg0: $MolangEnvironment): number;
         getCopy(): $MolangExpression;
-        isConstant(): boolean;
-        getConstant(): number;
         /**
          * @deprecated
          */
         safeResolve(arg0: $MolangEnvironment): number;
+        isConstant(): boolean;
+        getConstant(): number;
         get copy(): $MolangExpression;
     }
     /**
@@ -46,26 +46,26 @@ declare module "@package/gg/moonflower/molangcompiler/api" {
         create(): V;
         create(arg0: number): V;
         clearQuery(): $MolangEnvironmentBuilder<V>;
-        setGlobal(arg0: string, arg1: number): $MolangEnvironmentBuilder<V>;
         setGlobal(arg0: string, arg1: $Supplier_<number>): $MolangEnvironmentBuilder<V>;
+        setGlobal(arg0: string, arg1: number): $MolangEnvironmentBuilder<V>;
         setGlobal(arg0: string, arg1: number, arg2: $MolangJavaFunction_): $MolangEnvironmentBuilder<V>;
         setGlobal(arg0: string, arg1: $MolangExpression_): $MolangEnvironmentBuilder<V>;
-        setVariables(arg0: $MolangVariableProvider_): $MolangEnvironmentBuilder<V>;
         setVariable(arg0: string, arg1: $Supplier_<number>): $MolangEnvironmentBuilder<V>;
-        setVariable(arg0: string, arg1: number): $MolangEnvironmentBuilder<V>;
         setVariable(arg0: string, arg1: $MolangVariable): $MolangEnvironmentBuilder<V>;
         setVariable(arg0: string, arg1: $MolangExpression_): $MolangEnvironmentBuilder<V>;
-        setQuery(arg0: string, arg1: $MolangExpression_): $MolangEnvironmentBuilder<V>;
-        setQuery(arg0: string, arg1: number, arg2: $MolangJavaFunction_): $MolangEnvironmentBuilder<V>;
-        setQuery(arg0: string, arg1: number): $MolangEnvironmentBuilder<V>;
-        setQuery(arg0: string, arg1: $Supplier_<number>): $MolangEnvironmentBuilder<V>;
+        setVariable(arg0: string, arg1: number): $MolangEnvironmentBuilder<V>;
+        setVariables(arg0: $MolangVariableProvider_): $MolangEnvironmentBuilder<V>;
+        clearLibraries(): $MolangEnvironmentBuilder<V>;
         removeQuery(arg0: string): $MolangEnvironmentBuilder<V>;
-        unloadLibrary(arg0: string): $MolangEnvironmentBuilder<V>;
+        clearVariable(): $MolangEnvironmentBuilder<V>;
         removeGlobal(arg0: string): $MolangEnvironmentBuilder<V>;
         removeVariable(arg0: string): $MolangEnvironmentBuilder<V>;
-        clearVariable(): $MolangEnvironmentBuilder<V>;
         clearGlobal(): $MolangEnvironmentBuilder<V>;
-        clearLibraries(): $MolangEnvironmentBuilder<V>;
+        unloadLibrary(arg0: string): $MolangEnvironmentBuilder<V>;
+        setQuery(arg0: string, arg1: number, arg2: $MolangJavaFunction_): $MolangEnvironmentBuilder<V>;
+        setQuery(arg0: string, arg1: $Supplier_<number>): $MolangEnvironmentBuilder<V>;
+        setQuery(arg0: string, arg1: $MolangExpression_): $MolangEnvironmentBuilder<V>;
+        setQuery(arg0: string, arg1: number): $MolangEnvironmentBuilder<V>;
         set variables(value: $MolangVariableProvider_);
     }
     export class $MolangEnvironment {
@@ -80,19 +80,19 @@ declare module "@package/gg/moonflower/molangcompiler/api" {
         getParameters(): number;
         has(arg0: string): boolean;
         getParameter(arg0: number): number;
-        getObjects(): $Collection<string>;
-        canEdit(): boolean;
         safeResolve(arg0: $MolangExpression_): number;
-        getThis(): number;
-        edit(): $MolangEnvironmentBuilder<$MolangEnvironment>;
-        loadAlias(arg0: string, arg1: string, ...arg2: string[]): void;
-        setThisValue(arg0: number): void;
+        loadParameter(arg0: number): void;
         clearParameters(): void;
         hasParameter(arg0: number): boolean;
-        loadParameter(arg0: number): void;
+        setThisValue(arg0: number): void;
+        edit(): $MolangEnvironmentBuilder<$MolangEnvironment>;
+        getObjects(): $Collection<string>;
+        loadAlias(arg0: string, arg1: string, ...arg2: string[]): void;
+        getThis(): number;
+        canEdit(): boolean;
         get parameters(): number;
+        set thisValue(value: number);
         get objects(): $Collection<string>;
         get this(): number;
-        set thisValue(value: number);
     }
 }

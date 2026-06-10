@@ -16,9 +16,13 @@ declare module "@package/xaero/pac/client/player/config/api" {
         getType(): $PlayerConfigType;
         options(): $Stream<$IPlayerConfigStringableOptionClientStorageAPI$1<never>>;
         getOwner(): $UUID;
-        getSubConfigAPIStream(): $Stream<$IPlayerConfigClientStorageAPI>;
-        getMain(): $IPlayerConfigClientStorageAPI;
+        getEffectiveSubConfig(arg0: string): $IPlayerConfigClientStorageAPI;
         getOption<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): $IPlayerConfigStringableOptionClientStorageAPI$1<T>;
+        getSubConfigLimit(): number;
+        getSubConfig(arg0: string): $IPlayerConfigClientStorageAPI;
+        getSubCount(): number;
+        getPlayerGroups(): $IClientPlayerConfigGroupManagerAPI;
+        subConfigExists(arg0: string): boolean;
         isBeingDeleted(): boolean;
         /**
          * @deprecated
@@ -29,21 +33,17 @@ declare module "@package/xaero/pac/client/player/config/api" {
          */
         getOptionStorage<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI$1<T>): $IPlayerConfigStringableOptionClientStorageAPI<never>;
         getSubConfigIds(): $List<string>;
-        getEffectiveSubConfig(arg0: string): $IPlayerConfigClientStorageAPI;
-        getSubConfig(arg0: string): $IPlayerConfigClientStorageAPI;
-        subConfigExists(arg0: string): boolean;
-        getSubConfigLimit(): number;
-        getPlayerGroups(): $IClientPlayerConfigGroupManagerAPI;
-        getSubCount(): number;
+        getSubConfigAPIStream(): $Stream<$IPlayerConfigClientStorageAPI>;
+        getMain(): $IPlayerConfigClientStorageAPI;
         get type(): $PlayerConfigType;
         get owner(): $UUID;
-        get subConfigAPIStream(): $Stream<$IPlayerConfigClientStorageAPI>;
-        get main(): $IPlayerConfigClientStorageAPI;
+        get subConfigLimit(): number;
+        get subCount(): number;
+        get playerGroups(): $IClientPlayerConfigGroupManagerAPI;
         get beingDeleted(): boolean;
         get subConfigIds(): $List<string>;
-        get subConfigLimit(): number;
-        get playerGroups(): $IClientPlayerConfigGroupManagerAPI;
-        get subCount(): number;
+        get subConfigAPIStream(): $Stream<$IPlayerConfigClientStorageAPI>;
+        get main(): $IPlayerConfigClientStorageAPI;
     }
     /**
      * @deprecated
@@ -56,14 +56,9 @@ declare module "@package/xaero/pac/client/player/config/api" {
         getType(): $Class<T>;
         getComment(): string;
         getValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
-        isDefaulted(): boolean;
-        isMutable(): boolean;
-        /**
-         * @deprecated
-         */
-        getStringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
-        getOption(): $IPlayerConfigOptionSpecAPI$1<T>;
         getTranslation(): string;
+        isMutable(): boolean;
+        getOption(): $IPlayerConfigOptionSpecAPI$1<T>;
         /**
          * @deprecated
          */
@@ -71,20 +66,25 @@ declare module "@package/xaero/pac/client/player/config/api" {
         /**
          * @deprecated
          */
+        getStringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
+        /**
+         * @deprecated
+         */
         getCommandInputParser(): $Function<string, T>;
+        isDefaulted(): boolean;
         getTooltipPrefix(): string;
         get value(): T;
         get id(): string;
         get type(): $Class<T>;
         get comment(): string;
         get validator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
-        get defaulted(): boolean;
-        get mutable(): boolean;
-        get stringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
-        get option(): $IPlayerConfigOptionSpecAPI$1<T>;
         get translation(): string;
+        get mutable(): boolean;
+        get option(): $IPlayerConfigOptionSpecAPI$1<T>;
         get commandOutputWriterCast(): $Function<$Object, $Component>;
+        get stringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
         get commandInputParser(): $Function<string, T>;
+        get defaulted(): boolean;
         get tooltipPrefix(): string;
     }
 }

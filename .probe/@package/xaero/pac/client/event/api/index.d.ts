@@ -4,10 +4,10 @@ import { $IClaimsManagerClaimResultTrackerRegisterAPI, $IClaimsManagerClaimResul
 
 declare module "@package/xaero/pac/client/event/api" {
     export class $OPACClientAddonRegisterEvent extends $Event {
-        getClaimsManagerClaimResultTrackerAPI(): $IClaimsManagerClaimResultTrackerRegisterAPI;
         getClaimsManagerTrackerAPI(): $IClaimsManagerTrackerRegisterAPI;
+        getClaimsManagerClaimResultTrackerAPI(): $IClaimsManagerClaimResultTrackerRegisterAPI;
         constructor(arg0: $IClaimsManagerTrackerRegisterAPI_, arg1: $IClaimsManagerClaimResultTrackerRegisterAPI_);
-        get claimsManagerClaimResultTrackerAPI(): $IClaimsManagerClaimResultTrackerRegisterAPI;
         get claimsManagerTrackerAPI(): $IClaimsManagerTrackerRegisterAPI;
+        get claimsManagerClaimResultTrackerAPI(): $IClaimsManagerClaimResultTrackerRegisterAPI;
     }
 }

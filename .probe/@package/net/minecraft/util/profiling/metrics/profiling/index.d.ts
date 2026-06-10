@@ -13,9 +13,9 @@ declare module "@package/net/minecraft/util/profiling/metrics/profiling" {
         end(): void;
         cancel(): void;
         getProfiler(): $ProfilerFiller;
+        isRecording(): boolean;
         endTick(): void;
         startTick(): void;
-        isRecording(): boolean;
         static INSTANCE: $MetricsRecorder;
         constructor();
         get profiler(): $ProfilerFiller;
@@ -24,11 +24,11 @@ declare module "@package/net/minecraft/util/profiling/metrics/profiling" {
     export class $ActiveMetricsRecorder implements $MetricsRecorder {
         end(): void;
         cancel(): void;
-        static createStarted(arg0: $MetricsSamplerProvider_, arg1: $LongSupplier_, arg2: $Executor_, arg3: $MetricsPersister, arg4: $Consumer_<$ProfileResults>, arg5: $Consumer_<$Path>): $ActiveMetricsRecorder;
         getProfiler(): $ProfilerFiller;
+        static createStarted(arg0: $MetricsSamplerProvider_, arg1: $LongSupplier_, arg2: $Executor_, arg3: $MetricsPersister, arg4: $Consumer_<$ProfileResults>, arg5: $Consumer_<$Path>): $ActiveMetricsRecorder;
+        isRecording(): boolean;
         endTick(): void;
         startTick(): void;
-        isRecording(): boolean;
         static registerGlobalCompletionCallback(arg0: $Consumer_<$Path>): void;
         static PROFILING_MAX_DURATION_SECONDS: number;
         get profiler(): $ProfilerFiller;
@@ -50,9 +50,9 @@ declare module "@package/net/minecraft/util/profiling/metrics/profiling" {
         end(): void;
         cancel(): void;
         getProfiler(): $ProfilerFiller;
+        isRecording(): boolean;
         endTick(): void;
         startTick(): void;
-        isRecording(): boolean;
         get profiler(): $ProfilerFiller;
         get recording(): boolean;
     }

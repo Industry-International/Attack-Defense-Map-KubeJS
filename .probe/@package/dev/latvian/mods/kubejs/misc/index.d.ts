@@ -37,9 +37,9 @@ declare module "@package/dev/latvian/mods/kubejs/misc" {
         constructor(i: $ResourceLocation_);
     }
     export class $ParticleTypeBuilder extends $BuilderBase<$ParticleType<never>> {
-        codec(c: $MapCodec_<$ParticleOptions_>): this;
         texture(texture: string): this;
         textures(textures: $List_<string>): this;
+        codec(c: $MapCodec_<$ParticleOptions_>): this;
         streamCodec(s: $StreamCodec<$RegistryFriendlyByteBuf, $ParticleOptions_>): this;
         overrideLimiter(o: boolean): this;
         registryKey: $ResourceKey<$Registry<$ParticleType<never>>>;
@@ -66,10 +66,10 @@ declare module "@package/dev/latvian/mods/kubejs/misc" {
         constructor(builder: $MobEffectBuilder);
     }
     export class $VillagerProfessionBuilder extends $BuilderBase<$VillagerProfession> {
+        secondaryPoi(t: $Block_[]): this;
+        requestedItems(t: $Item_[]): this;
         poiType(t: $ResourceLocation_): this;
         workSound(t: $SoundEvent_): this;
-        requestedItems(t: $Item_[]): this;
-        secondaryPoi(t: $Block_[]): this;
         poiTypeTag(t: $ResourceLocation_): this;
         registryKey: $ResourceKey<$Registry<$VillagerProfession>>;
         sourceLine: $SourceLine;
@@ -77,8 +77,8 @@ declare module "@package/dev/latvian/mods/kubejs/misc" {
         constructor(i: $ResourceLocation_);
     }
     export class $PoiTypeBuilder extends $BuilderBase<$PoiType> {
-        block(r: $Block_): this;
         blocks(r: $BlockState_[]): this;
+        block(r: $Block_): this;
         maxTickets(i: number): this;
         validRange(i: number): this;
         registryKey: $ResourceKey<$Registry<$PoiType>>;

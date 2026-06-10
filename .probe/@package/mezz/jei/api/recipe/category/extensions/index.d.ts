@@ -27,21 +27,8 @@ declare module "@package/mezz/jei/api/recipe/category/extensions" {
         /**
          * @deprecated
          */
-        handleInput(arg0: T, arg1: number, arg2: number, arg3: $InputConstants$Key): boolean;
-        /**
-         * @deprecated
-         */
-        handleInput(arg0: number, arg1: number, arg2: $InputConstants$Key): boolean;
-        getTooltip(arg0: $ITooltipBuilder, arg1: T, arg2: number, arg3: number): void;
-        drawInfo(arg0: T, arg1: number, arg2: number, arg3: $GuiGraphics, arg4: number, arg5: number): void;
-        /**
-         * @deprecated
-         */
-        drawInfo(arg0: number, arg1: number, arg2: $GuiGraphics, arg3: number, arg4: number): void;
-        /**
-         * @deprecated
-         */
-        getTooltipStrings(arg0: T, arg1: number, arg2: number): $List<$Component>;
+        createRecipeExtras(arg0: T, arg1: $IRecipeExtrasBuilder, arg2: $IRecipeSlotsView_, arg3: $ICraftingGridHelper, arg4: $IFocusGroup): void;
+        createRecipeExtras(arg0: T, arg1: $IRecipeExtrasBuilder, arg2: $ICraftingGridHelper, arg3: $IFocusGroup): void;
         /**
          * @deprecated
          */
@@ -49,7 +36,20 @@ declare module "@package/mezz/jei/api/recipe/category/extensions" {
         /**
          * @deprecated
          */
-        createRecipeExtras(arg0: T, arg1: $IRecipeExtrasBuilder, arg2: $IRecipeSlotsView_, arg3: $ICraftingGridHelper, arg4: $IFocusGroup): void;
-        createRecipeExtras(arg0: T, arg1: $IRecipeExtrasBuilder, arg2: $ICraftingGridHelper, arg3: $IFocusGroup): void;
+        getTooltipStrings(arg0: T, arg1: number, arg2: number): $List<$Component>;
+        getTooltip(arg0: $ITooltipBuilder, arg1: T, arg2: number, arg3: number): void;
+        /**
+         * @deprecated
+         */
+        handleInput(arg0: number, arg1: number, arg2: $InputConstants$Key): boolean;
+        /**
+         * @deprecated
+         */
+        handleInput(arg0: T, arg1: number, arg2: number, arg3: $InputConstants$Key): boolean;
+        /**
+         * @deprecated
+         */
+        drawInfo(arg0: number, arg1: number, arg2: $GuiGraphics, arg3: number, arg4: number): void;
+        drawInfo(arg0: T, arg1: number, arg2: number, arg3: $GuiGraphics, arg4: number, arg5: number): void;
     }
 }

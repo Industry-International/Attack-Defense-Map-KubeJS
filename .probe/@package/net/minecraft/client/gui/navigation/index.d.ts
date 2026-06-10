@@ -16,11 +16,11 @@ declare module "@package/net/minecraft/client/gui/navigation" {
         overlaps(arg0: $ScreenRectangle_): boolean;
         height(): number;
         intersection(arg0: $ScreenRectangle_): $ScreenRectangle;
-        containsPoint(arg0: number, arg1: number): boolean;
         getBoundInDirection(arg0: $ScreenDirection_): number;
         getBorder(arg0: $ScreenDirection_): $ScreenRectangle;
-        getCenterInAxis(arg0: $ScreenAxis_): number;
         overlapsInAxis(arg0: $ScreenRectangle_, arg1: $ScreenAxis_): boolean;
+        getCenterInAxis(arg0: $ScreenAxis_): number;
+        containsPoint(arg0: number, arg1: number): boolean;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number);
         constructor(arg0: $ScreenPosition_, arg1: number, arg2: number);
     }
@@ -39,9 +39,9 @@ declare module "@package/net/minecraft/client/gui/navigation" {
         static values(): $ScreenAxis[];
         static valueOf(arg0: string): $ScreenAxis;
         getNegative(): $ScreenDirection;
-        getDirection(arg0: boolean): $ScreenDirection;
         orthogonal(): $ScreenAxis;
         getPositive(): $ScreenDirection;
+        getDirection(arg0: boolean): $ScreenDirection;
         static VERTICAL: $ScreenAxis;
         static HORIZONTAL: $ScreenAxis;
         get negative(): $ScreenDirection;
@@ -64,8 +64,8 @@ declare module "@package/net/minecraft/client/gui/navigation" {
         constructor();
     }
     export class $FocusNavigationEvent$TabNavigation extends $Record implements $FocusNavigationEvent {
-        forward(): boolean;
         getVerticalDirectionForInitialFocus(): $ScreenDirection;
+        forward(): boolean;
         constructor(arg0: boolean);
         get verticalDirectionForInitialFocus(): $ScreenDirection;
     }
@@ -75,9 +75,9 @@ declare module "@package/net/minecraft/client/gui/navigation" {
         isPositive(): boolean;
         isAfter(arg0: number, arg1: number): boolean;
         isBefore(arg0: number, arg1: number): boolean;
+        coordinateValueComparator(): $IntComparator;
         getOpposite(): $ScreenDirection;
         getAxis(): $ScreenAxis;
-        coordinateValueComparator(): $IntComparator;
         static DOWN: $ScreenDirection;
         static LEFT: $ScreenDirection;
         static RIGHT: $ScreenDirection;

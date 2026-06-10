@@ -6,10 +6,10 @@ declare module "@package/dev/kyanbirb/touys/mixin/sub_level_template" {
     export class $LevelPlotAccessor {
     }
     export interface $LevelPlotAccessor {
-        touys$getLogSize(): number;
-        touys$getContainer(): $SubLevelContainer;
-        touys$getBiome(): $ResourceKey<$Biome>;
-        touys$getExpandPlotIfNecessary(): boolean;
         touys$setExpandPlotIfNecessary(arg0: boolean): void;
+        touys$getExpandPlotIfNecessary(): boolean;
+        touys$getLogSize(): number;
+        touys$getBiome(): $ResourceKey<$Biome>;
+        touys$getContainer(): $SubLevelContainer;
     }
 }

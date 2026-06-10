@@ -6,7 +6,7 @@ import { $Reference2ReferenceMap, $ReferenceSet } from "@package/it/unimi/dsi/fa
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
 import { $BlockState_, $BlockState } from "@package/net/minecraft/world/level/block/state";
 import { $ColorProviderRegistryImpl$ColorMapperHolder } from "@package/net/fabricmc/fabric/impl/client/rendering";
-import { $Block, $Block_ } from "@package/net/minecraft/world/level/block";
+import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
 import { $Map, $Set } from "@package/java/util";
 import { $BlockColorsAccessor } from "@package/com/github/argon4w/acceleratedrendering/features/items/mixins/accessors";
 
@@ -30,8 +30,8 @@ declare module "@package/net/minecraft/client/color/block" {
         register(arg0: $BlockColor_, ...arg1: $Block_[]): void;
         getColor(arg0: $BlockState_, arg1: $BlockAndTintGetter, arg2: $BlockPos_, arg3: number): number;
         getColor(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_): number;
-        static createDefault(): $BlockColors;
         sodium$getOverridenVanillaBlocks(): $ReferenceSet<any>;
+        static createDefault(): $BlockColors;
         sodium$getProviders(): $Reference2ReferenceMap<any, any>;
         getColoringProperties(arg0: $Block_): $Set<$Property<never>>;
         getBlockColors(): $Map<$Block, $BlockColor>;

@@ -13,8 +13,8 @@ declare module "@package/com/github/argon4w/acceleratedrendering/core/buffers/ac
     export class $DrawContextPool$DrawContext implements $Comparable<$DrawContextPool$DrawContext> {
         compareTo(arg0: $DrawContextPool$DrawContext): number;
         getRenderType(): $RenderType;
-        drawElements(arg0: $VertexFormat$Mode_): void;
         setRenderType(arg0: $RenderType): void;
+        drawElements(arg0: $VertexFormat$Mode_): void;
         bindComputeBuffers(arg0: $ElementBufferPool$ElementSegment): void;
         getCommandOffset(): number;
         static ELEMENT_COUNT_INDEX: number;

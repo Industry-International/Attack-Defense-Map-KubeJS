@@ -45,8 +45,8 @@ declare module "@package/net/minecraft/realms" {
     }
     export class $RealmsScreen extends $Screen {
         static row(arg0: number): number;
-        addLabel(arg0: $RealmsLabel): $RealmsLabel;
         createLabelNarration(): $Component;
+        addLabel(arg0: $RealmsLabel): $RealmsLabel;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;

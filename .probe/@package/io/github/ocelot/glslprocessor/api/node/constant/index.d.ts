@@ -38,8 +38,8 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/constant" {
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
         getBody(): $GlslNodeList;
-        setBody(...arg0: $GlslNode[]): boolean;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
+        setBody(...arg0: $GlslNode[]): boolean;
         constructor(arg0: $GlslIntFormat_, arg1: boolean, arg2: number);
         get nodeType(): $GlslNodeType;
         get number(): boolean;
@@ -62,8 +62,8 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/constant" {
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
         getBody(): $GlslNodeList;
-        setBody(...arg0: $GlslNode[]): boolean;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
+        setBody(...arg0: $GlslNode[]): boolean;
         constructor(arg0: boolean);
         get nodeType(): $GlslNodeType;
         get number(): boolean;
@@ -86,8 +86,8 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/constant" {
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
         getBody(): $GlslNodeList;
-        setBody(...arg0: $GlslNode[]): boolean;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
+        setBody(...arg0: $GlslNode[]): boolean;
         constructor(arg0: number);
         get nodeType(): $GlslNodeType;
         get number(): boolean;
@@ -110,8 +110,8 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/constant" {
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
         getBody(): $GlslNodeList;
-        setBody(...arg0: $GlslNode[]): boolean;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
+        setBody(...arg0: $GlslNode[]): boolean;
         constructor(arg0: number);
         get nodeType(): $GlslNodeType;
         get number(): boolean;

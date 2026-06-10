@@ -4,12 +4,13 @@ import { $FluidStack_ } from "@package/net/neoforged/neoforge/fluids";
 import { $ExplosionKubeEvent$After, $ExplosionKubeEvent$Before, $SimpleLevelKubeEvent } from "@package/dev/latvian/mods/kubejs/level";
 import { $NetworkKubeEvent } from "@package/dev/latvian/mods/kubejs/net";
 import { $InventoryChangedKubeEvent, $ChestKubeEvent, $StageChangedEvent, $SimplePlayerKubeEvent, $InventoryKubeEvent } from "@package/dev/latvian/mods/kubejs/player";
-import { $DynamicItemTooltipsKubeEvent, $ItemPredicate_, $ItemCraftedKubeEvent, $ItemDestroyedKubeEvent, $ModifyItemTooltipsKubeEvent, $ItemPickedUpKubeEvent, $FoodEatenKubeEvent, $ItemSmeltedKubeEvent, $ItemEntityInteractedKubeEvent, $ItemDroppedKubeEvent, $ItemClickedKubeEvent } from "@package/dev/latvian/mods/kubejs/item";
+import { $DynamicItemTooltipsKubeEvent, $ItemPredicate_, $ItemCraftedKubeEvent, $ItemDestroyedKubeEvent, $ModifyItemTooltipsKubeEvent, $ItemPickedUpKubeEvent, $FoodEatenKubeEvent, $ItemSmeltedKubeEvent, $ItemEntityInteractedKubeEvent, $ItemClickedKubeEvent, $ItemDroppedKubeEvent } from "@package/dev/latvian/mods/kubejs/item";
 import { $FluidIngredient_ } from "@package/net/neoforged/neoforge/fluids/crafting";
 import { $MenuType } from "@package/net/minecraft/world/inventory";
+import { $LocalPlayerReloadEvent, $ClientGunIndexLoadEvent, $LocalPlayerShootEvent, $LocalPlayerMeleeEvent, $LocalPlayerAimEvent } from "@package/dev/aika/taczjs/neoforge/events/client";
 import { $Level } from "@package/net/minecraft/world/level";
 import { $BlockEntityTickKubeEvent } from "@package/dev/latvian/mods/kubejs/block/entity";
-import { $BlockBrokenKubeEvent, $BlockLeftClickedKubeEvent, $BlockStoppedFallingKubeEvent, $BlockStartedFallingKubeEvent, $DetectorBlockKubeEvent, $BlockPlacedKubeEvent, $BlockRightClickedKubeEvent, $FarmlandTrampledKubeEvent, $BlockPickedKubeEvent } from "@package/dev/latvian/mods/kubejs/block";
+import { $BlockStoppedFallingKubeEvent, $BlockLeftClickedKubeEvent, $BlockBrokenKubeEvent, $BlockStartedFallingKubeEvent, $DetectorBlockKubeEvent, $BlockPlacedKubeEvent, $BlockRightClickedKubeEvent, $FarmlandTrampledKubeEvent, $BlockPickedKubeEvent } from "@package/dev/latvian/mods/kubejs/block";
 import { $PonderRegistryEventJS, $PonderItemTagEventJS } from "@package/com/almostreliable/ponderjs";
 import { $Item, $ItemStack_ } from "@package/net/minecraft/world/item";
 import { $KubeAssetGenerator } from "@package/dev/latvian/mods/kubejs/generator";
@@ -143,6 +144,13 @@ declare global {
          */
         function smelted(handler: ((event: $ItemSmeltedKubeEvent) => void)): void;
         function modifyTooltips(handler: ((event: $ModifyItemTooltipsKubeEvent) => void)): void;
+    }
+    namespace TaCZClientEvents {
+        function gunIndexLoad(handler: ((event: $ClientGunIndexLoadEvent) => void)): void;
+        function playerMelee(handler: ((event: $LocalPlayerMeleeEvent) => void)): void;
+        function playerReload(handler: ((event: $LocalPlayerReloadEvent) => void)): void;
+        function playerShoot(handler: ((event: $LocalPlayerShootEvent) => void)): void;
+        function playerAim(handler: ((event: $LocalPlayerAimEvent) => void)): void;
     }
     namespace NetworkEvents {
         /**

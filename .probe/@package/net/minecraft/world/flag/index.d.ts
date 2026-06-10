@@ -26,8 +26,8 @@ declare module "@package/net/minecraft/world/flag" {
         contains(arg0: $FeatureFlag): boolean;
         static create(arg0: $FeatureFlagUniverse, arg1: $Collection_<$FeatureFlag>): $FeatureFlagSet;
         subtract(arg0: $FeatureFlagSet): $FeatureFlagSet;
-        isSubsetOf(arg0: $FeatureFlagSet): boolean;
         intersects(arg0: $FeatureFlagSet): boolean;
+        isSubsetOf(arg0: $FeatureFlagSet): boolean;
         static MAX_CONTAINER_SIZE: number;
         get empty(): boolean;
     }
@@ -75,11 +75,11 @@ declare module "@package/net/minecraft/world/flag" {
         getFlag(arg0: $ResourceLocation_): $FeatureFlag;
         allFlags(): $FeatureFlagSet;
         codec(): $Codec<$FeatureFlagSet>;
+        hasAnyModdedFlags(): boolean;
         toNames(arg0: $FeatureFlagSet): $Set<$ResourceLocation>;
         isSubset(arg0: $FeatureFlagSet): boolean;
         fromNames(arg0: $Iterable_<$ResourceLocation>, arg1: $Consumer_<$ResourceLocation>): $FeatureFlagSet;
         fromNames(arg0: $Iterable_<$ResourceLocation>): $FeatureFlagSet;
-        hasAnyModdedFlags(): boolean;
         constructor(arg0: $FeatureFlagUniverse, arg1: $FeatureFlagSet, arg2: $Map_<$ResourceLocation_, $FeatureFlag>);
     }
 }

@@ -24,12 +24,12 @@ declare module "@package/com/mojang/blaze3d/shaders" {
         setLocation(arg0: number): void;
         getFloatBuffer(): $FloatBuffer;
         getIntBuffer(): $IntBuffer;
-        static glGetAttribLocation(arg0: number, arg1: $CharSequence): number;
         static glBindAttribLocation(arg0: number, arg1: number, arg2: $CharSequence): void;
+        static glGetAttribLocation(arg0: number, arg1: $CharSequence): number;
         static glGetUniformLocation(arg0: number, arg1: $CharSequence): number;
-        upload(): void;
         static uploadInteger(arg0: number, arg1: number): void;
         static getTypeFromString(arg0: string): number;
+        upload(): void;
         static UT_INT4: number;
         static UT_INT3: number;
         static UT_MAT4: number;
@@ -62,9 +62,9 @@ declare module "@package/com/mojang/blaze3d/shaders" {
     export type $FogShape_ = "sphere" | "cylinder";
     export class $ProgramManager {
         static glUseProgram(arg0: number): void;
-        static releaseProgram(arg0: $Shader): void;
-        static createProgram(): number;
         static linkShader(arg0: $Shader): void;
+        static createProgram(): number;
+        static releaseProgram(arg0: $Shader): void;
         constructor();
     }
     export class $AbstractUniform {
@@ -83,14 +83,14 @@ declare module "@package/com/mojang/blaze3d/shaders" {
         set(arg0: number): void;
         setSafe(arg0: number, arg1: number, arg2: number, arg3: number): void;
         setSafe(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        setMat3x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
-        setMat4x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
-        setMat3x2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
-        setMat2x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        setMat2x2(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        setMat4x2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        setMat2x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
         setMat3x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number): void;
+        setMat4x2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+        setMat2x2(arg0: number, arg1: number, arg2: number, arg3: number): void;
+        setMat2x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
+        setMat2x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+        setMat3x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
+        setMat3x2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
+        setMat4x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
         setMat4x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: number, arg15: number): void;
         constructor();
     }
@@ -103,9 +103,9 @@ declare module "@package/com/mojang/blaze3d/shaders" {
         static values(): $Program$Type[];
         static valueOf(arg0: string): $Program$Type;
         getExtension(): string;
+        static createProgramType$iris_$md$9aa1a5$0(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
+        static createProgramType$ldlib2_$md$9aa1a5$1(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
         getPrograms(): $Map<string, $Program>;
-        static createProgramType$iris_$md$d64506$0(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
-        static createProgramType$ldlib2_$md$d64506$1(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
         static VERTEX: $Program$Type;
         static FRAGMENT: $Program$Type;
         get extension(): string;
@@ -118,9 +118,9 @@ declare module "@package/com/mojang/blaze3d/shaders" {
     export class $Program implements $DynamicBufferProgramAccessor, $ProgramExtension {
         getName(): string;
         close(): void;
-        static compileShader(arg0: $Program$Type_, arg1: string, arg2: $InputStream, arg3: string, arg4: $GlslPreprocessor): $Program;
-        attachToShader(arg0: $Shader): void;
         sable$getSource(): string;
+        attachToShader(arg0: $Shader): void;
+        static compileShader(arg0: $Program$Type_, arg1: string, arg2: $InputStream, arg3: string, arg4: $GlslPreprocessor): $Program;
         getId(): number;
         setId(arg0: number): void;
         constructor(arg0: $Program$Type_, arg1: number, arg2: string);
@@ -130,19 +130,19 @@ declare module "@package/com/mojang/blaze3d/shaders" {
     }
     export interface $Shader {
         getId(): number;
-        markDirty(): void;
-        getFragmentProgram(): $Program;
         getVertexProgram(): $Program;
         attachToProgram(): void;
+        getFragmentProgram(): $Program;
+        markDirty(): void;
         get id(): number;
-        get fragmentProgram(): $Program;
         get vertexProgram(): $Program;
+        get fragmentProgram(): $Program;
     }
     export class $BlendMode {
         apply(): void;
         isOpaque(): boolean;
-        static stringToBlendFunc(arg0: string): number;
         static stringToBlendFactor(arg0: string): number;
+        static stringToBlendFunc(arg0: string): number;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number);
         constructor(arg0: number, arg1: number, arg2: number);
         constructor();

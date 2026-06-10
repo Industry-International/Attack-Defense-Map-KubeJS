@@ -56,30 +56,30 @@ declare module "@package/net/minecraft/world/entity/monster/breeze" {
         stop(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
         static canRun(arg0: $ServerLevel, arg1: $Breeze): boolean;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Breeze, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
     }
     export class $ShootWhenStuck extends $Behavior<$Breeze> {
         start(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Breeze, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
     }
     export class $Breeze extends $Monster {
-        static createAttributes(): $AttributeSupplier$Builder;
         getHurtBy(): ($LivingEntity) | undefined;
-        resetJumpTrail(): $Breeze;
+        handler$dfm000$immersiveengineering$deflection(arg0: $Projectile, arg1: $CallbackInfoReturnable<any>): void;
         playWhirlSound(): void;
+        resetJumpTrail(): $Breeze;
         getSnoutYPosition(): number;
+        static createAttributes(): $AttributeSupplier$Builder;
         emitGroundParticles(arg0: number): void;
-        withinInnerCircleRange(arg0: $Vec3_): boolean;
         emitJumpTrailParticles(): void;
-        handler$dfn000$immersiveengineering$deflection(arg0: $Projectile, arg1: $CallbackInfoReturnable<any>): void;
+        withinInnerCircleRange(arg0: $Vec3_): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -260,8 +260,8 @@ declare module "@package/net/minecraft/world/entity/monster/breeze" {
         start(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Breeze, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
         static isFacingTarget(arg0: $Breeze, arg1: $LivingEntity): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;

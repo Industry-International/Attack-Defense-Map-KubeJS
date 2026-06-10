@@ -13,15 +13,15 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/internal" {
     export class $EnhancedKineticBullet {
     }
     export interface $EnhancedKineticBullet extends $TraceableEntity {
-        gunsmithlib$getHitPos(): $Vec3;
-        gunsmithlib$setPotionEffects(arg0: $List_<$PotionEffectData>): void;
-        gunsmithlib$setPotionCloudDuration(arg0: number): void;
-        gunsmithlib$getPotionEffects(): $List<$PotionEffectData>;
-        gunsmithlib$getPotionCloudDuration(): number;
+        gunsmithlib$getPotionCloudMinSizeRate(): number;
+        gunsmithlib$setPotionCloudMinSizeRate(arg0: number): void;
         getExplosionRadius(): number;
         isExplosion(): boolean;
-        gunsmithlib$setPotionCloudMinSizeRate(arg0: number): void;
-        gunsmithlib$getPotionCloudMinSizeRate(): number;
+        gunsmithlib$setPotionCloudDuration(arg0: number): void;
+        gunsmithlib$getPotionEffects(): $List<$PotionEffectData>;
+        gunsmithlib$setPotionEffects(arg0: $List_<$PotionEffectData>): void;
+        gunsmithlib$getPotionCloudDuration(): number;
+        gunsmithlib$getHitPos(): $Vec3;
         get explosionRadius(): number;
         get explosion(): boolean;
     }
@@ -54,9 +54,9 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/internal" {
     }
     export class $BulletReadyToTraceEvent extends $EntityEvent {
         getEndPos(): $Vec3;
+        static onBulletTick(arg0: $Projectile, arg1: number): void;
         getSide(): $LogicalSide;
         getStartPos(): $Vec3;
-        static onBulletTick(arg0: $Projectile, arg1: number): void;
         constructor(arg0: $Projectile, arg1: $Vec3_, arg2: $Vec3_, arg3: $LogicalSide_);
         get endPos(): $Vec3;
         get side(): $LogicalSide;

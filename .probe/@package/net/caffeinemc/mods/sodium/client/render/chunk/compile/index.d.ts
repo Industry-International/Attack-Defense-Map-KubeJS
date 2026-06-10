@@ -16,9 +16,9 @@ declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile"
     export class $ChunkSortOutput extends $BuilderTaskOutput implements $SortData {
         getIndexBuffer(): $NativeBuffer;
         getTopoSorter(): $DynamicTopoData$DynamicTopoSorter;
-        isReusingUploadedIndexData(): boolean;
         copyResultFrom(arg0: $Sorter): void;
         markAsReusingUploadedData(): void;
+        isReusingUploadedIndexData(): boolean;
         getIntBuffer(): $IntBuffer;
         submitTime: number;
         render: $RenderSection;

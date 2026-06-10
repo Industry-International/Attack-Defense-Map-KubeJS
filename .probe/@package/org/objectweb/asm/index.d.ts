@@ -6,14 +6,14 @@ export * as tree from "@package/org/objectweb/asm/tree";
 declare module "@package/org/objectweb/asm" {
     export class $ModuleVisitor {
         visitEnd(): void;
-        visitOpen(arg0: string, arg1: number, ...arg2: string[]): void;
-        visitUse(arg0: string): void;
-        visitPackage(arg0: string): void;
-        visitExport(arg0: string, arg1: number, ...arg2: string[]): void;
+        getDelegate(): $ModuleVisitor;
         visitRequire(arg0: string, arg1: number, arg2: string): void;
+        visitPackage(arg0: string): void;
         visitMainClass(arg0: string): void;
         visitProvide(arg0: string, ...arg1: string[]): void;
-        getDelegate(): $ModuleVisitor;
+        visitExport(arg0: string, arg1: number, ...arg2: string[]): void;
+        visitOpen(arg0: string, arg1: number, ...arg2: string[]): void;
+        visitUse(arg0: string): void;
         get delegate(): $ModuleVisitor;
     }
     export class $Handle {
@@ -44,8 +44,8 @@ declare module "@package/org/objectweb/asm" {
     export class $TypePath {
         getLength(): number;
         static fromString(arg0: string): $TypePath;
-        getStepArgument(arg0: number): number;
         getStep(arg0: number): number;
+        getStepArgument(arg0: number): number;
         static WILDCARD_BOUND: number;
         static INNER_TYPE: number;
         static TYPE_ARGUMENT: number;
@@ -239,9 +239,9 @@ declare module "@package/org/objectweb/asm" {
         getItemCount(): number;
         readClass(arg0: number, arg1: string[]): string;
         readUTF8(arg0: number, arg1: string[]): string;
-        getAccess(): number;
-        readPackage(arg0: number, arg1: string[]): string;
         getSuperName(): string;
+        readPackage(arg0: number, arg1: string[]): string;
+        getAccess(): number;
         static SKIP_CODE: number;
         /**
          * @deprecated
@@ -259,8 +259,8 @@ declare module "@package/org/objectweb/asm" {
         get className(): string;
         get maxStringLength(): number;
         get itemCount(): number;
-        get access(): number;
         get superName(): string;
+        get access(): number;
     }
     export class $Label {
         getOffset(): number;

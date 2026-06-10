@@ -16,6 +16,22 @@ declare module "@package/xaero/common/minimap/radar" {
         /**
          * @deprecated
          */
+        getMaxDistance(arg0: $MinimapProcessor, arg1: boolean): number;
+        /**
+         * @deprecated
+         */
+        getEntityY(arg0: $Entity, arg1: number): number;
+        /**
+         * @deprecated
+         */
+        getEntityZ(arg0: $Entity, arg1: number): number;
+        /**
+         * @deprecated
+         */
+        getEntityX(arg0: $Entity, arg1: number): number;
+        /**
+         * @deprecated
+         */
         updateRadar(arg0: $ClientLevel, arg1: $Player, arg2: $Entity, arg3: $MinimapProcessor): void;
         /**
          * @deprecated
@@ -24,35 +40,7 @@ declare module "@package/xaero/common/minimap/radar" {
         /**
          * @deprecated
          */
-        getEntityZ(arg0: $Entity, arg1: number): number;
-        /**
-         * @deprecated
-         */
-        getEntityY(arg0: $Entity, arg1: number): number;
-        /**
-         * @deprecated
-         */
-        getEntityX(arg0: $Entity, arg1: number): number;
-        /**
-         * @deprecated
-         */
-        setLastRenderViewEntity(arg0: $Entity): void;
-        /**
-         * @deprecated
-         */
-        getMaxDistance(arg0: $MinimapProcessor, arg1: boolean): number;
-        /**
-         * @deprecated
-         */
-        getTeamColour(arg0: $Entity): number;
-        /**
-         * @deprecated
-         */
         getEntityBrightness(arg0: number, arg1: number, arg2: number, arg3: boolean): number;
-        /**
-         * @deprecated
-         */
-        getRadarListsIterator(): $Iterator<$MinimapRadarList>;
         /**
          * @deprecated
          */
@@ -60,10 +48,22 @@ declare module "@package/xaero/common/minimap/radar" {
         /**
          * @deprecated
          */
+        getRadarListsIterator(): $Iterator<$MinimapRadarList>;
+        /**
+         * @deprecated
+         */
+        setLastRenderViewEntity(arg0: $Entity): void;
+        /**
+         * @deprecated
+         */
+        getTeamColour(arg0: $Entity): number;
+        /**
+         * @deprecated
+         */
         constructor(arg0: $EntityRadarCategoryManager);
-        set lastRenderViewEntity(value: $Entity);
-        get radarListsIterator(): $Iterator<$MinimapRadarList>;
         get entityCategoryManager(): $EntityRadarCategoryManager;
+        get radarListsIterator(): $Iterator<$MinimapRadarList>;
+        set lastRenderViewEntity(value: $Entity);
     }
     /**
      * @deprecated

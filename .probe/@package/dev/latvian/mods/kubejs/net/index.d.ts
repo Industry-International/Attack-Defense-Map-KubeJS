@@ -95,8 +95,8 @@ declare module "@package/dev/latvian/mods/kubejs/net" {
         getEntity(): $Player;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -139,8 +139,8 @@ declare module "@package/dev/latvian/mods/kubejs/net" {
         get entity(): $Player;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $RemoveStagePayload extends $Record implements $CustomPacketPayload {
         type(): $CustomPacketPayload$Type<never>;
@@ -193,8 +193,8 @@ declare module "@package/dev/latvian/mods/kubejs/net" {
     }
     export class $KubeServerData extends $Record {
         static collect(): $KubeServerData;
-        itemTooltipData(): $List<$ItemTooltipData>;
         recipeViewerData(): ($RecipeViewerData) | undefined;
+        itemTooltipData(): $List<$ItemTooltipData>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $KubeServerData>;
         constructor(recipeViewerData: ($RecipeViewerData_) | undefined, itemTooltipData: $List_<$ItemTooltipData_>);
     }
@@ -218,8 +218,8 @@ declare module "@package/dev/latvian/mods/kubejs/net" {
     }
     export class $KubeJSNet {
         static register(event: $RegisterPayloadHandlersEvent): void;
-        static safeSendToPlayer(player: $ServerPlayer, payload: $CustomPacketPayload_, ...payloads: $CustomPacketPayload_[]): void;
         static sendToAllPlayers(payload: $CustomPacketPayload_, ...payloads: $CustomPacketPayload_[]): void;
+        static safeSendToPlayer(player: $ServerPlayer, payload: $CustomPacketPayload_, ...payloads: $CustomPacketPayload_[]): void;
         static WEB_SERVER_NBT_UPDATE: $CustomPacketPayload$Type<$WebServerUpdateNBTPayload>;
         static DISPLAY_CLIENT_ERRORS: $CustomPacketPayload$Type<$DisplayClientErrorsPayload>;
         static REMOVE_STAGE: $CustomPacketPayload$Type<$RemoveStagePayload>;

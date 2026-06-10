@@ -28,11 +28,11 @@ declare module "@package/net/fabricmc/fabric/api/lookup/v1/block" {
         getProvider(arg0: $Block_): $BlockApiLookup$BlockApiProvider<A, C>;
         contextClass(): $Class<C>;
         apiClass(): $Class<A>;
-        registerFallback(arg0: $BlockApiLookup$BlockApiProvider_<A, C>): void;
+        registerForBlocks(arg0: $BlockApiLookup$BlockApiProvider_<A, C>, ...arg1: $Block_[]): void;
         registerSelf(...arg0: $BlockEntityType_<never>[]): void;
+        registerFallback(arg0: $BlockApiLookup$BlockApiProvider_<A, C>): void;
         registerForBlockEntities(arg0: $BlockApiLookup$BlockEntityApiProvider_<A, C>, ...arg1: $BlockEntityType_<never>[]): void;
         registerForBlockEntity<T extends $BlockEntity>(arg0: $BiFunction_<T, C, A>, arg1: $BlockEntityType_<T>): void;
-        registerForBlocks(arg0: $BlockApiLookup$BlockApiProvider_<A, C>, ...arg1: $Block_[]): void;
         get id(): $ResourceLocation;
     }
     export class $BlockApiLookup$BlockApiProvider<A, C> {

@@ -22,12 +22,12 @@ declare module "@package/net/createmod/ponder/api/element" {
     export class $InputElementBuilder {
     }
     export interface $InputElementBuilder {
-        leftClick(): $InputElementBuilder;
-        rightClick(): $InputElementBuilder;
         withItem(arg0: $ItemStack_): $InputElementBuilder;
         scroll(): $InputElementBuilder;
-        whileCTRL(): $InputElementBuilder;
+        leftClick(): $InputElementBuilder;
+        rightClick(): $InputElementBuilder;
         showing(arg0: $ScreenElement_): $InputElementBuilder;
+        whileCTRL(): $InputElementBuilder;
         whileSneaking(): $InputElementBuilder;
     }
     export class $PonderSceneElement {
@@ -56,15 +56,15 @@ declare module "@package/net/createmod/ponder/api/element" {
         text(arg0: string): $TextElementBuilder;
         text(arg0: string, ...arg1: $Object[]): $TextElementBuilder;
         colored(arg0: $PonderPalette_): $TextElementBuilder;
-        pointAt(arg0: $Vec3_): $TextElementBuilder;
-        sharedText(arg0: $ResourceLocation_, ...arg1: $Object[]): $TextElementBuilder;
-        sharedText(arg0: string): $TextElementBuilder;
-        sharedText(arg0: string, ...arg1: $Object[]): $TextElementBuilder;
-        sharedText(arg0: $ResourceLocation_): $TextElementBuilder;
-        placeNearTarget(): $TextElementBuilder;
         attachKeyFrame(): $TextElementBuilder;
+        placeNearTarget(): $TextElementBuilder;
         independent(): $TextElementBuilder;
         independent(arg0: number): $TextElementBuilder;
+        pointAt(arg0: $Vec3_): $TextElementBuilder;
+        sharedText(arg0: string, ...arg1: $Object[]): $TextElementBuilder;
+        sharedText(arg0: $ResourceLocation_): $TextElementBuilder;
+        sharedText(arg0: string): $TextElementBuilder;
+        sharedText(arg0: $ResourceLocation_, ...arg1: $Object[]): $TextElementBuilder;
     }
     export class $MinecartElement$MinecartConstructor {
     }
@@ -90,8 +90,8 @@ declare module "@package/net/createmod/ponder/api/element" {
     export interface $PonderElement {
         reset(arg0: $PonderScene): void;
         tick(arg0: $PonderScene): void;
-        isVisible(): boolean;
         setVisible(arg0: boolean): void;
+        isVisible(): boolean;
         whileSkipping(arg0: $PonderScene): void;
     }
     export class $ElementLink<T extends $PonderElement> {
@@ -117,18 +117,18 @@ declare module "@package/net/createmod/ponder/api/element" {
         add(arg0: $Selection): void;
         set(arg0: $Selection): void;
         erase(arg0: $Selection): void;
-        setCenterOfRotation(arg0: $Vec3_): void;
-        setAnimatedRotation(arg0: $Vec3_, arg1: boolean): void;
-        getAnimatedRotation(): $Vec3;
-        rayTrace(arg0: $PonderLevel, arg1: $Vec3_, arg2: $Vec3_): $Pair<$Vec3, $BlockHitResult>;
         setEmpty(): void;
+        rayTrace(arg0: $PonderLevel, arg1: $Vec3_, arg2: $Vec3_): $Pair<$Vec3, $BlockHitResult>;
+        queueRedraw(): void;
         mergeOnto(arg0: $WorldSectionElement): void;
+        selectBlock(arg0: $BlockPos_): void;
+        resetSelectedBlock(): void;
+        setAnimatedOffset(arg0: $Vec3_, arg1: boolean): void;
         stabilizeRotation(arg0: $Vec3_): void;
         getAnimatedOffset(): $Vec3;
-        queueRedraw(): void;
-        resetSelectedBlock(): void;
-        selectBlock(arg0: $BlockPos_): void;
-        setAnimatedOffset(arg0: $Vec3_, arg1: boolean): void;
+        setCenterOfRotation(arg0: $Vec3_): void;
+        getAnimatedRotation(): $Vec3;
+        setAnimatedRotation(arg0: $Vec3_, arg1: boolean): void;
         set centerOfRotation(value: $Vec3_);
     }
     export class $AnimatedSceneElement {
@@ -145,7 +145,7 @@ declare module "@package/net/createmod/ponder/api/element" {
     export interface $AnimatedOverlayElement extends $PonderOverlayElement {
         render(arg0: $PonderScene, arg1: $PonderUI, arg2: $GuiGraphics, arg3: number, arg4: number): void;
         render(arg0: $PonderScene, arg1: $PonderUI, arg2: $GuiGraphics, arg3: number): void;
-        getFade(arg0: number): number;
         setFade(arg0: number): void;
+        getFade(arg0: number): number;
     }
 }

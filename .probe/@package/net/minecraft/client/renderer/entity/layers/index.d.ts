@@ -27,8 +27,8 @@ import { $WitherBoss } from "@package/net/minecraft/world/entity/boss/wither";
 
 declare module "@package/net/minecraft/client/renderer/entity/layers" {
     export class $StuckInBodyLayer<T extends $LivingEntity, M extends $PlayerModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
         renderStuckItem(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Entity, arg4: number, arg5: number, arg6: number, arg7: number): void;
+        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
         numStuck(arg0: T): number;
         constructor(arg0: $LivingEntityRenderer<T, M>);
     }
@@ -111,22 +111,22 @@ declare module "@package/net/minecraft/client/renderer/entity/layers" {
     }
     export class $HumanoidArmorLayer<T extends $LivingEntity, M extends $HumanoidModel<T>, A extends $HumanoidModel<T>> extends $RenderLayer<T, M> implements $HumanoidArmorLayerAccessor {
         render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        static getArmorLocationCache$create_$md$d64506$0(): $Map<any, any>;
         wrapWithCondition$eaa000$geckolib$wrapArmorPieceRender(arg0: $HumanoidArmorLayer<any, any, any>, arg1: $PoseStack, arg2: $MultiBufferSource_, arg3: $LivingEntity, arg4: $EquipmentSlot_, arg5: number, arg6: $HumanoidModel<any>, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number): boolean;
         getArmorModelHook(arg0: T, arg1: $ItemStack_, arg2: $EquipmentSlot_, arg3: A): $Model;
         setPartVisibility(arg0: A, arg1: $EquipmentSlot_): void;
-        create$callSetPartVisibility(arg0: $HumanoidModel<never>, arg1: $EquipmentSlot_): void;
-        create$getInnerModel(): $HumanoidModel<never>;
+        static getArmorLocationCache$create_$md$9aa1a5$0(): $Map<any, any>;
         create$getOuterModel(): $HumanoidModel<never>;
+        create$getInnerModel(): $HumanoidModel<never>;
+        create$callSetPartVisibility(arg0: $HumanoidModel<never>, arg1: $EquipmentSlot_): void;
         constructor(arg0: $RenderLayerParent<T, M>, arg1: A, arg2: A, arg3: $ModelManager);
-        static get armorLocationCache$create_$md$d64506$0(): $Map<any, any>;
+        static get armorLocationCache$create_$md$9aa1a5$0(): $Map<any, any>;
     }
     export class $EnderEyesLayer<T extends $LivingEntity> extends $EyesLayer<T, $EndermanModel<T>> {
         constructor(arg0: $RenderLayerParent<T, $EndermanModel<T>>);
     }
     export class $PlayerItemInHandLayer<T extends $Player, M extends $EntityModel<T>> extends $ItemInHandLayer<T, M> {
         handler$eii000$superbwarfare$renderArmWithItem(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number, arg7: $CallbackInfo): void;
-        handler$gnm000$moonlight$poseRightArm(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number, arg7: $CallbackInfo): void;
+        handler$goo000$moonlight$poseRightArm(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number, arg7: $CallbackInfo): void;
         constructor(arg0: $RenderLayerParent<T, M>, arg1: $ItemInHandRenderer);
     }
     export class $ElytraLayer<T extends $LivingEntity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
@@ -172,8 +172,8 @@ declare module "@package/net/minecraft/client/renderer/entity/layers" {
     }
     export class $EnergySwirlLayer<T extends $Entity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
         model(): $EntityModel<T>;
-        getTextureLocation(): $ResourceLocation;
         xOffset(arg0: number): number;
+        getTextureLocation(): $ResourceLocation;
         constructor(arg0: $RenderLayerParent<T, M>);
         get textureLocation(): $ResourceLocation;
     }
@@ -182,7 +182,7 @@ declare module "@package/net/minecraft/client/renderer/entity/layers" {
     }
     export class $CapeLayer extends $RenderLayer<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>> {
         render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $AbstractClientPlayer, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        handler$cnp000$fabric_rendering_v1$injectCapeRenderCheck(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $AbstractClientPlayer, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CallbackInfo): void;
+        handler$cno000$fabric_rendering_v1$injectCapeRenderCheck(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $AbstractClientPlayer, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CallbackInfo): void;
         constructor(arg0: $RenderLayerParent<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>>);
     }
     export class $SkeletonClothingLayer<T extends $Mob, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
@@ -224,9 +224,9 @@ declare module "@package/net/minecraft/client/renderer/entity/layers" {
     export class $RenderLayer<T extends $Entity, M extends $EntityModel<T>> {
         render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
         getTextureLocation(arg0: T): $ResourceLocation;
-        getParentModel(): M;
         static coloredCutoutModelCopyLayerRender<T extends $LivingEntity>(arg0: $EntityModel<T>, arg1: $EntityModel<T>, arg2: $ResourceLocation_, arg3: $PoseStack, arg4: $MultiBufferSource_, arg5: number, arg6: T, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number): void;
         static renderColoredCutoutModel<T extends $LivingEntity>(arg0: $EntityModel<T>, arg1: $ResourceLocation_, arg2: $PoseStack, arg3: $MultiBufferSource_, arg4: number, arg5: T, arg6: number): void;
+        getParentModel(): M;
         constructor(arg0: $RenderLayerParent<T, M>);
         get parentModel(): M;
     }

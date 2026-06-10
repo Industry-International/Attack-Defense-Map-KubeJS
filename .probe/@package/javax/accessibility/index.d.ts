@@ -55,6 +55,7 @@ declare module "@package/javax/accessibility" {
     export class $AccessibleTable {
     }
     export interface $AccessibleTable {
+        getAccessibleAt(arg0: number, arg1: number): $Accessible;
         getAccessibleCaption(): $Accessible;
         setAccessibleCaption(arg0: $Accessible_): void;
         getAccessibleSummary(): $Accessible;
@@ -76,7 +77,6 @@ declare module "@package/javax/accessibility" {
         isAccessibleColumnSelected(arg0: number): boolean;
         getSelectedAccessibleRows(): number[];
         getSelectedAccessibleColumns(): number[];
-        getAccessibleAt(arg0: number, arg1: number): $Accessible;
         get accessibleRowCount(): number;
         get accessibleColumnCount(): number;
         get selectedAccessibleRows(): number[];
@@ -88,35 +88,35 @@ declare module "@package/javax/accessibility" {
         static SENTENCE: number;
     }
     export interface $AccessibleText {
-        getSelectedText(): string;
-        getAtIndex(arg0: number, arg1: number): string;
-        getSelectionEnd(): number;
         getSelectionStart(): number;
+        getSelectionEnd(): number;
+        getAtIndex(arg0: number, arg1: number): string;
+        getSelectedText(): string;
+        getCaretPosition(): number;
+        getCharCount(): number;
         getIndexAtPoint(arg0: $Point): number;
         getCharacterBounds(arg0: number): $Rectangle;
         getAfterIndex(arg0: number, arg1: number): string;
         getBeforeIndex(arg0: number, arg1: number): string;
         getCharacterAttribute(arg0: number): $AttributeSet;
-        getCharCount(): number;
-        getCaretPosition(): number;
-        get selectedText(): string;
-        get selectionEnd(): number;
         get selectionStart(): number;
-        get charCount(): number;
+        get selectionEnd(): number;
+        get selectedText(): string;
         get caretPosition(): number;
+        get charCount(): number;
     }
     export class $AccessibleEditableText {
     }
     export interface $AccessibleEditableText extends $AccessibleText {
-        "delete"(arg0: number, arg1: number): void;
         setAttributes(arg0: number, arg1: number, arg2: $AttributeSet): void;
+        "delete"(arg0: number, arg1: number): void;
         cut(arg0: number, arg1: number): void;
+        paste(arg0: number): void;
+        replaceText(arg0: number, arg1: number, arg2: string): void;
         setTextContents(arg0: string): void;
         insertTextAtIndex(arg0: number, arg1: string): void;
         getTextRange(arg0: number, arg1: number): string;
         selectText(arg0: number, arg1: number): void;
-        paste(arg0: number): void;
-        replaceText(arg0: number, arg1: number, arg2: string): void;
         set textContents(value: string);
     }
     export class $AccessibleIcon {
@@ -138,30 +138,30 @@ declare module "@package/javax/accessibility" {
         getLocation(): $Point;
         getSize(): $Dimension;
         setSize(arg0: $Dimension): void;
-        setBounds(arg0: $Rectangle): void;
-        setLocation(arg0: $Point): void;
-        getCursor(): $Cursor;
-        setBackground(arg0: $Color): void;
         requestFocus(): void;
-        getBackground(): $Color;
-        getForeground(): $Color;
-        setForeground(arg0: $Color): void;
-        getLocationOnScreen(): $Point;
-        removeFocusListener(arg0: $FocusListener): void;
-        isShowing(): boolean;
-        isVisible(): boolean;
-        getFontMetrics(arg0: $Font): $FontMetrics;
+        setLocation(arg0: $Point): void;
         setVisible(arg0: boolean): void;
+        setBounds(arg0: $Rectangle): void;
+        getCursor(): $Cursor;
         setEnabled(arg0: boolean): void;
-        getFont(): $Font;
+        isVisible(): boolean;
+        getLocationOnScreen(): $Point;
+        getFontMetrics(arg0: $Font): $FontMetrics;
         isFocusTraversable(): boolean;
         addFocusListener(arg0: $FocusListener): void;
+        removeFocusListener(arg0: $FocusListener): void;
+        getForeground(): $Color;
+        getBackground(): $Color;
+        setForeground(arg0: $Color): void;
+        setBackground(arg0: $Color): void;
+        isShowing(): boolean;
+        getFont(): $Font;
         setCursor(arg0: $Cursor): void;
         setFont(arg0: $Font): void;
         getAccessibleAt(arg0: $Point): $Accessible;
         get locationOnScreen(): $Point;
-        get showing(): boolean;
         get focusTraversable(): boolean;
+        get showing(): boolean;
     }
     export class $AccessibleAction {
         static INCREMENT: string;
@@ -209,26 +209,19 @@ declare module "@package/javax/accessibility" {
     export class $AccessibleSelection {
     }
     export interface $AccessibleSelection {
+        getAccessibleSelection(arg0: number): $Accessible;
+        isAccessibleChildSelected(arg0: number): boolean;
         getAccessibleSelectionCount(): number;
         addAccessibleSelection(arg0: number): void;
         removeAccessibleSelection(arg0: number): void;
         clearAccessibleSelection(): void;
         selectAllAccessibleSelection(): void;
-        getAccessibleSelection(arg0: number): $Accessible;
-        isAccessibleChildSelected(arg0: number): boolean;
         get accessibleSelectionCount(): number;
     }
     export class $AccessibleContext {
         getLocale(): $Locale;
-        addPropertyChangeListener(arg0: $PropertyChangeListener_): void;
         removePropertyChangeListener(arg0: $PropertyChangeListener_): void;
-        firePropertyChange(arg0: string, arg1: $Object, arg2: $Object): void;
-        getAccessibleStateSet(): $AccessibleStateSet;
-        getAccessibleParent(): $Accessible;
-        getAccessibleChildrenCount(): number;
-        getAccessibleChild(arg0: number): $Accessible;
-        getAccessibleSelection(): $AccessibleSelection;
-        getAccessibleIndexInParent(): number;
+        addPropertyChangeListener(arg0: $PropertyChangeListener_): void;
         getAccessibleName(): string;
         setAccessibleName(arg0: string): void;
         getAccessibleDescription(): string;
@@ -242,6 +235,13 @@ declare module "@package/javax/accessibility" {
         getAccessibleIcon(): $AccessibleIcon[];
         getAccessibleRelationSet(): $AccessibleRelationSet;
         getAccessibleTable(): $AccessibleTable;
+        getAccessibleStateSet(): $AccessibleStateSet;
+        getAccessibleParent(): $Accessible;
+        getAccessibleChildrenCount(): number;
+        getAccessibleChild(arg0: number): $Accessible;
+        getAccessibleSelection(): $AccessibleSelection;
+        getAccessibleIndexInParent(): number;
+        firePropertyChange(arg0: string, arg1: $Object, arg2: $Object): void;
         getAccessibleComponent(): $AccessibleComponent;
         static ACCESSIBLE_COMPONENT_BOUNDS_CHANGED: string;
         static ACCESSIBLE_INVALIDATE_CHILDREN: string;
@@ -266,10 +266,6 @@ declare module "@package/javax/accessibility" {
         static ACCESSIBLE_TEXT_PROPERTY: string;
         static ACCESSIBLE_TABLE_CAPTION_CHANGED: string;
         get locale(): $Locale;
-        get accessibleStateSet(): $AccessibleStateSet;
-        get accessibleChildrenCount(): number;
-        get accessibleSelection(): $AccessibleSelection;
-        get accessibleIndexInParent(): number;
         get accessibleRole(): $AccessibleRole;
         get accessibleAction(): $AccessibleAction;
         get accessibleText(): $AccessibleText;
@@ -278,6 +274,10 @@ declare module "@package/javax/accessibility" {
         get accessibleIcon(): $AccessibleIcon[];
         get accessibleRelationSet(): $AccessibleRelationSet;
         get accessibleTable(): $AccessibleTable;
+        get accessibleStateSet(): $AccessibleStateSet;
+        get accessibleChildrenCount(): number;
+        get accessibleSelection(): $AccessibleSelection;
+        get accessibleIndexInParent(): number;
         get accessibleComponent(): $AccessibleComponent;
     }
     export class $AccessibleBundle {

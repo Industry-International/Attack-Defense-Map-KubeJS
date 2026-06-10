@@ -29,42 +29,42 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
         height: number;
     }
     export class $RecipeBookComponent implements $PlaceRecipe<$Ingredient>, $Renderable, $GuiEventListener, $NarratableEntry, $RecipeShownListener {
+        addItemToSlot(arg0: $Ingredient_, arg1: number, arg2: number, arg3: number, arg4: number): void;
         init(arg0: number, arg1: number, arg2: $Minecraft, arg3: boolean, arg4: $RecipeBookMenu<never, never>): void;
         tick(): void;
+        sendUpdateSettings(): void;
+        recipesShown(arg0: $List_<$RecipeHolder_<never>>): void;
+        setVisible(arg0: boolean): void;
         render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        isFocused(): boolean;
+        initVisuals(): void;
         isVisible(): boolean;
-        renderTooltip(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
+        updateScreenPosition(arg0: number, arg1: number): number;
+        isFocused(): boolean;
         keyPressed(arg0: number, arg1: number, arg2: number): boolean;
         charTyped(arg0: string, arg1: number): boolean;
         setFocused(arg0: boolean): void;
-        setVisible(arg0: boolean): void;
-        keyReleased(arg0: number, arg1: number, arg2: number): boolean;
-        mouseClicked(arg0: number, arg1: number, arg2: number): boolean;
-        updateScreenPosition(arg0: number, arg1: number): number;
-        updateNarration(arg0: $NarrationElementOutput): void;
-        narrationPriority(): $NarratableEntry$NarrationPriority;
         isMouseOver(arg0: number, arg1: number): boolean;
+        keyReleased(arg0: number, arg1: number, arg2: number): boolean;
+        narrationPriority(): $NarratableEntry$NarrationPriority;
+        updateNarration(arg0: $NarrationElementOutput): void;
+        mouseClicked(arg0: number, arg1: number, arg2: number): boolean;
+        renderTooltip(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
         setupGhostRecipe(arg0: $RecipeHolder_<never>, arg1: $List_<$Slot>): void;
+        slotClicked(arg0: $Slot): void;
+        toggleVisibility(): void;
+        recipesUpdated(): void;
         renderGhostRecipe(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: boolean, arg4: number): void;
         hasClickedOutside(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): boolean;
-        recipesUpdated(): void;
-        toggleVisibility(): void;
-        slotClicked(arg0: $Slot): void;
-        initFilterButtonTextures(): void;
         getRecipeFilterName(): $Component;
-        initVisuals(): void;
-        recipesShown(arg0: $List_<$RecipeHolder_<never>>): void;
-        addItemToSlot(arg0: $Ingredient_, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        sendUpdateSettings(): void;
+        initFilterButtonTextures(): void;
         placeRecipe(arg0: number, arg1: number, arg2: number, arg3: $RecipeHolder_<never>, arg4: $Iterator<$Ingredient_>, arg5: number): void;
         getCurrentFocusPath(): $ComponentPath;
         mouseMoved(arg0: number, arg1: number): void;
-        mouseDragged(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
-        mouseScrolled(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
-        mouseReleased(arg0: number, arg1: number, arg2: number): boolean;
         nextFocusPath(arg0: $FocusNavigationEvent_): $ComponentPath;
         getRectangle(): $ScreenRectangle;
+        mouseDragged(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
+        mouseReleased(arg0: number, arg1: number, arg2: number): boolean;
+        mouseScrolled(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
         isActive(): boolean;
         getTabOrderGroup(): number;
         minecraft: $Minecraft;
@@ -138,9 +138,9 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
         constructor();
     }
     export class $RecipeBookTabButton extends $StateSwitchingButton {
+        updateVisibility(arg0: $ClientRecipeBook): boolean;
         getCategory(): $RecipeBookCategories;
         startAnimation(arg0: $Minecraft): void;
-        updateVisibility(arg0: $ClientRecipeBook): boolean;
         packedFGColor: number;
         static UNSET_FG_COLOR: number;
         visible: boolean;
@@ -159,8 +159,8 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
         clear(): void;
         render(arg0: $GuiGraphics, arg1: $Minecraft, arg2: number, arg3: number, arg4: boolean, arg5: number): void;
         setRecipe(arg0: $RecipeHolder_<never>): void;
-        getRecipe(): $RecipeHolder<never>;
         addIngredient(arg0: $Ingredient_, arg1: number, arg2: number): void;
+        getRecipe(): $RecipeHolder<never>;
         time: number;
         constructor();
     }
@@ -177,17 +177,17 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
         height: number;
     }
     export class $RecipeCollection {
-        getDisplayRecipes(arg0: boolean): $List<$RecipeHolder<never>>;
-        getRecipes(arg0: boolean): $List<$RecipeHolder<never>>;
-        getRecipes(): $List<$RecipeHolder<never>>;
-        updateKnownRecipes(arg0: $RecipeBook): void;
-        registryAccess(): $RegistryAccess;
-        canCraft(arg0: $StackedContents, arg1: number, arg2: number, arg3: $RecipeBook): void;
-        hasFitting(): boolean;
-        isCraftable(arg0: $RecipeHolder_<never>): boolean;
         hasCraftable(): boolean;
         hasKnownRecipes(): boolean;
+        isCraftable(arg0: $RecipeHolder_<never>): boolean;
+        getRecipes(arg0: boolean): $List<$RecipeHolder<never>>;
+        getRecipes(): $List<$RecipeHolder<never>>;
+        canCraft(arg0: $StackedContents, arg1: number, arg2: number, arg3: $RecipeBook): void;
         hasSingleResultItem(): boolean;
+        registryAccess(): $RegistryAccess;
+        updateKnownRecipes(arg0: $RecipeBook): void;
+        hasFitting(): boolean;
+        getDisplayRecipes(arg0: boolean): $List<$RecipeHolder<never>>;
         constructor(arg0: $RegistryAccess, arg1: $List_<$RecipeHolder_<never>>);
     }
     export class $RecipeUpdateListener {
@@ -208,25 +208,25 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
         get x(): number;
     }
     export class $RecipeBookPage {
+        listButtons(arg0: $Consumer_<$AbstractWidget>): void;
         init(arg0: $Minecraft, arg1: number, arg2: number): void;
-        addListener(arg0: $RecipeBookComponent): void;
+        recipesShown(arg0: $List_<$RecipeHolder_<never>>): void;
         render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
-        getRecipeBook(): $RecipeBook;
-        renderTooltip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        updateCollections(arg0: $List_<$RecipeCollection>, arg1: boolean): void;
+        addListener(arg0: $RecipeBookComponent): void;
         setInvisible(): void;
+        getLastClickedRecipeCollection(): $RecipeCollection;
         getMinecraft(): $Minecraft;
         mouseClicked(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): boolean;
+        renderTooltip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        getRecipeBook(): $RecipeBook;
         getLastClickedRecipe(): $RecipeHolder<never>;
-        getLastClickedRecipeCollection(): $RecipeCollection;
-        updateCollections(arg0: $List_<$RecipeCollection>, arg1: boolean): void;
-        recipesShown(arg0: $List_<$RecipeHolder_<never>>): void;
-        listButtons(arg0: $Consumer_<$AbstractWidget>): void;
         static ITEMS_PER_PAGE: number;
         constructor();
-        get recipeBook(): $RecipeBook;
-        get minecraft(): $Minecraft;
-        get lastClickedRecipe(): $RecipeHolder<never>;
         get lastClickedRecipeCollection(): $RecipeCollection;
+        get minecraft(): $Minecraft;
+        get recipeBook(): $RecipeBook;
+        get lastClickedRecipe(): $RecipeHolder<never>;
     }
     export class $BlastingRecipeBookComponent extends $AbstractFurnaceRecipeBookComponent {
         minecraft: $Minecraft;
@@ -246,25 +246,25 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
     }
     export class $OverlayRecipeComponent implements $Renderable, $GuiEventListener {
         init(arg0: $Minecraft, arg1: $RecipeCollection, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): void;
-        render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        isFocused(): boolean;
-        isVisible(): boolean;
-        setFocused(arg0: boolean): void;
         setVisible(arg0: boolean): void;
-        mouseClicked(arg0: number, arg1: number, arg2: number): boolean;
+        render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
+        isVisible(): boolean;
+        isFocused(): boolean;
+        setFocused(arg0: boolean): void;
         isMouseOver(arg0: number, arg1: number): boolean;
+        mouseClicked(arg0: number, arg1: number, arg2: number): boolean;
         getLastRecipeClicked(): $RecipeHolder<never>;
         getRecipeCollection(): $RecipeCollection;
         getCurrentFocusPath(): $ComponentPath;
         keyPressed(arg0: number, arg1: number, arg2: number): boolean;
         charTyped(arg0: string, arg1: number): boolean;
         mouseMoved(arg0: number, arg1: number): void;
-        mouseDragged(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
-        mouseScrolled(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
-        keyReleased(arg0: number, arg1: number, arg2: number): boolean;
-        mouseReleased(arg0: number, arg1: number, arg2: number): boolean;
         nextFocusPath(arg0: $FocusNavigationEvent_): $ComponentPath;
         getRectangle(): $ScreenRectangle;
+        mouseDragged(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
+        keyReleased(arg0: number, arg1: number, arg2: number): boolean;
+        mouseReleased(arg0: number, arg1: number, arg2: number): boolean;
+        mouseScrolled(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
         getTabOrderGroup(): number;
         static CRAFTING_OVERLAY_HIGHLIGHTED_SPRITE: $ResourceLocation;
         isFurnaceMenu: boolean;
@@ -295,10 +295,10 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
     export type $RecipeShownListener_ = ((arg0: $List<$RecipeHolder<never>>) => void);
     export class $RecipeButton extends $AbstractWidget {
         init(arg0: $RecipeCollection, arg1: $RecipeBookPage): void;
-        getTooltipText(): $List<$Component>;
-        isOnlyOption(): boolean;
-        getRecipe(): $RecipeHolder<never>;
         getCollection(): $RecipeCollection;
+        getTooltipText(): $List<$Component>;
+        getRecipe(): $RecipeHolder<never>;
+        isOnlyOption(): boolean;
         packedFGColor: number;
         static UNSET_FG_COLOR: number;
         visible: boolean;
@@ -309,9 +309,9 @@ declare module "@package/net/minecraft/client/gui/screens/recipebook" {
         static TICKS_TO_SWAP: number;
         height: number;
         constructor();
-        get tooltipText(): $List<$Component>;
-        get onlyOption(): boolean;
-        get recipe(): $RecipeHolder<never>;
         get collection(): $RecipeCollection;
+        get tooltipText(): $List<$Component>;
+        get recipe(): $RecipeHolder<never>;
+        get onlyOption(): boolean;
     }
 }

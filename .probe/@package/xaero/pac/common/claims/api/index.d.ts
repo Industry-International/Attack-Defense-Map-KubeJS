@@ -22,9 +22,9 @@ declare module "@package/xaero/pac/common/claims/api" {
         get(arg0: $ResourceLocation_, arg1: number, arg2: number): $IPlayerChunkClaimAPI;
         get(arg0: $ResourceLocation_, arg1: $ChunkPos): $IPlayerChunkClaimAPI;
         getDimension(arg0: $ResourceLocation_): $IDimensionClaimsManagerAPI;
+        getTracker(): $IClaimsManagerTrackerAPI;
         getPlayerInfo(arg0: $UUID_): $IPlayerClaimInfoAPI;
         hasPlayerInfo(arg0: $UUID_): boolean;
-        getTracker(): $IClaimsManagerTrackerAPI;
         get tracker(): $IClaimsManagerTrackerAPI;
     }
     export class $IRegionClaimsAPI {

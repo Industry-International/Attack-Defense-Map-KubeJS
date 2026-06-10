@@ -16,11 +16,11 @@ export * as biome from "@package/xaero/map/file/worldsave/biome";
 
 declare module "@package/xaero/map/file/worldsave" {
     export class $WorldDataHandler {
-        getWorldDir(): $Path;
-        static onServerWorldUnload(arg0: $ServerLevel): void;
-        handleRenderExecutor(): void;
-        buildRegion(arg0: $MapRegion, arg1: $HolderLookup<$Block_>, arg2: $Registry<$Block_>, arg3: $Registry<$Fluid_>, arg4: boolean, arg5: number[]): $WorldDataHandler$Result;
         prepareSingleplayer(arg0: $Level_, arg1: $MapProcessor): void;
+        getWorldDir(): $Path;
+        handleRenderExecutor(): void;
+        static onServerWorldUnload(arg0: $ServerLevel): void;
+        buildRegion(arg0: $MapRegion, arg1: $HolderLookup<$Block_>, arg2: $Registry<$Block_>, arg3: $Registry<$Fluid_>, arg4: boolean, arg5: number[]): $WorldDataHandler$Result;
         getWorldDataReader(): $WorldDataReader;
         getWorldServer(): $ServerLevel;
         constructor(arg0: $WorldDataReader, arg1: $Executor);
@@ -29,9 +29,9 @@ declare module "@package/xaero/map/file/worldsave" {
         get worldServer(): $ServerLevel;
     }
     export class $WorldDataReader {
+        readChunk(arg0: $RegionFile, arg1: $ChunkPos): $CompoundTag;
         setMapProcessor(arg0: $MapProcessor): void;
         buildRegion(arg0: $MapRegion, arg1: $ServerLevel, arg2: $HolderLookup<$Block_>, arg3: $Registry<$Block_>, arg4: $Registry<$Fluid_>, arg5: boolean, arg6: number[], arg7: $Executor): boolean;
-        readChunk(arg0: $RegionFile, arg1: $ChunkPos): $CompoundTag;
         taskCreationSync: $Object;
         constructor(arg0: $OverlayManager, arg1: $BlockStateShortShapeCache, arg2: $WorldDataBiomeManager, arg3: number);
         set mapProcessor(value: $MapProcessor);

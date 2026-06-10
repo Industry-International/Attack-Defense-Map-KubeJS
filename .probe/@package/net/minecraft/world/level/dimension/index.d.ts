@@ -44,27 +44,27 @@ declare module "@package/net/minecraft/world/level/dimension" {
         static parseLegacy(arg0: $Dynamic<never>): $DataResult<$ResourceKey<$Level>>;
         static getTeleportationScale(arg0: $DimensionType_, arg1: $DimensionType_): number;
         height(): number;
-        monsterSpawnBlockLightLimit(): number;
         natural(): boolean;
-        logicalHeight(): number;
-        monsterSpawnLightTest(): $IntProvider;
-        infiniburn(): $TagKey<$Block>;
-        ultraWarm(): boolean;
-        piglinSafe(): boolean;
-        hasCeiling(): boolean;
-        moonPhase(arg0: number): number;
         bedWorks(): boolean;
+        monsterSpawnLightTest(): $IntProvider;
+        moonPhase(arg0: number): number;
+        hasCeiling(): boolean;
+        ambientLight(): number;
+        ultraWarm(): boolean;
+        respawnAnchorWorks(): boolean;
+        coordinateScale(): number;
         hasFixedTime(): boolean;
         hasSkyLight(): boolean;
-        coordinateScale(): number;
-        respawnAnchorWorks(): boolean;
-        monsterSettings(): $DimensionType$MonsterSettings;
-        static getStorageFolder(arg0: $ResourceKey_<$Level>, arg1: $Path_): $Path;
-        effectsLocation(): $ResourceLocation;
-        minY(): number;
-        ambientLight(): number;
+        infiniburn(): $TagKey<$Block>;
         fixedTime(): $OptionalLong;
         hasRaids(): boolean;
+        logicalHeight(): number;
+        effectsLocation(): $ResourceLocation;
+        monsterSettings(): $DimensionType$MonsterSettings;
+        static getStorageFolder(arg0: $ResourceKey_<$Level>, arg1: $Path_): $Path;
+        monsterSpawnBlockLightLimit(): number;
+        piglinSafe(): boolean;
+        minY(): number;
         getFixedTime(): $OptionalLong;
         getAmbientLight(): number;
         static MIN_Y: number;
@@ -85,10 +85,10 @@ declare module "@package/net/minecraft/world/level/dimension" {
      */
     export type $DimensionType_ = RegistryTypes.DimensionType;
     export class $DimensionType$MonsterSettings extends $Record {
-        monsterSpawnBlockLightLimit(): number;
         monsterSpawnLightTest(): $IntProvider;
-        piglinSafe(): boolean;
         hasRaids(): boolean;
+        monsterSpawnBlockLightLimit(): number;
+        piglinSafe(): boolean;
         static CODEC: $MapCodec<$DimensionType$MonsterSettings>;
         constructor(arg0: boolean, arg1: boolean, arg2: $IntProvider_, arg3: number);
     }

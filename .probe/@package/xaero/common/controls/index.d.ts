@@ -10,11 +10,7 @@ declare module "@package/xaero/common/controls" {
         /**
          * @deprecated
          */
-        setKeyState(arg0: $KeyMapping, arg1: boolean): void;
-        /**
-         * @deprecated
-         */
-        isDown(arg0: $KeyMapping): boolean;
+        keyDown(arg0: $KeyMapping, arg1: boolean, arg2: boolean): void;
         /**
          * @deprecated
          */
@@ -22,7 +18,11 @@ declare module "@package/xaero/common/controls" {
         /**
          * @deprecated
          */
-        keyDown(arg0: $KeyMapping, arg1: boolean, arg2: boolean): void;
+        isDown(arg0: $KeyMapping): boolean;
+        /**
+         * @deprecated
+         */
+        setKeyState(arg0: $KeyMapping, arg1: boolean): void;
         constructor(arg0: $IXaeroMinimap, arg1: $HudSession);
     }
 }

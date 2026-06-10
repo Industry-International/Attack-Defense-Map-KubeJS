@@ -37,23 +37,23 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/resource" {
     export interface $IResourcePath {
         getType(): $ResourceProviderType;
         getPath(): string;
-        getResourceName(): string;
         getPathWithType(): string;
+        getResourceName(): string;
         get type(): $ResourceProviderType;
         get path(): string;
-        get resourceName(): string;
         get pathWithType(): string;
+        get resourceName(): string;
     }
     export class $EditorResourceEvent extends $Event implements $IModBusEvent {
         resourceInstance: $ResourceInstance<never>;
         constructor(arg0: $ResourceInstance<never>);
     }
     export class $IRendererResource extends $Resource<$IRenderer> {
+        serializeResource(arg0: $IRenderer, arg1: $HolderLookup$Provider): $Tag;
         onPrepareTextureAtlas(arg0: $ResourceLocation_, arg1: $Consumer_<$ResourceLocation>): void;
         onAdditionalModel(arg0: $Consumer_<$ModelResourceLocation>): void;
-        refreshOpenedContainers(): void;
         reloadResourcesAndRefreshOpenedContainers(): void;
-        serializeResource(arg0: $IRenderer, arg1: $HolderLookup$Provider): $Tag;
+        refreshOpenedContainers(): void;
         static INSTANCE: $IRendererResource;
         constructor();
     }
@@ -61,17 +61,17 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/resource" {
         getName(): string;
         getDisplayName(): $Component;
         getFileExtension(): string;
-        getIcon(): $IGuiTexture;
-        getResourceInstance(): $ResourceInstance<T>;
-        getDefaultUIWidth(): number;
-        buildBuiltin(arg0: $ResourceInstance<T>): void;
-        buildBuiltin(arg0: $BuiltinResourceProvider<T>): void;
-        setDefaultUIWidth(arg0: number): void;
-        setDefaultDisplayMode(arg0: $Resource$DisplayMode_): void;
-        getDefaultDisplayMode(): $Resource$DisplayMode;
-        deserializeResource(arg0: $Tag_, arg1: $HolderLookup$Provider): T;
         serializeResource(arg0: T, arg1: $HolderLookup$Provider): $Tag;
+        getIcon(): $IGuiTexture;
         createResourceProviderContainer(arg0: $IResourceProvider<T>): $ResourceProviderContainer<T>;
+        getResourceInstance(): $ResourceInstance<T>;
+        deserializeResource(arg0: $Tag_, arg1: $HolderLookup$Provider): T;
+        setDefaultUIWidth(arg0: number): void;
+        buildBuiltin(arg0: $BuiltinResourceProvider<T>): void;
+        buildBuiltin(arg0: $ResourceInstance<T>): void;
+        getDefaultUIWidth(): number;
+        getDefaultDisplayMode(): $Resource$DisplayMode;
+        setDefaultDisplayMode(arg0: $Resource$DisplayMode_): void;
         constructor();
         get name(): string;
         get displayName(): $Component;
@@ -102,9 +102,9 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/resource" {
     }
     export class $ResourceProviderType {
         getTypeName(): string;
-        fromNbt<T>(arg0: $ResourceInstance<T>, arg1: $CompoundTag_): $ResourceProvider<T>;
-        getIcon(): $IGuiTexture;
         createFullPath(arg0: string): $IResourcePath;
+        getIcon(): $IGuiTexture;
+        fromNbt<T>(arg0: $ResourceInstance<T>, arg1: $CompoundTag_): $ResourceProvider<T>;
         supportCustom(): boolean;
         onCreateCustom<T>(arg0: $ResourceContainer<T>): void;
         constructor();
@@ -120,20 +120,20 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/resource" {
         createSubPath(arg0: string): $IResourcePath;
         addResource(arg0: $IResourcePath, arg1: $Map$Entry<$IResourcePath, T>): boolean;
         canRemove(arg0: $IResourcePath): boolean;
-        serializeNBT(): $CompoundTag;
         getResourceName(arg0: $IResourcePath): string;
+        serializeNBT(): $CompoundTag;
         canEdit(arg0: $IResourcePath): boolean;
         getResourceInstance(): $ResourceInstance<$Map$Entry<$IResourcePath, T>>;
-        onMenu(arg0: $TreeBuilder$Menu): void;
-        canRename(arg0: $IResourcePath): boolean;
-        canCopy(arg0: $IResourcePath): boolean;
-        supportAdd(): boolean;
-        getResourceOrDefault(arg0: $IResourcePath, arg1: $Map$Entry<$IResourcePath, T>): $Map$Entry<$IResourcePath, T>;
-        createProviderToggle(): $UIElement;
-        getResourceOrSupply(arg0: $IResourcePath, arg1: $Supplier_<$Map$Entry<$IResourcePath, T>>): $Map$Entry<$IResourcePath, T>;
         checkAndUpdateResourceProvider(): boolean;
         removeResource(arg0: $IResourcePath): $Map$Entry<$IResourcePath, T>;
+        canCopy(arg0: $IResourcePath): boolean;
+        canRename(arg0: $IResourcePath): boolean;
+        supportAdd(): boolean;
+        onMenu(arg0: $TreeBuilder$Menu): void;
         hasResource(arg0: $IResourcePath): boolean;
+        getResourceOrSupply(arg0: $IResourcePath, arg1: $Supplier_<$Map$Entry<$IResourcePath, T>>): $Map$Entry<$IResourcePath, T>;
+        createProviderToggle(): $UIElement;
+        getResourceOrDefault(arg0: $IResourcePath, arg1: $Map$Entry<$IResourcePath, T>): $Map$Entry<$IResourcePath, T>;
         get name(): string;
         get type(): $ResourceProviderType;
         get resourceInstance(): $ResourceInstance<$Map$Entry<$IResourcePath, T>>;
@@ -141,19 +141,19 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/resource" {
     export class $ResourceInstance<T> implements $INBTSerializable<$CompoundTag> {
         getResource(arg0: $IResourcePath): $CompoundTag;
         clearCache(): void;
+        addCustomProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
+        listAllResources(): $List<$Map$Entry<$IResourcePath, $CompoundTag>>;
+        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
         getDisplayMode(): $Resource$DisplayMode;
         setDisplayMode(arg0: $Resource$DisplayMode_): void;
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
         createSelectorDialog(arg0: number, arg1: number, arg2: $Consumer_<$CompoundTag>, arg3: $Runnable_): $Dialog;
-        getCustomProviders(): $Map<$ResourceProviderType, $List<$IResourceProvider<$CompoundTag>>>;
         addBuiltinProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
-        listAllResources(): $List<$Map$Entry<$IResourcePath, $CompoundTag>>;
-        removeCustomProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
-        removeBuiltinProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
-        getBuiltinProviders(): $Map<$ResourceProviderType, $List<$IResourceProvider<$CompoundTag>>>;
+        getCustomProviders(): $Map<$ResourceProviderType, $List<$IResourceProvider<$CompoundTag>>>;
         getUiWidth(): number;
         setUiWidth(arg0: number): void;
-        addCustomProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
+        removeBuiltinProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
+        removeCustomProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
+        getBuiltinProviders(): $Map<$ResourceProviderType, $List<$IResourceProvider<$CompoundTag>>>;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         resource: $Resource<$CompoundTag>;
         constructor(arg0: $Resource<$CompoundTag_>);
@@ -184,20 +184,20 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/resource" {
         canRemove(arg0: $IResourcePath): boolean;
         canEdit(arg0: $IResourcePath): boolean;
         getResourceInstance(): $ResourceInstance<T>;
-        canRename(arg0: $IResourcePath): boolean;
-        canCopy(arg0: $IResourcePath): boolean;
-        supportResourcePath(arg0: $IResourcePath): boolean;
-        removeResource(arg0: $IResourcePath): T;
         removeResource(arg0: string): T;
+        removeResource(arg0: $IResourcePath): T;
+        canCopy(arg0: $IResourcePath): boolean;
+        canRename(arg0: $IResourcePath): boolean;
+        supportResourcePath(arg0: $IResourcePath): boolean;
         hasResource(arg0: $IResourcePath): boolean;
-        serializeNBT(): $CompoundTag;
         getResourceName(arg0: $IResourcePath): string;
-        onMenu(arg0: $TreeBuilder$Menu): void;
-        supportAdd(): boolean;
-        getResourceOrDefault(arg0: $IResourcePath, arg1: T): T;
-        createProviderToggle(): $UIElement;
-        getResourceOrSupply(arg0: $IResourcePath, arg1: $Supplier_<T>): T;
+        serializeNBT(): $CompoundTag;
         checkAndUpdateResourceProvider(): boolean;
+        supportAdd(): boolean;
+        onMenu(arg0: $TreeBuilder$Menu): void;
+        getResourceOrSupply(arg0: $IResourcePath, arg1: $Supplier_<T>): T;
+        createProviderToggle(): $UIElement;
+        getResourceOrDefault(arg0: $IResourcePath, arg1: T): T;
         spliterator(): $Spliterator<T>;
         forEach(arg0: $Consumer_<T>): void;
         resourceInstance: $ResourceInstance<T>;

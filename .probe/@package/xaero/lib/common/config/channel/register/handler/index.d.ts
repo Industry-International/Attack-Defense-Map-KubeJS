@@ -6,9 +6,9 @@ declare module "@package/xaero/lib/common/config/channel/register/handler" {
     export class $IConfigChannelCommonRegistryHandler {
     }
     export interface $IConfigChannelCommonRegistryHandler {
-        registerProfiledOptions(arg0: $ConfigOptionManager): void;
-        registerOptionServerRedirectors(arg0: $OptionValueRedirectorManager): void;
-        registerServerOptionChangeHandlers(arg0: $ServerConfigChangeListener): void;
         registerPrimaryCommonOptions(arg0: $ConfigOptionManager): void;
+        registerServerOptionChangeHandlers(arg0: $ServerConfigChangeListener): void;
+        registerOptionServerRedirectors(arg0: $OptionValueRedirectorManager): void;
+        registerProfiledOptions(arg0: $ConfigOptionManager): void;
     }
 }

@@ -1,8 +1,8 @@
 import { $MinimapElementRenderLocation, $MinimapElementRenderInfo } from "@package/xaero/hud/minimap/element/render";
 import { $MultiBufferSource$BufferSource } from "@package/net/minecraft/client/renderer";
 import { $MinimapElementRenderer } from "@package/xaero/common/minimap/element/render";
-import { $Entity } from "@package/net/minecraft/world/entity";
 import { $RenderTarget } from "@package/com/mojang/blaze3d/pipeline";
+import { $Entity } from "@package/net/minecraft/world/entity";
 import { $GuiGraphics } from "@package/net/minecraft/client/gui";
 
 declare module "@package/xaero/hud/minimap/radar/render/element" {

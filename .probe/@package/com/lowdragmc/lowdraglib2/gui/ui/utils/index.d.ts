@@ -21,12 +21,12 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/utils" {
     }
     export class $UIElementProvider<T> {
         static text<T>(arg0: $Function_<T, $Component>): $UIElementProvider<T>;
-        static iconText<T>(arg0: $Function_<T, $IGuiTexture>, arg1: $Function_<T, $Component>): $UIElementProvider<T>;
         static optionalIconText<T>(arg0: $Function_<T, $IGuiTexture>, arg1: $Function_<T, $Component>): $UIElementProvider<T>;
+        static iconText<T>(arg0: $Function_<T, $IGuiTexture>, arg1: $Function_<T, $Component>): $UIElementProvider<T>;
     }
     export interface $UIElementProvider<T> extends $Function<T, $UIElement> {
-        createUI(arg0: T): $UIElement;
         apply(arg0: T): $UIElement;
+        createUI(arg0: T): $UIElement;
     }
     /**
      * Values that may be interpreted as {@link $UIElementProvider}.

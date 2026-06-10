@@ -9,14 +9,14 @@ declare module "@package/xaero/pac/common/parties/party/api" {
     export class $IPartyMemberDynamicInfoSyncableAPI {
     }
     export interface $IPartyMemberDynamicInfoSyncableAPI {
-        getDimension(): $ResourceLocation;
         getY(): number;
         getX(): number;
+        getDimension(): $ResourceLocation;
         getZ(): number;
         getPlayerId(): $UUID;
-        get dimension(): $ResourceLocation;
         get y(): number;
         get x(): number;
+        get dimension(): $ResourceLocation;
         get z(): number;
         get playerId(): $UUID;
     }
@@ -25,37 +25,37 @@ declare module "@package/xaero/pac/common/parties/party/api" {
     export interface $IPartyAPI {
         getId(): $UUID;
         getOwner(): $IPartyMemberAPI;
-        setRank(arg0: $IPartyMemberAPI, arg1: $PartyMemberRank_): boolean;
         getDefaultName(): string;
+        setRank(arg0: $IPartyMemberAPI, arg1: $PartyMemberRank_): boolean;
         isInvited(arg0: $UUID_): boolean;
         isAlly(arg0: $UUID_): boolean;
+        getMemberInfo(arg0: $UUID_): $IPartyMemberAPI;
         getAllyPartiesStream(): $Stream<$IPartyAllyAPI>;
-        getMemberInfoStream(): $Stream<$IPartyMemberAPI>;
-        getNonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
         getInvitedPlayersStream(): $Stream<$IPartyPlayerInfoAPI>;
-        getAllyCount(): number;
+        getNonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
+        getMemberInfoStream(): $Stream<$IPartyMemberAPI>;
         getInviteCount(): number;
+        getAllyCount(): number;
         getMemberCount(): number;
         getStaffInfoStream(): $Stream<$IPartyMemberAPI>;
-        getMemberInfo(arg0: $UUID_): $IPartyMemberAPI;
         get id(): $UUID;
         get owner(): $IPartyMemberAPI;
         get defaultName(): string;
         get allyPartiesStream(): $Stream<$IPartyAllyAPI>;
-        get memberInfoStream(): $Stream<$IPartyMemberAPI>;
-        get nonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
         get invitedPlayersStream(): $Stream<$IPartyPlayerInfoAPI>;
-        get allyCount(): number;
+        get nonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
+        get memberInfoStream(): $Stream<$IPartyMemberAPI>;
         get inviteCount(): number;
+        get allyCount(): number;
         get memberCount(): number;
         get staffInfoStream(): $Stream<$IPartyMemberAPI>;
     }
     export class $IPartyPlayerInfoAPI {
     }
     export interface $IPartyPlayerInfoAPI {
-        getUsername(): string;
         getUUID(): $UUID;
-        get username(): string;
+        getUsername(): string;
         get UUID(): $UUID;
+        get username(): string;
     }
 }

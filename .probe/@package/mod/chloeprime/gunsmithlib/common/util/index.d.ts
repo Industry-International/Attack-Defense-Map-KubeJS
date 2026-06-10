@@ -12,16 +12,16 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/util" {
         static UNSUPPORTED_TYPES: $Set<$EntityType<never>>;
     }
     export interface $SpecialHurtable {
-        getSpecialSetHealthFunction(): $FloatConsumer;
         getSpecialHurtFunction2(): $HurtFunction2;
-        getSpecialHurtFunction1(): $HurtFunction1;
-        gunsmith$beginSpecialHurt(): void;
         gunsmith$endSpecialHurt(): void;
+        getSpecialHurtFunction1(): $HurtFunction1;
         gunsmith$usingSpecialHurt(): boolean;
+        gunsmith$beginSpecialHurt(): void;
+        getSpecialSetHealthFunction(): $FloatConsumer;
         gunsmith$addUnsupportedTypeForSpecialHurt(arg0: $EntityType_<never>, arg1: $Throwable): void;
-        get specialSetHealthFunction(): $FloatConsumer;
         get specialHurtFunction2(): $HurtFunction2;
         get specialHurtFunction1(): $HurtFunction1;
+        get specialSetHealthFunction(): $FloatConsumer;
     }
     export class $HurtFunction1 {
     }

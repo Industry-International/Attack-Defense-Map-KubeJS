@@ -60,10 +60,10 @@ declare module "@package/net/minecraft/util/debugchart" {
      */
     export type $RemoteDebugSampleType_ = "tick_time";
     export class $AbstractSampleLogger implements $SampleLogger {
-        logSample(arg0: number): void;
         logPartialSample(arg0: number, arg1: number): void;
-        logFullSample(arg0: number[]): void;
         useSample(): void;
+        logSample(arg0: number): void;
+        logFullSample(arg0: number[]): void;
         resetSample(): void;
         defaults: number[];
         sample: number[];
@@ -72,8 +72,8 @@ declare module "@package/net/minecraft/util/debugchart" {
     export class $SampleLogger {
     }
     export interface $SampleLogger {
-        logSample(arg0: number): void;
         logPartialSample(arg0: number, arg1: number): void;
+        logSample(arg0: number): void;
         logFullSample(arg0: number[]): void;
     }
     export class $RemoteSampleLogger extends $AbstractSampleLogger {

@@ -31,6 +31,7 @@ declare module "@package/org/w3c/dom" {
         static DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC: number;
     }
     export interface $Node {
+        setUserData(arg0: string, arg1: $Object, arg2: $UserDataHandler_): $Object;
         isSupported(arg0: string, arg1: string): boolean;
         getAttributes(): $NamedNodeMap;
         normalize(): void;
@@ -49,7 +50,8 @@ declare module "@package/org/w3c/dom" {
         getNodeValue(): string;
         insertBefore(arg0: $Node, arg1: $Node): $Node;
         getBaseURI(): string;
-        getFeature(arg0: string, arg1: string): $Object;
+        getLocalName(): string;
+        hasAttributes(): boolean;
         getOwnerDocument(): $Document;
         replaceChild(arg0: $Node, arg1: $Node): $Node;
         hasChildNodes(): boolean;
@@ -64,10 +66,8 @@ declare module "@package/org/w3c/dom" {
         lookupNamespaceURI(arg0: string): string;
         isEqualNode(arg0: $Node): boolean;
         getUserData(arg0: string): $Object;
-        hasAttributes(): boolean;
-        setUserData(arg0: string, arg1: $Object, arg2: $UserDataHandler_): $Object;
-        getLocalName(): string;
         getChildNodes(): $NodeList;
+        getFeature(arg0: string, arg1: string): $Object;
         get attributes(): $NamedNodeMap;
         get nodeType(): number;
         get lastChild(): $Node;
@@ -77,9 +77,9 @@ declare module "@package/org/w3c/dom" {
         get nextSibling(): $Node;
         get previousSibling(): $Node;
         get baseURI(): string;
+        get localName(): string;
         get ownerDocument(): $Document;
         get namespaceURI(): string;
-        get localName(): string;
         get childNodes(): $NodeList;
     }
     export class $DocumentFragment {
@@ -107,8 +107,8 @@ declare module "@package/org/w3c/dom" {
         substringData(arg0: number, arg1: number): string;
         insertData(arg0: number, arg1: string): void;
         deleteData(arg0: number, arg1: number): void;
-        appendData(arg0: string): void;
         replaceData(arg0: number, arg1: number, arg2: string): void;
+        appendData(arg0: string): void;
         setData(arg0: string): void;
         get length(): number;
     }
@@ -124,8 +124,8 @@ declare module "@package/org/w3c/dom" {
     }
     export interface $DOMImplementation {
         createDocumentType(arg0: string, arg1: string, arg2: string): $DocumentType;
-        getFeature(arg0: string, arg1: string): $Object;
         hasFeature(arg0: string, arg1: string): boolean;
+        getFeature(arg0: string, arg1: string): $Object;
         createDocument(arg0: string, arg1: string, arg2: $DocumentType): $Document;
     }
     export class $UserDataHandler {
@@ -208,10 +208,10 @@ declare module "@package/org/w3c/dom" {
     export class $DOMConfiguration {
     }
     export interface $DOMConfiguration {
-        canSetParameter(arg0: string, arg1: $Object): boolean;
-        getParameterNames(): $DOMStringList;
         setParameter(arg0: string, arg1: $Object): void;
         getParameter(arg0: string): $Object;
+        canSetParameter(arg0: string, arg1: $Object): boolean;
+        getParameterNames(): $DOMStringList;
         get parameterNames(): $DOMStringList;
     }
     export class $EntityReference {
@@ -254,6 +254,7 @@ declare module "@package/org/w3c/dom" {
     export class $Document {
     }
     export interface $Document extends $Node {
+        getImplementation(): $DOMImplementation;
         adoptNode(arg0: $Node): $Node;
         getElementById(arg0: string): $Element;
         getElementsByTagNameNS(arg0: string, arg1: string): $NodeList;
@@ -283,13 +284,12 @@ declare module "@package/org/w3c/dom" {
         getInputEncoding(): string;
         renameNode(arg0: $Node, arg1: string, arg2: string): $Node;
         getDomConfig(): $DOMConfiguration;
-        getImplementation(): $DOMImplementation;
         getDocumentElement(): $Element;
+        get implementation(): $DOMImplementation;
         get xmlEncoding(): string;
         get doctype(): $DocumentType;
         get inputEncoding(): string;
         get domConfig(): $DOMConfiguration;
-        get implementation(): $DOMImplementation;
         get documentElement(): $Element;
     }
 }

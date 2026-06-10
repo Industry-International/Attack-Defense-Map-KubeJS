@@ -17,19 +17,19 @@ declare module "@package/com/lowdragmc/lowdraglib2/registry" {
     export interface $ILDLRegister<T extends $ILDLRegister<T, V>, V> {
         name(): string;
         group(): string;
+        registryName(): $ResourceLocation;
+        getRegistry(): $AutoRegistry$LDLibRegister<T, V>;
         getRegistryHolderOptional(): ($AutoRegistry$Holder<$LDLRegister, T, V>) | undefined;
         getRegisterUI(): $LDLRegister;
-        getRegistry(): $AutoRegistry$LDLibRegister<T, V>;
-        getTranslateKey(): string;
         getChatComponent(): $Component;
+        getTranslateKey(): string;
         isLDLRegister(): boolean;
         getRegistryHolder(): $AutoRegistry$Holder<$LDLRegister, T, V>;
-        registryName(): $ResourceLocation;
+        get registry(): $AutoRegistry$LDLibRegister<T, V>;
         get registryHolderOptional(): ($AutoRegistry$Holder<$LDLRegister, T, V>) | undefined;
         get registerUI(): $LDLRegister;
-        get registry(): $AutoRegistry$LDLibRegister<T, V>;
-        get translateKey(): string;
         get chatComponent(): $Component;
+        get translateKey(): string;
         get LDLRegister(): boolean;
         get registryHolder(): $AutoRegistry$Holder<$LDLRegister, T, V>;
     }
@@ -46,27 +46,27 @@ declare module "@package/com/lowdragmc/lowdraglib2/registry" {
     export interface $ILDLRegisterClient<T extends $ILDLRegisterClient<T, V>, V> {
         name(): string;
         group(): string;
-        getRegistryHolderOptional(): ($AutoRegistry$Holder<$LDLRegisterClient, T, V>) | undefined;
-        getRegisterUIClient(): $LDLRegisterClient;
+        registryName(): $ResourceLocation;
         getRegistry(): $AutoRegistry$LDLibRegisterClient<T, V>;
-        getTranslateKey(): string;
+        getRegisterUIClient(): $LDLRegisterClient;
+        getRegistryHolderOptional(): ($AutoRegistry$Holder<$LDLRegisterClient, T, V>) | undefined;
         getChatComponent(): $Component;
+        getTranslateKey(): string;
         isLDLRegister(): boolean;
         getRegistryHolder(): $AutoRegistry$Holder<$LDLRegisterClient, T, V>;
-        registryName(): $ResourceLocation;
-        get registryHolderOptional(): ($AutoRegistry$Holder<$LDLRegisterClient, T, V>) | undefined;
-        get registerUIClient(): $LDLRegisterClient;
         get registry(): $AutoRegistry$LDLibRegisterClient<T, V>;
-        get translateKey(): string;
+        get registerUIClient(): $LDLRegisterClient;
+        get registryHolderOptional(): ($AutoRegistry$Holder<$LDLRegisterClient, T, V>) | undefined;
         get chatComponent(): $Component;
+        get translateKey(): string;
         get LDLRegister(): boolean;
         get registryHolder(): $AutoRegistry$Holder<$LDLRegisterClient, T, V>;
     }
     export class $RegistrationEnvironment extends $Enum<$RegistrationEnvironment> {
+        shouldRegister(): boolean;
+        static shouldRegister(arg0: $Map_<string, $Object>): boolean;
         static values(): $RegistrationEnvironment[];
         static valueOf(arg0: string): $RegistrationEnvironment;
-        static shouldRegister(arg0: $Map_<string, $Object>): boolean;
-        shouldRegister(): boolean;
         static PRODUCTION_ONLY: $RegistrationEnvironment;
         static DEV_ONLY: $RegistrationEnvironment;
         static MANUAL: $RegistrationEnvironment;
@@ -89,8 +89,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/registry" {
     }
     export class $AutoRegistry<A extends $Annotation, C, V> extends $LDLRegistry$String<$AutoRegistry$Holder<A, C, V>> {
         static create<A extends $Annotation, C, V>(arg0: $ResourceLocation_, arg1: $Class<A>, arg2: $Class<C>, arg3: $Predicate_<$Map<string, $Object>>, arg4: $Predicate_<$Class<C>>, arg5: $BiFunction_<A, $Class<C>, string>, arg6: $BiFunction_<A, $Class<C>, V>, arg7: $Comparator<$AutoRegistry$Holder_<A, C, V>>): $AutoRegistry<A, C, V>;
-        autoRegister(): $AutoRegistry<A, C, $AutoRegistry$Holder<A, C, V>>;
         static oneArgCreator<A1, T>(arg0: $Class<T>, arg1: $Class<A1>): $Function<A1, T>;
+        autoRegister(): $AutoRegistry<A, C, $AutoRegistry$Holder<A, C, V>>;
         static noArgsInstance<T>(arg0: $Annotation, arg1: $Class<T>): T;
         static noArgsCreator<T>(arg0: $Annotation, arg1: $Class<T>): $Supplier<T>;
         static REGISTERED: $Map<$ResourceLocation, $LDLRegistry<never, never>>;
@@ -108,23 +108,23 @@ declare module "@package/com/lowdragmc/lowdraglib2/registry" {
         entries(): $Set<$Map$Entry<K, V>>;
         isFrozen(): boolean;
         freeze(): void;
+        getOptional(arg0: K): (V) | undefined;
+        registry(): $Map<K, V>;
+        getMissingKey(): K;
         registerOrOverride(arg0: K, arg1: V): V;
         getOrDefaultKey(arg0: V, arg1: K): K;
-        getMissingKey(): K;
-        registry(): $Map<K, V>;
-        getOptional(arg0: K): (V) | undefined;
-        codec(): $Codec<V>;
-        setMissingKey(arg0: K): $LDLRegistry<K, V>;
         unfreeze(): void;
-        getRegistryName(): $ResourceLocation;
-        optionalCodec(): $Codec<(V) | undefined>;
+        codec(): $Codec<V>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, V>;
         containKey(arg0: K): boolean;
-        loadFromNBT(arg0: $Tag_): V;
-        containValue(arg0: V): boolean;
+        getRegistryName(): $ResourceLocation;
+        saveToNBT(arg0: V): $Tag;
         writeBuf(arg0: V, arg1: $RegistryFriendlyByteBuf): void;
         readBuf(arg0: $RegistryFriendlyByteBuf): V;
-        saveToNBT(arg0: V): $Tag;
+        containValue(arg0: V): boolean;
+        loadFromNBT(arg0: $Tag_): V;
+        setMissingKey(arg0: K): $LDLRegistry<K, V>;
+        optionalCodec(): $Codec<(V) | undefined>;
         spliterator(): $Spliterator<V>;
         forEach(arg0: $Consumer_<V>): void;
         static REGISTERED: $Map<$ResourceLocation, $LDLRegistry<never, never>>;

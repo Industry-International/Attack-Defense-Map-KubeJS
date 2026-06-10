@@ -6,17 +6,17 @@ declare module "@package/net/caffeinemc/mods/sodium/client/model/quad/properties
     export class $ModelQuadFacing extends $Enum<$ModelQuadFacing> {
         static values(): $ModelQuadFacing[];
         static valueOf(arg0: string): $ModelQuadFacing;
-        static fromDirection(arg0: $Direction_): $ModelQuadFacing;
-        getOpposite(): $ModelQuadFacing;
-        getAxis(): number;
-        static bitmapHasUnassigned(arg0: number): boolean;
-        static bitmapIsOpposingAligned(arg0: number): boolean;
-        getPackedAlignedNormal(): number;
         getAlignedNormal(): $Vector3fc;
-        getSign(): number;
-        static fromPackedNormal(arg0: number): $ModelQuadFacing;
+        getOpposite(): $ModelQuadFacing;
+        static fromDirection(arg0: $Direction_): $ModelQuadFacing;
+        getAxis(): number;
         static fromNormal(arg0: number, arg1: number, arg2: number): $ModelQuadFacing;
         isAligned(): boolean;
+        getSign(): number;
+        static fromPackedNormal(arg0: number): $ModelQuadFacing;
+        static bitmapIsOpposingAligned(arg0: number): boolean;
+        getPackedAlignedNormal(): number;
+        static bitmapHasUnassigned(arg0: number): boolean;
         static NEG_Z: $ModelQuadFacing;
         static POS_X: $ModelQuadFacing;
         static NEG_Y: $ModelQuadFacing;
@@ -35,12 +35,12 @@ declare module "@package/net/caffeinemc/mods/sodium/client/model/quad/properties
         static COUNT: number;
         static NONE: number;
         static DIRECTIONS: number;
+        get alignedNormal(): $Vector3fc;
         get opposite(): $ModelQuadFacing;
         get axis(): number;
-        get packedAlignedNormal(): number;
-        get alignedNormal(): $Vector3fc;
-        get sign(): number;
         get aligned(): boolean;
+        get sign(): number;
+        get packedAlignedNormal(): number;
     }
     /**
      * Values that may be interpreted as {@link $ModelQuadFacing}.

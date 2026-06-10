@@ -13,28 +13,28 @@ import { $TriFunction_ } from "@package/org/apache/commons/lang3/function";
 
 declare module "@package/xaero/hud/module" {
     export class $ModuleSession<MS extends $ModuleSession<MS>> {
+        getWidth(arg0: number): number;
         getModule(): $HudModule<MS>;
         close(): void;
         isActive(): boolean;
-        getWidth(arg0: number): number;
         getHeight(arg0: number): number;
-        isCentered(): boolean;
         getModMain(): $HudMod;
         getEffectiveY(arg0: number, arg1: number): number;
-        isFlippedVer(): boolean;
-        getEffectiveX(arg0: number, arg1: number): number;
         isFlippedHor(): boolean;
-        shouldFlipVertically(arg0: number, arg1: number): boolean;
-        shouldFlipHorizontally(arg0: number, arg1: number): boolean;
+        getEffectiveX(arg0: number, arg1: number): number;
+        isFlippedVer(): boolean;
         prePotentialRender(): void;
         onPostGameOverlay(): void;
+        isCentered(): boolean;
+        shouldFlipVertically(arg0: number, arg1: number): boolean;
+        shouldFlipHorizontally(arg0: number, arg1: number): boolean;
         constructor(arg0: $HudMod, arg1: $HudModule<MS>);
         get module(): $HudModule<MS>;
         get active(): boolean;
-        get centered(): boolean;
         get modMain(): $HudMod;
-        get flippedVer(): boolean;
         get flippedHor(): boolean;
+        get flippedVer(): boolean;
+        get centered(): boolean;
     }
     export class $ModuleManager {
         get(arg0: $ResourceLocation_): $HudModule<never>;
@@ -65,25 +65,25 @@ declare module "@package/xaero/hud/module" {
         isActive(arg0: $ClientConfigManager): boolean;
         getDisplayName(): $Component;
         setActive(arg0: $ClientConfigManager, arg1: boolean): void;
-        setTransform(arg0: $ModuleTransform): void;
-        getRenderer(): $IModuleRenderer<MS>;
         getCurrentSession(): MS;
-        getConfirmedTransform(): $ModuleTransform;
-        getUsedTransform(): $ModuleTransform;
-        getPushState(): $PushboxHandler$State;
-        confirmTransform(): void;
         cancelTransform(): void;
+        confirmTransform(): void;
+        getRenderer(): $IModuleRenderer<MS>;
+        setTransform(arg0: $ModuleTransform): void;
+        getPushState(): $PushboxHandler$State;
+        getUsedTransform(): $ModuleTransform;
+        getConfirmedTransform(): $ModuleTransform;
         getConfigScreenFactory(): $Function<$Screen, $Screen>;
         getUnconfirmedTransform(): $ModuleTransform;
         constructor(arg0: $ResourceLocation_, arg1: $Component_, arg2: $TriFunction_<$HudMod, $HudModule<MS>, $ClientPacketListener, MS>, arg3: $Supplier_<$IModuleRenderer<MS>>, arg4: $Function_<$Screen, $Screen>, arg5: $BooleanConfigOption);
         get id(): $ResourceLocation;
         get displayName(): $Component;
-        set transform(value: $ModuleTransform);
-        get renderer(): $IModuleRenderer<MS>;
         get currentSession(): MS;
-        get confirmedTransform(): $ModuleTransform;
-        get usedTransform(): $ModuleTransform;
+        get renderer(): $IModuleRenderer<MS>;
+        set transform(value: $ModuleTransform);
         get pushState(): $PushboxHandler$State;
+        get usedTransform(): $ModuleTransform;
+        get confirmedTransform(): $ModuleTransform;
         get configScreenFactory(): $Function<$Screen, $Screen>;
         get unconfirmedTransform(): $ModuleTransform;
     }

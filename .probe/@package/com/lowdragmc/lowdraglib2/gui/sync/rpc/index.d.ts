@@ -1,5 +1,5 @@
 import { $Consumer_, $BiConsumer_, $Supplier_, $Function_, $BiFunction_, $Function, $Supplier } from "@package/java/util/function";
-import { $Function4_, $Function8_, $Function6_, $Function11_, $Function5_, $Function3_, $Function9_, $Function10_, $Function7_, $Function12_ } from "@package/com/mojang/datafixers/util";
+import { $Function4_, $Function8_, $Function11_, $Function6_, $Function5_, $Function3_, $Function9_, $Function10_, $Function7_, $Function12_ } from "@package/com/mojang/datafixers/util";
 import { $RegistryFriendlyByteBuf } from "@package/net/minecraft/network";
 import { $SyncValueHolder } from "@package/com/lowdragmc/lowdraglib2/syncdata";
 import { $Type } from "@package/java/lang/reflect";
@@ -12,11 +12,11 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/rpc" {
     export class $RPCEvent extends $Record {
         executor(): $Function<$Object[], $Object>;
         hasReturn(): boolean;
-        writeReturnValueToBuffer(arg0: $RegistryFriendlyByteBuf, arg1: $Object): void;
+        returnHolder(): $SyncValueHolder<any>;
+        readReturnValueFromBuffer(arg0: $RegistryFriendlyByteBuf): $Object;
         writeParametersToBuffer(arg0: $RegistryFriendlyByteBuf, arg1: $Object[]): void;
         readParametersFromBuffer(arg0: $RegistryFriendlyByteBuf): $Object[];
-        readReturnValueFromBuffer(arg0: $RegistryFriendlyByteBuf): $Object;
-        returnHolder(): $SyncValueHolder<any>;
+        writeReturnValueToBuffer(arg0: $RegistryFriendlyByteBuf, arg1: $Object): void;
         argHolders(): $SyncValueHolder<any>[];
         constructor(argHolders: $SyncValueHolder<any>[], returnHolder: $SyncValueHolder<any>, executor: $Function_<$Object[], $Object>);
     }

@@ -12,21 +12,21 @@ declare module "@package/dev/ryanhcode/sable/api/physics/object/box" {
     }
     export interface $BoxHandle {
         remove(): void;
-        wakeUp(): void;
         readPose(arg0: $Pose3d): void;
+        wakeUp(): void;
         getRuntimeId(): number;
         get runtimeId(): number;
     }
     export class $BoxPhysicsObject implements $ArbitraryPhysicsObject, $PhysicsPipelineBody {
         isActive(): boolean;
-        getBoundingBox(arg0: $BoundingBox3d): void;
-        wakeUp(): void;
         getPose(): $Pose3dc;
-        getMassTracker(): $MassData;
-        onRemoved(): void;
-        isRemoved(): boolean;
-        getRuntimeId(): number;
         getMass(): number;
+        isRemoved(): boolean;
+        onRemoved(): void;
+        getBoundingBox(arg0: $BoundingBox3d): void;
+        getMassTracker(): $MassData;
+        wakeUp(): void;
+        getRuntimeId(): number;
         updatePose(): void;
         onAddition(arg0: $SubLevelPhysicsSystem): void;
         getHalfExtents(): $Vector3dc;
@@ -34,10 +34,10 @@ declare module "@package/dev/ryanhcode/sable/api/physics/object/box" {
         constructor(arg0: $Pose3dc, arg1: $Vector3dc, arg2: number);
         get active(): boolean;
         get pose(): $Pose3dc;
-        get massTracker(): $MassData;
-        get removed(): boolean;
-        get runtimeId(): number;
         get mass(): number;
+        get removed(): boolean;
+        get massTracker(): $MassData;
+        get runtimeId(): number;
         get halfExtents(): $Vector3dc;
     }
 }

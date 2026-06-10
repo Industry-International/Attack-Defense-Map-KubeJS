@@ -5,15 +5,15 @@ declare module "@package/dev/lambdaurora/lambdynlights/echo" {
     export class $BeaconBlockEntityLightSource {
     }
     export interface $BeaconBlockEntityLightSource {
-        lambdynlights$getDynamicLightBeam(): $BeaconLightBehavior;
-        lambdynlights$setDynamicLightBeam(arg0: $BeaconLightBehavior_): void;
         lambdynlights$getLevels(): number;
+        lambdynlights$setDynamicLightBeam(arg0: $BeaconLightBehavior_): void;
+        lambdynlights$getDynamicLightBeam(): $BeaconLightBehavior;
     }
     export class $GuardianEntityLightSource {
         static tick(guardian: $Guardian): void;
     }
     export interface $GuardianEntityLightSource {
-        lambdynlights$getDynamicLightBeam(): $LineLightBehavior;
         lambdynlights$setDynamicLightBeam(arg0: $LineLightBehavior): void;
+        lambdynlights$getDynamicLightBeam(): $LineLightBehavior;
     }
 }

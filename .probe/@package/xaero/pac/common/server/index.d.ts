@@ -15,28 +15,28 @@ declare module "@package/xaero/pac/common/server" {
     export class $IOpenPACMinecraftServer {
     }
     export interface $IOpenPACMinecraftServer {
-        setXaero_OPAC_ServerData(arg0: $IServerDataAPI): void;
         getXaero_OPAC_ServerData(): $IServerDataAPI;
+        setXaero_OPAC_ServerData(arg0: $IServerDataAPI): void;
     }
     export class $IServerDataAPI {
     }
     export interface $IServerDataAPI {
+        getAdaptiveLocalizer(): $IAdaptiveLocalizerAPI;
+        getPlayerConfigManager(): $IPlayerConfigManagerAPI;
+        getChunkProtection(): $IChunkProtectionAPI;
+        getAPI(): $OpenPACServerAPI;
+        getServerClaimsManager(): $IServerClaimsManagerAPI;
         /**
          * @deprecated
          */
         getPlayerConfigs(): $IPlayerConfigManagerAPI$1;
         getPartyManager(): $IPartyManagerAPI;
-        getServerClaimsManager(): $IServerClaimsManagerAPI;
-        getChunkProtection(): $IChunkProtectionAPI;
-        getPlayerConfigManager(): $IPlayerConfigManagerAPI;
-        getAdaptiveLocalizer(): $IAdaptiveLocalizerAPI;
-        getAPI(): $OpenPACServerAPI;
+        get adaptiveLocalizer(): $IAdaptiveLocalizerAPI;
+        get playerConfigManager(): $IPlayerConfigManagerAPI;
+        get chunkProtection(): $IChunkProtectionAPI;
+        get API(): $OpenPACServerAPI;
+        get serverClaimsManager(): $IServerClaimsManagerAPI;
         get playerConfigs(): $IPlayerConfigManagerAPI$1;
         get partyManager(): $IPartyManagerAPI;
-        get serverClaimsManager(): $IServerClaimsManagerAPI;
-        get chunkProtection(): $IChunkProtectionAPI;
-        get playerConfigManager(): $IPlayerConfigManagerAPI;
-        get adaptiveLocalizer(): $IAdaptiveLocalizerAPI;
-        get API(): $OpenPACServerAPI;
     }
 }

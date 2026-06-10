@@ -86,8 +86,8 @@ declare module "@package/net/minecraft/util/parsing/packrat" {
         put<T>(arg0: $Atom_<T>, arg1: T): void;
         putAll(arg0: $Scope): void;
         getOrDefault<T>(arg0: $Atom_<T>, arg1: T): T;
-        getAny<T>(...arg0: $Atom_<T>[]): T;
         getOrThrow<T>(arg0: $Atom_<T>): T;
+        getAny<T>(...arg0: $Atom_<T>[]): T;
         getAnyOrThrow<T>(...arg0: $Atom_<T>[]): T;
         constructor();
     }
@@ -127,8 +127,8 @@ declare module "@package/net/minecraft/util/parsing/packrat" {
      */
     export type $SuggestionSupplier_<S> = ((arg0: $ParseState<S>) => $Stream<string>);
     export class $Rule<S, T> {
-        static fromTerm<S, T>(arg0: $Term_<S>, arg1: $Rule$SimpleRuleAction_<T>): $Rule<S, T>;
         static fromTerm<S, T>(arg0: $Term_<S>, arg1: $Rule$RuleAction_<S, T>): $Rule<S, T>;
+        static fromTerm<S, T>(arg0: $Term_<S>, arg1: $Rule$SimpleRuleAction_<T>): $Rule<S, T>;
     }
     export interface $Rule<S, T> {
         parse(arg0: $ParseState<S>): (T) | undefined;

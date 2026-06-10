@@ -7,11 +7,11 @@ declare module "@package/net/fabricmc/fabric/api/transfer/v1/storage" {
         isBlank(): boolean;
         getObject(): O;
         getComponents(): $DataComponentPatch;
-        isOf(arg0: O): boolean;
-        getComponentMap(): $DataComponentMap;
-        hasComponents(): boolean;
-        componentsMatch(arg0: $DataComponentPatch_): boolean;
         withComponentChanges(arg0: $DataComponentPatch_): $TransferVariant<O>;
+        getComponentMap(): $DataComponentMap;
+        componentsMatch(arg0: $DataComponentPatch_): boolean;
+        hasComponents(): boolean;
+        isOf(arg0: O): boolean;
         get blank(): boolean;
         get object(): O;
         get components(): $DataComponentPatch;

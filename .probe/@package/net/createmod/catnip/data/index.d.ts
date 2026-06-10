@@ -15,9 +15,9 @@ declare module "@package/net/createmod/catnip/data" {
         swap(): $Pair<S, F>;
         getSecond(): S;
         static codec<F, S>(arg0: $Codec<F>, arg1: $Codec<S>): $Codec<$Pair<F, S>>;
-        setSecond(arg0: S): void;
-        setFirst(arg0: F): void;
         static streamCodec<B, F, S>(arg0: $StreamCodec<B, F>, arg1: $StreamCodec<B, S>): $StreamCodec<B, $Pair<F, S>>;
+        setFirst(arg0: F): void;
+        setSecond(arg0: S): void;
     }
     export class $Couple<T> extends $Pair<T, T> implements $Iterable<T> {
         get(arg0: boolean): T;
@@ -27,22 +27,23 @@ declare module "@package/net/createmod/catnip/data" {
         stream(): $Stream<T>;
         set(arg0: boolean, arg1: T): void;
         forEach(arg0: $Consumer_<T>): void;
-        static create<T>(arg0: $Supplier_<T>): $Couple<T>;
+        copy(): $Couple<T>;
         static create<T>(arg0: T, arg1: T): $Couple<T>;
+        static create<T>(arg0: $Supplier_<T>): $Couple<T>;
+        static createWithContext<T>(arg0: $Function_<boolean, T>): $Couple<T>;
         static codec<T>(arg0: $Codec<T>): $Codec<$Couple<T>>;
         either(arg0: $Predicate_<T>): boolean;
-        mapWithContext<S>(arg0: $BiFunction_<T, boolean, S>): $Couple<S>;
-        mapWithParams<S, R>(arg0: $BiFunction_<T, R, S>, arg1: $Couple<R>): $Couple<S>;
-        replaceWithContext(arg0: $BiFunction_<T, boolean, T>): void;
-        forEachWithParams<S>(arg0: $BiConsumer_<T, S>, arg1: $Couple<S>): void;
-        serializeEach(arg0: $Function_<T, $CompoundTag>): $ListTag;
-        replaceWithParams<S>(arg0: $BiFunction_<T, S, T>, arg1: $Couple<S>): void;
-        forEachWithContext(arg0: $BiConsumer_<T, boolean>): void;
-        static deserializeEach<S>(arg0: $ListTag_, arg1: $Function_<$CompoundTag, S>): $Couple<S>;
-        both(arg0: $Predicate_<T>): boolean;
-        static createWithContext<T>(arg0: $Function_<boolean, T>): $Couple<T>;
         static streamCodec<B, T>(arg0: $StreamCodec<B, T>): $StreamCodec<B, $Couple<T>>;
         mapNotNull<S>(arg0: $Function_<T, S>): $Couple<S>;
+        both(arg0: $Predicate_<T>): boolean;
+        replaceWithParams<S>(arg0: $BiFunction_<T, S, T>, arg1: $Couple<S>): void;
+        static deserializeEach<S>(arg0: $ListTag_, arg1: $Function_<$CompoundTag, S>): $Couple<S>;
+        serializeEach(arg0: $Function_<T, $CompoundTag>): $ListTag;
+        replaceWithContext(arg0: $BiFunction_<T, boolean, T>): void;
+        forEachWithContext(arg0: $BiConsumer_<T, boolean>): void;
+        mapWithParams<S, R>(arg0: $BiFunction_<T, R, S>, arg1: $Couple<R>): $Couple<S>;
+        mapWithContext<S>(arg0: $BiFunction_<T, boolean, S>): $Couple<S>;
+        forEachWithParams<S>(arg0: $BiConsumer_<T, S>, arg1: $Couple<S>): void;
         mapNotNullWithParam<S, R>(arg0: $BiFunction_<T, R, S>, arg1: R): $Couple<S>;
         spliterator(): $Spliterator<T>;
         [Symbol.iterator](): Iterator<T>

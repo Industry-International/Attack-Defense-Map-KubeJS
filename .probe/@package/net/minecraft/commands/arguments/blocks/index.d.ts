@@ -4,6 +4,7 @@ import { $CompoundTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
 import { $CompletableFuture } from "@package/java/util/concurrent";
 import { $StringReader } from "@package/com/mojang/brigadier";
 import { $Map_, $Map, $Set, $Set_, $Collection } from "@package/java/util";
+import { $BlockInputAccessor } from "@package/me/muksc/tacztweaks/mixin/accessor";
 import { $CommandSourceStack, $CommandBuildContext } from "@package/net/minecraft/commands";
 import { $Predicate, $Predicate_ } from "@package/java/util/function";
 import { $ServerLevel } from "@package/net/minecraft/server/level";
@@ -21,8 +22,8 @@ declare module "@package/net/minecraft/commands/arguments/blocks" {
     export class $BlockStateParser {
         static serialize(arg0: $BlockState_): string;
         static fillSuggestions(arg0: $HolderLookup<$Block_>, arg1: $SuggestionsBuilder, arg2: boolean, arg3: boolean): $CompletableFuture<$Suggestions>;
-        static parseForTesting(arg0: $HolderLookup<$Block_>, arg1: string, arg2: boolean): $Either<$BlockStateParser$BlockResult, $BlockStateParser$TagResult>;
         static parseForTesting(arg0: $HolderLookup<$Block_>, arg1: $StringReader, arg2: boolean): $Either<$BlockStateParser$BlockResult, $BlockStateParser$TagResult>;
+        static parseForTesting(arg0: $HolderLookup<$Block_>, arg1: string, arg2: boolean): $Either<$BlockStateParser$BlockResult, $BlockStateParser$TagResult>;
         static parseForBlock(arg0: $HolderLookup<$Block_>, arg1: $StringReader, arg2: boolean): $BlockStateParser$BlockResult;
         static parseForBlock(arg0: $HolderLookup<$Block_>, arg1: string, arg2: boolean): $BlockStateParser$BlockResult;
         static ERROR_EXPECTED_END_OF_PROPERTIES: $SimpleCommandExceptionType;
@@ -68,12 +69,12 @@ declare module "@package/net/minecraft/commands/arguments/blocks" {
         constructor(arg0: $HolderSet_<$Block>, arg1: $Map_<string, string>, arg2: $CompoundTag_);
     }
     export class $BlockStateArgument implements $ArgumentType<$BlockInput> {
-        parse(arg0: $StringReader): $BlockInput;
         static block(arg0: $CommandBuildContext): $BlockStateArgument;
-        getExamples(): $Collection<string>;
         static getBlock(arg0: $CommandContext<$CommandSourceStack>, arg1: string): $BlockInput;
+        getExamples(): $Collection<string>;
         listSuggestions<S>(arg0: $CommandContext<S>, arg1: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
         parse<S>(arg0: $StringReader, arg1: S): $BlockInput;
+        parse(arg0: $StringReader): $BlockInput;
         constructor(arg0: $CommandBuildContext);
         get examples(): $Collection<string>;
     }
@@ -82,7 +83,7 @@ declare module "@package/net/minecraft/commands/arguments/blocks" {
         negate(): $Predicate<$BlockInWorld>;
         and(arg0: $Predicate_<$BlockInWorld>): $Predicate<$BlockInWorld>;
     }
-    export class $BlockInput implements $Predicate<$BlockInWorld> {
+    export class $BlockInput implements $Predicate<$BlockInWorld>, $BlockInputAccessor {
         test(arg0: $BlockInWorld): boolean;
         test(arg0: $ServerLevel, arg1: $BlockPos_): boolean;
         getState(): $BlockState;
@@ -91,6 +92,7 @@ declare module "@package/net/minecraft/commands/arguments/blocks" {
         or(arg0: $Predicate_<$BlockInWorld>): $Predicate<$BlockInWorld>;
         negate(): $Predicate<$BlockInWorld>;
         and(arg0: $Predicate_<$BlockInWorld>): $Predicate<$BlockInWorld>;
+        tacztweaks$getTag(): $CompoundTag;
         constructor(arg0: $BlockState_, arg1: $Set_<$Property<never>>, arg2: $CompoundTag_);
         get state(): $BlockState;
         get definedProperties(): $Set<$Property<never>>;

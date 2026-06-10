@@ -22,12 +22,12 @@ declare module "@package/net/createmod/catnip/lang" {
         style(arg0: $ChatFormatting_): $LangBuilder;
         addTo(arg0: $List_<$MutableComponent_>): void;
         json(): string;
-        sendStatus(arg0: $Player): void;
-        sendChat(arg0: $Player): void;
         translate(arg0: string, ...arg1: $Object[]): $LangBuilder;
+        static resolveBuilders(arg0: $Object[]): $Object[];
         forGoggles(arg0: $List_<$MutableComponent_>, arg1: number): void;
         forGoggles(arg0: $List_<$MutableComponent_>): void;
-        static resolveBuilders(arg0: $Object[]): $Object[];
+        sendChat(arg0: $Player): void;
+        sendStatus(arg0: $Player): void;
         static DEFAULT_SPACE_WIDTH: number;
         constructor(arg0: string);
     }

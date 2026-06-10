@@ -11,8 +11,8 @@ declare module "@package/com/simibubi/create/content/trains/schedule/condition" 
     export class $ScheduleWaitCondition extends $ScheduleDataEntry {
         write(arg0: $HolderLookup$Provider): $CompoundTag;
         static fromTag(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): $ScheduleWaitCondition;
-        tickCompletion(arg0: $Level_, arg1: $Train, arg2: $CompoundTag_): boolean;
         getWaitingStatus(arg0: $Level_, arg1: $Train, arg2: $CompoundTag_): $MutableComponent;
+        tickCompletion(arg0: $Level_, arg1: $Train, arg2: $CompoundTag_): boolean;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ScheduleWaitCondition>;
         constructor();
     }

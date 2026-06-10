@@ -11,8 +11,8 @@ declare module "@package/xaero/hud/minimap/radar/color" {
         static valueOf(arg0: string): $RadarColor;
         static fromIndex(arg0: number): $RadarColor;
         getFormat(): string;
-        getHex(): number;
         static getRandom(): $RadarColor;
+        getHex(): number;
         static GOLD: $RadarColor;
         static GRAY: $RadarColor;
         static AQUA: $RadarColor;
@@ -30,8 +30,8 @@ declare module "@package/xaero/hud/minimap/radar/color" {
         static YELLOW: $RadarColor;
         static DARK_GRAY: $RadarColor;
         get format(): string;
-        get hex(): number;
         static get random(): $RadarColor;
+        get hex(): number;
     }
     /**
      * Values that may be interpreted as {@link $RadarColor}.
@@ -39,10 +39,10 @@ declare module "@package/xaero/hud/minimap/radar/color" {
     export type $RadarColor_ = "black" | "dark_blue" | "dark_green" | "dark_aqua" | "dark_red" | "dark_purple" | "gold" | "gray" | "dark_gray" | "blue" | "green" | "aqua" | "red" | "purple" | "yellow" | "white";
     export class $RadarColorHelper {
         getTeamColor(arg0: $Entity): number;
-        getEntityColor(arg0: $Entity, arg1: number, arg2: boolean, arg3: number, arg4: number, arg5: boolean, arg6: $RadarColor_, arg7: $RadarColor_): number;
-        getFallbackColor(arg0: $EntityRadarCategory, arg1: $EntityRadarCategory): $RadarColor;
-        getFallbackColor(arg0: $RadarList): $RadarColor;
         getEntityHeightFade(arg0: number, arg1: number, arg2: number): number;
+        getEntityColor(arg0: $Entity, arg1: number, arg2: boolean, arg3: number, arg4: number, arg5: boolean, arg6: $RadarColor_, arg7: $RadarColor_): number;
+        getFallbackColor(arg0: $RadarList): $RadarColor;
+        getFallbackColor(arg0: $EntityRadarCategory, arg1: $EntityRadarCategory): $RadarColor;
         constructor();
     }
 }

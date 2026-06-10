@@ -8,7 +8,7 @@ import { $EntityType_, $Entity$RemovalReason, $Pose, $PortalProcessor, $Entity }
 import { $FluidType } from "@package/net/neoforged/neoforge/fluids";
 import { $Player } from "@package/net/minecraft/world/entity/player";
 import { $ImmutableList } from "@package/com/google/common/collect";
-import { $ItemSupplier, $AbstractHurtingProjectile } from "@package/net/minecraft/world/entity/projectile";
+import { $AbstractHurtingProjectile, $ItemSupplier } from "@package/net/minecraft/world/entity/projectile";
 import { $UUID } from "@package/java/util";
 import { $RandomSource } from "@package/net/minecraft/util";
 import { $SynchedEntityData, $EntityDataAccessor } from "@package/net/minecraft/network/syncher";

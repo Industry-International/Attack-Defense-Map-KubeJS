@@ -74,8 +74,8 @@ declare module "@package/net/minecraft/server/commands/data" {
         setData(arg0: $CompoundTag_): void;
         getPrintSuccess(arg0: $NbtPathArgument$NbtPath, arg1: number, arg2: number): $Component;
         getPrintSuccess(arg0: $Tag_): $Component;
-        static getGlobalTags(arg0: $CommandContext<$CommandSourceStack>): $CommandStorage;
         getModifiedSuccess(): $Component;
+        static getGlobalTags(arg0: $CommandContext<$CommandSourceStack>): $CommandStorage;
         static SUGGEST_STORAGE: $SuggestionProvider<$CommandSourceStack>;
         static PROVIDER: $Function<string, $DataCommands$DataProvider>;
         constructor(arg0: $CommandStorage, arg1: $ResourceLocation_);

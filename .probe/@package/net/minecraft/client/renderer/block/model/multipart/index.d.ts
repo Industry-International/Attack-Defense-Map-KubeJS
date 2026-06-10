@@ -18,15 +18,15 @@ declare module "@package/net/minecraft/client/renderer/block/model/multipart" {
     }
     export class $MultiPart implements $UnbakedModel {
         getDependencies(): $Collection<$ResourceLocation>;
-        bake(arg0: $ModelBaker, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState): $BakedModel;
         resolveParents(arg0: $Function_<$ResourceLocation, $UnbakedModel>): void;
-        getMultiVariants(): $Set<$MultiVariant>;
+        bake(arg0: $ModelBaker, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState): $BakedModel;
         getSelectors(): $List<$Selector>;
+        getMultiVariants(): $Set<$MultiVariant>;
         definition: $StateDefinition<$Block, $BlockState>;
         constructor(arg0: $StateDefinition<$Block_, $BlockState_>, arg1: $List_<$Selector>);
         get dependencies(): $Collection<$ResourceLocation>;
-        get multiVariants(): $Set<$MultiVariant>;
         get selectors(): $List<$Selector>;
+        get multiVariants(): $Set<$MultiVariant>;
     }
     export class $MultiPart$Deserializer implements $JsonDeserializer<$MultiPart> {
         deserialize(arg0: $JsonElement_, arg1: $Type, arg2: $JsonDeserializationContext_): $MultiPart;

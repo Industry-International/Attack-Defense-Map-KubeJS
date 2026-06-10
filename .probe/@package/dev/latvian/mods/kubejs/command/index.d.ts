@@ -19,8 +19,8 @@ declare module "@package/dev/latvian/mods/kubejs/command" {
     export class $StageCommands {
         static removeStage(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>, stage: string): number;
         static clearStages(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>): number;
-        static addStage(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>, stage: string): number;
         static listStages(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>): number;
+        static addStage(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>, stage: string): number;
         constructor();
     }
     export class $ArgumentTypeWrappers extends $Enum<$ArgumentTypeWrappers> implements $ArgumentTypeWrapper {
@@ -106,11 +106,11 @@ declare module "@package/dev/latvian/mods/kubejs/command" {
     export class $CommandRegistryKubeEvent implements $KubeEvent {
         register(command: $LiteralArgumentBuilder<$CommandSourceStack>): $LiteralCommandNode<$CommandSourceStack>;
         getArguments(): typeof $ArgumentTypeWrappers;
-        getCommands(): typeof $Commands;
         getRegistry(): $CommandBuildContext;
-        getBuiltinSuggestions(): typeof $SharedSuggestionProvider;
+        getCommands(): typeof $Commands;
         isForSinglePlayer(): boolean;
         isForMultiPlayer(): boolean;
+        getBuiltinSuggestions(): typeof $SharedSuggestionProvider;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -152,17 +152,17 @@ declare module "@package/dev/latvian/mods/kubejs/command" {
         dispatcher: $CommandDispatcher<$CommandSourceStack>;
         constructor(dispatcher: $CommandDispatcher<$CommandSourceStack>, context: $CommandBuildContext, selection: $Commands$CommandSelection_);
         get arguments(): typeof $ArgumentTypeWrappers;
-        get commands(): typeof $Commands;
         get registry(): $CommandBuildContext;
-        get builtinSuggestions(): typeof $SharedSuggestionProvider;
+        get commands(): typeof $Commands;
         get forSinglePlayer(): boolean;
         get forMultiPlayer(): boolean;
+        get builtinSuggestions(): typeof $SharedSuggestionProvider;
     }
     export class $InformationCommands {
         static dump(stacks: $List_<$ItemStack_>, player: $ServerPlayer, name: string): number;
+        static hotbar(player: $ServerPlayer): number;
         static inventory(player: $ServerPlayer): number;
         static hand(player: $ServerPlayer, hand: $InteractionHand_): number;
-        static hotbar(player: $ServerPlayer): number;
         constructor();
     }
     export class $ArgumentFunction<U> {

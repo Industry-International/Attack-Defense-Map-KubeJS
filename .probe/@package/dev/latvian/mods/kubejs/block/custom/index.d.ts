@@ -103,8 +103,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
         hasCollision: boolean;
     }
     export class $BasicKubeBlock$WithEntity extends $BasicKubeBlock implements $EntityBlock {
-        newBlockEntity(pos: $BlockPos_, state: $BlockState_): $BlockEntity;
         getTicker<T extends $BlockEntity>(level: $Level_, state: $BlockState_, blockEntityType: $BlockEntityType_<T>): $BlockEntityTicker<T>;
+        newBlockEntity(pos: $BlockPos_, state: $BlockState_): $BlockEntity;
         getListener<T extends $BlockEntity>(arg0: $ServerLevel, arg1: T): $GameEventListener;
         explosionResistance: number;
         static UPDATE_SHAPE_ORDER: $Direction[];
@@ -196,8 +196,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
         constructor(i: $ResourceLocation_);
     }
     export class $CardinalBlockBuilder$WithEntity extends $CardinalBlockBuilder$CardinalKubeBlock implements $EntityBlock {
-        newBlockEntity(pos: $BlockPos_, state: $BlockState_): $BlockEntity;
         getTicker<T extends $BlockEntity>(level: $Level_, state: $BlockState_, blockEntityType: $BlockEntityType_<T>): $BlockEntityTicker<T>;
+        newBlockEntity(pos: $BlockPos_, state: $BlockState_): $BlockEntity;
         getListener<T extends $BlockEntity>(arg0: $ServerLevel, arg1: T): $GameEventListener;
         explosionResistance: number;
         static UPDATE_SHAPE_ORDER: $Direction[];
@@ -307,10 +307,10 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
         constructor(i: $ResourceLocation_);
     }
     export class $BasicKubeBlock extends $Block implements $SimpleWaterloggedBlock {
-        placeLiquid(levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockState: $BlockState_, fluidState: $FluidState): boolean;
-        canPlaceLiquid(player: $Player, blockGetter: $BlockGetter, blockPos: $BlockPos_, blockState: $BlockState_, fluid: $Fluid_): boolean;
-        pickupBlock(player: $Player, levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockState: $BlockState_): $ItemStack;
         getPickupSound(): ($SoundEvent) | undefined;
+        placeLiquid(levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockState: $BlockState_, fluidState: $FluidState): boolean;
+        pickupBlock(player: $Player, levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockState: $BlockState_): $ItemStack;
+        canPlaceLiquid(player: $Player, blockGetter: $BlockGetter, blockPos: $BlockPos_, blockState: $BlockState_, fluid: $Fluid_): boolean;
         getPickupSound(arg0: $BlockState_): ($SoundEvent) | undefined;
         explosionResistance: number;
         static UPDATE_SHAPE_ORDER: $Direction[];
@@ -349,8 +349,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
         ticksToStayPressed(ticks: $TickDuration_): this;
     }
     export class $PillarBlockBuilder$WithEntity extends $PillarBlockBuilder$PillarKubeBlock implements $EntityBlock {
-        newBlockEntity(pos: $BlockPos_, state: $BlockState_): $BlockEntity;
         getTicker<T extends $BlockEntity>(level: $Level_, state: $BlockState_, blockEntityType: $BlockEntityType_<T>): $BlockEntityTicker<T>;
+        newBlockEntity(pos: $BlockPos_, state: $BlockState_): $BlockEntity;
         getListener<T extends $BlockEntity>(arg0: $ServerLevel, arg1: T): $GameEventListener;
         explosionResistance: number;
         static UPDATE_SHAPE_ORDER: $Direction[];
@@ -393,11 +393,6 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
          */
         shape(age: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number): $CropBlockBuilder$ShapeBuilder;
         /**
-         * Makes the block to have a box like wheat for each stage.
-         */
-        wheat(): $CropBlockBuilder$ShapeBuilder;
-        getShapes(): $List<$VoxelShape>;
-        /**
          * Makes the block to have a box like beetroot for each stage.
          */
         beetroot(): $CropBlockBuilder$ShapeBuilder;
@@ -409,6 +404,11 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
          * Makes the block to have a box like potato for each stage.
          */
         potato(): $CropBlockBuilder$ShapeBuilder;
+        /**
+         * Makes the block to have a box like wheat for each stage.
+         */
+        wheat(): $CropBlockBuilder$ShapeBuilder;
+        getShapes(): $List<$VoxelShape>;
         constructor(age: number);
         get shapes(): $List<$VoxelShape>;
     }
@@ -456,13 +456,6 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
          * Set the age of the crop. Note that the box will be the same for all ages (A full block size).
          */
         age(age: number): this;
-        bonemeal(bonemealCallback: $ToIntFunction_<$RandomTickCallback>): this;
-        /**
-         * Remove seed drops from the loot table, does not prevent seed item from creating.
-         */
-        noSeeds(): this;
-        growTick(growSpeedCallback: $ToDoubleFunction_<$RandomTickCallback>): this;
-        survive(surviveCallback: $CropBlockBuilder$SurviveCallback_): this;
         /**
          * Add a crop output with exactly one output.
          */
@@ -472,6 +465,13 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
          */
         crop(output: $Holder_<$Item>, chance: $NumberProvider_): this;
         farmersCanPlant(): this;
+        survive(surviveCallback: $CropBlockBuilder$SurviveCallback_): this;
+        /**
+         * Remove seed drops from the loot table, does not prevent seed item from creating.
+         */
+        noSeeds(): this;
+        growTick(growSpeedCallback: $ToDoubleFunction_<$RandomTickCallback>): this;
+        bonemeal(bonemealCallback: $ToIntFunction_<$RandomTickCallback>): this;
         sourceLine: $SourceLine;
         id: $ResourceLocation;
         static CROP_ITEM_TAGS: $ResourceLocation[];

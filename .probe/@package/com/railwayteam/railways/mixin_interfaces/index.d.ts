@@ -23,10 +23,10 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export class $ICarriageBufferDistanceTracker {
     }
     export interface $ICarriageBufferDistanceTracker {
-        railways$setLeadingDistance(arg0: number): void;
-        railways$setTrailingDistance(arg0: number): void;
         railways$getTrailingDistance(): number;
         railways$getLeadingDistance(): number;
+        railways$setLeadingDistance(arg0: number): void;
+        railways$setTrailingDistance(arg0: number): void;
     }
     export class $IWaypointableNavigation {
     }
@@ -59,8 +59,8 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     }
     export interface $IPotentiallyInvisibleSpriteContents {
         railways$shouldDoInvisibility(): boolean;
-        railways$uploadFrame(arg0: boolean): void;
         railways$isVisible(): boolean;
+        railways$uploadFrame(arg0: boolean): void;
     }
     export class $IHasTrackCasing {
         static getTrackCasing(arg0: $Level_, arg1: $BlockPos_): $SlabBlock;
@@ -92,11 +92,11 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export interface $ISwitchDisabledEdge {
         isEnabled(): boolean;
         isAutomatic(): boolean;
-        setAutomatic(arg0: boolean): void;
         setEnabled(arg0: boolean): void;
-        isAutomaticallySelected(): boolean;
-        ackAutomaticSelection(): void;
+        setAutomatic(arg0: boolean): void;
         getAutomaticallySelectedPriority(): number;
+        ackAutomaticSelection(): void;
+        isAutomaticallySelected(): boolean;
         setAutomaticallySelected(): void;
         get automaticallySelectedPriority(): number;
     }
@@ -109,8 +109,8 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export class $IHandcarTrain {
     }
     export interface $IHandcarTrain {
-        railways$setHandcar(arg0: boolean): void;
         railways$isHandcar(): boolean;
+        railways$setHandcar(arg0: boolean): void;
     }
     export class $IIndexedSchedule {
     }
@@ -213,11 +213,11 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export class $ILimitedGlobalStation {
     }
     export interface $ILimitedGlobalStation extends $ILimited {
-        isStationEnabled(): boolean;
         orDisablingTrain(arg0: $Train, arg1: $Train): $Train;
         getDisablingTrain(): $Train;
-        get stationEnabled(): boolean;
+        isStationEnabled(): boolean;
         get disablingTrain(): $Train;
+        get stationEnabled(): boolean;
     }
     export class $ICarriageConductors {
     }

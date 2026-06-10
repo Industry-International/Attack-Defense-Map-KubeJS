@@ -4,9 +4,9 @@ declare module "@package/com/github/argon4w/acceleratedrendering/compat/iris/int
     export class $IIrisAcceleratedBufferBuilder {
     }
     export interface $IIrisAcceleratedBufferBuilder {
-        getEntityOffset(): $IMemoryInterface;
         getEntityIdOffset(): $IMemoryInterface;
-        get entityOffset(): $IMemoryInterface;
+        getEntityOffset(): $IMemoryInterface;
         get entityIdOffset(): $IMemoryInterface;
+        get entityOffset(): $IMemoryInterface;
     }
 }

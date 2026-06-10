@@ -30,10 +30,10 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/com/simibubi/create/content/logistics/factoryBoard" {
     export class $FactoryPanelBlockEntity extends $SmartBlockEntity {
         getShape(): $VoxelShape;
-        addPanel(arg0: $FactoryPanelBlock$PanelSlot_, arg1: $UUID_): boolean;
         getRestockedPackager(): $PackagerBlockEntity;
-        activePanels(): number;
         removePanel(arg0: $FactoryPanelBlock$PanelSlot_): boolean;
+        activePanels(): number;
+        addPanel(arg0: $FactoryPanelBlock$PanelSlot_, arg1: $UUID_): boolean;
         redraw: boolean;
         worldPosition: $BlockPos;
         advancements: $AdvancementBehaviour;
@@ -47,32 +47,32 @@ declare module "@package/com/simibubi/create/content/logistics/factoryBoard" {
         get restockedPackager(): $PackagerBlockEntity;
     }
     export class $FactoryPanelBehaviour extends $FilteringBehaviour implements $MenuProvider {
-        static at(arg0: $BlockAndTintGetter, arg1: $FactoryPanelPosition_): $FactoryPanelBehaviour;
         static at(arg0: $BlockAndTintGetter, arg1: $FactoryPanelConnection): $FactoryPanelBehaviour;
+        static at(arg0: $BlockAndTintGetter, arg1: $FactoryPanelPosition_): $FactoryPanelBehaviour;
         enable(): void;
         getDisplayName(): $Component;
-        moveTo(arg0: $FactoryPanelPosition_, arg1: $ServerPlayer): void;
         disable(): void;
-        static linkAt(arg0: $BlockAndTintGetter, arg1: $FactoryPanelPosition_): $FactoryPanelSupportBehaviour;
+        moveTo(arg0: $FactoryPanelPosition_, arg1: $ServerPlayer): void;
         static linkAt(arg0: $BlockAndTintGetter, arg1: $FactoryPanelConnection): $FactoryPanelSupportBehaviour;
-        createMenu(arg0: number, arg1: $Inventory, arg2: $Player): $AbstractContainerMenu;
-        getIngredientStatusColor(): number;
+        static linkAt(arg0: $BlockAndTintGetter, arg1: $FactoryPanelPosition_): $FactoryPanelSupportBehaviour;
+        addConnection(arg0: $FactoryPanelPosition_): void;
         setNetwork(arg0: $UUID_): void;
-        isMissingAddress(): boolean;
-        disconnectAll(): void;
-        getPanelPosition(): $FactoryPanelPosition;
-        displayScreen(arg0: $Player): void;
-        disconnectAllLinks(): void;
+        createMenu(arg0: number, arg1: $Inventory, arg2: $Player): $AbstractContainerMenu;
+        panelBE(): $FactoryPanelBlockEntity;
+        getIngredientStatusColor(): number;
         getLevelInStorage(): number;
         getPromised(): number;
-        addConnection(arg0: $FactoryPanelPosition_): void;
         resetTimer(): void;
-        panelBE(): $FactoryPanelBlockEntity;
-        static getTypeForSlot(arg0: $FactoryPanelBlock$PanelSlot_): $BehaviourType<never>;
-        resetTimerSlightly(): void;
+        displayScreen(arg0: $Player): void;
+        disconnectAllLinks(): void;
+        getPanelPosition(): $FactoryPanelPosition;
+        disconnectAll(): void;
+        isMissingAddress(): boolean;
+        checkForRedstoneInput(): void;
         getFrogAddress(): string;
         getUnloadedLinks(): number;
-        checkForRedstoneInput(): void;
+        static getTypeForSlot(arg0: $FactoryPanelBlock$PanelSlot_): $BehaviourType<never>;
+        resetTimerSlightly(): void;
         shouldTriggerClientSideContainerClosingOnOpen(): boolean;
         writeClientSideData(arg0: $AbstractContainerMenu, arg1: $RegistryFriendlyByteBuf): void;
         shouldCloseCurrentScreen(): boolean;
@@ -105,10 +105,10 @@ declare module "@package/com/simibubi/create/content/logistics/factoryBoard" {
         constructor(arg0: $FactoryPanelBlockEntity, arg1: $FactoryPanelBlock$PanelSlot_);
         get displayName(): $Component;
         get ingredientStatusColor(): number;
-        get missingAddress(): boolean;
-        get panelPosition(): $FactoryPanelPosition;
         get levelInStorage(): number;
         get promised(): number;
+        get panelPosition(): $FactoryPanelPosition;
+        get missingAddress(): boolean;
         get frogAddress(): string;
         get unloadedLinks(): number;
     }
@@ -155,12 +155,12 @@ declare module "@package/com/simibubi/create/content/logistics/factoryBoard" {
     export class $FactoryPanelSupportBehaviour extends $BlockEntityBehaviour {
         connect(arg0: $FactoryPanelBehaviour): void;
         disconnect(arg0: $FactoryPanelBehaviour): void;
-        notifyPanels(): void;
         getLinkedPanels(): $List<$FactoryPanelPosition>;
-        shouldBePoweredTristate(): boolean;
         isOutput(): boolean;
-        notifyLink(): void;
+        shouldBePoweredTristate(): boolean;
+        notifyPanels(): void;
         shouldPanelBePowered(): boolean;
+        notifyLink(): void;
         blockEntity: $SmartBlockEntity;
         static TYPE: $BehaviourType<$FactoryPanelSupportBehaviour>;
         constructor(arg0: $SmartBlockEntity, arg1: $Supplier_<boolean>, arg2: $Supplier_<boolean>, arg3: $Runnable_);

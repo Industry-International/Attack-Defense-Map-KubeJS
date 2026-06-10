@@ -130,8 +130,8 @@ declare module "@package/net/minecraft/server/commands" {
     }
     export class $LocateCommand {
         static register(arg0: $CommandDispatcher<$CommandSourceStack>, arg1: $CommandBuildContext): void;
-        static showLocateResult(arg0: $CommandSourceStack, arg1: $ResourceOrTagKeyArgument$Result<never>, arg2: $BlockPos_, arg3: $Pair<$BlockPos_, $Holder_<never>>, arg4: string, arg5: boolean, arg6: $Duration_): number;
         static showLocateResult(arg0: $CommandSourceStack, arg1: $ResourceOrTagArgument$Result<never>, arg2: $BlockPos_, arg3: $Pair<$BlockPos_, $Holder_<never>>, arg4: string, arg5: boolean, arg6: $Duration_): number;
+        static showLocateResult(arg0: $CommandSourceStack, arg1: $ResourceOrTagKeyArgument$Result<never>, arg2: $BlockPos_, arg3: $Pair<$BlockPos_, $Holder_<never>>, arg4: string, arg5: boolean, arg6: $Duration_): number;
         constructor();
     }
     export class $SpectateCommand {
@@ -200,8 +200,8 @@ declare module "@package/net/minecraft/server/commands" {
     export type $ExecuteCommand$CommandNumericPredicate_ = (() => void);
     export class $FunctionCommand {
         static register(arg0: $CommandDispatcher<$CommandSourceStack>): void;
-        static queueFunctions<T extends $ExecutionCommandSource<T>>(arg0: $Collection_<$CommandFunction<T>>, arg1: $CompoundTag_, arg2: T, arg3: T, arg4: $ExecutionControl<T>, arg5: $FunctionCommand$Callbacks_<T>, arg6: $ChainModifiers_): void;
         static getArgumentTag(arg0: $NbtPathArgument$NbtPath, arg1: $DataAccessor): $CompoundTag;
+        static queueFunctions<T extends $ExecutionCommandSource<T>>(arg0: $Collection_<$CommandFunction<T>>, arg1: $CompoundTag_, arg2: T, arg3: T, arg4: $ExecutionControl<T>, arg5: $FunctionCommand$Callbacks_<T>, arg6: $ChainModifiers_): void;
         static modifySenderForExecution(arg0: $CommandSourceStack): $CommandSourceStack;
         static ERROR_FUNCTION_INSTANTATION_FAILURE: $Dynamic2CommandExceptionType;
         static SUGGEST_FUNCTION: $SuggestionProvider<$CommandSourceStack>;
@@ -213,8 +213,8 @@ declare module "@package/net/minecraft/server/commands" {
         static register(arg0: $CommandDispatcher<$CommandSourceStack>): void;
         static placeStructure(arg0: $CommandSourceStack, arg1: $Holder$Reference<$Structure_>, arg2: $BlockPos_): number;
         static placeFeature(arg0: $CommandSourceStack, arg1: $Holder$Reference<$ConfiguredFeature_<never, never>>, arg2: $BlockPos_): number;
-        static placeTemplate(arg0: $CommandSourceStack, arg1: $ResourceLocation_, arg2: $BlockPos_, arg3: $Rotation_, arg4: $Mirror_, arg5: number, arg6: number): number;
         static placeJigsaw(arg0: $CommandSourceStack, arg1: $Holder_<$StructureTemplatePool>, arg2: $ResourceLocation_, arg3: number, arg4: $BlockPos_): number;
+        static placeTemplate(arg0: $CommandSourceStack, arg1: $ResourceLocation_, arg2: $BlockPos_, arg3: $Rotation_, arg4: $Mirror_, arg5: number, arg6: number): number;
         constructor();
     }
     export class $DebugCommand$Tracer implements $CommandSource, $TraceCallbacks {
@@ -536,9 +536,9 @@ declare module "@package/net/minecraft/server/commands" {
     }
     export class $GameRuleCommand implements $GameRuleCommandAccessor {
         static register(arg0: $CommandDispatcher<$CommandSourceStack>): void;
-        static invokeQueryRule$fabric_game_rule_api_v1_$md$d64506$0(arg0: $CommandSourceStack, arg1: $GameRules$Key<any>): number;
         static setRule<T extends $GameRules$Value<T>>(arg0: $CommandContext<$CommandSourceStack>, arg1: $GameRules$Key<T>): number;
         static queryRule<T extends $GameRules$Value<T>>(arg0: $CommandSourceStack, arg1: $GameRules$Key<T>): number;
+        static invokeQueryRule$fabric_game_rule_api_v1_$md$9aa1a5$0(arg0: $CommandSourceStack, arg1: $GameRules$Key<any>): number;
         constructor();
     }
     export class $ParticleCommand {

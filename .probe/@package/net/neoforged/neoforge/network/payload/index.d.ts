@@ -33,9 +33,9 @@ declare module "@package/net/neoforged/neoforge/network/payload" {
     }
     export class $ClientboundCustomSetTimePayload extends $Record implements $CustomPacketPayload {
         type(): $CustomPacketPayload$Type<$ClientboundCustomSetTimePayload>;
+        dayTime(): number;
         dayTimeFraction(): number;
         dayTimePerTick(): number;
-        dayTime(): number;
         gameTime(): number;
         gameRule(): boolean;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
@@ -92,8 +92,8 @@ declare module "@package/net/neoforged/neoforge/network/payload" {
         type(): $CustomPacketPayload$Type<$RegistryDataMapSyncPayload<never>>;
         static decode<T>(arg0: $RegistryFriendlyByteBuf): $RegistryDataMapSyncPayload<T>;
         write(arg0: $RegistryFriendlyByteBuf): void;
-        registryKey(): $ResourceKey<$Registry<T>>;
         dataMaps(): $Map<$ResourceLocation, $Map<$ResourceKey<T>, never>>;
+        registryKey(): $ResourceKey<$Registry<T>>;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
         toVanillaClientbound(): $ClientboundCustomPayloadPacket;
         static TYPE: $CustomPacketPayload$Type<$RegistryDataMapSyncPayload<never>>;
@@ -125,9 +125,9 @@ declare module "@package/net/neoforged/neoforge/network/payload" {
     export class $AdvancedOpenScreenPayload extends $Record implements $CustomPacketPayload {
         name(): $Component;
         type(): $CustomPacketPayload$Type<$AdvancedOpenScreenPayload>;
-        menuType(): $MenuType<never>;
         additionalData(): number[];
         windowId(): number;
+        menuType(): $MenuType<never>;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
         toVanillaClientbound(): $ClientboundCustomPayloadPacket;
         static TYPE: $CustomPacketPayload$Type<$AdvancedOpenScreenPayload>;

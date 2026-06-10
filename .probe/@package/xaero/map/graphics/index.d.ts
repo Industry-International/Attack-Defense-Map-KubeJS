@@ -1,5 +1,5 @@
 import { $MultiBufferSource$BufferSource } from "@package/net/minecraft/client/renderer";
-import { $TextureUploadPool$Compressed, $TextureUploadPool$Normal, $TextureUploadPool$BranchUpdate, $TextureUploadPool$BranchDownload, $TextureUploadPool$SubsequentNormal, $PoolUnit } from "@package/xaero/map/pool";
+import { $TextureUploadPool$Compressed, $TextureUploadPool$Normal, $TextureUploadPool$BranchDownload, $TextureUploadPool$BranchUpdate, $TextureUploadPool$SubsequentNormal, $PoolUnit } from "@package/xaero/map/pool";
 import { $BranchTextureRenderer } from "@package/xaero/map/region/texture";
 import { $Object } from "@package/java/lang";
 export * as renderer from "@package/xaero/map/graphics/renderer";
@@ -34,12 +34,12 @@ declare module "@package/xaero/map/graphics" {
         get uploadType(): number;
     }
     export class $TextureUploader {
-        uploadTextures(): void;
         requestUpload(arg0: $TextureUpload): number;
         finishNewestRequestImmediately(): void;
-        requestSubsequentNormal(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): number;
-        requestCompressed(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): number;
+        uploadTextures(): void;
         requestNormal(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number): number;
+        requestCompressed(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): number;
+        requestSubsequentNormal(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): number;
         requestBranchUpdate(arg0: boolean, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: number, arg15: number, arg16: $BranchTextureRenderer, arg17: number, arg18: number): number;
         requestBranchDownload(arg0: number, arg1: number, arg2: number, arg3: number): number;
         static BRANCHUPDATE_ALLOCATE: number;

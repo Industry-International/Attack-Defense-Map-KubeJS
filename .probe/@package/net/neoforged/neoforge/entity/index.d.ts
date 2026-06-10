@@ -96,17 +96,17 @@ declare module "@package/net/neoforged/neoforge/entity" {
     }
     export class $XpOrbTargetingEvent extends $Event {
         getFollowingPlayer(): $Player;
-        getXpOrb(): $ExperienceOrb;
-        getScanDistance(): number;
         setFollowingPlayer(arg0: $Player): void;
+        getScanDistance(): number;
+        getXpOrb(): $ExperienceOrb;
         constructor(arg0: $ExperienceOrb, arg1: number);
-        get xpOrb(): $ExperienceOrb;
         get scanDistance(): number;
+        get xpOrb(): $ExperienceOrb;
     }
     export class $IEntityWithComplexSpawn {
     }
     export interface $IEntityWithComplexSpawn {
-        readSpawnData(arg0: $RegistryFriendlyByteBuf): void;
         writeSpawnData(arg0: $RegistryFriendlyByteBuf): void;
+        readSpawnData(arg0: $RegistryFriendlyByteBuf): void;
     }
 }

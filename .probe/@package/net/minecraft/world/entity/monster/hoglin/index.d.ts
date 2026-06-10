@@ -47,12 +47,12 @@ declare module "@package/net/minecraft/world/entity/monster/hoglin" {
     export type $HoglinBase_ = (() => number);
     export class $Hoglin extends $Animal implements $Enemy, $HoglinBase {
         static createAttributes(): $AttributeSupplier$Builder;
+        getAttackAnimationRemainingTicks(): number;
         setImmuneToZombification(arg0: boolean): void;
         static checkHoglinSpawnRules(arg0: $EntityType_<$Hoglin>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        isAdult(): boolean;
         isConverting(): boolean;
         canBeHunted(): boolean;
-        getAttackAnimationRemainingTicks(): number;
+        isAdult(): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -228,19 +228,19 @@ declare module "@package/net/minecraft/world/entity/monster/hoglin" {
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
         constructor(arg0: $EntityType_<$Hoglin>, arg1: $Level_);
-        set immuneToZombification(value: boolean);
-        get adult(): boolean;
-        get converting(): boolean;
         get attackAnimationRemainingTicks(): number;
+        set immuneToZombification(value: boolean);
+        get converting(): boolean;
+        get adult(): boolean;
     }
     export class $HoglinAi {
         static updateActivity(arg0: $Hoglin): void;
+        static makeBrain(arg0: $Brain<$Hoglin>): $Brain<never>;
         static getSoundForCurrentActivity(arg0: $Hoglin): ($SoundEvent) | undefined;
         static isPosNearNearestRepellent(arg0: $Hoglin, arg1: $BlockPos_): boolean;
+        static onHitTarget(arg0: $Hoglin, arg1: $LivingEntity): void;
         static isPacified(arg0: $Hoglin): boolean;
         static wasHurtBy(arg0: $Hoglin, arg1: $LivingEntity): void;
-        static makeBrain(arg0: $Brain<$Hoglin>): $Brain<never>;
-        static onHitTarget(arg0: $Hoglin, arg1: $LivingEntity): void;
         static REPELLENT_DETECTION_RANGE_VERTICAL: number;
         static REPELLENT_DETECTION_RANGE_HORIZONTAL: number;
         constructor();

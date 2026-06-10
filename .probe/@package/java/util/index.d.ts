@@ -675,17 +675,17 @@ declare module "@package/java/util" {
         previous(): E;
     }
     export class $Locale$LanguageRange {
-        static parse(arg0: string, arg1: $Map_<string, $List_<string>>): $List<$Locale$LanguageRange>;
         static parse(arg0: string): $List<$Locale$LanguageRange>;
-        getWeight(): number;
+        static parse(arg0: string, arg1: $Map_<string, $List_<string>>): $List<$Locale$LanguageRange>;
         getRange(): string;
+        getWeight(): number;
         static mapEquivalents(arg0: $List_<$Locale$LanguageRange>, arg1: $Map_<string, $List_<string>>): $List<$Locale$LanguageRange>;
         static MAX_WEIGHT: number;
         static MIN_WEIGHT: number;
         constructor(arg0: string);
         constructor(arg0: string, arg1: number);
-        get weight(): number;
         get range(): string;
+        get weight(): number;
     }
     export class $SortedMap<K, V> {
     }
@@ -1272,13 +1272,13 @@ declare module "@package/java/util" {
         elementAt(arg0: number): E;
         setSize(arg0: number): void;
         copyInto(arg0: $Object[]): void;
-        removeAllElements(): void;
         addElement(arg0: E): void;
         removeElement(arg0: $Object): boolean;
         insertElementAt(arg0: E, arg1: number): void;
         firstElement(): E;
         lastElement(): E;
         setElementAt(arg0: E, arg1: number): void;
+        removeAllElements(): void;
         removeElementAt(arg0: number): void;
         reversed(): $SequencedCollection<E>;
         constructor(arg0: $Collection_<E>);

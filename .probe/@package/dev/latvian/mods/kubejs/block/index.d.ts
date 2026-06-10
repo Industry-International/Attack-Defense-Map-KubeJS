@@ -72,8 +72,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         getBlock(): $LevelBlock;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -115,8 +115,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get entity(): $Entity;
         get block(): $LevelBlock;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $DetectorBlock extends $Block {
         explosionResistance: number;
@@ -159,8 +159,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         apply(blockState: $BlockState_): $MapColor;
         id(): number;
         color(): $MapColor;
-        static findClosest(rgbi: number): $MapColorHelper;
         rgb(): $Vector3f;
+        static findClosest(rgbi: number): $MapColorHelper;
         compose<V>(arg0: $Function_<V, $BlockState>): $Function<V, $MapColor>;
         andThen<V>(arg0: $Function_<$MapColor, V>): $Function<$BlockState, V>;
         static ID_MAP: $Map<number, $MapColorHelper>;
@@ -173,11 +173,11 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
      */
     export type $MapColorHelper_ = string | number;
     export class $KubeJSBlockEventHandler {
-        static leftClick(event: $PlayerInteractEvent$LeftClickBlock): void;
         static drops(event: $BlockDropsEvent): void;
+        static leftClick(event: $PlayerInteractEvent$LeftClickBlock): void;
         static rightClick(event: $PlayerInteractEvent$RightClickBlock): void;
-        static farmlandTrample(event: $BlockEvent$FarmlandTrampleEvent): void;
         static blockPlace(event: $BlockEvent$EntityPlaceEvent): void;
+        static farmlandTrample(event: $BlockEvent$FarmlandTrampleEvent): void;
         static blockBreak(event: $BlockEvent$BreakEvent): void;
         constructor();
     }
@@ -196,8 +196,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getFacing(): $Direction;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -241,8 +241,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get facing(): $Direction;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $KubeJSBlockProperties extends $BlockBehaviour$Properties {
@@ -266,8 +266,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getBlock(): $LevelBlock;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -309,8 +309,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get block(): $LevelBlock;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $BlockTintFunction$Fixed extends $Record implements $BlockTintFunction {
@@ -356,8 +356,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         static values(): $BlockRotationType[];
         static valueOf(name: string): $BlockRotationType;
         getSerializedName(): string;
-        generateBlockStateJson(bs: $VariantBlockStateGenerator, block: $BlockBuilder): void;
         generateBlockModelJsons(gen: $KubeAssetGenerator): void;
+        generateBlockStateJson(bs: $VariantBlockStateGenerator, block: $BlockBuilder): void;
         getRemappedEnumConstantName(): string;
         static VERTICAL: $BlockRotationType;
         static WALL_ATTACHED: $BlockRotationType;
@@ -374,8 +374,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
     export type $BlockRotationType_ = "none" | "horizontal" | "vertical" | "facing" | "wall_attached";
     export class $RandomTickKubeEvent implements $KubeLevelEvent {
         getBlock(): $LevelBlock;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -416,8 +416,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         random: $RandomSource;
         constructor(level: $ServerLevel, pos: $BlockPos_, state: $BlockState_, random: $RandomSource);
         get block(): $LevelBlock;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get level(): $Level;
     }
     export class $BlockItemBuilder extends $ItemBuilder {
@@ -431,8 +431,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getLevel(): $Level;
         getEntity(): $Entity;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -476,15 +476,15 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get level(): $Level;
         get entity(): $Entity;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $BlockPickedKubeEvent implements $KubePlayerEvent {
         getTarget(): $KubeRayTraceResult;
         getLevel(): $Level;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -527,8 +527,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         player: $Player;
         constructor(level: $Level_, pos: $BlockPos_, state: $BlockState_, player: $Player, hitResult: $HitResult);
         get target(): $KubeRayTraceResult;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get entity(): $LivingEntity;
     }
     export class $BlockModificationKubeEvent implements $KubeEvent {
@@ -591,17 +591,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getBlock(): $LevelBlock;
         getHitResult(): $BlockHitResult;
         /**
-         * The hand that was used to right click the block.
-         */
-        getHand(): $InteractionHand;
-        /**
          * The face of the block being right clicked.
          */
         getFacing(): $Direction;
+        /**
+         * The hand that was used to right click the block.
+         */
+        getHand(): $InteractionHand;
         getPlayer(): $Player;
         getLevel(): $Level;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -643,12 +643,12 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get entity(): $Player;
         get block(): $LevelBlock;
         get hitResult(): $BlockHitResult;
-        get hand(): $InteractionHand;
         get facing(): $Direction;
+        get hand(): $InteractionHand;
         get player(): $Player;
         get level(): $Level;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $BlockRenderType extends $Enum<$BlockRenderType> {
         static values(): $BlockRenderType[];
@@ -667,8 +667,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getEntity(): $Entity;
         getBlock(): $LevelBlock;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -710,36 +710,36 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get entity(): $Entity;
         get block(): $LevelBlock;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $BlockModificationKubeEvent$BlockModifications extends $Record {
         block(): $Block;
-        setHasCollision(v: boolean): void;
-        setIsRandomlyTicking(v: boolean): void;
         setNameKey(key: string): void;
-        setRequiresTool(v: boolean): void;
-        setJumpFactor(v: number): void;
-        setSpeedFactor(v: number): void;
-        setFriction(v: number): void;
-        setDestroySpeed(v: number): void;
-        setLightEmission(v: number): void;
-        setSoundType(v: $SoundType_): void;
+        setIsRandomlyTicking(v: boolean): void;
+        setHasCollision(v: boolean): void;
         setRandomTickCallback(callback: $Consumer_<$RandomTickCallback>): void;
         setExplosionResistance(v: number): void;
+        setSoundType(v: $SoundType_): void;
+        setLightEmission(v: number): void;
+        setSpeedFactor(v: number): void;
+        setDestroySpeed(v: number): void;
+        setJumpFactor(v: number): void;
+        setRequiresTool(v: boolean): void;
+        setFriction(v: number): void;
         constructor(block: $Block_);
-        set hasCollision(value: boolean);
-        set isRandomlyTicking(value: boolean);
         set nameKey(value: string);
-        set requiresTool(value: boolean);
-        set jumpFactor(value: number);
-        set speedFactor(value: number);
-        set friction(value: number);
-        set destroySpeed(value: number);
-        set lightEmission(value: number);
-        set soundType(value: $SoundType_);
+        set isRandomlyTicking(value: boolean);
+        set hasCollision(value: boolean);
         set randomTickCallback(value: $Consumer_<$RandomTickCallback>);
         set explosionResistance(value: number);
+        set soundType(value: $SoundType_);
+        set lightEmission(value: number);
+        set speedFactor(value: number);
+        set destroySpeed(value: number);
+        set jumpFactor(value: number);
+        set requiresTool(value: boolean);
+        set friction(value: number);
     }
     export class $FarmlandTrampledKubeEvent implements $KubeEntityEvent {
         /**
@@ -751,16 +751,16 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         getEntity(): $Entity;
         /**
-         * The farmland block.
-         */
-        getBlock(): $LevelBlock;
-        /**
          * The distance of the entity from the block.
          */
         getDistance(): number;
+        /**
+         * The farmland block.
+         */
+        getBlock(): $LevelBlock;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -800,11 +800,11 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         constructor(event: $BlockEvent$FarmlandTrampleEvent);
         get level(): $Level;
         get entity(): $Entity;
-        get block(): $LevelBlock;
         get distance(): number;
+        get block(): $LevelBlock;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $BlockBuilder extends $ModelledBuilderBase<$Block> {
         createProperties(): $BlockBehaviour$Properties;
@@ -831,199 +831,29 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         color(index: number, color: $BlockTintFunction_): this;
         /**
+         * Tags both the block and the item with the given tag.
+         */
+        tag(tag: $ResourceLocation_[]): this;
+        /**
          * Modifies the block's item representation.
          */
         item(i: $Consumer_<$ItemBuilder>): this;
         /**
-         * Set how fast you can walk on the block.
-         * 
-         * Any value above 1 will make you walk insanely fast as your speed is multiplied by this value each tick.
-         * 
-         * Recommended values are between 0.1 and 1, useful for mimicking soul sand or ice.
-         */
-        speedFactor(f: number): this;
-        /**
-         * Set the callback for determining the blocks state when placed.
-         */
-        placementState(callbackJS: $Consumer_<$BlockStateModifyPlacementCallback>): this;
-        /**
-         * Set what happens when an entity is inside the block
-         * This is called every tick for every entity inside the block, so be careful what you do here.
-         * This will only be called if the entity's bounding box overlaps with the block's collision.
-         */
-        entityInside(callbackJS: $Consumer_<$EntityBlockCallback>): this;
-        /**
-         * Sets the hardness of the block. Defaults to 1.5.
-         * 
-         * Setting this to -1 will make the block unbreakable like bedrock.
-         */
-        hardness(h: number): this;
-        /**
-         * Set the default state of the block.
-         */
-        defaultState(callbackJS: $Consumer_<$BlockStateModifyCallback>): this;
-        /**
-         * Makes the block not collide with entities.
-         */
-        noCollision(): this;
-        /**
-         * Set how high you can jump on the block.
-         */
-        jumpFactor(f: number): this;
-        /**
-         * Sets the block's sound type. Defaults to wood.
-         */
-        soundType(m: $SoundType_): this;
-        /**
-         * Sets the render type of the block. Can be `cutout`, `cutout_mipped`, `translucent`, or `basic`.
-         */
-        renderType(l: $BlockRenderType_): this;
-        /**
-         * Sets the light level of the block. Defaults to 0 (no light).
-         */
-        lightLevel(light: number): this;
-        /**
          * Note block instrument.
          */
         instrument(i: $NoteBlockInstrument_): this;
-        /**
-         * Makes the block unbreakable.
-         */
-        unbreakable(): this;
-        /**
-         * Sets the block's map color. Defaults to NONE.
-         */
-        mapColor(m: $MapColor): this;
-        /**
-         * Sets random tick callback for this black.
-         */
-        randomTick(randomTickCallback: $Consumer_<$RandomTickCallback>): this;
-        /**
-         * Change drops of this block
-         */
-        drops(drops: $BlockDropSupplier_): this;
-        /**
-         * Set the callback used for right-clicking on the block
-         */
-        rightClick(callbackJS: $Consumer_<$BlockRightClickedKubeEvent>): this;
-        /**
-         * Makes the block can be waterlogged.
-         */
-        waterlogged(): this;
-        /**
-         * Makes the block transparent.
-         */
-        transparent(b: boolean): this;
-        /**
-         * Set if the block can be replaced by something else.
-         */
-        canBeReplaced(callbackJS: $Predicate_<$CanBeReplacedCallback>): this;
-        /**
-         * Bounces entities that land on this block by bounciness * their fall velocity.
-         * Do not make bounciness negative, as that is a recipe for a long and laggy trip to the void
-         */
-        bounciness(bounciness: number): this;
-        /**
-         * Creates a Block Entity for this block
-         */
-        blockEntity(callback: $Consumer_<$BlockEntityInfo>): this;
-        /**
-         * Sets the opacity of the block. Opaque blocks do not let light through.
-         */
-        opaque(o: boolean): this;
-        /**
-         * Makes the block suffocating.
-         */
-        suffocating(b: boolean): this;
-        /**
-         * Sets the blast resistance of the block. Defaults to 3.
-         */
-        resistance(r: number): this;
-        /**
-         * Sets the block should be a full block or not, like cactus or doors.
-         */
-        fullBlock(f: boolean): this;
-        transformObject(obj: $Block_): $Block;
-        /**
-         * Set the block to have no corresponding item.
-         */
-        noItem(): this;
-        /**
-         * Tags both the block and the item with the given tag.
-         */
-        tagBoth(tag: $ResourceLocation_[]): this;
-        /**
-         * Set what happens when an entity falls on the block. Do not use this for moving them, use bounce instead!
-         */
-        fallenOn(callbackJS: $Consumer_<$EntityFallenOnBlockCallback>): this;
-        /**
-         * Tags the item with the given tag.
-         */
-        tagItem(tag: $ResourceLocation_[]): this;
-        /**
-         * Set what happens when an entity steps on the block
-         * This is called every tick for every entity standing on the block, so be careful what you do here.
-         */
-        steppedOn(callbackJS: $Consumer_<$EntityBlockCallback>): this;
-        /**
-         * Tags the block with the given tag.
-         */
-        tagBlock(tag: $ResourceLocation_[]): this;
-        /**
-         * Makes the block not be solid.
-         */
-        notSolid(): this;
-        /**
-         * Clears all drops for the block.
-         */
-        noDrops(): this;
-        cropSoundType(): this;
-        /**
-         * @deprecated
-         */
-        getWaterlogged(): boolean;
-        /**
-         * Helper method for setting the render type of the block to `translucent` correctly.
-         */
-        defaultTranslucent(): this;
-        /**
-         * Set the callback used for determining how the block rotates
-         */
-        rotateState(callbackJS: $Consumer_<$BlockStateRotateCallback>): this;
-        stoneSoundType(): this;
-        glassSoundType(): this;
-        /**
-         * Set the callback used for determining how the block is mirrored
-         */
-        mirrorState(callbackJS: $Consumer_<$BlockStateMirrorCallback>): this;
         noSoundType(): this;
+        woodSoundType(): this;
         /**
-         * @deprecated
+         * Makes the block view blocking.
          */
-        generateLootTable(): $LootTable;
-        generateLootTable(generator: $KubeDataGenerator): $LootTable;
-        copyPropertiesFrom(block: $Block_): this;
-        static createShape(boxes: $List_<$AABB_>): $VoxelShape;
-        /**
-         * @deprecated
-         */
-        setWaterlogged(waterlogged: boolean): this;
+        viewBlocking(b: boolean): this;
+        stoneSoundType(): this;
         /**
          * Helper method for setting the render type of the block to `cutout` correctly.
          */
         defaultCutout(): this;
-        /**
-         * Set how this block bounces/moves entities that land on top of this. Do not use this to modify the block, use fallOn instead!
-         * Use ctx.bounce(height) or ctx.setVelocity(x, y, z) to change the entities velocity.
-         */
-        afterFallenOn(callbackJS: $Consumer_<$AfterEntityFallenOnBlockCallback>): this;
         gravelSoundType(): this;
-        grassSoundType(): this;
-        sandSoundType(): this;
-        /**
-         * Makes mobs not spawn on the block.
-         */
-        noValidSpawns(b: boolean): this;
         /**
          * Makes the block require a tool to have drops when broken.
          */
@@ -1033,6 +863,11 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         requiresTool(): this;
         /**
+         * Makes mobs not spawn on the block.
+         */
+        noValidSpawns(b: boolean): this;
+        copyPropertiesFrom(block: $Block_): this;
+        /**
          * Set how slippery the block is.
          */
         slipperiness(f: number): this;
@@ -1040,23 +875,192 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          * Makes the block a redstone conductor.
          */
         redstoneConductor(b: boolean): this;
+        generateLootTable(generator: $KubeDataGenerator): $LootTable;
         /**
-         * Sets the block's map color dynamically per block state. If unset, defaults to NONE.
+         * @deprecated
          */
-        dynamicMapColor(m: $Function_<$BlockState, $Object>): this;
-        woodSoundType(): this;
-        /**
-         * Makes the block view blocking.
-         */
-        viewBlocking(b: boolean): this;
+        generateLootTable(): $LootTable;
         /**
          * Checks if the block can be waterlogged.
          */
         canBeWaterlogged(): boolean;
         /**
+         * Set how this block bounces/moves entities that land on top of this. Do not use this to modify the block, use fallOn instead!
+         * Use ctx.bounce(height) or ctx.setVelocity(x, y, z) to change the entities velocity.
+         */
+        afterFallenOn(callbackJS: $Consumer_<$AfterEntityFallenOnBlockCallback>): this;
+        /**
+         * Makes the block can be waterlogged.
+         */
+        waterlogged(): this;
+        /**
+         * Sets the blast resistance of the block. Defaults to 3.
+         */
+        resistance(r: number): this;
+        /**
+         * Makes the block transparent.
+         */
+        transparent(b: boolean): this;
+        /**
+         * Makes the block unbreakable.
+         */
+        unbreakable(): this;
+        /**
+         * Sets random tick callback for this black.
+         */
+        randomTick(randomTickCallback: $Consumer_<$RandomTickCallback>): this;
+        /**
+         * Sets the block's map color. Defaults to NONE.
+         */
+        mapColor(m: $MapColor): this;
+        /**
+         * Set how fast you can walk on the block.
+         * 
+         * Any value above 1 will make you walk insanely fast as your speed is multiplied by this value each tick.
+         * 
+         * Recommended values are between 0.1 and 1, useful for mimicking soul sand or ice.
+         */
+        speedFactor(f: number): this;
+        /**
+         * Sets the render type of the block. Can be `cutout`, `cutout_mipped`, `translucent`, or `basic`.
+         */
+        renderType(l: $BlockRenderType_): this;
+        /**
+         * Sets the light level of the block. Defaults to 0 (no light).
+         */
+        lightLevel(light: number): this;
+        /**
+         * Change drops of this block
+         */
+        drops(drops: $BlockDropSupplier_): this;
+        /**
+         * Bounces entities that land on this block by bounciness * their fall velocity.
+         * Do not make bounciness negative, as that is a recipe for a long and laggy trip to the void
+         */
+        bounciness(bounciness: number): this;
+        /**
+         * Sets the hardness of the block. Defaults to 1.5.
+         * 
+         * Setting this to -1 will make the block unbreakable like bedrock.
+         */
+        hardness(h: number): this;
+        /**
+         * Makes the block suffocating.
+         */
+        suffocating(b: boolean): this;
+        /**
+         * Set the default state of the block.
+         */
+        defaultState(callbackJS: $Consumer_<$BlockStateModifyCallback>): this;
+        /**
+         * Makes the block not collide with entities.
+         */
+        noCollision(): this;
+        /**
+         * Set what happens when an entity is inside the block
+         * This is called every tick for every entity inside the block, so be careful what you do here.
+         * This will only be called if the entity's bounding box overlaps with the block's collision.
+         */
+        entityInside(callbackJS: $Consumer_<$EntityBlockCallback>): this;
+        /**
+         * Sets the block's map color dynamically per block state. If unset, defaults to NONE.
+         */
+        dynamicMapColor(m: $Function_<$BlockState, $Object>): this;
+        static createShape(boxes: $List_<$AABB_>): $VoxelShape;
+        cropSoundType(): this;
+        /**
+         * @deprecated
+         */
+        setWaterlogged(waterlogged: boolean): this;
+        /**
+         * Set the callback used for determining how the block rotates
+         */
+        rotateState(callbackJS: $Consumer_<$BlockStateRotateCallback>): this;
+        /**
+         * @deprecated
+         */
+        getWaterlogged(): boolean;
+        grassSoundType(): this;
+        sandSoundType(): this;
+        /**
+         * Helper method for setting the render type of the block to `translucent` correctly.
+         */
+        defaultTranslucent(): this;
+        /**
+         * Set the callback used for determining how the block is mirrored
+         */
+        mirrorState(callbackJS: $Consumer_<$BlockStateMirrorCallback>): this;
+        glassSoundType(): this;
+        /**
+         * Set the callback for determining the blocks state when placed.
+         */
+        placementState(callbackJS: $Consumer_<$BlockStateModifyPlacementCallback>): this;
+        /**
+         * Set if the block can be replaced by something else.
+         */
+        canBeReplaced(callbackJS: $Predicate_<$CanBeReplacedCallback>): this;
+        /**
+         * Sets the opacity of the block. Opaque blocks do not let light through.
+         */
+        opaque(o: boolean): this;
+        /**
+         * Set how high you can jump on the block.
+         */
+        jumpFactor(f: number): this;
+        /**
+         * Sets the block's sound type. Defaults to wood.
+         */
+        soundType(m: $SoundType_): this;
+        /**
+         * Creates a Block Entity for this block
+         */
+        blockEntity(callback: $Consumer_<$BlockEntityInfo>): this;
+        /**
+         * Set the callback used for right-clicking on the block
+         */
+        rightClick(callbackJS: $Consumer_<$BlockRightClickedKubeEvent>): this;
+        transformObject(obj: $Block_): $Block;
+        /**
+         * Sets the block should be a full block or not, like cactus or doors.
+         */
+        fullBlock(f: boolean): this;
+        /**
          * Set how this block reacts after an explosion. Note the block has already been destroyed at this point
          */
         exploded(callbackJS: $Consumer_<$BlockExplodedCallback>): this;
+        /**
+         * Tags the item with the given tag.
+         */
+        tagItem(tag: $ResourceLocation_[]): this;
+        /**
+         * Tags the block with the given tag.
+         */
+        tagBlock(tag: $ResourceLocation_[]): this;
+        /**
+         * Makes the block not be solid.
+         */
+        notSolid(): this;
+        /**
+         * Tags both the block and the item with the given tag.
+         */
+        tagBoth(tag: $ResourceLocation_[]): this;
+        /**
+         * Clears all drops for the block.
+         */
+        noDrops(): this;
+        /**
+         * Set what happens when an entity falls on the block. Do not use this for moving them, use bounce instead!
+         */
+        fallenOn(callbackJS: $Consumer_<$EntityFallenOnBlockCallback>): this;
+        /**
+         * Set the block to have no corresponding item.
+         */
+        noItem(): this;
+        /**
+         * Set what happens when an entity steps on the block
+         * This is called every tick for every entity standing on the block, so be careful what you do here.
+         */
+        steppedOn(callbackJS: $Consumer_<$EntityBlockCallback>): this;
         sourceLine: $SourceLine;
         id: $ResourceLocation;
         randomTickCallback: $Consumer<$RandomTickCallback>;
@@ -1080,8 +1084,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          * The id of the detector block when it was registered.
          */
         getDetectorId(): string;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -1123,41 +1127,41 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get block(): $LevelBlock;
         get powered(): boolean;
         get detectorId(): string;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
     }
     export class $BlockDropsKubeEvent implements $KubeEntityEvent {
-        addItem(item: $ItemStack_): $ItemEntity;
         getEntity(): $Entity;
         removeItem(item: $ItemPredicate_): void;
+        addItem(item: $ItemStack_): $ItemEntity;
         /**
          * The block that was broken.
          */
         getBlock(): $LevelBlock;
         /**
-         * Dropped items. Immutable.
-         */
-        getItems(): $List<$ItemStack>;
-        /**
          * The experience dropped by the block.
          */
         getXp(): number;
+        /**
+         * Sets the experience dropped by the block.
+         */
+        setXp(xp: number): void;
         /**
          * The tool used when breaking this block. May be null.
          */
         getTool(): $ItemStack;
         /**
-         * Sets the experience dropped by the block.
+         * Dropped items. Immutable.
          */
-        setXp(xp: number): void;
+        getItems(): $List<$ItemStack>;
         /**
          * Dropped item entities.
          */
         getItemEntities(): $List<$ItemEntity>;
         containsItem(item: $ItemPredicate_): boolean;
         getPlayer(): $Player;
-        getServer(): $MinecraftServer;
         getRegistries(): $RegistryAccess;
+        getServer(): $MinecraftServer;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
@@ -1198,18 +1202,18 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         constructor(event: $BlockDropsEvent);
         get entity(): $Entity;
         get block(): $LevelBlock;
-        get items(): $List<$ItemStack>;
         get tool(): $ItemStack;
+        get items(): $List<$ItemStack>;
         get itemEntities(): $List<$ItemEntity>;
         get player(): $Player;
-        get server(): $MinecraftServer;
         get registries(): $RegistryAccess;
+        get server(): $MinecraftServer;
         get level(): $Level;
     }
     export class $SeedItemBuilder$SeedKubeItem extends $ItemNameBlockItem implements $SpecialPlantable {
         villagerCanPlantItem(villager: $Villager): boolean;
-        canPlacePlantAtPosition(stack: $ItemStack_, level: $LevelReader, pos: $BlockPos_, direction: $Direction_): boolean;
         spawnPlantAtPosition(stack: $ItemStack_, level: $LevelAccessor, pos: $BlockPos_, direction: $Direction_): void;
+        canPlacePlantAtPosition(stack: $ItemStack_, level: $LevelReader, pos: $BlockPos_, direction: $Direction_): boolean;
         static BASE_ATTACK_DAMAGE_ID: $ResourceLocation;
         static DEFAULT_MAX_STACK_SIZE: number;
         static MAX_BAR_WIDTH: number;

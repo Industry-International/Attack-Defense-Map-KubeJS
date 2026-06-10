@@ -46,8 +46,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
@@ -65,15 +65,15 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Mob, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Mob, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Mob, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Mob, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: number);
     }
     export class $WorkAtComposter extends $WorkAtPoi implements $FarmerWorkTaskAccessor {
-        static fabric_getCompostable$fabric_content_registries_v0_$md$d64506$1(): $List<any>;
-        static fabric_setCompostables$fabric_content_registries_v0_$md$d64506$0(arg0: $List_<any>): void;
+        static fabric_getCompostable$fabric_content_registries_v0_$md$9aa1a5$1(): $List<any>;
+        static fabric_setCompostables$fabric_content_registries_v0_$md$9aa1a5$0(arg0: $List_<any>): void;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
@@ -113,8 +113,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: number, arg1: number);
@@ -124,16 +124,16 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         constructor();
     }
     export class $VillagerGoalPackages {
-        static getPreRaidPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
-        static getIdlePackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
-        static getPlayPackage(arg0: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
+        static getCorePackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
         static getMeetPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
-        static getWorkPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
+        static getIdlePackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
+        static getPreRaidPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
         static getPanicPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
+        static getRaidPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
         static getHidePackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
         static getRestPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
-        static getCorePackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
-        static getRaidPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
+        static getPlayPackage(arg0: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
+        static getWorkPackage(arg0: $VillagerProfession_, arg1: number): $ImmutableList<$Pair<number, $BehaviorControl<$Villager>>>;
         static INTERACT_SPEED_MODIFIER: number;
         static INTERACT_WALKUP_DIST: number;
         static INTERACT_DIST_SQR: number;
@@ -154,9 +154,9 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $RamTarget extends $Behavior<$Goat> {
         start(arg0: $ServerLevel, arg1: $Goat, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Goat, arg2: number): void;
-        finishRam(arg0: $ServerLevel, arg1: $Goat): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Goat): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Goat, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Goat): boolean;
+        finishRam(arg0: $ServerLevel, arg1: $Goat): void;
         static TIME_OUT_DURATION: number;
         static DEFAULT_DURATION: number;
         static RAM_SPEED_FORCE_FACTOR: number;
@@ -166,8 +166,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $GoToPotentialJobSite extends $Behavior<$Villager> {
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         speedModifier: number;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
@@ -189,8 +189,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Frog): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Frog, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Frog): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
@@ -211,8 +211,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     }
     export class $Swim extends $Behavior<$Mob> {
         tick(arg0: $ServerLevel, arg1: $Mob, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Mob, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
         static shouldSwim(arg0: $Mob): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
@@ -222,8 +222,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: number);
@@ -235,16 +235,16 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $DoNothing implements $BehaviorControl<$LivingEntity> {
         debugString(): string;
         getStatus(): $Behavior$Status;
+        tryStart(arg0: $ServerLevel, arg1: $LivingEntity, arg2: number): boolean;
         doStop(arg0: $ServerLevel, arg1: $LivingEntity, arg2: number): void;
         tickOrStop(arg0: $ServerLevel, arg1: $LivingEntity, arg2: number): void;
-        tryStart(arg0: $ServerLevel, arg1: $LivingEntity, arg2: number): boolean;
         constructor(arg0: number, arg1: number);
         get status(): $Behavior$Status;
     }
     export class $BlockPosTracker implements $PositionTracker {
         currentPosition(): $Vec3;
-        isVisibleBy(arg0: $LivingEntity): boolean;
         currentBlockPosition(): $BlockPos;
+        isVisibleBy(arg0: $LivingEntity): boolean;
         constructor(arg0: $BlockPos_);
         constructor(arg0: $Vec3_);
     }
@@ -267,12 +267,12 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         tick(arg0: $ServerLevel, arg1: E, arg2: number): void;
         timedOut(arg0: number): boolean;
         getStatus(): $Behavior$Status;
+        canStillUse(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
+        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         doStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
         tickOrStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
         hasRequiredMemories(arg0: E): boolean;
         checkExtraStartConditions(arg0: $ServerLevel, arg1: E): boolean;
-        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
-        canStillUse(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: $Map_<$MemoryModuleType_<never>, $MemoryStatus_>, arg1: number, arg2: number);
@@ -293,8 +293,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $CrossbowAttack<E extends $Mob, T extends $LivingEntity> extends $Behavior<E> {
         stop(arg0: $ServerLevel, arg1: E, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: E): boolean;
         canStillUse(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: E): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
@@ -317,8 +317,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: E, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: E, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: E): boolean;
         canStillUse(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: E): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: number);
@@ -345,8 +345,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     }
     export class $WorkAtPoi extends $Behavior<$Villager> {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         useWorkstation(arg0: $ServerLevel, arg1: $Villager): void;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
@@ -355,8 +355,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $CelebrateVillagersSurvivedRaid extends $Behavior<$Villager> {
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: number, arg1: number);
@@ -432,17 +432,17 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $OneShot<E extends $LivingEntity> implements $BehaviorControl<E>, $Trigger<E> {
         debugString(): string;
         getStatus(): $Behavior$Status;
+        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         doStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
         tickOrStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         constructor();
         get status(): $Behavior$Status;
     }
     export class $EntityTracker implements $PositionTracker {
         getEntity(): $Entity;
         currentPosition(): $Vec3;
-        isVisibleBy(arg0: $LivingEntity): boolean;
         currentBlockPosition(): $BlockPos;
+        isVisibleBy(arg0: $LivingEntity): boolean;
         constructor(arg0: $Entity, arg1: boolean);
         get entity(): $Entity;
     }
@@ -477,11 +477,11 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     }
     export class $ShufflingList$WeightedEntry<T> implements $IWeightedListEntry {
         getData(): T;
-        getWeight(): number;
         static codec<E>(arg0: $Codec<E>): $Codec<$ShufflingList$WeightedEntry<E>>;
+        getWeight(): number;
         setRandom(arg0: number): void;
-        invokeGetShuffledOrder(): number;
         invokeSetShuffledOrder(arg0: number): void;
+        invokeGetShuffledOrder(): number;
         data: T;
         weight: number;
         constructor(arg0: T, arg1: number);
@@ -495,8 +495,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
@@ -521,9 +521,9 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $GateBehavior<E extends $LivingEntity> implements $BehaviorControl<E> {
         debugString(): string;
         getStatus(): $Behavior$Status;
+        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         doStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
         tickOrStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         constructor(arg0: $Map_<$MemoryModuleType_<never>, $MemoryStatus_>, arg1: $Set_<$MemoryModuleType_<never>>, arg2: $GateBehavior$OrderPolicy_, arg3: $GateBehavior$RunningPolicy_, arg4: $List_<$Pair<$BehaviorControl<E>, number>>);
         get status(): $Behavior$Status;
     }
@@ -537,9 +537,9 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export interface $BehaviorControl<E extends $LivingEntity> {
         debugString(): string;
         getStatus(): $Behavior$Status;
+        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         doStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
         tickOrStop(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        tryStart(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
         get status(): $Behavior$Status;
     }
     export class $TryFindWater {
@@ -563,22 +563,22 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
      */
     export type $GateBehavior$RunningPolicy_ = "run_one" | "try_all";
     export class $BehaviorUtils {
-        static getRandomSwimmablePos(arg0: $PathfinderMob, arg1: number, arg2: number): $Vec3;
         static canSee(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
         static throwItem(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $Vec3_, arg3: $Vec3_, arg4: number): void;
         static throwItem(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $Vec3_): void;
+        static isWithinAttackRange(arg0: $Mob, arg1: $LivingEntity, arg2: number): boolean;
+        static getLivingEntityFromUUIDMemory(arg0: $LivingEntity, arg1: $MemoryModuleType_<$UUID_>): ($LivingEntity) | undefined;
         static findSectionClosestToVillage(arg0: $ServerLevel, arg1: $SectionPos, arg2: number): $SectionPos;
+        static getRandomSwimmablePos(arg0: $PathfinderMob, arg1: number, arg2: number): $Vec3;
         static isOtherTargetMuchFurtherAwayThanCurrentAttackTarget(arg0: $LivingEntity, arg1: $LivingEntity, arg2: number): boolean;
-        static lookAtEntity(arg0: $LivingEntity, arg1: $LivingEntity): void;
-        static setWalkAndLookTargetMemories(arg0: $LivingEntity, arg1: $PositionTracker, arg2: number, arg3: number): void;
         static setWalkAndLookTargetMemories(arg0: $LivingEntity, arg1: $Entity, arg2: number, arg3: number): void;
         static setWalkAndLookTargetMemories(arg0: $LivingEntity, arg1: $BlockPos_, arg2: number, arg3: number): void;
-        static getLivingEntityFromUUIDMemory(arg0: $LivingEntity, arg1: $MemoryModuleType_<$UUID_>): ($LivingEntity) | undefined;
+        static setWalkAndLookTargetMemories(arg0: $LivingEntity, arg1: $PositionTracker, arg2: number, arg3: number): void;
+        static lookAtEntity(arg0: $LivingEntity, arg1: $LivingEntity): void;
         static getTargetNearestMe(arg0: $LivingEntity, arg1: $LivingEntity, arg2: $LivingEntity): $LivingEntity;
-        static targetIsValid(arg0: $Brain<never>, arg1: $MemoryModuleType_<$LivingEntity>, arg2: $EntityType_<never>): boolean;
         static getNearestTarget(arg0: $LivingEntity, arg1: ($LivingEntity) | undefined, arg2: $LivingEntity): $LivingEntity;
+        static targetIsValid(arg0: $Brain<never>, arg1: $MemoryModuleType_<$LivingEntity>, arg2: $EntityType_<never>): boolean;
         static entityIsVisible(arg0: $Brain<never>, arg1: $LivingEntity): boolean;
-        static isWithinAttackRange(arg0: $Mob, arg1: $LivingEntity, arg2: number): boolean;
         static lockGazeAndWalkToEachOther(arg0: $LivingEntity, arg1: $LivingEntity, arg2: number, arg3: number): void;
         static isBreeding(arg0: $LivingEntity): boolean;
     }
@@ -586,8 +586,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     }
     export interface $PositionTracker {
         currentPosition(): $Vec3;
-        isVisibleBy(arg0: $LivingEntity): boolean;
         currentBlockPosition(): $BlockPos;
+        isVisibleBy(arg0: $LivingEntity): boolean;
     }
     export class $PoiCompetitorScan {
         static create(): $BehaviorControl<$Villager>;
@@ -608,32 +608,32 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        static fabric_getGifts$fabric_content_registries_v0_$md$d64506$0(): $Map<any, any>;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
+        static fabric_getGifts$fabric_content_registries_v0_$md$9aa1a5$0(): $Map<any, any>;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
-        static getGifts$immersiveengineering_$md$d64506$0(): $Map<any, any>;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
+        static getGifts$immersiveengineering_$md$9aa1a5$0(): $Map<any, any>;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: number);
-        static get gifts$immersiveengineering_$md$d64506$0(): $Map<any, any>;
+        static get gifts$immersiveengineering_$md$9aa1a5$0(): $Map<any, any>;
     }
     export class $MoveToTargetSink extends $Behavior<$Mob> {
         start(arg0: $ServerLevel, arg1: $Mob, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Mob, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Mob, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Mob, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
         constructor(arg0: number, arg1: number);
     }
     export class $RandomStroll {
-        static stroll(arg0: number): $OneShot<$PathfinderMob>;
-        static stroll(arg0: number, arg1: number, arg2: number): $BehaviorControl<$PathfinderMob>;
-        static stroll(arg0: number, arg1: boolean): $OneShot<$PathfinderMob>;
-        static fly(arg0: number): $BehaviorControl<$PathfinderMob>;
         static swim(arg0: number): $BehaviorControl<$PathfinderMob>;
+        static stroll(arg0: number): $OneShot<$PathfinderMob>;
+        static stroll(arg0: number, arg1: boolean): $OneShot<$PathfinderMob>;
+        static stroll(arg0: number, arg1: number, arg2: number): $BehaviorControl<$PathfinderMob>;
+        static fly(arg0: number): $BehaviorControl<$PathfinderMob>;
         constructor();
     }
     export class $TryFindLand {
@@ -662,9 +662,9 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
     export class $LongJumpToRandomPos<E extends $Mob> extends $Behavior<E> {
         start(arg0: $ServerLevel, arg1: E, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        getJumpCandidate(arg0: $ServerLevel): ($LongJumpToRandomPos$PossibleJump) | undefined;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Mob, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Mob): boolean;
+        getJumpCandidate(arg0: $ServerLevel): ($LongJumpToRandomPos$PossibleJump) | undefined;
         pickCandidate(arg0: $ServerLevel, arg1: E, arg2: number): void;
         static defaultAcceptableLandingSpot<E extends $Mob>(arg0: E, arg1: $BlockPos_): boolean;
         calculateOptimalJumpVector(arg0: $Mob, arg1: $Vec3_): $Vec3;
@@ -699,8 +699,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
@@ -719,8 +719,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Animal, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Animal, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Animal, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Animal): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Animal, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Animal): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor(arg0: $EntityType_<$Animal>);
@@ -749,8 +749,8 @@ declare module "@package/net/minecraft/world/entity/ai/behavior" {
         start(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         stop(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
         tick(arg0: $ServerLevel, arg1: $Villager, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         canStillUse(arg0: $ServerLevel, arg1: $Villager, arg2: number): boolean;
+        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Villager): boolean;
         static SPEED_MODIFIER: number;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;

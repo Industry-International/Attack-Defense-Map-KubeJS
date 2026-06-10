@@ -14,12 +14,12 @@ declare module "@package/top/theillusivec4/curios/api/type/inventory" {
         grow(arg0: number): void;
         shrink(arg0: number): void;
         getSlots(): number;
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
-        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
         getStackInSlot(arg0: number): $ItemStack;
-        getPreviousStackInSlot(arg0: number): $ItemStack;
         setPreviousStackInSlot(arg0: number, arg1: $ItemStack_): void;
+        getPreviousStackInSlot(arg0: number): $ItemStack;
+        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
+        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
+        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
         get slots(): number;
     }
     export class $ICurioStacksHandler {
@@ -32,49 +32,49 @@ declare module "@package/top/theillusivec4/curios/api/type/inventory" {
          * @deprecated
          */
         grow(arg0: number): void;
+        getIdentifier(): string;
         /**
          * @deprecated
          */
         shrink(arg0: number): void;
-        getIdentifier(): string;
-        getSlots(): number;
         clearModifiers(): void;
-        deserializeNBT(arg0: $CompoundTag_): void;
-        serializeNBT(): $CompoundTag;
-        removeModifier(arg0: $ResourceLocation_): void;
-        addPermanentModifier(arg0: $AttributeModifier_): void;
-        isVisible(): boolean;
-        getRenders(): $NonNullList<boolean>;
         getSyncTag(): $CompoundTag;
-        getModifiersByOperation(arg0: $AttributeModifier$Operation_): $Collection<$AttributeModifier>;
-        clearCachedModifiers(): void;
-        getPermanentModifiers(): $Set<$AttributeModifier>;
-        addTransientModifier(arg0: $AttributeModifier_): void;
-        getCachedModifiers(): $Set<$AttributeModifier>;
-        canToggleRendering(): boolean;
+        getDropRule(): $ICurio$DropRule;
         /**
          * @deprecated
          */
         getSizeShift(): number;
-        getCosmeticStacks(): $IDynamicStackHandler;
-        updateActiveState(arg0: number): void;
-        applySyncTag(arg0: $CompoundTag_): void;
-        getDropRule(): $ICurio$DropRule;
-        copyModifiers(arg0: $ICurioStacksHandler): void;
         getActiveStates(): $NonNullList<boolean>;
+        getCosmeticStacks(): $IDynamicStackHandler;
         hasCosmetic(): boolean;
+        copyModifiers(arg0: $ICurioStacksHandler): void;
+        getCachedModifiers(): $Set<$AttributeModifier>;
+        applySyncTag(arg0: $CompoundTag_): void;
+        updateActiveState(arg0: number): void;
+        canToggleRendering(): boolean;
+        isVisible(): boolean;
+        getSlots(): number;
+        addTransientModifier(arg0: $AttributeModifier_): void;
+        getPermanentModifiers(): $Set<$AttributeModifier>;
+        getModifiersByOperation(arg0: $AttributeModifier$Operation_): $Collection<$AttributeModifier>;
+        clearCachedModifiers(): void;
+        serializeNBT(): $CompoundTag;
+        deserializeNBT(arg0: $CompoundTag_): void;
+        removeModifier(arg0: $ResourceLocation_): void;
+        addPermanentModifier(arg0: $AttributeModifier_): void;
+        getRenders(): $NonNullList<boolean>;
         get stacks(): $IDynamicStackHandler;
         get modifiers(): $Map<$ResourceLocation, $AttributeModifier>;
         get identifier(): string;
-        get slots(): number;
-        get visible(): boolean;
-        get renders(): $NonNullList<boolean>;
         get syncTag(): $CompoundTag;
-        get permanentModifiers(): $Set<$AttributeModifier>;
-        get cachedModifiers(): $Set<$AttributeModifier>;
-        get sizeShift(): number;
-        get cosmeticStacks(): $IDynamicStackHandler;
         get dropRule(): $ICurio$DropRule;
+        get sizeShift(): number;
         get activeStates(): $NonNullList<boolean>;
+        get cosmeticStacks(): $IDynamicStackHandler;
+        get cachedModifiers(): $Set<$AttributeModifier>;
+        get visible(): boolean;
+        get slots(): number;
+        get permanentModifiers(): $Set<$AttributeModifier>;
+        get renders(): $NonNullList<boolean>;
     }
 }

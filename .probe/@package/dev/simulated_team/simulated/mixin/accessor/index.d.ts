@@ -43,9 +43,9 @@ declare module "@package/dev/simulated_team/simulated/mixin/accessor" {
     export class $CreativeModeInventoryScreenAccessor {
     }
     export interface $CreativeModeInventoryScreenAccessor {
-        getTopPos(): number;
         getLeftPos(): number;
-        get topPos(): number;
+        getTopPos(): number;
         get leftPos(): number;
+        get topPos(): number;
     }
 }

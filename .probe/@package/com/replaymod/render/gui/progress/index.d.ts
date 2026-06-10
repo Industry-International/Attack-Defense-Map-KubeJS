@@ -6,16 +6,16 @@ declare module "@package/com/replaymod/render/gui/progress" {
         close(): void;
         flip(): void;
         bind(): void;
-        beginWrite(): void;
         endWrite(): void;
+        beginWrite(): void;
         unbind(): void;
-        isBound(): boolean;
-        getFramebufferHeight(): number;
         getFramebufferWidth(): number;
+        getFramebufferHeight(): number;
         onResolutionChanged(newWidth: number, newHeight: number): void;
+        isBound(): boolean;
         constructor(mc: $Minecraft);
-        get bound(): boolean;
-        get framebufferHeight(): number;
         get framebufferWidth(): number;
+        get framebufferHeight(): number;
+        get bound(): boolean;
     }
 }

@@ -13,11 +13,11 @@ import { $DispenserBlockEntity } from "@package/net/minecraft/world/level/block/
 declare module "@package/net/minecraft/core/dispenser" {
     export class $DefaultDispenseItemBehavior implements $DispenseItemBehavior {
         execute(arg0: $BlockSource_, arg1: $ItemStack_): $ItemStack;
-        consumeWithRemainder(arg0: $BlockSource_, arg1: $ItemStack_, arg2: $ItemStack_): $ItemStack;
+        static spawnItem(arg0: $Level_, arg1: $ItemStack_, arg2: number, arg3: $Direction_, arg4: $Position): void;
         dispense(arg0: $BlockSource_, arg1: $ItemStack_): $ItemStack;
+        consumeWithRemainder(arg0: $BlockSource_, arg1: $ItemStack_, arg2: $ItemStack_): $ItemStack;
         playSound(arg0: $BlockSource_): void;
         playAnimation(arg0: $BlockSource_, arg1: $Direction_): void;
-        static spawnItem(arg0: $Level_, arg1: $ItemStack_, arg2: number, arg3: $Direction_, arg4: $Position): void;
         constructor();
     }
     export class $ShulkerBoxDispenseBehavior extends $OptionalDispenseItemBehavior {

@@ -30,16 +30,16 @@ declare module "@package/net/neoforged/neoforge/common/damagesource" {
     export class $DamageContainer {
         getSource(): $DamageSource;
         getShieldDamage(): number;
-        getOriginalDamage(): number;
-        addModifier(arg0: $DamageContainer$Reduction_, arg1: $IReductionFunction_): void;
+        setPostAttackInvulnerabilityTicks(arg0: number): void;
+        getReduction(arg0: $DamageContainer$Reduction_): number;
+        getPostAttackInvulnerabilityTicks(): number;
         setNewDamage(arg0: number): void;
-        setBlockedDamage(arg0: $LivingShieldBlockEvent): void;
-        getBlockedDamage(): number;
         setReduction(arg0: $DamageContainer$Reduction_, arg1: number): void;
         getNewDamage(): number;
-        getReduction(arg0: $DamageContainer$Reduction_): number;
-        setPostAttackInvulnerabilityTicks(arg0: number): void;
-        getPostAttackInvulnerabilityTicks(): number;
+        setBlockedDamage(arg0: $LivingShieldBlockEvent): void;
+        getBlockedDamage(): number;
+        getOriginalDamage(): number;
+        addModifier(arg0: $DamageContainer$Reduction_, arg1: $IReductionFunction_): void;
         constructor(arg0: $DamageSource_, arg1: number);
         get source(): $DamageSource;
         get shieldDamage(): number;

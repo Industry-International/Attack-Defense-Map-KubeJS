@@ -53,14 +53,14 @@ declare module "@package/net/blay09/mods/balm/api/event/client" {
     }
     export class $ItemTooltipEvent extends $BalmEvent {
         getFlags(): $TooltipFlag;
-        getPlayer(): $Player;
-        getItemStack(): $ItemStack;
         getToolTip(): $List<$Component>;
+        getItemStack(): $ItemStack;
+        getPlayer(): $Player;
         constructor(arg0: $ItemStack_, arg1: $Player, arg2: $List_<$Component_>, arg3: $TooltipFlag);
         get flags(): $TooltipFlag;
-        get player(): $Player;
-        get itemStack(): $ItemStack;
         get toolTip(): $List<$Component>;
+        get itemStack(): $ItemStack;
+        get player(): $Player;
     }
     export class $UseItemInputEvent extends $BalmEvent {
         getHand(): $InteractionHand;
@@ -69,8 +69,8 @@ declare module "@package/net/blay09/mods/balm/api/event/client" {
     }
     export class $FovUpdateEvent extends $BalmEvent {
         getEntity(): $LivingEntity;
-        getFov(): number;
         setFov(arg0: number): void;
+        getFov(): number;
         constructor(arg0: $LivingEntity);
         get entity(): $LivingEntity;
     }
@@ -84,9 +84,9 @@ declare module "@package/net/blay09/mods/balm/api/event/client" {
         get guiGraphics(): $GuiGraphics;
     }
     export class $OpenScreenEvent extends $BalmEvent {
-        getScreen(): $Screen;
         setScreen(arg0: $Screen): void;
         getNewScreen(): $Screen;
+        getScreen(): $Screen;
         constructor(arg0: $Screen);
         get newScreen(): $Screen;
     }
@@ -111,11 +111,11 @@ declare module "@package/net/blay09/mods/balm/api/event/client" {
      * @deprecated
      */
     export class $RecipesUpdatedEvent extends $BalmEvent {
-        getRecipeManager(): $RecipeManager;
         getRegistryAccess(): $RegistryAccess;
+        getRecipeManager(): $RecipeManager;
         constructor(arg0: $RecipeManager, arg1: $RegistryAccess);
-        get recipeManager(): $RecipeManager;
         get registryAccess(): $RegistryAccess;
+        get recipeManager(): $RecipeManager;
     }
     export class $DisconnectedFromServerEvent extends $BalmEvent {
         getClient(): $Minecraft;

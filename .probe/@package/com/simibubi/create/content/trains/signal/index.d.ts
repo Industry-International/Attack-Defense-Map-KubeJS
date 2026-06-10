@@ -36,15 +36,15 @@ declare module "@package/com/simibubi/create/content/trains/signal" {
     export class $SignalBoundary extends $TrackEdgePoint {
         setGroup(arg0: boolean, arg1: $UUID_): void;
         getGroup(arg0: $TrackNode): $UUID;
-        queueUpdate(arg0: $TrackNode): void;
-        getTypeFor(arg0: $BlockPos_): $SignalBlock$SignalType;
         updateBlockEntityPower(arg0: $SignalBlockEntity): void;
-        getStateFor(arg0: $BlockPos_): $SignalBlockEntity$SignalState;
-        setGroupAndUpdate(arg0: $TrackNode, arg1: $UUID_): void;
-        cycleSignalType(arg0: $BlockPos_): void;
+        getTypeFor(arg0: $BlockPos_): $SignalBlock$SignalType;
         getOverlayFor(arg0: $BlockPos_): $SignalBlockEntity$OverlayState;
+        getStateFor(arg0: $BlockPos_): $SignalBlockEntity$SignalState;
+        cycleSignalType(arg0: $BlockPos_): void;
+        setGroupAndUpdate(arg0: $TrackNode, arg1: $UUID_): void;
         isForcedRed(arg0: boolean): boolean;
         isForcedRed(arg0: $TrackNode): boolean;
+        queueUpdate(arg0: $TrackNode): void;
         edgeLocation: $Couple<$TrackNodeLocation>;
         sidesToUpdate: $Couple<boolean>;
         types: $Couple<$SignalBlock$SignalType>;
@@ -65,18 +65,18 @@ declare module "@package/com/simibubi/create/content/trains/signal" {
         tick(arg0: $TrackGraph, arg1: boolean): void;
         setId(arg0: $UUID_): void;
         setLocation(arg0: $Couple<$TrackNodeLocation>, arg1: number): void;
+        getLocationOn(arg0: $TrackEdge): number;
         canMerge(): boolean;
         invalidate(arg0: $LevelAccessor): void;
         setType(arg0: $EdgePointType<never>): void;
         onRemoved(arg0: $TrackGraph): void;
         isPrimary(arg0: $TrackNode): boolean;
-        handler$doo000$create_power_loader$cpl$tick(arg0: $TrackGraph, arg1: boolean, arg2: $CallbackInfo): void;
-        handler$doo000$create_power_loader$cpl$remove(arg0: $CallbackInfo): void;
-        getLocationOn(arg0: $TrackEdge): number;
         blockEntityRemoved(arg0: $BlockPos_, arg1: boolean): void;
         canNavigateVia(arg0: $TrackNode): boolean;
         canCoexistWith(arg0: $EdgePointType<never>, arg1: boolean): boolean;
         blockEntityAdded(arg0: $BlockEntity, arg1: boolean): void;
+        handler$don000$create_power_loader$cpl$remove(arg0: $CallbackInfo): void;
+        handler$don000$create_power_loader$cpl$tick(arg0: $TrackGraph, arg1: boolean, arg2: $CallbackInfo): void;
         edgeLocation: $Couple<$TrackNodeLocation>;
         id: $UUID;
         position: number;
@@ -106,9 +106,9 @@ declare module "@package/com/simibubi/create/content/trains/signal" {
     export class $SignalBlockEntity$SignalState extends $Enum<$SignalBlockEntity$SignalState> {
         static values(): $SignalBlockEntity$SignalState[];
         static valueOf(arg0: string): $SignalBlockEntity$SignalState;
-        isRedLight(arg0: number): boolean;
         isGreenLight(arg0: number): boolean;
         isYellowLight(arg0: number): boolean;
+        isRedLight(arg0: number): boolean;
         static RED: $SignalBlockEntity$SignalState;
         static YELLOW: $SignalBlockEntity$SignalState;
         static INVALID: $SignalBlockEntity$SignalState;
@@ -121,13 +121,13 @@ declare module "@package/com/simibubi/create/content/trains/signal" {
     export class $SignalBlockEntity extends $SmartBlockEntity implements $TransformableBlockEntity {
         transform(arg0: $BlockEntity, arg1: $StructureTransform): void;
         getState(): $SignalBlockEntity$SignalState;
+        getSignal(): $SignalBoundary;
         setOverlay(arg0: $SignalBlockEntity$OverlayState_): void;
         static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
-        getSignal(): $SignalBoundary;
         isPowered(): boolean;
         getOverlay(): $SignalBlockEntity$OverlayState;
-        enterState(arg0: $SignalBlockEntity$SignalState_): void;
         getReportedPower(): boolean;
+        enterState(arg0: $SignalBlockEntity$SignalState_): void;
         worldPosition: $BlockPos;
         level: $Level;
         static ATTACHMENTS_NBT_KEY: string;

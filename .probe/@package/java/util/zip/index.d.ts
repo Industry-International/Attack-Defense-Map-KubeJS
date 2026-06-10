@@ -1,4 +1,4 @@
-import { $InputStream, $File_, $Closeable } from "@package/java/io";
+import { $InputStream, $Closeable, $File_ } from "@package/java/io";
 import { $LocalDateTime } from "@package/java/time";
 import { $Stream } from "@package/java/util/stream";
 import { $FileTime } from "@package/java/nio/file/attribute";

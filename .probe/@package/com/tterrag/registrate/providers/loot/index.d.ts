@@ -57,8 +57,8 @@ declare module "@package/com/tterrag/registrate/providers/loot" {
         resolve<T>(arg0: $ResourceKey_<T>): $Holder<T>;
         getProvider(): $HolderLookup$Provider;
         getSide(): $LogicalSide;
-        addLootAction(arg0: $LootContextParamSet, arg1: $Consumer_<$BiConsumer<$ResourceKey<$LootTable>, $LootTable$Builder>>): void;
         addLootAction<T extends $RegistrateLootTables>(arg0: $RegistrateLootTableProvider$LootType<T>, arg1: $NonNullConsumer_<T>): void;
+        addLootAction(arg0: $LootContextParamSet, arg1: $Consumer_<$BiConsumer<$ResourceKey<$LootTable>, $LootTable$Builder>>): void;
         constructor(arg0: $AbstractRegistrate<never>, arg1: $PackOutput, arg2: $CompletableFuture<$HolderLookup$Provider>);
         get provider(): $HolderLookup$Provider;
         get side(): $LogicalSide;

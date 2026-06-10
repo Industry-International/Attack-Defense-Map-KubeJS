@@ -6,15 +6,15 @@ declare module "@package/dev/ryanhcode/sable/mixinterface/entity/entities_stick_
     export class $EntityStickExtension {
     }
     export interface $EntityStickExtension {
-        sable$plotLerpTo(arg0: $Vec3_, arg1: number): void;
         sable$getPlotPosition(): $Vec3;
         sable$setPlotPosition(arg0: $Vec3_): void;
+        sable$plotLerpTo(arg0: $Vec3_, arg1: number): void;
     }
     export class $LivingEntityStickExtension {
     }
     export interface $LivingEntityStickExtension extends $EntityStickExtension {
-        sable$applyLerp(): void;
-        sable$setupLerp(): void;
         sable$getLerpTarget(): $Vec3;
+        sable$setupLerp(): void;
+        sable$applyLerp(): void;
     }
 }

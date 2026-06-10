@@ -31,11 +31,11 @@ declare module "@package/net/minecraft/client/gui/screens/social" {
         isRemoved(): boolean;
         getPlayerId(): $UUID;
         setHasRecentMessages(arg0: boolean): void;
-        getPlayerName(): string;
         getEntryNarationMessage(arg0: $MutableComponent_): $MutableComponent;
-        getSkinGetter(): $Supplier<$PlayerSkin>;
         isChatReportable(): boolean;
         hasRecentMessages(): boolean;
+        getSkinGetter(): $Supplier<$PlayerSkin>;
+        getPlayerName(): string;
         static BG_FILL: number;
         static PLAYERNAME_COLOR: number;
         static BG_FILL_REMOVED: number;
@@ -47,13 +47,13 @@ declare module "@package/net/minecraft/client/gui/screens/social" {
         static PLAYER_STATUS_COLOR: number;
         constructor(arg0: $Minecraft, arg1: $SocialInteractionsScreen, arg2: $UUID_, arg3: string, arg4: $Supplier_<$PlayerSkin>, arg5: boolean);
         get playerId(): $UUID;
-        get playerName(): string;
-        get skinGetter(): $Supplier<$PlayerSkin>;
         get chatReportable(): boolean;
+        get skinGetter(): $Supplier<$PlayerSkin>;
+        get playerName(): string;
     }
     export class $SocialInteractionsScreen extends $Screen {
-        onRemovePlayer(arg0: $UUID_): void;
         onAddPlayer(arg0: $PlayerInfo): void;
+        onRemovePlayer(arg0: $UUID_): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static EMPTY_SEARCH: $Component;
@@ -82,9 +82,9 @@ declare module "@package/net/minecraft/client/gui/screens/social" {
     export class $SocialInteractionsPlayerList extends $ContainerObjectSelectionList<$PlayerEntry> {
         isEmpty(): boolean;
         setFilter(arg0: string): void;
-        addPlayer(arg0: $PlayerInfo, arg1: $SocialInteractionsScreen$Page_): void;
         removePlayer(arg0: $UUID_): void;
         updatePlayerList(arg0: $Collection_<$UUID_>, arg1: number, arg2: boolean): void;
+        addPlayer(arg0: $PlayerInfo, arg1: $SocialInteractionsScreen$Page_): void;
         minecraft: $Minecraft;
         static SCROLLER_BACKGROUND_SPRITE: $ResourceLocation;
         visible: boolean;
@@ -109,16 +109,16 @@ declare module "@package/net/minecraft/client/gui/screens/social" {
     }
     export class $PlayerSocialManager {
         isHidden(arg0: $UUID_): boolean;
-        addPlayer(arg0: $PlayerInfo): void;
+        shouldHideMessageFrom(arg0: $UUID_): boolean;
+        stopOnlineMode(): void;
+        isBlocked(arg0: $UUID_): boolean;
         removePlayer(arg0: $UUID_): void;
         startOnlineMode(): void;
-        shouldHideMessageFrom(arg0: $UUID_): boolean;
-        isBlocked(arg0: $UUID_): boolean;
-        stopOnlineMode(): void;
         getHiddenPlayers(): $Set<$UUID>;
+        addPlayer(arg0: $PlayerInfo): void;
         getDiscoveredUUID(arg0: string): $UUID;
-        hidePlayer(arg0: $UUID_): void;
         showPlayer(arg0: $UUID_): void;
+        hidePlayer(arg0: $UUID_): void;
         constructor(arg0: $Minecraft, arg1: $UserApiService);
         get hiddenPlayers(): $Set<$UUID>;
     }

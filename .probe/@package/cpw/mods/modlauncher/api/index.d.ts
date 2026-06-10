@@ -8,9 +8,9 @@ declare module "@package/cpw/mods/modlauncher/api" {
     }
     export interface $IEnvironment {
         getProperty<T>(arg0: $TypesafeMap$Key<T>): (T) | undefined;
-        findLaunchHandler(arg0: string): ($ILaunchHandlerService) | undefined;
         findLaunchPlugin(arg0: string): ($ILaunchPluginService) | undefined;
-        findModuleLayerManager(): ($IModuleLayerManager) | undefined;
+        findLaunchHandler(arg0: string): ($ILaunchHandlerService) | undefined;
         computePropertyIfAbsent<T>(arg0: $TypesafeMap$Key<T>, arg1: $Function_<$TypesafeMap$Key<T>, T>): T;
+        findModuleLayerManager(): ($IModuleLayerManager) | undefined;
     }
 }

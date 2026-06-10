@@ -77,9 +77,9 @@ declare module "@package/net/blay09/mods/balm/api/config/schema" {
         category(): string;
         getRaw(arg0: $LoadedConfig): T;
         codec(): $Codec<T>;
-        synced(): boolean;
-        setRaw(arg0: $MutableLoadedConfig, arg1: T): void;
         streamCodec(): $StreamCodec<$ByteBuf, T>;
+        setRaw(arg0: $MutableLoadedConfig, arg1: T): void;
+        synced(): boolean;
         parentSchema(): $BalmConfigSchema;
     }
     export class $ConfiguredDouble {

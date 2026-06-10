@@ -1,4 +1,4 @@
-import { $GameType_, $GameType } from "@package/net/minecraft/world/level";
+import { $GameType, $GameType_ } from "@package/net/minecraft/world/level";
 import { $Consumer_ } from "@package/java/util/function";
 import { $Screen, $ShareToLanScreen } from "@package/net/minecraft/client/gui/screens";
 import { $GuiGraphics, $Font } from "@package/net/minecraft/client/gui";
@@ -11,10 +11,10 @@ declare module "@package/rikka/lanserverproperties" {
     }
     export interface $IShareToLanScreenParamAccessor {
         getPort(): number;
-        setGameType(arg0: $GameType_): void;
-        setPort(arg0: number): void;
         getGameType(): $GameType;
+        setPort(arg0: number): void;
         getFont(): $Font;
+        setGameType(arg0: $GameType_): void;
         getLastScreen(): $Screen;
         getLSPData(): $OpenToLanScreenEx;
         isCommandEnabled(): boolean;
@@ -26,11 +26,11 @@ declare module "@package/rikka/lanserverproperties" {
     }
     export class $OpenToLanScreenEx {
         getDefaultPort(): number;
-        static postDraw(arg0: $Screen, arg1: $Font, arg2: $GuiGraphics, arg3: number, arg4: number, arg5: number): void;
-        static initPauseScreen(arg0: $Screen, arg1: $List_<$GuiEventListener>, arg2: $Consumer_<$GuiEventListener>): void;
         postInitShareToLanScreen(arg0: $Font, arg1: $List_<$GuiEventListener>, arg2: $Consumer_<$GuiEventListener>, arg3: $Consumer_<$GuiEventListener>): void;
-        onOpenToLanClosed(): void;
+        static initPauseScreen(arg0: $Screen, arg1: $List_<$GuiEventListener>, arg2: $Consumer_<$GuiEventListener>): void;
+        static postDraw(arg0: $Screen, arg1: $Font, arg2: $GuiGraphics, arg3: number, arg4: number, arg5: number): void;
         onPortEditBoxChanged(): void;
+        onOpenToLanClosed(): void;
         constructor(arg0: $ShareToLanScreen, arg1: $IShareToLanScreenParamAccessor);
         get defaultPort(): number;
     }

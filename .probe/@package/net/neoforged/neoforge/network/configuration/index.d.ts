@@ -66,8 +66,8 @@ declare module "@package/net/neoforged/neoforge/network/configuration" {
     }
     export class $CheckExtensibleEnums$ExtensionData extends $Record {
         entries(): $List<string>;
-        totalCount(): number;
         vanillaCount(): number;
+        totalCount(): number;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $CheckExtensibleEnums$ExtensionData>;
         constructor(vanillaCount: number, totalCount: number, entries: $List_<string>);
     }
@@ -93,14 +93,14 @@ declare module "@package/net/neoforged/neoforge/network/configuration" {
     export class $CheckExtensibleEnums$EnumEntry extends $Record {
         className(): string;
         data(): ($CheckExtensibleEnums$ExtensionData) | undefined;
-        isClientbound(): boolean;
         isServerbound(): boolean;
-        networkCheck(): $NetworkedEnum$NetworkCheck;
+        isClientbound(): boolean;
         isExtended(): boolean;
+        networkCheck(): $NetworkedEnum$NetworkCheck;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $CheckExtensibleEnums$EnumEntry>;
         constructor(className: string, networkCheck: $NetworkedEnum$NetworkCheck_, data: ($CheckExtensibleEnums$ExtensionData_) | undefined);
-        get clientbound(): boolean;
         get serverbound(): boolean;
+        get clientbound(): boolean;
         get extended(): boolean;
     }
 }

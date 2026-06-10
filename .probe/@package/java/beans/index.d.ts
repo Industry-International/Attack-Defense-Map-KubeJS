@@ -21,14 +21,14 @@ declare module "@package/java/beans" {
      */
     export type $PropertyChangeListener_ = ((arg0: $PropertyChangeEvent) => void);
     export class $PropertyChangeEvent extends $EventObject {
-        getPropertyName(): string;
         getOldValue(): $Object;
         getNewValue(): $Object;
         getPropagationId(): $Object;
         setPropagationId(arg0: $Object): void;
+        getPropertyName(): string;
         constructor(arg0: $Object, arg1: string, arg2: $Object, arg3: $Object);
-        get propertyName(): string;
         get oldValue(): $Object;
         get newValue(): $Object;
+        get propertyName(): string;
     }
 }

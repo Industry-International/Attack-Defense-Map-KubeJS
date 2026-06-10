@@ -6,8 +6,8 @@ declare module "@package/dev/ryanhcode/sable/mixinterface/particle" {
     }
     export interface $ParticleExtension {
         sable$initialKickOut(): void;
-        sable$getTrackingSubLevel(): $SubLevel;
-        sable$setTrackingSubLevel(arg0: $ClientSubLevel, arg1: $Vec3_): void;
         sable$moveWithInheritedVelocity(): void;
+        sable$setTrackingSubLevel(arg0: $ClientSubLevel, arg1: $Vec3_): void;
+        sable$getTrackingSubLevel(): $SubLevel;
     }
 }

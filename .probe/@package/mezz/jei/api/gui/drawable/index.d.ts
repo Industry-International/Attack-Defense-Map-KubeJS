@@ -25,10 +25,10 @@ declare module "@package/mezz/jei/api/gui/drawable" {
     export interface $IDrawableBuilder {
         trim(arg0: number, arg1: number, arg2: number, arg3: number): $IDrawableBuilder;
         build(): $IDrawableStatic;
-        buildAnimated(arg0: number, arg1: $IDrawableAnimated$StartDirection_, arg2: boolean): $IDrawableAnimated;
-        buildAnimated(arg0: $ITickTimer, arg1: $IDrawableAnimated$StartDirection_): $IDrawableAnimated;
         addPadding(arg0: number, arg1: number, arg2: number, arg3: number): $IDrawableBuilder;
         setTextureSize(arg0: number, arg1: number): $IDrawableBuilder;
+        buildAnimated(arg0: number, arg1: $IDrawableAnimated$StartDirection_, arg2: boolean): $IDrawableAnimated;
+        buildAnimated(arg0: $ITickTimer, arg1: $IDrawableAnimated$StartDirection_): $IDrawableAnimated;
     }
     export class $IScalableDrawable {
     }

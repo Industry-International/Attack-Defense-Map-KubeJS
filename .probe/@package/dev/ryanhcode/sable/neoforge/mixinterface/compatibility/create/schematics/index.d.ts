@@ -33,8 +33,8 @@ declare module "@package/dev/ryanhcode/sable/neoforge/mixinterface/compatibility
     export class $StructureTemplateExtension$SubLevelTemplate extends $Record {
         position(): $Vector3d;
         uuid(): $UUID;
-        template(): $StructureTemplate;
         orientation(): $Quaterniond;
+        template(): $StructureTemplate;
         constructor(uuid: $UUID_, position: $Vector3d, orientation: $Quaterniond, template: $StructureTemplate);
     }
 }

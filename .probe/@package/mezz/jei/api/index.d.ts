@@ -1,4 +1,4 @@
-import { $IVanillaCategoryExtensionRegistration, $IGuiHandlerRegistration, $IAdvancedRegistration, $IRecipeCategoryRegistration, $IIngredientAliasRegistration, $IModIngredientRegistration, $IRecipeRegistration, $IRuntimeRegistration, $ISubtypeRegistration, $IModInfoRegistration_, $IRecipeCatalystRegistration, $IRecipeTransferRegistration, $IExtraIngredientRegistration_ } from "@package/mezz/jei/api/registration";
+import { $IGuiHandlerRegistration, $IVanillaCategoryExtensionRegistration, $IAdvancedRegistration, $IRecipeCategoryRegistration, $IIngredientAliasRegistration, $IRecipeRegistration, $IModIngredientRegistration, $IRuntimeRegistration, $ISubtypeRegistration, $IModInfoRegistration_, $IRecipeCatalystRegistration, $IRecipeTransferRegistration, $IExtraIngredientRegistration_ } from "@package/mezz/jei/api/registration";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
 import { $IPlatformFluidHelper } from "@package/mezz/jei/api/helpers";
 import { $IJeiConfigManager_ } from "@package/mezz/jei/api/runtime/config";
@@ -14,23 +14,23 @@ declare module "@package/mezz/jei/api" {
     export class $IModPlugin {
     }
     export interface $IModPlugin {
+        registerVanillaCategoryExtensions(arg0: $IVanillaCategoryExtensionRegistration): void;
+        registerRecipeTransferHandlers(arg0: $IRecipeTransferRegistration): void;
+        registerAdvanced(arg0: $IAdvancedRegistration): void;
+        registerCategories(arg0: $IRecipeCategoryRegistration): void;
+        getPluginUid(): $ResourceLocation;
+        registerRuntime(arg0: $IRuntimeRegistration): void;
+        registerModInfo(arg0: $IModInfoRegistration_): void;
+        registerRecipes(arg0: $IRecipeRegistration): void;
+        onRuntimeAvailable(arg0: $IJeiRuntime): void;
         registerItemSubtypes(arg0: $ISubtypeRegistration): void;
         registerFluidSubtypes<T>(arg0: $ISubtypeRegistration, arg1: $IPlatformFluidHelper<T>): void;
         registerIngredients(arg0: $IModIngredientRegistration): void;
         registerExtraIngredients(arg0: $IExtraIngredientRegistration_): void;
         registerIngredientAliases(arg0: $IIngredientAliasRegistration): void;
-        registerRecipes(arg0: $IRecipeRegistration): void;
-        onRuntimeAvailable(arg0: $IJeiRuntime): void;
-        getPluginUid(): $ResourceLocation;
-        registerModInfo(arg0: $IModInfoRegistration_): void;
-        registerAdvanced(arg0: $IAdvancedRegistration): void;
-        registerRuntime(arg0: $IRuntimeRegistration): void;
-        registerCategories(arg0: $IRecipeCategoryRegistration): void;
-        registerVanillaCategoryExtensions(arg0: $IVanillaCategoryExtensionRegistration): void;
-        registerRecipeTransferHandlers(arg0: $IRecipeTransferRegistration): void;
         registerRecipeCatalysts(arg0: $IRecipeCatalystRegistration): void;
-        onConfigManagerAvailable(arg0: $IJeiConfigManager_): void;
         registerGuiHandlers(arg0: $IGuiHandlerRegistration): void;
+        onConfigManagerAvailable(arg0: $IJeiConfigManager_): void;
         onRuntimeUnavailable(): void;
         get pluginUid(): $ResourceLocation;
     }

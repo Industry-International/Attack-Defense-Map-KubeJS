@@ -1,4 +1,5 @@
 export * as transfer from "@package/net/fabricmc/fabric/impl/transfer";
+export * as networking from "@package/net/fabricmc/fabric/impl/networking";
 export * as client from "@package/net/fabricmc/fabric/impl/client";
 export * as event from "@package/net/fabricmc/fabric/impl/event";
 export * as biome from "@package/net/fabricmc/fabric/impl/biome";
@@ -6,7 +7,6 @@ export * as item from "@package/net/fabricmc/fabric/impl/item";
 export * as content from "@package/net/fabricmc/fabric/impl/content";
 export * as gamerule from "@package/net/fabricmc/fabric/impl/gamerule";
 export * as object from "@package/net/fabricmc/fabric/impl/object";
-export * as networking from "@package/net/fabricmc/fabric/impl/networking";
 export * as lookup from "@package/net/fabricmc/fabric/impl/lookup";
 export * as renderer from "@package/net/fabricmc/fabric/impl/renderer";
 export * as blockview from "@package/net/fabricmc/fabric/impl/blockview";

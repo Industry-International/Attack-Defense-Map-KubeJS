@@ -34,26 +34,26 @@ declare module "@package/com/mojang/brigadier/tree" {
         parse(arg0: $StringReader, arg1: $CommandContextBuilder<S>): void;
         getChild(arg0: string): $CommandNode<S>;
         getChildren(): $Collection<$CommandNode<S>>;
-        getExamples(): $Collection<string>;
         addChild(arg0: $CommandNode<S>): void;
         createBuilder(): $ArgumentBuilder<S, never>;
+        getExamples(): $Collection<string>;
+        getCommand(): $Command<S>;
+        findAmbiguities(arg0: $AmbiguityConsumer_<S>): void;
+        getUsageText(): string;
+        getRelevantNodes(arg0: $StringReader): $Collection<$CommandNode<S>>;
         getRedirectModifier(): $RedirectModifier<S>;
         isFork(): boolean;
-        getCommand(): $Command<S>;
         listSuggestions(arg0: $CommandContext<S>, arg1: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
-        getRedirect(): $CommandNode<S>;
         getRequirement(): $Predicate<S>;
-        getRelevantNodes(arg0: $StringReader): $Collection<$CommandNode<S>>;
-        getUsageText(): string;
-        findAmbiguities(arg0: $AmbiguityConsumer_<S>): void;
+        getRedirect(): $CommandNode<S>;
         get name(): string;
         get children(): $Collection<$CommandNode<S>>;
         get examples(): $Collection<string>;
+        get command(): $Command<S>;
+        get usageText(): string;
         get redirectModifier(): $RedirectModifier<S>;
         get fork(): boolean;
-        get command(): $Command<S>;
-        get redirect(): $CommandNode<S>;
         get requirement(): $Predicate<S>;
-        get usageText(): string;
+        get redirect(): $CommandNode<S>;
     }
 }

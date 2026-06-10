@@ -1,8 +1,8 @@
 import { $InputStream, $OutputStream } from "@package/java/io";
-import { $Path_, $CopyOption, $FileStore, $DirectoryStream$Filter_, $DirectoryStream, $AccessMode_, $LinkOption_, $OpenOption, $FileSystem, $Path } from "@package/java/nio/file";
+import { $Path_, $CopyOption, $FileStore, $DirectoryStream$Filter_, $AccessMode_, $DirectoryStream, $LinkOption_, $OpenOption, $FileSystem, $Path } from "@package/java/nio/file";
 import { $URI } from "@package/java/net";
 import { $ExecutorService } from "@package/java/util/concurrent";
-import { $BasicFileAttributes, $FileAttributeView, $FileAttribute } from "@package/java/nio/file/attribute";
+import { $BasicFileAttributes, $FileAttribute, $FileAttributeView } from "@package/java/nio/file/attribute";
 import { $Object, $Class } from "@package/java/lang";
 import { $List, $Map_, $Map, $Set_ } from "@package/java/util";
 import { $AsynchronousFileChannel, $SeekableByteChannel, $FileChannel } from "@package/java/nio/channels";

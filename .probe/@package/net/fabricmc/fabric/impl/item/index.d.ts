@@ -11,9 +11,9 @@ declare module "@package/net/fabricmc/fabric/impl/item" {
     export class $ItemExtensions {
     }
     export interface $ItemExtensions {
-        fabric_setEquipmentSlotProvider(arg0: $EquipmentSlotProvider_): void;
-        fabric_getCustomDamageHandler(): $CustomDamageHandler;
-        fabric_getEquipmentSlotProvider(): $EquipmentSlotProvider;
         fabric_setCustomDamageHandler(arg0: $CustomDamageHandler_): void;
+        fabric_setEquipmentSlotProvider(arg0: $EquipmentSlotProvider_): void;
+        fabric_getEquipmentSlotProvider(): $EquipmentSlotProvider;
+        fabric_getCustomDamageHandler(): $CustomDamageHandler;
     }
 }

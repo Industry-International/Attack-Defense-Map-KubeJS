@@ -1,7 +1,7 @@
 import { $BlockState, $BlockState_ } from "@package/net/minecraft/world/level/block/state";
 import { $Record } from "@package/java/lang";
 import { $List_, $List } from "@package/java/util";
-import { $NoiseChunk$BlockStateFiller, $NoiseChunk$BlockStateFiller_, $DensityFunction$FunctionContext, $NoiseChunk } from "@package/net/minecraft/world/level/levelgen";
+import { $NoiseChunk$BlockStateFiller_, $NoiseChunk$BlockStateFiller, $DensityFunction$FunctionContext, $NoiseChunk } from "@package/net/minecraft/world/level/levelgen";
 
 declare module "@package/net/minecraft/world/level/levelgen/material" {
     export class $WorldGenMaterialRule {

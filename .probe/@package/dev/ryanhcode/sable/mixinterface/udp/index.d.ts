@@ -11,7 +11,7 @@ declare module "@package/dev/ryanhcode/sable/mixinterface/udp" {
     export class $ConnectionExtension {
     }
     export interface $ConnectionExtension {
-        sable$getUDPChannel(): $Channel;
         sable$setUDPChannel(arg0: $Channel): void;
+        sable$getUDPChannel(): $Channel;
     }
 }

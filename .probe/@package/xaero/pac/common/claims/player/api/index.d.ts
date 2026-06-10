@@ -30,17 +30,17 @@ declare module "@package/xaero/pac/common/claims/player/api" {
     export interface $IPlayerClaimInfoAPI {
         getDimension(arg0: $ResourceLocation_): $IPlayerDimensionClaimsAPI;
         getPlayerId(): $UUID;
-        getClaimCount(): number;
-        getClaimsColor(arg0: number): number;
-        getClaimsColor(): number;
-        getClaimsName(): string;
         getClaimsName(arg0: number): string;
-        getForceloadCount(): number;
+        getClaimsName(): string;
         getPlayerUsername(): string;
+        getForceloadCount(): number;
+        getClaimsColor(): number;
+        getClaimsColor(arg0: number): number;
+        getClaimCount(): number;
         get playerId(): $UUID;
-        get claimCount(): number;
-        get forceloadCount(): number;
         get playerUsername(): string;
+        get forceloadCount(): number;
+        get claimCount(): number;
     }
     export class $IPlayerClaimPosListAPI {
     }

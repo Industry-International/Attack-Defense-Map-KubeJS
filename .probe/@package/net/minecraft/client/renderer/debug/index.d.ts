@@ -19,20 +19,20 @@ declare module "@package/net/minecraft/client/renderer/debug" {
     }
     export class $DebugRenderer {
         clear(): void;
+        render(arg0: $PoseStack, arg1: $MultiBufferSource$BufferSource, arg2: number, arg3: number, arg4: number): void;
+        switchRenderChunkborder(): boolean;
+        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number): void;
+        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number): void;
+        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean, arg9: number, arg10: boolean): void;
+        handler$ccd000$vista$renderDebug(arg0: $PoseStack, arg1: $MultiBufferSource$BufferSource, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
+        static renderFilledUnitCube(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $BlockPos_, arg3: number, arg4: number, arg5: number, arg6: number): void;
+        handler$goh000$moonlight$supp$renderVanillaDebug(arg0: $PoseStack, arg1: $MultiBufferSource$BufferSource, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
         static getTargetedEntity(arg0: $Entity, arg1: number): ($Entity) | undefined;
-        static renderFilledBox(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $BlockPos_, arg3: $BlockPos_, arg4: number, arg5: number, arg6: number, arg7: number): void;
         static renderFilledBox(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $AABB_, arg3: number, arg4: number, arg5: number, arg6: number): void;
         static renderFilledBox(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $BlockPos_, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
         static renderFilledBox(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
-        render(arg0: $PoseStack, arg1: $MultiBufferSource$BufferSource, arg2: number, arg3: number, arg4: number): void;
-        handler$gnf000$moonlight$supp$renderVanillaDebug(arg0: $PoseStack, arg1: $MultiBufferSource$BufferSource, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        switchRenderChunkborder(): boolean;
-        handler$cce000$vista$renderDebug(arg0: $PoseStack, arg1: $MultiBufferSource$BufferSource, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number): void;
-        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number): void;
-        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean, arg9: number, arg10: boolean): void;
-        static renderFloatingText(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: string, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        static renderFilledUnitCube(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $BlockPos_, arg3: number, arg4: number, arg5: number, arg6: number): void;
+        static renderFilledBox(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $BlockPos_, arg3: $BlockPos_, arg4: number, arg5: number, arg6: number, arg7: number): void;
         waterDebugRenderer: $DebugRenderer$SimpleDebugRenderer;
         neighborsUpdateRenderer: $DebugRenderer$SimpleDebugRenderer;
         pathfindingRenderer: $PathfindingRenderer;
@@ -92,8 +92,8 @@ declare module "@package/net/minecraft/client/renderer/debug" {
     }
     export class $GameTestDebugRenderer implements $DebugRenderer$SimpleDebugRenderer {
         clear(): void;
-        addMarker(arg0: $BlockPos_, arg1: number, arg2: string, arg3: number): void;
         render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: number, arg4: number): void;
+        addMarker(arg0: $BlockPos_, arg1: number, arg2: string, arg3: number): void;
         constructor();
     }
     export class $RaidDebugRenderer implements $DebugRenderer$SimpleDebugRenderer {
@@ -211,9 +211,9 @@ declare module "@package/net/minecraft/client/renderer/debug" {
     export class $BrainDebugRenderer implements $DebugRenderer$SimpleDebugRenderer {
         clear(): void;
         render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: number, arg4: number): void;
-        removePoi(arg0: $BlockPos_): void;
-        addPoi(arg0: $BrainDebugRenderer$PoiInfo): void;
         addOrUpdateBrainDump(arg0: $BrainDebugPayload$BrainDump_): void;
+        addPoi(arg0: $BrainDebugRenderer$PoiInfo): void;
+        removePoi(arg0: $BlockPos_): void;
         setFreeTicketCount(arg0: $BlockPos_, arg1: number): void;
         removeBrainDump(arg0: number): void;
         constructor(arg0: $Minecraft);

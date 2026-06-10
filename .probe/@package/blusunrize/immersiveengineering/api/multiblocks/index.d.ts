@@ -29,14 +29,14 @@ declare module "@package/blusunrize/immersiveengineering/api/multiblocks" {
         getSize(arg0: $Level_): $Vec3i;
         getDisplayName(): $Component;
         getBlock(): $Block;
-        getStructure(arg0: $Level_): $List<$StructureTemplate$StructureBlockInfo>;
         getUniqueName(): $ResourceLocation;
         disassemble(arg0: $Level_, arg1: $BlockPos_, arg2: boolean, arg3: $Direction_): void;
+        createStructure(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $Player): boolean;
         initializeClient(arg0: $Consumer_<$ClientMultiblocks$MultiblockManualData>): void;
+        getStructure(arg0: $Level_): $List<$StructureTemplate$StructureBlockInfo>;
         getManualScale(): number;
         getTriggerOffset(): $BlockPos;
         isBlockTrigger(arg0: $BlockState_, arg1: $Direction_, arg2: $Level_): boolean;
-        createStructure(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $Player): boolean;
         get displayName(): $Component;
         get block(): $Block;
         get uniqueName(): $ResourceLocation;
@@ -45,13 +45,13 @@ declare module "@package/blusunrize/immersiveengineering/api/multiblocks" {
     }
     export class $MultiblockHandler$MultiblockFormEvent extends $PlayerEvent implements $ICancellableEvent {
         getMultiblock(): $MultiblockHandler$IMultiblock;
-        getHammer(): $ItemStack;
         getClickedBlock(): $BlockPos;
+        getHammer(): $ItemStack;
         setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
         constructor(arg0: $Player, arg1: $MultiblockHandler$IMultiblock, arg2: $BlockPos_, arg3: $ItemStack_);
         get multiblock(): $MultiblockHandler$IMultiblock;
-        get hammer(): $ItemStack;
         get clickedBlock(): $BlockPos;
+        get hammer(): $ItemStack;
     }
 }

@@ -2,7 +2,7 @@ import { $DefaultConstructorMarker } from "@package/kotlin/jvm/internal";
 import { $Function_, $BiFunction_, $BiConsumer_ } from "@package/java/util/function";
 import { $KSerializer } from "@package/kotlinx/serialization";
 import { $KMappedMarker } from "@package/kotlin/jvm/internal/markers";
-import { $Map_, $Map, $Map$Entry, $Collection, $Set } from "@package/java/util";
+import { $Map_, $Map, $Collection, $Map$Entry, $Set } from "@package/java/util";
 import { $Object } from "@package/java/lang";
 
 declare module "@package/kotlinx/serialization/json" {

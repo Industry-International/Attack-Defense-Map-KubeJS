@@ -1,4 +1,4 @@
-import { $ServerLevelAccessor, $Level, $LevelAccessor, $Level_ } from "@package/net/minecraft/world/level";
+import { $ServerLevelAccessor, $Level, $EntityGetter, $LevelAccessor, $Level_ } from "@package/net/minecraft/world/level";
 import { $Codec } from "@package/com/mojang/serialization";
 import { $Entity } from "@package/net/minecraft/world/entity";
 import { $ChunkSource } from "@package/net/minecraft/world/level/chunk";
@@ -20,12 +20,13 @@ declare module "@package/net/createmod/catnip/levelWrappers" {
         getBounds(): $BoundingBox;
         setBounds(arg0: $BoundingBox): void;
         getBlockEntities(): $Iterable<$BlockEntity>;
-        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
-        getBlockMap(): $Map<$BlockPos, $BlockState>;
-        getEntityList(): $List<$Entity>;
         getAllPositions(): $Set<$BlockPos>;
+        getEntityList(): $List<$Entity>;
         sable$getSubLevels(): $List<any>;
+        getBlockMap(): $Map<$BlockPos, $BlockState>;
+        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
         addFreshEntityWithPassengers(arg0: $Entity): void;
+        self(): $EntityGetter;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;
         static LONG_PARTICLE_CLIP_RANGE: number;
@@ -56,14 +57,15 @@ declare module "@package/net/createmod/catnip/levelWrappers" {
         constructor(arg0: $Level_);
         constructor(arg0: $BlockPos_, arg1: $Level_);
         get blockEntities(): $Iterable<$BlockEntity>;
-        get renderedBlockEntities(): $Iterable<$BlockEntity>;
-        get blockMap(): $Map<$BlockPos, $BlockState>;
-        get entityList(): $List<$Entity>;
         get allPositions(): $Set<$BlockPos>;
+        get entityList(): $List<$Entity>;
+        get blockMap(): $Map<$BlockPos, $BlockState>;
+        get renderedBlockEntities(): $Iterable<$BlockEntity>;
     }
     export class $WrappedLevel extends $Level {
         getLevel(): $Level;
         setChunkSource(arg0: $ChunkSource): void;
+        self(): $EntityGetter;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;
         static LONG_PARTICLE_CLIP_RANGE: number;
@@ -99,14 +101,14 @@ declare module "@package/net/createmod/catnip/levelWrappers" {
         getBounds(): $BoundingBox;
         setBounds(arg0: $BoundingBox): void;
         getBlockEntities(): $Iterable<$BlockEntity>;
-        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
-        getBlockMap(): $Map<$BlockPos, $BlockState>;
-        getEntityList(): $List<$Entity>;
         getAllPositions(): $Set<$BlockPos>;
+        getEntityList(): $List<$Entity>;
+        getBlockMap(): $Map<$BlockPos, $BlockState>;
+        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
         get blockEntities(): $Iterable<$BlockEntity>;
-        get renderedBlockEntities(): $Iterable<$BlockEntity>;
-        get blockMap(): $Map<$BlockPos, $BlockState>;
-        get entityList(): $List<$Entity>;
         get allPositions(): $Set<$BlockPos>;
+        get entityList(): $List<$Entity>;
+        get blockMap(): $Map<$BlockPos, $BlockState>;
+        get renderedBlockEntities(): $Iterable<$BlockEntity>;
     }
 }

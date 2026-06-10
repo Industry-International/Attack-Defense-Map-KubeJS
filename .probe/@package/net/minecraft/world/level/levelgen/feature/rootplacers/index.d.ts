@@ -17,12 +17,12 @@ import { $Record } from "@package/java/lang";
 declare module "@package/net/minecraft/world/level/levelgen/feature/rootplacers" {
     export class $RootPlacer {
         type(): $RootPlacerType<never>;
+        placeRoot(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): void;
+        placeRoots(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $BlockPos_, arg5: $TreeConfiguration): boolean;
         getPotentiallyWaterloggedState(arg0: $LevelSimulatedReader, arg1: $BlockPos_, arg2: $BlockState_): $BlockState;
         getTrunkOrigin(arg0: $BlockPos_, arg1: $RandomSource): $BlockPos;
-        canPlaceRoot(arg0: $LevelSimulatedReader, arg1: $BlockPos_): boolean;
         static rootPlacerParts<P extends $RootPlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, $IntProvider, $BlockStateProvider, ($AboveRootPlacement) | undefined>;
-        placeRoots(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $BlockPos_, arg5: $TreeConfiguration): boolean;
-        placeRoot(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): void;
+        canPlaceRoot(arg0: $LevelSimulatedReader, arg1: $BlockPos_): boolean;
         static CODEC: $Codec<$RootPlacer>;
         aboveRootPlacement: ($AboveRootPlacement) | undefined;
         trunkOffsetY: $IntProvider;
@@ -30,19 +30,19 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/rootplacers"
         constructor(arg0: $IntProvider_, arg1: $BlockStateProvider, arg2: ($AboveRootPlacement_) | undefined);
     }
     export class $AboveRootPlacement extends $Record {
-        aboveRootProvider(): $BlockStateProvider;
         aboveRootPlacementChance(): number;
+        aboveRootProvider(): $BlockStateProvider;
         static CODEC: $Codec<$AboveRootPlacement>;
         constructor(arg0: $BlockStateProvider, arg1: number);
     }
     export interface $RootPlacerType extends RegistryMarked<RegistryTypes.WorldgenRootPlacerTypeTag, RegistryTypes.WorldgenRootPlacerType> {}
     export class $MangroveRootPlacement extends $Record {
         canGrowThrough(): $HolderSet<$Block>;
-        muddyRootsProvider(): $BlockStateProvider;
-        randomSkewChance(): number;
         muddyRootsIn(): $HolderSet<$Block>;
         maxRootWidth(): number;
         maxRootLength(): number;
+        randomSkewChance(): number;
+        muddyRootsProvider(): $BlockStateProvider;
         static CODEC: $Codec<$MangroveRootPlacement>;
         constructor(arg0: $HolderSet_<$Block>, arg1: $HolderSet_<$Block>, arg2: $BlockStateProvider, arg3: number, arg4: number, arg5: number);
     }

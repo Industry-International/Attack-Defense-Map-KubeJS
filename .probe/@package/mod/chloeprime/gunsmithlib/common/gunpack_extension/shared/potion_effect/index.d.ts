@@ -10,24 +10,24 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/sha
         isVisible(): boolean;
         getEffect(): ($Holder<$MobEffect>) | undefined;
         isAmbient(): boolean;
-        isUsingForceApplyMethod(): boolean;
-        applyTo(arg0: $LivingEntity, arg1: $Entity): void;
-        applyTo(arg0: $AreaEffectCloud3D): boolean;
         getAreaCloudChance(): number;
-        getAreaCloudLevel(): number;
         getMaxStackLevel(): number;
         willShowIcon(): boolean;
+        getAreaCloudLevel(): number;
         getChance(): number;
+        applyTo(arg0: $AreaEffectCloud3D): boolean;
+        applyTo(arg0: $LivingEntity, arg1: $Entity): void;
+        isUsingForceApplyMethod(): boolean;
         constructor();
         get duration(): number;
         get level(): number;
         get visible(): boolean;
         get effect(): ($Holder<$MobEffect>) | undefined;
         get ambient(): boolean;
-        get usingForceApplyMethod(): boolean;
         get areaCloudChance(): number;
-        get areaCloudLevel(): number;
         get maxStackLevel(): number;
+        get areaCloudLevel(): number;
         get chance(): number;
+        get usingForceApplyMethod(): boolean;
     }
 }

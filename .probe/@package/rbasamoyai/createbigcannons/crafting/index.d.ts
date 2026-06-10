@@ -51,8 +51,8 @@ declare module "@package/rbasamoyai/createbigcannons/crafting" {
     export class $BlockRecipeIngredient implements $Predicate<$BlockState> {
         static of(arg0: $TagKey_<$Block>): $BlockRecipeIngredient;
         static of(arg0: $Block_): $BlockRecipeIngredient;
-        ingredientType(): $BlockRecipeIngredient$Type;
         toNetwork(arg0: $FriendlyByteBuf): void;
+        ingredientType(): $BlockRecipeIngredient$Type;
         getBlockItems(): $List<$ItemStack>;
         stringForSerialization(): string;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;

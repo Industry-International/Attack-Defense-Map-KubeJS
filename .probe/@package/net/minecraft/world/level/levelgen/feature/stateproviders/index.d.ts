@@ -68,8 +68,8 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/stateprovide
         constructor(arg0: $BlockPredicate, arg1: $BlockStateProvider);
     }
     export class $NoiseBasedStateProvider extends $BlockStateProvider {
-        getNoiseValue(arg0: $BlockPos_, arg1: number): number;
         static noiseCodec<P extends $NoiseBasedStateProvider>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, number, $NormalNoise$NoiseParameters, number>;
+        getNoiseValue(arg0: $BlockPos_, arg1: number): number;
         static CODEC: $Codec<$BlockStateProvider>;
         seed: number;
         noise: $NormalNoise;

@@ -28,13 +28,13 @@ declare module "@package/net/minecraft/util/worldupdate" {
         cancel(): void;
         levels(): $Set<$ResourceKey<$Level>>;
         getStatus(): $Component;
-        isFinished(): boolean;
-        static resolveRecreateDirectory(arg0: $Path_): $Path;
-        getSkipped(): number;
         getProgress(): number;
         getConverted(): number;
+        isFinished(): boolean;
+        getSkipped(): number;
         getTotalChunks(): number;
         dimensionProgress(arg0: $ResourceKey_<$Level>): number;
+        static resolveRecreateDirectory(arg0: $Path_): $Path;
         static STATUS_UPGRADING_ENTITIES: $MutableComponent;
         recreateRegionFiles: boolean;
         static REGEX: $Pattern;

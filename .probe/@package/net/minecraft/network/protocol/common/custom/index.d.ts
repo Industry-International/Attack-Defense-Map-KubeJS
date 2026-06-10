@@ -21,21 +21,21 @@ declare module "@package/net/minecraft/network/protocol/common/custom" {
         pos(): $Vec3;
         path(): $Path;
         xp(): number;
-        uuid(): $UUID;
-        gossips(): $List<string>;
-        angerLevel(): number;
-        pois(): $Set<$BlockPos>;
-        wantsGolem(): boolean;
-        activities(): $List<string>;
+        memories(): $List<string>;
         health(): number;
         profession(): string;
-        memories(): $List<string>;
-        inventory(): string;
+        uuid(): $UUID;
         hasPoi(arg0: $BlockPos_): boolean;
-        behaviors(): $List<string>;
+        activities(): $List<string>;
         maxHealth(): number;
-        hasPotentialPoi(arg0: $BlockPos_): boolean;
+        behaviors(): $List<string>;
+        inventory(): string;
+        gossips(): $List<string>;
+        wantsGolem(): boolean;
+        angerLevel(): number;
+        pois(): $Set<$BlockPos>;
         potentialPois(): $Set<$BlockPos>;
+        hasPotentialPoi(arg0: $BlockPos_): boolean;
         constructor(arg0: $FriendlyByteBuf);
         constructor(arg0: $UUID_, arg1: number, arg2: string, arg3: string, arg4: number, arg5: number, arg6: number, arg7: $Vec3_, arg8: string, arg9: $Path, arg10: boolean, arg11: number, arg12: $List_<string>, arg13: $List_<string>, arg14: $List_<string>, arg15: $List_<string>, arg16: $Set_<$BlockPos_>, arg17: $Set_<$BlockPos_>);
     }
@@ -63,21 +63,21 @@ declare module "@package/net/minecraft/network/protocol/common/custom" {
         pos(): $Vec3;
         path(): $Path;
         uuid(): $UUID;
-        hasHive(arg0: $BlockPos_): boolean;
         hivePos(): $BlockPos;
-        flowerPos(): $BlockPos;
+        hasHive(arg0: $BlockPos_): boolean;
         goals(): $Set<string>;
+        flowerPos(): $BlockPos;
         blacklistedHives(): $List<$BlockPos>;
-        generateName(): string;
         travelTicks(): number;
+        generateName(): string;
         constructor(arg0: $FriendlyByteBuf);
         constructor(arg0: $UUID_, arg1: number, arg2: $Vec3_, arg3: $Path, arg4: $BlockPos_, arg5: $BlockPos_, arg6: number, arg7: $Set_<string>, arg8: $List_<$BlockPos_>);
     }
     export class $PathfindingDebugPayload extends $Record implements $CustomPacketPayload {
         type(): $CustomPacketPayload$Type<$PathfindingDebugPayload>;
         path(): $Path;
-        maxNodeDistance(): number;
         entityId(): number;
+        maxNodeDistance(): number;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
         toVanillaClientbound(): $ClientboundCustomPayloadPacket;
         static TYPE: $CustomPacketPayload$Type<$PathfindingDebugPayload>;
@@ -101,9 +101,9 @@ declare module "@package/net/minecraft/network/protocol/common/custom" {
     export class $HiveDebugPayload$HiveInfo extends $Record {
         write(arg0: $FriendlyByteBuf): void;
         pos(): $BlockPos;
-        hiveType(): string;
-        sedated(): boolean;
         honeyLevel(): number;
+        sedated(): boolean;
+        hiveType(): string;
         occupantCount(): number;
         constructor(arg0: $FriendlyByteBuf);
         constructor(arg0: $BlockPos_, arg1: string, arg2: number, arg3: number, arg4: boolean);
@@ -183,8 +183,8 @@ declare module "@package/net/minecraft/network/protocol/common/custom" {
     export class $StructuresDebugPayload extends $Record implements $CustomPacketPayload {
         type(): $CustomPacketPayload$Type<$StructuresDebugPayload>;
         dimension(): $ResourceKey<$Level>;
-        static writeBoundingBox(arg0: $FriendlyByteBuf, arg1: $BoundingBox): void;
         static readBoundingBox(arg0: $FriendlyByteBuf): $BoundingBox;
+        static writeBoundingBox(arg0: $FriendlyByteBuf, arg1: $BoundingBox): void;
         pieces(): $List<$StructuresDebugPayload$PieceInfo>;
         mainBB(): $BoundingBox;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
@@ -247,8 +247,8 @@ declare module "@package/net/minecraft/network/protocol/common/custom" {
     export class $GoalDebugPayload extends $Record implements $CustomPacketPayload {
         type(): $CustomPacketPayload$Type<$GoalDebugPayload>;
         pos(): $BlockPos;
-        goals(): $List<$GoalDebugPayload$DebugGoal>;
         entityId(): number;
+        goals(): $List<$GoalDebugPayload$DebugGoal>;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
         toVanillaClientbound(): $ClientboundCustomPayloadPacket;
         static TYPE: $CustomPacketPayload$Type<$GoalDebugPayload>;

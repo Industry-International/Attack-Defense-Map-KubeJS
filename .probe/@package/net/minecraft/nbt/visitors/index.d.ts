@@ -20,12 +20,12 @@ declare module "@package/net/minecraft/nbt/visitors" {
         visit(arg0: number): $StreamTagVisitor$ValueResult;
         visitEnd(): $StreamTagVisitor$ValueResult;
         getResult(): $Tag;
-        visitEntry(arg0: $TagType<never>, arg1: string): $StreamTagVisitor$EntryResult;
-        visitEntry(arg0: $TagType<never>): $StreamTagVisitor$EntryResult;
-        visitList(arg0: $TagType<never>, arg1: number): $StreamTagVisitor$ValueResult;
         visitRootEntry(arg0: $TagType<never>): $StreamTagVisitor$ValueResult;
         visitContainerEnd(): $StreamTagVisitor$ValueResult;
+        visitEntry(arg0: $TagType<never>): $StreamTagVisitor$EntryResult;
+        visitEntry(arg0: $TagType<never>, arg1: string): $StreamTagVisitor$EntryResult;
         visitElement(arg0: $TagType<never>, arg1: number): $StreamTagVisitor$EntryResult;
+        visitList(arg0: $TagType<never>, arg1: number): $StreamTagVisitor$ValueResult;
         constructor();
         get result(): $Tag;
     }
@@ -44,12 +44,12 @@ declare module "@package/net/minecraft/nbt/visitors" {
         visit(arg0: number): $StreamTagVisitor$ValueResult;
         visit(arg0: number): $StreamTagVisitor$ValueResult;
         visitEnd(): $StreamTagVisitor$ValueResult;
-        visitEntry(arg0: $TagType<never>, arg1: string): $StreamTagVisitor$EntryResult;
-        visitEntry(arg0: $TagType<never>): $StreamTagVisitor$EntryResult;
-        visitList(arg0: $TagType<never>, arg1: number): $StreamTagVisitor$ValueResult;
         visitRootEntry(arg0: $TagType<never>): $StreamTagVisitor$ValueResult;
         visitContainerEnd(): $StreamTagVisitor$ValueResult;
+        visitEntry(arg0: $TagType<never>): $StreamTagVisitor$EntryResult;
+        visitEntry(arg0: $TagType<never>, arg1: string): $StreamTagVisitor$EntryResult;
         visitElement(arg0: $TagType<never>, arg1: number): $StreamTagVisitor$EntryResult;
+        visitList(arg0: $TagType<never>, arg1: number): $StreamTagVisitor$ValueResult;
     }
     export class $FieldTree extends $Record {
         depth(): number;

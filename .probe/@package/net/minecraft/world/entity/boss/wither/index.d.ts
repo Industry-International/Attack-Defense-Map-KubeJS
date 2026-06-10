@@ -32,20 +32,20 @@ declare module "@package/net/minecraft/world/entity/boss/wither" {
     export class $WitherBoss$WitherDoNothingGoal extends $Goal {
     }
     export class $WitherBoss extends $Monster implements $PowerableMob, $RangedAttackMob {
+        performRangedAttack(arg0: $LivingEntity, arg1: number): void;
         makeInvulnerable(): void;
         static createAttributes(): $AttributeSupplier$Builder;
-        getHeadYRot(arg0: number): number;
-        getHeadXRot(arg0: number): number;
+        isPowered(): boolean;
         /**
          * @deprecated
          */
         static canDestroy(arg0: $BlockState_): boolean;
-        performRangedAttack(arg0: $LivingEntity, arg1: number): void;
-        getAlternativeTarget(arg0: number): number;
-        setAlternativeTarget(arg0: number, arg1: number): void;
-        setInvulnerableTicks(arg0: number): void;
         getInvulnerableTicks(): number;
-        isPowered(): boolean;
+        setInvulnerableTicks(arg0: number): void;
+        setAlternativeTarget(arg0: number, arg1: number): void;
+        getAlternativeTarget(arg0: number): number;
+        getHeadYRot(arg0: number): number;
+        getHeadXRot(arg0: number): number;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;

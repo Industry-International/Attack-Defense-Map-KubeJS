@@ -97,9 +97,9 @@ declare module "@package/com/lowdragmc/lowdraglib2/integration/kjs/ui" {
     }
     export class $LDKJSMenuTypes {
         static init(): void;
-        static openPlayerUI(arg0: $Player, arg1: string): boolean;
-        static openBlockUI(arg0: $Player, arg1: $BlockPos_, arg2: string): boolean;
         static openHeldItemUI(arg0: $Player, arg1: $InteractionHand_, arg2: string): boolean;
+        static openBlockUI(arg0: $Player, arg1: $BlockPos_, arg2: string): boolean;
+        static openPlayerUI(arg0: $Player, arg1: string): boolean;
         static onRegisterMenuScreensEvent(arg0: $RegisterMenuScreensEvent): void;
         static PLAYER_UI: $Supplier<$MenuType<$ModularUIContainerMenu>>;
         static HELD_ITEM_UI: $Supplier<$MenuType<$ModularUIContainerMenu>>;

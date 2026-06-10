@@ -20,26 +20,26 @@ export * as config from "@package/eu/ha3/presencefootsteps/config";
 
 declare module "@package/eu/ha3/presencefootsteps" {
     export class $PFConfig extends $JsonFile {
+        setDisabled(arg0: boolean): boolean;
+        getDisabled(): boolean;
         getEnabled(): boolean;
         getEntitySelector(): $EntitySelector;
-        getDisabled(): boolean;
-        setDisabled(arg0: boolean): boolean;
+        cycleTargetSelector(): $EntitySelector;
+        setRunningVolumeIncrease(arg0: number): number;
+        getLocomotion(): $Locomotion;
+        getGlobalVolume(): number;
+        getEnabledMP(): boolean;
+        getEnabledFootwear(): boolean;
+        toggleFootwear(): boolean;
+        toggleDisabled(): boolean;
+        toggleMultiplayer(): boolean;
+        setLocomotion(arg0: $Locomotion_): $Locomotion;
+        setNotFirstRun(): void;
+        setGlobalVolume(arg0: number): number;
         isFirstRun(): boolean;
         getRunningVolumeIncrease(): number;
         getMaxSteppingEntities(): number;
         populateCrashReport(arg0: $CrashReportCategory): void;
-        getLocomotion(): $Locomotion;
-        getEnabledFootwear(): boolean;
-        getGlobalVolume(): number;
-        getEnabledMP(): boolean;
-        cycleTargetSelector(): $EntitySelector;
-        setRunningVolumeIncrease(arg0: number): number;
-        setLocomotion(arg0: $Locomotion_): $Locomotion;
-        toggleDisabled(): boolean;
-        setGlobalVolume(arg0: number): number;
-        toggleMultiplayer(): boolean;
-        setNotFirstRun(): void;
-        toggleFootwear(): boolean;
         hostileEntitiesVolume: $VolumeOption;
         passiveEntitiesVolume: $VolumeOption;
         foliageSoundsVolume: $VolumeOption;
@@ -50,10 +50,10 @@ declare module "@package/eu/ha3/presencefootsteps" {
         constructor(arg0: $Path_, arg1: $PresenceFootsteps);
         get enabled(): boolean;
         get entitySelector(): $EntitySelector;
+        get enabledMP(): boolean;
+        get enabledFootwear(): boolean;
         get firstRun(): boolean;
         get maxSteppingEntities(): number;
-        get enabledFootwear(): boolean;
-        get enabledMP(): boolean;
     }
     export class $PresenceFootsteps {
         static getInstance(): $PresenceFootsteps;

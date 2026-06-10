@@ -19,9 +19,9 @@ import { $UserApiService } from "@package/com/mojang/authlib/minecraft";
 declare module "@package/net/minecraft/client/multiplayer/chat/report" {
     export class $ChatReportContextBuilder {
         isActive(): boolean;
-        trackContext(arg0: $PlayerChatMessage_): void;
-        acceptContext(arg0: $PlayerChatMessage_): boolean;
         collectAllContext(arg0: $ChatLog, arg1: $IntCollection, arg2: $ChatReportContextBuilder$Handler_): void;
+        acceptContext(arg0: $PlayerChatMessage_): boolean;
+        trackContext(arg0: $PlayerChatMessage_): void;
         leadingCount: number;
         constructor(arg0: number);
         get active(): boolean;
@@ -50,14 +50,14 @@ declare module "@package/net/minecraft/client/multiplayer/chat/report" {
         comments(): string;
         reason(): $ReportReason;
         build(arg0: $ReportingContext): $Either<$Report$Result, $Report$CannotBuildReason>;
-        setReason(arg0: $ReportReason_): void;
-        report(): R;
         hasContent(): boolean;
+        report(): R;
+        setReason(arg0: $ReportReason_): void;
         setComments(arg0: string): void;
         checkBuildable(): $Report$CannotBuildReason;
         setAttested(arg0: boolean): void;
-        attested(): boolean;
         reportedProfileId(): $UUID;
+        attested(): boolean;
         limits: $AbuseReportLimits;
         constructor(arg0: R, arg1: $AbuseReportLimits_);
     }
@@ -84,10 +84,10 @@ declare module "@package/net/minecraft/client/multiplayer/chat/report" {
         matches(arg0: $ReportEnvironment_): boolean;
         static create(arg0: $ReportEnvironment_, arg1: $UserApiService): $ReportingContext;
         sender(): $AbuseReportSender;
-        draftReportHandled(arg0: $Minecraft, arg1: $Screen, arg2: $Runnable_, arg3: boolean): void;
         hasDraftReport(): boolean;
-        setReportDraft(arg0: $Report): void;
+        draftReportHandled(arg0: $Minecraft, arg1: $Screen, arg2: $Runnable_, arg3: boolean): void;
         hasDraftReportFor(arg0: $UUID_): boolean;
+        setReportDraft(arg0: $Report): void;
         chatLog(): $ChatLog;
         constructor(arg0: $AbuseReportSender, arg1: $ReportEnvironment_, arg2: $ChatLog);
         set reportDraft(value: $Report);
@@ -95,13 +95,13 @@ declare module "@package/net/minecraft/client/multiplayer/chat/report" {
     export class $ReportEnvironment extends $Record {
         static create(arg0: $ReportEnvironment$Server): $ReportEnvironment;
         static local(): $ReportEnvironment;
-        server(): $ReportEnvironment$Server;
         clientVersion(): string;
+        server(): $ReportEnvironment$Server;
         static realm(arg0: $RealmsServer): $ReportEnvironment;
-        static thirdParty(arg0: string): $ReportEnvironment;
+        thirdPartyServerInfo(): $AbuseReportRequest$ThirdPartyServerInfo;
         clientInfo(): $AbuseReportRequest$ClientInfo;
         realmInfo(): $AbuseReportRequest$RealmInfo;
-        thirdPartyServerInfo(): $AbuseReportRequest$ThirdPartyServerInfo;
+        static thirdParty(arg0: string): $ReportEnvironment;
         constructor(arg0: string, arg1: $ReportEnvironment$Server);
     }
     export class $AbuseReportSender$SendException extends $ThrowingComponent {
@@ -150,9 +150,9 @@ declare module "@package/net/minecraft/client/multiplayer/chat/report" {
     export type $ReportReason_ = "generic" | "hate_speech" | "harassment_or_bullying" | "self_harm_or_suicide" | "imminent_harm" | "defamation_impersonation_false_information" | "alcohol_tobacco_drugs" | "child_sexual_exploitation_or_abuse" | "terrorism_or_violent_extremism" | "non_consensual_intimate_imagery";
     export class $ChatReport$Builder extends $Report$Builder<$ChatReport> {
         copy(): $ChatReport$Builder;
+        isReported(arg0: number): boolean;
         reportedMessages(): $IntSet;
         toggleReported(arg0: number): void;
-        isReported(arg0: number): boolean;
         limits: $AbuseReportLimits;
         constructor(arg0: $ChatReport, arg1: $AbuseReportLimits_);
         constructor(arg0: $UUID_, arg1: $AbuseReportLimits_);

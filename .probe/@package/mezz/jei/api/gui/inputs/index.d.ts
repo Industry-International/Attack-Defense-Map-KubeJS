@@ -32,8 +32,8 @@ declare module "@package/mezz/jei/api/gui/inputs" {
         keyPressed(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
         mouseMoved(arg0: number, arg1: number): void;
         mouseDragged(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
-        mouseScrolled(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
         mouseReleased(arg0: number, arg1: number, arg2: number): boolean;
+        mouseScrolled(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
         mouseClicked(arg0: number, arg1: number, arg2: number): boolean;
         getArea(): $ScreenRectangle;
         get area(): $ScreenRectangle;
@@ -45,10 +45,10 @@ declare module "@package/mezz/jei/api/gui/inputs" {
     export class $IJeiInputHandler {
     }
     export interface $IJeiInputHandler {
+        getArea(): $ScreenRectangle;
+        handleInput(arg0: number, arg1: number, arg2: $IJeiUserInput): boolean;
         handleMouseMoved(arg0: number, arg1: number): void;
         handleMouseDragged(arg0: number, arg1: number, arg2: $InputConstants$Key, arg3: number, arg4: number): boolean;
-        handleInput(arg0: number, arg1: number, arg2: $IJeiUserInput): boolean;
-        getArea(): $ScreenRectangle;
         handleMouseScrolled(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
         get area(): $ScreenRectangle;
     }

@@ -1,7 +1,5 @@
-import { $Int2DoubleFunction, $Int2DoubleFunction_, $Int2IntFunction_ } from "@package/it/unimi/dsi/fastutil/ints";
 import { $Codec } from "@package/com/mojang/serialization";
 import { $Tag, $CompoundTag_ } from "@package/net/minecraft/nbt";
-import { $Component } from "@package/net/minecraft/network/chat";
 import { $Entity, $Entity$RemovalReason_, $LivingEntity } from "@package/net/minecraft/world/entity";
 import { $ParticleOptions_, $ParticleOptions } from "@package/net/minecraft/core/particles";
 import { $MobEffectInstanceAccessor } from "@package/com/simibubi/create/foundation/mixin/accessor";
@@ -17,10 +15,12 @@ import { $SoundEvent_ } from "@package/net/minecraft/sounds";
 import { $IMobEffectExtension } from "@package/net/neoforged/neoforge/common/extensions";
 import { RegistryMarked, RegistryTypes } from "@special/types";
 import { $RegistryFriendlyByteBuf } from "@package/net/minecraft/network";
-import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
 import { $Enum, $Record, $Runnable_, $Comparable } from "@package/java/lang";
-import { $Vec3_ } from "@package/net/minecraft/world/phys";
 import { $EffectCure } from "@package/net/neoforged/neoforge/common";
+import { $Int2DoubleFunction, $Int2DoubleFunction_, $Int2IntFunction_ } from "@package/it/unimi/dsi/fastutil/ints";
+import { $Component } from "@package/net/minecraft/network/chat";
+import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
+import { $Vec3_ } from "@package/net/minecraft/world/phys";
 import { $DamageSource_ } from "@package/net/minecraft/world/damagesource";
 import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
@@ -33,34 +33,34 @@ declare module "@package/net/minecraft/world/effect" {
     }
     export class $MobEffect implements $FeatureElement, $IMobEffectExtension {
         getDisplayName(): $Component;
-        getColor(): number;
         getCategory(): $MobEffectCategory;
-        onEffectAdded(arg0: $LivingEntity, arg1: number): void;
-        onEffectStarted(arg0: $LivingEntity, arg1: number): void;
-        onMobRemoved(arg0: $LivingEntity, arg1: number, arg2: $Entity$RemovalReason_): void;
-        applyInstantenousEffect(arg0: $Entity, arg1: $Entity, arg2: $LivingEntity, arg3: number, arg4: number): void;
-        getBlendDurationTicks(): number;
-        createParticleOptions(arg0: $MobEffectInstance): $ParticleOptions;
-        addAttributeModifier(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_, arg2: $AttributeModifier$Operation_, arg3: $Int2DoubleFunction_): $MobEffect;
-        addAttributeModifier(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_, arg2: number, arg3: $AttributeModifier$Operation_): $MobEffect;
-        getOrCreateDescriptionId(): string;
-        requiredFeatures(): $FeatureFlagSet;
         requiredFeatures(...arg0: $FeatureFlag[]): $MobEffect;
-        onMobHurt(arg0: $LivingEntity, arg1: number, arg2: $DamageSource_, arg3: number): void;
+        requiredFeatures(): $FeatureFlagSet;
+        getColor(): number;
+        applyEffectTick(arg0: $LivingEntity, arg1: number): boolean;
+        withSoundOnAdded(arg0: $SoundEvent_): $MobEffect;
+        setBlendDuration(arg0: number): $MobEffect;
+        isBeneficial(): boolean;
+        createModifiers(arg0: number, arg1: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
+        isInstantenous(): boolean;
+        shouldApplyEffectTickThisTick(arg0: number, arg1: number): boolean;
         addAttributeModifiers(arg0: $AttributeMap, arg1: number): void;
         removeAttributeModifiers(arg0: $AttributeMap): void;
-        shouldApplyEffectTickThisTick(arg0: number, arg1: number): boolean;
-        applyEffectTick(arg0: $LivingEntity, arg1: number): boolean;
+        onMobHurt(arg0: $LivingEntity, arg1: number, arg2: $DamageSource_, arg3: number): void;
+        getDescriptionId(): string;
+        onEffectStarted(arg0: $LivingEntity, arg1: number): void;
+        onEffectAdded(arg0: $LivingEntity, arg1: number): void;
+        onMobRemoved(arg0: $LivingEntity, arg1: number, arg2: $Entity$RemovalReason_): void;
+        getBlendDurationTicks(): number;
+        addAttributeModifier(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_, arg2: $AttributeModifier$Operation_, arg3: $Int2DoubleFunction_): $MobEffect;
+        addAttributeModifier(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_, arg2: number, arg3: $AttributeModifier$Operation_): $MobEffect;
+        createParticleOptions(arg0: $MobEffectInstance): $ParticleOptions;
+        getOrCreateDescriptionId(): string;
+        applyInstantenousEffect(arg0: $Entity, arg1: $Entity, arg2: $LivingEntity, arg3: number, arg4: number): void;
         /**
          * @deprecated
          */
         initializeClient(arg0: $Consumer_<$IClientMobEffectExtensions>): void;
-        createModifiers(arg0: number, arg1: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
-        isInstantenous(): boolean;
-        isBeneficial(): boolean;
-        withSoundOnAdded(arg0: $SoundEvent_): $MobEffect;
-        setBlendDuration(arg0: number): $MobEffect;
-        getDescriptionId(): string;
         isEnabled(arg0: $FeatureFlagSet): boolean;
         fillEffectCures(arg0: $Set_<$EffectCure>, arg1: $MobEffectInstance): void;
         getSortOrder(arg0: $MobEffectInstance): number;
@@ -70,14 +70,14 @@ declare module "@package/net/minecraft/world/effect" {
         constructor(arg0: $MobEffectCategory_, arg1: number);
         constructor(arg0: $MobEffectCategory_, arg1: number, arg2: $ParticleOptions_);
         get displayName(): $Component;
-        get color(): number;
         get category(): $MobEffectCategory;
+        get color(): number;
+        set blendDuration(value: number);
+        get beneficial(): boolean;
+        get instantenous(): boolean;
+        get descriptionId(): string;
         get blendDurationTicks(): number;
         get orCreateDescriptionId(): string;
-        get instantenous(): boolean;
-        get beneficial(): boolean;
-        set blendDuration(value: number);
-        get descriptionId(): string;
     }
     /**
      * Values that may be interpreted as {@link $MobEffect}.
@@ -154,25 +154,25 @@ declare module "@package/net/minecraft/world/effect" {
         is(arg0: $Holder_<$MobEffect>): boolean;
         tick(arg0: $LivingEntity, arg1: $Runnable_): boolean;
         getDuration(): number;
-        showIcon(): boolean;
-        endsWithin(arg0: number): boolean;
-        onEffectAdded(arg0: $LivingEntity): void;
-        onEffectStarted(arg0: $LivingEntity): void;
-        onMobRemoved(arg0: $LivingEntity, arg1: $Entity$RemovalReason_): void;
-        getParticleOptions(): $ParticleOptions;
-        copyBlendState(arg0: $MobEffectInstance): void;
-        getAmplifier(): number;
+        getCures(): $Set<$EffectCure>;
         isVisible(): boolean;
         getEffect(): $Holder<$MobEffect>;
-        onMobHurt(arg0: $LivingEntity, arg1: $DamageSource_, arg2: number): void;
         isAmbient(): boolean;
-        getCures(): $Set<$EffectCure>;
+        onMobHurt(arg0: $LivingEntity, arg1: $DamageSource_, arg2: number): void;
         setDetailsFrom(arg0: $MobEffectInstance): void;
-        mapDuration(arg0: $Int2IntFunction_): number;
         getBlendFactor(arg0: $LivingEntity, arg1: number): number;
         isInfiniteDuration(): boolean;
         skipBlending(): void;
+        mapDuration(arg0: $Int2IntFunction_): number;
         getDescriptionId(): string;
+        showIcon(): boolean;
+        endsWithin(arg0: number): boolean;
+        getParticleOptions(): $ParticleOptions;
+        getAmplifier(): number;
+        onEffectStarted(arg0: $LivingEntity): void;
+        onEffectAdded(arg0: $LivingEntity): void;
+        onMobRemoved(arg0: $LivingEntity, arg1: $Entity$RemovalReason_): void;
+        copyBlendState(arg0: $MobEffectInstance): void;
         create$getHiddenEffect(): $MobEffectInstance;
         static MAX_AMPLIFIER: number;
         static CODEC: $Codec<$MobEffectInstance>;
@@ -187,15 +187,15 @@ declare module "@package/net/minecraft/world/effect" {
         constructor(arg0: $Holder_<$MobEffect>, arg1: number, arg2: number);
         constructor(arg0: $Holder_<$MobEffect>, arg1: number, arg2: number, arg3: boolean, arg4: boolean);
         get duration(): number;
-        get particleOptions(): $ParticleOptions;
-        get amplifier(): number;
+        get cures(): $Set<$EffectCure>;
         get visible(): boolean;
         get effect(): $Holder<$MobEffect>;
         get ambient(): boolean;
-        get cures(): $Set<$EffectCure>;
         set detailsFrom(value: $MobEffectInstance);
         get infiniteDuration(): boolean;
         get descriptionId(): string;
+        get particleOptions(): $ParticleOptions;
+        get amplifier(): number;
     }
     export class $SaturationMobEffect extends $InstantenousMobEffect {
         static CODEC: $Codec<$Holder<$MobEffect>>;
@@ -208,11 +208,11 @@ declare module "@package/net/minecraft/world/effect" {
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$MobEffect>>;
     }
     export class $MobEffectUtil {
-        static formatDuration(arg0: $MobEffectInstance, arg1: number, arg2: number): $Component;
-        static hasWaterBreathing(arg0: $LivingEntity): boolean;
+        static getDigSpeedAmplification(arg0: $LivingEntity): number;
         static hasDigSpeed(arg0: $LivingEntity): boolean;
         static addEffectToPlayersAround(arg0: $ServerLevel, arg1: $Entity, arg2: $Vec3_, arg3: number, arg4: $MobEffectInstance, arg5: number): $List<$ServerPlayer>;
-        static getDigSpeedAmplification(arg0: $LivingEntity): number;
+        static hasWaterBreathing(arg0: $LivingEntity): boolean;
+        static formatDuration(arg0: $MobEffectInstance, arg1: number, arg2: number): $Component;
         constructor();
     }
     export class $AbsorptionMobEffect extends $MobEffect {

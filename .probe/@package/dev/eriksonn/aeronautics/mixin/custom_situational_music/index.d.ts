@@ -5,8 +5,8 @@ declare module "@package/dev/eriksonn/aeronautics/mixin/custom_situational_music
     }
     export interface $MusicManagerAccessor {
         getCurrentMusic(): $SoundInstance;
-        setNextSongDelay(arg0: number): void;
         getNextSongDelay(): number;
+        setNextSongDelay(arg0: number): void;
         get currentMusic(): $SoundInstance;
     }
 }

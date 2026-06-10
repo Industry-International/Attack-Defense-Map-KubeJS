@@ -12,9 +12,9 @@ declare module "@package/com/mojang/authlib/yggdrasil/request" {
         version(): number;
         id(): $UUID;
         report(): $AbuseReport;
+        thirdPartyServerInfo(): $AbuseReportRequest$ThirdPartyServerInfo;
         clientInfo(): $AbuseReportRequest$ClientInfo;
         realmInfo(): $AbuseReportRequest$RealmInfo;
-        thirdPartyServerInfo(): $AbuseReportRequest$ThirdPartyServerInfo;
         reportType(): string;
         constructor(version: number, id: $UUID_, report: $AbuseReport_, clientInfo: $AbuseReportRequest$ClientInfo_, thirdPartyServerInfo: $AbuseReportRequest$ThirdPartyServerInfo_, realmInfo: $AbuseReportRequest$RealmInfo_, reportType: string);
     }

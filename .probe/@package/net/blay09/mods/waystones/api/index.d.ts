@@ -23,32 +23,32 @@ declare module "@package/net/blay09/mods/waystones/api" {
         addFlag(arg0: $ResourceLocation_): $WaystoneTeleportContext;
         getFlags(): $Set<$ResourceLocation>;
         getEntity(): $Entity;
-        addFlags(arg0: $Set_<$ResourceLocation_>): $WaystoneTeleportContext;
         hasFlag(arg0: $ResourceLocation_): boolean;
-        isDimensionalTeleport(): boolean;
-        getAdditionalEntities(): $List<$Entity>;
-        setAppliesModifiers(arg0: boolean): $WaystoneTeleportContext;
-        setWarpItem(arg0: $ItemStack_): $WaystoneTeleportContext;
-        playsEffect(): boolean;
-        setPlaysSound(arg0: boolean): $WaystoneTeleportContext;
-        getRequirements(): $WarpRequirement;
-        getWarpItem(): $ItemStack;
-        getTargetWaystone(): $Waystone;
-        getFromWaystone(): ($Waystone) | undefined;
-        appliesModifiers(): boolean;
-        setFromWaystone(arg0: $Waystone): $WaystoneTeleportContext;
-        setPlaysEffect(arg0: boolean): $WaystoneTeleportContext;
-        addAdditionalEntity(arg0: $Entity): $WaystoneTeleportContext;
-        setRequirements(arg0: $WarpRequirement): $WaystoneTeleportContext;
-        getLeashedEntities(): $List<$Mob>;
+        addFlags(arg0: $Set_<$ResourceLocation_>): $WaystoneTeleportContext;
         removeFlag(arg0: $ResourceLocation_): $WaystoneTeleportContext;
+        addAdditionalEntity(arg0: $Entity): $WaystoneTeleportContext;
+        getAdditionalEntities(): $List<$Entity>;
+        isDimensionalTeleport(): boolean;
+        setAppliesModifiers(arg0: boolean): $WaystoneTeleportContext;
+        getLeashedEntities(): $List<$Mob>;
+        playsEffect(): boolean;
+        getRequirements(): $WarpRequirement;
+        getTargetWaystone(): $Waystone;
+        setFromWaystone(arg0: $Waystone): $WaystoneTeleportContext;
+        appliesModifiers(): boolean;
+        setPlaysEffect(arg0: boolean): $WaystoneTeleportContext;
+        setRequirements(arg0: $WarpRequirement): $WaystoneTeleportContext;
+        getFromWaystone(): ($Waystone) | undefined;
+        getWarpItem(): $ItemStack;
+        setPlaysSound(arg0: boolean): $WaystoneTeleportContext;
+        setWarpItem(arg0: $ItemStack_): $WaystoneTeleportContext;
         playsSound(): boolean;
         get flags(): $Set<$ResourceLocation>;
         get entity(): $Entity;
-        get dimensionalTeleport(): boolean;
         get additionalEntities(): $List<$Entity>;
-        get targetWaystone(): $Waystone;
+        get dimensionalTeleport(): boolean;
         get leashedEntities(): $List<$Mob>;
+        get targetWaystone(): $Waystone;
     }
     export class $Waystone {
     }
@@ -56,28 +56,28 @@ declare module "@package/net/blay09/mods/waystones/api" {
         getName(): $Component;
         isTransient(): boolean;
         isValid(): boolean;
-        getDimension(): $ResourceKey<$Level>;
         getOrigin(): $WaystoneOrigin;
-        getVisibility(): $WaystoneVisibility;
+        getDimension(): $ResourceKey<$Level>;
         getPos(): $BlockPos;
-        isOwner(arg0: $Player): boolean;
+        getVisibility(): $WaystoneVisibility;
         hasName(): boolean;
-        hasOwner(): boolean;
         isValidInLevel(arg0: $ServerLevel): boolean;
-        getWaystoneUid(): $UUID;
         getOwnerUid(): $UUID;
         wasGenerated(): boolean;
         getWaystoneType(): $ResourceLocation;
+        getWaystoneUid(): $UUID;
+        isOwner(arg0: $Player): boolean;
+        hasOwner(): boolean;
         get name(): $Component;
         get transient(): boolean;
         get valid(): boolean;
-        get dimension(): $ResourceKey<$Level>;
         get origin(): $WaystoneOrigin;
-        get visibility(): $WaystoneVisibility;
+        get dimension(): $ResourceKey<$Level>;
         get pos(): $BlockPos;
-        get waystoneUid(): $UUID;
+        get visibility(): $WaystoneVisibility;
         get ownerUid(): $UUID;
         get waystoneType(): $ResourceLocation;
+        get waystoneUid(): $UUID;
     }
     export class $WaystoneVisibility extends $Enum<$WaystoneVisibility> {
         static values(): $WaystoneVisibility[];
@@ -112,12 +112,12 @@ declare module "@package/net/blay09/mods/waystones/api" {
     export class $WaystoneManager {
     }
     export interface $WaystoneManager {
+        getWaystoneAt(arg0: $BlockGetter, arg1: $BlockPos_): ($Waystone) | undefined;
+        getWaystonesByType(arg0: $ResourceLocation_): $Stream<$Waystone>;
         getWaystones(): $Stream<$Waystone>;
         getWaystoneById(arg0: $UUID_): ($Waystone) | undefined;
         findWaystoneByName(arg0: string): ($Waystone) | undefined;
         getGlobalWaystones(): $List<$Waystone>;
-        getWaystoneAt(arg0: $BlockGetter, arg1: $BlockPos_): ($Waystone) | undefined;
-        getWaystonesByType(arg0: $ResourceLocation_): $Stream<$Waystone>;
         get waystones(): $Stream<$Waystone>;
         get globalWaystones(): $List<$Waystone>;
     }

@@ -26,17 +26,17 @@ declare module "@package/com/simibubi/create/content/contraptions/render" {
     export class $ContraptionMatrices {
         static transform(arg0: $PoseStack, arg1: $PoseStack): void;
         static clearStack(arg0: $PoseStack): void;
-        getLight(): $Matrix4f;
         getWorld(): $Matrix4f;
-        getModel(): $PoseStack;
-        getViewProjection(): $PoseStack;
-        getModelViewProjection(): $PoseStack;
+        getLight(): $Matrix4f;
         static translateToEntity(arg0: $Matrix4f, arg1: $Entity, arg2: number): void;
+        getViewProjection(): $PoseStack;
+        getModel(): $PoseStack;
+        getModelViewProjection(): $PoseStack;
         constructor();
-        get light(): $Matrix4f;
         get world(): $Matrix4f;
-        get model(): $PoseStack;
+        get light(): $Matrix4f;
         get viewProjection(): $PoseStack;
+        get model(): $PoseStack;
         get modelViewProjection(): $PoseStack;
     }
     export class $ClientContraption$RenderedBlocks extends $Record {
@@ -46,23 +46,23 @@ declare module "@package/com/simibubi/create/content/contraptions/render" {
     }
     export class $ClientContraption {
         getBlockEntity(arg0: $BlockPos_): $BlockEntity;
-        childrenVersion(): number;
+        resetRenderLevel(): void;
+        invalidateChildren(): void;
+        invalidateStructure(): void;
+        getAndAdjustShouldRenderBlockEntities(): $BitSet;
+        getRenderLevel(): $VirtualRenderWorld;
         getMatrices(): $ContraptionMatrices;
-        getRenderedBlocks(): $ClientContraption$RenderedBlocks;
         structureVersion(): number;
         readBlockEntity(arg0: $Level_, arg1: $StructureTemplate$StructureBlockInfo_, arg2: boolean): $BlockEntity;
-        getRenderLevel(): $VirtualRenderWorld;
-        invalidateStructure(): void;
-        invalidateChildren(): void;
-        resetRenderLevel(): void;
-        getAndAdjustShouldRenderBlockEntities(): $BitSet;
+        getRenderedBlocks(): $ClientContraption$RenderedBlocks;
+        childrenVersion(): number;
         shouldRenderBlockEntities: $BitSet;
         renderedBlockEntityView: $List<$BlockEntity>;
         scratchErroredBlockEntities: $BitSet;
         constructor(arg0: $Contraption);
+        get andAdjustShouldRenderBlockEntities(): $BitSet;
+        get renderLevel(): $VirtualRenderWorld;
         get matrices(): $ContraptionMatrices;
         get renderedBlocks(): $ClientContraption$RenderedBlocks;
-        get renderLevel(): $VirtualRenderWorld;
-        get andAdjustShouldRenderBlockEntities(): $BitSet;
     }
 }

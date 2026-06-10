@@ -1,6 +1,6 @@
-import { $Point2D, $Rectangle2D } from "@package/java/awt/geom";
+import { $Rectangle2D, $Point2D } from "@package/java/awt/geom";
 import { $MouseEvent } from "@package/java/awt/event";
-import { $JTextComponent, $EditorKit, $Position$Bias, $View } from "@package/javax/swing/text";
+import { $JTextComponent, $Position$Bias, $EditorKit, $View } from "@package/javax/swing/text";
 import { $Point, $Graphics, $Component$BaselineResizeBehavior, $Dimension, $Rectangle } from "@package/java/awt";
 import { $Accessible } from "@package/javax/accessibility";
 import { $JComponent, $JPopupMenu, $Popup, $JList } from "@package/javax/swing";
@@ -30,17 +30,17 @@ declare module "@package/javax/swing/plaf" {
     export class $ComponentUI {
         update(arg0: $Graphics, arg1: $JComponent): void;
         contains(arg0: $JComponent, arg1: number, arg2: number): boolean;
-        getBaseline(arg0: $JComponent, arg1: number, arg2: number): number;
-        installUI(arg0: $JComponent): void;
-        uninstallUI(arg0: $JComponent): void;
-        getPreferredSize(arg0: $JComponent): $Dimension;
-        getMinimumSize(arg0: $JComponent): $Dimension;
-        static createUI(arg0: $JComponent): $ComponentUI;
         paint(arg0: $Graphics, arg1: $JComponent): void;
+        getBaseline(arg0: $JComponent, arg1: number, arg2: number): number;
         getAccessibleChildrenCount(arg0: $JComponent): number;
         getAccessibleChild(arg0: $JComponent, arg1: number): $Accessible;
         getMaximumSize(arg0: $JComponent): $Dimension;
         getBaselineResizeBehavior(arg0: $JComponent): $Component$BaselineResizeBehavior;
+        getPreferredSize(arg0: $JComponent): $Dimension;
+        getMinimumSize(arg0: $JComponent): $Dimension;
+        static createUI(arg0: $JComponent): $ComponentUI;
+        installUI(arg0: $JComponent): void;
+        uninstallUI(arg0: $JComponent): void;
         constructor();
     }
     export class $PopupMenuUI extends $ComponentUI {
@@ -48,12 +48,9 @@ declare module "@package/javax/swing/plaf" {
         isPopupTrigger(arg0: $MouseEvent): boolean;
     }
     export class $TextUI extends $ComponentUI {
-        getNextVisualPositionFrom(arg0: $JTextComponent, arg1: number, arg2: $Position$Bias, arg3: number, arg4: $Position$Bias[]): number;
         getRootView(arg0: $JTextComponent): $View;
-        /**
-         * @deprecated
-         */
-        getToolTipText(arg0: $JTextComponent, arg1: $Point): string;
+        getNextVisualPositionFrom(arg0: $JTextComponent, arg1: number, arg2: $Position$Bias, arg3: number, arg4: $Position$Bias[]): number;
+        getToolTipText2D(arg0: $JTextComponent, arg1: $Point2D): string;
         getEditorKit(arg0: $JTextComponent): $EditorKit;
         /**
          * @deprecated
@@ -73,8 +70,11 @@ declare module "@package/javax/swing/plaf" {
         modelToView(arg0: $JTextComponent, arg1: number, arg2: $Position$Bias): $Rectangle;
         modelToView2D(arg0: $JTextComponent, arg1: number, arg2: $Position$Bias): $Rectangle2D;
         viewToModel2D(arg0: $JTextComponent, arg1: $Point2D, arg2: $Position$Bias[]): number;
-        damageRange(arg0: $JTextComponent, arg1: number, arg2: number, arg3: $Position$Bias, arg4: $Position$Bias): void;
+        /**
+         * @deprecated
+         */
+        getToolTipText(arg0: $JTextComponent, arg1: $Point): string;
         damageRange(arg0: $JTextComponent, arg1: number, arg2: number): void;
-        getToolTipText2D(arg0: $JTextComponent, arg1: $Point2D): string;
+        damageRange(arg0: $JTextComponent, arg1: number, arg2: number, arg3: $Position$Bias, arg4: $Position$Bias): void;
     }
 }

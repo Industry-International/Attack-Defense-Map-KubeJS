@@ -10,17 +10,17 @@ import { $Vec3_, $Vec3 } from "@package/net/minecraft/world/phys";
 
 declare module "@package/net/neoforged/neoforge/event/village" {
     export class $WandererTradesEvent extends $Event {
-        getGenericTrades(): $List<$VillagerTrades$ItemListing>;
-        getRareTrades(): $List<$VillagerTrades$ItemListing>;
         getRegistryAccess(): $RegistryAccess;
+        getRareTrades(): $List<$VillagerTrades$ItemListing>;
+        getGenericTrades(): $List<$VillagerTrades$ItemListing>;
         /**
          * @deprecated
          */
         constructor(arg0: $List_<$VillagerTrades$ItemListing_>, arg1: $List_<$VillagerTrades$ItemListing_>);
         constructor(arg0: $List_<$VillagerTrades$ItemListing_>, arg1: $List_<$VillagerTrades$ItemListing_>, arg2: $RegistryAccess);
-        get genericTrades(): $List<$VillagerTrades$ItemListing>;
-        get rareTrades(): $List<$VillagerTrades$ItemListing>;
         get registryAccess(): $RegistryAccess;
+        get rareTrades(): $List<$VillagerTrades$ItemListing>;
+        get genericTrades(): $List<$VillagerTrades$ItemListing>;
     }
     export class $VillagerTradesEvent extends $Event {
         getType(): $VillagerProfession;

@@ -6,7 +6,7 @@ import { $NbtPathArgument$NbtPath } from "@package/net/minecraft/commands/argume
 import { $EntitySelector } from "@package/net/minecraft/commands/arguments/selector";
 import { $StringRepresentable } from "@package/net/minecraft/util";
 import { $CommandSourceStack } from "@package/net/minecraft/commands";
-import { $Function_, $Supplier, $Function } from "@package/java/util/function";
+import { $Function_, $Function, $Supplier } from "@package/java/util/function";
 import { $Stream } from "@package/java/util/stream";
 import { $Coordinates } from "@package/net/minecraft/commands/arguments/coordinates";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
@@ -24,9 +24,9 @@ declare module "@package/net/minecraft/network/chat/contents" {
         type(): $ComponentContents$Type<never>;
         resolve(arg0: $CommandSourceStack, arg1: $Entity, arg2: number): $MutableComponent;
         getSeparator(): ($Component) | undefined;
-        getNbtPath(): string;
-        getDataSource(): $DataSource;
         isInterpreting(): boolean;
+        getDataSource(): $DataSource;
+        getNbtPath(): string;
         visit<T>(arg0: $FormattedText$ContentConsumer_<T>): (T) | undefined;
         visit<T>(arg0: $FormattedText$StyledContentConsumer_<T>, arg1: $Style): (T) | undefined;
         static CODEC: $MapCodec<$NbtContents>;
@@ -34,9 +34,9 @@ declare module "@package/net/minecraft/network/chat/contents" {
         static TYPE: $ComponentContents$Type<$NbtContents>;
         constructor(arg0: string, arg1: boolean, arg2: ($Component_) | undefined, arg3: $DataSource);
         get separator(): ($Component) | undefined;
-        get nbtPath(): string;
-        get dataSource(): $DataSource;
         get interpreting(): boolean;
+        get dataSource(): $DataSource;
+        get nbtPath(): string;
     }
     export class $TranslatableFormatException extends $IllegalArgumentException {
         constructor(arg0: $TranslatableContents, arg1: string);
@@ -74,9 +74,9 @@ declare module "@package/net/minecraft/network/chat/contents" {
         visit<T>(arg0: $FormattedText$ContentConsumer_<T>): (T) | undefined;
         visit<T>(arg0: $FormattedText$StyledContentConsumer_<T>, arg1: $Style): (T) | undefined;
         getArgs(): $Object[];
-        getArgument(arg0: number): $FormattedText;
-        static isAllowedPrimitiveArgument(arg0: $Object): boolean;
         getFallback(): string;
+        static isAllowedPrimitiveArgument(arg0: $Object): boolean;
+        getArgument(arg0: number): $FormattedText;
         args: $Object[];
         static CODEC: $MapCodec<$TranslatableContents>;
         static NO_ARGS: $Object[];
@@ -108,8 +108,8 @@ declare module "@package/net/minecraft/network/chat/contents" {
     export class $EntityDataSource extends $Record implements $DataSource {
         type(): $DataSource$Type<never>;
         getData(arg0: $CommandSourceStack): $Stream<$CompoundTag>;
-        selectorPattern(): string;
         compiledSelector(): $EntitySelector;
+        selectorPattern(): string;
         static SUB_CODEC: $MapCodec<$EntityDataSource>;
         static TYPE: $DataSource$Type<$EntityDataSource>;
         constructor(arg0: string);
@@ -152,8 +152,8 @@ declare module "@package/net/minecraft/network/chat/contents" {
     export class $BlockDataSource extends $Record implements $DataSource {
         type(): $DataSource$Type<never>;
         getData(arg0: $CommandSourceStack): $Stream<$CompoundTag>;
-        posPattern(): string;
         compiledPos(): $Coordinates;
+        posPattern(): string;
         static SUB_CODEC: $MapCodec<$BlockDataSource>;
         static TYPE: $DataSource$Type<$BlockDataSource>;
         constructor(arg0: string);

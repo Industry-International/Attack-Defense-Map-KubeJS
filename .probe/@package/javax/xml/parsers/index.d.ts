@@ -12,28 +12,31 @@ declare module "@package/javax/xml/parsers" {
         parse(arg0: $InputSource): $Document;
         parse(arg0: $InputStream, arg1: string): $Document;
         parse(arg0: $InputStream): $Document;
+        setErrorHandler(arg0: $ErrorHandler): void;
+        getDOMImplementation(): $DOMImplementation;
+        setEntityResolver(arg0: $EntityResolver_): void;
         newDocument(): $Document;
         isNamespaceAware(): boolean;
         isValidating(): boolean;
         getSchema(): $Schema;
         isXIncludeAware(): boolean;
-        setErrorHandler(arg0: $ErrorHandler): void;
-        getDOMImplementation(): $DOMImplementation;
-        setEntityResolver(arg0: $EntityResolver_): void;
+        set errorHandler(value: $ErrorHandler);
+        get DOMImplementation(): $DOMImplementation;
+        set entityResolver(value: $EntityResolver_);
         get namespaceAware(): boolean;
         get validating(): boolean;
         get schema(): $Schema;
         get XIncludeAware(): boolean;
-        set errorHandler(value: $ErrorHandler);
-        get DOMImplementation(): $DOMImplementation;
-        set entityResolver(value: $EntityResolver_);
     }
     export class $DocumentBuilderFactory {
         static newInstance(): $DocumentBuilderFactory;
         static newInstance(arg0: string, arg1: $ClassLoader): $DocumentBuilderFactory;
         setAttribute(arg0: string, arg1: $Object): void;
         getAttribute(arg0: string): $Object;
-        setExpandEntityReferences(arg0: boolean): void;
+        setXIncludeAware(arg0: boolean): void;
+        setValidating(arg0: boolean): void;
+        newDocumentBuilder(): $DocumentBuilder;
+        setNamespaceAware(arg0: boolean): void;
         static newDefaultNSInstance(): $DocumentBuilderFactory;
         static newNSInstance(arg0: string, arg1: $ClassLoader): $DocumentBuilderFactory;
         static newNSInstance(): $DocumentBuilderFactory;
@@ -51,10 +54,7 @@ declare module "@package/javax/xml/parsers" {
         getSchema(): $Schema;
         setSchema(arg0: $Schema): void;
         isXIncludeAware(): boolean;
-        setValidating(arg0: boolean): void;
-        setNamespaceAware(arg0: boolean): void;
-        newDocumentBuilder(): $DocumentBuilder;
-        setXIncludeAware(arg0: boolean): void;
+        setExpandEntityReferences(arg0: boolean): void;
         setFeature(arg0: string, arg1: boolean): void;
     }
 }

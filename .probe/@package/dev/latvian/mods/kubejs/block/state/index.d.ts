@@ -6,7 +6,7 @@ import { $BlockState_, $BlockState } from "@package/net/minecraft/world/level/bl
 import { $ResourceLocation } from "@package/net/minecraft/resources";
 import { $ReplacementMatch } from "@package/dev/latvian/mods/kubejs/recipe/match";
 import { $RuleTest } from "@package/net/minecraft/world/level/levelgen/structure/templatesystem";
-import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
+import { $Block, $Block_ } from "@package/net/minecraft/world/level/block";
 import { $List, $List_, $Collection, $Set } from "@package/java/util";
 import { $Pattern } from "@package/java/util/regex";
 import { $Object, $Enum, $Record } from "@package/java/lang";
@@ -15,59 +15,59 @@ declare module "@package/dev/latvian/mods/kubejs/block/state" {
     export class $BlockStatePredicate$OrMatch extends $Record implements $BlockStatePredicate {
         test(state: $BlockState_): boolean;
         list(): $List<$BlockStatePredicate>;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
-        getBlockStates(): $Collection<$BlockState>;
         asRuleTest(): $RuleTest;
+        getBlockStates(): $Collection<$BlockState>;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         getBlockIds(): $Set<$ResourceLocation>;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         constructor(list: $List_<$BlockStatePredicate_>);
-        get blocks(): $Collection<$Block>;
         get blockStates(): $Collection<$BlockState>;
+        get blocks(): $Collection<$Block>;
         get blockIds(): $Set<$ResourceLocation>;
     }
     export class $BlockStatePredicate$BlockMatch extends $Record implements $BlockStatePredicate {
         test(state: $BlockState_): boolean;
         block(): $Block;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
-        getBlockStates(): $Collection<$BlockState>;
         asRuleTest(): $RuleTest;
+        getBlockStates(): $Collection<$BlockState>;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         getBlockIds(): $Set<$ResourceLocation>;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         constructor(block: $Block_);
-        get blocks(): $Collection<$Block>;
         get blockStates(): $Collection<$BlockState>;
+        get blocks(): $Collection<$Block>;
         get blockIds(): $Set<$ResourceLocation>;
     }
     export class $BlockStatePredicate$AndMatch implements $BlockStatePredicate {
         test(state: $BlockState_): boolean;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
-        getBlockStates(): $Collection<$BlockState>;
         asRuleTest(): $RuleTest;
+        getBlockStates(): $Collection<$BlockState>;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         getBlockIds(): $Set<$ResourceLocation>;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         constructor(list: $List_<$BlockStatePredicate_>);
-        get blocks(): $Collection<$Block>;
         get blockStates(): $Collection<$BlockState>;
+        get blocks(): $Collection<$Block>;
         get blockIds(): $Set<$ResourceLocation>;
     }
     export class $BlockStatePredicate$TagMatch extends $Record implements $BlockStatePredicate {
         test(state: $BlockState_): boolean;
         tag(): $TagKey<$Block>;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
         asRuleTest(): $RuleTest;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         getBlockStates(): $Collection<$BlockState>;
         getBlockIds(): $Set<$ResourceLocation>;
@@ -87,13 +87,13 @@ declare module "@package/dev/latvian/mods/kubejs/block/state" {
     export interface $BlockStatePredicate extends $Predicate<$BlockState>, $ReplacementMatch {
         test(state: $BlockState_): boolean;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
-        getBlockStates(): $Collection<$BlockState>;
         asRuleTest(): $RuleTest;
+        getBlockStates(): $Collection<$BlockState>;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         getBlockIds(): $Set<$ResourceLocation>;
-        get blocks(): $Collection<$Block>;
         get blockStates(): $Collection<$BlockState>;
+        get blocks(): $Collection<$Block>;
         get blockIds(): $Set<$ResourceLocation>;
     }
     /**
@@ -104,9 +104,9 @@ declare module "@package/dev/latvian/mods/kubejs/block/state" {
         static values(): $BlockStatePredicate$Simple[];
         test(state: $BlockState_): boolean;
         static valueOf(name: string): $BlockStatePredicate$Simple;
-        testBlock(block: $Block_): boolean;
-        getBlockStates(): $Collection<$BlockState>;
         asRuleTest(): $RuleTest;
+        getBlockStates(): $Collection<$BlockState>;
+        testBlock(block: $Block_): boolean;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         getBlocks(): $Collection<$Block>;
         getBlockIds(): $Set<$ResourceLocation>;
@@ -126,25 +126,25 @@ declare module "@package/dev/latvian/mods/kubejs/block/state" {
     export class $BlockStatePredicate$StateMatch extends $Record implements $BlockStatePredicate {
         test(s: $BlockState_): boolean;
         state(): $BlockState;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
-        getBlockStates(): $Collection<$BlockState>;
         asRuleTest(): $RuleTest;
+        getBlockStates(): $Collection<$BlockState>;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         getBlockIds(): $Set<$ResourceLocation>;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         constructor(state: $BlockState_);
-        get blocks(): $Collection<$Block>;
         get blockStates(): $Collection<$BlockState>;
+        get blocks(): $Collection<$Block>;
         get blockIds(): $Set<$ResourceLocation>;
     }
     export class $BlockStatePredicate$RegexMatch implements $BlockStatePredicate {
         test(state: $BlockState_): boolean;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
         asRuleTest(): $RuleTest;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         getBlockStates(): $Collection<$BlockState>;
         getBlockIds(): $Set<$ResourceLocation>;
@@ -159,18 +159,18 @@ declare module "@package/dev/latvian/mods/kubejs/block/state" {
     }
     export class $BlockStatePredicate$NotMatch implements $BlockStatePredicate {
         test(state: $BlockState_): boolean;
-        testBlock(block: $Block_): boolean;
-        getBlocks(): $Collection<$Block>;
-        getBlockStates(): $Collection<$BlockState>;
         asRuleTest(): $RuleTest;
+        getBlockStates(): $Collection<$BlockState>;
+        getBlocks(): $Collection<$Block>;
+        testBlock(block: $Block_): boolean;
         getBlockIds(): $Set<$ResourceLocation>;
         check(targetStates: $List_<$OreConfiguration$TargetBlockState>): boolean;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         constructor(predicate: $BlockStatePredicate_);
-        get blocks(): $Collection<$Block>;
         get blockStates(): $Collection<$BlockState>;
+        get blocks(): $Collection<$Block>;
         get blockIds(): $Set<$ResourceLocation>;
     }
 }

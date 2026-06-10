@@ -10,13 +10,13 @@ import { $UUID_ } from "@package/java/util";
 
 declare module "@package/dev/ryanhcode/sable/network/udp" {
     export class $SableUDPServer {
-        sendPings(): void;
         static getServer(arg0: $MinecraftServer): $SableUDPServer;
+        sendPings(): void;
         isConnectedTo(arg0: $ServerPlayer): boolean;
-        beginAuthentication(arg0: $ServerPlayer): void;
         sendUDPPacket(arg0: $ServerPlayer, arg1: $SableUDPPacket_, arg2: boolean): boolean;
-        receiveAuthenticationPacket(arg0: $UUID_, arg1: $InetSocketAddress): void;
         receiveAlivePacket(arg0: $InetSocketAddress): void;
+        receiveAuthenticationPacket(arg0: $UUID_, arg1: $InetSocketAddress): void;
+        beginAuthentication(arg0: $ServerPlayer): void;
         static PING_INTERVAL: number;
         constructor(arg0: $MinecraftServer, arg1: $Channel);
     }
@@ -38,13 +38,13 @@ declare module "@package/dev/ryanhcode/sable/network/udp" {
      */
     export type $SableUDPPacketType_ = "ping" | "snapshot" | "snapshot_info" | "auth" | "keep_alive_clientbound" | "alive_serverbound";
     export class $SableUDPPacket {
-        static configureInMemoryPipeline(arg0: $ChannelPipeline, arg1: $PacketFlow_): void;
         static configureSerialization(arg0: $ChannelPipeline, arg1: $PacketFlow_, arg2: boolean, arg3: $BandwidthDebugMonitor): void;
+        static configureInMemoryPipeline(arg0: $ChannelPipeline, arg1: $PacketFlow_): void;
     }
     export interface $SableUDPPacket {
         getType(): $SableUDPPacketType;
-        handleServer(arg0: $MinecraftServer, arg1: $InetSocketAddress): void;
         handleClient(arg0: $Level_): void;
+        handleServer(arg0: $MinecraftServer, arg1: $InetSocketAddress): void;
         get type(): $SableUDPPacketType;
     }
     /**

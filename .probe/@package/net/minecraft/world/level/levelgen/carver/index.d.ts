@@ -23,27 +23,27 @@ declare module "@package/net/minecraft/world/level/levelgen/carver" {
         static of(arg0: boolean, arg1: $BlockState_, arg2: $BlockState_, arg3: $BlockState_, arg4: $BlockState_): $CarverDebugSettings;
         static of(arg0: $BlockState_, arg1: $BlockState_, arg2: $BlockState_, arg3: $BlockState_): $CarverDebugSettings;
         static of(arg0: boolean, arg1: $BlockState_): $CarverDebugSettings;
+        getWaterState(): $BlockState;
         getBarrierState(): $BlockState;
         getLavaState(): $BlockState;
-        isDebugMode(): boolean;
         getAirState(): $BlockState;
-        getWaterState(): $BlockState;
+        isDebugMode(): boolean;
         static CODEC: $Codec<$CarverDebugSettings>;
         static DEFAULT: $CarverDebugSettings;
+        get waterState(): $BlockState;
         get barrierState(): $BlockState;
         get lavaState(): $BlockState;
-        get debugMode(): boolean;
         get airState(): $BlockState;
-        get waterState(): $BlockState;
+        get debugMode(): boolean;
     }
     export class $CaveWorldCarver extends $WorldCarver<$CaveCarverConfiguration> {
-        isStartChunk(arg0: $CaveCarverConfiguration, arg1: $RandomSource): boolean;
-        getCaveBound(): number;
-        getThickness(arg0: $RandomSource): number;
-        createTunnel(arg0: $CarvingContext, arg1: $CaveCarverConfiguration, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: number, arg5: $Aquifer, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: number, arg15: number, arg16: number, arg17: $CarvingMask, arg18: $WorldCarver$CarveSkipChecker_): void;
         carve(arg0: $CarvingContext, arg1: $CaveCarverConfiguration, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: $RandomSource, arg5: $Aquifer, arg6: $ChunkPos, arg7: $CarvingMask): boolean;
         createRoom(arg0: $CarvingContext, arg1: $CaveCarverConfiguration, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: $Aquifer, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CarvingMask, arg11: $WorldCarver$CarveSkipChecker_): void;
         getYScale(): number;
+        getThickness(arg0: $RandomSource): number;
+        createTunnel(arg0: $CarvingContext, arg1: $CaveCarverConfiguration, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: number, arg5: $Aquifer, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: number, arg15: number, arg16: number, arg17: $CarvingMask, arg18: $WorldCarver$CarveSkipChecker_): void;
+        getCaveBound(): number;
+        isStartChunk(arg0: $CaveCarverConfiguration, arg1: $RandomSource): boolean;
         static CAVE: $WorldCarver<$CaveCarverConfiguration>;
         static LAVA: $FluidState;
         static CANYON: $WorldCarver<$CanyonCarverConfiguration>;
@@ -53,24 +53,24 @@ declare module "@package/net/minecraft/world/level/levelgen/carver" {
         static NETHER_CAVE: $WorldCarver<$CaveCarverConfiguration>;
         static WATER: $FluidState;
         constructor(arg0: $Codec<$CaveCarverConfiguration>);
-        get caveBound(): number;
         get YScale(): number;
+        get caveBound(): number;
     }
     export class $CarvingContext extends $WorldGenerationContext {
+        /**
+         * @deprecated
+         */
+        registryAccess(): $RegistryAccess;
         randomState(): $RandomState;
         /**
          * @deprecated
          */
         topMaterial(arg0: $Function_<$BlockPos, $Holder<$Biome>>, arg1: $ChunkAccess, arg2: $BlockPos_, arg3: boolean): ($BlockState) | undefined;
-        /**
-         * @deprecated
-         */
-        registryAccess(): $RegistryAccess;
         constructor(arg0: $NoiseBasedChunkGenerator, arg1: $RegistryAccess, arg2: $LevelHeightAccessor, arg3: $NoiseChunk, arg4: $RandomState, arg5: $SurfaceRules$RuleSource);
     }
     export class $CanyonWorldCarver extends $WorldCarver<$CanyonCarverConfiguration> {
-        isStartChunk(arg0: $CanyonCarverConfiguration, arg1: $RandomSource): boolean;
         carve(arg0: $CarvingContext, arg1: $CanyonCarverConfiguration, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: $RandomSource, arg5: $Aquifer, arg6: $ChunkPos, arg7: $CarvingMask): boolean;
+        isStartChunk(arg0: $CanyonCarverConfiguration, arg1: $RandomSource): boolean;
         static CAVE: $WorldCarver<$CaveCarverConfiguration>;
         static LAVA: $FluidState;
         static CANYON: $WorldCarver<$CanyonCarverConfiguration>;
@@ -144,13 +144,13 @@ declare module "@package/net/minecraft/world/level/levelgen/carver" {
     export class $WorldCarver<C extends $CarverConfiguration> {
         getRange(): number;
         configured(arg0: C): $ConfiguredWorldCarver<C>;
-        static canReach(arg0: $ChunkPos, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): boolean;
-        configuredCodec(): $MapCodec<$ConfiguredWorldCarver<C>>;
-        carveEllipsoid(arg0: $CarvingContext, arg1: C, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: $Aquifer, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CarvingMask, arg11: $WorldCarver$CarveSkipChecker_): boolean;
-        isStartChunk(arg0: C, arg1: $RandomSource): boolean;
-        canReplaceBlock(arg0: C, arg1: $BlockState_): boolean;
         carveBlock(arg0: $CarvingContext, arg1: C, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: $CarvingMask, arg5: $BlockPos$MutableBlockPos, arg6: $BlockPos$MutableBlockPos, arg7: $Aquifer, arg8: $MutableBoolean): boolean;
         carve(arg0: $CarvingContext, arg1: C, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: $RandomSource, arg5: $Aquifer, arg6: $ChunkPos, arg7: $CarvingMask): boolean;
+        static canReach(arg0: $ChunkPos, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): boolean;
+        configuredCodec(): $MapCodec<$ConfiguredWorldCarver<C>>;
+        isStartChunk(arg0: C, arg1: $RandomSource): boolean;
+        carveEllipsoid(arg0: $CarvingContext, arg1: C, arg2: $ChunkAccess, arg3: $Function_<$BlockPos, $Holder<$Biome>>, arg4: $Aquifer, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CarvingMask, arg11: $WorldCarver$CarveSkipChecker_): boolean;
+        canReplaceBlock(arg0: C, arg1: $BlockState_): boolean;
         static CAVE: $WorldCarver<$CaveCarverConfiguration>;
         static LAVA: $FluidState;
         static CANYON: $WorldCarver<$CanyonCarverConfiguration>;
@@ -178,9 +178,9 @@ declare module "@package/net/minecraft/world/level/levelgen/carver" {
     }
     export class $ConfiguredWorldCarver<WC extends $CarverConfiguration> extends $Record {
         config(): WC;
+        carve(arg0: $CarvingContext, arg1: $ChunkAccess, arg2: $Function_<$BlockPos, $Holder<$Biome>>, arg3: $RandomSource, arg4: $Aquifer, arg5: $ChunkPos, arg6: $CarvingMask): boolean;
         isStartChunk(arg0: $RandomSource): boolean;
         worldCarver(): $WorldCarver<WC>;
-        carve(arg0: $CarvingContext, arg1: $ChunkAccess, arg2: $Function_<$BlockPos, $Holder<$Biome>>, arg3: $RandomSource, arg4: $Aquifer, arg5: $ChunkPos, arg6: $CarvingMask): boolean;
         static CODEC: $Codec<$Holder<$ConfiguredWorldCarver<never>>>;
         static DIRECT_CODEC: $Codec<$ConfiguredWorldCarver<never>>;
         static LIST_CODEC: $Codec<$HolderSet<$ConfiguredWorldCarver<never>>>;

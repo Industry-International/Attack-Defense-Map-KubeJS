@@ -19,44 +19,44 @@ declare module "@package/xaero/common/events" {
         constructor(arg0: $IXaeroMinimap);
     }
     export class $ModClientEvents {
-        handleRenderModOverlay(arg0: $GuiGraphics, arg1: $DeltaTracker): void;
         handleTextureStitchEventPost(arg0: $TextureAtlas): void;
+        handleRenderModOverlay(arg0: $GuiGraphics, arg1: $DeltaTracker): void;
         constructor(arg0: $IXaeroMinimap);
     }
     export class $ClientEvents {
-        handleDrawScreenEventPost(arg0: $Screen): void;
-        handlePlayerSetSpawnEvent(arg0: $BlockPos_, arg1: $Level_): void;
-        handleRenderTickStart(): void;
-        handlePlayerTickStart(arg0: $Player): void;
-        handleClientTickStart(): void;
-        handleClientSendChatEvent(arg0: string): boolean;
-        handleGuiOpen(arg0: $Screen): $Screen;
-        worldUnload(arg0: $LevelAccessor): void;
-        getLastGuiOpen(): $Object;
-        handleClientPlayerChatReceivedEvent(arg0: $ChatType$Bound_, arg1: $Component_, arg2: $GameProfile): boolean;
-        handleClientSystemChatReceivedEvent(arg0: $Component_): boolean;
         handleRenderGameOverlayEventPost(): void;
-        handleForceToggleKeyMapping(arg0: $ToggleKeyMapping): boolean;
+        handleRenderCrosshairOverlay(arg0: $GuiGraphics): boolean;
         handleRenderStatusEffectOverlay(arg0: $GuiGraphics): boolean;
         handleRenderGameOverlayEventPre(arg0: $GuiGraphics, arg1: number): void;
-        handleRenderCrosshairOverlay(arg0: $GuiGraphics): boolean;
+        handleForceToggleKeyMapping(arg0: $ToggleKeyMapping): boolean;
+        getLastGuiOpen(): $Object;
+        handleGuiOpen(arg0: $Screen): $Screen;
+        worldUnload(arg0: $LevelAccessor): void;
+        handleClientSendChatEvent(arg0: string): boolean;
+        handlePlayerSetSpawnEvent(arg0: $BlockPos_, arg1: $Level_): void;
+        handleClientTickStart(): void;
+        handlePlayerTickStart(arg0: $Player): void;
+        handleDrawScreenEventPost(arg0: $Screen): void;
+        handleRenderTickStart(): void;
+        handleClientPlayerChatReceivedEvent(arg0: $ChatType$Bound_, arg1: $Component_, arg2: $GameProfile): boolean;
+        handleClientSystemChatReceivedEvent(arg0: $Component_): boolean;
         latestRealm: $RealmsServer;
         constructor(arg0: $HudMod);
         get lastGuiOpen(): $Object;
     }
     export class $CommonEvents {
-        handlePlayerTickStart(arg0: $Player): void;
-        onServerStarting(arg0: $MinecraftServer): void;
-        onPlayerLogIn(arg0: $Player): void;
         onServerStopped(arg0: $MinecraftServer): void;
+        onPlayerLogIn(arg0: $Player): void;
+        onServerStarting(arg0: $MinecraftServer): void;
+        handlePlayerTickStart(arg0: $Player): void;
         onPlayerWorldJoin(arg0: $ServerPlayer): void;
         constructor(arg0: $HudMod);
     }
     export class $ClientEventsListener {
+        handleRenderStatusEffectOverlay(arg0: $GuiGraphics): boolean;
+        handleForceToggleKeyMapping(arg0: $ToggleKeyMapping): boolean;
         clientTickPost(arg0: $HudSession): void;
         playerTickPost(arg0: $HudSession): void;
-        handleForceToggleKeyMapping(arg0: $ToggleKeyMapping): boolean;
-        handleRenderStatusEffectOverlay(arg0: $GuiGraphics): boolean;
         constructor();
     }
 }

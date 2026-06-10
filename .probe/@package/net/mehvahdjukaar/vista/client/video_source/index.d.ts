@@ -12,11 +12,11 @@ declare module "@package/net/mehvahdjukaar/vista/client/video_source" {
         static EMPTY: $IVideoSource;
     }
     export interface $IVideoSource {
-        getVideoDuration(): number;
         getVideoSound(): $SoundEvent;
+        getVideoDuration(): number;
         getVideoFrameBuilder(arg0: number, arg1: $MultiBufferSource_, arg2: boolean, arg3: $Vec2i_, arg4: $Vec2i_, arg5: number, arg6: boolean, arg7: $IntAnimationState, arg8: $IntAnimationState, arg9: boolean): $VertexConsumer;
-        get videoDuration(): number;
         get videoSound(): $SoundEvent;
+        get videoDuration(): number;
     }
     /**
      * Values that may be interpreted as {@link $IVideoSource}.

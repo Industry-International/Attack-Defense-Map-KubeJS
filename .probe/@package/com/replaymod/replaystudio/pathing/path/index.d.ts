@@ -15,13 +15,13 @@ declare module "@package/com/replaymod/replaystudio/pathing/path" {
         isActive(): boolean;
         setActive(arg0: boolean): void;
         updateAll(): void;
-        getKeyframes(): $Collection<$Keyframe>;
         getKeyframe(arg0: number): $Keyframe;
         getTimeline(): $Timeline;
         getSegments(): $Collection<$PathSegment>;
-        get keyframes(): $Collection<$Keyframe>;
+        getKeyframes(): $Collection<$Keyframe>;
         get timeline(): $Timeline;
         get segments(): $Collection<$PathSegment>;
+        get keyframes(): $Collection<$Keyframe>;
     }
     export class $Timeline {
     }
@@ -29,14 +29,14 @@ declare module "@package/com/replaymod/replaystudio/pathing/path" {
         getProperty(arg0: string): $Property<any>;
         getValue<T>(arg0: $Property<T>, arg1: number): (T) | undefined;
         getPaths(): $List<$Path>;
-        applyChange(arg0: $Change): void;
         createPath(): $Path;
-        pushChange(arg0: $Change): void;
+        applyChange(arg0: $Change): void;
         peekUndoStack(): $Change;
-        redoLastChange(): void;
         peekRedoStack(): $Change;
         undoLastChange(): void;
+        redoLastChange(): void;
         registerProperty(arg0: $Property<any>): void;
+        pushChange(arg0: $Change): void;
         applyToGame(arg0: number, arg1: $Object): void;
         get paths(): $List<$Path>;
     }

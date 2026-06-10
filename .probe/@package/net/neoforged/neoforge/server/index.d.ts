@@ -9,19 +9,19 @@ export * as console from "@package/net/neoforged/neoforge/server/console";
 
 declare module "@package/net/neoforged/neoforge/server" {
     export class $LanguageHook {
-        static loadBuiltinLanguages(): void;
         static captureLanguageMap(arg0: $Map_<string, string>, arg1: $Map_<string, $Component_>): void;
+        static loadBuiltinLanguages(): void;
         constructor();
     }
     export class $ServerLifecycleHooks {
+        static getCurrentServer(): $MinecraftServer;
+        static handleServerStarted(arg0: $MinecraftServer): void;
         static handleServerStopped(arg0: $MinecraftServer): void;
         static expectServerStopped(): void;
         static handleServerStopping(arg0: $MinecraftServer): void;
-        static handleServerStarted(arg0: $MinecraftServer): void;
         static handleExit(arg0: number): void;
-        static getCurrentServer(): $MinecraftServer;
-        static handleServerStarting(arg0: $MinecraftServer): void;
         static handleServerAboutToStart(arg0: $MinecraftServer): void;
+        static handleServerStarting(arg0: $MinecraftServer): void;
         constructor();
         static get currentServer(): $MinecraftServer;
     }

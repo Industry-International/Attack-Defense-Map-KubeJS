@@ -8,32 +8,32 @@ declare module "@package/com/github/argon4w/acceleratedrendering/core/programs/o
     export class $IShaderProgramOverrides {
     }
     export interface $IShaderProgramOverrides {
-        getUploadingOverrides(): $Map<$RenderType, $IUploadingShaderProgramOverride>;
         getTransformOverrides(): $Map<$RenderType, $ITransformShaderProgramOverride>;
-        get uploadingOverrides(): $Map<$RenderType, $IUploadingShaderProgramOverride>;
+        getUploadingOverrides(): $Map<$RenderType, $IUploadingShaderProgramOverride>;
         get transformOverrides(): $Map<$RenderType, $ITransformShaderProgramOverride>;
+        get uploadingOverrides(): $Map<$RenderType, $IUploadingShaderProgramOverride>;
     }
     export class $ITransformShaderProgramOverride {
     }
     export interface $ITransformShaderProgramOverride extends $IShaderProgramOverride {
         dispatchTransform(arg0: number, arg1: number, arg2: number): number;
-        getVaryingSize(): number;
         uploadVarying(arg0: number, arg1: number): void;
+        getVaryingSize(): number;
         get varyingSize(): number;
     }
     export class $IUploadingShaderProgramOverride {
     }
     export interface $IUploadingShaderProgramOverride extends $IShaderProgramOverride {
-        dispatchUploading(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): number;
         uploadMeshInfo(arg0: number, arg1: number): void;
         getMeshInfoSize(): number;
+        dispatchUploading(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): number;
         get meshInfoSize(): number;
     }
     export class $IShaderProgramOverride {
     }
     export interface $IShaderProgramOverride {
-        useProgram(): void;
         setupProgram(): void;
+        useProgram(): void;
     }
     export class $LoadShaderProgramOverridesEvent extends $Event implements $IModBusEvent {
         getOverrides(arg0: $ITransformShaderProgramOverride, arg1: $IUploadingShaderProgramOverride): $IShaderProgramOverrides;

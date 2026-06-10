@@ -2,7 +2,7 @@ import { $Predicate, $Predicate_ } from "@package/java/util/function";
 import { $HolderSet_, $HolderSet } from "@package/net/minecraft/core";
 import { $IBrewingRecipe, $BrewingRecipe } from "@package/net/neoforged/neoforge/common/brewing";
 import { $Item_, $ItemStack_ } from "@package/net/minecraft/world/item";
-import { $Ingredient_, $Ingredient } from "@package/net/minecraft/world/item/crafting";
+import { $Ingredient, $Ingredient_ } from "@package/net/minecraft/world/item/crafting";
 import { $PotionBrewing$Mix_, $Potion, $PotionBrewing$Mix, $PotionBrewing$Builder, $Potion_ } from "@package/net/minecraft/world/item/alchemy";
 import { $List } from "@package/java/util";
 import { $Object, $Record } from "@package/java/lang";
@@ -31,14 +31,14 @@ declare module "@package/com/almostreliable/morejs/features/potion" {
     }
     export class $PotionBrewingRegisterEvent implements $KubeEvent {
         removeContainer(arg0: $Ingredient_): void;
-        addContainerRecipe(arg0: $Ingredient_, arg1: $Item_, arg2: $Item_): void;
-        validateContainer(arg0: $Ingredient_, arg1: $Item_, arg2: $Item_): void;
         addPotionBrewing(arg0: $Ingredient_, arg1: $Potion_, arg2: $Potion_): void;
         addPotionBrewing(arg0: $Ingredient_, arg1: $Potion_): void;
+        validateContainer(arg0: $Ingredient_, arg1: $Item_, arg2: $Item_): void;
         addCustomBrewing(arg0: $Ingredient_, arg1: $Ingredient_, arg2: $ItemStack_): void;
+        removeCustomBrewing(arg0: $CustomBrewingFilter_): void;
         getCustomBrewingRecipes(): $List<$IBrewingRecipe>;
         removePotionBrewing(arg0: $PotionBrewingFilter_): void;
-        removeCustomBrewing(arg0: $CustomBrewingFilter_): void;
+        addContainerRecipe(arg0: $Ingredient_, arg1: $Item_, arg2: $Item_): void;
         /**
          * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 

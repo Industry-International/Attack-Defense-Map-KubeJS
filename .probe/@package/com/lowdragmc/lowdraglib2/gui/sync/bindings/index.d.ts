@@ -45,8 +45,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings" {
     export class $IObservable<T> {
     }
     export interface $IObservable<T> {
-        unbindObserver(arg0: $IObserver_<T>): $UIElement;
         bindObserver(arg0: $IObserver_<T>): $UIElement;
+        unbindObserver(arg0: $IObserver_<T>): $UIElement;
     }
     export class $IDataConsumer<T> {
     }
@@ -65,15 +65,15 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings" {
     export class $IBinding<T> {
     }
     export interface $IBinding<T> {
+        acceptC2S(): boolean;
+        acceptS2C(): boolean;
+        setServerDataSource(arg0: $IDataSource<T>): void;
+        getServerDataSource(): $IDataSource<T>;
+        getSyncValue(): $SyncValue<T>;
+        getRemoteDataSource(): $IDataSource<T>;
+        setRemoteDataSource(arg0: $IDataSource<T>): void;
         c2sStrategy(): $SyncStrategy;
         s2cStrategy(): $SyncStrategy;
-        setRemoteDataSource(arg0: $IDataSource<T>): void;
-        getRemoteDataSource(): $IDataSource<T>;
-        getSyncValue(): $SyncValue<T>;
-        acceptS2C(): boolean;
-        acceptC2S(): boolean;
-        getServerDataSource(): $IDataSource<T>;
-        setServerDataSource(arg0: $IDataSource<T>): void;
         get syncValue(): $SyncValue<T>;
     }
 }

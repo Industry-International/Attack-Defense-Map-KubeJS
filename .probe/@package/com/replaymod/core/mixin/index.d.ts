@@ -3,8 +3,8 @@ import { $CrashReport } from "@package/net/minecraft";
 import { $Connection } from "@package/net/minecraft/network";
 import { $CompletableFuture } from "@package/java/util/concurrent";
 import { $DeltaTracker$Timer } from "@package/net/minecraft/client";
-import { $Runnable } from "@package/java/lang";
 import { $Queue } from "@package/java/util";
+import { $Runnable } from "@package/java/lang";
 import { $GuiEventListener } from "@package/net/minecraft/client/gui/components/events";
 
 declare module "@package/com/replaymod/core/mixin" {
@@ -12,15 +12,15 @@ declare module "@package/com/replaymod/core/mixin" {
     }
     export interface $MinecraftAccessor {
         getTimer(): $DeltaTracker$Timer;
-        getProgressTasks(): $Queue<$Runnable>;
+        setTimer(arg0: $DeltaTracker$Timer): void;
         getPendingReload(): $CompletableFuture<void>;
-        setPendingReload(arg0: $CompletableFuture<void>): void;
         setConnection(arg0: $Connection): void;
         getCrashReporter(): $Supplier<$CrashReport>;
-        setTimer(arg0: $DeltaTracker$Timer): void;
-        get progressTasks(): $Queue<$Runnable>;
+        setPendingReload(arg0: $CompletableFuture<void>): void;
+        getProgressTasks(): $Queue<$Runnable>;
         set connection(value: $Connection);
         get crashReporter(): $Supplier<$CrashReport>;
+        get progressTasks(): $Queue<$Runnable>;
     }
     export class $AbstractButtonWidgetAccessor {
     }
@@ -35,14 +35,14 @@ declare module "@package/com/replaymod/core/mixin" {
     export class $KeyBindingAccessor {
     }
     export interface $KeyBindingAccessor {
-        getPressTime(): number;
         setPressTime(arg0: number): void;
+        getPressTime(): number;
     }
     export class $TimerAccessor {
     }
     export interface $TimerAccessor {
-        getTickLength(): number;
         setTickLength(arg0: number): void;
+        getTickLength(): number;
     }
     export class $GuiScreenAccessor {
     }

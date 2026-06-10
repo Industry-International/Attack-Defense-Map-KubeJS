@@ -27,15 +27,15 @@ declare module "@package/net/neoforged/neoforge/client/settings" {
         matches(arg0: $InputConstants$Key): boolean;
         isActive(arg0: $IKeyConflictContext): boolean;
         codes(): $InputConstants$Key[];
+        static getKeyModifier(arg0: $InputConstants$Key): $KeyModifier;
+        getCombinedName(arg0: $InputConstants$Key, arg1: $Supplier_<$Component>): $Component;
+        static isKeyCodeModifier(arg0: $InputConstants$Key): boolean;
         static getActiveModifiers(): $List<$KeyModifier>;
+        static valueFromString(arg0: string): $KeyModifier;
         /**
          * @deprecated
          */
         static getActiveModifier(): $KeyModifier;
-        static valueFromString(arg0: string): $KeyModifier;
-        static getKeyModifier(arg0: $InputConstants$Key): $KeyModifier;
-        getCombinedName(arg0: $InputConstants$Key, arg1: $Supplier_<$Component>): $Component;
-        static isKeyCodeModifier(arg0: $InputConstants$Key): boolean;
         static SHIFT: $KeyModifier;
         static MODIFIER_VALUES: $KeyModifier[];
         static ALT: $KeyModifier;

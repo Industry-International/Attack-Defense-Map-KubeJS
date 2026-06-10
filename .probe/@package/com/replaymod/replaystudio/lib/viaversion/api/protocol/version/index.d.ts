@@ -31,9 +31,9 @@ declare module "@package/com/replaymod/replaystudio/lib/viaversion/api/protocol/
         static isRegistered(version: number): boolean;
         static isRegistered(versionType: $VersionType_, version: number): boolean;
         static register(version: number, name: string): $ProtocolVersion;
-        static register(version: number, snapshotVersion: number, name: string): $ProtocolVersion;
-        static register(protocolVersion: $ProtocolVersion): void;
         static register(version: number, name: string, versionRange: $SubVersionRange): $ProtocolVersion;
+        static register(protocolVersion: $ProtocolVersion): void;
+        static register(version: number, snapshotVersion: number, name: string): $ProtocolVersion;
         static getProtocol(version: number): $ProtocolVersion;
         static getProtocol(versionType: $VersionType_, version: number): $ProtocolVersion;
         /**
@@ -42,23 +42,23 @@ declare module "@package/com/replaymod/replaystudio/lib/viaversion/api/protocol/
         static getIndex(version: $ProtocolVersion): number;
         getVersion(): number;
         isKnown(): boolean;
-        equalTo(other: $ProtocolVersion): boolean;
-        getVersionType(): $VersionType;
-        isSnapshot(): boolean;
-        static getProtocols(): $List<$ProtocolVersion>;
-        getFullSnapshotVersion(): number;
-        getIncludedVersions(): $Set<string>;
-        static getClosest(protocol: string): $ProtocolVersion;
+        betweenInclusive(min: $ProtocolVersion, max: $ProtocolVersion): boolean;
+        getSnapshotVersion(): number;
+        olderThanOrEqualTo(other: $ProtocolVersion): boolean;
         getOriginalVersion(): number;
         isVersionWildcard(): boolean;
-        betweenExclusive(min: $ProtocolVersion, max: $ProtocolVersion): boolean;
-        getSnapshotVersion(): number;
         newerThanOrEqualTo(other: $ProtocolVersion): boolean;
-        betweenInclusive(min: $ProtocolVersion, max: $ProtocolVersion): boolean;
-        olderThanOrEqualTo(other: $ProtocolVersion): boolean;
+        betweenExclusive(min: $ProtocolVersion, max: $ProtocolVersion): boolean;
+        equalTo(other: $ProtocolVersion): boolean;
+        static getProtocols(): $List<$ProtocolVersion>;
         newerThan(other: $ProtocolVersion): boolean;
-        olderThan(other: $ProtocolVersion): boolean;
         isRange(): boolean;
+        olderThan(other: $ProtocolVersion): boolean;
+        static getClosest(protocol: string): $ProtocolVersion;
+        getVersionType(): $VersionType;
+        isSnapshot(): boolean;
+        getFullSnapshotVersion(): number;
+        getIncludedVersions(): $Set<string>;
         static v1_8: $ProtocolVersion;
         static v1_9: $ProtocolVersion;
         static unknown: $ProtocolVersion;
@@ -110,14 +110,14 @@ declare module "@package/com/replaymod/replaystudio/lib/viaversion/api/protocol/
         get name(): string;
         get version(): number;
         get known(): boolean;
-        get versionType(): $VersionType;
-        get snapshot(): boolean;
-        static get protocols(): $List<$ProtocolVersion>;
-        get fullSnapshotVersion(): number;
-        get includedVersions(): $Set<string>;
+        get snapshotVersion(): number;
         get originalVersion(): number;
         get versionWildcard(): boolean;
-        get snapshotVersion(): number;
+        static get protocols(): $List<$ProtocolVersion>;
         get range(): boolean;
+        get versionType(): $VersionType;
+        get snapshot(): boolean;
+        get fullSnapshotVersion(): number;
+        get includedVersions(): $Set<string>;
     }
 }
