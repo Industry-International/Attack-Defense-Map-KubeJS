@@ -188,6 +188,32 @@ function renderWeaponConfig(gui, player, openPage) {
 
   // Row 4: 三个长方形底部边框
   for (let x = 1; x < 8; x++) gui.slot(x, 4, s => { s.setItem(PANE.gray) })
+
+  // Row 5: 背包功能按钮
+  // 左下角 (0,5) — 加载背包
+  gui.slot(0, 5, slot => {
+    slot.setItem(
+      Item.of('minecraft:chest_minecart')
+        .withCustomName(Text.translate('gui.kubejs.backpack.load_btn'))
+        .withLore([Text.translate('gui.kubejs.backpack.load_btn.lore')]))
+    slot.setLeftClicked(() => openPage(player, 'backpack_load'))
+  })
+  // 右下角 (8,5) — 保存到背包
+  gui.slot(8, 5, slot => {
+    slot.setItem(
+      Item.of('minecraft:chest')
+        .withCustomName(Text.translate('gui.kubejs.backpack.save_btn'))
+        .withLore([Text.translate('gui.kubejs.backpack.save_btn.lore')]))
+    slot.setLeftClicked(() => openPage(player, 'backpack_save'))
+  })
+  // 右上角 (8,0) — 删除背包
+  gui.slot(8, 0, slot => {
+    slot.setItem(
+      Item.of('minecraft:barrel')
+        .withCustomName(Text.translate('gui.kubejs.backpack.delete_btn'))
+        .withLore([Text.translate('gui.kubejs.backpack.delete_btn.lore')]))
+    slot.setLeftClicked(() => openPage(player, 'backpack_delete'))
+  })
 }
 
 /**
@@ -378,6 +404,9 @@ function openPage(player, page) {
     else if (page === 'weapon')   renderWeapon(gui, player, openPage)
     else if (page === 'offhand')  renderOffhand(gui, player, openPage)
     else if (page === 'tertiary') renderTertiary(gui, player, openPage)
+    else if (page === 'backpack_load')   renderBackpackSelect(gui, player, openPage, 'backpack_load')
+    else if (page === 'backpack_save')   renderBackpackSelect(gui, player, openPage, 'backpack_save')
+    else if (page === 'backpack_delete') renderBackpackSelect(gui, player, openPage, 'backpack_delete')
   })
 }
 

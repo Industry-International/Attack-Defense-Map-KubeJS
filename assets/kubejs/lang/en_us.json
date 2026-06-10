@@ -94,5 +94,32 @@
 
   "msg.kubejs.profession_select.select_first": "§cPlease select a profession first!",
   "msg.kubejs.profession_select.no_weapons": "§cNo weapons available for this profession!",
-  "msg.kubejs.profession_select.select_main_first": "§cPlease select a main weapon first!"
+  "msg.kubejs.profession_select.select_main_first": "§cPlease select a main weapon first!",
+
+  "gui.kubejs.backpack.load_btn": "§b⬆ Load Backpack",
+  "gui.kubejs.backpack.load_btn.lore": "§7Load weapon config from saved backpack",
+  "gui.kubejs.backpack.save_btn": "§a⬇ Save to Backpack",
+  "gui.kubejs.backpack.save_btn.lore": "§7Save current weapon config to a backpack slot",
+  "gui.kubejs.backpack.delete_btn": "§c✖ Delete Backpack",
+  "gui.kubejs.backpack.delete_btn.lore": "§7Delete data from a backpack slot",
+  "gui.kubejs.backpack.back": "§c← Back to Weapon Config",
+  "gui.kubejs.backpack.title.load": "§8Select Backpack to Load",
+  "gui.kubejs.backpack.title.save": "§8Select Backpack to Save To",
+  "gui.kubejs.backpack.title.delete": "§8Select Backpack to Delete",
+  "gui.kubejs.backpack.slot_name": "§6Backpack Slot %s",
+  "gui.kubejs.backpack.slot_empty": "§7Empty",
+  "gui.kubejs.backpack.hint.load": "§7Left-click a filled slot to load weapon config",
+  "gui.kubejs.backpack.hint.save": "§7Left-click a slot to save current weapon config",
+  "gui.kubejs.backpack.hint.delete": "§7Left-click a filled slot to delete its data",
+  "gui.kubejs.backpack.summary_main": "§bMain Weapon:",
+  "gui.kubejs.backpack.summary_offhand": "§eOffhand:",
+  "gui.kubejs.backpack.summary_special": "§dSpecial:",
+  "msg.kubejs.backpack.saved": "§a✔ Saved weapon config to backpack slot %s",
+  "msg.kubejs.backpack.loaded": "§a✔ Loaded weapon config from backpack slot %s",
+  "msg.kubejs.backpack.deleted": "§cDeleted backpack slot %s data",
+  "msg.kubejs.backpack.empty_slot": "§eThat backpack slot is empty",
+
+  "gui.kubejs.profession_select.subtitle.backpack_load": "§8Load Backpack",
+  "gui.kubejs.profession_select.subtitle.backpack_save": "§8Save Backpack",
+  "gui.kubejs.profession_select.subtitle.backpack_delete": "§8Delete Backpack"
 }

@@ -94,5 +94,32 @@
 
   "msg.kubejs.profession_select.select_first": "§c请先选择兵种！",
   "msg.kubejs.profession_select.no_weapons": "§c该兵种暂无可用武器！",
-  "msg.kubejs.profession_select.select_main_first": "§c请先选择主武器！"
+  "msg.kubejs.profession_select.select_main_first": "§c请先选择主武器！",
+
+  "gui.kubejs.backpack.load_btn": "§b⬆ 加载背包",
+  "gui.kubejs.backpack.load_btn.lore": "§7从已保存的背包中加载武器配置",
+  "gui.kubejs.backpack.save_btn": "§a⬇ 保存到背包",
+  "gui.kubejs.backpack.save_btn.lore": "§7将当前武器配置保存到背包槽位",
+  "gui.kubejs.backpack.delete_btn": "§c✖ 删除背包",
+  "gui.kubejs.backpack.delete_btn.lore": "§7删除指定背包槽位的数据",
+  "gui.kubejs.backpack.back": "§c← 返回武器配置",
+  "gui.kubejs.backpack.title.load": "§8选择要加载的背包",
+  "gui.kubejs.backpack.title.save": "§8选择要保存到的背包",
+  "gui.kubejs.backpack.title.delete": "§8选择要删除的背包",
+  "gui.kubejs.backpack.slot_name": "§6背包槽位 %s",
+  "gui.kubejs.backpack.slot_empty": "§7空",
+  "gui.kubejs.backpack.hint.load": "§7左键点击已保存的槽位加载武器配置",
+  "gui.kubejs.backpack.hint.save": "§7左键点击槽位保存当前武器配置",
+  "gui.kubejs.backpack.hint.delete": "§7左键点击有数据的槽位删除",
+  "gui.kubejs.backpack.summary_main": "§b主武器:",
+  "gui.kubejs.backpack.summary_offhand": "§e副武器:",
+  "gui.kubejs.backpack.summary_special": "§d特殊武器:",
+  "msg.kubejs.backpack.saved": "§a✔ 已保存武器配置到背包槽位 %s",
+  "msg.kubejs.backpack.loaded": "§a✔ 已从背包槽位 %s 加载武器配置",
+  "msg.kubejs.backpack.deleted": "§c已删除背包槽位 %s 的数据",
+  "msg.kubejs.backpack.empty_slot": "§e该背包槽位为空",
+
+  "gui.kubejs.profession_select.subtitle.backpack_load": "§8加载背包",
+  "gui.kubejs.profession_select.subtitle.backpack_save": "§8保存背包",
+  "gui.kubejs.profession_select.subtitle.backpack_delete": "§8删除背包"
 }
