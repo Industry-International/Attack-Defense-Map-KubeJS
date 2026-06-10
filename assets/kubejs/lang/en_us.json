@@ -124,6 +124,9 @@
   "gui.kubejs.profession_select.subtitle.backpack_save": "§8Save Backpack",
   "gui.kubejs.profession_select.subtitle.backpack_delete": "§8Delete Backpack",
 
+  "gui.kubejs.profession_select.give_equipment": "§a✔ Give Equipment",
+  "gui.kubejs.profession_select.give_equipment.lore": "§7Clear inventory and give selected loadout",
+
   "item.kubejs.team_selector": "§6Team Selector",
 
   "gui.kubejs.team_select.title": "§8Team Selection",

@@ -151,10 +151,13 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
           openAttachmentMenu(player, weaponId, gunId, returnPage)
         })
       })
-      // 左下角保存按钮（保底存档）
+      // 左下角保存按钮（保底存档，保存后自动返回上一级子菜单）
       gui.slot(0, 5, function(slot) {
         slot.setItem(Item.of('minecraft:written_book').withCustomName(Component.translatable('gui.kubejs.attach.save')))
-        slot.setLeftClicked(function() { saveGunAttachments(player, weaponId) })
+        slot.setLeftClicked(function() {
+          saveGunAttachments(player, weaponId)
+          openPage(player, returnPage)
+        })
       })
     }
   )

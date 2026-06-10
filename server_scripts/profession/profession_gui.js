@@ -214,6 +214,18 @@ function renderWeaponConfig(gui, player, openPage) {
         .withLore([Text.translate('gui.kubejs.backpack.delete_btn.lore')]))
     slot.setLeftClicked(() => openPage(player, 'backpack_delete'))
   })
+
+  // 底部中间 (4,5) — 给予装备
+  gui.slot(4, 5, slot => {
+    slot.setItem(
+      Item.of('minecraft:nether_star')
+        .withCustomName(Text.translate('gui.kubejs.profession_select.give_equipment'))
+        .withLore([Text.translate('gui.kubejs.profession_select.give_equipment.lore')]))
+    slot.setLeftClicked(() => {
+      player.closeMenu()
+      giveLoadout(player, true)
+    })
+  })
 }
 
 /**
@@ -380,6 +392,8 @@ function renderTertiary(gui, player, openPage) {
 function openPage(player, page) {
   // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
+  // 添加 no_loadout 标签（适配原版 /tag 指令），标记玩家尚未领取装备
+  player.addTag('no_loadout')
 
   // 根据页面与当前职业动态构建标题
   var prof = cleanId(player.persistentData.profession)
@@ -420,13 +434,17 @@ ItemEvents.rightClicked('kubejs:profession_selector', event => {
 
 // ========== GUI 打开时禁用物品拾取 ==========
 
-/** 关闭 GUI 或退出时清除标记 */
+/** 关闭 GUI 或退出时清除标记 + 移除 no_loadout 标签 */
 PlayerEvents.inventoryClosed(event => {
-  event.getPlayer().persistentData.guiOpen = false
+  var p = event.getPlayer()
+  p.persistentData.guiOpen = false
+  p.removeTag('no_loadout')
 })
 
 PlayerEvents.loggedOut(event => {
-  event.getPlayer().persistentData.guiOpen = false
+  var p = event.getPlayer()
+  p.persistentData.guiOpen = false
+  p.removeTag('no_loadout')
 })
 
 /** 当 GUI 打开时阻止拾取地上的物品 */

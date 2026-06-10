@@ -124,6 +124,9 @@
   "gui.kubejs.profession_select.subtitle.backpack_save": "§8保存背包",
   "gui.kubejs.profession_select.subtitle.backpack_delete": "§8删除背包",
 
+  "gui.kubejs.profession_select.give_equipment": "§a✔ 给予装备",
+  "gui.kubejs.profession_select.give_equipment.lore": "§7清空背包并发放当前选择的职业装备",
+
   "gui.kubejs.team_select.title": "§8队伍选择",
   "gui.kubejs.team_select.back": "§c← 返回",
   "gui.kubejs.team_select.exit": "§c✖ 退出",

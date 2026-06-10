@@ -174,13 +174,27 @@ function applySavedAttachments(gunStack, player, weaponId) {
  * 给单个玩家发放职业装备
  * 流程: 清空背包 → 护甲 → 主武器 + 弹药 → 副武器 + 弹药 → 特殊武器 + 弹药 → 额外物品
  */
-function giveLoadout(target) {
+function giveLoadout(target, fromGui) {
   var prof   = target.persistentData.profession
   var mainWp = target.persistentData.mainWeapon
   var offWp  = target.persistentData.offhandWeapon
   var spWp   = target.persistentData.specialWeapon
 
-  // -------- 前置检查（职业为必选，主/副武器缺失仅警告不阻塞）--------
+  // -------- 前置检查 --------
+  // GUI 内按钮调用可绕过 guiOpen / no_loadout 守卫（玩家已在界面内主动操作）
+  if (!fromGui) {
+    // ① GUI打开时禁止发放（防止在配置过程中误领）
+    if (target.persistentData.guiOpen) {
+      target.tell(Component.string('§c[装备发放] 请先关闭职业选择界面再领取装备！'))
+      return false
+    }
+    // ② 检查 no_loadout 标签（玩家尚未领取过装备）
+    if (target.hasTag('no_loadout')) {
+      target.tell(Component.string('§c[装备发放] 你尚未选择完整的职业装备，请先使用职业选择器配置！'))
+      return false
+    }
+  }
+  // ③ 职业为必选，主/副武器缺失仅警告不阻塞
   if (!prof) {
     target.tell(Component.string('§c[装备发放] 请先使用职业选择器选择兵种！'))
     return false
@@ -256,6 +270,8 @@ function giveLoadout(target) {
     target.give(stack)
   })
 
+  // 成功发放，移除 no_loadout 标签（玩家已获得装备）
+  target.removeTag('no_loadout')
   target.tell(Component.string('§a✔ 装备已发放完毕！'))
   return true
 }
