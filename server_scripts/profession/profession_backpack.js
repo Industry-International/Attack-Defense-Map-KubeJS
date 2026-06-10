@@ -76,16 +76,33 @@ function isBackpackSlotFilled(player, profession, slotIndex) {
   return data && (data.mainWeapon || data.offhandWeapon || data.specialWeapon)
 }
 
-/** 获取槽位内武器摘要文本（用于 lore 显示） */
+/**
+ * 获取槽位内武器摘要文本（用于 lore 显示）
+ * TACZ 枪械 → 复用 getWeaponName() 显示模组内置名称
+ * 非 TACZ 有 i18n → 复用 getWeaponName() 显示 KubeJS 翻译键
+ * 非 TACZ 无 i18n → 复用 getWeaponName() 显示物品自身原版名称
+ */
 function getBackpackSlotSummary(player, profession, slotIndex) {
   var all = getBackpackData(player)
   if (!all[profession]) return []
   var data = all[profession][String(slotIndex)]
   if (!data) return []
   var lines = []
-  if (data.mainWeapon)   lines.push(Text.translate('gui.kubejs.backpack.summary_main').copy().append(' ' + data.mainWeapon))
-  if (data.offhandWeapon) lines.push(Text.translate('gui.kubejs.backpack.summary_offhand').copy().append(' ' + data.offhandWeapon))
-  if (data.specialWeapon) lines.push(Text.translate('gui.kubejs.backpack.summary_special').copy().append(' ' + data.specialWeapon))
+  if (data.mainWeapon) {
+    var line = Text.translate('gui.kubejs.backpack.summary_main').copy()
+    line.append(' ').append(getWeaponName(data.mainWeapon, 'weapon'))
+    lines.push(line)
+  }
+  if (data.offhandWeapon) {
+    var line = Text.translate('gui.kubejs.backpack.summary_offhand').copy()
+    line.append(' ').append(getWeaponName(data.offhandWeapon, 'offhand'))
+    lines.push(line)
+  }
+  if (data.specialWeapon) {
+    var line = Text.translate('gui.kubejs.backpack.summary_special').copy()
+    line.append(' ').append(getWeaponName(data.specialWeapon, 'offhand'))
+    lines.push(line)
+  }
   if (data.attachments) {
     var attCount = 0
     for (var wid in data.attachments) {

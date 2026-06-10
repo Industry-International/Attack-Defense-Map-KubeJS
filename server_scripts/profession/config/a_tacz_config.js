@@ -42,6 +42,7 @@ const SLOT_TRANSLATE_KEY = {
 }
 
 const PROF_CONFIGS = {}
+//非 TACZ 武器
 const VANILLA_WEAPON_DISPLAY = {
   sword:    { item: 'minecraft:iron_sword' },
   bow:      { item: 'minecraft:bow' },
