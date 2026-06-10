@@ -2,7 +2,7 @@
 
 ## 目录结构
 
-\`\`\`
+```
 server_scripts/profession/
 ├── profession_gui.js               ← GUI 交互（职业选择、武器配置、配件改装）
 ├── profequip_cmd.js                ← /profequip 指令（装备发放）
@@ -15,7 +15,7 @@ server_scripts/profession/
     ├── b_tacz_prof_scout.js        ← 侦察兵全套配置（同上）
     ├── b_tacz_prof_support.js      ← 支援兵全套配置（同上）
     └── z_tacz_config_build.js      ← 汇总构建（最后加载，生成查表函数 + getProfConfig）
-\`\`\`
+```
 
 加载顺序（由文件名前缀控制）：
 1. `config/a_tacz_config.js` — 基础工具 + PROF_CONFIGS 容器
