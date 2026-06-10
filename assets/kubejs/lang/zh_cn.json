@@ -114,6 +114,7 @@
   "gui.kubejs.backpack.summary_main": "§b主武器:",
   "gui.kubejs.backpack.summary_offhand": "§e副武器:",
   "gui.kubejs.backpack.summary_special": "§d特殊武器:",
+  "gui.kubejs.backpack.summary_attachments": "§7配件: %s 个已配置",
   "msg.kubejs.backpack.saved": "§a✔ 已保存武器配置到背包槽位 %s",
   "msg.kubejs.backpack.loaded": "§a✔ 已从背包槽位 %s 加载武器配置",
   "msg.kubejs.backpack.deleted": "§c已删除背包槽位 %s 的数据",

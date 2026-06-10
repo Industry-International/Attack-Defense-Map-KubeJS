@@ -114,6 +114,7 @@
   "gui.kubejs.backpack.summary_main": "§bMain Weapon:",
   "gui.kubejs.backpack.summary_offhand": "§eOffhand:",
   "gui.kubejs.backpack.summary_special": "§dSpecial:",
+  "gui.kubejs.backpack.summary_attachments": "§7Attachments: %s configured",
   "msg.kubejs.backpack.saved": "§a✔ Saved weapon config to backpack slot %s",
   "msg.kubejs.backpack.loaded": "§a✔ Loaded weapon config from backpack slot %s",
   "msg.kubejs.backpack.deleted": "§cDeleted backpack slot %s data",

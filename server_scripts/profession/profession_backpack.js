@@ -3,7 +3,13 @@
 // ============================================================
 // 数据存储于 player.persistentData.professionBackpack 字符串(JSON)
 // 结构: { [profession]: { "1": {...}, "2": {...}, ..., "5": {...} } }
-// 每个背包保存: { mainWeapon, offhandWeapon, specialWeapon }
+// 每个背包保存:
+//   { mainWeapon, offhandWeapon, specialWeapon, attachments }
+// attachments 保存 player.persistentData.taczAttachments 的完整副本
+// ============================================================
+// 注意: 从 persistentData 读字符串必须用 .getString() 方法
+//       返回 Java String 才能被 JSON.stringify 正确序列化
+//       属性访问 player.persistentData.x 返回的是 StringTag 对象！
 // ============================================================
 
 const BACKPACK_SLOT_COUNT = 5
@@ -22,24 +28,26 @@ function setBackpackData(player, data) {
   player.persistentData.putString('professionBackpack', JSON.stringify(data))
 }
 
-/** 获取某职业的背包（若无则创建空对象） */
-function getProfBackpack(player, profession) {
-  var all = getBackpackData(player)
-  if (!all[profession]) all[profession] = {}
-  return all[profession]
-}
-
-/** 保存当前武器配置到指定背包槽位 */
+/**
+ * 保存当前武器配置 + 附件到指定背包槽位
+ * 使用 .getString() 确保拿到 Java String 可被 JSON.stringify 正常序列化
+ */
 function saveToBackpackSlot(player, profession, slotIndex) {
   var all = getBackpackData(player)
   if (!all[profession]) all[profession] = {}
   var data = {}
-  var main = player.persistentData.mainWeapon
-  var off  = player.persistentData.offhandWeapon
-  var sp   = player.persistentData.specialWeapon
+  // 武器ID：必须用 .getString() 读取，属性访问返回 StringTag 会破坏 JSON.stringify
+  var main = player.persistentData.getString('mainWeapon')
+  var off  = player.persistentData.getString('offhandWeapon')
+  var sp   = player.persistentData.getString('specialWeapon')
   if (main) data.mainWeapon = main
   if (off)  data.offhandWeapon = off
   if (sp)   data.specialWeapon = sp
+  // 附件配置：保存 taczAttachments 的完整副本（每个背包槽位独立）
+  var attRaw = player.persistentData.getString('taczAttachments')
+  if (attRaw && attRaw !== '') {
+    try { data.attachments = JSON.parse(attRaw) } catch(e) {}
+  }
   all[profession][String(slotIndex)] = data
   setBackpackData(player, all)
 }
@@ -78,6 +86,13 @@ function getBackpackSlotSummary(player, profession, slotIndex) {
   if (data.mainWeapon)   lines.push(Text.translate('gui.kubejs.backpack.summary_main').copy().append(' ' + data.mainWeapon))
   if (data.offhandWeapon) lines.push(Text.translate('gui.kubejs.backpack.summary_offhand').copy().append(' ' + data.offhandWeapon))
   if (data.specialWeapon) lines.push(Text.translate('gui.kubejs.backpack.summary_special').copy().append(' ' + data.specialWeapon))
+  if (data.attachments) {
+    var attCount = 0
+    for (var wid in data.attachments) {
+      if (data.attachments.hasOwnProperty(wid)) attCount += Object.keys(data.attachments[wid]).length
+    }
+    if (attCount > 0) lines.push(Text.translate('gui.kubejs.backpack.summary_attachments', String(attCount)))
+  }
   return lines
 }
 
@@ -147,12 +162,20 @@ function renderBackpackSelect(gui, player, openPage, mode) {
             player.tell(Text.translate('msg.kubejs.backpack.empty_slot'))
             return
           }
-          if (data.mainWeapon)   player.persistentData.mainWeapon = data.mainWeapon
-          else delete player.persistentData.mainWeapon
-          if (data.offhandWeapon) player.persistentData.offhandWeapon = data.offhandWeapon
-          else delete player.persistentData.offhandWeapon
-          if (data.specialWeapon) player.persistentData.specialWeapon = data.specialWeapon
-          else delete player.persistentData.specialWeapon
+          // 恢复武器ID：必须用 putString 写入，确保存为 NBT String 而非 StringTag
+          if (data.mainWeapon)   player.persistentData.putString('mainWeapon', String(data.mainWeapon))
+          else player.persistentData.putString('mainWeapon', '')
+          if (data.offhandWeapon) player.persistentData.putString('offhandWeapon', String(data.offhandWeapon))
+          else player.persistentData.putString('offhandWeapon', '')
+          if (data.specialWeapon) player.persistentData.putString('specialWeapon', String(data.specialWeapon))
+          else player.persistentData.putString('specialWeapon', '')
+          // 恢复附件配置
+          if (data.attachments) {
+            player.persistentData.putString('taczAttachments', JSON.stringify(data.attachments))
+          } else {
+            // 槽位没有保存附件 → 清除当前附件
+            player.persistentData.putString('taczAttachments', '{}')
+          }
           player.tell(Text.translate('msg.kubejs.backpack.loaded', String(idx)))
           openPage(player, 'weapon_config')
         } else if (mode === 'backpack_delete') {
