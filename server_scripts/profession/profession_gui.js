@@ -222,8 +222,9 @@ function renderWeaponConfig(gui, player, openPage) {
         .withCustomName(Text.translate('gui.kubejs.profession_select.give_equipment'))
         .withLore([Text.translate('gui.kubejs.profession_select.give_equipment.lore')]))
     slot.setLeftClicked(() => {
+      // 关 GUI → 等快照完全恢复（2 tick）→ 再发放装备
       player.closeMenu()
-      giveLoadout(player, true)
+      player.server.scheduleInTicks(5, function() { giveLoadout(player, true) })
     })
   })
 }
