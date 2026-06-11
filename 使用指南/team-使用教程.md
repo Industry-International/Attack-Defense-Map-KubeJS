@@ -80,3 +80,13 @@ execute as <玩家名> run function game:teams/join_attacker
 
 - 脚本修改：`/kubejs reload`
 - 语言文件修改：`F3+T` 刷新资源包
+
+---
+
+## 相关文档
+
+| 文档 | 说明 |
+|------|------|
+| **[profession-使用教程.md](./profession-使用教程.md)** | 职业系统完整配置指南（GUI、武器、配件、背包） |
+| **[指令使用.md](./指令使用.md)** | 装备发放和管理指令 |
+| **[tacz枪械配件数据-使用指南.md](./tacz枪械配件数据-使用指南.md)** | 枪械 GunId、配件、弹药数据查询 |
