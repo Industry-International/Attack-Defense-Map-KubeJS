@@ -139,5 +139,9 @@
 
   "msg.kubejs.team_select.joined_attack": "§a✔ 已加入 §c§l进攻方§a！",
   "msg.kubejs.team_select.joined_defense": "§a✔ 已加入 §9§l防守方§a！",
-  "msg.kubejs.team_select.cleared": "§e✔ 已退出队伍"
+  "msg.kubejs.team_select.cleared": "§e✔ 已退出队伍",
+
+  "gui.kubejs.page.info": "§7第 %s/%s 页",
+  "gui.kubejs.page.prev": "§e← 上一页",
+  "gui.kubejs.page.next": "§e下一页 →"
 }

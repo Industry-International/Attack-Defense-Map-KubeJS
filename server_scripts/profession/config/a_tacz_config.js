@@ -184,8 +184,9 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
   }
 }
 
-// ========== 配件选择列表（二级界面）==========
-function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
+// ========== 配件选择列表（二级界面，分页网格布局）==========
+var ATTACH_PAGE_SIZE = 21 // 7列 × 3行
+function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage, pageNum) {
   player.persistentData.guiOpen = true
   var cfg = getTaczConfig(weaponId)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
@@ -194,19 +195,48 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
     player.tell(Component.literal('§c').append(Component.translatable('gui.kubejs.attach.no_available')))
     return
   }
-  var rows = Math.max(3, Math.ceil(list.length / 7) + 2)
+  pageNum = pageNum || 0
+  var totalPages = Math.ceil(list.length / ATTACH_PAGE_SIZE)
+  if (pageNum >= totalPages) pageNum = 0
+
   var title = Component.translatable('gui.kubejs.attach.select_title').append(Component.translatable(SLOT_TRANSLATE_KEY[slotKey]))
-  player.openChestGUI(title, rows, function(gui) {
-    for (var x = 0; x < 9; x++) {
-      gui.slot(x, 0, function(s) { s.setItem(PANE.gray) })
-      gui.slot(x, rows - 1, function(s) { s.setItem(PANE.gray) })
-    }
+  player.openChestGUI(title, 5, function(gui) {
+    // Row 0: 返回 + 页码 + 翻页
     gui.slot(0, 0, function(slot) {
       slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.translatable('gui.kubejs.attach.back')))
       slot.setLeftClicked(function() { openAttachmentMenu(player, weaponId, gunId, returnPage) })
     })
-    for (var i = 0; i < list.length; i++) {
-      (function(att, col, row) {
+    if (totalPages > 1) {
+      gui.slot(4, 0, function(slot) {
+        slot.setItem(Item.of('minecraft:book').withCustomName(
+          Component.translatable('gui.kubejs.page.info', String(pageNum + 1), String(totalPages))))
+      })
+      if (pageNum > 0) {
+        gui.slot(7, 0, function(slot) {
+          slot.setItem(Item.of('minecraft:arrow').withCustomName(Component.translatable('gui.kubejs.page.prev')))
+          slot.setLeftClicked(function() { openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage, pageNum - 1) })
+        })
+      }
+      if (pageNum < totalPages - 1) {
+        gui.slot(8, 0, function(slot) {
+          slot.setItem(Item.of('minecraft:arrow').withCustomName(Component.translatable('gui.kubejs.page.next')))
+          slot.setLeftClicked(function() { openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage, pageNum + 1) })
+        })
+      }
+    }
+    // Row 4: 底部灰色分隔线
+    for (var x = 0; x < 9; x++) {
+      gui.slot(x, 4, function(s) { s.setItem(PANE.gray) })
+    }
+    // Row 1-3: 配件网格（7列×3行，每页最多21个）
+    var start = pageNum * ATTACH_PAGE_SIZE
+    var end = Math.min(start + ATTACH_PAGE_SIZE, list.length)
+    for (var i = start; i < end; i++) {
+      var att = list[i]
+      var localIdx = i - start
+      var col = 1 + (localIdx % 7)
+      var row = 1 + Math.floor(localIdx / 7)
+      ;(function(att, col, row) {
         gui.slot(col, row, function(slot) {
           slot.setItem(Item.of('tacz:attachment', { custom_data: { AttachmentId: att.id } }))
           slot.setLeftClicked(function() {
@@ -215,16 +245,17 @@ function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage) {
             openAttachmentMenu(player, weaponId, gunId, returnPage)
           })
         })
-      })(list[i], 1 + (i % 7), 1 + Math.floor(i / 7))
+      })(att, col, row)
     }
-    for (var r = 1; r < rows - 1; r++) {
-      for (var c = 1; c <= 7; c++) {
-        var idx = (r - 1) * 7 + (c - 1)
-        if (idx >= list.length) {
-          (function(col, row) {
-            gui.slot(col, row, function(slot) { slot.setItem(PANE.black) })
-          })(c, r)
-        }
+    // 填充剩余空槽
+    for (var i = end; i < start + ATTACH_PAGE_SIZE; i++) {
+      var localIdx = i - start
+      var col = 1 + (localIdx % 7)
+      var row = 1 + Math.floor(localIdx / 7)
+      if (row <= 3) {
+        ;(function(col, row) {
+          gui.slot(col, row, function(s) { s.setItem(PANE.black) })
+        })(col, row)
       }
     }
   })

@@ -141,5 +141,9 @@
 
   "msg.kubejs.team_select.joined_attack": "§a✔ Joined §c§lATTACK§a!",
   "msg.kubejs.team_select.joined_defense": "§a✔ Joined §9§lDEFENSE§a!",
-  "msg.kubejs.team_select.cleared": "§e✔ Left the team"
+  "msg.kubejs.team_select.cleared": "§e✔ Left the team",
+
+  "gui.kubejs.page.info": "§7Page %s/%s",
+  "gui.kubejs.page.prev": "§e← Prev",
+  "gui.kubejs.page.next": "§eNext →"
 }

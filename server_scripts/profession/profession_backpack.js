@@ -116,106 +116,121 @@ function getBackpackSlotSummary(player, profession, slotIndex) {
 // ========== GUI 渲染 ==========
 
 /**
- * 背包槽位选择页（共用：加载/保存/删除）
+ * 背包槽位选择页（共用：加载/保存/删除，分页网格布局）
  * @param {'backpack_load'|'backpack_save'|'backpack_delete'} mode
+ * @param {number} pageNum - 页码（每页6槽位）
  */
-function renderBackpackSelect(gui, player, openPage, mode) {
+const BACKPACK_PAGE_SIZE = 6 // 每页6个槽位（3列×2行交错布局）
+function renderBackpackSelect(gui, player, openPage, mode, pageNum) {
+  pageNum = pageNum || 0
   var prof = cleanId(player.persistentData.profession)
   if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'prof'); return }
 
-  // 返回按钮
+  var totalSlots = BACKPACK_SLOT_COUNT
+  var totalPages = Math.ceil(totalSlots / BACKPACK_PAGE_SIZE)
+  if (pageNum >= totalPages) pageNum = 0
+
+  // ---- Row 0: 返回 + 标题 + 翻页 ----
   gui.slot(0, 0, slot => {
     slot.setItem(Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.backpack.back')))
     slot.setLeftClicked(() => openPage(player, 'weapon_config'))
   })
-
-  // ---- Row 0: 标题 ----
   var titleKey = 'gui.kubejs.backpack.title.' + mode.replace('backpack_', '')
   gui.slot(4, 0, slot => {
     slot.setItem(Item.of('minecraft:feather').withCustomName(Text.translate(titleKey)))
   })
+  if (totalPages > 1) {
+    if (pageNum > 0) {
+      gui.slot(7, 0, s => {
+        s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.prev')))
+        s.setLeftClicked(() => openPage(player, mode + ':' + (pageNum - 1)))
+      })
+    }
+    if (pageNum < totalPages - 1) {
+      gui.slot(8, 0, s => {
+        s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.next')))
+        s.setLeftClicked(() => openPage(player, mode + ':' + (pageNum + 1)))
+      })
+    }
+  }
 
   // ---- Row 1: 灰色分隔线 ----
   for (var x = 1; x < 8; x++) gui.slot(x, 1, s => { s.setItem(PANE.gray) })
 
-  // ---- Row 2-3: 5个背包槽位 ----
-  // 格式: Row2: [s1] [ ] [s2] [ ] [s3]   Row3: [ ] [s4] [ ] [s5] [ ]
-  var slotPositions = [
-    { row: 2, col: 1, idx: 1 },  // 槽位1
-    { row: 2, col: 3, idx: 2 },  // 槽位2
-    { row: 2, col: 5, idx: 3 },  // 槽位3
-    { row: 3, col: 2, idx: 4 },  // 槽位4
-    { row: 3, col: 4, idx: 5 },  // 槽位5
+  // ---- Row 2-3: 每页6个背包槽位（交错布局）----
+  // Row2: [s1] [ ] [s2] [ ] [s3]
+  // Row3: [ ] [s4] [ ] [s5] [ ] [ ] [s6]
+  var pageSlotPositions = [
+    { row: 2, col: 1 }, { row: 2, col: 3 }, { row: 2, col: 5 },
+    { row: 3, col: 2 }, { row: 3, col: 4 }, { row: 3, col: 6 },
   ]
 
-  slotPositions.forEach(function(pos) {
-    var idx = pos.idx
+  var startIdx = pageNum * BACKPACK_PAGE_SIZE
+  var endIdx = Math.min(startIdx + BACKPACK_PAGE_SIZE, totalSlots)
+
+  for (var i = startIdx; i < endIdx; i++) {
+    var idx = i + 1  // 槽位编号从1开始
+    var pos = pageSlotPositions[i - startIdx]
     var filled = isBackpackSlotFilled(player, prof, idx)
-
-    gui.slot(pos.col, pos.row, function(slot) {
-      var item
-      if (filled) {
-        item = Item.of('minecraft:ender_chest')
-          .withCustomName(Text.translate('gui.kubejs.backpack.slot_name', String(idx)))
-          .withLore(getBackpackSlotSummary(player, prof, idx))
-      } else {
-        item = Item.of('minecraft:chest')
-          .withCustomName(Text.translate('gui.kubejs.backpack.slot_name', String(idx)))
-          .withLore([Text.translate('gui.kubejs.backpack.slot_empty')])
-      }
-      slot.setItem(item)
-
-      // 左键点击执行操作
-      slot.setLeftClicked(function() {
-        if (mode === 'backpack_save') {
-          // 保存到该槽位
-          saveToBackpackSlot(player, prof, idx)
-          player.tell(Text.translate('msg.kubejs.backpack.saved', String(idx)))
-          openPage(player, 'weapon_config')
-        } else if (mode === 'backpack_load') {
-          // 从该槽位加载
-          var data = loadFromBackpackSlot(player, prof, idx)
-          if (!data || (!data.mainWeapon && !data.offhandWeapon && !data.specialWeapon)) {
-            player.tell(Text.translate('msg.kubejs.backpack.empty_slot'))
-            return
-          }
-          // 恢复武器ID：必须用 putString 写入，确保存为 NBT String 而非 StringTag
-          if (data.mainWeapon)   player.persistentData.putString('mainWeapon', String(data.mainWeapon))
-          else player.persistentData.putString('mainWeapon', '')
-          if (data.offhandWeapon) player.persistentData.putString('offhandWeapon', String(data.offhandWeapon))
-          else player.persistentData.putString('offhandWeapon', '')
-          if (data.specialWeapon) player.persistentData.putString('specialWeapon', String(data.specialWeapon))
-          else player.persistentData.putString('specialWeapon', '')
-          // 恢复附件配置
-          if (data.attachments) {
-            player.persistentData.putString('taczAttachments', JSON.stringify(data.attachments))
-          } else {
-            // 槽位没有保存附件 → 清除当前附件
-            player.persistentData.putString('taczAttachments', '{}')
-          }
-          player.tell(Text.translate('msg.kubejs.backpack.loaded', String(idx)))
-          openPage(player, 'weapon_config')
-        } else if (mode === 'backpack_delete') {
-          // 删除该槽位
-          if (!filled) {
-            player.tell(Text.translate('msg.kubejs.backpack.empty_slot'))
-            return
-          }
-          deleteBackpackSlot(player, prof, idx)
-          player.tell(Text.translate('msg.kubejs.backpack.deleted', String(idx)))
-          openPage(player, 'weapon_config')
+    ;(function(idx, col, row) {
+      gui.slot(col, row, function(slot) {
+        var item
+        if (filled) {
+          item = Item.of('minecraft:ender_chest')
+            .withCustomName(Text.translate('gui.kubejs.backpack.slot_name', String(idx)))
+            .withLore(getBackpackSlotSummary(player, prof, idx))
+        } else {
+          item = Item.of('minecraft:chest')
+            .withCustomName(Text.translate('gui.kubejs.backpack.slot_name', String(idx)))
+            .withLore([Text.translate('gui.kubejs.backpack.slot_empty')])
         }
+        slot.setItem(item)
+        slot.setLeftClicked(function() {
+          if (mode === 'backpack_save') {
+            saveToBackpackSlot(player, prof, idx)
+            player.tell(Text.translate('msg.kubejs.backpack.saved', String(idx)))
+            openPage(player, 'weapon_config')
+          } else if (mode === 'backpack_load') {
+            var data = loadFromBackpackSlot(player, prof, idx)
+            if (!data || (!data.mainWeapon && !data.offhandWeapon && !data.specialWeapon)) {
+              player.tell(Text.translate('msg.kubejs.backpack.empty_slot'))
+              return
+            }
+            if (data.mainWeapon)   player.persistentData.putString('mainWeapon', String(data.mainWeapon))
+            else player.persistentData.putString('mainWeapon', '')
+            if (data.offhandWeapon) player.persistentData.putString('offhandWeapon', String(data.offhandWeapon))
+            else player.persistentData.putString('offhandWeapon', '')
+            if (data.specialWeapon) player.persistentData.putString('specialWeapon', String(data.specialWeapon))
+            else player.persistentData.putString('specialWeapon', '')
+            if (data.attachments) {
+              player.persistentData.putString('taczAttachments', JSON.stringify(data.attachments))
+            } else {
+              player.persistentData.putString('taczAttachments', '{}')
+            }
+            player.tell(Text.translate('msg.kubejs.backpack.loaded', String(idx)))
+            openPage(player, 'weapon_config')
+          } else if (mode === 'backpack_delete') {
+            if (!filled) {
+              player.tell(Text.translate('msg.kubejs.backpack.empty_slot'))
+              return
+            }
+            deleteBackpackSlot(player, prof, idx)
+            player.tell(Text.translate('msg.kubejs.backpack.deleted', String(idx)))
+            openPage(player, 'weapon_config')
+          }
+        })
       })
-    })
-  })
+    })(idx, pos.col, pos.row)
+  }
 
   // ---- Row 4: 灰色分隔线 ----
   for (var x = 1; x < 8; x++) gui.slot(x, 4, s => { s.setItem(PANE.gray) })
 
-  // ---- Row 5: 操作提示 ----
+  // ---- Row 5: 操作提示 + 页码 ----
   var hintKey = 'gui.kubejs.backpack.hint.' + mode.replace('backpack_', '')
-  gui.slot(4, 5, slot => {
-    slot.setItem(Item.of('minecraft:book').withCustomName(Text.translate(hintKey)))
-  })
-
+  var hintItem = Item.of('minecraft:book').withCustomName(Text.translate(hintKey))
+  if (totalPages > 1) {
+    hintItem = hintItem.withLore([Text.translate('gui.kubejs.page.info', String(pageNum + 1), String(totalPages))])
+  }
+  gui.slot(4, 5, slot => { slot.setItem(hintItem) })
 }
