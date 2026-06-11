@@ -4,9 +4,9 @@
 # 触发时机：GitHub Release 正式发布时（仅一次）
 #
 # 功能：
-#   - 按白名单过滤需要打包的文件夹/文件
-#   - 压缩为 KubeJS-脚本包.zip
-#   - 自动上传到当前 Release 的附件
+#   Job 1 - 按白名单过滤需要打包的文件夹/文件，压缩为 KubeJS-脚本包.zip
+#   Job 2 - 打包 ./tacz所有的枪械配件数据/ 目录，压缩为 TACZ枪械配件数据-<tag>.zip
+#   两者均自动上传到当前 Release 的附件
 # ============================================================
 
 name: KubeJS 发版打包
@@ -23,8 +23,11 @@ env:
   PACKAGE_NAME: "KubeJS-${{ github.event.release.tag_name }}"
 
 jobs:
+  # ============================================================
+  # Job 1: KubeJS 脚本包
+  # ============================================================
   package-and-upload:
-    name: 打包并上传到 Release
+    name: 打包 KubeJS 脚本包并上传
     runs-on: ubuntu-latest
     # 必须显式声明写入权限，否则 GITHUB_TOKEN 无法上传 Release 附件
     permissions:
@@ -83,7 +86,44 @@ jobs:
           echo "大小: $(du -h ${{ env.PACKAGE_NAME }}.zip | cut -f1)"
 
       # ===== 上传到 Release =====
-      - name: 上传到 Release 附件
+      - name: 上传 KubeJS 脚本包到 Release
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ env.PACKAGE_NAME }}.zip
+
+  # ============================================================
+  # Job 2: TACZ 枪械配件数据表
+  # ============================================================
+  tacz-data-upload:
+    name: 打包 TACZ 枪械配件数据表并上传
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v4
+
+      - name: 复制 TACZ 枪械配件数据目录
+        run: |
+          SRC="tacz所有的枪械配件数据"
+          if [ -d "$SRC" ]; then
+            echo "找到目录: $SRC"
+            cp -r "$SRC" "TACZ枪械配件数据-${{ github.event.release.tag_name }}"
+            echo "复制完成"
+          else
+            echo "目录不存在: $SRC"
+            exit 1
+          fi
+
+      - name: 压缩为 ZIP
+        run: |
+          ZIP_NAME="TACZ枪械配件数据-${{ github.event.release.tag_name }}.zip"
+          zip -r "$ZIP_NAME" "TACZ枪械配件数据-${{ github.event.release.tag_name }}"
+          echo "压缩完成: $ZIP_NAME"
+          echo "大小: $(du -h $ZIP_NAME | cut -f1)"
+
+      - name: 上传 TACZ 数据表到 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: TACZ枪械配件数据-${{ github.event.release.tag_name }}.zip
