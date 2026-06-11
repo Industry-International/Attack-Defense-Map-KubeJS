@@ -2,9 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ES6",
-    "module": "commonjs",
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
+    "module": "preserve",
     "checkJs": false,
     "paths": {
       "@package/*": [

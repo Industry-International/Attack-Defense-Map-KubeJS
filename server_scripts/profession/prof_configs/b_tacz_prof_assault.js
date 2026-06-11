@@ -36,7 +36,6 @@ PROF_CONFIGS.assault = {
         attachments: {
           scope: [{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
           muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'}],
-          // SCAR-L 仅允许 #tacz:stock（通用枪托，不含 OEM）
           stock: [{id:'tacz:stock_carbon_bone_c5'},{id:'tacz:stock_militech_b5'},{id:'tacz:stock_tactical_ar'},{id:'tacz:stock_sba3'},{id:'tacz:stock_hk_slim_line'},{id:'tacz:stock_moe'},{id:'tacz:stock_m4ss'},{id:'tacz:stock_ripstock'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
           laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_nightstick'},{id:'tacz:laser_lopro'}],

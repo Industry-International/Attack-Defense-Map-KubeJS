@@ -329,9 +329,7 @@ def generate_vscode_config():
         "compilerOptions": {
             "baseUrl": ".",
             "target": "ES6",
-            "module": "commonjs",
-            "allowSyntheticDefaultImports": True,
-            "resolveJsonModule": True,
+            "module": "preserve",
             "checkJs": False,
             "paths": {
                 "@package/*": ["./给AI阅读的文档/.probe/@package/*"],
