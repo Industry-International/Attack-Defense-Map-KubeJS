@@ -60,7 +60,7 @@ PROF_CONFIGS.scout = {
             {id:'tacz:scope_1873_6x'},{id:'tacz:scope_contender'},{id:'tacz:scope_hamr'},{id:'tacz:scope_qmk152'},
             {id:'tacz:scope_retro_2x'},{id:'tacz:scope_standard_8x'},{id:'tacz:scope_vudu'},{id:'tacz:scope_aug_default'},
             {id:'lavender:scope_lmgs_x2'},{id:'lavender:scope_rifles_x3'},{id:'lavender:scope_rifles_x3_2'},
-            {id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x4_2'},{id:'lavender:scope_rifles_x6'},
+            {id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x4_2'},
             {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8_2'},
             {id:'lavender:semi_rifles_scope_x2'},
             {id:'bf1:marksman_scope'},{id:'bf1:scope_nvk_nxt'},{id:'bf1:sight_fusion_holo'},
@@ -90,8 +90,8 @@ PROF_CONFIGS.scout = {
         },
       },
       // 毛瑟98k (Kar98k)
-      kar98k: {
-        gunId: 'lavender:kar98k', GunFireMode: 'SEMI', GunCurrentAmmoCount: 5,
+      man_m95: {
+        gunId: 'bf1:man_m95', GunFireMode: 'SEMI', GunCurrentAmmoCount: 5,
         HasBulletInBarrel: $ByteTag.valueOf(1),
         ammo: { ammoId: 'lavender:lebel8x50', main: 100, level: 2 },
         attachments: {
@@ -106,7 +106,7 @@ PROF_CONFIGS.scout = {
             {id:'tacz:scope_1873_6x'},{id:'tacz:scope_contender'},{id:'tacz:scope_hamr'},{id:'tacz:scope_qmk152'},
             {id:'tacz:scope_retro_2x'},{id:'tacz:scope_standard_8x'},{id:'tacz:scope_vudu'},{id:'tacz:scope_aug_default'},
             {id:'lavender:scope_lmgs_x2'},{id:'lavender:scope_rifles_x3'},{id:'lavender:scope_rifles_x3_2'},
-            {id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x4_2'},{id:'lavender:scope_rifles_x6'},
+            {id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x4_2'},
             {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8_2'},
             {id:'lavender:semi_rifles_scope_x2'},
             {id:'bf1:marksman_scope'},{id:'bf1:scope_nvk_nxt'},{id:'bf1:sight_fusion_holo'},
@@ -142,7 +142,7 @@ PROF_CONFIGS.scout = {
     },
     tertiary: {},
   },
-  weapons: { primary: ['m4a1','sks_tactical','lee_enfield','kar98k'], secondary: ['p320'], tertiary: ['snowball'] },
+  weapons: { primary: ['m4a1','sks_tactical','lee_enfield','man_m95'], secondary: ['p320'], tertiary: ['snowball'] },
 
   // ===== 非 TACZ 武器 =====
   nonTaczDisplay: {

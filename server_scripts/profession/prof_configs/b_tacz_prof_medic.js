@@ -23,10 +23,8 @@ PROF_CONFIGS.medic = {
         attachments: {
           scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'}],
           muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_pioneer'}],
-          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'},{id:'tacz:stock_hk_slim_line'}],
+          stock: [{id:'tacz:stock_hk_slim_line'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
-          grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_cqr'}],
-          laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'},{id:'tacz:laser_nightstick'}],
         },
       },
       aug: {
@@ -35,10 +33,7 @@ PROF_CONFIGS.medic = {
         ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
         attachments: {
           scope: [{id:'tacz:scope_aug_default'}],
-          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_cthulhu'},{id:'tacz:muzzle_compensator_trident'}],
-          stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
-          grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_magpul_afg_2'}],
           laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'}],
         },
       },
