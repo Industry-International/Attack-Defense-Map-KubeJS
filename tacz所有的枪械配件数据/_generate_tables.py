@@ -315,6 +315,168 @@ def generate_summary():
         f.write(md)
     print("  ✓ README.md")
 
+def generate_vscode_config():
+    """Generate VS Code config files (jsconfig.json + types/tacz.d.ts)"""
+    kubejs_dir = r"d:/WDSJ/我的世界/.minecraft/versions/1.21.1-NeoForge_21.1.228航空学攻防战-9/kubejs"
+    
+    # === types/tacz.d.ts → 放到 ./tacz所有的枪械配件数据/types/ 下 ===
+    types_dir = os.path.join(out_dir, 'types')
+    os.makedirs(types_dir, exist_ok=True)
+    tacz_types_rel = './tacz所有的枪械配件数据/types'
+    
+    # === jsconfig.json ===
+    jsconfig = {
+        "compilerOptions": {
+            "baseUrl": ".",
+            "target": "ES6",
+            "module": "commonjs",
+            "allowSyntheticDefaultImports": True,
+            "resolveJsonModule": True,
+            "checkJs": False,
+            "paths": {
+                "@package/*": ["./给AI阅读的文档/.probe/@package/*"],
+                "@side-only/*": ["./给AI阅读的文档/.probe/@side-only/*"],
+                "@special/*": ["./给AI阅读的文档/.probe/@special/*"]
+            },
+            "typeRoots": [
+                tacz_types_rel,
+                "./给AI阅读的文档/.probe/@package",
+                "./node_modules/@types"
+            ]
+        },
+        "include": [
+            f"{tacz_types_rel}/**/*.d.ts",
+            "startup_scripts/**/*.js",
+            "server_scripts/**/*.js",
+            "client_scripts/**/*.js"
+        ],
+        "exclude": ["node_modules"]
+    }
+    jsconfig_path = os.path.join(kubejs_dir, 'jsconfig.json')
+    with open(jsconfig_path, 'w', encoding='utf-8') as f:
+        json.dump(jsconfig, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+    print("  ✓ jsconfig.json")
+    
+    all_packs_data = [
+        ('tacz', 'TACZ默认枪包', load_raw('tacz_default_gun')),
+        ('lavender', '薰衣草枪包', load_raw('lavender_converted')),
+        ('bf1', '启示录枪包', load_raw('apocalypse')),
+    ]
+    
+    # Collect all gun IDs, attachment IDs, ammo IDs
+    all_guns = {}  # namespace:gun_id -> name
+    all_attachments = {}  # namespace:att_id -> name
+    all_ammo = {}  # namespace:ammo_id -> name
+    guns_by_ns = {}
+    atts_by_ns = {}
+    
+    for ns, pack_name, data in all_packs_data:
+        ns_guns = {}
+        ns_atts = {}
+        for g in data['guns']:
+            fid = f"{ns}:{g['id']}"
+            all_guns[fid] = g['name_cn']
+            ns_guns[g['id']] = g['name_cn']
+        for a in data['attachments']:
+            fid = f"{ns}:{a['id']}"
+            all_attachments[fid] = a['name_cn']
+            ns_atts[a['id']] = a['name_cn']
+        # Ammo from gun data
+        for g in data['guns']:
+            ammo = g.get('ammo', '')
+            if ammo and ammo not in all_ammo:
+                all_ammo[ammo] = ammo_to_name(ammo)
+        guns_by_ns[ns] = ns_guns
+        atts_by_ns[ns] = ns_atts
+    
+    # Generate JSDoc comment blocks + constant declarations
+    lines = []
+    lines.append('// ============================================================')
+    lines.append('// TACZ 枪械/配件/弹药 类型声明')
+    lines.append('// 自动生成 — 由 _generate_tables.py 生成')
+    lines.append('// 作用：为 VS Code 提供 TACZ 相关 ID 的自动补全和类型提示')
+    lines.append('// ============================================================')
+    lines.append('')
+    lines.append('// ==================== 枪械 ID 常量 ====================')
+    lines.append('')
+    
+    for ns, pack_name, data in all_packs_data:
+        ns_guns = guns_by_ns[ns]
+        lines.append(f'// --- {pack_name} ({ns}) ---')
+        for gid, gname in sorted(ns_guns.items()):
+            safe_name = gid.replace('.', '_').replace('-', '_')
+            lines.append(f'/** {gname} (GunId: "{ns}:{gid}") */')
+            lines.append(f'declare const TACZ_GUN_{ns.upper()}_{safe_name.upper()}: "{ns}:{gid}";')
+        lines.append('')
+    
+    # Gun ID union type
+    all_gun_ids = [f'"{fid}"' for fid in sorted(all_guns.keys())]
+    lines.append(f'/** 所有已知的 TACZ 枪械 GunId 联合类型 */')
+    lines.append(f'declare type TaczGunId = { " | ".join(all_gun_ids) if all_gun_ids else "string" };')
+    lines.append('')
+    
+    lines.append('// ==================== 配件 ID 常量 ====================')
+    lines.append('')
+    for ns, pack_name, data in all_packs_data:
+        ns_atts = atts_by_ns[ns]
+        lines.append(f'// --- {pack_name} ({ns}) ---')
+        for aid, aname in sorted(ns_atts.items()):
+            safe_name = aid.replace('.', '_').replace('-', '_')
+            lines.append(f'/** {aname} (AttachmentId: "{ns}:{aid}") */')
+            lines.append(f'declare const TACZ_ATT_{ns.upper()}_{safe_name.upper()}: "{ns}:{aid}";')
+        lines.append('')
+    
+    all_att_ids = [f'"{fid}"' for fid in sorted(all_attachments.keys())]
+    lines.append(f'/** 所有已知的 TACZ 配件 ID 联合类型 */')
+    lines.append(f'declare type TaczAttachmentId = { " | ".join(all_att_ids) if all_att_ids else "string" };')
+    lines.append('')
+    
+    lines.append('// ==================== 弹药 ID 常量 ====================')
+    lines.append('')
+    for ammo_id, ammo_name in sorted(all_ammo.items()):
+        safe_name = ammo_id.replace(':', '_').replace('.', '_').replace('-', '_')
+        lines.append(f'/** {ammo_name} */')
+        lines.append(f'declare const TACZ_AMMO_{safe_name.upper()}: "{ammo_id}";')
+    lines.append('')
+    
+    all_ammo_ids = [f'"{fid}"' for fid in sorted(all_ammo.keys())]
+    lines.append(f'/** 所有已知的 TACZ 弹药 ID 联合类型 */')
+    lines.append(f'declare type TaczAmmoId = { " | ".join(all_ammo_ids) if all_ammo_ids else "string" };')
+    lines.append('')
+    
+    # --- Gun data lookup helpers (JSDoc typed) ---
+    lines.append('// ==================== 辅助查找 ====================')
+    lines.append('')
+    lines.append('/**')
+    lines.append(' * 按 namespace 获取枪械数据')
+    lines.append(' * @param {"tacz" | "lavender" | "bf1"} namespace - 枪包命名空间')
+    lines.append(' * @returns {Array<{id: TaczGunId, name: string, type: string, ammo: TaczAmmoId, slots: string[]}>}')
+    lines.append(' */')
+    lines.append('declare function getTaczGuns(namespace: string): any[];')
+    lines.append('')
+    lines.append('/**')
+    lines.append(' * 获取指定枪械的配件兼容槽位')
+    lines.append(' * @param {TaczGunId} gunId')
+    lines.append(' * @returns {string[]} 支持的配件槽位列表 (scope, muzzle, stock, grip, laser, extended_mag)')
+    lines.append(' */')
+    lines.append('declare function getTaczGunSlots(gunId: string): string[];')
+    lines.append('')
+    
+    type_content = '\n'.join(lines)
+    
+    type_path = os.path.join(types_dir, 'tacz.d.ts')
+    with open(type_path, 'w', encoding='utf-8') as f:
+        f.write(type_content)
+    print(f"  ✓ types/tacz.d.ts ({(len(all_guns))} guns, {len(all_attachments)} attachments, {len(all_ammo)} ammo types)")
+
+    # 清理旧位置（如果存在）
+    old_type_path = os.path.join(kubejs_dir, 'types', 'tacz.d.ts')
+    if os.path.exists(old_type_path):
+        os.remove(old_type_path)
+        print("  (已清理旧位置 kubejs/types/tacz.d.ts)")
+
+
 def main():
     print("Step 1: Copying images...")
     copy_images()
@@ -327,7 +489,10 @@ def main():
     print("\nStep 3: Generating summary...")
     generate_summary()
 
-    print("\n✅ 所有表格已生成!")
+    print("\nStep 4: Generating VS Code config (jsconfig.json + types)...")
+    generate_vscode_config()
+
+    print("\n✅ 所有表格和类型声明已生成!")
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES6",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "checkJs": false,
+    "paths": {
+      "@package/*": [
+        "./给AI阅读的文档/.probe/@package/*"
+      ],
+      "@side-only/*": [
+        "./给AI阅读的文档/.probe/@side-only/*"
+      ],
+      "@special/*": [
+        "./给AI阅读的文档/.probe/@special/*"
+      ]
+    },
+    "typeRoots": [
+      "./tacz所有的枪械配件数据/types",
+      "./给AI阅读的文档/.probe/@package",
+      "./node_modules/@types"
+    ]
+  },
+  "include": [
+    "./tacz所有的枪械配件数据/types/**/*.d.ts",
+    "startup_scripts/**/*.js",
+    "server_scripts/**/*.js",
+    "client_scripts/**/*.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
