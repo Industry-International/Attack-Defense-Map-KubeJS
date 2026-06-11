@@ -22,3 +22,5 @@ GUN_TACZ_CONFIG[cleanId(weaponId)] 中 cleanId 的作用是 消去 "" 等特殊�
 
 原始值输出
 player.tell(Component.string('§e[DEBUG] installed = ' + installed));
+
+根据代码变动 以及做出的修改 更新 使用指南 每个模块的 使用指南 必须是独立的 .md
