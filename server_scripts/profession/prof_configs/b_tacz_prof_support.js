@@ -41,7 +41,7 @@ PROF_CONFIGS.support = {
       bf1lewis: {
         gunId: 'bf1:lewis', GunFireMode: 'AUTO', GunCurrentAmmoCount: 50,
         HasBulletInBarrel: $ByteTag.valueOf(1),
-        ammo: { ammoId: 'tacz:308', main: 350, level: 3 },
+        ammo: { ammoId: 'tacz:762x54', main: 350, level: 3 },
         attachments: {
           scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_reflex'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
@@ -63,7 +63,7 @@ PROF_CONFIGS.support = {
     },
     tertiary: {},
   },
-  weapons: { primary: ['m249','rpk'], secondary: ['deagle'], tertiary: ['snowball'] },
+  weapons: { primary: ['m249','rpk','bf1lewis'], secondary: ['deagle'], tertiary: ['snowball'] },
 
   // ===== 非 TACZ 武器 =====
   nonTaczDisplay: {
