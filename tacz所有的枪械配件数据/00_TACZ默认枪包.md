@@ -2,55 +2,55 @@
 
 ## 🔫 枪械列表
 
-| 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 支持的配件槽位 |
-|---|---|---|---|---|
-| <img src="./images/tacz_default_gun/guns/aa12.png" alt="AA12 霰弹枪" width="32"> | `tacz:aa12` | AA12 霰弹枪 | 霰弹枪 | 瞄具, 扩容弹匣, 握把, 枪口 |
-| <img src="./images/tacz_default_gun/guns/ai_awp.png" alt="精密国际 AWM 狙击步枪" width="32"> | `tacz:ai_awp` | 精密国际 AWM 狙击步枪 | 狙击枪 | 扩容弹匣, 瞄具, 枪口 |
-| <img src="./images/tacz_default_gun/guns/ak47.png" alt="AKM 突击步枪" width="32"> | `tacz:ak47` | AKM 突击步枪 | 步枪 | 瞄具, 枪托, 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/aug.png" alt="AUG 突击步枪" width="32"> | `tacz:aug` | AUG 突击步枪 | 步枪 | 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/b93r_slot.png" alt="B93R 冲锋手枪" width="32"> | `tacz:b93r` | B93R 冲锋手枪 | 手枪 | 枪口, 瞄具, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/cz75.png" alt="CZ 75 自动手枪" width="32"> | `tacz:cz75` | CZ 75 自动手枪 | 手枪 | 瞄具, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/db_long.png" alt="DB-4 乌萨斯" width="32"> | `tacz:db_long` | DB-4 乌萨斯 | 霰弹枪 | 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/db_short.png" alt="DB-2 杜林人" width="32"> | `tacz:db_short` | DB-2 杜林人 | 霰弹枪 | 枪托, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/deagle.png" alt=".50 沙漠之鹰" width="32"> | `tacz:deagle` | .50 沙漠之鹰 | 手枪 | 瞄具, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/deagle_golden.png" alt=".357 黄金沙漠之鹰" width="32"> | `tacz:deagle_golden` | .357 黄金沙漠之鹰 | 手枪 | 瞄具, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/fn_evolys.png" alt="FN EVOLYS 机枪" width="32"> | `tacz:fn_evolys` | FN EVOLYS 机枪 | 机枪 | 瞄具, 握把, 枪口, 扩容弹匣, 枪托 |
-| <img src="./images/tacz_default_gun/guns/fn_fal.png" alt="FN FAL 战斗步枪" width="32"> | `tacz:fn_fal` | FN FAL 战斗步枪 | 步枪 | 瞄具, 激光, 握把, 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/g36k.png" alt="G36K 突击步枪" width="32"> | `tacz:g36k` | G36K 突击步枪 | 步枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/glock_17.png" alt="格洛克 17 手枪" width="32"> | `tacz:glock_17` | 格洛克 17 手枪 | 手枪 | 瞄具, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/hk416d.png" alt="HK-416A5 突击步枪" width="32"> | `tacz:hk416d` | HK-416A5 突击步枪 | 步枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/hk_g3.png" alt="G3 战斗步枪" width="32"> | `tacz:hk_g3` | G3 战斗步枪 | 步枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/hk_mp5a5.png" alt="MP5A5 冲锋枪" width="32"> | `tacz:hk_mp5a5` | MP5A5 冲锋枪 | 冲锋枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/m1014.png" alt="M1014 战斗霰弹枪" width="32"> | `tacz:m1014` | M1014 战斗霰弹枪 | 霰弹枪 | 枪口, 瞄具, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/m107.png" alt="M107 .50口径反器材步枪" width="32"> | `tacz:m107` | M107 .50口径反器材步枪 | 狙击枪 | 瞄具, 扩容弹匣, 枪口 |
-| <img src="./images/tacz_default_gun/guns/m16a1.png" alt="M16A1 制式步枪" width="32"> | `tacz:m16a1` | M16A1 制式步枪 | 步枪 | 枪口, 扩容弹匣, 瞄具 |
-| <img src="./images/tacz_default_gun/guns/m16a4.png" alt="M16A4 制式步枪" width="32"> | `tacz:m16a4` | M16A4 制式步枪 | 步枪 | 枪口, 扩容弹匣, 瞄具, 握把, 枪托, 激光 |
-| <img src="./images/tacz_default_gun/guns/m1911.png" alt="M1911 手枪" width="32"> | `tacz:m1911` | M1911 手枪 | 手枪 | 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/m249.png" alt="M249 机枪" width="32"> | `tacz:m249` | M249 机枪 | 机枪 | 瞄具, 握把, 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/m320.png" alt="M320 榴弹发射器" width="32"> | `tacz:m320` | M320 榴弹发射器 | 重型武器 | 无 |
-| <img src="./images/tacz_default_gun/guns/m4a1.png" alt="M4A1 卡宾枪" width="32"> | `tacz:m4a1` | M4A1 卡宾枪 | 步枪 | 瞄具, 枪托, 激光, 握把, 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/m700.png" alt="M700 狙击步枪" width="32"> | `tacz:m700` | M700 狙击步枪 | 狙击枪 | 扩容弹匣, 瞄具, 枪口 |
-| <img src="./images/tacz_default_gun/guns/m870.png" alt="M870 霰弹枪" width="32"> | `tacz:m870` | M870 霰弹枪 | 霰弹枪 | 扩容弹匣, 枪口 |
-| <img src="./images/tacz_default_gun/guns/m95.png" alt="M95 .50口径反器材步枪" width="32"> | `tacz:m95` | M95 .50口径反器材步枪 | 狙击枪 | 瞄具, 扩容弹匣, 枪口 |
-| <img src="./images/tacz_default_gun/guns/minigun.png" alt="M134 转管机枪" width="32"> | `tacz:minigun` | M134 转管机枪 | 机枪 | 无 |
-| <img src="./images/tacz_default_gun/guns/mk14.png" alt="MK14 EBR 精确射手步枪" width="32"> | `tacz:mk14` | MK14 EBR 精确射手步枪 | 步枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/p320.png" alt="P320 手枪" width="32"> | `tacz:p320` | P320 手枪 | 手枪 | 瞄具, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/p90.png" alt="P90 冲锋枪" width="32"> | `tacz:p90` | P90 冲锋枪 | 冲锋枪 | 瞄具, 枪口, 激光 |
-| <img src="./images/tacz_default_gun/guns/qbz_191.png" alt="191式 突击步枪" width="32"> | `tacz:qbz_191` | 191式 突击步枪 | 步枪 | 枪口, 扩容弹匣, 瞄具, 握把, 激光, 枪托 |
-| <img src="./images/tacz_default_gun/guns/qbz_95.png" alt="95式 "长弓" 突击步枪" width="32"> | `tacz:qbz_95` | 95式 "长弓" 突击步枪 | 步枪 | 枪口, 扩容弹匣, 瞄具, 握把, 激光 |
-| <img src="./images/tacz_default_gun/guns/rpg7.png" alt="RPG-7 火箭筒" width="32"> | `tacz:rpg7` | RPG-7 火箭筒 | 重型武器 | 无 |
-| <img src="./images/tacz_default_gun/guns/rpk.png" alt="RPK 轻机枪" width="32"> | `tacz:rpk` | RPK 轻机枪 | 机枪 | 瞄具, 枪托, 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/scar_h.png" alt="SCAR-H 战斗步枪" width="32"> | `tacz:scar_h` | SCAR-H 战斗步枪 | 步枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/scar_l.png" alt="SCAR-L 突击步枪" width="32"> | `tacz:scar_l` | SCAR-L 突击步枪 | 步枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/sks_tactical.png" alt="SKS 战术步枪" width="32"> | `tacz:sks_tactical` | SKS 战术步枪 | 步枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/spas_12.png" alt="SPAS-12 多功能霰弹枪" width="32"> | `tacz:spas_12` | SPAS-12 多功能霰弹枪 | 霰弹枪 | 扩容弹匣, 枪托, 瞄具, 枪口 |
-| <img src="./images/tacz_default_gun/guns/spr15hb_slot.png" alt="SPR-15 HB “射手座” 反狙击步枪" width="32"> | `tacz:spr15hb` | SPR-15 HB “射手座” 反狙击步枪 | 步枪 | 枪口, 扩容弹匣, 瞄具, 握把, 枪托 |
-| <img src="./images/tacz_default_gun/guns/springfield1873_slot.png" alt="春田 1873 活门步枪" width="32"> | `tacz:springfield1873` | 春田 1873 活门步枪 | 狙击枪 | 瞄具, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/timeless50_slot.png" alt="§6永恒 .50 Z型" width="32"> | `tacz:timeless50` | §6永恒 .50 Z型 | 手枪 | 瞄具, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/type_81.png" alt="81-1式 制式步枪" width="32"> | `tacz:type_81` | 81-1式 制式步枪 | 步枪 | 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/ump45.png" alt="UMP45 冲锋枪" width="32"> | `tacz:ump45` | UMP45 冲锋枪 | 冲锋枪 | 瞄具, 枪口, 握把, 扩容弹匣, 激光 |
-| <img src="./images/tacz_default_gun/guns/uzi.png" alt="乌兹冲锋枪" width="32"> | `tacz:uzi` | 乌兹冲锋枪 | 冲锋枪 | 瞄具, 枪口, 扩容弹匣 |
-| <img src="./images/tacz_default_gun/guns/vector45.png" alt="维克托 冲锋枪" width="32"> | `tacz:vector45` | 维克托 冲锋枪 | 冲锋枪 | 瞄具, 枪托, 握把, 枪口, 激光, 扩容弹匣 |
+| 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 弹药ID | 弹药名称 | 支持的配件槽位 |
+|---|---|---|---|---|---|---|
+| <img src="./images/tacz_default_gun/guns/aa12.png" alt="AA12 霰弹枪" width="32"> | `tacz:aa12` | AA12 霰弹枪 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 瞄具, 扩容弹匣, 握把, 枪口 |
+| <img src="./images/tacz_default_gun/guns/ai_awp.png" alt="精密国际 AWM 狙击步枪" width="32"> | `tacz:ai_awp` | 精密国际 AWM 狙击步枪 | 狙击枪 | `tacz:338` | .338狙击弹 | 扩容弹匣, 瞄具, 枪口 |
+| <img src="./images/tacz_default_gun/guns/ak47.png" alt="AKM 突击步枪" width="32"> | `tacz:ak47` | AKM 突击步枪 | 步枪 | `tacz:762x39` | 7.62x39mm步枪弹 | 瞄具, 枪托, 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/aug.png" alt="AUG 突击步枪" width="32"> | `tacz:aug` | AUG 突击步枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/b93r_slot.png" alt="B93R 冲锋手枪" width="32"> | `tacz:b93r` | B93R 冲锋手枪 | 手枪 | `tacz:9mm` | 9mm手枪弹 | 枪口, 瞄具, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/cz75.png" alt="CZ 75 自动手枪" width="32"> | `tacz:cz75` | CZ 75 自动手枪 | 手枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/db_long.png" alt="DB-4 乌萨斯" width="32"> | `tacz:db_long` | DB-4 乌萨斯 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/db_short.png" alt="DB-2 杜林人" width="32"> | `tacz:db_short` | DB-2 杜林人 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 枪托, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/deagle.png" alt=".50 沙漠之鹰" width="32"> | `tacz:deagle` | .50 沙漠之鹰 | 手枪 | `tacz:50ae` | .50 AE手枪弹 | 瞄具, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/deagle_golden.png" alt=".357 黄金沙漠之鹰" width="32"> | `tacz:deagle_golden` | .357 黄金沙漠之鹰 | 手枪 | `tacz:357mag` | .357马格南手枪弹 | 瞄具, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/fn_evolys.png" alt="FN EVOLYS 机枪" width="32"> | `tacz:fn_evolys` | FN EVOLYS 机枪 | 机枪 | `tacz:308` | .308步枪弹 | 瞄具, 握把, 枪口, 扩容弹匣, 枪托 |
+| <img src="./images/tacz_default_gun/guns/fn_fal.png" alt="FN FAL 战斗步枪" width="32"> | `tacz:fn_fal` | FN FAL 战斗步枪 | 步枪 | `tacz:308` | .308步枪弹 | 瞄具, 激光, 握把, 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/g36k.png" alt="G36K 突击步枪" width="32"> | `tacz:g36k` | G36K 突击步枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/glock_17.png" alt="格洛克 17 手枪" width="32"> | `tacz:glock_17` | 格洛克 17 手枪 | 手枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/hk416d.png" alt="HK-416A5 突击步枪" width="32"> | `tacz:hk416d` | HK-416A5 突击步枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/hk_g3.png" alt="G3 战斗步枪" width="32"> | `tacz:hk_g3` | G3 战斗步枪 | 步枪 | `tacz:308` | .308步枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/hk_mp5a5.png" alt="MP5A5 冲锋枪" width="32"> | `tacz:hk_mp5a5` | MP5A5 冲锋枪 | 冲锋枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/m1014.png" alt="M1014 战斗霰弹枪" width="32"> | `tacz:m1014` | M1014 战斗霰弹枪 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 枪口, 瞄具, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/m107.png" alt="M107 .50口径反器材步枪" width="32"> | `tacz:m107` | M107 .50口径反器材步枪 | 狙击枪 | `tacz:50bmg` | .50 BMG狙击弹 | 瞄具, 扩容弹匣, 枪口 |
+| <img src="./images/tacz_default_gun/guns/m16a1.png" alt="M16A1 制式步枪" width="32"> | `tacz:m16a1` | M16A1 制式步枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 枪口, 扩容弹匣, 瞄具 |
+| <img src="./images/tacz_default_gun/guns/m16a4.png" alt="M16A4 制式步枪" width="32"> | `tacz:m16a4` | M16A4 制式步枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 枪口, 扩容弹匣, 瞄具, 握把, 枪托, 激光 |
+| <img src="./images/tacz_default_gun/guns/m1911.png" alt="M1911 手枪" width="32"> | `tacz:m1911` | M1911 手枪 | 手枪 | `tacz:45acp` | .45手枪弹 | 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/m249.png" alt="M249 机枪" width="32"> | `tacz:m249` | M249 机枪 | 机枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 瞄具, 握把, 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/m320.png" alt="M320 榴弹发射器" width="32"> | `tacz:m320` | M320 榴弹发射器 | 重型武器 | `tacz:40mm` | 40mm榴弹 | 无 |
+| <img src="./images/tacz_default_gun/guns/m4a1.png" alt="M4A1 卡宾枪" width="32"> | `tacz:m4a1` | M4A1 卡宾枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 瞄具, 枪托, 激光, 握把, 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/m700.png" alt="M700 狙击步枪" width="32"> | `tacz:m700` | M700 狙击步枪 | 狙击枪 | `tacz:30_06` | .30-06步枪弹 | 扩容弹匣, 瞄具, 枪口 |
+| <img src="./images/tacz_default_gun/guns/m870.png" alt="M870 霰弹枪" width="32"> | `tacz:m870` | M870 霰弹枪 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 扩容弹匣, 枪口 |
+| <img src="./images/tacz_default_gun/guns/m95.png" alt="M95 .50口径反器材步枪" width="32"> | `tacz:m95` | M95 .50口径反器材步枪 | 狙击枪 | `tacz:50bmg` | .50 BMG狙击弹 | 瞄具, 扩容弹匣, 枪口 |
+| <img src="./images/tacz_default_gun/guns/minigun.png" alt="M134 转管机枪" width="32"> | `tacz:minigun` | M134 转管机枪 | 机枪 | `tacz:308` | .308步枪弹 | 无 |
+| <img src="./images/tacz_default_gun/guns/mk14.png" alt="MK14 EBR 精确射手步枪" width="32"> | `tacz:mk14` | MK14 EBR 精确射手步枪 | 步枪 | `tacz:308` | .308步枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/p320.png" alt="P320 手枪" width="32"> | `tacz:p320` | P320 手枪 | 手枪 | `tacz:45acp` | .45手枪弹 | 瞄具, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/p90.png" alt="P90 冲锋枪" width="32"> | `tacz:p90` | P90 冲锋枪 | 冲锋枪 | `tacz:57x28` | 5.7x28mm穿甲弹 | 瞄具, 枪口, 激光 |
+| <img src="./images/tacz_default_gun/guns/qbz_191.png" alt="191式 突击步枪" width="32"> | `tacz:qbz_191` | 191式 突击步枪 | 步枪 | `tacz:58x42` | 5.8mm步枪弹 | 枪口, 扩容弹匣, 瞄具, 握把, 激光, 枪托 |
+| <img src="./images/tacz_default_gun/guns/qbz_95.png" alt="95式 "长弓" 突击步枪" width="32"> | `tacz:qbz_95` | 95式 "长弓" 突击步枪 | 步枪 | `tacz:58x42` | 5.8mm步枪弹 | 枪口, 扩容弹匣, 瞄具, 握把, 激光 |
+| <img src="./images/tacz_default_gun/guns/rpg7.png" alt="RPG-7 火箭筒" width="32"> | `tacz:rpg7` | RPG-7 火箭筒 | 重型武器 | `tacz:rpg_rocket` | RPG-7火箭弹 | 无 |
+| <img src="./images/tacz_default_gun/guns/rpk.png" alt="RPK 轻机枪" width="32"> | `tacz:rpk` | RPK 轻机枪 | 机枪 | `tacz:762x39` | 7.62x39mm步枪弹 | 瞄具, 枪托, 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/scar_h.png" alt="SCAR-H 战斗步枪" width="32"> | `tacz:scar_h` | SCAR-H 战斗步枪 | 步枪 | `tacz:308` | .308步枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/scar_l.png" alt="SCAR-L 突击步枪" width="32"> | `tacz:scar_l` | SCAR-L 突击步枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/sks_tactical.png" alt="SKS 战术步枪" width="32"> | `tacz:sks_tactical` | SKS 战术步枪 | 步枪 | `tacz:762x39` | 7.62x39mm步枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/spas_12.png" alt="SPAS-12 多功能霰弹枪" width="32"> | `tacz:spas_12` | SPAS-12 多功能霰弹枪 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 扩容弹匣, 枪托, 瞄具, 枪口 |
+| <img src="./images/tacz_default_gun/guns/spr15hb_slot.png" alt="SPR-15 HB “射手座” 反狙击步枪" width="32"> | `tacz:spr15hb` | SPR-15 HB “射手座” 反狙击步枪 | 步枪 | `tacz:556x45` | 5.56x45mm步枪弹 | 枪口, 扩容弹匣, 瞄具, 握把, 枪托 |
+| <img src="./images/tacz_default_gun/guns/springfield1873_slot.png" alt="春田 1873 活门步枪" width="32"> | `tacz:springfield1873` | 春田 1873 活门步枪 | 狙击枪 | `tacz:45_70` | 45-70步枪弹 | 瞄具, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/timeless50_slot.png" alt="§6永恒 .50 Z型" width="32"> | `tacz:timeless50` | §6永恒 .50 Z型 | 手枪 | `tacz:50ae` | .50 AE手枪弹 | 瞄具, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/type_81.png" alt="81-1式 制式步枪" width="32"> | `tacz:type_81` | 81-1式 制式步枪 | 步枪 | `tacz:762x39` | 7.62x39mm步枪弹 | 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/ump45.png" alt="UMP45 冲锋枪" width="32"> | `tacz:ump45` | UMP45 冲锋枪 | 冲锋枪 | `tacz:45acp` | .45手枪弹 | 瞄具, 枪口, 握把, 扩容弹匣, 激光 |
+| <img src="./images/tacz_default_gun/guns/uzi.png" alt="乌兹冲锋枪" width="32"> | `tacz:uzi` | 乌兹冲锋枪 | 冲锋枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具, 枪口, 扩容弹匣 |
+| <img src="./images/tacz_default_gun/guns/vector45.png" alt="维克托 冲锋枪" width="32"> | `tacz:vector45` | 维克托 冲锋枪 | 冲锋枪 | `tacz:45acp` | .45手枪弹 | 瞄具, 枪托, 握把, 枪口, 激光, 扩容弹匣 |
 
 ## 🔧 配件列表
 

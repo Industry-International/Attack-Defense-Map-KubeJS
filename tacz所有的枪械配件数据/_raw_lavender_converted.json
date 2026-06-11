@@ -6,6 +6,7 @@
       "name_en": "at_vickers_crawford",
       "name_cn": "维克斯-克劳福德反载具火箭炮",
       "type": "rpg",
+      "ammo": "lavender:40mmap",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -20,6 +21,7 @@
       "name_en": "berreta1915",
       "name_cn": "波莱塔M1915半自动手枪",
       "type": "pistol",
+      "ammo": "lavender:griffin9x19",
       "allow_attachment_types": []
     },
     {
@@ -28,6 +30,7 @@
       "name_en": "berretam1918",
       "name_cn": "列维里波莱塔M1918自动装填步枪",
       "type": "smg",
+      "ammo": "lavender:griffin9x19",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -42,6 +45,7 @@
       "name_en": "berthier1892",
       "name_cn": "Berthier1892贝蒂埃步枪/卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -54,6 +58,7 @@
       "name_en": "berthier1916",
       "name_cn": "BerthierMle1916贝蒂埃步枪",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -66,6 +71,7 @@
       "name_en": "bodeo1889",
       "name_cn": "博代奥M1889转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:revolver10.35",
       "allow_attachment_types": []
     },
     {
@@ -74,6 +80,7 @@
       "name_en": "browning1918",
       "name_cn": "勃朗宁M1918自动装填步枪",
       "type": "mg",
+      "ammo": "lavender:spring7.62x63",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -87,6 +94,7 @@
       "name_en": "bulldog",
       "name_cn": "斗牛犬袖珍转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:british0x442",
       "allow_attachment_types": []
     },
     {
@@ -95,6 +103,7 @@
       "name_en": "c93",
       "name_cn": "博查特C93自动手枪",
       "type": "pistol",
+      "ammo": "lavender:borchardt7.65",
       "allow_attachment_types": []
     },
     {
@@ -103,6 +112,7 @@
       "name_en": "c96",
       "name_cn": "毛瑟C96手枪",
       "type": "pistol",
+      "ammo": "lavender:parabelum9mm",
       "allow_attachment_types": []
     },
     {
@@ -111,6 +121,7 @@
       "name_en": "carcanom1891",
       "name_cn": "卡尔卡诺M1891步枪",
       "type": "rifle",
+      "ammo": "lavender:6.52x5mannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -123,6 +134,7 @@
       "name_en": "carcanom1891_2",
       "name_cn": "卡尔卡诺M1891卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:6.52x5mannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle"
@@ -134,6 +146,7 @@
       "name_en": "cei_rigotti",
       "name_cn": "希-瑞戈蒂Cei_Rigotti(全)/半自动装填步枪",
       "type": "rifle",
+      "ammo": "lavender:6.52x5mannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -147,6 +160,7 @@
       "name_en": "chauchat",
       "name_cn": "绍沙M915轻机枪(改进型)",
       "type": "mg",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -160,6 +174,7 @@
       "name_en": "chauchat2",
       "name_cn": "绍沙M1915轻机枪",
       "type": "mg",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -173,6 +188,7 @@
       "name_en": "christmas2025",
       "name_cn": "2025圣诞节彩蛋-圣诞停战夜",
       "type": "rpg",
+      "ammo": "lavender:signal_ammo",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -187,6 +203,7 @@
       "name_en": "darne1912",
       "name_cn": "达恩Darne1912猎枪",
       "type": "shotgun",
+      "ammo": "lavender:12ga",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag",
@@ -199,6 +216,7 @@
       "name_en": "enfieldm1917",
       "name_cn": "恩菲尔德P-14步枪",
       "type": "rifle",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -211,6 +229,7 @@
       "name_en": "enfieldm1917_2",
       "name_cn": "恩菲尔德P-14卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -223,6 +242,7 @@
       "name_en": "enfieldm1917_3",
       "name_cn": "恩菲尔德M1917步枪",
       "type": "rifle",
+      "ammo": "lavender:spring7.62x63",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -235,6 +255,7 @@
       "name_en": "enfieldm1917_4",
       "name_cn": "恩菲尔德M1917卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:spring7.62x63",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -247,6 +268,7 @@
       "name_en": "farquharhill",
       "name_cn": "法夸尔·希尔导气步枪",
       "type": "rifle",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -259,6 +281,7 @@
       "name_en": "frommer1912",
       "name_cn": "菲罗梅尔M1912停止手枪",
       "type": "pistol",
+      "ammo": "lavender:browning7.65",
       "allow_attachment_types": []
     },
     {
@@ -267,6 +290,7 @@
       "name_en": "frommer1912_auto",
       "name_cn": "菲罗梅尔M1912停止手枪(全自动)",
       "type": "pistol",
+      "ammo": "lavender:browning7.65",
       "allow_attachment_types": []
     },
     {
@@ -275,6 +299,7 @@
       "name_en": "gasser1870",
       "name_cn": "嘉瑟尔-克罗帕切克M1870转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:11.3x36mm",
       "allow_attachment_types": []
     },
     {
@@ -283,6 +308,7 @@
       "name_en": "gasser1870_2",
       "name_cn": "嘉瑟尔-克罗帕切克M1870/84转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:11.3x36mm",
       "allow_attachment_types": []
     },
     {
@@ -291,6 +317,7 @@
       "name_en": "gewehr98",
       "name_cn": "格维尔毛瑟gewehr98步枪",
       "type": "rifle",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -303,6 +330,7 @@
       "name_en": "gewehr98b",
       "name_cn": "毛瑟格韦尔98卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "extended_mag",
         "scope",
@@ -315,6 +343,7 @@
       "name_en": "gras1874",
       "name_cn": "格拉斯1874/14步枪",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -327,6 +356,7 @@
       "name_en": "grisenti1910",
       "name_cn": "格里森蒂半自动手枪",
       "type": "pistol",
+      "ammo": "lavender:griffin9x19",
       "allow_attachment_types": []
     },
     {
@@ -335,6 +365,7 @@
       "name_en": "hellriegel1915",
       "name_cn": "赫尔里格尔1915水冷冲锋枪(轻机枪型)",
       "type": "mg",
+      "ammo": "lavender:steyr9x23",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -348,6 +379,7 @@
       "name_en": "hellriegel1915_2",
       "name_cn": "赫尔里格尔1915水冷冲锋枪",
       "type": "smg",
+      "ammo": "lavender:steyr9x23",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -361,6 +393,7 @@
       "name_en": "hotchkiss",
       "name_cn": "哈奇开斯m1909机枪(輕量化)",
       "type": "mg",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -374,6 +407,7 @@
       "name_en": "howell",
       "name_cn": "李-恩菲尔德mk3-豪威尔半自动装填型",
       "type": "rifle",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -386,6 +420,7 @@
       "name_en": "kar98k",
       "name_cn": "kar98k",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle"
@@ -397,6 +432,7 @@
       "name_en": "karabiner88",
       "name_cn": "M1888/05委员会卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "muzzle"
@@ -408,6 +444,7 @@
       "name_en": "kropatschek",
       "name_cn": "克罗帕斯克M1878步枪",
       "type": "rifle",
+      "ammo": "lavender:8x50rmannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -420,6 +457,7 @@
       "name_en": "lebel",
       "name_cn": "勒贝尔LebelM1886步枪",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -432,6 +470,7 @@
       "name_en": "lebel1893",
       "name_cn": "勒贝尔LebelM1886/93(卡宾)",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle"
@@ -443,6 +482,7 @@
       "name_en": "lebel_vb",
       "name_cn": "维文-贝希耶尔(VB)枪榴弹发射器",
       "type": "rpg",
+      "ammo": "tacz:40mm",
       "allow_attachment_types": [
         "scope"
       ]
@@ -453,6 +493,7 @@
       "name_en": "lee_metford",
       "name_cn": "李-梅特福步枪",
       "type": "rifle",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -465,6 +506,7 @@
       "name_en": "lewis",
       "name_cn": "刘易斯式轻机枪",
       "type": "mg",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -478,6 +520,7 @@
       "name_en": "m1879",
       "name_cn": "M1879帝国转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:revolver10.6x25",
       "allow_attachment_types": []
     },
     {
@@ -486,6 +529,7 @@
       "name_en": "m1883",
       "name_cn": "M1883转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:revolver10.6x25",
       "allow_attachment_types": []
     },
     {
@@ -494,6 +538,7 @@
       "name_en": "m1883_2",
       "name_cn": "M1883转轮手枪(加长)",
       "type": "pistol",
+      "ammo": "lavender:revolver10.6x25",
       "allow_attachment_types": []
     },
     {
@@ -502,6 +547,7 @@
       "name_en": "m1888",
       "name_cn": "M1888/05委员会步枪",
       "type": "rifle",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -514,6 +560,7 @@
       "name_en": "m1914ruby",
       "name_cn": "M1914Ruby红宝石手枪",
       "type": "pistol",
+      "ammo": "lavender:browning7.65",
       "allow_attachment_types": []
     },
     {
@@ -522,6 +569,7 @@
       "name_en": "m1917carbin",
       "name_cn": "毛瑟C96卡宾枪",
       "type": "pistol",
+      "ammo": "lavender:parabelum9mm",
       "allow_attachment_types": []
     },
     {
@@ -530,6 +578,7 @@
       "name_en": "m1918",
       "name_cn": "毛瑟M1918反坦克步枪",
       "type": "rifle",
+      "ammo": "lavender:13.2mm",
       "allow_attachment_types": [
         "scope",
         "extended_mag"
@@ -541,6 +590,7 @@
       "name_en": "mannlicher_schonauer",
       "name_cn": "曼利夏-舍瑙尔Y1903/14步枪",
       "type": "rifle",
+      "ammo": "lavender:8x56mannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -553,6 +603,7 @@
       "name_en": "mannlicher_schonauer_2",
       "name_cn": "曼利夏-舍瑙尔Y1903/14卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:8x56mannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -565,6 +616,7 @@
       "name_en": "mannlicherm1888",
       "name_cn": "斯太尔-曼利彻M1888/90步枪",
       "type": "rifle",
+      "ammo": "lavender:8x50rmannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -577,6 +629,7 @@
       "name_en": "mars",
       "name_cn": "韦伯利—马鲁斯半自动手枪",
       "type": "pistol",
+      "ammo": "lavender:british0x455",
       "allow_attachment_types": []
     },
     {
@@ -585,6 +638,7 @@
       "name_en": "martini",
       "name_cn": "马提尼-亨利杠杆步枪",
       "type": "rifle",
+      "ammo": "lavender:british0x577",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -597,6 +651,7 @@
       "name_en": "martinm1905",
       "name_cn": "伯纳德-马丁M1905型手枪",
       "type": "pistol",
+      "ammo": "lavender:browning7.65",
       "allow_attachment_types": []
     },
     {
@@ -605,6 +660,7 @@
       "name_en": "mas1873",
       "name_cn": "圣埃蒂安'夏梅洛-德尔维涅'Mas1873右轮手枪",
       "type": "pistol",
+      "ammo": "lavender:revolver11mm",
       "allow_attachment_types": []
     },
     {
@@ -613,6 +669,7 @@
       "name_en": "mas1892",
       "name_cn": "圣埃蒂安Mas1892右轮手枪",
       "type": "pistol",
+      "ammo": "lavender:revolver8mm",
       "allow_attachment_types": []
     },
     {
@@ -621,6 +678,7 @@
       "name_en": "mas1892c",
       "name_cn": "圣埃蒂安Mas1892右轮手枪(加長)",
       "type": "pistol",
+      "ammo": "lavender:revolver8mm",
       "allow_attachment_types": []
     },
     {
@@ -629,6 +687,7 @@
       "name_en": "mauser1914",
       "name_cn": "毛瑟1914手枪",
       "type": "pistol",
+      "ammo": "lavender:parabelum9mm",
       "allow_attachment_types": []
     },
     {
@@ -637,6 +696,7 @@
       "name_en": "mauserselbstladerm1916",
       "name_cn": "selbstlader毛瑟m1916半自动装填步枪",
       "type": "rifle",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "muzzle",
         "scope",
@@ -649,6 +709,7 @@
       "name_en": "meunier1910",
       "name_cn": "Meunier梅尼耶尔1910A6半自动装填步枪",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -662,6 +723,7 @@
       "name_en": "mg0815",
       "name_cn": "伯格曼MG08/15重型机枪",
       "type": "mg",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -675,6 +737,7 @@
       "name_en": "mg1417",
       "name_cn": "伯格曼MG14/17轻型机枪",
       "type": "mg",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -688,6 +751,7 @@
       "name_en": "mg15na",
       "name_cn": "伯格曼MG15N.a轻机枪",
       "type": "mg",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -701,6 +765,7 @@
       "name_en": "mosin1891",
       "name_cn": "莫辛-纳甘M1891步枪",
       "type": "rifle",
+      "ammo": "lavender:russia7.62x54r",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -713,6 +778,7 @@
       "name_en": "mosin1907",
       "name_cn": "莫辛-纳甘M1907卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:russia7.62x54r",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -725,6 +791,7 @@
       "name_en": "mosin_dra",
       "name_cn": "莫辛-纳甘骑枪(龙骑兵型)",
       "type": "rifle",
+      "ammo": "lavender:russia7.62x54r",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -737,6 +804,7 @@
       "name_en": "mp18",
       "name_cn": "伯格曼Mp18冲锋枪",
       "type": "smg",
+      "ammo": "lavender:luger9x18",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -751,6 +819,7 @@
       "name_en": "nagant1895",
       "name_cn": "纳甘M1895转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:revolver8mm",
       "allow_attachment_types": []
     },
     {
@@ -759,6 +828,7 @@
       "name_en": "obrez",
       "name_cn": "Obrez莫辛纳甘截短手枪",
       "type": "pistol",
+      "ammo": "lavender:russia7.62x54r",
       "allow_attachment_types": [
         "scope",
         "muzzle"
@@ -770,6 +840,7 @@
       "name_en": "ovp_smg",
       "name_cn": "ovp自动装填冲锋枪",
       "type": "smg",
+      "ammo": "lavender:griffin9x19",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -784,6 +855,7 @@
       "name_en": "p08",
       "name_cn": "鲁格P08手枪",
       "type": "pistol",
+      "ammo": "lavender:luger7.65",
       "allow_attachment_types": []
     },
     {
@@ -792,6 +864,7 @@
       "name_en": "p082",
       "name_cn": "鲁格P08載具卡賓槍",
       "type": "pistol",
+      "ammo": "lavender:luger7.65",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -804,6 +877,7 @@
       "name_en": "perino1908",
       "name_cn": "佩里诺m1908重机枪(轻量化)",
       "type": "mg",
+      "ammo": "lavender:6.52x5mannlicher",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -817,6 +891,7 @@
       "name_en": "ribeyrolles1918",
       "name_cn": "利贝罗勒M1918自动装填步枪",
       "type": "smg",
+      "ammo": "lavender:ribeyrolles8x35",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -831,6 +906,7 @@
       "name_en": "rsc",
       "name_cn": "RSC1917半自动装填步枪",
       "type": "rifle",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -843,6 +919,7 @@
       "name_en": "rsc2",
       "name_cn": "RSC冲锋枪",
       "type": "smg",
+      "ammo": "lavender:lebel8x50",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -857,6 +934,7 @@
       "name_en": "schilt",
       "name_cn": "希尔特No.3bis火焰喷射器(轻量化)",
       "type": "rpg",
+      "ammo": "lavender:oil",
       "allow_attachment_types": []
     },
     {
@@ -865,6 +943,7 @@
       "name_en": "selbstladerc98",
       "name_cn": "Mauser毛瑟C98半自动步枪",
       "type": "rifle",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -878,6 +957,7 @@
       "name_en": "selbstladerm1906",
       "name_cn": "selbstlader鲁格m1906半自动装填步枪",
       "type": "rifle",
+      "ammo": "lavender:mauser7.92x57",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -891,6 +971,7 @@
       "name_en": "signal_gun",
       "name_cn": "信号枪",
       "type": "rpg",
+      "ammo": "lavender:signal_ammo",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -905,6 +986,7 @@
       "name_en": "smle_iii",
       "name_cn": "Smle_MkIII/Lee.Enfield李.恩菲尔德步枪",
       "type": "rifle",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -917,6 +999,7 @@
       "name_en": "smle_iii_2",
       "name_cn": "Smle_MkIII/Lee.Enfield李.恩菲尔德卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:british0x303",
       "allow_attachment_types": [
         "scope",
         "muzzle"
@@ -928,6 +1011,7 @@
       "name_en": "star",
       "name_cn": "超级明星-半自动手枪",
       "type": "pistol",
+      "ammo": "lavender:browning7.65",
       "allow_attachment_types": []
     },
     {
@@ -936,6 +1020,7 @@
       "name_en": "steyr1901",
       "name_cn": "罗斯-斯太尔M1901半自动手枪",
       "type": "pistol",
+      "ammo": "lavender:steyr7.63",
       "allow_attachment_types": []
     },
     {
@@ -944,6 +1029,7 @@
       "name_en": "steyr1907",
       "name_cn": "罗斯-斯太尔M1907半自动手枪",
       "type": "pistol",
+      "ammo": "lavender:steyr9x23",
       "allow_attachment_types": []
     },
     {
@@ -952,6 +1038,7 @@
       "name_en": "steyr1912",
       "name_cn": "罗斯-斯太尔M1912半自动手枪",
       "type": "pistol",
+      "ammo": "lavender:steyr9x23",
       "allow_attachment_types": []
     },
     {
@@ -960,6 +1047,7 @@
       "name_en": "steyr1912_trench",
       "name_cn": "罗斯-斯太尔M1912半自动手枪(战壕)",
       "type": "pistol",
+      "ammo": "lavender:steyr9x23",
       "allow_attachment_types": []
     },
     {
@@ -968,6 +1056,7 @@
       "name_en": "steyrmannlicherm1895",
       "name_cn": "斯太尔-曼利彻M1895式步枪",
       "type": "rifle",
+      "ammo": "lavender:8x50rmannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -980,6 +1069,7 @@
       "name_en": "steyrmannlicherm1895_2",
       "name_cn": "斯太尔-曼利彻M1895卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:8x50rmannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -992,6 +1082,7 @@
       "name_en": "steyrmannlicherm1905",
       "name_cn": "斯太尔-曼利彻M1905式实验性半自动步枪",
       "type": "rifle",
+      "ammo": "lavender:8x50rmannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -1004,6 +1095,7 @@
       "name_en": "sturmpistole1918",
       "name_cn": "sturmpistole1918(轻量化)",
       "type": "smg",
+      "ammo": "lavender:steyr9x23",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -1018,6 +1110,7 @@
       "name_en": "vetterli1870",
       "name_cn": "维特利M1870/87步枪",
       "type": "rifle",
+      "ammo": "lavender:10.4x47mm",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -1030,6 +1123,7 @@
       "name_en": "vetterli1887",
       "name_cn": "维特利M1870/87/15卡宾枪",
       "type": "rifle",
+      "ammo": "lavender:6.52x5mannlicher",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -1042,6 +1136,7 @@
       "name_en": "viller_perosa",
       "name_cn": "维勒佩洛萨M1915轻机枪(冲锋枪)",
       "type": "mg",
+      "ammo": "lavender:griffin9x19",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -1056,6 +1151,7 @@
       "name_en": "webleymk1",
       "name_cn": "韦伯利斯科特MK I 自动手枪",
       "type": "pistol",
+      "ammo": "lavender:british0x455",
       "allow_attachment_types": []
     },
     {
@@ -1064,6 +1160,7 @@
       "name_en": "webleymk6",
       "name_cn": "韦伯利MK VI 转轮手枪",
       "type": "pistol",
+      "ammo": "lavender:british0x455",
       "allow_attachment_types": []
     },
     {
@@ -1072,6 +1169,7 @@
       "name_en": "wex",
       "name_cn": "WEX火焰喷射器",
       "type": "rpg",
+      "ammo": "lavender:oil",
       "allow_attachment_types": []
     },
     {
@@ -1080,6 +1178,7 @@
       "name_en": "whistle",
       "name_cn": "战壕哨(催命哨)",
       "type": "rpg",
+      "ammo": "lavender:physical_strength",
       "allow_attachment_types": [
         "scope"
       ]
@@ -1090,6 +1189,7 @@
       "name_en": "winchester1895",
       "name_cn": "温彻斯特M1895杠杆步枪",
       "type": "rifle",
+      "ammo": "lavender:russia7.62x54r",
       "allow_attachment_types": [
         "scope",
         "muzzle",

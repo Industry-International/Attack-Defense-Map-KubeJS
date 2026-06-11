@@ -6,6 +6,7 @@
       "name_en": "AA12 Shotgun",
       "name_cn": "AA12 霰弹枪",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "scope",
         "extended_mag",
@@ -19,6 +20,7 @@
       "name_en": "Accuracy International AWM",
       "name_cn": "精密国际 AWM 狙击步枪",
       "type": "sniper",
+      "ammo": "tacz:338",
       "allow_attachment_types": [
         "extended_mag",
         "scope",
@@ -31,6 +33,7 @@
       "name_en": "AKM",
       "name_cn": "AKM 突击步枪",
       "type": "rifle",
+      "ammo": "tacz:762x39",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -44,6 +47,7 @@
       "name_en": "AUG",
       "name_cn": "AUG 突击步枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag",
@@ -56,6 +60,7 @@
       "name_en": "B93R",
       "name_cn": "B93R 冲锋手枪",
       "type": "pistol",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "muzzle",
         "scope",
@@ -68,6 +73,7 @@
       "name_en": "CZ 75",
       "name_cn": "CZ 75 自动手枪",
       "type": "pistol",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope",
         "extended_mag"
@@ -79,6 +85,7 @@
       "name_en": "DB-4 Ursus",
       "name_cn": "DB-4 乌萨斯",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "extended_mag"
       ]
@@ -89,6 +96,7 @@
       "name_en": "DB-2 Durin",
       "name_cn": "DB-2 杜林人",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "stock",
         "extended_mag"
@@ -100,6 +108,7 @@
       "name_en": "Deagle 50",
       "name_cn": ".50 沙漠之鹰",
       "type": "pistol",
+      "ammo": "tacz:50ae",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -113,6 +122,7 @@
       "name_en": "Golden Deagle 357",
       "name_cn": ".357 黄金沙漠之鹰",
       "type": "pistol",
+      "ammo": "tacz:357mag",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -126,6 +136,7 @@
       "name_en": "FN EVOLYS Machine Gun",
       "name_cn": "FN EVOLYS 机枪",
       "type": "mg",
+      "ammo": "tacz:308",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -140,6 +151,7 @@
       "name_en": "FN FAL Battle Rifle",
       "name_cn": "FN FAL 战斗步枪",
       "type": "rifle",
+      "ammo": "tacz:308",
       "allow_attachment_types": [
         "scope",
         "laser",
@@ -154,6 +166,7 @@
       "name_en": "G36K",
       "name_cn": "G36K 突击步枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -169,6 +182,7 @@
       "name_en": "Glock 17",
       "name_cn": "格洛克 17 手枪",
       "type": "pistol",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -182,6 +196,7 @@
       "name_en": "HK-416D",
       "name_cn": "HK-416A5 突击步枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -197,6 +212,7 @@
       "name_en": "HK G3 Battle rifle",
       "name_cn": "G3 战斗步枪",
       "type": "rifle",
+      "ammo": "tacz:308",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -212,6 +228,7 @@
       "name_en": "HK-MP5A5",
       "name_cn": "MP5A5 冲锋枪",
       "type": "smg",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -227,6 +244,7 @@
       "name_en": "M1014 Battle Shotgun",
       "name_cn": "M1014 战斗霰弹枪",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "muzzle",
         "scope",
@@ -239,6 +257,7 @@
       "name_en": "M107 Sniper Rifle",
       "name_cn": "M107 .50口径反器材步枪",
       "type": "sniper",
+      "ammo": "tacz:50bmg",
       "allow_attachment_types": [
         "scope",
         "extended_mag",
@@ -251,6 +270,7 @@
       "name_en": "M16A1 Service Rifle",
       "name_cn": "M16A1 制式步枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag",
@@ -263,6 +283,7 @@
       "name_en": "M16A4 Service Rifle",
       "name_cn": "M16A4 制式步枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag",
@@ -278,6 +299,7 @@
       "name_en": "M1911",
       "name_cn": "M1911 手枪",
       "type": "pistol",
+      "ammo": "tacz:45acp",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag"
@@ -289,6 +311,7 @@
       "name_en": "M249 Machine Gun",
       "name_cn": "M249 机枪",
       "type": "mg",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -302,6 +325,7 @@
       "name_en": "M320 Grenade Launcher",
       "name_cn": "M320 榴弹发射器",
       "type": "rpg",
+      "ammo": "tacz:40mm",
       "allow_attachment_types": []
     },
     {
@@ -310,6 +334,7 @@
       "name_en": "M4A1 Carbine",
       "name_cn": "M4A1 卡宾枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -325,6 +350,7 @@
       "name_en": "M700 Sniper Rifle",
       "name_cn": "M700 狙击步枪",
       "type": "sniper",
+      "ammo": "tacz:30_06",
       "allow_attachment_types": [
         "extended_mag",
         "scope",
@@ -337,6 +363,7 @@
       "name_en": "M870",
       "name_cn": "M870 霰弹枪",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "extended_mag",
         "muzzle"
@@ -348,6 +375,7 @@
       "name_en": "M95 .50 Cal Antimaterial",
       "name_cn": "M95 .50口径反器材步枪",
       "type": "sniper",
+      "ammo": "tacz:50bmg",
       "allow_attachment_types": [
         "scope",
         "extended_mag",
@@ -360,6 +388,7 @@
       "name_en": "M134 Minigun",
       "name_cn": "M134 转管机枪",
       "type": "mg",
+      "ammo": "tacz:308",
       "allow_attachment_types": []
     },
     {
@@ -368,6 +397,7 @@
       "name_en": "MK14 EBR",
       "name_cn": "MK14 EBR 精确射手步枪",
       "type": "rifle",
+      "ammo": "tacz:308",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -383,6 +413,7 @@
       "name_en": "P320",
       "name_cn": "P320 手枪",
       "type": "pistol",
+      "ammo": "tacz:45acp",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -396,6 +427,7 @@
       "name_en": "P90 PDW",
       "name_cn": "P90 冲锋枪",
       "type": "smg",
+      "ammo": "tacz:57x28",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -408,6 +440,7 @@
       "name_en": "QBZ-191 Assault Rifle",
       "name_cn": "191式 突击步枪",
       "type": "rifle",
+      "ammo": "tacz:58x42",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag",
@@ -423,6 +456,7 @@
       "name_en": "QBZ-95 \"Longbow\"",
       "name_cn": "95式 \"长弓\" 突击步枪",
       "type": "rifle",
+      "ammo": "tacz:58x42",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag",
@@ -437,6 +471,7 @@
       "name_en": "RPG-7",
       "name_cn": "RPG-7 火箭筒",
       "type": "rpg",
+      "ammo": "tacz:rpg_rocket",
       "allow_attachment_types": []
     },
     {
@@ -445,6 +480,7 @@
       "name_en": "RPK",
       "name_cn": "RPK 轻机枪",
       "type": "mg",
+      "ammo": "tacz:762x39",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -458,6 +494,7 @@
       "name_en": "SCAR-H Battle Rifle",
       "name_cn": "SCAR-H 战斗步枪",
       "type": "rifle",
+      "ammo": "tacz:308",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -473,6 +510,7 @@
       "name_en": "SCAR-L Assault Rifle",
       "name_cn": "SCAR-L 突击步枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -488,6 +526,7 @@
       "name_en": "Sks Tactical Rifle",
       "name_cn": "SKS 战术步枪",
       "type": "rifle",
+      "ammo": "tacz:762x39",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -502,6 +541,7 @@
       "name_en": "SPAS-12 Multi-purpose Shotgun",
       "name_cn": "SPAS-12 多功能霰弹枪",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "extended_mag",
         "stock",
@@ -515,6 +555,7 @@
       "name_en": "SPR-15 HB \"Sagittarius\"",
       "name_cn": "SPR-15 HB “射手座” 反狙击步枪",
       "type": "rifle",
+      "ammo": "tacz:556x45",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag",
@@ -529,6 +570,7 @@
       "name_en": "Springfield 1873 Trapdoor Rifle",
       "name_cn": "春田 1873 活门步枪",
       "type": "sniper",
+      "ammo": "tacz:45_70",
       "allow_attachment_types": [
         "scope",
         "extended_mag"
@@ -540,6 +582,7 @@
       "name_en": "§6Timeless .50 Z-Type",
       "name_cn": "§6永恒 .50 Z型",
       "type": "pistol",
+      "ammo": "tacz:50ae",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -553,6 +596,7 @@
       "name_en": "Type 81-1 Service Rifle",
       "name_cn": "81-1式 制式步枪",
       "type": "rifle",
+      "ammo": "tacz:762x39",
       "allow_attachment_types": [
         "muzzle",
         "extended_mag"
@@ -564,6 +608,7 @@
       "name_en": "UMP45 SMG",
       "name_cn": "UMP45 冲锋枪",
       "type": "smg",
+      "ammo": "tacz:45acp",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -578,6 +623,7 @@
       "name_en": "UZI",
       "name_cn": "乌兹冲锋枪",
       "type": "smg",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -590,6 +636,7 @@
       "name_en": "Vector SMG",
       "name_cn": "维克托 冲锋枪",
       "type": "smg",
+      "ammo": "tacz:45acp",
       "allow_attachment_types": [
         "scope",
         "stock",

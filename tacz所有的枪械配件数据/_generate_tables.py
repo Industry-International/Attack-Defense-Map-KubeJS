@@ -16,6 +16,91 @@ def type_to_cn(t):
          'rpg': '重型武器', 'unknown': '未知'}
     return m.get(t, t)
 
+# Ammo name mappings (built from gunpack lang files)
+AMMO_NAMES = {}
+def build_ammo_names():
+    """Build mapping from ammo ID to readable name"""
+    # TACZ default ammo
+    tacz_ammo = {
+        'tacz:9mm': '9mm手枪弹', 'tacz:12g': '12号口径霰弹',
+        'tacz:308': '.308步枪弹', 'tacz:30_06': '.30-06步枪弹',
+        'tacz:338': '.338狙击弹', 'tacz:357mag': '.357马格南手枪弹',
+        'tacz:40mm': '40mm榴弹', 'tacz:45acp': '.45手枪弹',
+        'tacz:45_70': '45-70步枪弹', 'tacz:46x30': '4.6mm穿甲弹',
+        'tacz:50ae': '.50 AE手枪弹', 'tacz:50bmg': '.50 BMG狙击弹',
+        'tacz:545x39': '5.45x39mm步枪弹', 'tacz:556x45': '5.56x45mm步枪弹',
+        'tacz:57x28': '5.7x28mm穿甲弹', 'tacz:58x42': '5.8mm步枪弹',
+        'tacz:68x51fury': '6.8x51mm步枪弹', 'tacz:762x25': '7.62x25mm手枪弹',
+        'tacz:762x39': '7.62x39mm步枪弹', 'tacz:762x54': '7.62x54mm步枪弹',
+        'tacz:rpg_rocket': 'RPG-7火箭弹',
+    }
+    # Lavender ammo (from lang file inspection)
+    lav_ammo = {
+        'lavender:parabelum9mm': '9mm帕拉贝鲁姆',
+        'lavender:british0x303': '.303英式步枪弹',
+        'lavender:british0x455': '.455英式手枪弹',
+        'lavender:british0x442': '.442英式手枪弹',
+        'lavender:british0x577': '.577英式步枪弹',
+        'lavender:mauser7.92x57': '7.92x57mm毛瑟弹',
+        'lavender:russia7.62x54r': '7.62x54mmR步枪弹',
+        'lavender:russia7.62x38r': '7.62x38mmR手枪弹',
+        'lavender:lebel8x50': '8x50mm勒贝尔弹',
+        'lavender:8x56mannlicher': '8x56mm曼利夏弹',
+        'lavender:8x50rmannlicher': '8x50mm曼利夏弹',
+        'lavender:steyr7.63': '7.63x25mm斯太尔手枪弹',
+        'lavender:steyr9x23': '9x23mm斯太尔手枪弹',
+        'lavender:luger7.65': '7.65mm帕拉贝鲁姆',
+        'lavender:luger9x18': '9x18mm帕拉贝鲁姆',
+        'lavender:borchardt7.65': '7.65mm博查特弹',
+        'lavender:browning7.65': '7.65mm勃朗宁弹',
+        'lavender:griffin9x19': '9x19mm格里芬弹',
+        'lavender:revolver11mm': '11mm转轮手枪弹',
+        'lavender:revolver10.35': '10.35mm转轮手枪弹',
+        'lavender:revolver8mm': '8mm转轮手枪弹',
+        'lavender:revolver10.6x25': '10.6x25mm转轮手枪弹',
+        'lavender:10.4x47mm': '10.4x47mm步枪弹',
+        'lavender:11.3x36mm': '11.3x36mm步枪弹',
+        'lavender:12ga': '12号霰弹',
+        'lavender:13.2mm': '13.2mm反坦克弹',
+        'lavender:6.52x5mannlicher': '6.5x52mm曼利夏步枪弹',
+        'lavender:40mmap': '40mm穿甲榴弹',
+        'lavender:ribeyrolles8x35': '8x35mm利贝罗勒弹',
+        'lavender:spring7.62x63': '7.62x63mm春田步枪弹',
+        'lavender:signal_ammo': '信号弹',
+        'lavender:oil': '润滑油',
+        'lavender:physical_strength': '体力',
+    }
+    # Apocalypse ammo
+    bf1_ammo = {
+        'bf1:792x57': '7.92x57mm毛瑟弹',
+        'bf1:792x57semi': '7.92x57mm半自动弹',
+        'bf1:303': '.303英式步枪弹',
+        'bf1:450': '.450马提尼弹',
+        'bf1:44sw': '.44 S&W手枪弹',
+        'bf1:132x92': '13.2x92mm反坦克弹',
+        'bf1:fuel': '燃料',
+        'bf1:hvp': 'HVP高速弹',
+        'bf1:65x50': '6.5x50mm步枪弹',
+        'bf1:medkit': '医疗包',
+    }
+    AMMO_NAMES.update(tacz_ammo)
+    AMMO_NAMES.update(lav_ammo)
+    AMMO_NAMES.update(bf1_ammo)
+
+def ammo_to_name(ammo_id):
+    """Convert ammo ID like 'tacz:762x39' to readable name"""
+    if not ammo_id:
+        return '无'
+    if ammo_id in AMMO_NAMES:
+        return AMMO_NAMES[ammo_id]
+    # Fallback: extract the last part
+    parts = ammo_id.split(':')
+    if len(parts) > 1:
+        return parts[1]
+    return ammo_id
+
+build_ammo_names()
+
 def slot_to_cn(s):
     m = {'scope': '瞄具', 'muzzle': '枪口', 'stock': '枪托',
          'grip': '握把', 'laser': '激光', 'extended_mag': '扩容弹匣'}
@@ -140,9 +225,10 @@ def generate_pack_table(pack_key, pack_name, namespace, file_suffix):
     gun_lines = []
     for g in guns:
         slots_cn = ', '.join([slot_to_cn(s) for s in g['allow_attachment_types']]) if g['allow_attachment_types'] else '无'
+        ammo_name = ammo_to_name(g.get('ammo', ''))
         ip = find_gun_image(g['id'], pack_key)
         ih = img_tag(ip, g['name_cn'])
-        gun_lines.append(f"| {ih} | `{namespace}:{g['id']}` | {g['name_cn']} | {type_to_cn(g['type'])} | {slots_cn} |")
+        gun_lines.append(f"| {ih} | `{namespace}:{g['id']}` | {g['name_cn']} | {type_to_cn(g['type'])} | `{g.get('ammo', '')}` | {ammo_name} | {slots_cn} |")
 
     # Attachment table
     att_lines = []
@@ -162,8 +248,8 @@ def generate_pack_table(pack_key, pack_name, namespace, file_suffix):
 
 ## 🔫 枪械列表
 
-| 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 支持的配件槽位 |
-|---|---|---|---|---|
+| 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 弹药ID | 弹药名称 | 支持的配件槽位 |
+|---|---|---|---|---|---|---|
 {chr(10).join(gun_lines)}
 
 ## 🔧 配件列表
@@ -191,20 +277,22 @@ def generate_summary():
             all_guns.append({
                 'pack': pack_name, 'img': ih, 'full_id': g['full_id'],
                 'name_cn': g['name_cn'], 'type': g['type'],
+                'ammo': g.get('ammo', ''),
                 'allow_attachment_types': g['allow_attachment_types']
             })
 
     lines = []
     for g in all_guns:
         sc = ', '.join([slot_to_cn(s) for s in g['allow_attachment_types']]) if g['allow_attachment_types'] else '无'
-        lines.append(f"| {g['pack']} | {g['img']} | `{g['full_id']}` | {g['name_cn']} | {type_to_cn(g['type'])} | {sc} |")
+        ammo_name = ammo_to_name(g.get('ammo', ''))
+        lines.append(f"| {g['pack']} | {g['img']} | `{g['full_id']}` | {g['name_cn']} | {type_to_cn(g['type'])} | `{g.get('ammo', '')}` | {ammo_name} | {sc} |")
 
     md = f"""# 所有枪包综合概览
 
 ## 🔫 全部枪械总表
 
-| 所属枪包 | 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 支持的配件槽位 |
-|---|---|---|---|---|---|
+| 所属枪包 | 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 弹药ID | 弹药名称 | 支持的配件槽位 |
+|---|---|---|---|---|---|---|---|
 {chr(10).join(lines)}
 
 ---

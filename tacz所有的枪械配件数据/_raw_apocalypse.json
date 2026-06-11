@@ -6,6 +6,7 @@
       "name_en": "Chauchat",
       "name_cn": "绍沙 轻机枪",
       "type": "mg",
+      "ammo": "tacz:30_06",
       "allow_attachment_types": [
         "grip",
         "scope",
@@ -19,6 +20,7 @@
       "name_en": "De Lisle Carbine",
       "name_cn": "德利尔 微声卡宾枪",
       "type": "rifle",
+      "ammo": "tacz:45acp",
       "allow_attachment_types": [
         "extended_mag",
         "scope"
@@ -30,6 +32,7 @@
       "name_en": "Einstossflammenwerfer 46",
       "name_cn": "46型冲锋火焰喷射器",
       "type": "shotgun",
+      "ammo": "bf1:fuel",
       "allow_attachment_types": []
     },
     {
@@ -38,6 +41,7 @@
       "name_en": "Fliegerfaust B",
       "name_cn": "刺拳防空火箭筒B型",
       "type": "rpg",
+      "ammo": "tacz:40mm",
       "allow_attachment_types": []
     },
     {
@@ -46,6 +50,7 @@
       "name_en": "'Hand'gun",
       "name_cn": "“手”枪",
       "type": "pistol",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "muzzle"
       ]
@@ -56,6 +61,7 @@
       "name_en": "Kolibri",
       "name_cn": "蜂鸟 手枪",
       "type": "pistol",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "extended_mag"
       ]
@@ -66,6 +72,7 @@
       "name_en": "Lewis Gun",
       "name_cn": "刘易斯 轻机枪",
       "type": "mg",
+      "ammo": "tacz:308",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -78,6 +85,7 @@
       "name_en": "General Liu",
       "name_cn": "刘将军步枪",
       "type": "rifle",
+      "ammo": "tacz:762x54",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -90,6 +98,7 @@
       "name_en": "Lunge Mine",
       "name_cn": "四式反坦克刺雷",
       "type": "rpg",
+      "ammo": "tacz:40mm",
       "allow_attachment_types": []
     },
     {
@@ -98,6 +107,7 @@
       "name_en": "Selbstlader M1916",
       "name_cn": "M1916 自动装填步枪",
       "type": "rifle",
+      "ammo": "tacz:308",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -110,6 +120,7 @@
       "name_en": "M2 Flamethrower",
       "name_cn": "M2 火焰喷射器",
       "type": "shotgun",
+      "ammo": "bf1:fuel",
       "allow_attachment_types": []
     },
     {
@@ -118,6 +129,7 @@
       "name_en": "Mannlicher M1895",
       "name_cn": "曼利夏 M1895 步枪",
       "type": "sniper",
+      "ammo": "tacz:30_06",
       "allow_attachment_types": [
         "scope",
         "muzzle"
@@ -129,6 +141,7 @@
       "name_en": "Martini-Henry",
       "name_cn": "马提尼-亨利 步枪",
       "type": "sniper",
+      "ammo": "tacz:45_70",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -141,6 +154,7 @@
       "name_en": "MG08/15",
       "name_cn": "MG08/15 机枪",
       "type": "mg",
+      "ammo": "tacz:762x54",
       "allow_attachment_types": [
         "grip",
         "scope",
@@ -155,6 +169,7 @@
       "name_en": "MG42",
       "name_cn": "MG42 通用机枪",
       "type": "mg",
+      "ammo": "tacz:762x54",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -167,6 +182,7 @@
       "name_en": "Martini-Henry Grenade Launcher",
       "name_cn": "马提尼-亨利 步枪榴弹发射器",
       "type": "rpg",
+      "ammo": "tacz:40mm",
       "allow_attachment_types": [
         "scope"
       ]
@@ -177,6 +193,7 @@
       "name_en": "Model 10-A",
       "name_cn": "Model 10-A 霰弹枪",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "extended_mag",
         "scope",
@@ -191,6 +208,7 @@
       "name_en": "Mosin-Nagant Obrez",
       "name_cn": "莫辛-纳甘截短手枪",
       "type": "pistol",
+      "ammo": "tacz:762x54",
       "allow_attachment_types": [
         "scope",
         "muzzle",
@@ -204,6 +222,7 @@
       "name_en": "Rorsch Mk-4",
       "name_cn": "罗氏 Mk-4 轨道炮",
       "type": "sniper",
+      "ammo": "tacz:30_06",
       "allow_attachment_types": [
         "scope",
         "laser",
@@ -216,6 +235,7 @@
       "name_en": "RSC 1917",
       "name_cn": "RSC 1917 半自动步枪",
       "type": "rifle",
+      "ammo": "tacz:30_06",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -228,6 +248,7 @@
       "name_en": "Sjögren Inertial",
       "name_cn": "舍格伦 惯性霰弹枪",
       "type": "shotgun",
+      "ammo": "tacz:12g",
       "allow_attachment_types": [
         "extended_mag",
         "muzzle"
@@ -239,6 +260,7 @@
       "name_en": "SMG08/18",
       "name_cn": "SMG08/18 冲锋枪",
       "type": "smg",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -251,6 +273,7 @@
       "name_en": "No. 3 Revolver",
       "name_cn": "3号左轮手枪",
       "type": "pistol",
+      "ammo": "tacz:357mag",
       "allow_attachment_types": [
         "stock",
         "extended_mag"
@@ -262,6 +285,7 @@
       "name_en": "Medical Syringe",
       "name_cn": "医疗用针筒",
       "type": "pistol",
+      "ammo": "bf1:medkit",
       "allow_attachment_types": []
     },
     {
@@ -270,6 +294,7 @@
       "name_en": "Tankgewehr M1918",
       "name_cn": "M1918 反坦克步枪",
       "type": "sniper",
+      "ammo": "tacz:50bmg",
       "allow_attachment_types": [
         "scope",
         "grip",
@@ -283,6 +308,7 @@
       "name_en": "Volkssturmgewehr 1-5",
       "name_cn": "VG1-5 人民突击步枪",
       "type": "rifle",
+      "ammo": "tacz:762x39",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -297,6 +323,7 @@
       "name_en": "Villar·Perosa",
       "name_cn": "维拉·佩罗萨 冲锋枪",
       "type": "smg",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope",
         "stock",
@@ -311,6 +338,7 @@
       "name_en": "Welrod",
       "name_cn": "威尔洛德 微声手枪",
       "type": "pistol",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope"
       ]
@@ -321,6 +349,7 @@
       "name_en": "Wex Flamethrower",
       "name_cn": "Wex 火焰喷射器",
       "type": "shotgun",
+      "ammo": "bf1:fuel",
       "allow_attachment_types": []
     },
     {
@@ -329,6 +358,7 @@
       "name_en": "ZK-383",
       "name_cn": "ZK-383 冲锋枪",
       "type": "smg",
+      "ammo": "tacz:9mm",
       "allow_attachment_types": [
         "scope",
         "muzzle",

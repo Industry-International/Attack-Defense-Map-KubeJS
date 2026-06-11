@@ -2,38 +2,38 @@
 
 ## 🔫 枪械列表
 
-| 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 支持的配件槽位 |
-|---|---|---|---|---|
-| <img src="./images/apocalypse/guns/chauchat.png" alt="绍沙 轻机枪" width="32"> | `bf1:chauchat` | 绍沙 轻机枪 | 机枪 | 握把, 瞄具, 枪托, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/de_lisle.png" alt="德利尔 微声卡宾枪" width="32"> | `bf1:de_lisle` | 德利尔 微声卡宾枪 | 步枪 | 扩容弹匣, 瞄具 |
-| <img src="./images/apocalypse/guns/ef46.png" alt="46型冲锋火焰喷射器" width="32"> | `bf1:ef46` | 46型冲锋火焰喷射器 | 霰弹枪 | 无 |
-| <img src="./images/apocalypse/guns/f_faust.png" alt="刺拳防空火箭筒B型" width="32"> | `bf1:f_faust` | 刺拳防空火箭筒B型 | 重型武器 | 无 |
-| <img src="./images/apocalypse/guns/handgun.png" alt="“手”枪" width="32"> | `bf1:handgun` | “手”枪 | 手枪 | 枪口 |
-| <img src="./images/apocalypse/guns/kolibri.png" alt="蜂鸟 手枪" width="32"> | `bf1:kolibri` | 蜂鸟 手枪 | 手枪 | 扩容弹匣 |
-| <img src="./images/apocalypse/guns/lewis.png" alt="刘易斯 轻机枪" width="32"> | `bf1:lewis` | 刘易斯 轻机枪 | 机枪 | 瞄具, 枪托, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/liu.png" alt="刘将军步枪" width="32"> | `bf1:liu` | 刘将军步枪 | 步枪 | 瞄具, 握把, 枪口 |
-| <img src="./images/apocalypse/guns/lunge_mine.png" alt="四式反坦克刺雷" width="32"> | `bf1:lunge_mine` | 四式反坦克刺雷 | 重型武器 | 无 |
-| <img src="./images/apocalypse/guns/m1916.png" alt="M1916 自动装填步枪" width="32"> | `bf1:m1916` | M1916 自动装填步枪 | 步枪 | 瞄具, 握把, 枪口 |
-| <img src="./images/apocalypse/guns/m2_2.png" alt="M2 火焰喷射器" width="32"> | `bf1:m2_2` | M2 火焰喷射器 | 霰弹枪 | 无 |
-| <img src="./images/apocalypse/guns/man_m95.png" alt="曼利夏 M1895 步枪" width="32"> | `bf1:man_m95` | 曼利夏 M1895 步枪 | 狙击枪 | 瞄具, 枪口 |
-| <img src="./images/apocalypse/guns/martini.png" alt="马提尼-亨利 步枪" width="32"> | `bf1:martini` | 马提尼-亨利 步枪 | 狙击枪 | 瞄具, 握把, 枪口 |
-| <img src="./images/apocalypse/guns/mg0815.png" alt="MG08/15 机枪" width="32"> | `bf1:mg0815` | MG08/15 机枪 | 机枪 | 握把, 瞄具, 枪托, 枪口, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/mg42.png" alt="MG42 通用机枪" width="32"> | `bf1:mg42` | MG42 通用机枪 | 机枪 | 瞄具, 握把, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/mhgl.png" alt="马提尼-亨利 步枪榴弹发射器" width="32"> | `bf1:mhgl` | 马提尼-亨利 步枪榴弹发射器 | 重型武器 | 瞄具 |
-| <img src="./images/apocalypse/guns/model10.png" alt="Model 10-A 霰弹枪" width="32"> | `bf1:model10` | Model 10-A 霰弹枪 | 霰弹枪 | 扩容弹匣, 瞄具, 枪托, 枪口, 握把 |
-| <img src="./images/apocalypse/guns/obrez.png" alt="莫辛-纳甘截短手枪" width="32"> | `bf1:obrez` | 莫辛-纳甘截短手枪 | 手枪 | 瞄具, 枪口, 扩容弹匣, 激光 |
-| <img src="./images/apocalypse/guns/rorsch_mk4.png" alt="罗氏 Mk-4 轨道炮" width="32"> | `bf1:rorsch_mk4` | 罗氏 Mk-4 轨道炮 | 狙击枪 | 瞄具, 激光, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/rsc1917.png" alt="RSC 1917 半自动步枪" width="32"> | `bf1:rsc1917` | RSC 1917 半自动步枪 | 步枪 | 瞄具, 握把, 枪口 |
-| <img src="./images/apocalypse/guns/sjogren.png" alt="舍格伦 惯性霰弹枪" width="32"> | `bf1:sjogren` | 舍格伦 惯性霰弹枪 | 霰弹枪 | 扩容弹匣, 枪口 |
-| <img src="./images/apocalypse/guns/smg0818.png" alt="SMG08/18 冲锋枪" width="32"> | `bf1:smg0818` | SMG08/18 冲锋枪 | 冲锋枪 | 瞄具, 握把, 枪口 |
-| <img src="./images/apocalypse/guns/sw_model3.png" alt="3号左轮手枪" width="32"> | `bf1:sw_model3` | 3号左轮手枪 | 手枪 | 枪托, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/syringe.png" alt="医疗用针筒" width="32"> | `bf1:syringe` | 医疗用针筒 | 手枪 | 无 |
-| <img src="./images/apocalypse/guns/tg1918.png" alt="M1918 反坦克步枪" width="32"> | `bf1:tg1918` | M1918 反坦克步枪 | 狙击枪 | 瞄具, 握把, 枪口, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/vg15.png" alt="VG1-5 人民突击步枪" width="32"> | `bf1:vg15` | VG1-5 人民突击步枪 | 步枪 | 瞄具, 枪托, 枪口, 握把, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/vp1915.png" alt="维拉·佩罗萨 冲锋枪" width="32"> | `bf1:vp1915` | 维拉·佩罗萨 冲锋枪 | 冲锋枪 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣 |
-| <img src="./images/apocalypse/guns/welrod.png" alt="威尔洛德 微声手枪" width="32"> | `bf1:welrod` | 威尔洛德 微声手枪 | 手枪 | 瞄具 |
-| <img src="./images/apocalypse/guns/wex.png" alt="Wex 火焰喷射器" width="32"> | `bf1:wex` | Wex 火焰喷射器 | 霰弹枪 | 无 |
-| <img src="./images/apocalypse/guns/zk383.png" alt="ZK-383 冲锋枪" width="32"> | `bf1:zk383` | ZK-383 冲锋枪 | 冲锋枪 | 瞄具, 枪口, 握把, 扩容弹匣 |
+| 图片 | NBT GunId (GunId标签) | 枪械名称 | 枪械类型 | 弹药ID | 弹药名称 | 支持的配件槽位 |
+|---|---|---|---|---|---|---|
+| <img src="./images/apocalypse/guns/chauchat.png" alt="绍沙 轻机枪" width="32"> | `bf1:chauchat` | 绍沙 轻机枪 | 机枪 | `tacz:30_06` | .30-06步枪弹 | 握把, 瞄具, 枪托, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/de_lisle.png" alt="德利尔 微声卡宾枪" width="32"> | `bf1:de_lisle` | 德利尔 微声卡宾枪 | 步枪 | `tacz:45acp` | .45手枪弹 | 扩容弹匣, 瞄具 |
+| <img src="./images/apocalypse/guns/ef46.png" alt="46型冲锋火焰喷射器" width="32"> | `bf1:ef46` | 46型冲锋火焰喷射器 | 霰弹枪 | `bf1:fuel` | 燃料 | 无 |
+| <img src="./images/apocalypse/guns/f_faust.png" alt="刺拳防空火箭筒B型" width="32"> | `bf1:f_faust` | 刺拳防空火箭筒B型 | 重型武器 | `tacz:40mm` | 40mm榴弹 | 无 |
+| <img src="./images/apocalypse/guns/handgun.png" alt="“手”枪" width="32"> | `bf1:handgun` | “手”枪 | 手枪 | `tacz:9mm` | 9mm手枪弹 | 枪口 |
+| <img src="./images/apocalypse/guns/kolibri.png" alt="蜂鸟 手枪" width="32"> | `bf1:kolibri` | 蜂鸟 手枪 | 手枪 | `tacz:9mm` | 9mm手枪弹 | 扩容弹匣 |
+| <img src="./images/apocalypse/guns/lewis.png" alt="刘易斯 轻机枪" width="32"> | `bf1:lewis` | 刘易斯 轻机枪 | 机枪 | `tacz:308` | .308步枪弹 | 瞄具, 枪托, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/liu.png" alt="刘将军步枪" width="32"> | `bf1:liu` | 刘将军步枪 | 步枪 | `tacz:762x54` | 7.62x54mm步枪弹 | 瞄具, 握把, 枪口 |
+| <img src="./images/apocalypse/guns/lunge_mine.png" alt="四式反坦克刺雷" width="32"> | `bf1:lunge_mine` | 四式反坦克刺雷 | 重型武器 | `tacz:40mm` | 40mm榴弹 | 无 |
+| <img src="./images/apocalypse/guns/m1916.png" alt="M1916 自动装填步枪" width="32"> | `bf1:m1916` | M1916 自动装填步枪 | 步枪 | `tacz:308` | .308步枪弹 | 瞄具, 握把, 枪口 |
+| <img src="./images/apocalypse/guns/m2_2.png" alt="M2 火焰喷射器" width="32"> | `bf1:m2_2` | M2 火焰喷射器 | 霰弹枪 | `bf1:fuel` | 燃料 | 无 |
+| <img src="./images/apocalypse/guns/man_m95.png" alt="曼利夏 M1895 步枪" width="32"> | `bf1:man_m95` | 曼利夏 M1895 步枪 | 狙击枪 | `tacz:30_06` | .30-06步枪弹 | 瞄具, 枪口 |
+| <img src="./images/apocalypse/guns/martini.png" alt="马提尼-亨利 步枪" width="32"> | `bf1:martini` | 马提尼-亨利 步枪 | 狙击枪 | `tacz:45_70` | 45-70步枪弹 | 瞄具, 握把, 枪口 |
+| <img src="./images/apocalypse/guns/mg0815.png" alt="MG08/15 机枪" width="32"> | `bf1:mg0815` | MG08/15 机枪 | 机枪 | `tacz:762x54` | 7.62x54mm步枪弹 | 握把, 瞄具, 枪托, 枪口, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/mg42.png" alt="MG42 通用机枪" width="32"> | `bf1:mg42` | MG42 通用机枪 | 机枪 | `tacz:762x54` | 7.62x54mm步枪弹 | 瞄具, 握把, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/mhgl.png" alt="马提尼-亨利 步枪榴弹发射器" width="32"> | `bf1:mhgl` | 马提尼-亨利 步枪榴弹发射器 | 重型武器 | `tacz:40mm` | 40mm榴弹 | 瞄具 |
+| <img src="./images/apocalypse/guns/model10.png" alt="Model 10-A 霰弹枪" width="32"> | `bf1:model10` | Model 10-A 霰弹枪 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 扩容弹匣, 瞄具, 枪托, 枪口, 握把 |
+| <img src="./images/apocalypse/guns/obrez.png" alt="莫辛-纳甘截短手枪" width="32"> | `bf1:obrez` | 莫辛-纳甘截短手枪 | 手枪 | `tacz:762x54` | 7.62x54mm步枪弹 | 瞄具, 枪口, 扩容弹匣, 激光 |
+| <img src="./images/apocalypse/guns/rorsch_mk4.png" alt="罗氏 Mk-4 轨道炮" width="32"> | `bf1:rorsch_mk4` | 罗氏 Mk-4 轨道炮 | 狙击枪 | `tacz:30_06` | .30-06步枪弹 | 瞄具, 激光, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/rsc1917.png" alt="RSC 1917 半自动步枪" width="32"> | `bf1:rsc1917` | RSC 1917 半自动步枪 | 步枪 | `tacz:30_06` | .30-06步枪弹 | 瞄具, 握把, 枪口 |
+| <img src="./images/apocalypse/guns/sjogren.png" alt="舍格伦 惯性霰弹枪" width="32"> | `bf1:sjogren` | 舍格伦 惯性霰弹枪 | 霰弹枪 | `tacz:12g` | 12号口径霰弹 | 扩容弹匣, 枪口 |
+| <img src="./images/apocalypse/guns/smg0818.png" alt="SMG08/18 冲锋枪" width="32"> | `bf1:smg0818` | SMG08/18 冲锋枪 | 冲锋枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具, 握把, 枪口 |
+| <img src="./images/apocalypse/guns/sw_model3.png" alt="3号左轮手枪" width="32"> | `bf1:sw_model3` | 3号左轮手枪 | 手枪 | `tacz:357mag` | .357马格南手枪弹 | 枪托, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/syringe.png" alt="医疗用针筒" width="32"> | `bf1:syringe` | 医疗用针筒 | 手枪 | `bf1:medkit` | 医疗包 | 无 |
+| <img src="./images/apocalypse/guns/tg1918.png" alt="M1918 反坦克步枪" width="32"> | `bf1:tg1918` | M1918 反坦克步枪 | 狙击枪 | `tacz:50bmg` | .50 BMG狙击弹 | 瞄具, 握把, 枪口, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/vg15.png" alt="VG1-5 人民突击步枪" width="32"> | `bf1:vg15` | VG1-5 人民突击步枪 | 步枪 | `tacz:762x39` | 7.62x39mm步枪弹 | 瞄具, 枪托, 枪口, 握把, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/vp1915.png" alt="维拉·佩罗萨 冲锋枪" width="32"> | `bf1:vp1915` | 维拉·佩罗萨 冲锋枪 | 冲锋枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具, 枪托, 握把, 枪口, 扩容弹匣 |
+| <img src="./images/apocalypse/guns/welrod.png" alt="威尔洛德 微声手枪" width="32"> | `bf1:welrod` | 威尔洛德 微声手枪 | 手枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具 |
+| <img src="./images/apocalypse/guns/wex.png" alt="Wex 火焰喷射器" width="32"> | `bf1:wex` | Wex 火焰喷射器 | 霰弹枪 | `bf1:fuel` | 燃料 | 无 |
+| <img src="./images/apocalypse/guns/zk383.png" alt="ZK-383 冲锋枪" width="32"> | `bf1:zk383` | ZK-383 冲锋枪 | 冲锋枪 | `tacz:9mm` | 9mm手枪弹 | 瞄具, 枪口, 握把, 扩容弹匣 |
 
 ## 🔧 配件列表
 

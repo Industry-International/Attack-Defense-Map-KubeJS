@@ -44,6 +44,7 @@ def extract_gunpack(gunpack_path, namespace, output_prefix):
             data_fname = gun_id + '_data.json'
             data = read_json(os.path.join(guns_data_dir, data_fname))
             allow_types = data.get('allow_attachment_types', []) if data else []
+            ammo = data.get('ammo', '') if data else ''
             
             results['guns'].append({
                 'id': gun_id,
@@ -51,6 +52,7 @@ def extract_gunpack(gunpack_path, namespace, output_prefix):
                 'name_en': gun_name,
                 'name_cn': gun_name_cn,
                 'type': gun_type,
+                'ammo': ammo,
                 'allow_attachment_types': allow_types
             })
     
@@ -124,10 +126,12 @@ def extract_zip_gunpack(zip_path, namespace):
                 # Read data file
                 data_name = guns_data_prefix + gun_id + '_data.json'
                 allow_types = []
+                ammo = ''
                 try:
                     data_content = z.read(data_name).decode('utf-8')
                     data = json.loads(clean_json(data_content))
                     allow_types = data.get('allow_attachment_types', [])
+                    ammo = data.get('ammo', '')
                 except KeyError:
                     pass
                 except:
@@ -139,6 +143,7 @@ def extract_zip_gunpack(zip_path, namespace):
                     'name_en': gun_name,
                     'name_cn': gun_name_cn,
                     'type': gun_type,
+                    'ammo': ammo,
                     'allow_attachment_types': allow_types
                 })
         
