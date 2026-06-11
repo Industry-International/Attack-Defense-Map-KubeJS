@@ -1,0 +1,440 @@
+{
+  "guns": [
+    {
+      "id": "chauchat",
+      "full_id": "bf1:chauchat",
+      "name_en": "Chauchat",
+      "name_cn": "绍沙 轻机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "grip",
+        "scope",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "de_lisle",
+      "full_id": "bf1:de_lisle",
+      "name_en": "De Lisle Carbine",
+      "name_cn": "德利尔 微声卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "extended_mag",
+        "scope"
+      ]
+    },
+    {
+      "id": "ef46",
+      "full_id": "bf1:ef46",
+      "name_en": "Einstossflammenwerfer 46",
+      "name_cn": "46型冲锋火焰喷射器",
+      "type": "shotgun",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "f_faust",
+      "full_id": "bf1:f_faust",
+      "name_en": "Fliegerfaust B",
+      "name_cn": "刺拳防空火箭筒B型",
+      "type": "rpg",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "handgun",
+      "full_id": "bf1:handgun",
+      "name_en": "'Hand'gun",
+      "name_cn": "“手”枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "muzzle"
+      ]
+    },
+    {
+      "id": "kolibri",
+      "full_id": "bf1:kolibri",
+      "name_en": "Kolibri",
+      "name_cn": "蜂鸟 手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "lewis",
+      "full_id": "bf1:lewis",
+      "name_en": "Lewis Gun",
+      "name_cn": "刘易斯 轻机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "liu",
+      "full_id": "bf1:liu",
+      "name_en": "General Liu",
+      "name_cn": "刘将军步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "lunge_mine",
+      "full_id": "bf1:lunge_mine",
+      "name_en": "Lunge Mine",
+      "name_cn": "四式反坦克刺雷",
+      "type": "rpg",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "m1916",
+      "full_id": "bf1:m1916",
+      "name_en": "Selbstlader M1916",
+      "name_cn": "M1916 自动装填步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "m2_2",
+      "full_id": "bf1:m2_2",
+      "name_en": "M2 Flamethrower",
+      "name_cn": "M2 火焰喷射器",
+      "type": "shotgun",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "man_m95",
+      "full_id": "bf1:man_m95",
+      "name_en": "Mannlicher M1895",
+      "name_cn": "曼利夏 M1895 步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "martini",
+      "full_id": "bf1:martini",
+      "name_en": "Martini-Henry",
+      "name_cn": "马提尼-亨利 步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "mg0815",
+      "full_id": "bf1:mg0815",
+      "name_en": "MG08/15",
+      "name_cn": "MG08/15 机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "grip",
+        "scope",
+        "stock",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "mg42",
+      "full_id": "bf1:mg42",
+      "name_en": "MG42",
+      "name_cn": "MG42 通用机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "mhgl",
+      "full_id": "bf1:mhgl",
+      "name_en": "Martini-Henry Grenade Launcher",
+      "name_cn": "马提尼-亨利 步枪榴弹发射器",
+      "type": "rpg",
+      "allow_attachment_types": [
+        "scope"
+      ]
+    },
+    {
+      "id": "model10",
+      "full_id": "bf1:model10",
+      "name_en": "Model 10-A",
+      "name_cn": "Model 10-A 霰弹枪",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "extended_mag",
+        "scope",
+        "stock",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "obrez",
+      "full_id": "bf1:obrez",
+      "name_en": "Mosin-Nagant Obrez",
+      "name_cn": "莫辛-纳甘截短手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "rorsch_mk4",
+      "full_id": "bf1:rorsch_mk4",
+      "name_en": "Rorsch Mk-4",
+      "name_cn": "罗氏 Mk-4 轨道炮",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "scope",
+        "laser",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "rsc1917",
+      "full_id": "bf1:rsc1917",
+      "name_en": "RSC 1917",
+      "name_cn": "RSC 1917 半自动步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "sjogren",
+      "full_id": "bf1:sjogren",
+      "name_en": "Sjögren Inertial",
+      "name_cn": "舍格伦 惯性霰弹枪",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "extended_mag",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "smg0818",
+      "full_id": "bf1:smg0818",
+      "name_en": "SMG08/18",
+      "name_cn": "SMG08/18 冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "sw_model3",
+      "full_id": "bf1:sw_model3",
+      "name_en": "No. 3 Revolver",
+      "name_cn": "3号左轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "syringe",
+      "full_id": "bf1:syringe",
+      "name_en": "Medical Syringe",
+      "name_cn": "医疗用针筒",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "tg1918",
+      "full_id": "bf1:tg1918",
+      "name_en": "Tankgewehr M1918",
+      "name_cn": "M1918 反坦克步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "vg15",
+      "full_id": "bf1:vg15",
+      "name_en": "Volkssturmgewehr 1-5",
+      "name_cn": "VG1-5 人民突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "muzzle",
+        "grip",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "vp1915",
+      "full_id": "bf1:vp1915",
+      "name_en": "Villar·Perosa",
+      "name_cn": "维拉·佩罗萨 冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "welrod",
+      "full_id": "bf1:welrod",
+      "name_en": "Welrod",
+      "name_cn": "威尔洛德 微声手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope"
+      ]
+    },
+    {
+      "id": "wex",
+      "full_id": "bf1:wex",
+      "name_en": "Wex Flamethrower",
+      "name_cn": "Wex 火焰喷射器",
+      "type": "shotgun",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "zk383",
+      "full_id": "bf1:zk383",
+      "name_en": "ZK-383",
+      "name_cn": "ZK-383 冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "extended_mag"
+      ]
+    }
+  ],
+  "attachments": [
+    {
+      "id": "ammo_mod_chauchat",
+      "full_id": "bf1:ammo_mod_chauchat",
+      "name_en": "§eLight Bolt",
+      "name_cn": "§e轻型枪机",
+      "type": "extended_mag"
+    },
+    {
+      "id": "bayonet_general",
+      "full_id": "bf1:bayonet_general",
+      "name_en": "OEM Bayonet",
+      "name_cn": "原厂刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "grip_light_bipods",
+      "full_id": "bf1:grip_light_bipods",
+      "name_en": "OEM Light Bipods",
+      "name_cn": "原厂轻型脚架",
+      "type": "grip"
+    },
+    {
+      "id": "grip_trench_bipods",
+      "full_id": "bf1:grip_trench_bipods",
+      "name_en": "OEM Heavy Bipods",
+      "name_cn": "原厂重型脚架",
+      "type": "grip"
+    },
+    {
+      "id": "laser_integrated",
+      "full_id": "bf1:laser_integrated",
+      "name_en": "§55mW Built-in Laser",
+      "name_cn": "§55毫瓦 内嵌式激光指示器",
+      "type": "laser"
+    },
+    {
+      "id": "marksman_scope",
+      "full_id": "bf1:marksman_scope",
+      "name_en": "§6PPCo 2.5-4x Scope",
+      "name_cn": "§6PPCo 2.5-4x 光学瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "oem_muzzle_choke",
+      "full_id": "bf1:oem_muzzle_choke",
+      "name_en": "OEM Choke",
+      "name_cn": "原厂扼流器",
+      "type": "muzzle"
+    },
+    {
+      "id": "raider_club",
+      "full_id": "bf1:raider_club",
+      "name_en": "§6Trench Raider Club",
+      "name_cn": "§6战壕奇兵棒",
+      "type": "stock"
+    },
+    {
+      "id": "scope_nvk_nxt",
+      "full_id": "bf1:scope_nvk_nxt",
+      "name_en": "§9NVK-NXT 2x Compound Sight",
+      "name_cn": "§9NVK-NXT 2x 复合瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_fusion_holo",
+      "full_id": "bf1:sight_fusion_holo",
+      "name_en": "Fusion Holo",
+      "name_cn": "融合全息准镜",
+      "type": "scope"
+    },
+    {
+      "id": "sight_nydar",
+      "full_id": "bf1:sight_nydar",
+      "name_en": "Nydar Model 47 Reflex Sight",
+      "name_cn": "Nydar M47 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_okp8",
+      "full_id": "bf1:sight_okp8",
+      "name_en": "K8 Holo",
+      "name_cn": "K8 增高 全息准镜",
+      "type": "scope"
+    },
+    {
+      "id": "sight_reflector",
+      "full_id": "bf1:sight_reflector",
+      "name_en": "RAF Reflector Sight",
+      "name_cn": "RAF 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sniper_scope",
+      "full_id": "bf1:sniper_scope",
+      "name_en": "§6PPCo 6-10x Scope",
+      "name_cn": "§6PPCo 6-10x 光学瞄具",
+      "type": "scope"
+    }
+  ]
+}

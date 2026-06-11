@@ -1,0 +1,1235 @@
+{
+  "guns": [
+    {
+      "id": "at_vickers_crawford",
+      "full_id": "lavender:at_vickers_crawford",
+      "name_en": "at_vickers_crawford",
+      "name_cn": "维克斯-克劳福德反载具火箭炮",
+      "type": "rpg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "berreta1915",
+      "full_id": "lavender:berreta1915",
+      "name_en": "berreta1915",
+      "name_cn": "波莱塔M1915半自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "berretam1918",
+      "full_id": "lavender:berretam1918",
+      "name_en": "berretam1918",
+      "name_cn": "列维里波莱塔M1918自动装填步枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "berthier1892",
+      "full_id": "lavender:berthier1892",
+      "name_en": "berthier1892",
+      "name_cn": "Berthier1892贝蒂埃步枪/卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "berthier1916",
+      "full_id": "lavender:berthier1916",
+      "name_en": "berthier1916",
+      "name_cn": "BerthierMle1916贝蒂埃步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "bodeo1889",
+      "full_id": "lavender:bodeo1889",
+      "name_en": "bodeo1889",
+      "name_cn": "博代奥M1889转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "browning1918",
+      "full_id": "lavender:browning1918",
+      "name_en": "browning1918",
+      "name_cn": "勃朗宁M1918自动装填步枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "bulldog",
+      "full_id": "lavender:bulldog",
+      "name_en": "bulldog",
+      "name_cn": "斗牛犬袖珍转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "c93",
+      "full_id": "lavender:c93",
+      "name_en": "c93",
+      "name_cn": "博查特C93自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "c96",
+      "full_id": "lavender:c96",
+      "name_en": "c96",
+      "name_cn": "毛瑟C96手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "carcanom1891",
+      "full_id": "lavender:carcanom1891",
+      "name_en": "carcanom1891",
+      "name_cn": "卡尔卡诺M1891步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "carcanom1891_2",
+      "full_id": "lavender:carcanom1891_2",
+      "name_en": "carcanom1891_2",
+      "name_cn": "卡尔卡诺M1891卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "cei_rigotti",
+      "full_id": "lavender:cei_rigotti",
+      "name_en": "cei_rigotti",
+      "name_cn": "希-瑞戈蒂Cei_Rigotti(全)/半自动装填步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "grip"
+      ]
+    },
+    {
+      "id": "chauchat",
+      "full_id": "lavender:chauchat",
+      "name_en": "chauchat",
+      "name_cn": "绍沙M915轻机枪(改进型)",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "chauchat2",
+      "full_id": "lavender:chauchat2",
+      "name_en": "chauchat2",
+      "name_cn": "绍沙M1915轻机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "christmas2025",
+      "full_id": "lavender:christmas2025",
+      "name_en": "christmas2025",
+      "name_cn": "2025圣诞节彩蛋-圣诞停战夜",
+      "type": "rpg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "darne1912",
+      "full_id": "lavender:darne1912",
+      "name_en": "darne1912",
+      "name_cn": "达恩Darne1912猎枪",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag",
+        "scope"
+      ]
+    },
+    {
+      "id": "enfieldm1917",
+      "full_id": "lavender:enfieldm1917",
+      "name_en": "enfieldm1917",
+      "name_cn": "恩菲尔德P-14步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "enfieldm1917_2",
+      "full_id": "lavender:enfieldm1917_2",
+      "name_en": "enfieldm1917_2",
+      "name_cn": "恩菲尔德P-14卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "enfieldm1917_3",
+      "full_id": "lavender:enfieldm1917_3",
+      "name_en": "enfieldm1917_3",
+      "name_cn": "恩菲尔德M1917步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "enfieldm1917_4",
+      "full_id": "lavender:enfieldm1917_4",
+      "name_en": "enfieldm1917_4",
+      "name_cn": "恩菲尔德M1917卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "farquharhill",
+      "full_id": "lavender:farquharhill",
+      "name_en": "farquharhill",
+      "name_cn": "法夸尔·希尔导气步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "frommer1912",
+      "full_id": "lavender:frommer1912",
+      "name_en": "frommer1912",
+      "name_cn": "菲罗梅尔M1912停止手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "frommer1912_auto",
+      "full_id": "lavender:frommer1912_auto",
+      "name_en": "frommer1912_auto",
+      "name_cn": "菲罗梅尔M1912停止手枪(全自动)",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "gasser1870",
+      "full_id": "lavender:gasser1870",
+      "name_en": "gasser1870",
+      "name_cn": "嘉瑟尔-克罗帕切克M1870转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "gasser1870_2",
+      "full_id": "lavender:gasser1870_2",
+      "name_en": "gasser1870_2",
+      "name_cn": "嘉瑟尔-克罗帕切克M1870/84转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "gewehr98",
+      "full_id": "lavender:gewehr98",
+      "name_en": "gewehr98",
+      "name_cn": "格维尔毛瑟gewehr98步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "gewehr98b",
+      "full_id": "lavender:gewehr98b",
+      "name_en": "gewehr98b",
+      "name_cn": "毛瑟格韦尔98卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "extended_mag",
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "gras1874",
+      "full_id": "lavender:gras1874",
+      "name_en": "gras1874",
+      "name_cn": "格拉斯1874/14步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "grisenti1910",
+      "full_id": "lavender:grisenti1910",
+      "name_en": "grisenti1910",
+      "name_cn": "格里森蒂半自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "hellriegel1915",
+      "full_id": "lavender:hellriegel1915",
+      "name_en": "hellriegel1915",
+      "name_cn": "赫尔里格尔1915水冷冲锋枪(轻机枪型)",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "hellriegel1915_2",
+      "full_id": "lavender:hellriegel1915_2",
+      "name_en": "hellriegel1915_2",
+      "name_cn": "赫尔里格尔1915水冷冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "hotchkiss",
+      "full_id": "lavender:hotchkiss",
+      "name_en": "hotchkiss",
+      "name_cn": "哈奇开斯m1909机枪(輕量化)",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "howell",
+      "full_id": "lavender:howell",
+      "name_en": "howell",
+      "name_cn": "李-恩菲尔德mk3-豪威尔半自动装填型",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "kar98k",
+      "full_id": "lavender:kar98k",
+      "name_en": "kar98k",
+      "name_cn": "kar98k",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "karabiner88",
+      "full_id": "lavender:karabiner88",
+      "name_en": "karabiner88",
+      "name_cn": "M1888/05委员会卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "kropatschek",
+      "full_id": "lavender:kropatschek",
+      "name_en": "kropatschek",
+      "name_cn": "克罗帕斯克M1878步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "lebel",
+      "full_id": "lavender:lebel",
+      "name_en": "lebel",
+      "name_cn": "勒贝尔LebelM1886步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "lebel1893",
+      "full_id": "lavender:lebel1893",
+      "name_en": "lebel1893",
+      "name_cn": "勒贝尔LebelM1886/93(卡宾)",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "lebel_vb",
+      "full_id": "lavender:lebel_vb",
+      "name_en": "lebel_vb",
+      "name_cn": "维文-贝希耶尔(VB)枪榴弹发射器",
+      "type": "rpg",
+      "allow_attachment_types": [
+        "scope"
+      ]
+    },
+    {
+      "id": "lee_metford",
+      "full_id": "lavender:lee_metford",
+      "name_en": "lee_metford",
+      "name_cn": "李-梅特福步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "lewis",
+      "full_id": "lavender:lewis",
+      "name_en": "lewis",
+      "name_cn": "刘易斯式轻机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "m1879",
+      "full_id": "lavender:m1879",
+      "name_en": "m1879",
+      "name_cn": "M1879帝国转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "m1883",
+      "full_id": "lavender:m1883",
+      "name_en": "m1883",
+      "name_cn": "M1883转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "m1883_2",
+      "full_id": "lavender:m1883_2",
+      "name_en": "m1883_2",
+      "name_cn": "M1883转轮手枪(加长)",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "m1888",
+      "full_id": "lavender:m1888",
+      "name_en": "m1888",
+      "name_cn": "M1888/05委员会步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "m1914ruby",
+      "full_id": "lavender:m1914ruby",
+      "name_en": "m1914ruby",
+      "name_cn": "M1914Ruby红宝石手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "m1917carbin",
+      "full_id": "lavender:m1917carbin",
+      "name_en": "m1917carbin",
+      "name_cn": "毛瑟C96卡宾枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "m1918",
+      "full_id": "lavender:m1918",
+      "name_en": "m1918",
+      "name_cn": "毛瑟M1918反坦克步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "mannlicher_schonauer",
+      "full_id": "lavender:mannlicher_schonauer",
+      "name_en": "mannlicher_schonauer",
+      "name_cn": "曼利夏-舍瑙尔Y1903/14步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "mannlicher_schonauer_2",
+      "full_id": "lavender:mannlicher_schonauer_2",
+      "name_en": "mannlicher_schonauer_2",
+      "name_cn": "曼利夏-舍瑙尔Y1903/14卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "mannlicherm1888",
+      "full_id": "lavender:mannlicherm1888",
+      "name_en": "mannlicherm1888",
+      "name_cn": "斯太尔-曼利彻M1888/90步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "mars",
+      "full_id": "lavender:mars",
+      "name_en": "mars",
+      "name_cn": "韦伯利—马鲁斯半自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "martini",
+      "full_id": "lavender:martini",
+      "name_en": "martini",
+      "name_cn": "马提尼-亨利杠杆步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "martinm1905",
+      "full_id": "lavender:martinm1905",
+      "name_en": "martinm1905",
+      "name_cn": "伯纳德-马丁M1905型手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "mas1873",
+      "full_id": "lavender:mas1873",
+      "name_en": "mas1873",
+      "name_cn": "圣埃蒂安'夏梅洛-德尔维涅'Mas1873右轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "mas1892",
+      "full_id": "lavender:mas1892",
+      "name_en": "mas1892",
+      "name_cn": "圣埃蒂安Mas1892右轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "mas1892c",
+      "full_id": "lavender:mas1892c",
+      "name_en": "mas1892c",
+      "name_cn": "圣埃蒂安Mas1892右轮手枪(加長)",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "mauser1914",
+      "full_id": "lavender:mauser1914",
+      "name_en": "mauser1914",
+      "name_cn": "毛瑟1914手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "mauserselbstladerm1916",
+      "full_id": "lavender:mauserselbstladerm1916",
+      "name_en": "mauserselbstladerm1916",
+      "name_cn": "selbstlader毛瑟m1916半自动装填步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "scope",
+        "grip"
+      ]
+    },
+    {
+      "id": "meunier1910",
+      "full_id": "lavender:meunier1910",
+      "name_en": "meunier1910",
+      "name_cn": "Meunier梅尼耶尔1910A6半自动装填步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "grip"
+      ]
+    },
+    {
+      "id": "mg0815",
+      "full_id": "lavender:mg0815",
+      "name_en": "mg0815",
+      "name_cn": "伯格曼MG08/15重型机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "mg1417",
+      "full_id": "lavender:mg1417",
+      "name_en": "mg1417",
+      "name_cn": "伯格曼MG14/17轻型机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "mg15na",
+      "full_id": "lavender:mg15na",
+      "name_en": "mg15na",
+      "name_cn": "伯格曼MG15N.a轻机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "mosin1891",
+      "full_id": "lavender:mosin1891",
+      "name_en": "mosin1891",
+      "name_cn": "莫辛-纳甘M1891步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "mosin1907",
+      "full_id": "lavender:mosin1907",
+      "name_en": "mosin1907",
+      "name_cn": "莫辛-纳甘M1907卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "mosin_dra",
+      "full_id": "lavender:mosin_dra",
+      "name_en": "mosin_dra",
+      "name_cn": "莫辛-纳甘骑枪(龙骑兵型)",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "mp18",
+      "full_id": "lavender:mp18",
+      "name_en": "mp18",
+      "name_cn": "伯格曼Mp18冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "nagant1895",
+      "full_id": "lavender:nagant1895",
+      "name_en": "nagant1895",
+      "name_cn": "纳甘M1895转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "obrez",
+      "full_id": "lavender:obrez",
+      "name_en": "obrez",
+      "name_cn": "Obrez莫辛纳甘截短手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "ovp_smg",
+      "full_id": "lavender:ovp_smg",
+      "name_en": "ovp_smg",
+      "name_cn": "ovp自动装填冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "p08",
+      "full_id": "lavender:p08",
+      "name_en": "p08",
+      "name_cn": "鲁格P08手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "p082",
+      "full_id": "lavender:p082",
+      "name_en": "p082",
+      "name_cn": "鲁格P08載具卡賓槍",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "perino1908",
+      "full_id": "lavender:perino1908",
+      "name_en": "perino1908",
+      "name_cn": "佩里诺m1908重机枪(轻量化)",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "ribeyrolles1918",
+      "full_id": "lavender:ribeyrolles1918",
+      "name_en": "ribeyrolles1918",
+      "name_cn": "利贝罗勒M1918自动装填步枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "rsc",
+      "full_id": "lavender:rsc",
+      "name_en": "rsc",
+      "name_cn": "RSC1917半自动装填步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "rsc2",
+      "full_id": "lavender:rsc2",
+      "name_en": "rsc2",
+      "name_cn": "RSC冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "schilt",
+      "full_id": "lavender:schilt",
+      "name_en": "schilt",
+      "name_cn": "希尔特No.3bis火焰喷射器(轻量化)",
+      "type": "rpg",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "selbstladerc98",
+      "full_id": "lavender:selbstladerc98",
+      "name_en": "selbstladerc98",
+      "name_cn": "Mauser毛瑟C98半自动步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "grip"
+      ]
+    },
+    {
+      "id": "selbstladerm1906",
+      "full_id": "lavender:selbstladerm1906",
+      "name_en": "selbstladerm1906",
+      "name_cn": "selbstlader鲁格m1906半自动装填步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "grip"
+      ]
+    },
+    {
+      "id": "signal_gun",
+      "full_id": "lavender:signal_gun",
+      "name_en": "signal_gun",
+      "name_cn": "信号枪",
+      "type": "rpg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "smle_iii",
+      "full_id": "lavender:smle_iii",
+      "name_en": "smle_iii",
+      "name_cn": "Smle_MkIII/Lee.Enfield李.恩菲尔德步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "smle_iii_2",
+      "full_id": "lavender:smle_iii_2",
+      "name_en": "smle_iii_2",
+      "name_cn": "Smle_MkIII/Lee.Enfield李.恩菲尔德卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "star",
+      "full_id": "lavender:star",
+      "name_en": "star",
+      "name_cn": "超级明星-半自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "steyr1901",
+      "full_id": "lavender:steyr1901",
+      "name_en": "steyr1901",
+      "name_cn": "罗斯-斯太尔M1901半自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "steyr1907",
+      "full_id": "lavender:steyr1907",
+      "name_en": "steyr1907",
+      "name_cn": "罗斯-斯太尔M1907半自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "steyr1912",
+      "full_id": "lavender:steyr1912",
+      "name_en": "steyr1912",
+      "name_cn": "罗斯-斯太尔M1912半自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "steyr1912_trench",
+      "full_id": "lavender:steyr1912_trench",
+      "name_en": "steyr1912_trench",
+      "name_cn": "罗斯-斯太尔M1912半自动手枪(战壕)",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "steyrmannlicherm1895",
+      "full_id": "lavender:steyrmannlicherm1895",
+      "name_en": "steyrmannlicherm1895",
+      "name_cn": "斯太尔-曼利彻M1895式步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "steyrmannlicherm1895_2",
+      "full_id": "lavender:steyrmannlicherm1895_2",
+      "name_en": "steyrmannlicherm1895_2",
+      "name_cn": "斯太尔-曼利彻M1895卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "steyrmannlicherm1905",
+      "full_id": "lavender:steyrmannlicherm1905",
+      "name_en": "steyrmannlicherm1905",
+      "name_cn": "斯太尔-曼利彻M1905式实验性半自动步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "sturmpistole1918",
+      "full_id": "lavender:sturmpistole1918",
+      "name_en": "sturmpistole1918",
+      "name_cn": "sturmpistole1918(轻量化)",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "vetterli1870",
+      "full_id": "lavender:vetterli1870",
+      "name_en": "vetterli1870",
+      "name_cn": "维特利M1870/87步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "vetterli1887",
+      "full_id": "lavender:vetterli1887",
+      "name_en": "vetterli1887",
+      "name_cn": "维特利M1870/87/15卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    },
+    {
+      "id": "viller_perosa",
+      "full_id": "lavender:viller_perosa",
+      "name_en": "viller_perosa",
+      "name_cn": "维勒佩洛萨M1915轻机枪(冲锋枪)",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "webleymk1",
+      "full_id": "lavender:webleymk1",
+      "name_en": "webleymk1",
+      "name_cn": "韦伯利斯科特MK I 自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "webleymk6",
+      "full_id": "lavender:webleymk6",
+      "name_en": "webleymk6",
+      "name_cn": "韦伯利MK VI 转轮手枪",
+      "type": "pistol",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "wex",
+      "full_id": "lavender:wex",
+      "name_en": "wex",
+      "name_cn": "WEX火焰喷射器",
+      "type": "rpg",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "whistle",
+      "full_id": "lavender:whistle",
+      "name_en": "whistle",
+      "name_cn": "战壕哨(催命哨)",
+      "type": "rpg",
+      "allow_attachment_types": [
+        "scope"
+      ]
+    },
+    {
+      "id": "winchester1895",
+      "full_id": "lavender:winchester1895",
+      "name_en": "winchester1895",
+      "name_cn": "温彻斯特M1895杠杆步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip"
+      ]
+    }
+  ],
+  "attachments": [
+    {
+      "id": "carcano_bayonet",
+      "full_id": "lavender:carcano_bayonet",
+      "name_en": "carcano_bayonet",
+      "name_cn": "卡尔卡诺m1891步枪刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "g98_bayonet",
+      "full_id": "lavender:g98_bayonet",
+      "name_en": "g98_bayonet",
+      "name_cn": "Gewehr98步枪羽背刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "lebel_bayonet",
+      "full_id": "lavender:lebel_bayonet",
+      "name_en": "lebel_bayonet",
+      "name_cn": "LebelM1886步枪林白棱刺刃",
+      "type": "muzzle"
+    },
+    {
+      "id": "mannlicher_bayonet",
+      "full_id": "lavender:mannlicher_bayonet",
+      "name_en": "mannlicher_bayonet",
+      "name_cn": "曼利彻gewehr95刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "martini_bayonet",
+      "full_id": "lavender:martini_bayonet",
+      "name_en": "martini_bayonet",
+      "name_cn": "恩菲尔德马提尼P1885刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "mosin_bayonet",
+      "full_id": "lavender:mosin_bayonet",
+      "name_en": "mosin_bayonet",
+      "name_cn": "莫辛纳甘M91刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "mp18_bayonet",
+      "full_id": "lavender:mp18_bayonet",
+      "name_en": "mp18_bayonet",
+      "name_cn": "伯格曼Mp18刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "scope_lmgs_x2",
+      "full_id": "lavender:scope_lmgs_x2",
+      "name_en": "scope_lmgs_x2",
+      "name_cn": "轻机枪2倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x3",
+      "full_id": "lavender:scope_rifles_x3",
+      "name_en": "scope_rifles_x3",
+      "name_cn": "直式制式步枪3倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x3_2",
+      "full_id": "lavender:scope_rifles_x3_2",
+      "name_en": "scope_rifles_x3_2",
+      "name_cn": "斜式制式步枪3倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x4",
+      "full_id": "lavender:scope_rifles_x4",
+      "name_en": "scope_rifles_x4",
+      "name_cn": "直式制式步枪4倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x4_2",
+      "full_id": "lavender:scope_rifles_x4_2",
+      "name_en": "scope_rifles_x4_2",
+      "name_cn": "斜式制式步枪4倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x6",
+      "full_id": "lavender:scope_rifles_x6",
+      "name_en": "scope_rifles_x6",
+      "name_cn": "直式制式步枪6倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x6_2",
+      "full_id": "lavender:scope_rifles_x6_2",
+      "name_en": "scope_rifles_x6_2",
+      "name_cn": "斜式制式步枪6倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x8",
+      "full_id": "lavender:scope_rifles_x8",
+      "name_en": "scope_rifles_x8",
+      "name_cn": "直式制式步枪8倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_rifles_x8_2",
+      "full_id": "lavender:scope_rifles_x8_2",
+      "name_en": "scope_rifles_x8_2",
+      "name_cn": "斜式制式步枪8倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "semi_rifles_scope_x2",
+      "full_id": "lavender:semi_rifles_scope_x2",
+      "name_en": "semi_rifles_scope_x2",
+      "name_cn": "半自动步枪/SMG2倍瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "smle_bayonet",
+      "full_id": "lavender:smle_bayonet",
+      "name_en": "smle_bayonet",
+      "name_cn": "恩菲尔德M1907刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "sniper_bracket",
+      "full_id": "lavender:sniper_bracket",
+      "name_en": "sniper_bracket",
+      "name_cn": "狙击型步枪支架",
+      "type": "grip"
+    }
+  ]
+}

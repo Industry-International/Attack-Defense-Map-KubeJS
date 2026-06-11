@@ -1,0 +1,1277 @@
+{
+  "guns": [
+    {
+      "id": "aa12",
+      "full_id": "tacz:aa12",
+      "name_en": "AA12 Shotgun",
+      "name_cn": "AA12 霰弹枪",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "scope",
+        "extended_mag",
+        "grip",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "ai_awp",
+      "full_id": "tacz:ai_awp",
+      "name_en": "Accuracy International AWM",
+      "name_cn": "精密国际 AWM 狙击步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "extended_mag",
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "ak47",
+      "full_id": "tacz:ak47",
+      "name_en": "AKM",
+      "name_cn": "AKM 突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "aug",
+      "full_id": "tacz:aug",
+      "name_en": "AUG",
+      "name_cn": "AUG 突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "b93r",
+      "full_id": "tacz:b93r",
+      "name_en": "B93R",
+      "name_cn": "B93R 冲锋手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "muzzle",
+        "scope",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "cz75",
+      "full_id": "tacz:cz75",
+      "name_en": "CZ 75",
+      "name_cn": "CZ 75 自动手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "db_long",
+      "full_id": "tacz:db_long",
+      "name_en": "DB-4 Ursus",
+      "name_cn": "DB-4 乌萨斯",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "db_short",
+      "full_id": "tacz:db_short",
+      "name_en": "DB-2 Durin",
+      "name_cn": "DB-2 杜林人",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "stock",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "deagle",
+      "full_id": "tacz:deagle",
+      "name_en": "Deagle 50",
+      "name_cn": ".50 沙漠之鹰",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "deagle_golden",
+      "full_id": "tacz:deagle_golden",
+      "name_en": "Golden Deagle 357",
+      "name_cn": ".357 黄金沙漠之鹰",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "fn_evolys",
+      "full_id": "tacz:fn_evolys",
+      "name_en": "FN EVOLYS Machine Gun",
+      "name_cn": "FN EVOLYS 机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "stock"
+      ]
+    },
+    {
+      "id": "fn_fal",
+      "full_id": "tacz:fn_fal",
+      "name_en": "FN FAL Battle Rifle",
+      "name_cn": "FN FAL 战斗步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "laser",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "g36k",
+      "full_id": "tacz:g36k",
+      "name_en": "G36K",
+      "name_cn": "G36K 突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "glock_17",
+      "full_id": "tacz:glock_17",
+      "name_en": "Glock 17",
+      "name_cn": "格洛克 17 手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "hk416d",
+      "full_id": "tacz:hk416d",
+      "name_en": "HK-416D",
+      "name_cn": "HK-416A5 突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "hk_g3",
+      "full_id": "tacz:hk_g3",
+      "name_en": "HK G3 Battle rifle",
+      "name_cn": "G3 战斗步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "hk_mp5a5",
+      "full_id": "tacz:hk_mp5a5",
+      "name_en": "HK-MP5A5",
+      "name_cn": "MP5A5 冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "m1014",
+      "full_id": "tacz:m1014",
+      "name_en": "M1014 Battle Shotgun",
+      "name_cn": "M1014 战斗霰弹枪",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "muzzle",
+        "scope",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "m107",
+      "full_id": "tacz:m107",
+      "name_en": "M107 Sniper Rifle",
+      "name_cn": "M107 .50口径反器材步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "scope",
+        "extended_mag",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "m16a1",
+      "full_id": "tacz:m16a1",
+      "name_en": "M16A1 Service Rifle",
+      "name_cn": "M16A1 制式步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag",
+        "scope"
+      ]
+    },
+    {
+      "id": "m16a4",
+      "full_id": "tacz:m16a4",
+      "name_en": "M16A4 Service Rifle",
+      "name_cn": "M16A4 制式步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag",
+        "scope",
+        "grip",
+        "stock",
+        "laser"
+      ]
+    },
+    {
+      "id": "m1911",
+      "full_id": "tacz:m1911",
+      "name_en": "M1911",
+      "name_cn": "M1911 手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "m249",
+      "full_id": "tacz:m249",
+      "name_en": "M249 Machine Gun",
+      "name_cn": "M249 机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "m320",
+      "full_id": "tacz:m320",
+      "name_en": "M320 Grenade Launcher",
+      "name_cn": "M320 榴弹发射器",
+      "type": "rpg",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "m4a1",
+      "full_id": "tacz:m4a1",
+      "name_en": "M4A1 Carbine",
+      "name_cn": "M4A1 卡宾枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "laser",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "m700",
+      "full_id": "tacz:m700",
+      "name_en": "M700 Sniper Rifle",
+      "name_cn": "M700 狙击步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "extended_mag",
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "m870",
+      "full_id": "tacz:m870",
+      "name_en": "M870",
+      "name_cn": "M870 霰弹枪",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "extended_mag",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "m95",
+      "full_id": "tacz:m95",
+      "name_en": "M95 .50 Cal Antimaterial",
+      "name_cn": "M95 .50口径反器材步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "scope",
+        "extended_mag",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "minigun",
+      "full_id": "tacz:minigun",
+      "name_en": "M134 Minigun",
+      "name_cn": "M134 转管机枪",
+      "type": "mg",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "mk14",
+      "full_id": "tacz:mk14",
+      "name_en": "MK14 EBR",
+      "name_cn": "MK14 EBR 精确射手步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "p320",
+      "full_id": "tacz:p320",
+      "name_en": "P320",
+      "name_cn": "P320 手枪",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "p90",
+      "full_id": "tacz:p90",
+      "name_en": "P90 PDW",
+      "name_cn": "P90 冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "laser"
+      ]
+    },
+    {
+      "id": "qbz_191",
+      "full_id": "tacz:qbz_191",
+      "name_en": "QBZ-191 Assault Rifle",
+      "name_cn": "191式 突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag",
+        "scope",
+        "grip",
+        "laser",
+        "stock"
+      ]
+    },
+    {
+      "id": "qbz_95",
+      "full_id": "tacz:qbz_95",
+      "name_en": "QBZ-95 \"Longbow\"",
+      "name_cn": "95式 \"长弓\" 突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag",
+        "scope",
+        "grip",
+        "laser"
+      ]
+    },
+    {
+      "id": "rpg7",
+      "full_id": "tacz:rpg7",
+      "name_en": "RPG-7",
+      "name_cn": "RPG-7 火箭筒",
+      "type": "rpg",
+      "allow_attachment_types": []
+    },
+    {
+      "id": "rpk",
+      "full_id": "tacz:rpk",
+      "name_en": "RPK",
+      "name_cn": "RPK 轻机枪",
+      "type": "mg",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "scar_h",
+      "full_id": "tacz:scar_h",
+      "name_en": "SCAR-H Battle Rifle",
+      "name_cn": "SCAR-H 战斗步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "scar_l",
+      "full_id": "tacz:scar_l",
+      "name_en": "SCAR-L Assault Rifle",
+      "name_cn": "SCAR-L 突击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "sks_tactical",
+      "full_id": "tacz:sks_tactical",
+      "name_en": "Sks Tactical Rifle",
+      "name_cn": "SKS 战术步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "spas_12",
+      "full_id": "tacz:spas_12",
+      "name_en": "SPAS-12 Multi-purpose Shotgun",
+      "name_cn": "SPAS-12 多功能霰弹枪",
+      "type": "shotgun",
+      "allow_attachment_types": [
+        "extended_mag",
+        "stock",
+        "scope",
+        "muzzle"
+      ]
+    },
+    {
+      "id": "spr15hb",
+      "full_id": "tacz:spr15hb",
+      "name_en": "SPR-15 HB \"Sagittarius\"",
+      "name_cn": "SPR-15 HB “射手座” 反狙击步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag",
+        "scope",
+        "grip",
+        "stock"
+      ]
+    },
+    {
+      "id": "springfield1873",
+      "full_id": "tacz:springfield1873",
+      "name_en": "Springfield 1873 Trapdoor Rifle",
+      "name_cn": "春田 1873 活门步枪",
+      "type": "sniper",
+      "allow_attachment_types": [
+        "scope",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "timeless50",
+      "full_id": "tacz:timeless50",
+      "name_en": "§6Timeless .50 Z-Type",
+      "name_cn": "§6永恒 .50 Z型",
+      "type": "pistol",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "type_81",
+      "full_id": "tacz:type_81",
+      "name_en": "Type 81-1 Service Rifle",
+      "name_cn": "81-1式 制式步枪",
+      "type": "rifle",
+      "allow_attachment_types": [
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "ump45",
+      "full_id": "tacz:ump45",
+      "name_en": "UMP45 SMG",
+      "name_cn": "UMP45 冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "grip",
+        "extended_mag",
+        "laser"
+      ]
+    },
+    {
+      "id": "uzi",
+      "full_id": "tacz:uzi",
+      "name_en": "UZI",
+      "name_cn": "乌兹冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "muzzle",
+        "extended_mag"
+      ]
+    },
+    {
+      "id": "vector45",
+      "full_id": "tacz:vector45",
+      "name_en": "Vector SMG",
+      "name_cn": "维克托 冲锋枪",
+      "type": "smg",
+      "allow_attachment_types": [
+        "scope",
+        "stock",
+        "grip",
+        "muzzle",
+        "laser",
+        "extended_mag"
+      ]
+    }
+  ],
+  "attachments": [
+    {
+      "id": "ammo_mod_fmj",
+      "full_id": "tacz:ammo_mod_fmj",
+      "name_en": "§eFull Metal Jacket Ammo",
+      "name_cn": "§e全金属被甲弹",
+      "type": "extended_mag"
+    },
+    {
+      "id": "ammo_mod_he",
+      "full_id": "tacz:ammo_mod_he",
+      "name_en": "§eHigh Explosive Ammo",
+      "name_cn": "§e高爆弹",
+      "type": "extended_mag"
+    },
+    {
+      "id": "ammo_mod_hp",
+      "full_id": "tacz:ammo_mod_hp",
+      "name_en": "§eHollow-Point Ammo",
+      "name_cn": "§e空尖弹",
+      "type": "extended_mag"
+    },
+    {
+      "id": "ammo_mod_i",
+      "full_id": "tacz:ammo_mod_i",
+      "name_en": "§eIncendiary Ammo",
+      "name_cn": "§e燃烧弹",
+      "type": "extended_mag"
+    },
+    {
+      "id": "ammo_mod_slug",
+      "full_id": "tacz:ammo_mod_slug",
+      "name_en": "§eShotgun Slug",
+      "name_cn": "§e独头弹",
+      "type": "extended_mag"
+    },
+    {
+      "id": "bayonet_6h3",
+      "full_id": "tacz:bayonet_6h3",
+      "name_en": "6H3 Bayonet",
+      "name_cn": "6H3 刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "bayonet_m9",
+      "full_id": "tacz:bayonet_m9",
+      "name_en": "M9 Bayonet",
+      "name_cn": "M9 刺刀",
+      "type": "muzzle"
+    },
+    {
+      "id": "deagle_golden_long_barrel",
+      "full_id": "tacz:deagle_golden_long_barrel",
+      "name_en": ".357 Golden Deagle Long Barrel",
+      "name_cn": ".357 黄金沙漠之鹰加长枪管",
+      "type": "muzzle"
+    },
+    {
+      "id": "extended_mag_1",
+      "full_id": "tacz:extended_mag_1",
+      "name_en": "Heavy Ammo Extended Mag",
+      "name_cn": "重型弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "extended_mag_2",
+      "full_id": "tacz:extended_mag_2",
+      "name_en": "§9Heavy Ammo Extended Mag",
+      "name_cn": "§9重型弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "extended_mag_3",
+      "full_id": "tacz:extended_mag_3",
+      "name_en": "§dHeavy Ammo Extended Mag",
+      "name_cn": "§d重型弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "grip_cobra",
+      "full_id": "tacz:grip_cobra",
+      "name_en": "SI Grip",
+      "name_cn": "SI 三角阻手",
+      "type": "grip"
+    },
+    {
+      "id": "grip_cqr",
+      "full_id": "tacz:grip_cqr",
+      "name_en": "Hera Arms CQR Grip",
+      "name_cn": "CQR 战术握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_magpul_afg_2",
+      "full_id": "tacz:grip_magpul_afg_2",
+      "name_en": "Talon AFG1 Handstop",
+      "name_cn": "塔伦 AFG2 阻手",
+      "type": "grip"
+    },
+    {
+      "id": "grip_osovets_black",
+      "full_id": "tacz:grip_osovets_black",
+      "name_en": "P-2 Grip",
+      "name_cn": "P-2 战术垂直握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_rk0",
+      "full_id": "tacz:grip_rk0",
+      "name_en": "RK-0 Grip",
+      "name_cn": "RK-0 垂直握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_rk1_b25u",
+      "full_id": "tacz:grip_rk1_b25u",
+      "name_en": "RK-1 B25U Grip",
+      "name_cn": "RK-1 斜握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_rk6",
+      "full_id": "tacz:grip_rk6",
+      "name_en": "RK-6 Grip",
+      "name_cn": "RK-6 轻型阻手",
+      "type": "grip"
+    },
+    {
+      "id": "grip_se_5",
+      "full_id": "tacz:grip_se_5",
+      "name_en": "SE-5 Express Grip",
+      "name_cn": "SE-5 斜握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_td",
+      "full_id": "tacz:grip_td",
+      "name_en": "TD Grip",
+      "name_cn": "TD 骷髅斜握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_vertical_military",
+      "full_id": "tacz:grip_vertical_military",
+      "name_en": "Nagoma Military Standard Grip",
+      "name_cn": "名驹 军用制式握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_vertical_ranger",
+      "full_id": "tacz:grip_vertical_ranger",
+      "name_en": "Koch Ranger Heavy Grip",
+      "name_cn": "科赫 游骑兵重型握把",
+      "type": "grip"
+    },
+    {
+      "id": "grip_vertical_talon",
+      "full_id": "tacz:grip_vertical_talon",
+      "name_en": "Talon SG2 Grip",
+      "name_cn": "塔伦 SG2 前握把",
+      "type": "grip"
+    },
+    {
+      "id": "laser_compact",
+      "full_id": "tacz:laser_compact",
+      "name_en": "§aMilitech Compact Laser",
+      "name_cn": "§a米利泰克 小型激光指示器",
+      "type": "laser"
+    },
+    {
+      "id": "laser_lopro",
+      "full_id": "tacz:laser_lopro",
+      "name_en": "§5Lopro Tactical Laser",
+      "name_cn": "§5低姿战术激光指示器",
+      "type": "laser"
+    },
+    {
+      "id": "laser_nightstick",
+      "full_id": "tacz:laser_nightstick",
+      "name_en": "§aNightstick Compact laser",
+      "name_cn": "§a夜槌 便携式激光指示器",
+      "type": "laser"
+    },
+    {
+      "id": "laser_peq15",
+      "full_id": "tacz:laser_peq15",
+      "name_en": "laser_peq15",
+      "name_cn": "laser_peq15",
+      "type": "laser"
+    },
+    {
+      "id": "light_extended_mag_1",
+      "full_id": "tacz:light_extended_mag_1",
+      "name_en": "Light Ammo Extended mag",
+      "name_cn": "轻型弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "light_extended_mag_2",
+      "full_id": "tacz:light_extended_mag_2",
+      "name_en": "§9Light Ammo Extended mag",
+      "name_cn": "§9轻型弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "light_extended_mag_3",
+      "full_id": "tacz:light_extended_mag_3",
+      "name_en": "§dLight Ammo Extended mag",
+      "name_cn": "§d轻型弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "muzzle_brake_cthulhu",
+      "full_id": "tacz:muzzle_brake_cthulhu",
+      "name_en": "Cthulhu K7 Brake",
+      "name_cn": "克苏鲁 K7 制退器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_brake_cyclone_d2",
+      "full_id": "tacz:muzzle_brake_cyclone_d2",
+      "name_en": "Cyclone D2 Brake",
+      "name_cn": "气旋 D2 枪口制退器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_brake_mastiff_sg",
+      "full_id": "tacz:muzzle_brake_mastiff_sg",
+      "name_en": "Mastiff Shotgun Muzzle Brake",
+      "name_cn": "獒犬 制退器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_brake_pioneer",
+      "full_id": "tacz:muzzle_brake_pioneer",
+      "name_en": "Pioneer A3 Brake",
+      "name_cn": "先锋 A3 制退器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_brake_timeless50",
+      "full_id": "tacz:muzzle_brake_timeless50",
+      "name_en": "§6Timeless .50 Cal Brake",
+      "name_cn": "§6永恒 .50口径制退器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_brake_trex",
+      "full_id": "tacz:muzzle_brake_trex",
+      "name_en": "T-Rex Heavy Brake",
+      "name_cn": "霸王龙 重型制退器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_choke_sg",
+      "full_id": "tacz:muzzle_choke_sg",
+      "name_en": "Shotgun Choke",
+      "name_cn": "扼流器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_compensator_trident",
+      "full_id": "tacz:muzzle_compensator_trident",
+      "name_en": "Tempest Trident Compensator",
+      "name_cn": "风暴 三叉戟 枪口补偿器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_silencer_knight_qd",
+      "full_id": "tacz:muzzle_silencer_knight_qd",
+      "name_en": "Knight QD Silencer",
+      "name_cn": "骑士快拆消音器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_silencer_mirage",
+      "full_id": "tacz:muzzle_silencer_mirage",
+      "name_en": "Mirage Silencer",
+      "name_cn": "幻象 手枪消音器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_silencer_phantom_s1",
+      "full_id": "tacz:muzzle_silencer_phantom_s1",
+      "name_en": "Phantom S1 Silencer",
+      "name_cn": "幽影 S1 消音器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_silencer_ptilopsis",
+      "full_id": "tacz:muzzle_silencer_ptilopsis",
+      "name_en": "PO-2 \"Ptilopsis\" Silencer",
+      "name_cn": "PO-2 \"白面鸮\" 手枪消音器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_silencer_sg",
+      "full_id": "tacz:muzzle_silencer_sg",
+      "name_en": "12 Gauge Silencer",
+      "name_cn": "12号口径消音器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_silencer_ursus",
+      "full_id": "tacz:muzzle_silencer_ursus",
+      "name_en": "Ursus Military Standard Silencer",
+      "name_cn": "乌萨斯制式消音器",
+      "type": "muzzle"
+    },
+    {
+      "id": "muzzle_silencer_vulture",
+      "full_id": "tacz:muzzle_silencer_vulture",
+      "name_en": "Vulture .50 Cal Suppressor",
+      "name_cn": "秃鹫.50口径消音器",
+      "type": "muzzle"
+    },
+    {
+      "id": "oem_stock_heavy",
+      "full_id": "tacz:oem_stock_heavy",
+      "name_en": "Factory Issued Heavy Stock",
+      "name_cn": "原厂重型枪托",
+      "type": "stock"
+    },
+    {
+      "id": "oem_stock_light",
+      "full_id": "tacz:oem_stock_light",
+      "name_en": "Factory Issued light Stock",
+      "name_cn": "原厂轻型枪托",
+      "type": "stock"
+    },
+    {
+      "id": "oem_stock_tactical",
+      "full_id": "tacz:oem_stock_tactical",
+      "name_en": "Factory Issued Tactical Stock",
+      "name_cn": "原厂战术枪托",
+      "type": "stock"
+    },
+    {
+      "id": "scope_1873_6x",
+      "full_id": "tacz:scope_1873_6x",
+      "name_en": "§5Vintage Springfield Scope",
+      "name_cn": "§5老式 春田神射手瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_acog_ta31",
+      "full_id": "tacz:scope_acog_ta31",
+      "name_en": "§9TA31 2x ACOG",
+      "name_cn": "§9TA31 2x 先进战斗光学瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_aug_default",
+      "full_id": "tacz:scope_aug_default",
+      "name_en": "AUG Builtin Scope",
+      "name_cn": "AUG 内置瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_contender",
+      "full_id": "tacz:scope_contender",
+      "name_en": "§9Contender 4x Scope",
+      "name_cn": "§9竞技者 4x 光学瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_elcan_4x",
+      "full_id": "tacz:scope_elcan_4x",
+      "name_en": "§5Elcan 4x Scope",
+      "name_cn": "§5埃尔坎 4x 光学瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_hamr",
+      "full_id": "tacz:scope_hamr",
+      "name_en": "§5HAMR 3x Scope",
+      "name_cn": "§5HAMR 3x 组合式光学瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_lpvo_1_6",
+      "full_id": "tacz:scope_lpvo_1_6",
+      "name_en": "§5LPVO 1-6x Scope ",
+      "name_cn": "§5LPVO 1-6倍瞄具 ",
+      "type": "scope"
+    },
+    {
+      "id": "scope_mk5hd",
+      "full_id": "tacz:scope_mk5hd",
+      "name_en": "§6Mark 5 HD 5-25x Scope",
+      "name_cn": "§6Mark 5 HD 5-25x 组合式光学瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_qmk152",
+      "full_id": "tacz:scope_qmk152",
+      "name_en": "§5QMK-152 3x White Light Sight",
+      "name_cn": "§5QMK-152 3x 白光瞄准镜",
+      "type": "scope"
+    },
+    {
+      "id": "scope_retro_2x",
+      "full_id": "tacz:scope_retro_2x",
+      "name_en": "§9Retro 3x Scope",
+      "name_cn": "§93x 光学瞄具\"复古\"",
+      "type": "scope"
+    },
+    {
+      "id": "scope_standard_8x",
+      "full_id": "tacz:scope_standard_8x",
+      "name_en": "§6Scout 4-10x Scope",
+      "name_cn": "§6斥候 4-10x 光学瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "scope_vudu",
+      "full_id": "tacz:scope_vudu",
+      "name_en": "§6Vudu 1-6x Scope",
+      "name_cn": "§6巫毒 1-6x 组合式精确瞄准镜",
+      "type": "scope"
+    },
+    {
+      "id": "shotgun_extended_mag_1",
+      "full_id": "tacz:shotgun_extended_mag_1",
+      "name_en": "Shotgun Ammo Extended Mag",
+      "name_cn": "霰弹弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "shotgun_extended_mag_2",
+      "full_id": "tacz:shotgun_extended_mag_2",
+      "name_en": "§9Shotgun Ammo Extended Mag",
+      "name_cn": "§9霰弹弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "shotgun_extended_mag_3",
+      "full_id": "tacz:shotgun_extended_mag_3",
+      "name_en": "§dShotgun Ammo Extended Mag",
+      "name_cn": "§d霰弹弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "sight_552",
+      "full_id": "tacz:sight_552",
+      "name_en": "§9Militech 552 HCOG",
+      "name_cn": "§9EOTECH 552全息瞄具 ",
+      "type": "scope"
+    },
+    {
+      "id": "sight_acro_pistol",
+      "full_id": "tacz:sight_acro_pistol",
+      "name_en": "Aimpoint ACRO P-1 Sight",
+      "name_cn": "ACRO P-1 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_acro_rifle",
+      "full_id": "tacz:sight_acro_rifle",
+      "name_en": "Aimpoint ACRO P-1 Sight Rised",
+      "name_cn": "ACRO P-1 增高 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_coyote",
+      "full_id": "tacz:sight_coyote",
+      "name_en": "Coyote Sight",
+      "name_cn": "Coyote 红点瞄准镜",
+      "type": "scope"
+    },
+    {
+      "id": "sight_deltapoint_pistol",
+      "full_id": "tacz:sight_deltapoint_pistol",
+      "name_en": "DeltaPoint Sight",
+      "name_cn": "DeltaPoint 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_deltapoint_rifle",
+      "full_id": "tacz:sight_deltapoint_rifle",
+      "name_en": "DeltaPoint Sight Rised",
+      "name_cn": "DeltaPoint 增高 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_exp3",
+      "full_id": "tacz:sight_exp3",
+      "name_en": "§9EXP3 HCOG",
+      "name_cn": "§9EXP3全息瞄具 ",
+      "type": "scope"
+    },
+    {
+      "id": "sight_fastfire_pistol",
+      "full_id": "tacz:sight_fastfire_pistol",
+      "name_en": "FastFire Sight",
+      "name_cn": "FastFire 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_fastfire_rifle",
+      "full_id": "tacz:sight_fastfire_rifle",
+      "name_en": "FastFire Sight Rised",
+      "name_cn": "FastFire 增高 射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_okp7",
+      "full_id": "tacz:sight_okp7",
+      "name_en": "OKP-7 Sight",
+      "name_cn": "OKP-7 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_p90",
+      "full_id": "tacz:sight_p90",
+      "name_en": "sight_p90",
+      "name_cn": "sight_p90",
+      "type": "scope"
+    },
+    {
+      "id": "sight_pk06_pistol",
+      "full_id": "tacz:sight_pk06_pistol",
+      "name_en": "PK06 Sight",
+      "name_cn": "PK06 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_pk06_rifle",
+      "full_id": "tacz:sight_pk06_rifle",
+      "name_en": "PK06 Sight Rised",
+      "name_cn": "PK06 增高 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_rmr_dot",
+      "full_id": "tacz:sight_rmr_dot",
+      "name_en": "RMR Mini Red Dot",
+      "name_cn": "RMR迷你红点瞄具 ",
+      "type": "scope"
+    },
+    {
+      "id": "sight_sro_dot",
+      "full_id": "tacz:sight_sro_dot",
+      "name_en": "SRO Mini Red Dot",
+      "name_cn": "SRO 微型红点瞄准镜",
+      "type": "scope"
+    },
+    {
+      "id": "sight_srs_02",
+      "full_id": "tacz:sight_srs_02",
+      "name_en": "Trijicon SRS-02 Reflex Sight",
+      "name_cn": "SRS-02 反射式瞄具",
+      "type": "scope"
+    },
+    {
+      "id": "sight_t1",
+      "full_id": "tacz:sight_t1",
+      "name_en": "T1 red dot",
+      "name_cn": "T1封闭式红点瞄具 ",
+      "type": "scope"
+    },
+    {
+      "id": "sight_t2",
+      "full_id": "tacz:sight_t2",
+      "name_en": "T2 red dot",
+      "name_cn": "T2封闭式红点瞄具 ",
+      "type": "scope"
+    },
+    {
+      "id": "sight_uh1",
+      "full_id": "tacz:sight_uh1",
+      "name_en": "§9UH-1 HCOG",
+      "name_cn": "§9UH-1全息瞄具 ",
+      "type": "scope"
+    },
+    {
+      "id": "sniper_extended_mag_1",
+      "full_id": "tacz:sniper_extended_mag_1",
+      "name_en": "Sniper Ammo Extended mag",
+      "name_cn": "狙击弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "sniper_extended_mag_2",
+      "full_id": "tacz:sniper_extended_mag_2",
+      "name_en": "§9Sniper Ammo Extended mag",
+      "name_cn": "§9狙击弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "sniper_extended_mag_3",
+      "full_id": "tacz:sniper_extended_mag_3",
+      "name_en": "§dSniper Ammo Extended Mag",
+      "name_cn": "§d狙击弹药扩容弹匣",
+      "type": "extended_mag"
+    },
+    {
+      "id": "stock_ak12",
+      "full_id": "tacz:stock_ak12",
+      "name_en": "AK-12 Regular Stock",
+      "name_cn": "伊兹玛什 战术枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_carbon_bone_c5",
+      "full_id": "tacz:stock_carbon_bone_c5",
+      "name_en": "Carbon bone C5 Stock",
+      "name_cn": "碳骨 C5 轻型枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_heavy_spas_12",
+      "full_id": "tacz:stock_heavy_spas_12",
+      "name_en": "Franchi Heavy Stock",
+      "name_cn": "弗兰基 重型枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_hk_slim_line",
+      "full_id": "tacz:stock_hk_slim_line",
+      "name_en": "HK Slim Line Stock",
+      "name_cn": "KS 战术枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_m4ss",
+      "full_id": "tacz:stock_m4ss",
+      "name_en": "M4SS Stock",
+      "name_cn": "M4SS 战术枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_militech_b5",
+      "full_id": "tacz:stock_militech_b5",
+      "name_en": "Militech B5 Stock",
+      "name_cn": "军科 B5 战术枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_moe",
+      "full_id": "tacz:stock_moe",
+      "name_en": "Magpul MOE Stock",
+      "name_cn": "MOE 轻型枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_ripstock",
+      "full_id": "tacz:stock_ripstock",
+      "name_en": "CMMG RipStock Stock",
+      "name_cn": "RS 超轻型枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_sba3",
+      "full_id": "tacz:stock_sba3",
+      "name_en": "SBA3 Stock",
+      "name_cn": "SBA3 枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_tactical_ar",
+      "full_id": "tacz:stock_tactical_ar",
+      "name_en": "Magpul CTR stock",
+      "name_cn": "CTR战术枪托",
+      "type": "stock"
+    },
+    {
+      "id": "stock_tactical_spas_12",
+      "full_id": "tacz:stock_tactical_spas_12",
+      "name_en": "Franchi Tactical Stock",
+      "name_cn": "弗兰基 战术枪托",
+      "type": "stock"
+    }
+  ]
+}
