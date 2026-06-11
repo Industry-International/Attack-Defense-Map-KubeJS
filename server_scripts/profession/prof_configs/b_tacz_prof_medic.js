@@ -21,7 +21,7 @@ PROF_CONFIGS.medic = {
         HasBulletInBarrel: $ByteTag.valueOf(1),
         ammo: { ammoId: 'tacz:9mm', main: 210, level: 1 },
         attachments: {
-          scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_reflex'}],
+          scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'}],
           muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_pioneer'}],
           stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'},{id:'tacz:stock_hk_slim_line'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
@@ -34,7 +34,7 @@ PROF_CONFIGS.medic = {
         HasBulletInBarrel: $ByteTag.valueOf(1),
         ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
         attachments: {
-          scope: [{id:'tacz:scope_aug_default'},{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
+          scope: [{id:'tacz:scope_aug_default'}],
           muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'},{id:'tacz:muzzle_brake_cthulhu'},{id:'tacz:muzzle_compensator_trident'}],
           stock: [{id:'tacz:stock_heavy'},{id:'tacz:stock_light'},{id:'tacz:stock_tactical'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],

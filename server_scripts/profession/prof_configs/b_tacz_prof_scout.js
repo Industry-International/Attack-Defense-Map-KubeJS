@@ -51,7 +51,7 @@ PROF_CONFIGS.scout = {
         attachments: {
           // === 瞄具（所有瞄具）===
           scope: [
-            {id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'},
+            {id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},
             {id:'tacz:scope_acog_ta31'},{id:'tacz:scope_lpvo_1_6'},{id:'tacz:scope_elcan_4x'},{id:'tacz:scope_mk5hd'},
             {id:'tacz:sight_rmr_dot'},{id:'tacz:sight_acro_pistol'},{id:'tacz:sight_fastfire_pistol'},
             {id:'tacz:sight_coyote'},{id:'tacz:sight_deltapoint_pistol'},{id:'tacz:sight_deltapoint_rifle'},
@@ -61,7 +61,7 @@ PROF_CONFIGS.scout = {
             {id:'tacz:scope_retro_2x'},{id:'tacz:scope_standard_8x'},{id:'tacz:scope_vudu'},{id:'tacz:scope_aug_default'},
             {id:'lavender:scope_lmgs_x2'},{id:'lavender:scope_rifles_x3'},{id:'lavender:scope_rifles_x3_2'},
             {id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x4_2'},{id:'lavender:scope_rifles_x6'},
-            {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8'},{id:'lavender:scope_rifles_x8_2'},
+            {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8_2'},
             {id:'lavender:semi_rifles_scope_x2'},
             {id:'bf1:marksman_scope'},{id:'bf1:scope_nvk_nxt'},{id:'bf1:sight_fusion_holo'},
             {id:'bf1:sight_nydar'},{id:'bf1:sight_okp8'},{id:'bf1:sight_reflector'},{id:'bf1:sniper_scope'},
@@ -97,7 +97,7 @@ PROF_CONFIGS.scout = {
         attachments: {
           // === 瞄具（所有瞄具）===
           scope: [
-            {id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'},
+            {id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},
             {id:'tacz:scope_acog_ta31'},{id:'tacz:scope_lpvo_1_6'},{id:'tacz:scope_elcan_4x'},{id:'tacz:scope_mk5hd'},
             {id:'tacz:sight_rmr_dot'},{id:'tacz:sight_acro_pistol'},{id:'tacz:sight_fastfire_pistol'},
             {id:'tacz:sight_coyote'},{id:'tacz:sight_deltapoint_pistol'},{id:'tacz:sight_deltapoint_rifle'},
@@ -107,7 +107,7 @@ PROF_CONFIGS.scout = {
             {id:'tacz:scope_retro_2x'},{id:'tacz:scope_standard_8x'},{id:'tacz:scope_vudu'},{id:'tacz:scope_aug_default'},
             {id:'lavender:scope_lmgs_x2'},{id:'lavender:scope_rifles_x3'},{id:'lavender:scope_rifles_x3_2'},
             {id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x4_2'},{id:'lavender:scope_rifles_x6'},
-            {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8'},{id:'lavender:scope_rifles_x8_2'},
+            {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8_2'},
             {id:'lavender:semi_rifles_scope_x2'},
             {id:'bf1:marksman_scope'},{id:'bf1:scope_nvk_nxt'},{id:'bf1:sight_fusion_holo'},
             {id:'bf1:sight_nydar'},{id:'bf1:sight_okp8'},{id:'bf1:sight_reflector'},{id:'bf1:sniper_scope'},

@@ -36,7 +36,7 @@ PROF_CONFIGS.assault = {
         HasBulletInBarrel: $ByteTag.valueOf(1),
         ammo: { ammoId: 'tacz:556x45', main: 210, level: 2 },
         attachments: {
-          scope: [{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
+          scope: [],
           muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'}],
           stock: [{id:'tacz:stock_carbon_bone_c5'},{id:'tacz:stock_militech_b5'},{id:'tacz:stock_tactical_ar'},{id:'tacz:stock_sba3'},{id:'tacz:stock_hk_slim_line'},{id:'tacz:stock_moe'},{id:'tacz:stock_m4ss'},{id:'tacz:stock_ripstock'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
@@ -51,7 +51,7 @@ PROF_CONFIGS.assault = {
         attachments: {
           // === 瞄具（所有瞄具）===
           scope: [
-            {id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'},
+            {id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},
             {id:'tacz:scope_acog_ta31'},{id:'tacz:scope_lpvo_1_6'},{id:'tacz:scope_elcan_4x'},{id:'tacz:scope_mk5hd'},
             {id:'tacz:sight_rmr_dot'},{id:'tacz:sight_acro_pistol'},{id:'tacz:sight_fastfire_pistol'},
             {id:'tacz:sight_coyote'},{id:'tacz:sight_deltapoint_pistol'},{id:'tacz:sight_deltapoint_rifle'},
@@ -61,7 +61,7 @@ PROF_CONFIGS.assault = {
             {id:'tacz:scope_retro_2x'},{id:'tacz:scope_standard_8x'},{id:'tacz:scope_vudu'},{id:'tacz:scope_aug_default'},
             {id:'lavender:scope_lmgs_x2'},{id:'lavender:scope_rifles_x3'},{id:'lavender:scope_rifles_x3_2'},
             {id:'lavender:scope_rifles_x4'},{id:'lavender:scope_rifles_x4_2'},{id:'lavender:scope_rifles_x6'},
-            {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8'},{id:'lavender:scope_rifles_x8_2'},
+            {id:'lavender:scope_rifles_x6_2'},{id:'lavender:scope_rifles_x8_2'},
             {id:'lavender:semi_rifles_scope_x2'},
             {id:'bf1:marksman_scope'},{id:'bf1:scope_nvk_nxt'},{id:'bf1:sight_fusion_holo'},
             {id:'bf1:sight_nydar'},{id:'bf1:sight_okp8'},{id:'bf1:sight_reflector'},{id:'bf1:sniper_scope'},
@@ -109,10 +109,6 @@ PROF_CONFIGS.assault = {
       mars: {
         gunId: 'lavender:mars', GunFireMode: 'SEMI', GunCurrentAmmoCount: 7,
         ammo: { ammoId: 'tacz:45acp', offhand: 50, level: 2 },
-        attachments: {
-          scope: [{id:'tacz:scope_reflex'},{id:'tacz:scope_uh1'}],
-          muzzle: [{id:'tacz:muzzle_silencer_knight_qd'},{id:'tacz:muzzle_silencer_mirage'}],
-        },
       },
       // 红宝石手枪 (M1914Ruby)
       ruby: {
