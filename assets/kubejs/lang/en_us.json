@@ -138,6 +138,8 @@
   "gui.kubejs.team_select.spectator": "§7👁 SPECTATOR",
   "gui.kubejs.team_select.none": "§7None",
   "gui.kubejs.team_select.leave": "§c✖ Leave Team",
+  "gui.kubejs.team_select.join_battle": "§6⚔ Join Battlefield",
+  "gui.kubejs.team_select.join_battle.lore": "§7Score requirement met, ready for battle!",
 
   "msg.kubejs.team_select.joined_attack": "§a✔ Joined §c§lATTACK§a!",
   "msg.kubejs.team_select.joined_defense": "§a✔ Joined §9§lDEFENSE§a!",

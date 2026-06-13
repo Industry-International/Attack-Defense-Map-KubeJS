@@ -136,6 +136,8 @@
   "gui.kubejs.team_select.spectator": "§7👁 观 战",
   "gui.kubejs.team_select.none": "§7未选择",
   "gui.kubejs.team_select.leave": "§c✖ 退出队伍",
+  "gui.kubejs.team_select.join_battle": "§6⚔ 加入战场",
+  "gui.kubejs.team_select.join_battle.lore": "§7积分达标，准备加入战场！",
 
   "msg.kubejs.team_select.joined_attack": "§a✔ 已加入 §c§l进攻方§a！",
   "msg.kubejs.team_select.joined_defense": "§a✔ 已加入 §9§l防守方§a！",

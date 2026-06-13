@@ -9,6 +9,7 @@ server_scripts/
 │   ├── profession_backpack.js           ← 背包系统（5槽位/职业，保存加载武器+配件配置）
 │   ├── profequip_cmd.js                 ← /profequip 指令（装备发放 + 容器守卫 + 标签守卫）
 │   ├── kubejsadmin_cmd.js               ← /kubejsadmin 指令（管理员清空）
+│   └── no_job_tag.js                    ← 无职业标签自动管理（登录自动标记 + 选/取消职业联动）
 │   ├── config/
 │   │   └── a_tacz_config.js             ← 共享工具（Java 类加载、GUI 布局、配件持久化）
 │   └── prof_configs/
@@ -27,9 +28,10 @@ server_scripts/
 3. `prof_configs/z_tacz_config_build.js` — 汇总查表 + getProfConfig + getProfessionWeaponList
 4. `profequip_cmd.js` — 装备发放 + 守卫逻辑
 5. `profession_backpack.js` — 背包系统函数
-6. `profession_gui.js` — GUI 交互
-7. `kubejsadmin_cmd.js` — 管理指令
-8. `team/team_selector_gui.js` — 队伍选择器（详见独立文档）
+6. `no_job_tag.js` — 无职业标签自动管理（独立模块，不依赖其他函数）
+7. `profession_gui.js` — GUI 交互
+8. `kubejsadmin_cmd.js` — 管理指令
+9. `team/team_selector_gui.js` — 队伍选择器（详见独立文档）
 
 ---
 
@@ -305,7 +307,64 @@ nonTaczAmmo: {
 
 ---
 
-## 六、指令参考
+## 六、`no_job` 无职业标签系统
+
+系统使用 Minecraft 原版 **scoreboard 标签** `no_job` 标记**未选择职业的玩家**，方便服务器管理员进行权限管理或条件判定（例如限制无职业玩家使用某些功能/区域）。
+
+### 标签生命周期
+
+```
+[玩家加入服务器]
+    ├─ 已有职业 → 确保 no_job 已移除（防止异常残留）
+    └─ 无职业  → 自动添加 no_job 标签 + 提示消息 ←┐
+                                                    │
+[通过GUI选择职业]                                    │
+    ├─ tag add <职业>                               │
+    ├─ tag remove no_job ───────────────────────────┘
+    └─ 提示"已选择职业"
+    
+[通过GUI取消职业]
+    ├─ tag remove <所有职业>
+    ├─ tag add no_job ──────────────────────────→ 回到无职业状态
+    └─ 提示"已清除所有选择"
+```
+
+| 时机 | 操作 | 说明 |
+|------|------|------|
+| 玩家登录（无职业） | `player.addTag('no_job')` | 自动标记 + 发送 `msg.kubejs.no_job_tag.added` 提示 |
+| 玩家登录（有职业） | 确保 `no_job` 已移除 | 防止标签异常残留 |
+| 选择职业后 | `tag remove no_job` | 在设置职业标签后立即移除 |
+| 取消职业后 | `tag add no_job` | 在移除所有职业标签后立即添加 |
+
+### 管理员查询
+
+```mcfunction
+# 查看某玩家是否拥有 no_job 标签
+/tag xkmxz2503 list
+
+# 查看所有无职业的玩家
+/tag @a[tag=no_job] list
+
+# 手动添加/移除标签
+/tag xkmxz2503 add no_job
+/tag xkmxz2503 remove no_job
+```
+
+### 实现文件
+
+`server_scripts/profession/no_job_tag.js`：
+
+- `addNoJobTag(player)` — 检查玩家职业，若无职业则添加 `no_job` 标签并提示
+- `removeNoJobTag(player)` — 移除玩家的 `no_job` 标签并提示
+- `PlayerEvents.loggedIn` — 登录时延迟 1 tick 确保 persistentData 就绪后执行检测
+
+> 提示消息的翻译键定义在 `assets/kubejs/lang/{en_us,zh_cn}.json` 中：
+> - `msg.kubejs.no_job_tag.added` — 标记为无职业时提示
+> - `msg.kubejs.no_job_tag.removed` — 选择职业后移除标记时提示
+
+---
+
+## 七、指令参考
 
 详细的指令使用说明请参阅 **[指令使用.md](./指令使用.md)**，此处仅作简要说明。
 
@@ -334,7 +393,7 @@ nonTaczAmmo: {
 
 ---
 
-## 七、语言文件
+## 八、语言文件
 
 位置：`assets/kubejs/lang/{en_us,zh_cn}.json`
 
@@ -360,10 +419,12 @@ nonTaczAmmo: {
 | `gui.kubejs.page.info` | 页码显示（`§7第 %s/%s 页`） |
 | `gui.kubejs.page.prev` | 上一页按钮（`§e← 上一页`） |
 | `gui.kubejs.page.next` | 下一页按钮（`§e下一页 →`） |
+| `msg.kubejs.no_job_tag.added` | 无职业标记提示（`§7[系统] 你尚未选择职业，已标记为无业状态`） |
+| `msg.kubejs.no_job_tag.removed` | 移除无职业标记提示（`§a[系统] 已选择职业，无业标记已移除`） |
 
 ---
 
-## 八、分页系统
+## 九、分页系统
 
 所有列表类型的页面均支持**自动分页**，当物品/选项超过单页容量时自动显示翻页按钮。
 
@@ -456,7 +517,7 @@ const BACKPACK_PAGE_SIZE = 6  // 3列×2行
 
 ---
 
-## 九、新增武器快速指南
+## 十、新增武器快速指南
 
 ### 新增 TACZ 枪械
 
@@ -480,7 +541,7 @@ const BACKPACK_PAGE_SIZE = 6  // 3列×2行
 
 ---
 
-## 十、注意事项
+## 十一、注意事项
 
 1. **cleanId**：从 `player.persistentData` 读取的 ID 用于翻译键时，必须用 `cleanId()` 消去引号
 2. **文件加载顺序**：`config/` → `prof_configs/b_*.js` → `prof_configs/z_*.js` → 其他

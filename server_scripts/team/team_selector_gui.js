@@ -15,6 +15,29 @@ const TEAM_DEFENSE   = 'defense'
 const TEAM_SPECTATOR = 'spectator'
 const TEAM_NONE      = 'none'
 
+// ========== 加入战场 - 积分榜条件配置 ==========
+// 当虚拟玩家 state 在 game_state 积分榜中的分数 == 1 时，显示"加入战场"按钮
+// 如需修改条件：更改下面的虚拟玩家名/目标名/目标值即可
+const JOIN_BATTLE_SCOREHOLDER = 'state'           // 虚拟玩家名（如 state, $game, #global 等）
+const JOIN_BATTLE_OBJECTIVE   = 'game_state'      // 积分榜目标名
+const JOIN_BATTLE_TARGET      = 1                 // 目标值（分数 == 此值时显示）
+
+// 加入战场时调用的数据包 function
+const JOIN_BATTLE_FUNCTION    = 'game:teams/join_battlefield'
+
+/** 读取指定虚拟玩家在指定积分榜目标中的分数 */
+function getScoreboardScore(server, scoreholder, objectiveName) {
+  try {
+    var scoreboard = server.getScoreboard()
+    var objective = scoreboard.getObjective(objectiveName)
+    if (!objective) return null
+    var score = scoreboard.getOrCreatePlayerScore(scoreholder, objective)
+    return score.getScore()
+  } catch(e) {
+    return null
+  }
+}
+
 /** 以玩家身份运行数据包 function */
 function runTeamFunction(player, functionPath) {
   player.server.runCommandSilent('execute as ' + player.username + ' run function ' + functionPath)
@@ -104,8 +127,29 @@ function renderTeamSelect(gui, player, openPage) {
     })
   })
 
-  // ========== Row 3: 退出队伍 ==========
+  // ========== Row 3: 加入战场（积分榜条件控制显隐）==========
+  // 条件：虚拟玩家 JOIN_BATTLE_SCOREHOLDER 在 JOIN_BATTLE_OBJECTIVE 中的分数 == JOIN_BATTLE_TARGET
 
+  gui.slot(4, 3, function(slot) {
+    var score = getScoreboardScore(player.server, JOIN_BATTLE_SCOREHOLDER, JOIN_BATTLE_OBJECTIVE)
+    if (score !== null && score === JOIN_BATTLE_TARGET) {
+      slot.setItem(
+        Item.of('minecraft:compass')
+          .withCustomName(Text.translate('gui.kubejs.team_select.join_battle'))
+          .withLore([Text.translate('gui.kubejs.team_select.join_battle.lore')])
+      )
+      slot.setLeftClicked(function() {
+        player.runCommandSilent('playsound minecraft:entity.experience_orb.pickup master ' + player.username + ' ~ ~ ~ 0.5 1')
+        runTeamFunction(player, JOIN_BATTLE_FUNCTION)
+        player.closeMenu()
+      })
+    } else {
+      slot.setItem(PANE.black)
+    }
+  })
+
+  // ========== Row 4: 退出队伍 ==========
+  
   gui.slot(4, 4, function(slot) {
     if (current !== TEAM_NONE) {
       slot.setItem(

@@ -4,7 +4,7 @@
 
 ```
 server_scripts/team/
-└── team_selector_gui.js    ← 队伍选择器 GUI（6行界面，数据包 function 协作）
+└── team_selector_gui.js    ← 队伍选择器 GUI（6行界面，数据包 function 协作，积分榜条件按钮）
 ```
 
 ## GUI 操作流程
@@ -19,22 +19,25 @@ server_scripts/team/
 │                                 │
 │  ⚔进攻方    👁观战    🛡防守方   │
 │                                 │
+│         🧭 加入战场              │
 │                                 │
 │         ✖ 退出队伍              │
 │                                 │
 ├─────────────────────────────────┤
 └─────────────────────────────────┘
 ```
+> `🧭 加入战场` 按钮仅在虚拟玩家 `state` 在积分榜 `game_state` 中的数值等于 1 时显示，否则隐藏。
 
 ## 功能说明
 
-| 按钮 | 位置 (col,row) | 物品 | 功能 |
-|------|:-------------:|------|------|
-| **进攻方** | (2,2) | 铁剑 | 加入进攻方队伍，播放拾取音效 |
-| **观战** | (4,2) | 末影之眼 | 切换为观战模式，播放拾取音效 |
-| **防守方** | (6,2) | 盾牌 | 加入防守方队伍，播放拾取音效 |
-| **退出队伍** | (4,4) | 红色叉号 | 离开当前队伍，播放拒绝音效（仅在有队伍时显示） |
-| **退出 GUI** | (0,0) | 左箭头 | 直接关闭 GUI |
+| 按钮 | 位置 (col,row) | 物品 | 功能 | 可见条件 |
+|------|:-------------:|------|------|---------|
+| **进攻方** | (2,2) | 铁剑 | 加入进攻方队伍，播放拾取音效 | 始终显示 |
+| **观战** | (4,2) | 末影之眼 | 切换为观战模式，播放拾取音效 | 始终显示 |
+| **防守方** | (6,2) | 盾牌 | 加入防守方队伍，播放拾取音效 | 始终显示 |
+| **加入战场** | (4,3) | 指南针 | 关闭 GUI，执行数据包 `game:teams/join_battlefield` | 仅当虚拟玩家 `state` 的 `game_state` 积分 == 1 时 |
+| **退出队伍** | (4,4) | 红色叉号 | 离开当前队伍，播放拒绝音效 | 仅在有队伍时显示 |
+| **退出 GUI** | (0,0) | 左箭头 | 直接关闭 GUI | 始终显示 |
 
 ### 视觉反馈
 
@@ -52,6 +55,7 @@ server_scripts/team/
 | 加入防守方 | `game:teams/join_defender` |
 | 切换观战 | `game:teams/join_spectator` |
 | 离开队伍 | `game:teams/leave_team` |
+| 加入战场（积分达标时） | `game:teams/join_battlefield` |
 
 数据包 function 通过以下方式执行：
 ```mcfunction
@@ -72,6 +76,8 @@ execute as <玩家名> run function game:teams/join_attacker
 | `gui.kubejs.team_select.defense` | 防守方按钮名 |
 | `gui.kubejs.team_select.spectator` | 观战按钮名 |
 | `gui.kubejs.team_select.leave` | 退出队伍按钮名 |
+| `gui.kubejs.team_select.join_battle` | 加入战场按钮名 |
+| `gui.kubejs.team_select.join_battle.lore` | 加入战场按钮描述 |
 | `msg.kubejs.team_select.joined_attack` | 加入进攻方消息 |
 | `msg.kubejs.team_select.joined_defense` | 加入防守方消息 |
 | `msg.kubejs.team_select.cleared` | 退出队伍消息 |
