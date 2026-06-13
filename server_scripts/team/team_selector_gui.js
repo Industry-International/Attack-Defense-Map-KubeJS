@@ -25,6 +25,9 @@ const JOIN_BATTLE_TARGET      = 1                 // 目标值（分数 == 此�
 // 加入战场时调用的数据包 function
 const JOIN_BATTLE_FUNCTION    = 'game:teams/join_battlefield'
 
+// 清空背包的延迟（tick），部分场景需要延迟执行以确保队伍已分配
+const CLEAR_DELAY_TICKS       = 5
+
 /** 读取指定虚拟玩家在指定积分榜目标中的分数 */
 function getScoreboardScore(server, scoreholder, objectiveName) {
   try {
@@ -54,9 +57,38 @@ function getScoreboardScore(server, scoreholder, objectiveName) {
   }
 }
 
-/** 以玩家身份运行数据包 function */
+/** 以玩家身份 + 玩家位置运行数据包 function */
 function runTeamFunction(player, functionPath) {
-  player.server.runCommandSilent('execute as ' + player.username + ' run function ' + functionPath)
+  player.server.runCommandSilent('execute as ' + player.username + ' at @s run function ' + functionPath)
+}
+
+/**
+ * 延迟执行 clear @s[team=!unselected] 的等价逻辑
+ * 仅在玩家不在 "unselected" 原版队伍时才清空背包
+ */
+function clearIfNotUnselected(player) {
+  var delay = CLEAR_DELAY_TICKS
+  if (delay <= 0) {
+    doClear(player)
+  } else {
+    player.server.scheduleInTicks(delay, function() {
+      doClear(player)
+    })
+  }
+}
+
+function doClear(player) {
+  try {
+    var scoreboard = player.server.getScoreboard()
+    var team = scoreboard.getPlayersTeam(player.username)
+    // team=!unselected : 无队伍 或 队伍名不是 unselected → 清空
+    if (!team || team.getName() !== 'unselected') {
+      player.server.runCommandSilent('clear ' + player.username)
+    }
+  } catch(e) {
+    // 保底：读队伍失败时直接清空
+    player.server.runCommandSilent('clear ' + player.username)
+  }
 }
 
 /**
@@ -158,7 +190,10 @@ function renderTeamSelect(gui, player, openPage) {
         // 门控标志：防止 GUI 每 tick 渲染时无意识重复触发
         if (player.persistentData.joinBattleTriggered) return
         player.persistentData.joinBattleTriggered = true
-        player.runCommandSilent('playsound minecraft:entity.experience_orb.pickup master ' + player.username + ' ~ ~ ~ 0.5 1')
+        // 使用服务器级执行（权限等级0的玩家也可触发）
+        player.server.runCommandSilent('playsound minecraft:entity.experience_orb.pickup master ' + player.username + ' ~ ~ ~ 0.5 1')
+        // 延迟执行 clear @s[team=!unselected]（队伍分配后清空）
+        clearIfNotUnselected(player)
         runTeamFunction(player, JOIN_BATTLE_FUNCTION)
         player.closeMenu()
       })
