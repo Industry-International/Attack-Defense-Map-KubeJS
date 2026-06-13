@@ -100,6 +100,8 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
       server.runCommandSilent('tag ' + name + ' remove scout')
       server.runCommandSilent('tag ' + name + ' remove medic')
       server.runCommandSilent('tag ' + name + ' remove support')
+      // 取消职业后标记为无职业状态
+      server.runCommandSilent('tag ' + name + ' add no_job')
       // 清除所有选中状态
       delete player.persistentData.profession
       delete player.persistentData.mainWeapon
@@ -293,6 +295,8 @@ function renderProf(gui, player, openPage, pageNum) {
           delete player.persistentData.offhandWeapon
           delete player.persistentData.specialWeapon
           server.runCommandSilent('tag ' + name + ' add ' + prof.id)
+          // 选择职业后移除 no_job 标签（有职业即有工作）
+          server.runCommandSilent('tag ' + name + ' remove no_job')
           player.tell(Text.translate('msg.kubejs.profession_select.selected', Text.translate('profession.kubejs.' + prof.id)))
           openPage(player, 'weapon_config')
         })

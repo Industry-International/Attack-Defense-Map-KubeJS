@@ -143,6 +143,9 @@
   "msg.kubejs.team_select.joined_defense": "§a✔ Joined §9§lDEFENSE§a!",
   "msg.kubejs.team_select.cleared": "§e✔ Left the team",
 
+  "msg.kubejs.no_job_tag.added": "§7[System] No profession selected, marked as no_job",
+  "msg.kubejs.no_job_tag.removed": "§a[System] Profession selected, no_job tag removed",
+
   "gui.kubejs.page.info": "§7Page %s/%s",
   "gui.kubejs.page.prev": "§e← Prev",
   "gui.kubejs.page.next": "§eNext →"

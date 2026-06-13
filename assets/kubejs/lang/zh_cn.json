@@ -141,6 +141,9 @@
   "msg.kubejs.team_select.joined_defense": "§a✔ 已加入 §9§l防守方§a！",
   "msg.kubejs.team_select.cleared": "§e✔ 已退出队伍",
 
+  "msg.kubejs.no_job_tag.added": "§7[系统] 你尚未选择职业，已标记为无业状态",
+  "msg.kubejs.no_job_tag.removed": "§a[系统] 已选择职业，无业标记已移除",
+
   "gui.kubejs.page.info": "§7第 %s/%s 页",
   "gui.kubejs.page.prev": "§e← 上一页",
   "gui.kubejs.page.next": "§e下一页 →"
