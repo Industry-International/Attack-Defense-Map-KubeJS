@@ -139,6 +139,9 @@ function renderTeamSelect(gui, player, openPage) {
           .withLore([Text.translate('gui.kubejs.team_select.join_battle.lore')])
       )
       slot.setLeftClicked(function() {
+        // 门控标志：防止 GUI 每 tick 渲染时无意识重复触发
+        if (player.persistentData.joinBattleTriggered) return
+        player.persistentData.joinBattleTriggered = true
         player.runCommandSilent('playsound minecraft:entity.experience_orb.pickup master ' + player.username + ' ~ ~ ~ 0.5 1')
         runTeamFunction(player, JOIN_BATTLE_FUNCTION)
         player.closeMenu()
@@ -175,6 +178,8 @@ function renderTeamSelect(gui, player, openPage) {
 
 function openTeamPage(player) {
   player.persistentData.guiOpen = true
+  // 重置加入战场门控标志（每次打开 GUI 时清空，确保可再次点击）
+  delete player.persistentData.joinBattleTriggered
 
   player.openChestGUI(
     Text.translate('gui.kubejs.team_select.title'),
