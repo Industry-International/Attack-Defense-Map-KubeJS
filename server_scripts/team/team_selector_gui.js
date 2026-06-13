@@ -30,10 +30,26 @@ function getScoreboardScore(server, scoreholder, objectiveName) {
   try {
     var scoreboard = server.getScoreboard()
     var objective = scoreboard.getObjective(objectiveName)
-    if (!objective) return null
-    var score = scoreboard.getOrCreatePlayerScore(scoreholder, objective)
-    return score.getScore()
+    if (!objective) {
+      console.log('[队伍选择器] 积分榜目标 [' + objectiveName + '] 不存在！')
+      return null
+    }
+    // 使用 listPlayerScores 遍历真实存储的分数条目（避免 ScoreHolder lambda 引用不等问题）
+    var entries = scoreboard.listPlayerScores(objective)
+    if (entries) {
+      var iter = entries.iterator()
+      while (iter.hasNext()) {
+        var entry = iter.next()
+        if (entry.owner() === scoreholder) {
+          var value = entry.value()
+          return value
+        }
+      }
+    }
+    console.log('[队伍选择器] 未找到虚拟玩家 [' + scoreholder + '] 在 [' + objectiveName + '] 中的分数')
+    return null
   } catch(e) {
+    console.log('[队伍选择器] 读取积分榜时出错: ' + e)
     return null
   }
 }
