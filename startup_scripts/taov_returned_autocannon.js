@@ -3,7 +3,7 @@
 global.taovReturnedAutocannon = {
   muzzleVelocityBlocksPerSecond: 200,
   forceTracer: false,
-  propellerSoundEnabled: false,
+  propellerSoundEnabled: true,
   rocketRackReloadSeconds: 20,
   kamikazeExplosivePower: 12
 }
