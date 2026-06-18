@@ -44,6 +44,7 @@
   "gui.kubejs.profession_select.subtitle.tertiary": "\\u00a78Special Weapon Config",
 
   "gui.kubejs.profession_select.hint": "\\u00a77Left-click to select, right-click to clear",
+  "gui.kubejs.weapon_select.hint": "§7Left-click to select weapon, right-click for attachments",
   "item.kubejs.menu": "§6Menu",
   "menu.title": "§6Team Selection",
   "menu.back": "§7← Back",

@@ -127,25 +127,25 @@ PROF_CONFIGS.scout = {
           ],
         },
       },
-    //毛瑟c98半自动步枪
-    selbstladerc98: {
-      gunId: 'lavender:selbstladerc98', GunFireMode: 'SEMI', GunCurrentAmmoCount: 8,
-      HasBulletInBarrel: $ByteTag.valueOf(1),
-      ammo: { ammoId: 'lavender:mauser7.92x57', main: 180, level: 2 },
-      attachments: {
-        scope: [{id:'lavender:scope_rifles_x3'}],
-        grip: [{id:'lavender:sniper_bracket'}],
+      //毛瑟c98半自动步枪
+      selbstladerc98: {
+        gunId: 'lavender:selbstladerc98', GunFireMode: 'SEMI', GunCurrentAmmoCount: 8,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'lavender:mauser7.92x57', main: 180, level: 2 },
+        attachments: {
+          scope: [{id:'lavender:scope_rifles_x3'}],
+          grip: [{id:'lavender:sniper_bracket'}],
+        },
       },
-    },
-    // 莫辛-纳甘1891步枪
-    lavendermosin1891: {
-      gunId: 'lavender:mosin1891', GunFireMode: 'SEMI', GunCurrentAmmoCount: 5,
-      HasBulletInBarrel: $ByteTag.valueOf(1),
-      ammo: { ammoId: 'lavender:russia7.62x54r', main: 180, level: 2 },
-      attachments: {
-        scope: [{id:'lavender:scope_rifles_x4_2'}],
+      // 莫辛-纳甘1891步枪
+      lavendermosin1891: {
+        gunId: 'lavender:mosin1891', GunFireMode: 'SEMI', GunCurrentAmmoCount: 5,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'lavender:russia7.62x54r', main: 180, level: 2 },
+        attachments: {
+          scope: [{id:'lavender:scope_rifles_x4_2'}],
+        },
       },
-    },
     },
     secondary: {
       p320: {

@@ -16,6 +16,7 @@
   "gui.kubejs.profession_select.subtitle.tertiary": "§8特殊武器配置界面",
 
   "gui.kubejs.profession_select.hint": "§7左键进入选择，右键清空武器选择",
+  "gui.kubejs.weapon_select.hint": "§7左键选择武器，右键进入配件管理",
 
   "profession.kubejs.assault": "§c突击兵",
   "profession.kubejs.assault.desc": "§7近距离作战，高机动",

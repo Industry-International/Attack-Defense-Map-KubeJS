@@ -405,6 +405,14 @@ function renderWeapon(gui, player, openPage, pageNum) {
       })(col, row)
     }
   }
+
+  // Row 5: 操作提示
+  gui.slot(4, 5, s => {
+    s.setItem(
+      Item.of('minecraft:feather')
+        .withCustomName(Text.translate('gui.kubejs.weapon_select.hint'))
+    )
+  })
 }
 
 /**
@@ -495,6 +503,14 @@ function renderOffhand(gui, player, openPage, pageNum) {
       })(col, row)
     }
   }
+
+  // Row 5: 操作提示
+  gui.slot(4, 5, s => {
+    s.setItem(
+      Item.of('minecraft:feather')
+        .withCustomName(Text.translate('gui.kubejs.weapon_select.hint'))
+    )
+  })
 }
 
 /**
@@ -586,6 +602,14 @@ function renderTertiary(gui, player, openPage, pageNum) {
       })(col, row)
     }
   }
+
+  // Row 5: 操作提示
+  gui.slot(4, 5, s => {
+    s.setItem(
+      Item.of('minecraft:feather')
+        .withCustomName(Text.translate('gui.kubejs.weapon_select.hint'))
+    )
+  })
 }
 
 // ========== 核心逻辑 ==========
