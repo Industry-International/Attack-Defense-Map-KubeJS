@@ -37,6 +37,22 @@ PROF_CONFIGS.medic = {
           laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_lopro'}],
         },
       },
+      bf1liu: {
+        gunId: 'bf1:liu', GunFireMode: 'SEMI', GunCurrentAmmoCount: 23,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'tacz:762x54', main: 210, level: 2 },
+        attachments: {
+          muzzle: [{id:'bf1:bayonet_general'}],
+        },
+      },
+      lavenderhowell: {
+        gunId: 'lavender:howell', GunFireMode: 'SEMI', GunCurrentAmmoCount: 21,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'lavender:british0x303', main: 180, level: 2 },
+        attachments: {
+          scope: [{id:'lavender:scope_rifles_x3_2'}],
+        },
+      }
     },
     secondary: {
       glock_17: {
@@ -52,7 +68,7 @@ PROF_CONFIGS.medic = {
     },
     tertiary: {},
   },
-  weapons: { primary: ['hk_mp5a5','aug'], secondary: ['glock_17'], tertiary: ['snowball'] },
+  weapons: { primary: ['hk_mp5a5','aug','bf1liu','lavenderhowell'], secondary: ['glock_17'], tertiary: ['snowball'] },
 
   // ===== 非 TACZ 武器 =====
   nonTaczDisplay: {

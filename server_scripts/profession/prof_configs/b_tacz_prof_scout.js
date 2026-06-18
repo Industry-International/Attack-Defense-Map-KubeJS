@@ -127,6 +127,25 @@ PROF_CONFIGS.scout = {
           ],
         },
       },
+    //毛瑟c98半自动步枪
+    selbstladerc98: {
+      gunId: 'lavender:selbstladerc98', GunFireMode: 'SEMI', GunCurrentAmmoCount: 8,
+      HasBulletInBarrel: $ByteTag.valueOf(1),
+      ammo: { ammoId: 'lavender:mauser7.92x57', main: 180, level: 2 },
+      attachments: {
+        scope: [{id:'lavender:scope_rifles_x3'}],
+        grip: [{id:'lavender:sniper_bracket'}],
+      },
+    },
+    // 莫辛-纳甘1891步枪
+    lavendermosin1891: {
+      gunId: 'lavender:mosin1891', GunFireMode: 'SEMI', GunCurrentAmmoCount: 5,
+      HasBulletInBarrel: $ByteTag.valueOf(1),
+      ammo: { ammoId: 'lavender:russia7.62x54r', main: 180, level: 2 },
+      attachments: {
+        scope: [{id:'lavender:scope_rifles_x4_2'}],
+      },
+    },
     },
     secondary: {
       p320: {
@@ -142,7 +161,7 @@ PROF_CONFIGS.scout = {
     },
     tertiary: {},
   },
-  weapons: { primary: ['m4a1','sks_tactical','lee_enfield','man_m95'], secondary: ['p320'], tertiary: ['snowball'] },
+  weapons: { primary: ['m4a1','sks_tactical','lee_enfield','man_m95',`selbstladerc98`,`lavendermosin1891`], secondary: ['p320'], tertiary: ['snowball'] },
 
   // ===== 非 TACZ 武器 =====
   nonTaczDisplay: {

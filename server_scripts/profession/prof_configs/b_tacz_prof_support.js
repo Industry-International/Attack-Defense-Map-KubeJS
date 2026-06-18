@@ -45,7 +45,7 @@ PROF_CONFIGS.support = {
         HasBulletInBarrel: $ByteTag.valueOf(1),
         ammo: { ammoId: 'tacz:762x54', main: 350, level: 3 },
         attachments: {
-          scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'}],
+          scope: [{id:'tacz:sight_t1'},{id:'tacz:sight_t2'},{id:'tacz:sight_552'},{id:'lavender:scope_lmgs_x2'}],
           extended_mag: [{id:'tacz:extended_mag_1'},{id:'tacz:extended_mag_2'},{id:'tacz:extended_mag_3'}],
           grip: [{id:'tacz:grip_vertical_military'},{id:'tacz:grip_rk0'},{id:'tacz:grip_cqr'}],
         },
@@ -143,6 +143,13 @@ PROF_CONFIGS.support = {
           ],
         },
       },
+      lavendermg0815: {
+        gunId: 'lavender:mg0815', GunFireMode: 'AUTO', GunCurrentAmmoCount: 200,
+        ammo: { ammoId: 'lavender:mauser7.92x57', main: 600, level: 2 },
+        attachments: {
+          scope: [{id:'lavender:scope_lmgs_x2'}],
+        },
+      },
     },
     secondary: {
       deagle: {
@@ -158,7 +165,7 @@ PROF_CONFIGS.support = {
     },
     tertiary: {},
   },
-  weapons: { primary: ['m249','rpk','bf1lewis','mg42','chauchat'], secondary: ['deagle'], tertiary: ['snowball'] },
+  weapons: { primary: ['m249','rpk','bf1lewis','mg42','chauchat','lavendermg0815'], secondary: ['deagle'], tertiary: ['snowball'] },
 
   // ===== 非 TACZ 武器 =====
   nonTaczDisplay: {

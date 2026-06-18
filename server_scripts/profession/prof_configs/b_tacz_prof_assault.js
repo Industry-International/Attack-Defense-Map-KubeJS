@@ -42,6 +42,20 @@ PROF_CONFIGS.assault = {
           laser: [{id:'tacz:laser_compact'},{id:'tacz:laser_nightstick'},{id:'tacz:laser_lopro'}],
         },
       },
+      lavenderdarne1912: {
+        gunId: 'lavender:darne1912', GunFireMode: 'AUTO', GunCurrentAmmoCount: 2,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'lavender:12ga', main: 64, level: 2 },
+        attachments: {},
+      },
+      lavenderberretam1918: {
+        gunId: 'lavender:berretam1918', GunFireMode: 'AUTO', GunCurrentAmmoCount: 20,
+        HasBulletInBarrel: $ByteTag.valueOf(1),
+        ammo: { ammoId: 'lavender:spring7.62x63', main: 210, level: 2 },
+        attachments: {
+          muzzle: [{id:'lavender:carcano_bayonet'}],
+        },
+      },
       // [临时] 队长武器 — 格韦尔1-5突击步枪 (VG1-5)
       gewehr_1_5: {
         gunId: 'bf1:vg15', GunFireMode: 'AUTO', GunCurrentAmmoCount: 30,
@@ -119,7 +133,7 @@ PROF_CONFIGS.assault = {
     },
     tertiary: {},
   },
-  weapons: { primary: ['ak47','scar_l','gewehr_1_5'], secondary: ['mars','ruby'], tertiary: ['snowball'] },
+  weapons: { primary: ['ak47','scar_l','gewehr_1_5','lavenderdarne1912', 'lavenderberretam1918'], secondary: ['mars','ruby'], tertiary: ['snowball'] },
 
   // ===== 非 TACZ 武器 =====
   nonTaczDisplay: {
