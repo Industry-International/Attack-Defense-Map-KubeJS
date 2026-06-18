@@ -139,24 +139,54 @@ jobs:
       - name: 检出仓库代码
         uses: actions/checkout@v4
 
-      - name: 复制 KubeJS 客户端目录
-        run: |
-          SRC="kubejs-client"
-          if [ -d "$SRC" ]; then
-            echo "找到目录: $SRC"
-            cp -r "$SRC" "KubeJS-client-${{ github.event.release.tag_name }}"
-            echo "复制完成"
-          else
-            echo "目录不存在: $SRC"
-            exit 1
-          fi
+      - name: 创建打包暂存目录
+        run: mkdir -p build
 
+      # ===== 复制白名单文件夹 =====
+      - name: 复制白名单文件夹
+        run: |
+          # ⭐ 在此添加需要打包的文件夹（用空格分隔）
+          DIRS="startup_scripts client_scripts assets data config"
+          for dir in $DIRS; do
+            if [ -d "$dir" ]; then
+              echo "添加文件夹: $dir"
+              cp -r "$dir" "build/$dir"
+            else
+              echo "文件夹不存在，跳过: $dir"
+            fi
+          done
+
+      # ===== 复制白名单文件 =====
+      - name: 复制白名单根目录文件
+        run: |
+          # ⭐ 在此添加需要打包的根目录文件（用空格分隔）
+          FILES="README.txt LICENSE 海战参数迁移更新日志.md 更新日志.md"
+          for file in $FILES; do
+            if [ -f "$file" ]; then
+              echo "添加文件: $file"
+              cp "$file" "build/$file"
+            else
+              echo "文件不存在，跳过: $file"
+            fi
+          done
+
+      # ===== 生成版本信息 =====
+      - name: 生成版本信息
+        run: |
+          echo "version=${{ github.event.release.tag_name || github.ref_name }}" > build/version.txt
+          echo "date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> build/version.txt
+          echo "commit=${{ github.sha }}" >> build/version.txt
+          echo "已生成 build/version.txt"
+
+      # ===== 压缩打包 =====
       - name: 压缩为 ZIP
         run: |
-          ZIP_NAME="KubeJS-client-${{ github.event.release.tag_name }}.zip"
-          zip -r "$ZIP_NAME" "KubeJS-client-${{ github.event.release.tag_name }}"
-          echo "压缩完成: $ZIP_NAME"
-          echo "大小: $(du -h $ZIP_NAME | cut -f1)"
+          cd build
+          zip -r "../${{ env.PACKAGE_NAME }}.zip" ./*
+          cd ..
+          echo "压缩完成: ${{ env.PACKAGE_NAME }}.zip"
+          echo "大小: $(du -h ${{ env.PACKAGE_NAME }}.zip | cut -f1)"
+
 
       - name: 上传 KubeJS 客户端到 Release
         uses: softprops/action-gh-release@v2
