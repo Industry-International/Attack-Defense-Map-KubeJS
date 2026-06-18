@@ -127,3 +127,38 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: TACZ枪械配件数据-${{ github.event.release.tag_name }}.zip
+
+  
+  kubjs-data-upload:
+    name: 打包 KubeJS client 并上传
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v4
+
+      - name: 复制 KubeJS 客户端目录
+        run: |
+          SRC="kubejs-client"
+          if [ -d "$SRC" ]; then
+            echo "找到目录: $SRC"
+            cp -r "$SRC" "KubeJS-client-${{ github.event.release.tag_name }}"
+            echo "复制完成"
+          else
+            echo "目录不存在: $SRC"
+            exit 1
+          fi
+
+      - name: 压缩为 ZIP
+        run: |
+          ZIP_NAME="KubeJS-client-${{ github.event.release.tag_name }}.zip"
+          zip -r "$ZIP_NAME" "KubeJS-client-${{ github.event.release.tag_name }}"
+          echo "压缩完成: $ZIP_NAME"
+          echo "大小: $(du -h $ZIP_NAME | cut -f1)"
+
+      - name: 上传 KubeJS 客户端到 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: KubeJS-client-${{ github.event.release.tag_name }}.zip
