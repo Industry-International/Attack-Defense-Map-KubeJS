@@ -6,7 +6,8 @@
 # 功能：
 #   Job 1 - 按白名单过滤需要打包的文件夹/文件，压缩为 KubeJS-脚本包.zip
 #   Job 2 - 打包 ./tacz所有的枪械配件数据/ 目录，压缩为 TACZ枪械配件数据-<tag>.zip
-#   两者均自动上传到当前 Release 的附件
+#   Job 3 - 打包 KubeJS client（不含 server_scripts），压缩为 KubeJS-client-<tag>.zip
+#   三者均自动上传到当前 Release 的附件
 # ============================================================
 
 name: KubeJS 发版打包
@@ -21,6 +22,7 @@ on:
 # ============================================================
 env:
   PACKAGE_NAME: "KubeJS-${{ github.event.release.tag_name }}"
+  CLIENT_PACKAGE_NAME: "KubeJS-client-${{ github.event.release.tag_name }}"
 
 jobs:
   # ============================================================
@@ -129,7 +131,7 @@ jobs:
           files: TACZ枪械配件数据-${{ github.event.release.tag_name }}.zip
 
   
-  kubjs-data-upload:
+  kubejs-client-upload:
     name: 打包 KubeJS client 并上传
     runs-on: ubuntu-latest
     permissions:
@@ -182,13 +184,13 @@ jobs:
       - name: 压缩为 ZIP
         run: |
           cd build
-          zip -r "../${{ env.PACKAGE_NAME }}.zip" ./*
+          zip -r "../${{ env.CLIENT_PACKAGE_NAME }}.zip" ./*
           cd ..
-          echo "压缩完成: ${{ env.PACKAGE_NAME }}.zip"
-          echo "大小: $(du -h ${{ env.PACKAGE_NAME }}.zip | cut -f1)"
+          echo "压缩完成: ${{ env.CLIENT_PACKAGE_NAME }}.zip"
+          echo "大小: $(du -h ${{ env.CLIENT_PACKAGE_NAME }}.zip | cut -f1)"
 
 
       - name: 上传 KubeJS 客户端到 Release
         uses: softprops/action-gh-release@v2
         with:
-          files: KubeJS-client-${{ github.event.release.tag_name }}.zip
+          files: ${{ env.CLIENT_PACKAGE_NAME }}.zip
