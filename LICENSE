@@ -1,9 +1,178 @@
-版权所有 (c) 2026
+# Industry-International 自定义软件许可协议
+# Industry-International Custom Software License Agreement
 
-保留所有权利 (All Rights Reserved)。
+**版权所有 © 2026 Industry-International 组织。保留所有权利。**
+**Copyright © 2026 Industry-International Organization. All Rights Reserved.**
 
-未经版权所有者事先书面许可，任何人不得以任何形式或方式复制、分发、修改、传播、展示、表演、再许可或出售本作品的任何部分，或基于本作品创作衍生作品。
+---
 
-特此授予查看本作品源代码的权限，仅供个人参考。任何其他用途，包括但不限于复制、修改、合并、出版、分发、再许可和/或出售本作品的副本，均被严格禁止，除非获得版权所有者的明确书面同意。
+## 项目标识 / Project Identification
 
-本作品按"原样"提供，不附带任何明示或暗示的保证，包括但不限于适销性、特定用途适用性和非侵权性的保证。在任何情况下，作者或版权所有者均不对任何索赔、损害赔偿或其他责任负责，无论是在合同、侵权或其他方面，由本作品或本作品的使用或其他交易引起或与之相关。
+- **项目名称 / Project Name**: Attack-Defense-Map-KubeJS
+- **所属组织 / Organization**: Industry-International
+- **仓库地址 / Repository**: https://github.com/Industry-International/Attack-Defense-Map-KubeJS
+- **适用版本 / Applicable Versions**: 所有版本及衍生版本 / All versions and derivatives
+
+---
+
+## [中文版本]
+
+### 第一条：版权声明
+
+1.1 本软件作品（以下简称"本作品"），包括但不限于其中的源代码、脚本文件、配置文件、资源文件、文档及相关材料，其知识产权和著作权归 **Industry-International 组织**（以下简称"版权所有者"）所有。
+
+1.2 本作品受《中华人民共和国著作权法》及国际版权公约的保护。未经版权所有者明确书面许可，任何个人或单位不得以任何形式使用本作品。
+
+### 第二条：许可范围与限制
+
+2.1 **允许的行为**：
+   - （a）个人出于学习、研究或参考目的，查看本作品的源代码。
+   - （b）在保留完整版权声明的前提下，于个人环境中运行本作品。
+   - （c）向版权所有者提交 Issue 或 Pull Request，参与本作品的改进。
+
+2.2 **严格禁止的行为**（未经版权所有者书面授权）：
+   - （a）以任何形式复制、分发、公开发布本作品的全部或部分内容。
+   - （b）修改、翻译、改编或基于本作品创作衍生作品。
+   - （c）将本作品用于商业用途，包括但不限于销售、租赁、捆绑销售或作为付费服务的一部分。
+   - （d）将本作品整合到其他项目中并重新发布。
+   - （e）移除、修改或遮盖本作品中的任何版权声明或归属信息。
+   - （f）对本作品进行逆向工程、反编译或反汇编（适用法律允许的除外）。
+
+### 第三条：贡献者条款
+
+3.1 任何向本作品提交代码、文档或其他贡献的个人或实体（以下简称"贡献者"），即视为同意将其贡献的全部知识产权**不可撤销地转让给 Industry-International 组织**。
+
+3.2 贡献者声明并保证其贡献的内容为原创，不侵犯任何第三方的知识产权或其他合法权益。
+
+3.3 贡献者同意放弃其贡献中可能享有的所有精神权利（在适用法律允许的最大范围内），以使 Industry-International 组织能够自由地使用、修改和分发相关贡献。
+
+### 第四条：免责声明
+
+4.1 本作品按"原样"（AS IS）提供，**不附带任何明示或暗示的保证**，包括但不限于：
+   - （a）对适销性（MERCHANTABILITY）的默示保证。
+   - （b）对特定用途适用性（FITNESS FOR A PARTICULAR PURPOSE）的默示保证。
+   - （c）对非侵权性（NON-INFRINGEMENT）的默示保证。
+   - （d）关于本作品无缺陷、错误或中断的保证。
+
+4.2 版权所有者不保证本作品与任何特定 Minecraft 版本、Mod 加载器或模组环境的兼容性。
+
+### 第五条：责任限制
+
+5.1 **在任何情况下**，版权所有者均不对因使用或无法使用本作品而引起的任何索赔、损害赔偿或其他责任负责，无论该责任是基于合同、侵权（包括过失）还是其他法律理论。
+
+5.2 上述限制适用于但不限于：
+   - （a）直接损失或间接损失。
+   - （b）数据丢失或损坏。
+   - （c）利润损失、业务中断。
+   - （d）游戏存档或游戏环境的损坏。
+   - （e）任何由本作品引起的服务器故障、崩溃或安全问题。
+
+### 第六条：协议终止
+
+6.1 如果被许可方违反本协议的任何条款，本协议授予的许可将**自动立即终止**，无需版权所有者另行通知。
+
+6.2 协议终止后，被许可方必须立即停止使用本作品，并销毁其持有的所有本作品副本。
+
+### 第七条：其他
+
+7.1 本协议构成版权所有者与被许可方之间关于本作品的完整协议，取代之前就同一事项达成的任何口头或书面约定。
+
+7.2 如果本协议的任何条款被认定为无效或不可执行，其余条款仍应保持完全效力。
+
+7.3 本协议受**中华人民共和国法律**管辖，并按其解释。因本协议引起的争议应提交版权所有者所在地有管辖权的人民法院解决。
+
+7.4 本协议的中文版本与英文版本如有歧义，以**中文版本**为准。
+
+### 第八条：许可申请
+
+如需获得本协议未明确允许的任何使用授权，请通过以下方式联系 Industry-International 组织：
+
+- **GitHub**: https://github.com/Industry-International
+- **项目仓库**: https://github.com/Industry-International/Attack-Defense-Map-KubeJS
+  （通过 Issues 或 Discussions 联系项目维护者）
+
+所有许可请求将在合理时间内得到审核和回复。
+
+---
+
+## [English Version]
+
+### Article 1: Copyright Notice
+
+1.1 This software work (hereinafter referred to as "the Work"), including but not limited to its source code, scripts, configuration files, resource files, documentation, and related materials, is the intellectual property of the **Industry-International Organization** (hereinafter referred to as the "Copyright Holder").
+
+1.2 The Work is protected by copyright laws and international copyright treaties. No individual or entity may use the Work in any form without the express written permission of the Copyright Holder.
+
+### Article 2: Scope and Restrictions
+
+2.1 **Permitted Actions**:
+   - (a) Viewing the source code of the Work for personal learning, research, or reference purposes.
+   - (b) Running the Work in a personal environment, provided that the complete copyright notice is retained.
+   - (c) Submitting Issues or Pull Requests to the Copyright Holder for the purpose of improving the Work.
+
+2.2 **Strictly Prohibited Actions** (without written authorization from the Copyright Holder):
+   - (a) Copying, distributing, or publicly publishing any part or all of the Work in any form.
+   - (b) Modifying, translating, adapting, or creating derivative works based on the Work.
+   - (c) Using the Work for commercial purposes, including but not limited to sale, rental, bundling, or as part of a paid service.
+   - (d) Incorporating the Work into other projects for redistribution.
+   - (e) Removing, modifying, or obscuring any copyright notices or attribution information within the Work.
+   - (f) Reverse engineering, decompiling, or disassembling the Work (except to the extent permitted by applicable law).
+
+### Article 3: Contributor Terms
+
+3.1 Any individual or entity (hereinafter "Contributor") who submits code, documentation, or other contributions to the Work agrees to **irrevocably assign** all intellectual property rights in their contributions to the Industry-International Organization.
+
+3.2 The Contributor represents and warrants that their contributions are original and do not infringe upon any third-party intellectual property or other legal rights.
+
+3.3 To the maximum extent permitted by applicable law, the Contributor waives all moral rights in their contributions, enabling the Industry-International Organization to freely use, modify, and distribute the contributions.
+
+### Article 4: Disclaimer of Warranty
+
+4.1 THE WORK IS PROVIDED "AS IS", **WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED**, INCLUDING BUT NOT LIMITED TO:
+   - (a) The implied warranty of MERCHANTABILITY.
+   - (b) The implied warranty of FITNESS FOR A PARTICULAR PURPOSE.
+   - (c) The implied warranty of NON-INFRINGEMENT.
+   - (d) Warranties that the Work is free from defects, errors, or interruptions.
+
+4.2 The Copyright Holder does not warrant compatibility of the Work with any specific Minecraft version, mod loader, or mod environment.
+
+### Article 5: Limitation of Liability
+
+5.1 **IN NO EVENT** shall the Copyright Holder be liable for any claim, damages, or other liability arising from the use or inability to use the Work, whether based on contract, tort (including negligence), or any other legal theory.
+
+5.2 The above limitations apply to, but are not limited to:
+   - (a) Direct or indirect damages.
+   - (b) Data loss or corruption.
+   - (c) Loss of profits or business interruption.
+   - (d) Damage to game saves or game environments.
+   - (e) Any server failures, crashes, or security issues caused by the Work.
+
+### Article 6: Termination
+
+6.1 Any violation of the terms of this Agreement will result in the **automatic and immediate termination** of any license granted herein, without prior notice from the Copyright Holder.
+
+6.2 Upon termination, the licensee must immediately cease using the Work and destroy all copies of the Work in their possession.
+
+### Article 7: Miscellaneous
+
+7.1 This Agreement constitutes the entire agreement between the Copyright Holder and the licensee regarding the Work, superseding any prior oral or written agreements on the same subject matter.
+
+7.2 If any provision of this Agreement is held to be invalid or unenforceable, the remaining provisions shall remain in full force and effect.
+
+7.3 This Agreement shall be governed by and construed in accordance with the **laws of the People's Republic of China**. Any disputes arising from this Agreement shall be submitted to the competent People's Court in the locality of the Copyright Holder.
+
+7.4 In the event of any discrepancy between the Chinese and English versions of this Agreement, the **Chinese version** shall prevail.
+
+### Article 8: Permission Requests
+
+To obtain authorization for any use not explicitly permitted by this Agreement, please contact the Industry-International Organization through:
+
+- **GitHub**: https://github.com/Industry-International
+- **Project Repository**: https://github.com/Industry-International/Attack-Defense-Map-KubeJS
+  (Contact project maintainers via Issues or Discussions)
+
+All permission requests will be reviewed and responded to within a reasonable timeframe.
+
+---
+
+*本协议最后更新日期 / Last Updated: 2026-06-19*
