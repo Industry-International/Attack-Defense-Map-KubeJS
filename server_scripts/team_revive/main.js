@@ -4,11 +4,11 @@
 // 功能：
 //   1. 复活券模型：队伍拥有复活券池，死亡消耗 1 张
 //   2. 券归零时调用数据包函数淘汰队伍（只触发一次）
-//   3. 可通过命令 /team_revive add <队伍> <数量> 增加复活券
+//   3. 可通过命令 /team_revive add <数量> 为进攻方增加复活券
 //   4. 可通过命令 /team_revive reset 重置所有队伍
 //   5. 公开全局函数 addTeamTickets() 供其他 KubeJS 脚本调用
 //   6. 通过 game_state 计分板判断游戏是否进行中
-//   7. 未在配置中列出的队伍不使用复活券系统
+//   7. 自动读取原版 /team 命令创建的所有队伍
 // ============================================================
 
 if (typeof TEAM_REVIVE_CONFIG === 'undefined') {
@@ -300,20 +300,24 @@ ServerEvents.commandRegistry(event => {
   let args = event.arguments
 
   /**
-   * 执行 /team_revive add <队伍> <数量> - 增加复活券
+   * 执行 /team_revive add <数量> - 给进攻方增加复活券
    */
   function executeAdd(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
-    let teamName = $StringArgument.getString(ctx, 'team')
     let amount = $IntegerArgument.getInteger(ctx, 'amount')
 
-    let cfg = getTeamConfig(teamName)
-    if (!cfg) {
-      source.sendFailure(Component.translatable('msg.kubejs.team_revive.no_config', teamName))
+    // 自动取配置中第一个队伍（进攻方专用）
+    let teamName = null
+    for (let t in CFG.teams) {
+      if (CFG.teams.hasOwnProperty(t)) { teamName = t; break }
+    }
+    if (!teamName) {
+      source.sendFailure(Component.translatable('msg.kubejs.team_revive.no_config', ''))
       return 0
     }
 
+    let cfg = getTeamConfig(teamName)
     let store = getTicketsStore(server)
     let key = teamName.toLowerCase()
     let current = store[key] !== undefined ? store[key] : cfg.initial
@@ -330,9 +334,6 @@ ServerEvents.commandRegistry(event => {
       String(cfg.max),
       String(actualAdded)
     ), true)
-
-    // 如果加券后 >0 且之前被标记为淘汰，可以自动解除淘汰标记
-    // 由管理员自行决定是否要解除淘汰标记
     return 1
   }
 
@@ -408,15 +409,12 @@ ServerEvents.commandRegistry(event => {
     cmd.literal('team_revive')
       .requires(function(s) { return s.hasPermission(2) })
 
-      // ---- add <team> <amount> ----
+      // ---- add <amount> ----
       .then(
         cmd.literal('add')
           .then(
-            cmd.argument('team', args.STRING.create(event))
-              .then(
-                cmd.argument('amount', args.INTEGER.create(event))
-                  .executes(executeAdd)
-              )
+            cmd.argument('amount', args.INTEGER.create(event))
+              .executes(executeAdd)
           )
       )
 

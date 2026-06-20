@@ -16,8 +16,6 @@ const TEAM_REVIVE_CONFIG = {
    * 使用复活券系统的队伍配置
    * 键：队伍名（小写）
    * 值：{ max: 最大复活券数, initial: 开局复活券数 }
-   *
-   * 未列出的队伍不使用复活券系统，其死亡不会被统计。
    */
   teams: {
     attacker: { max: 200, initial: 200 }
