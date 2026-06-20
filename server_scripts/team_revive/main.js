@@ -42,12 +42,19 @@ function getTeamConfig(teamName) {
 // ========== 持久化数据工具 ==========
 
 /**
- * 获取复活券数据的存储引用
+ * 读取复活券数据（JSON 序列化，参考 profession_backpack.js）
  */
 function getTicketsStore(server) {
-  let root = server.persistentData
-  if (!root[CFG.persistKey]) root[CFG.persistKey] = {}
-  return root[CFG.persistKey]
+  let raw = server.persistentData.getString(CFG.persistKey)
+  if (!raw || raw === '') return {}
+  try { return JSON.parse(raw) } catch(e) { return {} }
+}
+
+/**
+ * 保存复活券数据（JSON 序列化）
+ */
+function saveTicketsStore(server, data) {
+  server.persistentData.putString(CFG.persistKey, JSON.stringify(data))
 }
 
 /**
@@ -68,9 +75,12 @@ function getTeamTickets(server, teamName) {
   // 如果还没有数据，用初始值
   if (store[key] === undefined) {
     let cfg = getTeamConfig(key)
-    if (cfg) store[key] = cfg.initial
+    if (cfg) {
+      store[key] = cfg.initial
+      saveTicketsStore(server, store)
+    }
   }
-  return store[key] !== undefined ? store[key] : null
+  return store[key] !== undefined ? Number(store[key]) : null
 }
 
 /**
@@ -109,11 +119,12 @@ function addTeamTickets(server, teamName, amount) {
   }
 
   let store = getTicketsStore(server)
-  let current = store[key] !== undefined ? store[key] : cfg.initial
+  let current = store[key] !== undefined ? Number(store[key]) : cfg.initial
   let before = current
   current = Math.min(current + amount, cfg.max)
   current = Math.max(0, current)
   store[key] = current
+  saveTicketsStore(server, store)
 
   let actualAdded = current - before
   log('队伍 [' + teamName + '] 复活券: ' + before + ' → ' + current + ' (尝试增加 ' + amount + '，实际增加 ' + actualAdded + ')')
@@ -128,13 +139,14 @@ function consumeTicket(server, teamName) {
   let key = teamName.toLowerCase()
   let store = getTicketsStore(server)
 
-  let current = store[key] !== undefined ? store[key] : getTeamConfig(key).initial
+  let current = store[key] !== undefined ? Number(store[key]) : getTeamConfig(key).initial
   if (current <= 0) {
     return false // 已无券可用
   }
 
   current = current - 1
   store[key] = current
+  saveTicketsStore(server, store)
 
   if (current <= 0) {
     eliminateTeam(server, teamName)
@@ -154,6 +166,7 @@ function resetAll(server) {
       store[teamKey] = CFG.teams[teamKey].initial
     }
   }
+  saveTicketsStore(server, store)
   // 清除淘汰标记
   server.persistentData[CFG.eliminatedKey] = {}
   log('所有队伍的复活券已重置')
@@ -320,11 +333,12 @@ ServerEvents.commandRegistry(event => {
     let cfg = getTeamConfig(teamName)
     let store = getTicketsStore(server)
     let key = teamName.toLowerCase()
-    let current = store[key] !== undefined ? store[key] : cfg.initial
+    let current = store[key] !== undefined ? Number(store[key]) : cfg.initial
     let before = current
     current = Math.min(current + amount, cfg.max)
     current = Math.max(0, current)
     store[key] = current
+    saveTicketsStore(server, store)
     let actualAdded = current - before
 
     source.sendSuccess(Component.translatable(
@@ -362,7 +376,7 @@ ServerEvents.commandRegistry(event => {
       if (!CFG.teams.hasOwnProperty(teamKey)) continue
       hasData = true
       let cfg = CFG.teams[teamKey]
-      let current = store[teamKey] !== undefined ? store[teamKey] : cfg.initial
+      let current = store[teamKey] !== undefined ? Number(store[teamKey]) : cfg.initial
       let eliminated = isTeamEliminated(server, teamKey)
       let status = eliminated ? '§c✗ 已淘汰' : '§a✓ 存活'
       msg = msg.append('\n').append(Component.translatable(
@@ -392,7 +406,7 @@ ServerEvents.commandRegistry(event => {
     }
     let store = getTicketsStore(server)
     let key = teamName.toLowerCase()
-    let current = store[key] !== undefined ? store[key] : cfg.initial
+    let current = store[key] !== undefined ? Number(store[key]) : cfg.initial
     let eliminated = isTeamEliminated(server, key)
     source.sendSuccess(Component.translatable(
       'msg.kubejs.team_revive.status_single',
