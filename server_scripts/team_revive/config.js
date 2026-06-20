@@ -29,12 +29,9 @@ const TEAM_REVIVE_CONFIG = {
   // ======== 淘汰函数配置 ========
 
   /**
-   * 队伍被淘汰时调用的数据包函数路径模板
-   * %s 会被替换为队伍名（自动转为小写）
-   *
-   * 示例："game:eliminated/%s"  →  game:eliminated/attack
+   * 进攻方被淘汰时调用的数据包函数路径（固定值）
    */
-  functionTemplate: "game:eliminated/%s",
+  functionPath: "game:eliminated",
 
   // ======== 计分板状态检测 ========
 

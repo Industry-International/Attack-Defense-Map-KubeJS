@@ -171,10 +171,9 @@ function eliminateTeam(server, teamName) {
   }
   markEliminated(server, key)
 
-  // 解析函数路径并执行
-  let funcPath = CFG.functionTemplate.replace('%s', key)
-  server.runCommandSilent('function ' + funcPath)
-  log('队伍 [' + teamName + '] 已被淘汰 → 调用函数: ' + funcPath)
+  // 执行固定淘汰函数（进攻方专用）
+  server.runCommandSilent('function ' + CFG.functionPath)
+  log('队伍 [' + teamName + '] 已被淘汰 → 调用函数: ' + CFG.functionPath)
 
   // 全局广播淘汰消息
   let msg = Text.translate('msg.kubejs.team_revive.eliminated', teamName)
