@@ -352,6 +352,44 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
+   * 执行 /team_revive remove <数量> - 给进攻方削减复活券（测试用）
+   */
+  function executeRemove(ctx) {
+    let source = ctx.getSource()
+    let server = source.getServer()
+    let amount = $IntegerArgument.getInteger(ctx, 'amount')
+
+    // 自动取配置中第一个队伍（进攻方专用）
+    let teamName = null
+    for (let t in CFG.teams) {
+      if (CFG.teams.hasOwnProperty(t)) { teamName = t; break }
+    }
+    if (!teamName) {
+      source.sendFailure(Component.translatable('msg.kubejs.team_revive.no_config', ''))
+      return 0
+    }
+
+    let cfg = getTeamConfig(teamName)
+    let store = getTicketsStore(server)
+    let key = teamName.toLowerCase()
+    let current = store[key] !== undefined ? Number(store[key]) : cfg.initial
+    let before = current
+    current = Math.max(0, current - amount)  // 削减，下限为 0
+    store[key] = current
+    saveTicketsStore(server, store)
+    let actualRemoved = before - current
+
+    source.sendSuccess(Component.translatable(
+      'msg.kubejs.team_revive.remove_done',
+      teamName,
+      String(current),
+      String(cfg.max),
+      String(actualRemoved)
+    ), true)
+    return 1
+  }
+
+  /**
    * 执行 /team_revive reset - 重置所有队伍复活券
    */
   function executeReset(ctx) {
@@ -429,6 +467,15 @@ ServerEvents.commandRegistry(event => {
           .then(
             cmd.argument('amount', args.INTEGER.create(event))
               .executes(executeAdd)
+          )
+      )
+
+      // ---- remove <amount> ----
+      .then(
+        cmd.literal('remove')
+          .then(
+            cmd.argument('amount', args.INTEGER.create(event))
+              .executes(executeRemove)
           )
       )
 

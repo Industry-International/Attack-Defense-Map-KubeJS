@@ -85,9 +85,19 @@ const TEAM_REVIVE_CONFIG = {
 
 ### 数据持久化
 
-- 复活券数存储在 `server.persistentData.team_revive`（JSON 字符串）
-- 淘汰标记存储在 `server.persistentData.team_revive_eliminated`
+- 复活券数存储在 `server.persistentData` 的键 `team_revive` 下（JSON 字符串格式）
+- 淘汰标记存储在 `server.persistentData` 的键 `team_revive_eliminated` 下
 - 重启服务器后数据保留
+
+#### 实际存储文件
+
+上述数据最终保存在**存档目录**下的 `kubejs_persistent_data.nbt` 文件中（gzip 压缩的 NBT 格式）：
+
+```
+<服务器目录>/saves/<存档名>/kubejs_persistent_data.nbt
+```
+
+> 例如：`saves/攻防战 v3 bata12/kubejs_persistent_data.nbt`
 
 ---
 
@@ -96,6 +106,7 @@ const TEAM_REVIVE_CONFIG = {
 | 指令 | 权限 | 说明 |
 |------|------|------|
 | `/team_revive add <数量>` | OP 2 | 为进攻方增加复活券（不超过上限） |
+| `/team_revive remove <数量>` | OP 2 | 为进攻方削减复活券（下限为 0，测试用） |
 | `/team_revive reset` | OP 2 | 重置所有队伍复活券到初始值，清除淘汰标记 |
 | `/team_revive status [<队伍>]` | OP 2 | 查看复活券状态（不指定队伍时显示全部） |
 
@@ -104,6 +115,9 @@ const TEAM_REVIVE_CONFIG = {
 ```mcfunction
 # 为进攻方增加 50 张复活券
 /team_revive add 50
+
+# 为进攻方削减 30 张复活券（测试用）
+/team_revive remove 30
 
 # 查看所有队伍状态
 /team_revive status
@@ -124,6 +138,7 @@ const TEAM_REVIVE_CONFIG = {
 | 翻译键 | 说明 |
 |--------|------|
 | `msg.kubejs.team_revive.add_done` | 增加复活券成功消息 |
+| `msg.kubejs.team_revive.remove_done` | 削减复活券成功消息 |
 | `msg.kubejs.team_revive.reset_done` | 重置成功消息 |
 | `msg.kubejs.team_revive.status_header` | 状态列表标题 |
 | `msg.kubejs.team_revive.status_line` | 状态列表行 |

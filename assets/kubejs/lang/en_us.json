@@ -163,5 +163,6 @@
   "msg.kubejs.team_revive.status_empty": "§7No teams configured for ticket system",
   "msg.kubejs.team_revive.usage": "§cUsage: /team_revive <add <team> <amount>|reset|status [team]>",
   "msg.kubejs.team_revive.add_done": "§a✔ Team %s tickets: %s/%s (added %s)",
+  "msg.kubejs.team_revive.remove_done": "§c✖ Team %s tickets: %s/%s (removed %s)",
   "msg.kubejs.team_revive.no_config": "§cTeam %s has no ticket system configured"
 }
