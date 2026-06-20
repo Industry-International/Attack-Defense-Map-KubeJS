@@ -151,5 +151,17 @@
 
   "gui.kubejs.page.info": "§7Page %s/%s",
   "gui.kubejs.page.prev": "§e← Prev",
-  "gui.kubejs.page.next": "§eNext →"
+  "gui.kubejs.page.next": "§eNext →",
+
+  "msg.kubejs.team_revive.eliminated": "§4§l⚔ Team %s has been eliminated!",
+  "msg.kubejs.team_revive.tickets_left": "§e[Team] %s: %s/%s tickets remaining",
+  "msg.kubejs.team_revive.no_permission": "§cYou don't have permission to use this command",
+  "msg.kubejs.team_revive.reset_done": "§a✔ All team tickets have been reset",
+  "msg.kubejs.team_revive.status_header": "§6=== Team Tickets Status ===",
+  "msg.kubejs.team_revive.status_single": "§eTeam %s: %s/%s tickets — %s",
+  "msg.kubejs.team_revive.status_line": "§7%s: §e%s§7/§e%s tickets §7%s",
+  "msg.kubejs.team_revive.status_empty": "§7No teams configured for ticket system",
+  "msg.kubejs.team_revive.usage": "§cUsage: /team_revive <add <team> <amount>|reset|status [team]>",
+  "msg.kubejs.team_revive.add_done": "§a✔ Team %s tickets: %s/%s (added %s)",
+  "msg.kubejs.team_revive.no_config": "§cTeam %s has no ticket system configured"
 }
