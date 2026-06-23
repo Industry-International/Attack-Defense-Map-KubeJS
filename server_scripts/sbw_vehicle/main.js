@@ -2,8 +2,8 @@
 // SBW 卓越前线 - 载具自动部署系统 核心逻辑
 //
 // 功能：
-//   1. 自动部署：游戏开始时（game_state == 1）自动部署配置的载具
-//   2. 标签管理：每辆载具携带唯一标签，不重复生成
+//   1. 自动部署：由数据包调用 /sbw_vehicle deploy 触发
+//   2. 标签管理：每辆载具携带唯一标签，存活期间不重复生成
 //   3. 自动重生：载具被摧毁后，按车辆单独配置的延迟自动重新生成
 //   4. 手动命令：支持管理员手动部署/重置/状态查询
 //   5. 双重检测：EntityEvents.death + 定期扫描，防止漏检
@@ -22,44 +22,6 @@ const SBW_PREFIX = '[SBW载具]'
 function sbwLog() { console.log(SBW_PREFIX + ' ' + Array.prototype.join.call(arguments, ' ')) }
 function sbwWarn() { console.warn(SBW_PREFIX + ' ' + Array.prototype.join.call(arguments, ' ')) }
 function sbwError() { console.error(SBW_PREFIX + ' ' + Array.prototype.join.call(arguments, ' ')) }
-
-// ========== 计分板工具（优化版）==========
-
-/**
- * 读取计分板中指定虚拟玩家的分数
- * 使用 getPlayerScore 直接读取，避免遍历整个计分板
- */
-function getScore(server, holder, objectiveName) {
-  try {
-    let sb = server.getScoreboard()
-    let obj = sb.getObjective(objectiveName)
-    if (!obj) {
-      sbwWarn('计分板目标 [' + objectiveName + '] 不存在')
-      return null
-    }
-    // 直接通过虚拟玩家名获取分数（O(1) 级别）
-    return sb.getPlayerScore(holder, obj).getValue()
-  } catch (err) {
-    sbwError('读取计分板时出错:', err)
-    return null
-  }
-}
-
-/**
- * 判断游戏是否处于进行中状态
- */
-let gameActiveCache = false
-let gameActiveCheckedTick = -1
-
-function isGameActive(server) {
-  // 同一 tick 内缓存结果，避免重复查询
-  if (server.ticks === gameActiveCheckedTick) {
-    return gameActiveCache
-  }
-  gameActiveCheckedTick = server.ticks
-  gameActiveCache = getScore(server, VEHICLE_CFG.scoreHolder, VEHICLE_CFG.scoreObjective) === VEHICLE_CFG.activeValue
-  return gameActiveCache
-}
 
 // ========== Java 类引用 ==========
 
@@ -232,6 +194,35 @@ function getFullTag(vehicleId) {
   return VEHICLE_CFG.tagPrefix + vehicleId
 }
 
+// ========== 系统开关（独立状态，不依赖计分板）==========
+
+/**
+ * 判断载具系统是否已激活
+ * 独立存储在 persistentData 中，通过 /sbw_vehicle start/stop 控制
+ */
+function isSystemActive(server) {
+  try {
+    let store = getStore(server)
+    return store.active === true
+  } catch(e) {
+    return false
+  }
+}
+
+/**
+ * 设置载具系统激活状态
+ */
+function setSystemActive(server, active) {
+  let store = getStore(server)
+  store.active = active
+  saveStore(server, store)
+  if (active) {
+    sbwLog('系统已激活，开始追踪载具')
+  } else {
+    sbwLog('系统已停用，停止追踪载具')
+  }
+}
+
 // ========== 实体查找工具（优化版）==========
 
 /**
@@ -309,6 +300,75 @@ function findVehicleEntity(server, state, tag) {
   return findEntityByTag(server, tag)
 }
 
+// ========== 数量管理 ==========
+
+/**
+ * 统计世界中拥有指定标签的实体数量
+ * 用于 maxCount 上限检查
+ */
+function countAliveByTag(server, tag) {
+  let count = 0
+  let levels = server.getAllLevels()
+  let iter = levels.iterator()
+  while (iter.hasNext()) {
+    let level = iter.next()
+    let entities = level.getEntities()
+    let eIter = entities.iterator()
+    while (eIter.hasNext()) {
+      let entity = eIter.next()
+      if (entityHasStringTag(entity, tag)) {
+        count++
+      }
+    }
+  }
+  return count
+}
+
+/**
+ * 超出 maxCount 时清理多余的实体（保留 store 中注册的，丢弃多余的）
+ * @returns {number} 清理的数量
+ */
+function trimExcessVehicles(server, tag, maxCount, storeVehicleId) {
+  let keepUuid = null
+  let store = getStore(server)
+  let state = store.vehicles[storeVehicleId]
+  if (state && state.uuid) keepUuid = state.uuid
+
+  // 收集所有拥有该标签的实体
+  let candidates = []
+  let levels = server.getAllLevels()
+  let iter = levels.iterator()
+  while (iter.hasNext()) {
+    let level = iter.next()
+    let entities = level.getEntities()
+    let eIter = entities.iterator()
+    while (eIter.hasNext()) {
+      let entity = eIter.next()
+      if (entityHasStringTag(entity, tag)) {
+        candidates.push(entity)
+      }
+    }
+  }
+
+  // 如果超过上限，丢弃多余的（优先保留 store 中注册的）
+  if (candidates.length > maxCount) {
+    let removed = 0
+    for (let i = 0; i < candidates.length; i++) {
+      if (removed >= candidates.length - maxCount) break
+      let e = candidates[i]
+      if (keepUuid) {
+        let uuid = e.getNbt().getString('UUID')
+        if (uuid === keepUuid) continue // 保留 store 中注册的那辆
+      }
+      e.discard()
+      removed++
+      sbwLog('maxCount 超限清理：已丢弃多余的载具 [' + storeVehicleId + ']')
+    }
+    return removed
+  }
+  return 0
+}
+
 // ========== 载具部署 ==========
 
 /**
@@ -379,11 +439,19 @@ function spawnVehicleEntity(server, vehicleCfg) {
 function deployVehicle(server, teamName, vehicleCfg) {
   let vehicleId = vehicleCfg.id
   let tag = getFullTag(vehicleId)
+  let maxCount = vehicleCfg.maxCount
 
   // ─── 解析 deployNBT ───
-  // 直接将车辆配置中的 deployNBT 传递给生成函数
-  // 不写 deployNBT → 白板生成（仅 Rotation + Tags）
   vehicleCfg._resolvedDeployNBT = vehicleCfg.deployNBT || null
+
+  // ─── maxCount 检查：当前存活数 ≥ 上限则跳过 ───
+  if (maxCount && maxCount > 0) {
+    let aliveCount = countAliveByTag(server, tag)
+    if (aliveCount >= maxCount) {
+      sbwLog('载具 [' + vehicleId + '] 存活 ' + aliveCount + '/' + maxCount + ' 已达上限，跳过生成')
+      return
+    }
+  }
 
   // 延迟读取 store，确保拿到最新的数据
   let store = getStore(server)
@@ -482,8 +550,8 @@ function handleVehicleDestroyed(server, vehicleId, vehicleCfg) {
   if (vehicleCfg.respawnDelay > 0) {
     let capturedTeam = state.team // 从 state 中捕获当前队伍
     server.scheduleInTicks(vehicleCfg.respawnDelay, function() {
-      if (!isGameActive(server)) {
-        sbwLog('游戏已结束，取消载具 [' + vehicleId + '] 的重生')
+      if (!isSystemActive(server)) {
+        sbwLog('系统已停用，取消载具 [' + vehicleId + '] 的重生')
         return
       }
       sbwLog('重生延迟结束，重新部署载具 [' + vehicleId + ']')
@@ -546,9 +614,9 @@ function resetAll(server) {
     // 优先 UUID 查找
     let entity = findVehicleEntity(server, state, tag)
     if (entity) {
-      entity.kill()
+      entity.discard()
       count++
-      sbwLog('已清除载具实体 [' + vehicleId + ']')
+      sbwLog('已清除载具实体 [' + vehicleId + ']（无掉落物）')
     }
   }
 
@@ -620,23 +688,31 @@ function runSweepCheck(server) {
     if (!store.vehicles.hasOwnProperty(vehicleId)) continue
     let state = store.vehicles[vehicleId]
 
-    if (state.status !== 'alive') continue
-
     let tag = getFullTag(vehicleId)
-    let entity = findVehicleEntity(server, state, tag)
-    if (!entity) {
-      sbwWarn('扫描发现：载具 [' + vehicleId + '] 实体已不存在（可能被摧毁）')
+    let vehicleCfg = findVehicleConfig(vehicleId)
+    let maxCount = vehicleCfg ? (vehicleCfg.maxCount || 0) : 0
 
-      let vehicleCfg = findVehicleConfig(vehicleId)
-      if (vehicleCfg) {
-        state.status = 'dead'
-        changed = true
-        handleVehicleDestroyed(server, vehicleId, vehicleCfg)
-      } else {
-        sbwWarn('载具 [' + vehicleId + '] 的配置已不存在，清理状态')
-        delete store.vehicles[vehicleId]
-        changed = true
+    if (state.status === 'alive') {
+      let entity = findVehicleEntity(server, state, tag)
+      if (!entity) {
+        sbwWarn('扫描发现：载具 [' + vehicleId + '] 实体已不存在（可能被摧毁）')
+
+        if (vehicleCfg) {
+          state.status = 'dead'
+          changed = true
+          handleVehicleDestroyed(server, vehicleId, vehicleCfg)
+        } else {
+          sbwWarn('载具 [' + vehicleId + '] 的配置已不存在，清理状态')
+          delete store.vehicles[vehicleId]
+          changed = true
+        }
       }
+    }
+
+    // ─── maxCount 超限清理：无论什么状态，只要实体的实际数量超过上限就清理 ───
+    if (maxCount > 0) {
+      let trimmed = trimExcessVehicles(server, tag, maxCount, vehicleId)
+      if (trimmed > 0) changed = true
     }
   }
 
@@ -654,7 +730,8 @@ EntityEvents.death(event => {
   let entity = event.entity
   let server = event.server
 
-  if (!isGameActive(server)) return
+  // 系统未激活时不处理
+  if (!isSystemActive(server)) return
 
   let vehicleId = extractVehicleIdFromEntity(entity)
   if (!vehicleId) return
@@ -668,37 +745,16 @@ EntityEvents.death(event => {
 })
 
 /**
- * 合并的 tick 处理器
- * - 每 20 tick：检测游戏开始/结束状态变化
- * - 每 40 tick：兜底扫描
+ * 定期扫描（每 40 tick ≈ 2 秒）
+ * - 检查标记为存活的实体是否还存在
+ * - maxCount 超限自动清理
  */
-let gameWasActive = false
-
 ServerEvents.tick(event => {
   let server = event.server
   let tick = server.ticks
 
-  // ───────── 游戏状态检测（每 20 tick ≈ 1 秒）─────────
-  if (tick % 20 === 0) {
-    let active = isGameActive(server)
-
-    if (active && !gameWasActive) {
-      gameWasActive = true
-      sbwLog('检测到游戏开始，开始自动部署载具...')
-      deployAllVehicles(server)
-    }
-
-    if (!active && gameWasActive) {
-      gameWasActive = false
-      sbwLog('检测到游戏结束')
-    }
-  }
-
-  // ───────── 兜底扫描（每 40 tick ≈ 2 秒）─────────
-  if (tick % 40 === 0) {
-    if (isGameActive(server)) {
-      runSweepCheck(server)
-    }
+  if (tick % 40 === 0 && isSystemActive(server)) {
+    runSweepCheck(server)
   }
 })
 

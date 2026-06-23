@@ -2,7 +2,7 @@
 // SBW 卓越前线 - 载具自动部署系统 配置文件
 //
 // 功能：
-//   1. 自动部署：游戏开始时（game_state == 1）自动部署配置的载具
+//   1. 自动部署：由数据包调用 /sbw_vehicle deploy 触发
 //   2. 标签管理：每辆载具携带唯一标签，存活期间不重复生成
 //   3. 自动重生：载具被摧毁后，按配置延迟自动重新生成
 //   4. 手动命令：支持管理员手动部署/重置
@@ -14,15 +14,6 @@
 // ============================================================
 
 const SBW_VEHICLE_CONFIG = {
-  // ======== 游戏状态检测（复用现有计分板） ========
-
-  /** 用于检测游戏状态的虚拟玩家名 */
-  scoreHolder: 'state',
-  /** 游戏状态计分板目标名 */
-  scoreObjective: 'game_state',
-  /** 表示"游戏进行中"的分数值 */
-  activeValue: 1,
-
   // ======== 持久化数据键 ========
 
   /** KubeJS persistentData 中使用的根键名 */
@@ -123,6 +114,8 @@ const SBW_VEHICLE_CONFIG = {
   //    pos           - 生成坐标 [x, y, z, yaw, pitch]
   //                       yaw=水平朝向(度), pitch=俯仰(度)，可选
   //    respawnDelay  - 重生延迟（tick，20tick=1秒）
+  //    maxCount      - （可选）最大同时存活数，默认无限制
+  //                      例如 maxCount: 1 表示此ID最多1辆存活
   //    deployNBT     - 部署时应用的初始NBT（见上方参考手册）
   //                      不填=null=白板生成
   // ==========================================================
@@ -135,8 +128,9 @@ const SBW_VEHICLE_CONFIG = {
         {
           id: 'attack_tank_1',
           vehicleType: 'superbwarfare:t_90a',
-          pos: [0.5, 64, 0.5],
+          pos: [-240.65, 107.00,-96.85],  
           respawnDelay: 1200, // 60 秒
+          maxCount: 1,        // 该ID最多同时存在1辆
           // ↓↓↓ 部署时应用的初始NBT ↓↓↓
           deployNBT: {
             // ─── 核心属性 ───
@@ -222,7 +216,8 @@ const SBW_VEHICLE_CONFIG = {
           vehicleType: 'superbwarfare:t_90a',
           pos: [-651.19, 113.00, -10.94],
           respawnDelay: 1200, // 60 秒
-                    deployNBT: {
+          maxCount: 1,        // 该ID最多同时存在1辆
+          deployNBT: {
             // ─── 核心属性 ───
             Energy: 10000000,           // 满能量
             Health: 500.0,              // 满血
@@ -293,8 +288,6 @@ const SBW_VEHICLE_CONFIG = {
               }
             }
           }
-          // 不写 deployNBT → 以白板状态生成（无能量无弹药）
-          // 如需配置，复制上方 attack_tank_1 的 deployNBT 并修改
         }
       ]
     }

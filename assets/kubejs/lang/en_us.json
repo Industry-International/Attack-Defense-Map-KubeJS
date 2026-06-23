@@ -173,5 +173,7 @@
   "msg.kubejs.sbw_vehicle.redeploy_done": "§a✔ All vehicles have been redeployed (old entities cleared)",
   "msg.kubejs.sbw_vehicle.usage": "§cUsage: /sbw_vehicle <deploy [team]|redeploy|reset|clear [team]|status>",
   "msg.kubejs.sbw_vehicle.clear_all": "§e[Debug] Cleared §c%s §evehicle entities from all teams (state reset)",
-  "msg.kubejs.sbw_vehicle.clear_team": "§e[Debug] Cleared §c%s §evehicle entities from team %s (state reset)"
+  "msg.kubejs.sbw_vehicle.clear_team": "§e[Debug] Cleared §c%s §evehicle entities from team %s (state reset)",
+  "msg.kubejs.sbw_vehicle.start_done": "§a✔ Vehicle system activated, all vehicles deployed",
+  "msg.kubejs.sbw_vehicle.stop_done": "§c✖ Vehicle system deactivated, all vehicles cleared"
 }

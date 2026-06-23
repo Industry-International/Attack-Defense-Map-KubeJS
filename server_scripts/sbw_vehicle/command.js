@@ -9,6 +9,8 @@
 //   /sbw_vehicle reset            重置所有载具状态
 //   /sbw_vehicle clear [<team>]   调试：清除指定/所有队伍的载具实体
 //   /sbw_vehicle status           查看载具状态
+//   /sbw_vehicle start            激活系统：部署所有载具，开始追踪
+//   /sbw_vehicle stop             停用系统：清除所有载具，停止追踪
 // ============================================================
 
 // ========== 工具函数（依赖 main.js 中的全局函数）==========
@@ -46,9 +48,9 @@ function clearVehicles(server, teamName) {
       let state = store.vehicles[v.id] || null
       let entity = findVehicleEntity(server, state, tag)
       if (entity) {
-        entity.kill()
+        entity.discard()
         count++
-        sbwLog('调试清除：已清除载具实体 [' + v.id + ']')
+        sbwLog('调试清除：已清除载具实体 [' + v.id + ']（无掉落物）')
       }
       // 从 store 中删除该载具的状态记录
       if (store.vehicles[v.id]) {
@@ -133,6 +135,30 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
+   * /sbw_vehicle start — 激活载具系统
+   */
+  function executeStart(ctx) {
+    let source = ctx.getSource()
+    let server = source.getServer()
+    setSystemActive(server, true)
+    deployAllVehicles(server)
+    source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.start_done'), true)
+    return 1
+  }
+
+  /**
+   * /sbw_vehicle stop — 停用载具系统
+   */
+  function executeStop(ctx) {
+    let source = ctx.getSource()
+    let server = source.getServer()
+    setSystemActive(server, false)
+    resetAll(server)
+    source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.stop_done'), true)
+    return 1
+  }
+
+  /**
    * /sbw_vehicle clear [<team>] — 调试：清除载具实体 + 重置状态
    * 清除指定队伍（或全部）的载具实体，并从 store 中移除记录
    * 之后需要手动 deploy 重新部署
@@ -198,6 +224,18 @@ ServerEvents.commandRegistry(event => {
       .then(
         cmd.literal('status')
           .executes(executeStatus)
+      )
+
+      // ---- start ----
+      .then(
+        cmd.literal('start')
+          .executes(executeStart)
+      )
+
+      // ---- stop ----
+      .then(
+        cmd.literal('stop')
+          .executes(executeStop)
       )
 
       // ---- 默认 → 用法提示 ----
