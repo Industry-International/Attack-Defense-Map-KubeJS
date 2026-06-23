@@ -215,7 +215,7 @@ function startReplenishLoop(server) {
   let interval = VEHICLE_CFG.checkInterval || 1
   sbwLog('补员循环已启动，检测间隔: ' + interval + ' tick')
 
-  $replenishIntervalId = server.scheduleInTicks(interval, function() {
+  var self = function loopCallback() {
     // 循环调度：每次执行完毕后重新调度
     try {
       checkReplenish(server)
@@ -223,9 +223,10 @@ function startReplenishLoop(server) {
       sbwError('补员循环出错: ' + err)
     }
     if ($replenishIntervalId !== null) {
-      $replenishIntervalId = server.scheduleInTicks(interval, arguments.callee)
+      $replenishIntervalId = server.scheduleInTicks(interval, loopCallback)
     }
-  })
+  }
+  $replenishIntervalId = server.scheduleInTicks(interval, self)
 }
 
 /**
