@@ -20,13 +20,14 @@ ServerEvents.commandRegistry(event => {
   let args = event.arguments
 
   /**
-   * /sbw_vehicle start — 激活载具系统，部署所有载具
+   * /sbw_vehicle start — 激活载具系统，启动补员循环
    */
   function executeStart(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
     setSystemActive(server, true)
-    deployAllVehicles(server)
+    initAllVehicleStates(server)
+    startReplenishLoop(server)
     source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.start_done'), true)
     return 1
   }
@@ -38,6 +39,7 @@ ServerEvents.commandRegistry(event => {
     let source = ctx.getSource()
     let server = source.getServer()
     setSystemActive(server, false)
+    stopReplenishLoop()
     resetAll(server)
     source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.stop_done'), true)
     return 1

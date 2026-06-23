@@ -174,7 +174,15 @@
   "msg.kubejs.sbw_vehicle.usage": "§c用法: /sbw_vehicle <deploy [队伍]|redeploy|reset|clear [队伍]|status|start|stop|time|debug_inspect <队伍> <ID>>",
   "msg.kubejs.sbw_vehicle.clear_all": "§e[调试] 已清除全部队伍的 §c%s 个 §e载具实体（状态已重置）",
   "msg.kubejs.sbw_vehicle.clear_team": "§e[调试] 已清除队伍 %s 的 §c%s 个 §e载具实体（状态已重置）",
-  "msg.kubejs.sbw_vehicle.start_done": "§a✔ 载具系统已激活，所有载具已部署",
-  "msg.kubejs.sbw_vehicle.stop_done": "§c✖ 载具系统已停用，所有载具已清除",
-  "msg.kubejs.sbw_vehicle.time_header": "§6=== 载具重生倒计时 ==="
+  "msg.kubejs.sbw_vehicle.start_done": "§a✔ 载具系统已激活，补员循环已启动",
+  "msg.kubejs.sbw_vehicle.stop_done": "§c✖ 载具系统已停用，补员循环已停止",
+  "msg.kubejs.sbw_vehicle.time_header": "§6=== 载具重生倒计时 ===",
+  "msg.kubejs.sbw_vehicle.state.uninitialized": "§7未初始化",
+  "msg.kubejs.sbw_vehicle.state.idle": "§8空闲",
+  "msg.kubejs.sbw_vehicle.state.waiting_chunk": "§7◐ 等待区块",
+  "msg.kubejs.sbw_vehicle.state.chunk_loaded": "§b◑ 区块就绪",
+  "msg.kubejs.sbw_vehicle.state.deployed": "§a✓ 已部署",
+  "msg.kubejs.sbw_vehicle.state.over_capacity": "§c⚠ 载具超量",
+  "msg.kubejs.sbw_vehicle.state.under_capacity": "§e⬇ 载具不足",
+  "msg.kubejs.sbw_vehicle.state.timing": "§e⟳ 补员中"
 }

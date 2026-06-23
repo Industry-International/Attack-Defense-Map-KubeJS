@@ -46,25 +46,20 @@ function deployVehicle(server, teamName, vehicleCfg) {
   let vehicleId = vehicleCfg.id, tag = getFullTag(vehicleId)
 
   // 检查数量是否已达标
-  if ((vehicleCfg.maxCount || 0) > 0 && countAliveByTag(server, tag) >= vehicleCfg.maxCount) return
-
-  let store = getStore(server)
-  if (!store.vehicles[vehicleId]) {
-    store.vehicles[vehicleId] = {
-      status: 'idle',
-      team: teamName || findVehicleTeam(vehicleId),
-      vehicleType: vehicleCfg.vehicleType,
-      uuid: null,
-      remainingTicks: null,
-      respawnDelay: vehicleCfg.respawnDelay || 1200
-    }
+  if ((vehicleCfg.maxCount || 0) > 0 && countAliveByTag(server, tag) >= vehicleCfg.maxCount) {
+    sbwLog('[部署] [' + vehicleId + '] 已达上限(' + vehicleCfg.maxCount + ')，跳过')
+    return
   }
 
+  // 确保状态条目已初始化
+  initVehicleState(server, teamName, vehicleCfg)
+
+  let store = getStore(server)
   let state = store.vehicles[vehicleId]
 
-  // 如果已有非 idle 状态（补员中），不干扰
-  if (state.status !== 'idle') {
-    sbwLog('[部署] [' + vehicleId + '] 已有补员计划(' + state.status + ')，跳过')
+  // 如果已有非 UNINITIALIZED/IDLE 状态（补员中或已部署），不干扰
+  if (state.status !== VEHICLE_STATE.UNINITIALIZED && state.status !== VEHICLE_STATE.IDLE) {
+    sbwLog('[部署] [' + vehicleId + '] 当前状态为 ' + state.status + '，跳过部署')
     return
   }
 
@@ -74,15 +69,15 @@ function deployVehicle(server, teamName, vehicleCfg) {
 
   if (hasPlayer) {
     sbwLog('[部署] [' + vehicleId + '] 附近有玩家，区块已加载，执行部署')
+    transitionState(server, vehicleId, VEHICLE_STATE.CHUNK_LOADED)
   } else {
-    sbwLog('[部署] [' + vehicleId + '] 附近无玩家（区块可能未加载），仍尝试部署')
+    sbwLog('[部署] [' + vehicleId + '] 附近无玩家（区块可能未加载），进入等待区块')
+    transitionState(server, vehicleId, VEHICLE_STATE.WAITING_CHUNK)
+    return
   }
 
   spawnVehicleEntity(server, vehicleCfg)
-  state.status = 'idle'
-  state.uuid = null
-  state.remainingTicks = null
-  saveStore(server, store)
+  transitionState(server, vehicleId, VEHICLE_STATE.DEPLOYED, { uuid: null, remainingTicks: null })
 }
 
 function deployTeamVehicles(server, teamName) {

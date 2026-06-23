@@ -71,12 +71,23 @@ function getStatusLines(server) {
           if (items instanceof $ListTag && items.size() > 0) { let a = getAmmoSummary(items); if (a) lines.push('  §7[弹药] ' + a) }
         }
       } else if (state) {
-        if (state.status === 'timing') {
+        let s = state.status
+        if (s === VEHICLE_STATE.TIMING) {
           let remainingTicks = state.remainingTicks || 0
           let totalDelay = state.respawnDelay || v.respawnDelay || 1200
           lines.push(header + ' §e⟳ 补员中 §7' + Math.ceil(remainingTicks / 20) + 's / ' + Math.ceil(totalDelay / 20) + 's')
-        } else if (state.status === 'waiting_chunk') {
+        } else if (s === VEHICLE_STATE.WAITING_CHUNK) {
           lines.push(header + ' §7◐ 等待区块')
+        } else if (s === VEHICLE_STATE.CHUNK_LOADED) {
+          lines.push(header + ' §b◑ 区块就绪')
+        } else if (s === VEHICLE_STATE.DEPLOYED) {
+          lines.push(header + ' §a✓ 已部署')
+        } else if (s === VEHICLE_STATE.OVER_CAPACITY) {
+          lines.push(header + ' §c⚠ 载具超量')
+        } else if (s === VEHICLE_STATE.UNDER_CAPACITY) {
+          lines.push(header + ' §e⬇ 载具不足')
+        } else if (s === VEHICLE_STATE.UNINITIALIZED) {
+          lines.push(header + ' §8○ 未初始化')
         } else {
           lines.push(header + ' §8○ 空闲')
         }
@@ -99,14 +110,24 @@ function getRespawnTimeLines(server) {
     for (let i = 0; i < vehicles.length; i++) {
       let v = vehicles[i], state = store.vehicles[v.id]
       if (!state) continue
-      if (state.status === 'timing') {
+      let s = state.status
+      if (s === VEHICLE_STATE.TIMING) {
         has = true
         let remainingTicks = state.remainingTicks || 0
         let totalDelay = state.respawnDelay || v.respawnDelay || 1200
         lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §e⟳ ' + Math.ceil(remainingTicks / 20) + 's §7/ ' + Math.ceil(totalDelay / 20) + 's')
-      } else if (state.status === 'waiting_chunk') {
+      } else if (s === VEHICLE_STATE.WAITING_CHUNK) {
         has = true
         lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §7◐ 等待区块')
+      } else if (s === VEHICLE_STATE.UNDER_CAPACITY) {
+        has = true
+        lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §e⬇ 载具不足')
+      } else if (s === VEHICLE_STATE.OVER_CAPACITY) {
+        has = true
+        lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §c⚠ 载具超量')
+      } else if (s === VEHICLE_STATE.CHUNK_LOADED) {
+        has = true
+        lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §b◑ 区块就绪')
       }
     }
   }
@@ -128,11 +149,24 @@ function buildActionBarText(server) {
       if (entity) {
         let h = entity.getNbt().contains('Health') ? entity.getNbt().getFloat('Health') : -1
         parts.push((h > 200 ? '§a' : (h > 0 ? '§e' : '§c')) + '✓' + sn)
-      } else if (state && state.status === 'timing') {
-        let remainingTicks = state.remainingTicks || 0
-        parts.push('§e⟳' + sn + '(' + Math.ceil(remainingTicks / 20) + 's)')
-      } else if (state && state.status === 'waiting_chunk') {
-        parts.push('§7◐' + sn)
+      } else if (state) {
+        let s = state.status
+        if (s === VEHICLE_STATE.TIMING) {
+          let remainingTicks = state.remainingTicks || 0
+          parts.push('§e⟳' + sn + '(' + Math.ceil(remainingTicks / 20) + 's)')
+        } else if (s === VEHICLE_STATE.WAITING_CHUNK) {
+          parts.push('§7◐' + sn)
+        } else if (s === VEHICLE_STATE.CHUNK_LOADED) {
+          parts.push('§b◑' + sn)
+        } else if (s === VEHICLE_STATE.OVER_CAPACITY) {
+          parts.push('§c⚠' + sn)
+        } else if (s === VEHICLE_STATE.UNDER_CAPACITY) {
+          parts.push('§e⬇' + sn)
+        } else if (s === VEHICLE_STATE.UNINITIALIZED) {
+          parts.push('§8?' + sn)
+        } else {
+          parts.push('§8○' + sn)
+        }
       } else {
         parts.push('§8○' + sn)
       }

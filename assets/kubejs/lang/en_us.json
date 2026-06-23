@@ -176,7 +176,15 @@
   "msg.kubejs.sbw_vehicle.usage": "§cUsage: /sbw_vehicle <deploy [team]|redeploy|reset|clear [team]|status|start|stop|time|debug_inspect <team> <id>>",
   "msg.kubejs.sbw_vehicle.clear_all": "§e[Debug] Cleared §c%s §evehicle entities from all teams (state reset)",
   "msg.kubejs.sbw_vehicle.clear_team": "§e[Debug] Cleared §c%s §evehicle entities from team %s (state reset)",
-  "msg.kubejs.sbw_vehicle.start_done": "§a✔ Vehicle system activated, all vehicles deployed",
-  "msg.kubejs.sbw_vehicle.stop_done": "§c✖ Vehicle system deactivated, all vehicles cleared",
-  "msg.kubejs.sbw_vehicle.time_header": "§6=== Vehicle Respawn Countdown ==="
+  "msg.kubejs.sbw_vehicle.start_done": "§a✔ Vehicle system activated, replenish loop started",
+  "msg.kubejs.sbw_vehicle.stop_done": "§c✖ Vehicle system deactivated, replenish loop stopped",
+  "msg.kubejs.sbw_vehicle.time_header": "§6=== Vehicle Respawn Countdown ===",
+  "msg.kubejs.sbw_vehicle.state.uninitialized": "§7Uninitialized",
+  "msg.kubejs.sbw_vehicle.state.idle": "§8Idle",
+  "msg.kubejs.sbw_vehicle.state.waiting_chunk": "§7◐ Waiting Chunk",
+  "msg.kubejs.sbw_vehicle.state.chunk_loaded": "§b◑ Chunk Ready",
+  "msg.kubejs.sbw_vehicle.state.deployed": "§a✓ Deployed",
+  "msg.kubejs.sbw_vehicle.state.over_capacity": "§c⚠ Over Capacity",
+  "msg.kubejs.sbw_vehicle.state.under_capacity": "§e⬇ Under Capacity",
+  "msg.kubejs.sbw_vehicle.state.timing": "§e⟳ Respawning"
 }

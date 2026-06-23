@@ -240,7 +240,7 @@
 
   ======== sbw_vehicle/tools/ 目录（工具分类拆分）========
 
-  已从单文件 tools.js 按类别拆分为 8 个文件：
+  已从单文件 tools.js 按类别拆分为 9 个文件：
 
   tools/a_java_refs.js — Java类引用 + 运行时状态
     var $UUID / $ListTag / $FloatTag / $StringTag / $DoubleTag / $LongTag / $ShortTag
@@ -263,10 +263,11 @@
     entityHasStringTag(entity, tag) / findVehicleEntity(server, state, tag)
     isChunkLoaded(server, x, z, dimension) / getVehicleDimension(vehicleCfg)
     discardAllByTagPrefix(server) / countAliveByTag(server, tag)
+    hasNearbyPlayer(server, x, z, dimension, range)
 
   tools/deploy.js — 载具部署 + 部署接口
     spawnVehicleEntity(server, vehicleCfg)
-    deployVehicle(server, teamName, cfg)
+    deployVehicle(server, teamName, cfg)  （使用状态机）
     deployTeamVehicles(server, teamName) / deployAllVehicles(server)
 
   tools/misc.js — 杂项（ID提取 / 配置查找 / 清除 / 重置）
@@ -274,22 +275,59 @@
     findVehicleConfig(vehicleId) / findVehicleTeam(vehicleId)
     clearVehicles(server, teamName) / resetAll(server)
 
-  tools/status.js — 状态查询 & ActionBar
+  tools/status.js — 状态查询 & ActionBar（适配全部8个状态）
     getAmmoSummary(items) / getStatusLines(server) / getRespawnTimeLines(server)
     buildActionBarText(server) / updateTimeActionBar(server)
 
-  ======== sbw_vehicle/replenish.js (自动补员系统) ========
-    已清空，待重新实现。原逻辑（forceStateToIdle, checkReplenish, processWaitingChunk等）全部移除。
+  tools/state_machine.js — 状态机核心（新增）
+    const VEHICLE_STATE（8个状态枚举）
+    const VEHICLE_STATE_TRANSITIONS（状态转移白名单）
+    const VEHICLE_STATE_LIST（所有状态列表）
+    isDeployed(state) / isReplenishing(state) / isReadyToDeploy(state)
+    isActive(state) / needsReplenish(state) / isWarning(state)
+    transitionState(server, vehicleId, newState, extra)
+    forceSetState(server, vehicleId, newState, extra)
+    initVehicleState(server, teamName, vehicleCfg)
+
+  状态枚举值（持久化友好字符串）：
+    VEHICLE_STATE.UNINITIALIZED  = 'uninitialized'  未初始化
+    VEHICLE_STATE.IDLE           = 'idle'           空闲
+    VEHICLE_STATE.WAITING_CHUNK  = 'waiting_chunk'  等待区块加载
+    VEHICLE_STATE.CHUNK_LOADED   = 'chunk_loaded'   区块已加载
+    VEHICLE_STATE.DEPLOYED       = 'deployed'       载具已部署
+    VEHICLE_STATE.OVER_CAPACITY  = 'over_capacity'  载具超量
+    VEHICLE_STATE.UNDER_CAPACITY = 'under_capacity' 载具不足
+    VEHICLE_STATE.TIMING         = 'timing'         计时中
+
+  状态转移规则（白名单）：
+    UNINITIALIZED        → IDLE
+    IDLE                 → WAITING_CHUNK / CHUNK_LOADED
+    WAITING_CHUNK        → CHUNK_LOADED / IDLE
+    CHUNK_LOADED         → DEPLOYED / IDLE
+    DEPLOYED             → TIMING / OVER_CAPACITY / IDLE
+    OVER_CAPACITY        → DEPLOYED / IDLE
+    UNDER_CAPACITY       → IDLE / WAITING_CHUNK / TIMING
+    TIMING               → WAITING_CHUNK / IDLE
+    任意状态             → UNINITIALIZED（强制重置）
+
+  ======== sbw_vehicle/replenish.js (自动补员系统 - 状态机驱动) ========
+    重构为状态机驱动版本。核心函数：
+    checkReplenish(server)                 — 执行一次全量补员检测
+    processVehicleState(server, ...)        — 状态分支处理（switch-case 8状态）
+    startReplenishLoop(server)             — 启动补员定时循环
+    stopReplenishLoop()                    — 停止补员定时循环
+    initAllVehicleStates(server)           — 强制初始化所有载具状态
+    补员循环由 /sbw_vehicle start 命令启动，每 checkInterval tick 执行一次。
 
   ======== sbw_vehicle/command.js (命令注册) ========
-    重构后精简为 7 个命令：
-    /sbw_vehicle start      — 激活系统 + 部署所有载具
-    /sbw_vehicle stop       — 停用系统 + 清除所有载具
-    /sbw_vehicle deploy [<team>]  — 部署载具
+    重构后命令列表（适配状态机）：
+    /sbw_vehicle start      — 激活系统 + 初始化状态 + 启动补员循环
+    /sbw_vehicle stop       — 停用系统 + 停止补员循环 + 清除所有载具
+    /sbw_vehicle deploy [<team>]  — 部署载具（使用状态机）
     /sbw_vehicle redeploy   — 重新部署（清旧+重部署）
     /sbw_vehicle reset      — 重置所有载具状态
     /sbw_vehicle clear [<team>]   — 清除载具实体
-    /sbw_vehicle status     — 查看系统 + 载具状态
+    /sbw_vehicle status     — 查看系统 + 载具状态（适配全部8状态）
     已移除命令: time, debug_inspect
 
   ======== team_revive/main.js ========
@@ -404,7 +442,8 @@
      TEAM_NONE, JOIN_BATTLE_SCOREHOLDER, JOIN_BATTLE_OBJECTIVE,
      JOIN_BATTLE_TARGET, JOIN_BATTLE_FUNCTION, CLEAR_DELAY_TICKS,
      DYE_COLORS, LOCOMETAL_NORMAL, LOCOMETAL_ANTIBLAST, LOCOMETAL_ANTIPEN,
-     CREATE_CASINGS
+     CREATE_CASINGS,
+     VEHICLE_STATE, VEHICLE_STATE_TRANSITIONS, VEHICLE_STATE_LIST
 
   5. 已注册的 item ID（不能再注册同名的）：
      kubejs:profession_selector

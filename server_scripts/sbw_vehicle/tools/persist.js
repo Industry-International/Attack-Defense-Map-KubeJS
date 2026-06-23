@@ -3,12 +3,12 @@
 // ============================================================
 
 /**
- * 数据结构：
+ * 数据结构（状态由 VEHICLE_STATE 枚举定义，见 state_machine.js）：
  * {
  *   active: true|false,
  *   vehicles: {
  *     "<vehicleId>": {
- *       status: "idle" | "timing" | "waiting_chunk",
+ *       status: VEHICLE_STATE 中的一个值,
  *       team, vehicleType,
  *       uuid: string | null,
  *       remainingTicks: number | null,
@@ -16,6 +16,16 @@
  *     }
  *   }
  * }
+ *
+ * 状态列表（state_machine.js 中 VEHICLE_STATE 常量）：
+ *   uninitialized  — 未初始化
+ *   idle           — 空闲
+ *   waiting_chunk  — 等待区块加载
+ *   chunk_loaded   — 区块已加载
+ *   deployed       — 载具已部署
+ *   over_capacity  — 载具超量
+ *   under_capacity — 载具不足
+ *   timing         — 计时中
  */
 
 function getStore(server) {

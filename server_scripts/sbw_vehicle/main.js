@@ -41,5 +41,8 @@ EntityEvents.death(event => {
   let server = event.server
   if (!isSystemActive(server)) return
   let vid = extractVehicleIdFromEntity(entity)
-  if (vid) sbwLog('载具实体死亡 [' + vid + ']（补员由定时循环检测处理）')
+  if (vid) {
+    sbwLog('载具实体死亡 [' + vid + ']（补员由定时循环检测处理）')
+    // 补员循环会自动检测实体不存在 → 转入 TIMING 状态
+  }
 })
