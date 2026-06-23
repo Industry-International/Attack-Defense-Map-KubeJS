@@ -302,13 +302,16 @@
   状态转移规则（白名单）：
     UNINITIALIZED        → IDLE
     IDLE                 → WAITING_CHUNK / CHUNK_LOADED
-    WAITING_CHUNK        → CHUNK_LOADED / IDLE
-    CHUNK_LOADED         → DEPLOYED / IDLE
+    WAITING_CHUNK        → CHUNK_LOADED / DEPLOYED / IDLE
+    CHUNK_LOADED         → DEPLOYED / OVER_CAPACITY / IDLE
     DEPLOYED             → TIMING / OVER_CAPACITY / IDLE
-    OVER_CAPACITY        → DEPLOYED / IDLE
+    OVER_CAPACITY        → DEPLOYED / CHUNK_LOADED / IDLE
     UNDER_CAPACITY       → IDLE / WAITING_CHUNK / TIMING
-    TIMING               → WAITING_CHUNK / IDLE
+    TIMING               → CHUNK_LOADED / WAITING_CHUNK / IDLE
     任意状态             → UNINITIALIZED（强制重置）
+
+  注意：WAITING_CHUNK → DEPLOYED 和 TIMING → CHUNK_LOADED 是新增并列路径，
+  避免区块加载后需要多等一 tick 才能部署。补员循环会直接生成实体并跳至 DEPLOYED。
 
   ======== sbw_vehicle/replenish.js (自动补员系统 - 状态机驱动) ========
     重构为状态机驱动版本。核心函数：

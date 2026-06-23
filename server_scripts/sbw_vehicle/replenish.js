@@ -93,21 +93,29 @@ function processVehicleState(server, teamName, v, state, entity, aliveCount, has
       break
     }
 
-    // ─── 等待区块加载：反复检测区块状态 ───
+    // ─── 等待区块加载：区块加载后直接部署（并列路径）───
     case VEHICLE_STATE.WAITING_CHUNK: {
       let chunkLoaded = isChunkLoaded(server, v.pos[0], v.pos[2], getVehicleDimension(v))
       if (chunkLoaded || hasNearbyPlayer(server, v.pos[0], v.pos[2], getVehicleDimension(v), 64)) {
-        transitionState(server, vehicleId, VEHICLE_STATE.CHUNK_LOADED)
+        // 区块就绪，直接检查上限并部署（无需经过 CHUNK_LOADED 多等一 tick）
+        if (maxCount > 0 && aliveCount >= maxCount) {
+          sbwLog('[补员] [' + vehicleId + '] 区块就绪但已达上限(' + aliveCount + '/' + maxCount + ')，超量标记')
+          transitionState(server, vehicleId, VEHICLE_STATE.OVER_CAPACITY)
+        } else {
+          sbwLog('[补员] [' + vehicleId + '] 区块就绪，直接部署')
+          spawnVehicleEntity(server, v)
+          transitionState(server, vehicleId, VEHICLE_STATE.DEPLOYED, { uuid: null, remainingTicks: null })
+        }
       }
       break
     }
 
-    // ─── 区块已加载：执行部署 ───
+    // ─── 区块已加载：执行部署（来自 IDLE → CHUNK_LOADED）───
     case VEHICLE_STATE.CHUNK_LOADED: {
-      // 再次确认上限
+      // 检查上限
       if (maxCount > 0 && aliveCount >= maxCount) {
-        sbwLog('[补员] [' + vehicleId + '] 区块就绪但已达上限(' + aliveCount + '/' + maxCount + ')，回到空闲')
-        transitionState(server, vehicleId, VEHICLE_STATE.IDLE)
+        sbwLog('[补员] [' + vehicleId + '] 区块就绪但已达上限(' + aliveCount + '/' + maxCount + ')，超量标记')
+        transitionState(server, vehicleId, VEHICLE_STATE.OVER_CAPACITY)
         break
       }
       sbwLog('[补员] [' + vehicleId + '] 区块已就绪，执行部署')
@@ -137,11 +145,16 @@ function processVehicleState(server, teamName, v, state, entity, aliveCount, has
     // ─── 超量：等待超量被清除 ───
     case VEHICLE_STATE.OVER_CAPACITY: {
       if (maxCount <= 0 || aliveCount <= maxCount) {
-        // 超量已恢复，检查实体
+        // 超量已恢复，检查区块状态决定去向
         if (entity) {
           transitionState(server, vehicleId, VEHICLE_STATE.DEPLOYED)
         } else {
-          transitionState(server, vehicleId, VEHICLE_STATE.IDLE)
+          let chunkLoaded = isChunkLoaded(server, v.pos[0], v.pos[2], getVehicleDimension(v))
+          if (chunkLoaded || hasNearbyPlayer(server, v.pos[0], v.pos[2], getVehicleDimension(v), 64)) {
+            transitionState(server, vehicleId, VEHICLE_STATE.CHUNK_LOADED)
+          } else {
+            transitionState(server, vehicleId, VEHICLE_STATE.IDLE)
+          }
         }
       }
       break
@@ -179,8 +192,15 @@ function processVehicleState(server, teamName, v, state, entity, aliveCount, has
         // 计时结束，检查区块状态
         let chunkLoaded = isChunkLoaded(server, v.pos[0], v.pos[2], getVehicleDimension(v))
         if (chunkLoaded || hasNearbyPlayer(server, v.pos[0], v.pos[2], getVehicleDimension(v), 64)) {
-          sbwLog('[补员] [' + vehicleId + '] 重生倒计时结束，部署载具')
-          transitionState(server, vehicleId, VEHICLE_STATE.CHUNK_LOADED)
+          // 区块已加载，直接检查上限并部署（同 WAITING_CHUNK 并列逻辑）
+          if (maxCount > 0 && aliveCount >= maxCount) {
+            sbwLog('[补员] [' + vehicleId + '] 重生计时结束但已达上限，超量标记')
+            transitionState(server, vehicleId, VEHICLE_STATE.OVER_CAPACITY)
+          } else {
+            sbwLog('[补员] [' + vehicleId + '] 重生倒计时结束，直接部署')
+            spawnVehicleEntity(server, v)
+            transitionState(server, vehicleId, VEHICLE_STATE.DEPLOYED, { uuid: null, remainingTicks: null })
+          }
         } else {
           sbwLog('[补员] [' + vehicleId + '] 重生倒计时结束但区块未加载，等待区块')
           transitionState(server, vehicleId, VEHICLE_STATE.WAITING_CHUNK)

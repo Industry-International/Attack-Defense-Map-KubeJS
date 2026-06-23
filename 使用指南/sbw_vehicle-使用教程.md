@@ -2,20 +2,24 @@
 
 ## 概述
 
-本系统实现 SBW（Superb Warfare）模组载具的**自动部署**与**自动重生**。游戏开始时自动在指定坐标生成配置好的载具，载具被摧毁后按配置延迟自动重生。
+本系统实现 SBW（Superb Warfare）模组载具的**自动部署**与**自动重生**。采用 **8 状态状态机**驱动，将复杂的补员逻辑拆分为多个独立状态，每个状态职责清晰、转移规则严格。
 
 ---
 
 ## 目录
 
 - [功能特性](#功能特性)
+- [状态机架构](#状态机架构)
+  - [8 个状态](#8-个状态)
+  - [状态流转图](#状态流转图)
+  - [转移规则](#转移规则)
 - [配置指南](#配置指南)
   - [基本配置项](#基本配置项)
   - [deployNBT 模板详解](#deploynbt-模板详解)
   - [每辆载具独立配置](#每辆载具独立配置)
   - [maxCount 最大数量控制](#maxcount-最大数量控制)
 - [指令使用](#指令使用)
-- [配置文件参考](#配置文件参考)
+- [文件结构](#文件结构)
 - [常见问题](#常见问题)
 
 ---
@@ -24,14 +28,75 @@
 
 | 功能 | 说明 |
 |------|------|
-| 自动部署 | 游戏开始（`game_state == 1`）时自动部署所有载具 |
+| 8 状态状态机 | `UNINITIALIZED` → `IDLE` → `WAITING_CHUNK` / `CHUNK_LOADED` → `DEPLOYED` → `TIMING`（重生倒计时）/ `OVER_CAPACITY`（超量）/ `UNDER_CAPACITY`（不足） |
+| 严格转移校验 | 非法状态转移会被拒绝并记录警告日志 |
+| 自动部署 | 系统启动后由补员循环自动检测并部署 |
 | 独立标签 | 每辆载具携带唯一标签，存活期间不重复生成 |
-| 自动重生 | 载具被摧毁后，按**每辆载具独立配置**的延迟自动重新生成 |
-| 双向检测 | `EntityEvents.death` + 定期扫描（每 40tick），防止漏检 |
-| UUID 索引 | 生成时保存实体 UUID，O(1) 查找替代全量遍历 |
+| 自动重生 | 载具被摧毁后自动进入 `TIMING` 状态倒计时，结束即重生 |
+| 智能区块检测 | `IDLE` → `WAITING_CHUNK`（区块未加载时等待），玩家靠近后自动恢复 |
 | 模板化部署 | 部署时自动应用初始 NBT（能量、弹药、预装填、部件状态等） |
 | 无残留清除 | clear/reset 使用 `discard()` 直接移除，不留掉落物 |
-| maxCount 控制 | 每辆载具可设置最大存活数，超限自动清理，防止重复部署 |
+| maxCount 控制 | 每辆载具可设置最大存活数，超量自动标记 `OVER_CAPACITY` |
+
+---
+
+## 状态机架构
+
+状态机定义在 `tools/state_machine.js` 中，核心代码为 `VEHICLE_STATE` 常量和 `transitionState()` 函数。
+
+### 8 个状态
+
+| 状态 | 值 | 含义 | 说明 |
+|------|-----|------|------|
+| `UNINITIALIZED` | `'uninitialized'` | 未初始化 | 首次创建或系统重置后的初始态 |
+| `IDLE` | `'idle'` | 空闲 | 初始化完毕，等待部署条件满足 |
+| `WAITING_CHUNK` | `'waiting_chunk'` | 等待区块加载 | 区块未加载，等待玩家靠近 |
+| `CHUNK_LOADED` | `'chunk_loaded'` | 区块已加载 | 区块已就绪，可以执行部署 |
+| `DEPLOYED` | `'deployed'` | 载具已部署 | 实体已生成并存活 |
+| `OVER_CAPACITY` | `'over_capacity'` | 载具超量 | 当前存活数超过 `maxCount` |
+| `UNDER_CAPACITY` | `'under_capacity'` | 载具不足 | 当前存活数未达 `maxCount` |
+| `TIMING` | `'timing'` | 计时中 | 重生倒计时进行中 |
+
+### 状态流转图
+
+```
+UNINITIALIZED ──→ IDLE ──→ WAITING_CHUNK ──→ CHUNK_LOADED ──→ DEPLOYED
+                      ↑          ↑                 │               │
+                      │          └─────────────────┘               │
+                      │           TIMING ←─────────────────────────┘
+                      │             │
+                      │             └──→ WAITING_CHUNK / IDLE
+                      │
+                      └──←── OVER_CAPACITY ──→ DEPLOYED / IDLE
+                      └──←── UNDER_CAPACITY ──→ IDLE / WAITING_CHUNK / TIMING
+```
+
+### 转移规则
+
+| 当前状态 | 允许的下一个状态 | 触发条件 |
+|----------|-----------------|----------|
+| `UNINITIALIZED` | `IDLE` | 初始化完成 |
+| `IDLE` | `WAITING_CHUNK` | 区块未加载 |
+| `IDLE` | `CHUNK_LOADED` | 区块已加载 |
+| `WAITING_CHUNK` | `CHUNK_LOADED` | 区块加载完成 |
+| `WAITING_CHUNK` | `DEPLOYED` | 区块加载 + 直接部署（并列） |
+| `WAITING_CHUNK` | `IDLE` | 系统复位/跳过 |
+| `CHUNK_LOADED` | `DEPLOYED` | 执行部署 |
+| `CHUNK_LOADED` | `OVER_CAPACITY` | 区块就绪但超量 |
+| `CHUNK_LOADED` | `IDLE` | 部署跳过/取消 |
+| `DEPLOYED` | `TIMING` | 载具被摧毁 |
+| `DEPLOYED` | `OVER_CAPACITY` | 发现超出数量限制 |
+| `DEPLOYED` | `IDLE` | 手动清除/重置 |
+| `OVER_CAPACITY` | `DEPLOYED` | 超量已清除，回到正常 |
+| `OVER_CAPACITY` | `CHUNK_LOADED` | 超量已清除，区块就绪 |
+| `OVER_CAPACITY` | `IDLE` | 超量手动处理 |
+| `UNDER_CAPACITY` | `IDLE` | 数量不足，重新部署 |
+| `UNDER_CAPACITY` | `WAITING_CHUNK` | 数量不足+区块未加载 |
+| `UNDER_CAPACITY` | `TIMING` | 不足中启动补员倒计时 |
+| `TIMING` | `CHUNK_LOADED` | 计时完成且区块已加载 |
+| `TIMING` | `WAITING_CHUNK` | 计时完成但区块未加载 |
+| `TIMING` | `IDLE` | 计时完成（备选） |
+| **任意状态** | `UNINITIALIZED` | 系统重置（强制） |
 
 ---
 
@@ -43,11 +108,9 @@
 
 ```js
 const SBW_VEHICLE_CONFIG = {
-  scoreHolder: 'state',       // 游戏状态计分板虚拟玩家名
-  scoreObjective: 'game_state', // 计分板目标名
-  activeValue: 1,               // 表示"游戏进行中"的分数值
-  persistKey: 'sbw_vehicle',    // 持久化数据存储键名
-  tagPrefix: 'sbw_vehicle_',    // 实体标签前缀（用于追踪）
+  persistKey: 'sbw_vehicle',      // 持久化数据存储键名
+  tagPrefix: 'sbw_vehicle_',      // 实体标签前缀（用于追踪）
+  checkInterval: 1,               // 补员检测间隔（tick，1=每 tick 检测一次）
 }
 ```
 
@@ -193,9 +256,9 @@ teams: {
 | 功能 | 说明 |
 |------|------|
 | 部署检查 | 部署前扫描世界存活数，已达上限则跳过生成 |
-| 定期清理 | 每 40tick（2秒）扫描发现超限，自动 `discard()` 多余的 |
-| 保留策略 | 优先保留 store 中注册的载具，丢弃无状态记录的 |
-| 跨队隔离 | 不同队伍的同名 ID 通过队伍前缀隔离（如 `attack_tank_1` / `defense_tank_1`） |
+| 状态机检测 | `DEPLOYED` 状态自动检查，超量标记 `OVER_CAPACITY` |
+| 自动恢复 | 超量清除后自动回到 `DEPLOYED` |
+| 跨队隔离 | 不同队伍的同名 ID 通过队伍前缀隔离 |
 
 > 不设置或设为 `0` 表示不限制数量。
 
@@ -203,25 +266,48 @@ teams: {
 
 ## 指令使用
 
-详见 **[指令使用.md](./指令使用.md)**，快速参考：
-
 | 指令 | 说明 | 权限 |
 |------|------|------|
-| `/sbw_vehicle deploy [<队伍>]` | 部署指定/所有队伍的载具 | OP 2 |
+| `/sbw_vehicle start` | **激活系统** + 初始化状态 + **启动补员循环** | OP 2 |
+| `/sbw_vehicle stop` | **停用系统** + 停止补员循环 + 清除所有载具 | OP 2 |
+| `/sbw_vehicle deploy [<队伍>]` | 部署指定/所有队伍的载具（使用状态机） | OP 2 |
 | `/sbw_vehicle redeploy` | 强制重新部署（清旧+重部署） | OP 2 |
 | `/sbw_vehicle reset` | 重置所有载具状态 | OP 2 |
-| `/sbw_vehicle clear [<队伍>]` | 调试：清除载具实体+重置状态 | OP 2 |
-| `/sbw_vehicle status` | 查看各载具状态 | OP 2 |
+| `/sbw_vehicle clear [<队伍>]` | 清除载具实体+重置状态 | OP 2 |
+| `/sbw_vehicle status` | 查看各载具状态（适配全部8个状态） | OP 2 |
+
+### 状态指示说明（ActionBar / Status）
+
+| 图标 | 状态 | 颜色 |
+|------|------|------|
+| `✓` | DEPLOYED（存活） | 绿色/黄色/红色（按血量） |
+| `⟳` | TIMING（补员倒计时） | 黄色 |
+| `◐` | WAITING_CHUNK（等待区块） | 灰色 |
+| `◑` | CHUNK_LOADED（区块就绪） | 淡蓝 |
+| `⚠` | OVER_CAPACITY（载具超量） | 红色 |
+| `⬇` | UNDER_CAPACITY（载具不足） | 黄色 |
+| `?` | UNINITIALIZED（未初始化） | 灰色 |
+| `○` | IDLE（空闲） | 灰色 |
 
 ---
 
-## 配置文件参考
+## 文件结构
 
 | 文件 | 说明 |
 |------|------|
 | `server_scripts/sbw_vehicle/config.js` | 载具配置（队伍、坐标、deployNBT 模板） |
-| `server_scripts/sbw_vehicle/main.js` | 核心逻辑（部署、重生、扫描、事件） |
-| `server_scripts/sbw_vehicle/command.js` | 指令注册 |
+| `server_scripts/sbw_vehicle/main.js` | 模块入口（全局常量 + 死亡事件监听） |
+| `server_scripts/sbw_vehicle/replenish.js` | **自动补员系统（状态机驱动）** |
+| `server_scripts/sbw_vehicle/command.js` | 指令注册（7 个命令） |
+| `server_scripts/sbw_vehicle/tools/a_java_refs.js` | Java 类引用 |
+| `server_scripts/sbw_vehicle/tools/log.js` | 日志工具 |
+| `server_scripts/sbw_vehicle/tools/nbt.js` | JSON → NBT 转换 |
+| `server_scripts/sbw_vehicle/tools/persist.js` | 持久化数据 + 系统开关 |
+| `server_scripts/sbw_vehicle/tools/entity.js` | 实体查找 / 区块检测 / 清理 |
+| `server_scripts/sbw_vehicle/tools/deploy.js` | 载具部署（使用状态机） |
+| `server_scripts/sbw_vehicle/tools/misc.js` | 杂项（ID提取 / 配置查找 / 清除） |
+| `server_scripts/sbw_vehicle/tools/status.js` | 状态查询 & ActionBar（适配8状态） |
+| `server_scripts/sbw_vehicle/tools/state_machine.js` | **状态机核心（8状态枚举 + 转移规则）** |
 | `assets/kubejs/lang/zh_cn.json` | 中文语言文件 |
 | `assets/kubejs/lang/en_us.json` | 英文语言文件 |
 
@@ -235,7 +321,7 @@ A: 检查该载具配置中是否写了 `deployNBT`。不写 = 白板生成。�
 
 ### Q: 载具被摧毁后没有重生
 
-A: 检查：1) `respawnDelay` 是否大于 0；2) 游戏是否在 `game_state == 1` 状态；3) 控制台是否有报错。
+A: 检查：1) `respawnDelay` 是否大于 0；2) 系统是否已激活（`/sbw_vehicle start`）；3) 补员循环是否运行中；4) 控制台是否有报错。
 
 ### Q: 如何调整重生速度？
 
@@ -249,18 +335,20 @@ A: 每辆载具的 `deployNBT.Inventory.Items` 独立配置，互不影响。
 
 A: 已修复。现在 clear/reset 使用 `discard()` 替代 `kill()`，载具直接消失不留掉落物。
 
-### Q: 不小心重复部署，出现了多辆同ID的载具
+### Q: 状态显示为 `⚠`（警告）是什么意思？
 
-A: 已修复。配置 `maxCount: 1` 后，部署前检测存活数达到上限就跳过；定期扫描也会自动清理超限的多余载具。
+A: 表示该载具处于 `OVER_CAPACITY` 状态，当前存活数超过了 `maxCount` 限制。系统会自动检测超量清除后恢复。
 
-### Q: 两队用同一个载具 ID 会冲突吗？
-
-A: 不会。不同队伍的载具通过 `{队伍名}_{ID}` 格式隔离。例如进攻方 `attack_tank_1` 和防守方 `defense_tank_1` 是独立的。
-
-### Q: 修改配置文件后需要做什么？
+### Q: 怎样重新加载配置？
 
 A: 执行 `/kubejs reload` 重新加载脚本。如果是新加的载具，还需重新部署：`/sbw_vehicle redeploy`。
 
+### Q: 状态机报 "非法转移" 警告怎么办？
+
+A: 这是正常的安全防护。非法转移会被记录在日志中（`logs/kubejs/`），帮助你调试不正确的状态流转。如果确实需要强制设状态，可使用 `forceSetState()`（仅限系统级重置）。
+
 ---
 
-> 详细 NBT 字段参考请直接查看 `server_scripts/sbw_vehicle/config.js` 中的注释手册（第 47~102 行）。
+> 详细 NBT 字段参考请直接查看 `server_scripts/sbw_vehicle/config.js` 中的注释手册。
+> 状态机 API 参考请查看 `server_scripts/sbw_vehicle/tools/state_machine.js`。
+> 补员循环逻辑请查看 `server_scripts/sbw_vehicle/replenish.js`。
