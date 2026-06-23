@@ -89,7 +89,7 @@
 如果将来某个新模块也想用 $ListTag / $FloatTag 等，
 可以安全地用 var 声明，但如果已有 const 版本，就不要用同名的 var。
 
-来源文件: server_scripts/sbw_vehicle/main.js
+来源文件: server_scripts/sbw_vehicle/tools.js（重构后：原 main.js 中的工具类声明全部迁移至此）
 
   var $UUID       = Java.loadClass('java.util.UUID')
   var $ListTag    = Java.loadClass('net.minecraft.nbt.ListTag')
@@ -123,13 +123,12 @@
  第四：各模块内部的 const/var 局部常量（不冲突）
 ================================================================
 
-  server_scripts/sbw_vehicle/main.js
+  server_scripts/sbw_vehicle/main.js（重构后，只保留全局常量）
     const VEHICLE_CFG = SBW_VEHICLE_CONFIG
     const SBW_PREFIX = '[SBW载具]'
-    var $actionBarPlayers = new $HashSet()             // 单人 ActionBar 玩家集合
 
-    注意：旧的 $pendingDeployQueue（独立队列HashMap）已移除，
-    改用 waiting_chunk 状态代替队列功能。
+  server_scripts/sbw_vehicle/tools.js（重构后新增，运行时状态）
+    var $actionBarPlayers = new $HashSet()             // 单人 ActionBar 玩家集合
 
   server_scripts/team_revive/main.js
     const CFG = TEAM_REVIVE_CONFIG
@@ -235,11 +234,16 @@
     addNoJobTag(player)                      — 添加无职业标签
     removeNoJobTag(player)                   — 移除无职业标签
 
-  ======== sbw_vehicle/main.js (基础设施层) ========
+  ======== sbw_vehicle/main.js (模块入口) ========
+    （重构后精简，仅保留：）
+    EntityEvents.death                         — 载具死亡日志记录
+
+  ======== sbw_vehicle/tools.js (工具函数库) ========
+    （重构后新增：原 main.js 全部工具函数 + clearVehicles 迁移至此）
     sbwLog() / sbwWarn() / sbwError()         — 日志工具
     toNBT(obj)                                — JS对象→NBT转换
     mergeDeployNBT(target, source)             — 合并deployNBT
-    getStore(server)                           — 读取持久化(3状态:idle/timing/waiting_chunk)
+    getStore(server)                           — 读取持久化
     saveStore(server, data)                    — 写入持久化
     getVehicleState(server, vehicleId)         — 获取载具状态
     getFullTag(vehicleId)                      — 获取完整标签名
@@ -254,34 +258,33 @@
     discardAllByTagPrefix(server)              — 批量清除实体
     countAliveByTag(server, tag)               — 统计存活数
     spawnVehicleEntity(server, vehicleCfg)     — 执行 summon
+    deployVehicle(server, teamName, cfg)       — 部署单辆载具
+    deployTeamVehicles(server, teamName)       — 部署队伍载具
+    deployAllVehicles(server)                  — 部署所有载具
+    clearVehicles(server, teamName)            — 清除载具实体 + 重置状态
     extractVehicleIdFromEntity(entity)         — 提取载具ID
     findVehicleConfig(vehicleId)               — 查找载具配置
     findVehicleTeam(vehicleId)                 — 查找载具所属队伍
     resetAll(server)                           — 重置所有载具
     getAmmoSummary(items)                      — 弹药摘要
-    getStatusLines(server)                     — 状态文本(3状态:idle/timing/waiting_chunk)
-    getRespawnTimeLines(server)                — 重生时间文本(含waiting_chunk)
-    buildActionBarText(server)                 — ActionBar文本(含waiting_chunk)
+    getStatusLines(server)                     — 状态文本
+    getRespawnTimeLines(server)                — 重生时间文本
+    buildActionBarText(server)                 — ActionBar文本
     updateTimeActionBar(server)                — 更新ActionBar
-    EntityEvents.death                         — 日志(实际由定时循环驱动)
 
-  ======== sbw_vehicle/replenish.js (补员状态机+部署+定时循环) ========
-    forceStateToIdle(state)                    — 强制重置状态为idle
-    isVehicleInChunk(cfg, minX, minZ, maxX, maxZ) — 检查部署点是否在区块内
-    ensureVehicleEntry(server, vid, cfg, team) — 确保 store 存在条目
-    getAllReplenishEntries()                   — 获取所有补员配置
-    checkReplenish(server, vid, cfg)           — 3状态机补员检测(核心!)
-      ★ 倒计时计数：remainingTicks 每 tick 减 1，归零即部署 ★
-    processWaitingChunk(server)                — waiting_chunk处理(forceload+释放)
-    deployVehicle(server, teamName, cfg)       — 手动部署单辆载具
-    deployTeamVehicles(server, teamName)       — 部署队伍载具
-    deployAllVehicles(server)                  — 部署所有载具
-    tickReplenish(server)                      — 全量补员检测 + waiting_chunk处理
-    ServerEvents.loaded → loop()              — 定时循环(config.checkInterval)
+  ======== sbw_vehicle/replenish.js (自动补员系统) ========
+    已清空，待重新实现。原逻辑（forceStateToIdle, checkReplenish, processWaitingChunk等）全部移除。
 
-  ======== sbw_vehicle/command.js ========
-    clearVehicles(server, teamName)            — 清除载具实体
-    executeDebugInspect()                      — 调试诊断命令
+  ======== sbw_vehicle/command.js (命令注册) ========
+    重构后精简为 7 个命令：
+    /sbw_vehicle start      — 激活系统 + 部署所有载具
+    /sbw_vehicle stop       — 停用系统 + 清除所有载具
+    /sbw_vehicle deploy [<team>]  — 部署载具
+    /sbw_vehicle redeploy   — 重新部署（清旧+重部署）
+    /sbw_vehicle reset      — 重置所有载具状态
+    /sbw_vehicle clear [<team>]   — 清除载具实体
+    /sbw_vehicle status     — 查看系统 + 载具状态
+    已移除命令: time, debug_inspect
 
   ======== team_revive/main.js ========
     log() / warn() / error()                    — 日志工具
