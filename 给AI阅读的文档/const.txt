@@ -235,7 +235,7 @@
     addNoJobTag(player)                      — 添加无职业标签
     removeNoJobTag(player)                   — 移除无职业标签
 
-  ======== sbw_vehicle/main.js ========
+  ======== sbw_vehicle/main.js (基础设施层) ========
     sbwLog() / sbwWarn() / sbwError()         — 日志工具
     toNBT(obj)                                — JS对象→NBT转换
     mergeDeployNBT(target, source)             — 合并deployNBT
@@ -254,19 +254,10 @@
     discardAllByTagPrefix(server)              — 批量清除实体
     countAliveByTag(server, tag)               — 统计存活数
     spawnVehicleEntity(server, vehicleCfg)     — 执行 summon
-    forceStateToIdle(state)                    — 强制重置状态为idle [新增]
-    isVehicleInChunk(cfg, minX, minZ, maxX, maxZ) — 检查部署点是否在区块内 [新增]
-    ensureVehicleEntry(server, vid, cfg, team) — 确保 store 存在条目(保留idle)
-    getAllReplenishEntries()                   — 获取所有补员配置
-    checkReplenish(server, vid, cfg)           — 3状态机补员检测(核心!)
-    processWaitingChunk(server)                — tick兜底处理waiting_chunk [新增]
-    deployVehicle(server, teamName, cfg)       — 手动部署单辆载具(使用waiting_chunk)
-    deployTeamVehicles(server, teamName)       — 部署队伍载具
-    deployAllVehicles(server)                  — 部署所有载具
     extractVehicleIdFromEntity(entity)         — 提取载具ID
     findVehicleConfig(vehicleId)               — 查找载具配置
     findVehicleTeam(vehicleId)                 — 查找载具所属队伍
-    resetAll(server)                           — 重置所有载具(无队列清理)
+    resetAll(server)                           — 重置所有载具
     getAmmoSummary(items)                      — 弹药摘要
     getStatusLines(server)                     — 状态文本(3状态:idle/timing/waiting_chunk)
     getRespawnTimeLines(server)                — 重生时间文本(含waiting_chunk)
@@ -274,12 +265,23 @@
     updateTimeActionBar(server)                — 更新ActionBar
     EntityEvents.death                         — 日志(实际由定时循环驱动)
 
-  ======== sbw_vehicle/command.js ========
-    clearVehicles(server, teamName)            — 清除载具实体(无clearVehicleTimer)
-
-  ======== sbw_vehicle/ticker.js ========
-    tickReplenish(server)                      — 全量补员检测+兜底waiting_chunk
+  ======== sbw_vehicle/replenish.js (补员状态机+部署+定时循环) ========
+    forceStateToIdle(state)                    — 强制重置状态为idle
+    isVehicleInChunk(cfg, minX, minZ, maxX, maxZ) — 检查部署点是否在区块内
+    ensureVehicleEntry(server, vid, cfg, team) — 确保 store 存在条目
+    getAllReplenishEntries()                   — 获取所有补员配置
+    checkReplenish(server, vid, cfg)           — 3状态机补员检测(核心!)
+      ★ 倒计时计数：remainingTicks 每 tick 减 1，归零即部署 ★
+    processWaitingChunk(server)                — waiting_chunk处理(forceload+释放)
+    deployVehicle(server, teamName, cfg)       — 手动部署单辆载具
+    deployTeamVehicles(server, teamName)       — 部署队伍载具
+    deployAllVehicles(server)                  — 部署所有载具
+    tickReplenish(server)                      — 全量补员检测 + waiting_chunk处理
     ServerEvents.loaded → loop()              — 定时循环(config.checkInterval)
+
+  ======== sbw_vehicle/command.js ========
+    clearVehicles(server, teamName)            — 清除载具实体
+    executeDebugInspect()                      — 调试诊断命令
 
   ======== team_revive/main.js ========
     log() / warn() / error()                    — 日志工具
