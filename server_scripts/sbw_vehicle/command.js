@@ -8,9 +8,10 @@
 //   /sbw_vehicle redeploy         强制重新部署（清旧+重部署）
 //   /sbw_vehicle reset            重置所有载具状态
 //   /sbw_vehicle clear [<team>]   调试：清除指定/所有队伍的载具实体
-//   /sbw_vehicle status           查看载具状态
+//   /sbw_vehicle status           查看载具状态（含血量/部件/弹药）
 //   /sbw_vehicle start            激活系统：部署所有载具，开始追踪
 //   /sbw_vehicle stop             停用系统：清除所有载具，停止追踪
+//   /sbw_vehicle time             切换实时 ActionBar 状态栏
 // ============================================================
 
 // ========== 工具函数（依赖 main.js 中的全局函数）==========
@@ -44,6 +45,9 @@ function clearVehicles(server, teamName) {
     let vehicles = VEHICLE_CFG.teams[tn].vehicles
     for (let i = 0; i < vehicles.length; i++) {
       let v = vehicles[i]
+      // 清除该载具的待执行重生排期
+      cancelPendingRespawn(v.id)
+
       let tag = getFullTag(v.id)
       let state = store.vehicles[v.id] || null
       let entity = findVehicleEntity(server, state, tag)
@@ -88,7 +92,6 @@ ServerEvents.commandRegistry(event => {
         source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.deploy_team', teamName), true)
       }
     } catch (e) {
-      // 没有 team 参数 → 部署全部
       deployAllVehicles(server)
       source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.deploy_all'), true)
     }
@@ -97,17 +100,22 @@ ServerEvents.commandRegistry(event => {
 
   /**
    * /sbw_vehicle reset — 重置所有载具
+   * 取消所有排期 + 清除所有实体 + 清空 store
    */
   function executeReset(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
-    resetAll(server)
-    source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.reset_done'), true)
+    let result = resetAll(server)
+    source.sendSuccess(
+      Component.translatable('msg.kubejs.sbw_vehicle.reset_done',
+        String(result.entityCount), String(result.cancelledCount)),
+      true
+    )
     return 1
   }
 
   /**
-   * /sbw_vehicle status — 查看载具状态
+   * /sbw_vehicle status — 查看载具完整状态（血量/能量/部件/弹药/UUID）
    */
   function executeStatus(ctx) {
     let source = ctx.getSource()
@@ -123,13 +131,16 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
-   * /sbw_vehicle redeploy — 强制重新部署所有载具（先清除旧的）
+   * /sbw_vehicle redeploy — 强制重新部署所有载具
+   * 流程：取消所有排期 → 按前缀清除旧实体 → 清空 store → 重新部署
    */
   function executeRedeploy(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
+
     resetAll(server)
     deployAllVehicles(server)
+
     source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.redeploy_done'), true)
     return 1
   }
@@ -159,25 +170,25 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
-   * /sbw_vehicle time — 查看载具重生剩余时间
+   * /sbw_vehicle time — 切换实时 ActionBar 状态栏
+   * 开启后每 1 秒在屏幕中间显示所有载具的实时状态
    */
   function executeTime(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
-    let lines = getRespawnTimeLines(server)
 
-    let msg = Component.translatable('msg.kubejs.sbw_vehicle.time_header')
-    for (let i = 0; i < lines.length; i++) {
-      msg = msg.append('\\n').append(Text.of(lines[i]))
+    $showTimeActionBar = !$showTimeActionBar
+
+    if ($showTimeActionBar) {
+      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.time_on'), true)
+    } else {
+      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.time_off'), true)
     }
-    source.sendSuccess(msg, false)
     return 1
   }
 
   /**
    * /sbw_vehicle clear [<team>] — 调试：清除载具实体 + 重置状态
-   * 清除指定队伍（或全部）的载具实体，并从 store 中移除记录
-   * 之后需要手动 deploy 重新部署
    */
   function executeClear(ctx) {
     let source = ctx.getSource()
@@ -191,7 +202,6 @@ ServerEvents.commandRegistry(event => {
         source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.clear_team', teamName, String(count)), true)
       }
     } catch (e) {
-      // 没有 team 参数 → 清除全部
       count = clearVehicles(server, null)
       source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.clear_all', String(count)), true)
     }

@@ -8,6 +8,9 @@
 //   4. 手动命令：支持管理员手动部署/重置/状态查询
 //   5. 双重检测：EntityEvents.death + 定期扫描，防止漏检
 //   6. UUID 索引：生成时保存实体 UUID，O(1) 查找替代全量遍历
+//   7. 排期追踪：通过 $pendingRespawns 管理所有待执行重生，
+//      支持 reset/redeploy 时取消未执行的回调
+//   8. ActionBar：实时状态栏显示载具存活/重生状态
 // ============================================================
 
 if (typeof SBW_VEHICLE_CONFIG === 'undefined') {
@@ -26,13 +29,27 @@ function sbwError() { console.error(SBW_PREFIX + ' ' + Array.prototype.join.call
 // ========== Java 类引用 ==========
 
 var $UUID = Java.loadClass('java.util.UUID')
-// NBT 构建类（$CompoundTag/$IntTag/$ByteTag 已由 a_tacz_config.js 以 const 声明，不可重复声明）
 var $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
 var $FloatTag = Java.loadClass('net.minecraft.nbt.FloatTag')
 var $StringTag = Java.loadClass('net.minecraft.nbt.StringTag')
 var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
 var $LongTag = Java.loadClass('net.minecraft.nbt.LongTag')
 var $ShortTag = Java.loadClass('net.minecraft.nbt.ShortTag')
+
+// ========== 排期追踪（支撑 reset/redeploy 取消未执行重生）==========
+
+/**
+ * 存储所有待执行的重生排期
+ * Map<vehicleId, ScheduledEvent>
+ * 用于在 reset/redeploy/stop 时取消尚未触发的重生
+ */
+var $pendingRespawns = new java.util.HashMap()
+
+/**
+ * 存储 ActionBar 开关状态（由 /sbw_vehicle time 切换）
+ * true = 持续显示实时状态栏
+ */
+var $showTimeActionBar = false
 
 // ========== JSON → NBT 转换工具（模板化部署用）==========
 
@@ -102,7 +119,6 @@ function toNBT(obj) {
 
   if (typeof obj === 'number') {
     if (Number.isInteger(obj)) {
-      // 整型 → 注意：如果值在 byte 范围内也存为 int（Minecraft 兼容）
       return $IntTag.valueOf(obj)
     } else {
       return $FloatTag.valueOf(obj)
@@ -136,7 +152,6 @@ function mergeDeployNBT(target, source) {
 
     // 如果两边都是 CompoundTag，递归合并（如 WeaponState）
     if (existing && existing instanceof $CompoundTag && incoming instanceof $CompoundTag) {
-      // 递归将 incoming 的所有字段写入 existing
       let incomingKeys = incoming.getAllKeys()
       let iter = incomingKeys.iterator()
       while (iter.hasNext()) {
@@ -144,7 +159,6 @@ function mergeDeployNBT(target, source) {
         existing.put(subKey, incoming.get(subKey))
       }
     } else {
-      // 否则直接覆盖
       target.put(key, incoming)
     }
   }
@@ -154,14 +168,17 @@ function mergeDeployNBT(target, source) {
 
 /**
  * 获取载具状态存储
+ * 存储位置：server.persistentData (KubeJS 独立存储，不污染 Minecraft 原版 data storage)
+ *
  * 数据结构：
  * {
+ *   active: true|false,
  *   vehicles: {
  *     "<vehicleId>": {
  *       status: "alive" | "respawning" | "dead",
  *       team: "attack" | "defense",
- *       vehicleType: "superbwarfare:ztz_99a",
- *       uuid: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  // 实体 UUID（O(1) 查找用）
+ *       vehicleType: "superbwarfare:xxx",
+ *       uuid: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  // 实体 UUID
  *     }
  *   }
  * }
@@ -198,7 +215,6 @@ function getFullTag(vehicleId) {
 
 /**
  * 判断载具系统是否已激活
- * 独立存储在 persistentData 中，通过 /sbw_vehicle start/stop 控制
  */
 function isSystemActive(server) {
   try {
@@ -227,9 +243,6 @@ function setSystemActive(server, active) {
 
 /**
  * 通过 UUID 在服务器中查找实体（O(1) 查找）
- * @param {object} server - 服务器实例
- * @param {string} uuidStr - UUID 字符串
- * @returns {Entity|null}
  */
 function findEntityByUUID(server, uuidStr) {
   if (!uuidStr) return null
@@ -243,7 +256,6 @@ function findEntityByUUID(server, uuidStr) {
 
 /**
  * 通过标签在世界中查找实体（回退方案：全量遍历）
- * @returns {Entity|null}
  */
 function findEntityByTag(server, tag) {
   let levels = server.getAllLevels()
@@ -264,8 +276,6 @@ function findEntityByTag(server, tag) {
 
 /**
  * 检查实体是否包含指定字符串标签
- * Minecraft Entity.hasTag() 接受 ResourceLocation 而非 String，
- * 因此用 getTags() 迭代对比
  */
 function entityHasStringTag(entity, tag) {
   let tags = entity.getTags()
@@ -279,32 +289,58 @@ function entityHasStringTag(entity, tag) {
 
 /**
  * 根据 store 中的状态查找实体（先 UUID 快速查找，回退到 tag 遍历）
- * @param {object} server
- * @param {object} state - store.vehicles[vehicleId]
- * @param {string} tag - 完整标签名
- * @returns {Entity|null}
  */
 function findVehicleEntity(server, state, tag) {
-  // 优先通过 UUID 查找（O(1)）
   if (state && state.uuid) {
     let entity = findEntityByUUID(server, state.uuid)
     if (entity && entityHasStringTag(entity, tag)) {
       return entity
     }
-    // UUID 不存在或实体标签不匹配 → 清理无效 UUID
     if (state.uuid) {
       state.uuid = null
     }
   }
-  // 回退：通过 tag 全量遍历
   return findEntityByTag(server, tag)
+}
+
+// ========== 实体批量清理（按标签前缀）==========
+
+/**
+ * 在世界中搜索所有带有 SBW 标签前缀的实体并清除
+ * 用于 reset/redeploy 时彻底清理
+ *
+ * @param {object} server
+ * @returns {number} 清除的实体数量
+ */
+function discardAllByTagPrefix(server) {
+  let count = 0
+  let prefix = VEHICLE_CFG.tagPrefix
+  let levels = server.getAllLevels()
+  let liter = levels.iterator()
+  while (liter.hasNext()) {
+    let level = liter.next()
+    let entities = level.getEntities()
+    let eiter = entities.iterator()
+    while (eiter.hasNext()) {
+      let entity = eiter.next()
+      let tags = entity.getTags()
+      let titer = tags.iterator()
+      while (titer.hasNext()) {
+        if (titer.next().startsWith(prefix)) {
+          entity.discard()
+          count++
+          break
+        }
+      }
+    }
+  }
+  return count
 }
 
 // ========== 数量管理 ==========
 
 /**
  * 统计世界中拥有指定标签的实体数量
- * 用于 maxCount 上限检查
  */
 function countAliveByTag(server, tag) {
   let count = 0
@@ -326,7 +362,6 @@ function countAliveByTag(server, tag) {
 
 /**
  * 超出 maxCount 时清理多余的实体（保留 store 中注册的，丢弃多余的）
- * @returns {number} 清理的数量
  */
 function trimExcessVehicles(server, tag, maxCount, storeVehicleId) {
   let keepUuid = null
@@ -334,7 +369,6 @@ function trimExcessVehicles(server, tag, maxCount, storeVehicleId) {
   let state = store.vehicles[storeVehicleId]
   if (state && state.uuid) keepUuid = state.uuid
 
-  // 收集所有拥有该标签的实体
   let candidates = []
   let levels = server.getAllLevels()
   let iter = levels.iterator()
@@ -350,7 +384,6 @@ function trimExcessVehicles(server, tag, maxCount, storeVehicleId) {
     }
   }
 
-  // 如果超过上限，丢弃多余的（优先保留 store 中注册的）
   if (candidates.length > maxCount) {
     let removed = 0
     for (let i = 0; i < candidates.length; i++) {
@@ -358,7 +391,7 @@ function trimExcessVehicles(server, tag, maxCount, storeVehicleId) {
       let e = candidates[i]
       if (keepUuid) {
         let uuid = e.getNbt().getString('UUID')
-        if (uuid === keepUuid) continue // 保留 store 中注册的那辆
+        if (uuid === keepUuid) continue
       }
       e.discard()
       removed++
@@ -373,13 +406,6 @@ function trimExcessVehicles(server, tag, maxCount, storeVehicleId) {
 
 /**
  * 生成单辆载具实体
- *
- * SBW 载具是独立的实体类型（如 superbwarfare:ztz_99a），
- * 直接以载具类型召唤，NBT 仅用于设置初始标记和朝向。
- *
- * @param {object} server - 服务器实例
- * @param {object} vehicleCfg - 载具配置（vehicleType 为实际实体 ID）
- * @returns {object|null} { entity, uuid, tag } 或 null
  */
 function spawnVehicleEntity(server, vehicleCfg) {
   let tag = getFullTag(vehicleCfg.id)
@@ -389,7 +415,7 @@ function spawnVehicleEntity(server, vehicleCfg) {
   let yaw = vehicleCfg.pos[3] || 0
   let pitch = vehicleCfg.pos[4] || 0
 
-  // ─── 使用 CompoundTag API 构建基础 NBT ───
+  // 构建基础 NBT
   let nbt = new $CompoundTag()
 
   // Rotation
@@ -398,25 +424,25 @@ function spawnVehicleEntity(server, vehicleCfg) {
   rotationList.add($FloatTag.valueOf(pitch))
   nbt.put('Rotation', rotationList)
 
-  // Tags — 用于后续兜底查找和死亡事件识别
+  // Tags
   let tagsList = new $ListTag()
   tagsList.add($StringTag.valueOf(tag))
   nbt.put('Tags', tagsList)
 
-  // ─── 合并模板化 deployNBT（能量、弹药、预装填等）───
+  // 合并模板化 deployNBT
   let deployNBT = vehicleCfg._resolvedDeployNBT || vehicleCfg.deployNBT
   if (deployNBT) {
     mergeDeployNBT(nbt, deployNBT)
     sbwLog('载具 [' + vehicleCfg.id + '] 已应用 deployNBT 模板')
   }
 
-  // ─── 直接用载具类型 ID 召唤 ───
+  // 召唤实体
   let cmd = 'summon ' + vehicleCfg.vehicleType + ' ' + x + ' ' + y + ' ' + z + ' ' + nbt.toString()
   server.runCommandSilent(cmd)
 
   sbwLog('已执行 summon 生成载具 [' + vehicleCfg.id + '] (类型: ' + vehicleCfg.vehicleType + ')，正在查找实体...')
 
-  // ─── 查找刚生成的实体并提取 UUID ───
+  // 查找刚生成的实体
   let entity = findEntityByTag(server, tag)
   if (!entity) {
     sbwWarn('载具 [' + vehicleCfg.id + '] 生成后无法立即找到（标签: ' + tag + '）将回退到 tag 查找')
@@ -441,10 +467,10 @@ function deployVehicle(server, teamName, vehicleCfg) {
   let tag = getFullTag(vehicleId)
   let maxCount = vehicleCfg.maxCount
 
-  // ─── 解析 deployNBT ───
+  // 解析 deployNBT
   vehicleCfg._resolvedDeployNBT = vehicleCfg.deployNBT || null
 
-  // ─── maxCount 检查：当前存活数 ≥ 上限则跳过 ───
+  // maxCount 检查
   if (maxCount && maxCount > 0) {
     let aliveCount = countAliveByTag(server, tag)
     if (aliveCount >= maxCount) {
@@ -453,21 +479,17 @@ function deployVehicle(server, teamName, vehicleCfg) {
     }
   }
 
-  // 延迟读取 store，确保拿到最新的数据
   let store = getStore(server)
   let state = store.vehicles[vehicleId]
 
   // 检查是否已存活
   if (state && state.status === 'alive') {
-    // 先通过 UUID 快速检查，回退到 tag
     let entity = findVehicleEntity(server, state, tag)
     if (entity) {
       sbwLog('载具 [' + vehicleId + '] 已存活，跳过生成')
       return
     } else {
-      // 标记为存活但实体不存在 → 需要重新生成
       sbwWarn('载具 [' + vehicleId + '] 标记为存活但实体不存在，将重新生成')
-      // 清理已过期状态
       store = getStore(server)
     }
   }
@@ -479,13 +501,13 @@ function deployVehicle(server, teamName, vehicleCfg) {
     return
   }
 
-  // 重新读取 store 并更新状态（确保数据是最新的）
+  // 更新状态
   store = getStore(server)
   store.vehicles[vehicleId] = {
     status: 'alive',
     team: teamName,
     vehicleType: vehicleCfg.vehicleType,
-    uuid: result.uuid || null  // UUID 可能为 null，回退到 tag 查找
+    uuid: result.uuid || null
   }
   saveStore(server, store)
 }
@@ -525,10 +547,16 @@ function deployAllVehicles(server) {
   sbwLog('载具部署完成')
 }
 
-// ========== 载具死亡/重生处理 ==========
+// ========== 载具死亡/重生处理（含排期追踪）==========
 
 /**
- * 处理载具被摧毁（标记为待重生，安排重生计划）
+ * 处理载具被摧毁（标记待重生 + 取消旧排期 + 安排新重生）
+ *
+ * 排期追踪机制：
+ *   - 每次安排重生时，先将该 vehicleId 之前的排期取消
+ *   - 将新 ScheduledEvent 存入 $pendingRespawns
+ *   - reset/redeploy/stop 时遍历 $pendingRespawns 全部取消
+ *
  * @returns {boolean} 是否成功标记
  */
 function handleVehicleDestroyed(server, vehicleId, vehicleCfg) {
@@ -544,34 +572,86 @@ function handleVehicleDestroyed(server, vehicleId, vehicleCfg) {
   // 标记为重生中
   state.status = 'respawning'
   state.respawnDelay = vehicleCfg.respawnDelay
-  state.destroyedTick = server.ticks  // 记录摧毁时 tick，用于计算剩余时间
+  state.destroyedTick = server.ticks
   saveStore(server, store)
 
-  // 安排重生（延迟执行）
+  // ─── 取消该载具之前的排期（防止重复排期）───
+  cancelPendingRespawn(vehicleId)
+
+  // ─── 安排重生（含排期追踪）───
   if (vehicleCfg.respawnDelay > 0) {
-    let capturedTeam = state.team // 从 state 中捕获当前队伍
-    server.scheduleInTicks(vehicleCfg.respawnDelay, function() {
+    let capturedTeam = state.team
+    let scheduled = server.scheduleInTicks(vehicleCfg.respawnDelay, function() {
+      // 回调执行时，从追踪表中移除
+      $pendingRespawns.remove(vehicleId)
+
       if (!isSystemActive(server)) {
         sbwLog('系统已停用，取消载具 [' + vehicleId + '] 的重生')
         return
       }
+
+      // 再次确认 store 状态仍为 respawning（防止外部已手动重置）
+      let currentStore = getStore(server)
+      let currentState = currentStore.vehicles[vehicleId]
+      if (!currentState || currentState.status !== 'respawning') {
+        sbwLog('载具 [' + vehicleId + '] 状态已变更，跳过重生')
+        return
+      }
+
       sbwLog('重生延迟结束，重新部署载具 [' + vehicleId + ']')
       deployVehicle(server, capturedTeam, vehicleCfg)
     })
+
+    // 存入追踪表
+    $pendingRespawns.put(vehicleId, scheduled)
   }
 
   return true
 }
 
 /**
+ * 取消指定载具的待执行重生
+ */
+function cancelPendingRespawn(vehicleId) {
+  let existing = $pendingRespawns.get(vehicleId)
+  if (existing) {
+    try {
+      existing.cancel()
+    } catch(e) {
+      // cancel 可能抛异常（如事件已开始执行），可忽略
+    }
+    $pendingRespawns.remove(vehicleId)
+    sbwLog('已取消载具 [' + vehicleId + '] 的待执行重生')
+  }
+}
+
+/**
+ * 取消所有待执行的重生排期
+ * @returns {number} 取消的数量
+ */
+function cancelAllPendingRespawns() {
+  let count = 0
+  let iter = $pendingRespawns.keySet().iterator()
+  while (iter.hasNext()) {
+    let vid = iter.next()
+    let event = $pendingRespawns.get(vid)
+    if (event) {
+      try { event.cancel() } catch(e) {}
+    }
+    iter.remove() // 通过迭代器安全删除
+    count++
+  }
+  $pendingRespawns.clear()
+  return count
+}
+
+/**
  * 从实体事件中提取载具ID（通过标签前缀匹配）
- * @returns {string|null} 载具ID，或 null
  */
 function extractVehicleIdFromEntity(entity) {
   let entityTags = entity.getTags()
   if (!entityTags) return null
 
-  // 查找以我们前缀开头的标签（使用 Java 流式迭代器）
   let iter = entityTags.iterator()
   while (iter.hasNext()) {
     let tag = iter.next()
@@ -601,74 +681,183 @@ function findVehicleConfig(vehicleId) {
 // ========== 重置 ==========
 
 /**
- * 重置所有载具状态，清除现有实体并清理数据
+ * 重置所有载具：
+ *   1. 取消所有待执行的重生排期
+ *   2. 按标签前缀搜索并清除所有 SBW 载具实体
+ *   3. 清空持久化存储
  */
 function resetAll(server) {
-  let store = getStore(server)
-  let count = 0
+  // 第一步：取消所有待执行的重生
+  let cancelledCount = cancelAllPendingRespawns()
 
-  for (let vehicleId in store.vehicles) {
-    if (!store.vehicles.hasOwnProperty(vehicleId)) continue
-    let state = store.vehicles[vehicleId]
-    let tag = getFullTag(vehicleId)
+  // 第二步：清除所有 SBW 标签实体
+  let entityCount = discardAllByTagPrefix(server)
 
-    // 优先 UUID 查找
-    let entity = findVehicleEntity(server, state, tag)
-    if (entity) {
-      entity.discard()
-      count++
-      sbwLog('已清除载具实体 [' + vehicleId + ']（无掉落物）')
+  // 第三步：清空持久化存储
+  server.persistentData.putString(VEHICLE_CFG.persistKey, JSON.stringify({ vehicles: {} }))
+
+  sbwLog('已重置：清除 ' + entityCount + ' 个载具实体，取消 ' + cancelledCount + ' 个待执行重生，所有状态已清零')
+  return { entityCount: entityCount, cancelledCount: cancelledCount }
+}
+
+// ========== 状态查询（完整版）==========
+
+/**
+ * 从载具实体 NBT 中提取弹药摘要
+ * @param {ListTag} items - Inventory.Items 列表
+ * @returns {string} 弹药摘要文本
+ */
+function getAmmoSummary(items) {
+  if (!items || items.size() === 0) return ''
+
+  let ammoMap = {}
+  for (let i = 0; i < items.size(); i++) {
+    let item = items.get(i)
+    if (item instanceof $CompoundTag) {
+      let id = item.getString('id')
+      let count = item.getInt('count')
+      if (id && count > 0) {
+        // 提取弹药简称
+        let shortName = id
+        if (id === 'superbwarfare:large_shell_ap') shortName = 'AP弹'
+        else if (id === 'superbwarfare:large_shell_he') shortName = 'HE弹'
+        else if (id === 'superbwarfare:small_shell_ap') shortName = '小AP'
+        else if (id === 'superbwarfare:small_shell_he') shortName = '小HE'
+        else if (id === 'superbwarfare:rifle_ammo') shortName = '步枪弹'
+        else if (id === 'superbwarfare:heavy_ammo') shortName = '重弹'
+        else if (id === 'superbwarfare:missile') shortName = '导弹'
+        else if (id === 'superbwarfare:rocket') shortName = '火箭弹'
+        else {
+          // 取命名空间后的最后一段
+          let parts = id.split(':')
+          shortName = parts.length > 1 ? parts[1] : id
+        }
+
+        if (!ammoMap[shortName]) ammoMap[shortName] = 0
+        ammoMap[shortName] += count
+      }
     }
   }
 
-  // 重置持久化数据
-  server.persistentData.putString(VEHICLE_CFG.persistKey, JSON.stringify({ vehicles: {} }))
-  sbwLog('已清除 ' + count + ' 个载具实体，所有载具状态已重置')
+  let parts = []
+  for (let name in ammoMap) {
+    if (ammoMap.hasOwnProperty(name)) {
+      parts.push('§7' + name + ':§f' + ammoMap[name])
+    }
+  }
+  return parts.join(' §8| ')
 }
 
-// ========== 状态查询（优化版）==========
-
 /**
- * 获取所有载具的当前状态文本
+ * 获取所有载具的完整状态文本（含血量/能量/部件/弹药/UUID/倒计时）
  */
 function getStatusLines(server) {
   let store = getStore(server)
+  let currentTick = server.ticks
   let lines = []
-  let hasData = false
 
   for (let teamName in VEHICLE_CFG.teams) {
     if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
+
+    lines.push('')
+    lines.push('§6=== ' + teamName.toUpperCase() + ' ===')
+
     let vehicles = VEHICLE_CFG.teams[teamName].vehicles
     for (let i = 0; i < vehicles.length; i++) {
-      hasData = true
       let v = vehicles[i]
       let state = store.vehicles[v.id]
       let tag = getFullTag(v.id)
 
-      // 优先 UUID，回退 tag
-      let alive = false
-      if (state && state.status === 'alive') {
-        alive = findVehicleEntity(server, state, tag) !== null
+      // 查找实体
+      let entity = null
+      if (state && state.uuid) {
+        entity = findEntityByUUID(server, state.uuid)
+      }
+      if (!entity) {
+        entity = findEntityByTag(server, tag)
       }
 
-      let statusText = ''
-      if (alive) {
-        statusText = '§a✓ 存活'
+      // 行头：ID + 类型
+      let header = '§e' + v.id + ' §7(' + v.vehicleType + ')'
+
+      if (entity) {
+        // ─── 存活：读取 NBT 获取实时数据 ───
+        let nbt = entity.getNbt()
+
+        // 血量 & 能量
+        let health = nbt.contains('Health') ? nbt.getFloat('Health') : -1
+        let energy = nbt.contains('Energy') ? nbt.getInt('Energy') : -1
+
+        let healthStr = health >= 0 ? '§c血量:§f' + health.toFixed(1) : ''
+        let energyStr = energy >= 0 ? '§b能量:§f' + energy : ''
+        let stats = []
+        if (healthStr) stats.push(healthStr)
+        if (energyStr) stats.push(energyStr)
+
+        lines.push(header + ' §a✓ 存活' + (stats.length > 0 ? ' §8| ' + stats.join(' §8| ') : ''))
+
+        // 部件健康度
+        let partInfo = []
+        let checkPart = function(label, healthKey, damagedKey) {
+          let h = nbt.contains(healthKey) ? nbt.getFloat(healthKey) : -1
+          let d = nbt.contains(damagedKey) ? nbt.getByte(damagedKey) : 0
+          if (h >= 0) {
+            let color = h > 50 ? '§a' : (h > 20 ? '§e' : '§c')
+            let flag = d === 1 ? '§c[损]' : ''
+            partInfo.push('§7' + label + ':' + color + h.toFixed(0) + flag)
+          }
+        }
+        checkPart('左轮', 'LeftWheelHealth', 'LeftWheelDamaged')
+        checkPart('右轮', 'RightWheelHealth', 'RightWheelDamaged')
+        checkPart('主引擎', 'MainEngineHealth', 'MainEngineDamaged')
+        checkPart('副引擎', 'SubEngineHealth', 'SubEngineDamaged')
+        checkPart('炮塔', 'TurretHealth', 'TurretDamaged')
+
+        if (partInfo.length > 0) {
+          lines.push('  §7[部件] ' + partInfo.join(' §8| '))
+        }
+
+        // 弹药库存
+        let inv = nbt.get('Inventory')
+        if (inv instanceof $CompoundTag) {
+          let items = inv.get('Items')
+          if (items instanceof $ListTag && items.size() > 0) {
+            let ammoStr = getAmmoSummary(items)
+            if (ammoStr) {
+              lines.push('  §7[弹药] ' + ammoStr)
+            }
+          }
+        }
+
+        // UUID（调试用）
+        let uuid = nbt.getString('UUID')
+        if (uuid) {
+          lines.push('  §8UUID: ' + uuid)
+        }
+
       } else if (state && state.status === 'respawning') {
-        statusText = '§e⟳ 重生中 (' + (v.respawnDelay / 20) + '秒)'
+        // ─── 重生中：显示剩余时间 ───
+        let destroyedTick = state.destroyedTick || 0
+        let delay = state.respawnDelay || v.respawnDelay || 0
+        if (destroyedTick > 0 && delay > 0) {
+          let elapsed = currentTick - destroyedTick
+          let remaining = Math.max(0, delay - elapsed)
+          let remainingSec = Math.ceil(remaining / 20)
+          let totalSec = Math.ceil(delay / 20)
+          lines.push(header + ' §e⟳ 重生中 (' + remainingSec + 's / ' + totalSec + 's)')
+        } else {
+          lines.push(header + ' §e⟳ 重生中')
+        }
+        if (state.uuid) {
+          lines.push('  §8旧UUID: ' + state.uuid)
+        }
+
       } else {
-        statusText = '§c✗ 待部署'
+        // ─── 待部署 ───
+        lines.push(header + ' §c✗ 待部署')
+        lines.push('  §7位置: §8[' + v.pos[0] + ', ' + v.pos[1] + ', ' + v.pos[2] + ']')
       }
-
-      lines.push('§7[' + teamName + '] §e' + v.id
-        + ' §7(' + v.vehicleType + ')'
-        + ' §8@[' + v.pos[0] + ', ' + v.pos[1] + ', ' + v.pos[2] + ']'
-        + ' — ' + statusText)
     }
-  }
-
-  if (!hasData) {
-    lines.push('§7暂无载具配置')
   }
 
   return lines
@@ -676,7 +865,6 @@ function getStatusLines(server) {
 
 /**
  * 获取所有正在重生中的载具剩余时间文本
- * @returns {string[]}
  */
 function getRespawnTimeLines(server) {
   let store = getStore(server)
@@ -717,11 +905,88 @@ function getRespawnTimeLines(server) {
   return lines
 }
 
+// ========== ActionBar 实时状态栏 ==========
+
+/**
+ * 生成 ActionBar 显示的实时状态文本（单行紧凑格式）
+ * 格式示例：
+ *   §6[SBW] §a✓attack_tank_1 §e⟳defense_tank_1(23s) §c✗defense_heli_1
+ */
+function buildActionBarText(server) {
+  let store = getStore(server)
+  let currentTick = server.ticks
+  let parts = []
+
+  for (let teamName in VEHICLE_CFG.teams) {
+    if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
+    let vehicles = VEHICLE_CFG.teams[teamName].vehicles
+
+    for (let i = 0; i < vehicles.length; i++) {
+      let v = vehicles[i]
+      let state = store.vehicles[v.id]
+      let tag = getFullTag(v.id)
+
+      // 简略名：取 id 的短名
+      let shortName = v.id
+
+      // 查找实体
+      let entity = null
+      if (state && state.uuid) {
+        entity = findEntityByUUID(server, state.uuid)
+      }
+      if (!entity) {
+        entity = findEntityByTag(server, tag)
+      }
+
+      if (entity) {
+        // 存活：绿色
+        let nbt = entity.getNbt()
+        let health = nbt.contains('Health') ? nbt.getFloat('Health') : -1
+        let healthColor = health > 0 ? (health > 200 ? '§a' : '§e') : '§c'
+        parts.push(healthColor + '✓' + shortName)
+      } else if (state && state.status === 'respawning') {
+        // 重生中：金色 + 倒计时
+        let destroyedTick = state.destroyedTick || 0
+        let delay = state.respawnDelay || v.respawnDelay || 0
+        let remainingSec = 0
+        if (destroyedTick > 0 && delay > 0) {
+          let remaining = Math.max(0, delay - (currentTick - destroyedTick))
+          remainingSec = Math.ceil(remaining / 20)
+        }
+        parts.push('§e⟳' + shortName + '(' + remainingSec + 's)')
+      } else {
+        // 待部署：红色
+        parts.push('§c✗' + shortName)
+      }
+    }
+  }
+
+  return '§6[SBW] §7' + parts.join(' §8| §7')
+}
+
+/**
+ * 更新 ActionBar 显示（向所有在线玩家推送）
+ * 由 tick 事件每 20 tick（1秒）调用
+ */
+function updateTimeActionBar(server) {
+  if (!$showTimeActionBar) return
+
+  let players = server.getAllPlayers()
+  if (!players || players.size() === 0) return
+
+  let text = buildActionBarText(server)
+
+  let iter = players.iterator()
+  while (iter.hasNext()) {
+    let player = iter.next()
+    player.sendData('minecraft:actionbar', text)
+  }
+}
+
 // ========== 定期扫描检测（兜底机制）==========
 
 /**
  * 定期扫描：检查标记为存活的实体是否还存在
- * 如果实体不在了（被移除/销毁但未触发死亡事件），则标记为重生
  * 每 40 tick（2 秒）执行一次
  */
 function runSweepCheck(server) {
@@ -753,7 +1018,7 @@ function runSweepCheck(server) {
       }
     }
 
-    // ─── maxCount 超限清理：无论什么状态，只要实体的实际数量超过上限就清理 ───
+    // maxCount 超限清理
     if (maxCount > 0) {
       let trimmed = trimExcessVehicles(server, tag, maxCount, vehicleId)
       if (trimmed > 0) changed = true
@@ -774,7 +1039,6 @@ EntityEvents.death(event => {
   let entity = event.entity
   let server = event.server
 
-  // 系统未激活时不处理
   if (!isSystemActive(server)) return
 
   let vehicleId = extractVehicleIdFromEntity(entity)
@@ -789,16 +1053,21 @@ EntityEvents.death(event => {
 })
 
 /**
- * 定期扫描（每 40 tick ≈ 2 秒）
- * - 检查标记为存活的实体是否还存在
- * - maxCount 超限自动清理
+ * 定期扫描 + ActionBar 推送
+ * 每 40 tick（2 秒）扫描，每 20 tick（1 秒）推送 ActionBar
  */
 ServerEvents.tick(event => {
   let server = event.server
   let tick = server.ticks
 
+  // 扫描（每 40 tick）
   if (tick % 40 === 0 && isSystemActive(server)) {
     runSweepCheck(server)
+  }
+
+  // ActionBar 推送（每 20 tick = 1 秒）
+  if (tick % 20 === 0) {
+    updateTimeActionBar(server)
   }
 })
 

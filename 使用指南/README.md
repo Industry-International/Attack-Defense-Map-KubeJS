@@ -13,6 +13,7 @@
 | [**队伍复活券系统**](./team_revive-使用教程.md) | 复活券池管理、死亡消耗、队伍淘汰触发 | `server_scripts/team_revive/` |
 | [**SBW 载具自动部署**](./sbw_vehicle-使用教程.md) | SBW 载具自动部署/重生、模板化 NBT 配置（能量、弹药、预装填） | `server_scripts/sbw_vehicle/` |
 | [**指令使用**](./指令使用.md) | 管理员指令大全（`/profequip` `/kubejsadmin` `/team_revive` `/sbw_vehicle`） | 各模块内 |
+| [**数据存储说明**](./数据存储.md) | 持久化数据存储机制、数据结构、读写接口 | `server.persistentData` |
 | [**TACZ 枪械配件数据**](./tacz枪械配件数据-使用指南.md) | 枪械 GunId、配件槽位、弹药数据查询 | `tacz所有的枪械配件数据/` |
 | [**启动脚本配置**](./startup_configs-使用教程.md) | 物品注册、海战平衡方块属性、TAOV 武器参数 | `startup_scripts/` |
 

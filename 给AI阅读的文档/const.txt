@@ -78,6 +78,8 @@
   server_scripts/sbw_vehicle/main.js
     const VEHICLE_CFG = SBW_VEHICLE_CONFIG
     const SBW_PREFIX = '[SBW载具]'
+    var $pendingRespawns = new java.util.HashMap()    // 排期追踪表
+    var $showTimeActionBar = false                     // ActionBar 开关
 
   server_scripts/team_revive/main.js
     const CFG = TEAM_REVIVE_CONFIG
