@@ -64,10 +64,132 @@ function isGameActive(server) {
 // ========== Java 类引用 ==========
 
 var $UUID = Java.loadClass('java.util.UUID')
-// NBT 构建类（$CompoundTag 已由 a_tacz_config.js 以 const 声明，不可重复声明）
+// NBT 构建类
+var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 var $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
 var $FloatTag = Java.loadClass('net.minecraft.nbt.FloatTag')
 var $StringTag = Java.loadClass('net.minecraft.nbt.StringTag')
+var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
+var $ByteTag = Java.loadClass('net.minecraft.nbt.ByteTag')
+var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
+var $LongTag = Java.loadClass('net.minecraft.nbt.LongTag')
+var $ShortTag = Java.loadClass('net.minecraft.nbt.ShortTag')
+
+// ========== JSON → NBT 转换工具（模板化部署用）==========
+
+/**
+ * 将普通 JS 对象递归转换为 CompoundTag
+ *
+ * 类型映射规则：
+ *   JS 对象          → CompoundTag
+ *   JS 数组          → ListTag（元素自动推导类型）
+ *   JS 字符串        → StringTag
+ *   JS 整数          → IntTag
+ *   JS 浮点数        → FloatTag
+ *   JS 布尔值 true   → ByteTag(1)
+ *   JS 布尔值 false  → ByteTag(0)
+ *   null / undefined → 跳过该键
+ *
+ * 特殊类型提示（用于需要明确 NBT 类型的场景）：
+ *   { __nbt_type: "byte",  value: 1 }   → ByteTag(1)
+ *   { __nbt_type: "short", value: 1 }   → ShortTag(1)
+ *   { __nbt_type: "long",  value: 1 }   → LongTag(1)
+ *   { __nbt_type: "double",value: 1.0 } → DoubleTag(1.0)
+ *
+ * @param {*} obj - 要转换的 JS 值
+ * @returns {Tag} 对应的 NBT Tag
+ */
+function toNBT(obj) {
+  if (obj === null || obj === undefined) return null
+
+  // 类型提示包装对象
+  if (typeof obj === 'object' && obj !== null && obj.__nbt_type) {
+    switch (obj.__nbt_type) {
+      case 'byte':   return $ByteTag.valueOf(obj.value)
+      case 'short':  return $ShortTag.valueOf(obj.value)
+      case 'long':   return $LongTag.valueOf(obj.value)
+      case 'double': return $DoubleTag.valueOf(obj.value)
+      case 'float':  return $FloatTag.valueOf(obj.value)
+      default:       return $IntTag.valueOf(obj.value)
+    }
+  }
+
+  if (typeof obj === 'object' && !Array.isArray(obj)) {
+    let tag = new $CompoundTag()
+    for (let key in obj) {
+      if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+      let val = toNBT(obj[key])
+      if (val !== null) {
+        tag.put(key, val)
+      }
+    }
+    return tag
+  }
+
+  if (Array.isArray(obj)) {
+    let list = new $ListTag()
+    for (let i = 0; i < obj.length; i++) {
+      let val = toNBT(obj[i])
+      if (val !== null) {
+        list.add(val)
+      }
+    }
+    return list
+  }
+
+  if (typeof obj === 'string') {
+    return $StringTag.valueOf(obj)
+  }
+
+  if (typeof obj === 'number') {
+    if (Number.isInteger(obj)) {
+      // 整型 → 注意：如果值在 byte 范围内也存为 int（Minecraft 兼容）
+      return $IntTag.valueOf(obj)
+    } else {
+      return $FloatTag.valueOf(obj)
+    }
+  }
+
+  if (typeof obj === 'boolean') {
+    return $ByteTag.valueOf(obj)
+  }
+
+  return null
+}
+
+/**
+ * 将 deployNBT（JS 对象）合并到目标 CompoundTag 中
+ * 注意：此函数直接修改 target，不返回新对象
+ *
+ * @param {CompoundTag} target - 基础 NBT
+ * @param {object} source - 要合并的 JS 对象（config 中的 deployNBT）
+ */
+function mergeDeployNBT(target, source) {
+  if (!source || typeof source !== 'object') return
+
+  for (let key in source) {
+    if (!Object.prototype.hasOwnProperty.call(source, key)) continue
+
+    let existing = target.get(key)
+    let incoming = toNBT(source[key])
+
+    if (incoming === null) continue
+
+    // 如果两边都是 CompoundTag，递归合并（如 WeaponState）
+    if (existing && existing instanceof $CompoundTag && incoming instanceof $CompoundTag) {
+      // 递归将 incoming 的所有字段写入 existing
+      let incomingKeys = incoming.getAllKeys()
+      let iter = incomingKeys.iterator()
+      while (iter.hasNext()) {
+        let subKey = iter.next()
+        existing.put(subKey, incoming.get(subKey))
+      }
+    } else {
+      // 否则直接覆盖
+      target.put(key, incoming)
+    }
+  }
+}
 
 // ========== 持久化数据工具 ==========
 
@@ -210,7 +332,7 @@ function spawnVehicleEntity(server, vehicleCfg) {
   let yaw = vehicleCfg.pos[3] || 0
   let pitch = vehicleCfg.pos[4] || 0
 
-  // ─── 使用 CompoundTag API 构建 NBT（仅设置朝向和标记）───
+  // ─── 使用 CompoundTag API 构建基础 NBT ───
   let nbt = new $CompoundTag()
 
   // Rotation
@@ -224,7 +346,14 @@ function spawnVehicleEntity(server, vehicleCfg) {
   tagsList.add($StringTag.valueOf(tag))
   nbt.put('Tags', tagsList)
 
-  // ─── 直接用载具类型 ID 召唤（非 Container 容器）───
+  // ─── 合并模板化 deployNBT（能量、弹药、预装填等）───
+  let deployNBT = vehicleCfg._resolvedDeployNBT || vehicleCfg.deployNBT
+  if (deployNBT) {
+    mergeDeployNBT(nbt, deployNBT)
+    sbwLog('载具 [' + vehicleCfg.id + '] 已应用 deployNBT 模板')
+  }
+
+  // ─── 直接用载具类型 ID 召唤 ───
   let cmd = 'summon ' + vehicleCfg.vehicleType + ' ' + x + ' ' + y + ' ' + z + ' ' + nbt.toString()
   server.runCommandSilent(cmd)
 
@@ -253,6 +382,11 @@ function spawnVehicleEntity(server, vehicleCfg) {
 function deployVehicle(server, teamName, vehicleCfg) {
   let vehicleId = vehicleCfg.id
   let tag = getFullTag(vehicleId)
+
+  // ─── 解析 deployNBT ───
+  // 直接将车辆配置中的 deployNBT 传递给生成函数
+  // 不写 deployNBT → 白板生成（仅 Rotation + Tags）
+  vehicleCfg._resolvedDeployNBT = vehicleCfg.deployNBT || null
 
   // 延迟读取 store，确保拿到最新的数据
   let store = getStore(server)
