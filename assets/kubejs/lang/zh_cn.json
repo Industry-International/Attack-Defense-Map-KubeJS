@@ -162,5 +162,14 @@
   "msg.kubejs.team_revive.usage": "§c用法: /team_revive <add <队伍> <数量>|reset|status [队伍名]>",
   "msg.kubejs.team_revive.add_done": "§a✔ 队伍 %s 复活券: %s/%s 张 (实际增加 %s 张)",
   "msg.kubejs.team_revive.remove_done": "§c✖ 队伍 %s 复活券: %s/%s 张 (实际削减 %s 张)",
-  "msg.kubejs.team_revive.no_config": "§c队伍 %s 未配置复活券系统"
+  "msg.kubejs.team_revive.no_config": "§c队伍 %s 未配置复活券系统",
+
+  "msg.kubejs.sbw_vehicle.status_header": "§6=== SBW 载具状态 ===",
+  "msg.kubejs.sbw_vehicle.deploy_all": "§a✔ 已部署所有队伍的载具",
+  "msg.kubejs.sbw_vehicle.deploy_team": "§a✔ 已部署队伍 %s 的载具",
+  "msg.kubejs.sbw_vehicle.reset_done": "§a✔ 所有载具状态已重置",
+  "msg.kubejs.sbw_vehicle.redeploy_done": "§a✔ 已重新部署所有载具（旧实体已清除）",
+  "msg.kubejs.sbw_vehicle.usage": "§c用法: /sbw_vehicle <deploy [队伍]|redeploy|reset|clear [队伍]|status>",
+  "msg.kubejs.sbw_vehicle.clear_all": "§e[调试] 已清除全部队伍的 §c%s 个 §e载具实体（状态已重置）",
+  "msg.kubejs.sbw_vehicle.clear_team": "§e[调试] 已清除队伍 %s 的 §c%s 个 §e载具实体（状态已重置）"
 }

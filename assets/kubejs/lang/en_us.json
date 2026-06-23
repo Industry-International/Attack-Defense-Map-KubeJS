@@ -164,5 +164,14 @@
   "msg.kubejs.team_revive.usage": "§cUsage: /team_revive <add <team> <amount>|reset|status [team]>",
   "msg.kubejs.team_revive.add_done": "§a✔ Team %s tickets: %s/%s (added %s)",
   "msg.kubejs.team_revive.remove_done": "§c✖ Team %s tickets: %s/%s (removed %s)",
-  "msg.kubejs.team_revive.no_config": "§cTeam %s has no ticket system configured"
+  "msg.kubejs.team_revive.no_config": "§cTeam %s has no ticket system configured",
+
+  "msg.kubejs.sbw_vehicle.status_header": "§6=== SBW Vehicle Status ===",
+  "msg.kubejs.sbw_vehicle.deploy_all": "§a✔ Deployed all team vehicles",
+  "msg.kubejs.sbw_vehicle.deploy_team": "§a✔ Deployed vehicles for team %s",
+  "msg.kubejs.sbw_vehicle.reset_done": "§a✔ All vehicle states have been reset",
+  "msg.kubejs.sbw_vehicle.redeploy_done": "§a✔ All vehicles have been redeployed (old entities cleared)",
+  "msg.kubejs.sbw_vehicle.usage": "§cUsage: /sbw_vehicle <deploy [team]|redeploy|reset|clear [team]|status>",
+  "msg.kubejs.sbw_vehicle.clear_all": "§e[Debug] Cleared §c%s §evehicle entities from all teams (state reset)",
+  "msg.kubejs.sbw_vehicle.clear_team": "§e[Debug] Cleared §c%s §evehicle entities from team %s (state reset)"
 }
