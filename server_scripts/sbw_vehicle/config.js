@@ -129,7 +129,7 @@ const SBW_VEHICLE_CONFIG = {
           id: 'attack_tank_1',
           vehicleType: 'superbwarfare:t_90a',
           pos: [-240.65, 107.00,-96.85],  
-          respawnDelay: 1200, // 60 秒
+          respawnDelay: 20, // 1 秒
           maxCount: 1,        // 该ID最多同时存在1辆
           // ↓↓↓ 部署时应用的初始NBT ↓↓↓
           deployNBT: {
@@ -215,7 +215,7 @@ const SBW_VEHICLE_CONFIG = {
           id: 'defense_tank_1',
           vehicleType: 'superbwarfare:t_90a',
           pos: [-651.19, 113.00, -10.94],
-          respawnDelay: 1200, // 60 秒
+          respawnDelay: 20, // 1 秒
           maxCount: 1,        // 该ID最多同时存在1辆
           deployNBT: {
             // ─── 核心属性 ───

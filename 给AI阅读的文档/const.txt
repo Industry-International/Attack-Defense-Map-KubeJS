@@ -25,16 +25,17 @@
 上述三个在任何其他脚本中都不可再声明，直接使用即可。
 
 ================================================================
- 第二：其他用 const 声明的全局常量
+ 第二：其他用 const 声明的全局常量（不可再声明！）
 ================================================================
 
 来源文件: server_scripts/profession/config/a_tacz_config.js
 
-  const PANE = { black: ..., gray: ... }          // 玻璃板填充物
-  const PROF_TAG_LIST = ['assault', 'scout', ...] // 职业标签列表
-  const ATTACH_SLOT_POS = { scope: {...}, ... }   // 配件GUI布局
-  const SLOT_TRANSLATE_KEY = { scope: '...', ... } // 配件翻译键
-  const PROF_CONFIGS = {}                          // 武器配置总表（各prof_configs/*.js往里注入）
+  const PANE              = { black: ..., gray: ... }          // 玻璃板填充物
+  const PROF_TAG_LIST     = ['assault', 'scout', 'medic', 'support']
+                                                                // 职业标签列表
+  const ATTACH_SLOT_POS   = { scope: {...}, muzzle: {...}, ... } // 配件GUI布局
+  const SLOT_TRANSLATE_KEY = { scope: '...', ... }               // 配件翻译键
+  const PROF_CONFIGS      = {}                                   // 武器配置总表
 
 来源文件: server_scripts/taov_returned_repair_parts.js
 
@@ -42,62 +43,264 @@
 
 来源文件: server_scripts/team_revive/config.js
 
-  const TEAM_REVIVE_CONFIG = { ... }
+  const TEAM_REVIVE_CONFIG = { persistKey: 'team_revive', ... }
 
 来源文件: server_scripts/sbw_vehicle/config.js
 
-  const SBW_VEHICLE_CONFIG = { ... }
+  const SBW_VEHICLE_CONFIG = { persistKey: 'sbw_vehicle', ... }
+
+来源文件: server_scripts/profession/profession_gui.js
+
+  const PROFESSIONS = [ { id: 'assault' }, { id: 'scout' }, ... ]
+
+来源文件: server_scripts/profession/profession_backpack.js
+
+  const BACKPACK_SLOT_COUNT = 5    // 背包槽位数
+  const BACKPACK_PAGE_SIZE  = 6    // 每页显示槽位数
+
+来源文件: server_scripts/team/team_selector_gui.js
+
+  const TEAM_ATTACK           = 'attack'
+  const TEAM_DEFENSE          = 'defense'
+  const TEAM_SPECTATOR        = 'spectator'
+  const TEAM_NONE             = 'none'
+  const JOIN_BATTLE_SCOREHOLDER = 'state'
+  const JOIN_BATTLE_OBJECTIVE   = 'game_state'
+  const JOIN_BATTLE_TARGET      = 1
+  const JOIN_BATTLE_FUNCTION    = 'game:teams/join_battlefield'
+  const CLEAR_DELAY_TICKS       = 5
+
+来源文件: startup_scripts/naval_balance_block_properties.js
+
+  const DYE_COLORS       = ['white', 'light_gray', 'gray', ...]
+  const LOCOMETAL_NORMAL     = [...]  // railways 普通登机金属
+  const LOCOMETAL_ANTIBLAST  = [...]  // railways 防爆登机金属
+  const LOCOMETAL_ANTIPEN    = [...]  // railways 防穿登机金属
+
+注意：naval_balance_block_properties.js 中的 const 在 startup_scripts
+目录下，属于 startup 作用域，与 server_scripts 不冲突，但最佳实践是
+同样避免重名。
 
 ================================================================
- 第三：用 var 声明的 NBT Java 类（不冲突，但优先用已有的 const）
+ 第三：用 var 声明的 Java 类引用（不冲突，但优先用已有的 const）
 ================================================================
 
 如果将来某个新模块也想用 $ListTag / $FloatTag 等，
-可以安全地声明，但如果已有 const 版本，就不要用同名的 var。
+可以安全地用 var 声明，但如果已有 const 版本，就不要用同名的 var。
+
+来源文件: server_scripts/sbw_vehicle/main.js
+
+  var $UUID       = Java.loadClass('java.util.UUID')
+  var $ListTag    = Java.loadClass('net.minecraft.nbt.ListTag')
+  var $FloatTag   = Java.loadClass('net.minecraft.nbt.FloatTag')
+  var $StringTag  = Java.loadClass('net.minecraft.nbt.StringTag')
+  var $DoubleTag  = Java.loadClass('net.minecraft.nbt.DoubleTag')
+  var $LongTag    = Java.loadClass('net.minecraft.nbt.LongTag')
+  var $ShortTag   = Java.loadClass('net.minecraft.nbt.ShortTag')
+  var $HashMap    = Java.loadClass('java.util.HashMap')
+  var $HashSet    = Java.loadClass('java.util.HashSet')
+  var $Component  = Java.loadClass('net.minecraft.network.chat.Component')
 
 来源文件: server_scripts/team_revive/main.js
 
   var $StringArgument  = Java.loadClass('com.mojang.brigadier.arguments.StringArgumentType')
   var $IntegerArgument = Java.loadClass('com.mojang.brigadier.arguments.IntegerArgumentType')
 
-这些是 Brigadier 参数类型，与 NBT 无冲突。
+来源文件: server_scripts/profession/profequip_cmd.js
 
-来源文件: server_scripts/sbw_vehicle/main.js
+  var $EntityArgument  = Java.loadClass('net.minecraft.commands.arguments.EntityArgument')
 
-  var $ListTag   = Java.loadClass('net.minecraft.nbt.ListTag')
-  var $FloatTag  = Java.loadClass('net.minecraft.nbt.FloatTag')
-  var $StringTag = Java.loadClass('net.minecraft.nbt.StringTag')
-  var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
-  var $LongTag   = Java.loadClass('net.minecraft.nbt.LongTag')
-  var $ShortTag  = Java.loadClass('net.minecraft.nbt.ShortTag')
-  var $HashMap   = Java.loadClass('java.util.HashMap')
-  var $Component = Java.loadClass('net.minecraft.network.chat.Component')
+来源文件: server_scripts/profession/kubejsadmin_cmd.js
+
+  var $EntityArgument  = Java.loadClass('net.minecraft.commands.arguments.EntityArgument')
+
+注意：$EntityArgument 在两个文件中各用 var 声明了一次（var 可重复声明）。
 
 ================================================================
- 第四：各模块内部的 config 常量（var/const 均可，不冲突）
+ 第四：各模块内部的 const/var 局部常量（不冲突）
 ================================================================
 
   server_scripts/sbw_vehicle/main.js
     const VEHICLE_CFG = SBW_VEHICLE_CONFIG
     const SBW_PREFIX = '[SBW载具]'
     var $pendingRespawns = new java.util.HashMap()    // 排期追踪表
-    var $showTimeActionBar = false                     // ActionBar 开关
+    var $actionBarPlayers = new $HashSet()             // 单人 ActionBar 玩家集合
 
   server_scripts/team_revive/main.js
     const CFG = TEAM_REVIVE_CONFIG
     const PREFIX = '[队伍复活券]'
 
+  server_scripts/profession/prof_configs/z_tacz_config_build.js
+    var VANILLA_WEAPON_DISPLAY = {}    // 非TACZ武器显示配置
+    var VANILLA_WEAPON_AMMO = {}       // 非TACZ弹药配置
+    var GUN_TACZ_FLAT = {}             // 扁平查表 (weaponId → config)
+    var GUN_TACZ_CONFIG = {}           // 结构化配置 (按职业)
+    var PROF_WEAPONS_MAP = {}          // 职业武器 ID 列表
+
 ================================================================
- 快速核查规则
+ 第五：用 global 注册的全局对象
+================================================================
+
+  startup_scripts/taov_returned_autocannon.js
+    global.taovReturnedAutocannon = { ... }
+    // 访问方式：global.taovReturnedAutocannon.xxx
+
+================================================================
+ 第六：全局函数一览（function 声明的全部为全局可见）
+================================================================
+
+  ======== a_tacz_config.js ========
+    filler(color)                           — 玻璃板填充辅助
+    getGunAttachments(player, weaponId)      — 获取配件配置
+    setGunAttachment(player, weaponId, slotKey, attachmentId) — 设置配件
+    clearGunAttachments(player, weaponId)    — 清除配件
+    saveGunAttachments(player, weaponId)     — 保存配件到持久化
+    cleanId(raw)                             — 清洗ID（去引号）
+    isTaczGun(wp)                            — 判断TACZ枪械
+    resolveTaczGun(cfg)                      — 生成TACZ枪械物品
+    openAttachmentMenu(player, weaponId, gunId, returnPage) — 打开配件GUI
+    makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) — 配件槽回调
+    openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage, pageNum) — 配件选择列表
+
+  ======== z_tacz_config_build.js ========
+    getTaczConfig(weaponId)                  — 查表获取武器配置
+    getProfessionWeaponList(profession, category) — 获取职业武器列表
+    getProfConfig(id)                        — 获取职业基础配置（护甲+额外物品）
+
+  ======== profequip_cmd.js ========
+    isTaczWeapon(id)                         — 判断TACZ武器
+    resolveTaczWeapon(id)                    — 解析TACZ武器为物品
+    resolveVanillaWeapon(id)                 — 解析非TACZ武器为物品
+    resolveWeapon(id)                        — 通用武器解析
+    giveToBackpack(player, stack)            — 优先放入背包
+    giveTaczAmmo(player, weaponId, slot)     — 发放TACZ弹药
+    giveVanillaAmmo(player, weaponId)        — 发放非TACZ弹药
+    giveWeaponAmmo(player, weaponId, slot)   — 通用弹药发放
+    attachmentKey(slotKey)                   — 配件键名转换
+    applySavedAttachments(gunStack, player, weaponId) — 应用配件到物品
+    giveLoadout(target, fromGui)             — 发放职业装备
+    parseTargets(selector, executor, server) — 目标解析
+    getPlayerSummary(target)                 — 获取玩家选择摘要
+
+  ======== profession_gui.js ========
+    openPage(player, page)                   — 核心页面导航
+    renderProf(gui, player, openPage, pageNum) — 职业选择页
+    renderWeaponConfig(gui, player, openPage, pageNum) — 武器配置页
+    renderWeapon(gui, player, openPage, pageNum) — 主武器选择页
+    renderOffhand(gui, player, openPage, pageNum) — 副武器选择页
+    renderTertiary(gui, player, openPage, pageNum) — 特殊武器选择页
+    drawSubPageFrame(gui)                    — 子页面边框
+    drawBackButton(gui, player, returnPage)  — 返回按钮
+    getWeaponName(id, category)              — 获取武器显示名
+    resolveWeaponItem(id)                    — 解析武器物品
+
+  ======== profession_backpack.js ========
+    getBackpackData(player)                  — 读取背包数据
+    setBackpackData(player, data)            — 写入背包数据
+    saveToBackpackSlot(player, profession, slotIndex) — 保存到背包槽
+    loadFromBackpackSlot(player, profession, slotIndex) — 从背包槽加载
+    deleteBackpackSlot(player, profession, slotIndex) — 删除背包槽
+    isBackpackSlotFilled(player, profession, slotIndex) — 检查槽位
+    getBackpackSlotSummary(player, profession, slotIndex) — 槽位摘要
+    renderBackpackSelect(gui, player, openPage, mode, pageNum) — 背包选择页
+
+  ======== no_job_tag.js ========
+    addNoJobTag(player)                      — 添加无职业标签
+    removeNoJobTag(player)                   — 移除无职业标签
+
+  ======== sbw_vehicle/main.js ========
+    sbwLog() / sbwWarn() / sbwError()         — 日志工具
+    toNBT(obj)                                — JS对象→NBT转换
+    mergeDeployNBT(target, source)             — 合并deployNBT
+    getStore(server)                           — 读取持久化
+    saveStore(server, data)                    — 写入持久化
+    getVehicleState(server, vehicleId)         — 获取载具状态
+    getFullTag(vehicleId)                      — 获取完整标签名
+    isSystemActive(server)                     — 系统是否激活
+    setSystemActive(server, active)            — 设置系统激活
+    findEntityByUUID(server, uuidStr)          — UUID查找实体
+    findEntityByTag(server, tag)               — 标签查找实体
+    entityHasStringTag(entity, tag)            — 检查实体标签
+    findVehicleEntity(server, state, tag)      — 查找载具实体
+    discardAllByTagPrefix(server)              — 批量清除实体
+    countAliveByTag(server, tag)               — 统计存活数
+    trimExcessVehicles(server, tag, maxCount, storeVehicleId) — 超限清理
+    spawnVehicleEntity(server, vehicleCfg)     — 生成载具
+    deployVehicle(server, teamName, vehicleCfg) — 部署单辆载具
+    deployTeamVehicles(server, teamName)        — 部署队伍载具
+    deployAllVehicles(server)                   — 部署所有载具
+    handleVehicleDestroyed(server, vehicleId, vehicleCfg) — 处理载具摧毁
+    cancelPendingRespawn(vehicleId)             — 取消待执行重生
+    cancelAllPendingRespawns()                  — 取消所有重生
+    extractVehicleIdFromEntity(entity)          — 提取载具ID
+    findVehicleConfig(vehicleId)                — 查找载具配置
+    resetAll(server)                            — 重置所有载具
+    getAmmoSummary(items)                       — 弹药摘要
+    getStatusLines(server)                      — 状态文本
+    getRespawnTimeLines(server)                 — 重生时间文本
+    buildActionBarText(server)                  — ActionBar文本
+    updateTimeActionBar(server)                 — 更新ActionBar
+    runSweepCheck(server)                       — 定期扫描
+
+  ======== sbw_vehicle/command.js ========
+    clearVehicles(server, teamName)             — 清除载具实体
+
+  ======== team_revive/main.js ========
+    log() / warn() / error()                    — 日志工具
+    getTeamConfig(teamName)                     — 获取队伍配置
+    getTicketsStore(server)                     — 读取复活券数据
+    saveTicketsStore(server, data)              — 保存复活券数据
+    getEliminatedStore(server)                  — 淘汰标记存储
+    getTeamTickets(server, teamName)            — 获取队伍复活券数
+    isTeamEliminated(server, teamName)          — 检查淘汰状态
+    markEliminated(server, teamName)            — 标记淘汰
+    addTeamTickets(server, teamName, amount)    — 增加复活券（公开接口）
+    consumeTicket(server, teamName)             — 消耗复活券
+    resetAll(server)                            — 重置所有队伍
+    eliminateTeam(server, teamName)             — 执行队伍淘汰
+    getScore(server, holder, objectiveName)     — 读取计分板
+    isGameActive(server)                        — 判断游戏进行中
+
+  ======== team/team_selector_gui.js ========
+    openTeamPage(player)                        — 打开队伍选择GUI
+    renderTeamSelect(gui, player, openPage)     — 队伍选择页渲染
+    setTeamAndRun(player, team, functionPath)   — 设置队伍+执行函数
+    getScoreboardScore(server, scoreholder, objectiveName) — 读取积分榜
+    clearIfNotUnselected(player)                — 延迟清空背包
+    doClear(player)                             — 实际清空背包
+    runTeamFunction(player, functionPath)       — 以玩家身份运行函数
+    getPlayerTeam(player)                       — 获取玩家当前队伍
+
+  ======== startup_scripts/naval_balance_block_properties.js ========
+    railwaysPalette(suffixes)                   — 生成railways方块ID列表
+
+================================================================
+ 快速核查规则（写新代码前必看）
 ================================================================
 
 在写新代码前，先检查以下声明是否存在（存在则不可重复声明）：
   1. $ByteTag              ← 已 const，不可重复声明
   2. $IntTag               ← 已 const，不可重复声明
   3. $CompoundTag          ← 已 const，不可重复声明
-  4. 大写命名常量（xxx_CONFIG, xxx_PREFIX 等）← 检查是否已存在
+  4. 以下 const 常量名：
+     PANE, PROF_TAG_LIST, ATTACH_SLOT_POS, SLOT_TRANSLATE_KEY,
+     PROF_CONFIGS, PROFESSIONS, BACKPACK_SLOT_COUNT, BACKPACK_PAGE_SIZE,
+     TAOV_RETURNED_BLOCKS_PER_REPAIR_PART, TEAM_REVIVE_CONFIG,
+     SBW_VEHICLE_CONFIG, TEAM_ATTACK, TEAM_DEFENSE, TEAM_SPECTATOR,
+     TEAM_NONE, JOIN_BATTLE_SCOREHOLDER, JOIN_BATTLE_OBJECTIVE,
+     JOIN_BATTLE_TARGET, JOIN_BATTLE_FUNCTION, CLEAR_DELAY_TICKS,
+     DYE_COLORS, LOCOMETAL_NORMAL, LOCOMETAL_ANTIBLAST, LOCOMETAL_ANTIPEN
 
 其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等）：
   - 在其他文件中用 var 声明是安全的（不会报错）
   - 但最佳实践是在用到它的文件内用 var 自行声明，不依赖外部
+
+所有用 function 声明的全局函数（见第六节）：
+  - function 在 Rhino 中是全局可见的（等同 var）
+  - 不可在同一作用域内用 const/var 声明同名函数（会冲突）
+  - 但可以放心调用，无需重复声明
+
+global.taovReturnedAutocannon：
+  - 通过 global 对象注册，不会和其他 const/var 冲突
+  - 访问方式：global.taovReturnedAutocannon.xxx
 ================================================================

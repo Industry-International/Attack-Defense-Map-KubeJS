@@ -171,7 +171,7 @@
   "msg.kubejs.sbw_vehicle.time_on": "§a✔ 实时状态栏已开启 (ActionBar)",
   "msg.kubejs.sbw_vehicle.time_off": "§c✖ 实时状态栏已关闭",
   "msg.kubejs.sbw_vehicle.redeploy_done": "§a✔ 已重新部署所有载具（旧实体已清除）",
-  "msg.kubejs.sbw_vehicle.usage": "§c用法: /sbw_vehicle <deploy [队伍]|redeploy|reset|clear [队伍]|status>",
+  "msg.kubejs.sbw_vehicle.usage": "§c用法: /sbw_vehicle <deploy [队伍]|redeploy|reset|clear [队伍]|status|start|stop|time>",
   "msg.kubejs.sbw_vehicle.clear_all": "§e[调试] 已清除全部队伍的 §c%s 个 §e载具实体（状态已重置）",
   "msg.kubejs.sbw_vehicle.clear_team": "§e[调试] 已清除队伍 %s 的 §c%s 个 §e载具实体（状态已重置）",
   "msg.kubejs.sbw_vehicle.start_done": "§a✔ 载具系统已激活，所有载具已部署",

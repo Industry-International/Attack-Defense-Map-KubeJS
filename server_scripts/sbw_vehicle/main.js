@@ -35,7 +35,8 @@ var $StringTag = Java.loadClass('net.minecraft.nbt.StringTag')
 var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
 var $LongTag = Java.loadClass('net.minecraft.nbt.LongTag')
 var $ShortTag = Java.loadClass('net.minecraft.nbt.ShortTag')
-var $HashMap = Java.loadClass('java.util.HashMap')
+var $HashMap  = Java.loadClass('java.util.HashMap')
+var $HashSet  = Java.loadClass('java.util.HashSet')
 var $Component = Java.loadClass('net.minecraft.network.chat.Component')
 
 // ========== 排期追踪（支撑 reset/redeploy 取消未执行重生）==========
@@ -48,10 +49,10 @@ var $Component = Java.loadClass('net.minecraft.network.chat.Component')
 var $pendingRespawns = new $HashMap()
 
 /**
- * 存储 ActionBar 开关状态（由 /sbw_vehicle time 切换）
- * true = 持续显示实时状态栏
+ * 存储已启用 ActionBar 的玩家名称集合（由 /sbw_vehicle time 切换）
+ * 每个玩家独立跟踪，只对执行命令的玩家显示
  */
-var $showTimeActionBar = false
+var $actionBarPlayers = new $HashSet()
 
 // ========== JSON → NBT 转换工具（模板化部署用）==========
 
@@ -979,11 +980,11 @@ function buildActionBarText(server) {
 }
 
 /**
- * 更新 ActionBar 显示（向所有在线玩家推送）
+ * 更新 ActionBar 显示（只向已启用的玩家推送）
  * 由 tick 事件每 20 tick（1秒）调用
  */
 function updateTimeActionBar(server) {
-  if (!$showTimeActionBar) return
+  if ($actionBarPlayers.isEmpty()) return
 
   let players = server.getAllPlayers()
   if (!players || players.size() === 0) return
@@ -994,8 +995,12 @@ function updateTimeActionBar(server) {
   let iter = players.iterator()
   while (iter.hasNext()) {
     let player = iter.next()
-    // displayClientMessage(Component, boolean): true=overlay(ActionBar), false=chat
-    player.displayClientMessage(component, true)
+    let pn = player.getName().getString()
+    // 只推送给已启用 ActionBar 的玩家
+    if ($actionBarPlayers.contains(pn)) {
+      // displayClientMessage(Component, boolean): true=overlay(ActionBar), false=chat
+      player.displayClientMessage(component, true)
+    }
   }
 }
 
@@ -1004,10 +1009,14 @@ function updateTimeActionBar(server) {
 /**
  * 定期扫描：检查标记为存活的实体是否还存在
  * 每 40 tick（2 秒）执行一次
+ *
+ * 注意：handleVehicleDestroyed 内部会自行 saveStore（设置 respawning 状态），
+ *       因此这里不要在它之后再调用 saveStore，否则会覆盖 respawning 状态。
+ *       只有"配置不存在→删除状态"这种场景才需要本层 saveStore。
  */
 function runSweepCheck(server) {
   let store = getStore(server)
-  let changed = false
+  let needSave = false
 
   for (let vehicleId in store.vehicles) {
     if (!store.vehicles.hasOwnProperty(vehicleId)) continue
@@ -1023,25 +1032,25 @@ function runSweepCheck(server) {
         sbwWarn('扫描发现：载具 [' + vehicleId + '] 实体已不存在（可能被摧毁）')
 
         if (vehicleCfg) {
-          state.status = 'dead'
-          changed = true
+          // handleVehicleDestroyed 内部会处理 saveStore（设置 respawning）
+          // 此处不要再手动 saveStore，否则会覆盖 respawning 状态！
           handleVehicleDestroyed(server, vehicleId, vehicleCfg)
         } else {
           sbwWarn('载具 [' + vehicleId + '] 的配置已不存在，清理状态')
           delete store.vehicles[vehicleId]
-          changed = true
+          needSave = true
         }
       }
     }
 
-    // maxCount 超限清理
+    // maxCount 超限清理（trimExcessVehicles 不写 store，无需 save）
     if (maxCount > 0) {
-      let trimmed = trimExcessVehicles(server, tag, maxCount, vehicleId)
-      if (trimmed > 0) changed = true
+      trimExcessVehicles(server, tag, maxCount, vehicleId)
     }
   }
 
-  if (changed) {
+  // 只有在"配置不存在→删除状态"的场景才需要保存
+  if (needSave) {
     saveStore(server, store)
   }
 }

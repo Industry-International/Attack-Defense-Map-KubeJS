@@ -8,10 +8,10 @@
 //   /sbw_vehicle redeploy         强制重新部署（清旧+重部署）
 //   /sbw_vehicle reset            重置所有载具状态
 //   /sbw_vehicle clear [<team>]   调试：清除指定/所有队伍的载具实体
-//   /sbw_vehicle status           查看载具状态（含血量/部件/弹药）
+//   /sbw_vehicle status           查看系统状态 + 载具状态（含血量/部件/弹药）
 //   /sbw_vehicle start            激活系统：部署所有载具，开始追踪
 //   /sbw_vehicle stop             停用系统：清除所有载具，停止追踪
-//   /sbw_vehicle time             切换实时 ActionBar 状态栏
+//   /sbw_vehicle time             切换实时 ActionBar（仅对自己生效）
 // ============================================================
 
 // ========== 工具函数（依赖 main.js 中的全局函数）==========
@@ -115,14 +115,21 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
-   * /sbw_vehicle status — 查看载具完整状态（血量/能量/部件/弹药/UUID）
+   * /sbw_vehicle status — 查看系统状态 + 载具完整状态（血量/能量/部件/弹药/UUID）
+   * 首行显示系统是否激活，然后显示每辆载具的详细状态
    */
   function executeStatus(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
-    let lines = getStatusLines(server)
 
-    let msg = Component.translatable('msg.kubejs.sbw_vehicle.status_header')
+    // 首行：系统激活状态
+    let sysActive = isSystemActive(server)
+    let sysLine = sysActive
+      ? '§a✔ 载具系统已激活'
+      : '§c✖ 载具系统未激活'
+
+    let lines = getStatusLines(server)
+    let msg = $Component.literal(sysLine)
     for (let i = 0; i < lines.length; i++) {
       msg = msg.append('\n').append(Text.of(lines[i]))
     }
@@ -170,19 +177,24 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
-   * /sbw_vehicle time — 切换实时 ActionBar 状态栏
-   * 开启后每 1 秒在屏幕中间显示所有载具的实时状态
+   * /sbw_vehicle time — 切换实时 ActionBar 状态栏（仅对执行者本人生效）
+   * 开启后每 1 秒在物品栏上方显示所有载具的存活/重生状态
    */
   function executeTime(ctx) {
     let source = ctx.getSource()
-    let server = source.getServer()
+    let player = source.getPlayer()
+    if (!player) {
+      source.sendFailure(Component.literal('§c该命令只能由玩家执行'))
+      return 0
+    }
+    let playerName = player.getName().getString()
 
-    $showTimeActionBar = !$showTimeActionBar
-
-    if ($showTimeActionBar) {
-      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.time_on'), true)
+    if ($actionBarPlayers.contains(playerName)) {
+      $actionBarPlayers.remove(playerName)
+      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.time_off'), false)
     } else {
-      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.time_off'), true)
+      $actionBarPlayers.add(playerName)
+      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.time_on'), false)
     }
     return 1
   }
