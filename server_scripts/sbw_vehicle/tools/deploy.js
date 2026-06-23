@@ -57,8 +57,15 @@ function deployVehicle(server, teamName, vehicleCfg) {
   let store = getStore(server)
   let state = store.vehicles[vehicleId]
 
-  // 如果已有非 UNINITIALIZED/IDLE 状态（补员中或已部署），不干扰
-  if (state.status !== VEHICLE_STATE.UNINITIALIZED && state.status !== VEHICLE_STATE.IDLE) {
+  // 如果是 UNINITIALIZED，先转为 IDLE（合法转移）
+  if (state.status === VEHICLE_STATE.UNINITIALIZED) {
+    transitionState(server, vehicleId, VEHICLE_STATE.IDLE)
+    store = getStore(server)
+    state = store.vehicles[vehicleId]
+  }
+
+  // 如果已有补员中或已部署状态，不干扰
+  if (state.status !== VEHICLE_STATE.IDLE) {
     sbwLog('[部署] [' + vehicleId + '] 当前状态为 ' + state.status + '，跳过部署')
     return
   }
@@ -69,15 +76,12 @@ function deployVehicle(server, teamName, vehicleCfg) {
 
   if (hasPlayer) {
     sbwLog('[部署] [' + vehicleId + '] 附近有玩家，区块已加载，执行部署')
-    transitionState(server, vehicleId, VEHICLE_STATE.CHUNK_LOADED)
+    spawnVehicleEntity(server, vehicleCfg)
+    transitionState(server, vehicleId, VEHICLE_STATE.DEPLOYED, { uuid: null, remainingTicks: null })
   } else {
     sbwLog('[部署] [' + vehicleId + '] 附近无玩家（区块可能未加载），进入等待区块')
     transitionState(server, vehicleId, VEHICLE_STATE.WAITING_CHUNK)
-    return
   }
-
-  spawnVehicleEntity(server, vehicleCfg)
-  transitionState(server, vehicleId, VEHICLE_STATE.DEPLOYED, { uuid: null, remainingTicks: null })
 }
 
 function deployTeamVehicles(server, teamName) {
