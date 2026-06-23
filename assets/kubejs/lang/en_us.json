@@ -169,7 +169,7 @@
   "msg.kubejs.sbw_vehicle.status_header": "§6=== SBW Vehicle Status ===",
   "msg.kubejs.sbw_vehicle.deploy_all": "§a✔ Deployed all team vehicles",
   "msg.kubejs.sbw_vehicle.deploy_team": "§a✔ Deployed vehicles for team %s",
-  "msg.kubejs.sbw_vehicle.reset_done": "§a✔ Reset: cleared §c%s §aentities, cancelled §e%s §apending respawns",
+  "msg.kubejs.sbw_vehicle.reset_done": "§a✔ Reset: cleared §c%s §avehicle entities",
   "msg.kubejs.sbw_vehicle.time_on": "§a✔ Real-time status bar enabled (ActionBar)",
   "msg.kubejs.sbw_vehicle.time_off": "§c✖ Real-time status bar disabled",
   "msg.kubejs.sbw_vehicle.redeploy_done": "§a✔ All vehicles have been redeployed (old entities cleared)",

@@ -45,9 +45,6 @@ function clearVehicles(server, teamName) {
     let vehicles = VEHICLE_CFG.teams[tn].vehicles
     for (let i = 0; i < vehicles.length; i++) {
       let v = vehicles[i]
-      // 清除该载具的计时器
-      clearVehicleTimer(v.id)
-
       let tag = getFullTag(v.id)
       let state = store.vehicles[v.id] || null
       let entity = findVehicleEntity(server, state, tag)
@@ -108,7 +105,7 @@ ServerEvents.commandRegistry(event => {
     let result = resetAll(server)
     source.sendSuccess(
       Component.translatable('msg.kubejs.sbw_vehicle.reset_done',
-        String(result.entityCount), String(result.cancelledCount)),
+        String(result.entityCount)),
       true
     )
     return 1

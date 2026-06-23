@@ -126,10 +126,10 @@
   server_scripts/sbw_vehicle/main.js
     const VEHICLE_CFG = SBW_VEHICLE_CONFIG
     const SBW_PREFIX = '[SBW载具]'
-    var $respawnEpoch = 0                             // 排期纪元（递增使回调过期）
-    var $pendingRespawnCounts = new $HashMap()        // 待执行重生计数
-    var $pendingEvents = new $HashMap()                // 待执行 ScheduledEvent 列表
     var $actionBarPlayers = new $HashSet()             // 单人 ActionBar 玩家集合
+
+    注意：旧的 $pendingDeployQueue（独立队列HashMap）已移除，
+    改用 waiting_chunk 状态代替队列功能。
 
   server_scripts/team_revive/main.js
     const CFG = TEAM_REVIVE_CONFIG
@@ -251,35 +251,34 @@
     findVehicleEntity(server, state, tag)      — 查找载具实体
     isChunkLoaded(server, x, z, dimension)     — 检查区块是否已加载
     getVehicleDimension(vehicleCfg)            — 获取维度配置
-    getChunkCoords(pos)                        — 获取区块坐标
     discardAllByTagPrefix(server)              — 批量清除实体
     countAliveByTag(server, tag)               — 统计存活数
     spawnVehicleEntity(server, vehicleCfg)     — 执行 summon
+    forceStateToIdle(state)                    — 强制重置状态为idle [新增]
+    isVehicleInChunk(cfg, minX, minZ, maxX, maxZ) — 检查部署点是否在区块内 [新增]
     ensureVehicleEntry(server, vid, cfg, team) — 确保 store 存在条目(保留idle)
     getAllReplenishEntries()                   — 获取所有补员配置
     checkReplenish(server, vid, cfg)           — 3状态机补员检测(核心!)
-    tryDeployWaitingVehicle(server, vid, cfg)  — 区块事件触发的延迟部署
-    deployVehicle(server, teamName, cfg)       — 手动部署单辆载具
+    processWaitingChunk(server)                — tick兜底处理waiting_chunk [新增]
+    deployVehicle(server, teamName, cfg)       — 手动部署单辆载具(使用waiting_chunk)
     deployTeamVehicles(server, teamName)       — 部署队伍载具
     deployAllVehicles(server)                  — 部署所有载具
     extractVehicleIdFromEntity(entity)         — 提取载具ID
     findVehicleConfig(vehicleId)               — 查找载具配置
     findVehicleTeam(vehicleId)                 — 查找载具所属队伍
-    resetAll(server)                           — 重置所有载具
+    resetAll(server)                           — 重置所有载具(无队列清理)
     getAmmoSummary(items)                      — 弹药摘要
-    getStatusLines(server)                     — 状态文本(3状态:idle/timing/waiting)
-    getRespawnTimeLines(server)                — 重生时间文本
-    buildActionBarText(server)                 — ActionBar文本
+    getStatusLines(server)                     — 状态文本(3状态:idle/timing/waiting_chunk)
+    getRespawnTimeLines(server)                — 重生时间文本(含waiting_chunk)
+    buildActionBarText(server)                 — ActionBar文本(含waiting_chunk)
     updateTimeActionBar(server)                — 更新ActionBar
     EntityEvents.death                         — 日志(实际由定时循环驱动)
 
   ======== sbw_vehicle/command.js ========
-    clearVehicles(server, teamName)            — 清除载具实体
+    clearVehicles(server, teamName)            — 清除载具实体(无clearVehicleTimer)
 
   ======== sbw_vehicle/ticker.js ========
-    tickReplenish(server)                      — 全量补员检测+轮询waiting_chunk
-    clearVehicleTimer(vehicleId)               — (兼容旧版)no-op
-    clearAllTimers()                           — (兼容旧版)no-op
+    tickReplenish(server)                      — 全量补员检测+兜底waiting_chunk
     ServerEvents.loaded → loop()              — 定时循环(config.checkInterval)
 
   ======== team_revive/main.js ========

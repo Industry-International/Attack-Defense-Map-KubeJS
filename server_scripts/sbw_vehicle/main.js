@@ -1,15 +1,17 @@
 // ============================================================
 // SBW 卓越前线 - 载具自动部署系统 核心逻辑
 //
-// 状态模型（2状态 + 统一部署缓存队列）：
-//   idle   — 空闲，无补员计划
-//   timing — 计时中，倒计时结束后尝试部署
+// 状态模型（3状态，状态即队列）：
+//   idle          — 空闲，无补员计划
+//   timing        — 计时中，倒计时结束后尝试部署
+//   waiting_chunk — 等待区块加载，计时已到但区块未加载
 //
-// 统一部署缓存队列（内存，key="team|vehicleId"唯一）：
-//   当部署或补员时区块未加载 → 写入队列
-//   每轮检测处理队列 → 区块已加载则执行 summon
-//
-// 载具总数直接同步 countAliveByTag（游戏实际存活数）
+// 关键设计：
+//   1. 状态即队列 — 没有独立部署队列，waiting_chunk 状态本身即代表"在等待"
+//   2. 循环检测到短缺时，只有 idle 才启动计时器
+//   （timing 和 waiting_chunk 均跳过，杜绝重复计时）
+//   3. tick 循环兜底处理 waiting_chunk（每 tick 检测区块是否已加载）
+//   4. 所有数量检测基于 countAliveByTag（游戏实际存活数）
 // ============================================================
 
 if (typeof SBW_VEHICLE_CONFIG === 'undefined') {
@@ -41,14 +43,6 @@ var $ResourceLocation = Java.loadClass('net.minecraft.resources.ResourceLocation
 
 /** 已启用 ActionBar 的玩家集合 */
 var $actionBarPlayers = new $HashSet()
-
-/**
- * 统一部署缓存队列（内存）
- * key = "teamName|vehicleId" （每个队伍+载具ID唯一）
- * value = { teamName, vehicleId, vehicleType, pos, dimension, deployNBT, tickQueued }
- * 当区块未加载时，所有部署操作都写入此队列。
- */
-var $pendingDeployQueue = new $HashMap()
 
 // ========== JSON → NBT 转换工具 ==========
 
@@ -117,7 +111,7 @@ function mergeDeployNBT(target, source) {
  *   active: true|false,
  *   vehicles: {
  *     "<vehicleId>": {
- *       status: "idle" | "timing",
+ *       status: "idle" | "timing" | "waiting_chunk",
  *       team, vehicleType,
  *       uuid: string | null,
  *       timerStart: number | null,
@@ -285,96 +279,27 @@ function spawnVehicleEntity(server, vehicleCfg) {
   })
 }
 
-// ========== 统一部署缓存队列 ==========
+// ========== 状态工具（重置指定补员ID为空闲）==========
 
 /**
- * 将载具加入部署缓存队列
- * key = "teamName|vehicleId" 保证唯一（替换旧条目）
+ * 强制将指定补员ID的状态重置为 idle
+ * 无论当前处于什么状态，都会清理所有关联资源
  */
-function enqueueDeploy(teamName, vehicleCfg) {
-  let key = teamName + '|' + vehicleCfg.id
-  $pendingDeployQueue.put(key, {
-    teamName: teamName,
-    vehicleId: vehicleCfg.id,
-    vehicleType: vehicleCfg.vehicleType,
-    pos: vehicleCfg.pos,
-    dimension: vehicleCfg.dimension || 'minecraft:overworld',
-    deployNBT: vehicleCfg.deployNBT,
-    tickQueued: 0  // 由调用方设置
-  })
+function forceStateToIdle(state) {
+  state.status = 'idle'
+  state.timerStart = null
 }
 
 /**
- * 从队列中移除指定条目
+ * 判断一个区块坐标是否包含指定的载具部署点
  */
-function dequeueDeploy(teamName, vehicleId) {
-  $pendingDeployQueue.remove(teamName + '|' + vehicleId)
+function isVehicleInChunk(vehicleCfg, chunkMinBlockX, chunkMinBlockZ, chunkMaxBlockX, chunkMaxBlockZ) {
+  let vx = vehicleCfg.pos[0]
+  let vz = vehicleCfg.pos[2]
+  return vx >= chunkMinBlockX && vx <= chunkMaxBlockX && vz >= chunkMinBlockZ && vz <= chunkMaxBlockZ
 }
 
-/**
- * 检查队列中是否存在指定条目
- */
-function isDeployQueued(teamName, vehicleId) {
-  return $pendingDeployQueue.containsKey(teamName + '|' + vehicleId)
-}
-
-/**
- * 处理部署缓存队列
- * 检查每个条目的目标区块，若已加载则执行 summon 并出队
- * 部署前重新检查 maxCount
- */
-function processDeployQueue(server) {
-  if ($pendingDeployQueue.isEmpty()) return
-
-  let processed = []
-  let iter = $pendingDeployQueue.keySet().iterator()
-  while (iter.hasNext()) {
-    let key = iter.next()
-    let entry = $pendingDeployQueue.get(key)
-
-    // 检查区块
-    if (isChunkLoaded(server, entry.pos[0], entry.pos[2], entry.dimension)) {
-      // 二次确认数量
-      let tag = getFullTag(entry.vehicleId)
-      let cfg = findVehicleConfig(entry.vehicleId)
-      let maxCount = (cfg && cfg.maxCount) || 1
-      if (countAliveByTag(server, tag) < maxCount) {
-        sbwLog('[队列] 执行缓存部署 [' + entry.vehicleId + ']（区块已加载）')
-        let tempCfg = {
-          id: entry.vehicleId,
-          vehicleType: entry.vehicleType,
-          pos: entry.pos,
-          dimension: entry.dimension,
-          deployNBT: entry.deployNBT
-        }
-        spawnVehicleEntity(server, tempCfg)
-        // 更新 store 中条目
-        let store = getStore(server)
-        if (store.vehicles[entry.vehicleId]) {
-          store.vehicles[entry.vehicleId].uuid = null
-          saveStore(server, store)
-        }
-      } else {
-        sbwLog('[队列] 缓存部署 [' + entry.vehicleId + '] 已达标，放弃')
-      }
-      processed.push(key)
-    }
-  }
-
-  // 移除已处理的条目
-  for (let i = 0; i < processed.length; i++) {
-    $pendingDeployQueue.remove(processed[i])
-  }
-}
-
-/**
- * 清空部署缓存队列
- */
-function clearDeployQueue() {
-  $pendingDeployQueue.clear()
-}
-
-// ========== 补员计划管理（2状态机）==========
+// ========== 补员计划管理（3状态机）==========
 
 function ensureVehicleEntry(server, vehicleId, vehicleCfg, teamName) {
   let store = getStore(server)
@@ -405,12 +330,19 @@ function getAllReplenishEntries() {
 }
 
 /**
- * 补员检测核心函数
+ * 补员检测核心函数（3状态机）
+ *
  * 状态流转：
- *   idle   → (数量短缺)              → timing (启动计时器)
- *   timing → (数量达标)              → idle
- *   timing → (计时到 + 区块已加载)   → idle (summon)
- *   timing → (计时到 + 区块未加载)   → idle (enqueue)
+ *   idle           → (数量短缺)              → timing (启动计时器)
+ *   idle           → (数量达标)              → idle (无变化)
+ *   timing         → (数量达标)              → idle (取消计时)
+ *   timing         → (未到期 + 数量短缺)     → timing (不动，等到期)
+ *   timing         → (到期 + 区块已加载)     → idle (部署成功)
+ *   timing         → (到期 + 区块未加载)     → waiting_chunk (等待区块)
+ *   waiting_chunk  → (数量达标)              → idle (取消等待)
+ *   waiting_chunk  → (数量短缺)              → waiting_chunk (不动，tick兜底处理)
+ *
+ * 核心原则：只要状态不是 idle，就不会创建新的计时器或计划。
  */
 function checkReplenish(server, vehicleId, vehicleCfg) {
   let store = getStore(server)
@@ -419,23 +351,20 @@ function checkReplenish(server, vehicleId, vehicleCfg) {
   let maxCount = vehicleCfg.maxCount || 1
   let aliveCount = countAliveByTag(server, tag)
 
-  // ======== 数量达标 → idle ========
+  // ======== 数量达标 → 任何状态都回 idle ========
   if (aliveCount >= maxCount) {
     if (state.status !== 'idle') {
-      sbwLog('[补员] [' + vehicleId + '] 存活 ' + aliveCount + '/' + maxCount + ' 达标')
-      state.status = 'idle'; state.timerStart = null
+      sbwLog('[补员] [' + vehicleId + '] 存活 ' + aliveCount + '/' + maxCount + ' 达标，取消补员')
+      forceStateToIdle(state)
       saveStore(server, store)
-    }
-    // 如果队列中有此条目，也清除（数量已达标）
-    if (isDeployQueued(findVehicleTeam(vehicleId), vehicleId)) {
-      dequeueDeploy(findVehicleTeam(vehicleId), vehicleId)
     }
     return
   }
 
-  // ======== 数量短缺 ========
+  // ======== 数量短缺，根据当前状态决策 ========
 
   if (state.status === 'idle') {
+    // 首次检测到短缺 → 启动计时
     let delay = vehicleCfg.respawnDelay || 1200
     state.status = 'timing'
     state.timerStart = server.ticks
@@ -444,45 +373,109 @@ function checkReplenish(server, vehicleId, vehicleCfg) {
     saveStore(server, store)
 
   } else if (state.status === 'timing') {
+    // 计时器已存在，检查是否到期（未到期则什么都不做）
     let delay = state.respawnDelay || vehicleCfg.respawnDelay || 1200
     let timerStart = state.timerStart || server.ticks
 
     if (server.ticks - timerStart >= delay) {
+      // 计时到期
       let dim = getVehicleDimension(vehicleCfg)
       if (isChunkLoaded(server, vehicleCfg.pos[0], vehicleCfg.pos[2], dim)) {
+        // 区块已加载 → 部署成功
         sbwLog('[补员] [' + vehicleId + '] 计时到，区块已加载，部署')
         spawnVehicleEntity(server, vehicleCfg)
-        state.status = 'idle'; state.timerStart = null; state.uuid = null
+        state.status = 'idle'
+        state.timerStart = null
+        state.uuid = null
       } else {
-        sbwLog('[补员] [' + vehicleId + '] 计时到但区块未加载，入队')
-        state.status = 'idle'; state.timerStart = null
-        let team = findVehicleTeam(vehicleId)
-        enqueueDeploy(team, vehicleCfg)
+        // 区块未加载 → 切 waiting_chunk，等待区块加载事件
+        sbwLog('[补员] [' + vehicleId + '] 计时到但区块未加载，进入 waiting_chunk')
+        state.status = 'waiting_chunk'
+        state.timerStart = null
       }
       saveStore(server, store)
     }
+    // 未到期 → 什么都不做，等待下一轮检测
+
+  } else if (state.status === 'waiting_chunk') {
+    // 已在等待区块加载 → 什么都不做
+    // tick 兜底的 processWaitingChunk 会处理
   }
 }
+
+/**
+ * 兜底处理 waiting_chunk 条目（由 tick 循环调用）
+ * 防止区块事件在线程竞争下丢失，或区块在监听前已加载
+ */
+function processWaitingChunk(server) {
+  let store = getStore(server)
+  let modified = false
+
+  for (let vehicleId in store.vehicles) {
+    if (!store.vehicles.hasOwnProperty(vehicleId)) continue
+    let state = store.vehicles[vehicleId]
+    if (state.status !== 'waiting_chunk') continue
+
+    let cfg = findVehicleConfig(vehicleId)
+    if (!cfg) continue
+
+    // 检查区块是否已加载
+    let dim = getVehicleDimension(cfg)
+    if (isChunkLoaded(server, cfg.pos[0], cfg.pos[2], dim)) {
+      // 再确认数量（防止在等待期间数量已恢复）
+      let tag = getFullTag(vehicleId)
+      let maxCount = cfg.maxCount || 1
+      if (countAliveByTag(server, tag) < maxCount) {
+        sbwLog('[兜底] waiting_chunk [' + vehicleId + '] 区块已加载，执行部署')
+        spawnVehicleEntity(server, cfg)
+      } else {
+        sbwLog('[兜底] waiting_chunk [' + vehicleId + '] 区块已加载但数量已达标，放弃')
+      }
+      state.status = 'idle'
+      state.uuid = null
+      state.timerStart = null
+      modified = true
+    }
+  }
+
+  if (modified) saveStore(server, store)
+}
+
+// 注意：KubeJS 7 服务端无 ChunkEvents API，
+// waiting_chunk 的处理完全由 tick 循环中的 processWaitingChunk 兜底。
+// 配置 checkInterval: 1 时每 tick 检测一次，效率等价于事件驱动。
 
 // ========== 主动部署接口 ==========
 
 function deployVehicle(server, teamName, vehicleCfg) {
   let vehicleId = vehicleCfg.id, tag = getFullTag(vehicleId)
+
+  // 检查数量是否已达标
   if ((vehicleCfg.maxCount || 0) > 0 && countAliveByTag(server, tag) >= vehicleCfg.maxCount) return
 
+  let state = ensureVehicleEntry(server, vehicleId, vehicleCfg, teamName)
+
+  // 如果已有补员计划在运行，不干扰，直接跳过
+  if (state.status !== 'idle') {
+    sbwLog('[部署] [' + vehicleId + '] 已有补员计划(' + state.status + ')，跳过')
+    return
+  }
+
+  // 检查区块
   if (isChunkLoaded(server, vehicleCfg.pos[0], vehicleCfg.pos[2], getVehicleDimension(vehicleCfg))) {
     // 区块已加载 → 立即部署
+    sbwLog('[部署] [' + vehicleId + '] 区块已加载，立即部署')
     spawnVehicleEntity(server, vehicleCfg)
-    let state = ensureVehicleEntry(server, vehicleId, vehicleCfg, teamName)
-    state.status = 'idle'; state.uuid = null; state.timerStart = null
+    state.status = 'idle'
+    state.uuid = null
+    state.timerStart = null
     saveStore(server, getStore(server))
-    // 如果有队列条目，清理
-    if (isDeployQueued(teamName, vehicleId)) dequeueDeploy(teamName, vehicleId)
   } else {
-    // 区块未加载 → 入统一队列
-    sbwLog('[部署] [' + vehicleId + '] 区块未加载，入缓存队列')
-    enqueueDeploy(teamName, vehicleCfg)
-    ensureVehicleEntry(server, vehicleId, vehicleCfg, teamName)
+    // 区块未加载 → 进入 waiting_chunk 等待区块加载
+    sbwLog('[部署] [' + vehicleId + '] 区块未加载，进入 waiting_chunk')
+    state.status = 'waiting_chunk'
+    state.timerStart = null
+    saveStore(server, getStore(server))
   }
 }
 
@@ -538,10 +531,9 @@ function findVehicleTeam(vehicleId) {
 // ========== 重置 ==========
 
 function resetAll(server) {
-  clearDeployQueue()
   let entityCount = discardAllByTagPrefix(server)
   server.persistentData.putString(VEHICLE_CFG.persistKey, JSON.stringify({ vehicles: {} }))
-  sbwLog('已重置：清除 ' + entityCount + ' 个载具实体，队列已清空')
+  sbwLog('已重置：清除 ' + entityCount + ' 个载具实体，状态已清空')
   return { entityCount: entityCount }
 }
 
@@ -616,21 +608,16 @@ function getStatusLines(server) {
           let delay = state.respawnDelay || v.respawnDelay || 1200
           let remaining = Math.max(0, delay - (currentTick - (state.timerStart || currentTick)))
           lines.push(header + ' §e⟳ 补员中 §7' + Math.ceil(remaining / 20) + 's / ' + Math.ceil(delay / 20) + 's')
+        } else if (state.status === 'waiting_chunk') {
+          lines.push(header + ' §7◐ 等待区块')
         } else {
-          // 检查是否在部署队列中
-          let inQueue = isDeployQueued(teamName, v.id)
-          lines.push(header + (inQueue ? ' §7◐ 等待区块' : ' §8○ 空闲'))
+          lines.push(header + ' §8○ 空闲')
         }
         if (state.uuid) lines.push('  §8UUID: ' + state.uuid)
       } else {
         lines.push(header + ' §8○ 未初始化')
       }
     }
-  }
-  // 队列总览
-  if (!$pendingDeployQueue.isEmpty()) {
-    lines.push('')
-    lines.push('§7◐ 部署队列: ' + $pendingDeployQueue.size() + ' 个等待中')
   }
   return lines
 }
@@ -648,18 +635,11 @@ function getRespawnTimeLines(server) {
         let delay = state.respawnDelay || v.respawnDelay || 1200
         let remaining = Math.max(0, delay - (currentTick - (state.timerStart || currentTick)))
         lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §e⟳ ' + Math.ceil(remaining / 20) + 's §7/ ' + Math.ceil(delay / 20) + 's')
+      } else if (state.status === 'waiting_chunk') {
+        has = true
+        lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §7◐ 等待区块')
       }
     }
-  }
-  // 队列中的条目
-  if (!$pendingDeployQueue.isEmpty()) {
-    let qIter = $pendingDeployQueue.keySet().iterator()
-    while (qIter.hasNext()) {
-      let key = qIter.next()
-      let entry = $pendingDeployQueue.get(key)
-      lines.push('§7[' + entry.teamName + '] §e' + entry.vehicleId + ' §7— §7◐ 等待区块')
-    }
-    has = true
   }
   if (!has) lines.push('§7当前没有活跃的补员计划')
   return lines
@@ -683,7 +663,7 @@ function buildActionBarText(server) {
         let delay = state.respawnDelay || v.respawnDelay || 1200
         let remaining = Math.max(0, delay - (currentTick - (state.timerStart || currentTick)))
         parts.push('§e⟳' + sn + '(' + Math.ceil(remaining / 20) + 's)')
-      } else if (isDeployQueued(teamName, v.id)) {
+      } else if (state && state.status === 'waiting_chunk') {
         parts.push('§7◐' + sn)
       } else {
         parts.push('§8○' + sn)
