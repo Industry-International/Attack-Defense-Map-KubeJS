@@ -42,12 +42,12 @@ declare module "@package/net/minecraft/world/entity/monster/piglin" {
         constructor();
     }
     export class $PiglinBruteAi {
-        static updateActivity(arg0: $PiglinBrute): void;
-        static makeBrain(arg0: $PiglinBrute, arg1: $Brain<$PiglinBrute>): $Brain<never>;
-        static initMemories(arg0: $PiglinBrute): void;
-        static maybePlayActivitySound(arg0: $PiglinBrute): void;
-        static wasHurtBy(arg0: $PiglinBrute, arg1: $LivingEntity): void;
-        static setAngerTarget(arg0: $PiglinBrute, arg1: $LivingEntity): void;
+        static updateActivity(piglinBrute: $PiglinBrute): void;
+        static makeBrain(piglinBrute: $PiglinBrute, brain: $Brain<$PiglinBrute>): $Brain<never>;
+        static wasHurtBy(piglinBrute: $PiglinBrute, angerTarget: $LivingEntity): void;
+        static initMemories(piglinBrute: $PiglinBrute): void;
+        static maybePlayActivitySound(piglinBrute: $PiglinBrute): void;
+        static setAngerTarget(piglinBrute: $PiglinBrute, angerTarget: $LivingEntity): void;
         constructor();
     }
     export class $PiglinArmPose extends $Enum<$PiglinArmPose> {
@@ -65,12 +65,15 @@ declare module "@package/net/minecraft/world/entity/monster/piglin" {
      */
     export type $PiglinArmPose_ = "attacking_with_melee_weapon" | "crossbow_hold" | "crossbow_charge" | "admiring_item" | "dancing" | "default";
     export class $StopAdmiringIfItemTooFarAway<E extends $Piglin> {
-        static create(arg0: number): $BehaviorControl<$LivingEntity>;
+        static create(maxDist: number): $BehaviorControl<$LivingEntity>;
         constructor();
     }
     export class $PiglinBrute extends $AbstractPiglin {
-        static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * Dismounts this entity from the entity it is riding.
+         */
         playAngrySound(): void;
+        static createAttributes(): $AttributeSupplier$Builder;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -243,47 +246,47 @@ declare module "@package/net/minecraft/world/entity/monster/piglin" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$PiglinBrute>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$PiglinBrute>, level: $Level_);
     }
     export class $StopHoldingItemIfNoLongerAdmiring {
         static create(): $BehaviorControl<$Piglin>;
         constructor();
     }
     export class $StopAdmiringIfTiredOfTryingToReachItem {
-        static create(arg0: number, arg1: number): $BehaviorControl<$LivingEntity>;
+        static create(maxTimeToReachItem: number, disableDuration: number): $BehaviorControl<$LivingEntity>;
         constructor();
     }
     export class $StartAdmiringItemIfSeen {
-        static create(arg0: number): $BehaviorControl<$LivingEntity>;
+        static create(admireDuration: number): $BehaviorControl<$LivingEntity>;
         constructor();
     }
     export class $PiglinAi {
-        static isBarterCurrency(arg0: $ItemStack_): boolean;
-        static updateActivity(arg0: $Piglin): void;
-        static isPlayerHoldingLovedItem(arg0: $LivingEntity): boolean;
-        static angerNearbyPiglins(arg0: $Player, arg1: boolean): void;
-        static makeBrain(arg0: $Piglin, arg1: $Brain<$Piglin>): $Brain<never>;
-        static initMemories(arg0: $Piglin, arg1: $RandomSource): void;
-        static cancelAdmiring(arg0: $Piglin): void;
-        static wantsToPickup(arg0: $Piglin, arg1: $ItemStack_): boolean;
-        static isLovedItem(arg0: $ItemStack_): boolean;
-        static mobInteract(arg0: $Piglin, arg1: $Player, arg2: $InteractionHand_): $InteractionResult;
-        static pickUpItem(arg0: $Piglin, arg1: $ItemEntity): void;
-        static canAdmire(arg0: $Piglin, arg1: $ItemStack_): boolean;
-        static isIdle(arg0: $AbstractPiglin): boolean;
-        static getSoundForCurrentActivity(arg0: $Piglin): ($SoundEvent) | undefined;
-        static isWearingGold(arg0: $LivingEntity): boolean;
-        static isZombified(arg0: $EntityType_<never>): boolean;
-        static wasHurtBy(arg0: $Piglin, arg1: $LivingEntity): void;
-        static stopHoldingOffHandItem(arg0: $Piglin, arg1: boolean): void;
-        static broadcastAngerTarget(arg0: $AbstractPiglin, arg1: $LivingEntity): void;
-        static broadcastUniversalAnger(arg0: $AbstractPiglin): void;
-        static getVisibleAdultPiglins(arg0: $Piglin): $List<$AbstractPiglin>;
-        static getAvoidTarget(arg0: $Piglin): ($LivingEntity) | undefined;
-        static maybeRetaliate(arg0: $AbstractPiglin, arg1: $LivingEntity): void;
-        static setAngerTarget(arg0: $AbstractPiglin, arg1: $LivingEntity): void;
-        static getNearestVisibleTargetablePlayer(arg0: $AbstractPiglin): ($Player) | undefined;
-        static dontKillAnyMoreHoglinsForAWhile(arg0: $AbstractPiglin): void;
+        static isPlayerHoldingLovedItem(piglin: $LivingEntity): boolean;
+        static dontKillAnyMoreHoglinsForAWhile(piglin: $AbstractPiglin): void;
+        static updateActivity(piglin: $Piglin): void;
+        static makeBrain(piglin: $Piglin, brain: $Brain<$Piglin>): $Brain<never>;
+        static angerNearbyPiglins(player: $Player, angerOnlyIfCanSee: boolean): void;
+        static isBarterCurrency(stack: $ItemStack_): boolean;
+        static pickUpItem(piglin: $Piglin, itemEntity: $ItemEntity): void;
+        static wasHurtBy(piglin: $Piglin, target: $LivingEntity): void;
+        static canAdmire(piglin: $Piglin, stack: $ItemStack_): boolean;
+        static isIdle(piglin: $AbstractPiglin): boolean;
+        static isWearingGold(piglin: $LivingEntity): boolean;
+        static isZombified(entityType: $EntityType_<never>): boolean;
+        static initMemories(piglin: $Piglin, random: $RandomSource): void;
+        static cancelAdmiring(piglin: $Piglin): void;
+        static isLovedItem(stack: $ItemStack_): boolean;
+        static wantsToPickup(piglin: $Piglin, stack: $ItemStack_): boolean;
+        static getNearestVisibleTargetablePlayer(piglin: $AbstractPiglin): ($Player) | undefined;
+        static getSoundForCurrentActivity(piglin: $Piglin): ($SoundEvent) | undefined;
+        static mobInteract(piglin: $Piglin, player: $Player, hand: $InteractionHand_): $InteractionResult;
+        static broadcastAngerTarget(piglin: $AbstractPiglin, target: $LivingEntity): void;
+        static setAngerTarget(piglin: $AbstractPiglin, target: $LivingEntity): void;
+        static stopHoldingOffHandItem(piglin: $Piglin, shouldBarter: boolean): void;
+        static getVisibleAdultPiglins(piglin: $Piglin): $List<$AbstractPiglin>;
+        static broadcastUniversalAnger(piglin: $AbstractPiglin): void;
+        static maybeRetaliate(piglin: $AbstractPiglin, target: $LivingEntity): void;
+        static getAvoidTarget(piglin: $Piglin): ($LivingEntity) | undefined;
         static REPELLENT_DETECTION_RANGE_VERTICAL: number;
         static BARTERING_ITEM: $Item;
         static REPELLENT_DETECTION_RANGE_HORIZONTAL: number;
@@ -295,15 +298,38 @@ declare module "@package/net/minecraft/world/entity/monster/piglin" {
         constructor();
     }
     export class $AbstractPiglin extends $Monster {
-        playConvertedSound(): void;
-        canHunt(): boolean;
-        setImmuneToZombification(arg0: boolean): void;
-        isImmuneToZombification(): boolean;
-        isHoldingMeleeWeapon(): boolean;
-        isConverting(): boolean;
-        finishConversion(arg0: $ServerLevel): void;
         getArmPose(): $PiglinArmPose;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isAdult(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        canHunt(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isConverting(): boolean;
+        finishConversion(serverLevel: $ServerLevel): void;
+        /**
+         * Plays living's sound at its position
+         */
+        playConvertedSound(): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isImmuneToZombification(): boolean;
+        setImmuneToZombification(immuneToZombification: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isHoldingMeleeWeapon(): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -474,31 +500,49 @@ declare module "@package/net/minecraft/world/entity/monster/piglin" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$AbstractPiglin>, arg1: $Level_);
-        get holdingMeleeWeapon(): boolean;
-        get converting(): boolean;
+        constructor(entityType: $EntityType_<$AbstractPiglin>, level: $Level_);
         get armPose(): $PiglinArmPose;
         get adult(): boolean;
+        get converting(): boolean;
+        get holdingMeleeWeapon(): boolean;
     }
     export class $Piglin extends $AbstractPiglin implements $CrossbowAttackMob, $InventoryCarrier {
-        performRangedAttack(arg0: $LivingEntity, arg1: number): void;
-        canReplaceCurrentItem(arg0: $ItemStack_): boolean;
-        setDancing(arg0: boolean): void;
+        /**
+         * If Animal, checks if the age timer is negative
+         */
         isDancing(): boolean;
-        holdInMainHand(arg0: $ItemStack_): void;
-        holdInOffHand(arg0: $ItemStack_): void;
-        canAddToInventory(arg0: $ItemStack_): boolean;
-        addToInventory(arg0: $ItemStack_): $ItemStack;
+        /**
+         * Set whether this zombie is a child.
+         */
+        setDancing(childZombie: boolean): void;
         getInventory(): $SimpleContainer;
-        static createAttributes(): $AttributeSupplier$Builder;
-        onCrossbowAttackPerformed(): void;
-        static checkPiglinSpawnRules(arg0: $EntityType_<$Piglin>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        setChargingCrossbow(arg0: boolean): void;
-        localvar$zem000$openpartiesandclaims$onWantsToPickupPre(arg0: $ItemStack_): $ItemStack;
+        /**
+         * Attack the specified entity using a ranged attack.
+         */
+        performRangedAttack(target: $LivingEntity, distanceFactor: number): void;
+        canReplaceCurrentItem(stack: $ItemStack_): boolean;
+        localvar$zem000$openpartiesandclaims$onWantsToPickupPre(stack: $ItemStack_): $ItemStack;
         modify$zem000$openpartiesandclaims$onWantsToPickupPost(arg0: $Piglin): $Piglin;
-        performCrossbowAttack(arg0: $LivingEntity, arg1: number): void;
-        writeInventoryToTag(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
-        readInventoryFromTag(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
+        canAddToInventory(stack: $ItemStack_): boolean;
+        addToInventory(stack: $ItemStack_): $ItemStack;
+        holdInMainHand(stack: $ItemStack_): void;
+        holdInOffHand(stack: $ItemStack_): void;
+        static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * Set whether this zombie is a child.
+         */
+        setChargingCrossbow(childZombie: boolean): void;
+        /**
+         * Dismounts this entity from the entity it is riding.
+         */
+        onCrossbowAttackPerformed(): void;
+        static checkPiglinSpawnRules(piglin: $EntityType_<$Piglin>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        /**
+         * Attack the specified entity using a ranged attack.
+         */
+        performCrossbowAttack(target: $LivingEntity, distanceFactor: number): void;
+        readInventoryFromTag(tag: $CompoundTag_, levelRegistry: $HolderLookup$Provider): void;
+        writeInventoryToTag(tag: $CompoundTag_, levelRegistry: $HolderLookup$Provider): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -671,7 +715,7 @@ declare module "@package/net/minecraft/world/entity/monster/piglin" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$AbstractPiglin>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$AbstractPiglin>, level: $Level_);
         get inventory(): $SimpleContainer;
         set chargingCrossbow(value: boolean);
     }

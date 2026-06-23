@@ -8,7 +8,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/featuresize"
         codec(): $MapCodec<P>;
         static THREE_LAYERS_FEATURE_SIZE: $FeatureSizeType<$ThreeLayersFeatureSize>;
         static TWO_LAYERS_FEATURE_SIZE: $FeatureSizeType<$TwoLayersFeatureSize>;
-        constructor(arg0: $MapCodec_<P>);
+        constructor(codec: $MapCodec_<P>);
     }
     /**
      * Values that may be interpreted as {@link $FeatureSizeType}.
@@ -17,22 +17,22 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/featuresize"
     export class $FeatureSize {
         type(): $FeatureSizeType<never>;
         static minClippedHeightCodec<S extends $FeatureSize>(): $RecordCodecBuilder<S, $OptionalInt>;
-        getSizeAtHeight(arg0: number, arg1: number): number;
         minClippedHeight(): $OptionalInt;
+        getSizeAtHeight(height: number, midpoint: number): number;
         static CODEC: $Codec<$FeatureSize>;
         static MAX_WIDTH: number;
-        constructor(arg0: $OptionalInt);
+        constructor(minClippedHeight: $OptionalInt);
     }
     export class $ThreeLayersFeatureSize extends $FeatureSize {
         static CODEC: $MapCodec<$ThreeLayersFeatureSize>;
         static MAX_WIDTH: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $OptionalInt);
+        constructor(limit: number, upperLimit: number, lowerSize: number, middleSize: number, upperSize: number, minClippedHeight: $OptionalInt);
     }
-    export interface $FeatureSizeType extends RegistryMarked<RegistryTypes.WorldgenFeatureSizeTypeTag, RegistryTypes.WorldgenFeatureSizeType> {}
+    export interface $FeatureSizeType<P> extends RegistryMarked<RegistryTypes.WorldgenFeatureSizeTypeTag, RegistryTypes.WorldgenFeatureSizeType> {}
     export class $TwoLayersFeatureSize extends $FeatureSize {
         static CODEC: $MapCodec<$TwoLayersFeatureSize>;
         static MAX_WIDTH: number;
-        constructor(arg0: number, arg1: number, arg2: number);
-        constructor(arg0: number, arg1: number, arg2: number, arg3: $OptionalInt);
+        constructor(limit: number, lowerSize: number, upperSize: number);
+        constructor(limit: number, lowerSize: number, upperSize: number, minClippedHeight: $OptionalInt);
     }
 }

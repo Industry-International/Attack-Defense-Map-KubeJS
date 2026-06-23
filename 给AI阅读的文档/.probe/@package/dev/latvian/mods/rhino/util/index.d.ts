@@ -56,18 +56,18 @@ declare module "@package/dev/latvian/mods/rhino/util" {
      */
     export type $DefaultValueTypeHint_ = "string" | "number" | "boolean" | "function" | "class";
     export class $ArrayValueProvider {
-        static fromIterable(arg0: $Iterable_<never>): $ArrayValueProvider;
         static fromNativeArray(arg0: $NativeArray): $ArrayValueProvider;
         static fromJavaList(arg0: $List_<never>, arg1: $Object): $ArrayValueProvider;
+        static fromIterable(arg0: $Iterable_<never>): $ArrayValueProvider;
         static EMPTY: $ArrayValueProvider;
     }
     export interface $ArrayValueProvider {
         getLength(): number;
-        createList(arg1: $TypeInfo_): $Object;
         createArray(arg1: $TypeInfo_): $Object;
+        createList(arg1: $TypeInfo_): $Object;
         createSet(arg1: $TypeInfo_): $Object;
-        getErrorSource(): $Object;
         getArrayValue(arg1: number): $Object;
+        getErrorSource(): $Object;
         get length(): number;
         get errorSource(): $Object;
     }

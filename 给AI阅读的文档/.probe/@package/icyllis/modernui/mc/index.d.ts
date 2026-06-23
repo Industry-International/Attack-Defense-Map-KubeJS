@@ -11,20 +11,20 @@ declare module "@package/icyllis/modernui/mc" {
     export class $ScrollController {
         update(time: number): void;
         getDuration(): number;
-        scrollTo(target: number, duration: number): void;
+        isScrolling(): boolean;
+        setStartValue(start: number): void;
+        setMaxScroll(max: number): void;
+        getCurrValue(): number;
+        abortAnimation(): void;
         scrollTo(target: number): boolean;
+        scrollTo(target: number, duration: number): void;
         scrollBy(delta: number): boolean;
         scrollBy(delta: number, duration: number): void;
-        isScrolling(): boolean;
-        abortAnimation(): void;
-        setMaxScroll(max: number): void;
-        setStartValue(start: number): void;
-        getCurrValue(): number;
         constructor(listener: $ScrollController$IListener_);
         get duration(): number;
         get scrolling(): boolean;
-        set maxScroll(value: number);
         set startValue(value: number);
+        set maxScroll(value: number);
         get currValue(): number;
     }
     export class $ScrollController$IListener {

@@ -28,22 +28,22 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor();
     }
     export class $TemptingSensor extends $Sensor<$PathfinderMob> {
-        doTick(arg0: $ServerLevel, arg1: $PathfinderMob): void;
+        doTick(level: $ServerLevel, entity: $PathfinderMob): void;
         static TEMPTATION_RANGE: number;
         static TARGETING_RANGE: number;
-        constructor(arg0: $Predicate_<$ItemStack>);
+        constructor(temptations: $Predicate_<$ItemStack>);
     }
     export class $HoglinSpecificSensor extends $Sensor<$Hoglin> {
-        doTick(arg0: $ServerLevel, arg1: $Hoglin): void;
+        doTick(level: $ServerLevel, entity: $Hoglin): void;
         static TARGETING_RANGE: number;
         constructor();
     }
     export class $MobSensor<T extends $LivingEntity> extends $Sensor<T> {
-        clearMemory(arg0: T): void;
-        checkForMobsNearby(arg0: T): void;
-        mobDetected(arg0: T): void;
+        mobDetected(sensingEntity: T): void;
+        clearMemory(sensingEntity: T): void;
+        checkForMobsNearby(sensingEntity: T): void;
         static TARGETING_RANGE: number;
-        constructor(arg0: number, arg1: $BiPredicate_<T, $LivingEntity>, arg2: $Predicate_<T>, arg3: $MemoryModuleType_<boolean>, arg4: number);
+        constructor(scanRate: number, mobTest: $BiPredicate_<T, $LivingEntity>, readyTest: $Predicate_<T>, toSet: $MemoryModuleType_<boolean>, memoryTimeToLive: number);
     }
     export class $SensorType<U extends $Sensor<never>> {
         create(): U;
@@ -73,7 +73,7 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         static PIGLIN_BRUTE_SPECIFIC_SENSOR: $SensorType<$PiglinBruteSpecificSensor>;
         static HOGLIN_SPECIFIC_SENSOR: $SensorType<$HoglinSpecificSensor>;
         static WARDEN_ENTITY_SENSOR: $SensorType<$WardenEntitySensor>;
-        constructor(arg0: $Supplier_<U>);
+        constructor(factory: $Supplier_<U>);
     }
     /**
      * Values that may be interpreted as {@link $SensorType}.
@@ -84,7 +84,7 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor();
     }
     export class $AdultSensor extends $Sensor<$AgeableMob> {
-        doTick(arg0: $ServerLevel, arg1: $AgeableMob): void;
+        doTick(level: $ServerLevel, entity: $AgeableMob): void;
         static TARGETING_RANGE: number;
         constructor();
     }
@@ -94,13 +94,22 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
     }
     export class $Sensor<E extends $LivingEntity> {
         requires(): $Set<$MemoryModuleType<never>>;
-        tick(arg0: $ServerLevel, arg1: E): void;
-        static isEntityAttackableIgnoringLineOfSight(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
-        static isEntityAttackable(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
-        static isEntityTargetable(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
-        doTick(arg0: $ServerLevel, arg1: E): void;
+        tick(level: $ServerLevel, entity: E): void;
+        /**
+         * @return if entity is remembered as an attack target and is valid to attack
+         */
+        static isEntityAttackableIgnoringLineOfSight(attacker: $LivingEntity, target: $LivingEntity): boolean;
+        /**
+         * @return if entity is remembered as an attack target and is valid to attack
+         */
+        static isEntityTargetable(attacker: $LivingEntity, target: $LivingEntity): boolean;
+        /**
+         * @return if entity is remembered as an attack target and is valid to attack
+         */
+        static isEntityAttackable(attacker: $LivingEntity, target: $LivingEntity): boolean;
+        doTick(level: $ServerLevel, entity: E): void;
         static TARGETING_RANGE: number;
-        constructor(arg0: number);
+        constructor(scanRate: number);
         constructor();
     }
     export class $VillagerBabiesSensor extends $Sensor<$LivingEntity> {
@@ -108,9 +117,15 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor();
     }
     export class $Sensing {
+        /**
+         * Clears seen and unseen.
+         */
         tick(): void;
-        hasLineOfSight(arg0: $Entity): boolean;
-        constructor(arg0: $Mob);
+        /**
+         * Updates list of visible and not visible entities for the given entity
+         */
+        hasLineOfSight(entity: $Entity): boolean;
+        constructor(mob: $Mob);
     }
     export class $NearestLivingEntitySensor<T extends $LivingEntity> extends $Sensor<T> {
         radiusXZ(): number;
@@ -120,8 +135,8 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
     }
     export class $NearestVisibleLivingEntitySensor extends $Sensor<$LivingEntity> {
         getMemory(): $MemoryModuleType<$LivingEntity>;
-        getVisibleEntities(arg0: $LivingEntity): ($NearestVisibleLivingEntities) | undefined;
-        isMatchingEntity(arg0: $LivingEntity, arg1: $LivingEntity): boolean;
+        isMatchingEntity(attacker: $LivingEntity, target: $LivingEntity): boolean;
+        getVisibleEntities(entity: $LivingEntity): ($NearestVisibleLivingEntities) | undefined;
         static TARGETING_RANGE: number;
         constructor();
         get memory(): $MemoryModuleType<$LivingEntity>;
@@ -131,7 +146,7 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor();
     }
     export class $WardenEntitySensor extends $NearestLivingEntitySensor<$Warden> {
-        doTick(arg0: $ServerLevel, arg1: $Warden): void;
+        doTick(level: $ServerLevel, entity: $Warden): void;
         static TARGETING_RANGE: number;
         constructor();
     }
@@ -139,7 +154,7 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         static TARGETING_RANGE: number;
         constructor();
     }
-    export interface $SensorType extends RegistryMarked<RegistryTypes.SensorTypeTag, RegistryTypes.SensorType> {}
+    export interface $SensorType<U> extends RegistryMarked<RegistryTypes.SensorTypeTag, RegistryTypes.SensorType> {}
     export class $IsInWaterSensor extends $Sensor<$LivingEntity> {
         static TARGETING_RANGE: number;
         constructor();
@@ -149,22 +164,22 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor();
     }
     export class $NearestBedSensor extends $Sensor<$Mob> {
-        doTick(arg0: $ServerLevel, arg1: $Mob): void;
+        doTick(level: $ServerLevel, entity: $Mob): void;
         static TARGETING_RANGE: number;
         constructor();
     }
     export class $NearestItemSensor extends $Sensor<$Mob> {
-        doTick(arg0: $ServerLevel, arg1: $Mob): void;
+        doTick(level: $ServerLevel, entity: $Mob): void;
         static MAX_DISTANCE_TO_WANTED_ITEM: number;
         static TARGETING_RANGE: number;
         constructor();
     }
     export class $GolemSensor extends $Sensor<$LivingEntity> {
-        static checkForNearbyGolem(arg0: $LivingEntity): void;
-        static golemDetected(arg0: $LivingEntity): void;
+        static checkForNearbyGolem(livingEntity: $LivingEntity): void;
+        static golemDetected(livingEntity: $LivingEntity): void;
         static TARGETING_RANGE: number;
         constructor();
-        constructor(arg0: number);
+        constructor(scanRate: number);
     }
     export class $AxolotlAttackablesSensor extends $NearestVisibleLivingEntitySensor {
         static TARGETING_RANGE: number;
@@ -172,7 +187,7 @@ declare module "@package/net/minecraft/world/entity/ai/sensing" {
         constructor();
     }
     export class $SecondaryPoiSensor extends $Sensor<$Villager> {
-        doTick(arg0: $ServerLevel, arg1: $Villager): void;
+        doTick(level: $ServerLevel, entity: $Villager): void;
         static TARGETING_RANGE: number;
         constructor();
     }

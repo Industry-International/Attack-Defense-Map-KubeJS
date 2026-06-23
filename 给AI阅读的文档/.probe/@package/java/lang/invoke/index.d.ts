@@ -102,10 +102,10 @@ declare module "@package/java/lang/invoke" {
         get primitive(): boolean;
     }
     export class $VarHandle$VarHandleDesc extends $DynamicConstantDesc<$VarHandle> {
+        static ofArray(arg0: $ClassDesc): $VarHandle$VarHandleDesc;
         static ofField(arg0: $ClassDesc, arg1: string, arg2: $ClassDesc): $VarHandle$VarHandleDesc;
         varType(): $ClassDesc;
         static ofStaticField(arg0: $ClassDesc, arg1: string, arg2: $ClassDesc): $VarHandle$VarHandleDesc;
-        static ofArray(arg0: $ClassDesc): $VarHandle$VarHandleDesc;
     }
     export class $VarHandle$AccessMode extends $Enum<$VarHandle$AccessMode> {
         static values(): $VarHandle$AccessMode[];

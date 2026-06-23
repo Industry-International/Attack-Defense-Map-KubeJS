@@ -14,8 +14,8 @@ declare module "@package/com/simibubi/create/content/logistics/packagerLink" {
         flatten(arg0: boolean): $List<$RequestPromise>;
         itemEnteredSystem(arg0: $ItemStack_, arg1: number): void;
         setOnChanged(arg0: $Runnable_): void;
-        forceClear(arg0: $ItemStack_): void;
         getTotalPromisedAndRemoveExpired(arg0: $ItemStack_, arg1: number): number;
+        forceClear(arg0: $ItemStack_): void;
         constructor(arg0: $Runnable_);
         get empty(): boolean;
         set onChanged(value: $Runnable_);

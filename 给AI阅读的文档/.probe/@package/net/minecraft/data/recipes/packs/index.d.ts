@@ -32,6 +32,6 @@ declare module "@package/net/minecraft/data/recipes/packs" {
         static IRON_SMELTABLES: $ImmutableList<$ItemLike>;
         recipePathProvider: $PackOutput$PathProvider;
         static DIAMOND_SMELTABLES: $ImmutableList<$ItemLike>;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>);
     }
 }

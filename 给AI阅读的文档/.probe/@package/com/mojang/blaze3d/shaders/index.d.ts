@@ -2,7 +2,6 @@ import { $InputStream } from "@package/java/io";
 import { $ProgramTypeAccessor } from "@package/com/lowdragmc/lowdraglib2/core/mixins/accessor";
 import { $ProgramExtension } from "@package/dev/ryanhcode/sable/mixinterface/sublevel_render/fancy";
 import { $GlslPreprocessor } from "@package/com/mojang/blaze3d/preprocessor";
-import { $DynamicBufferProgramAccessor } from "@package/foundry/veil/mixin/dynamicbuffer/accessor";
 import { $Map } from "@package/java/util";
 import { $AutoCloseable, $CharSequence, $Enum } from "@package/java/lang";
 import { $FloatBuffer, $IntBuffer } from "@package/java/nio";
@@ -11,24 +10,24 @@ import { $Matrix4f, $Vector4f, $Matrix3f, $Vector3f } from "@package/org/joml";
 
 declare module "@package/com/mojang/blaze3d/shaders" {
     export class $EffectProgram extends $Program {
-        static compileShader(arg0: $Program$Type_, arg1: string, arg2: $InputStream, arg3: string): $EffectProgram;
-        attachToEffect(arg0: $Effect): void;
+        static compileShader(type: $Program$Type_, name: string, shaderData: $InputStream, sourceName: string): $EffectProgram;
+        attachToEffect(effect: $Effect): void;
     }
     export class $Uniform extends $AbstractUniform implements $AutoCloseable {
         getName(): string;
         getLocation(): number;
-        set(arg0: number, arg1: number): void;
+        set(index: number, value: number): void;
         getCount(): number;
         close(): void;
         getType(): number;
-        setLocation(arg0: number): void;
-        getFloatBuffer(): $FloatBuffer;
+        static glBindAttribLocation(program: number, index: number, name: $CharSequence): void;
+        static glGetUniformLocation(program: number, name: $CharSequence): number;
+        static glGetAttribLocation(program: number, name: $CharSequence): number;
+        setLocation(x: number): void;
         getIntBuffer(): $IntBuffer;
-        static glBindAttribLocation(arg0: number, arg1: number, arg2: $CharSequence): void;
-        static glGetAttribLocation(arg0: number, arg1: $CharSequence): number;
-        static glGetUniformLocation(arg0: number, arg1: $CharSequence): number;
-        static uploadInteger(arg0: number, arg1: number): void;
-        static getTypeFromString(arg0: string): number;
+        getFloatBuffer(): $FloatBuffer;
+        static uploadInteger(x: number, y: number): void;
+        static getTypeFromString(typeName: string): number;
         upload(): void;
         static UT_INT4: number;
         static UT_INT3: number;
@@ -41,12 +40,12 @@ declare module "@package/com/mojang/blaze3d/shaders" {
         static UT_INT1: number;
         static UT_FLOAT1: number;
         static UT_FLOAT4: number;
-        constructor(arg0: string, arg1: number, arg2: number, arg3: $Shader);
+        constructor(name: string, type: number, count: number, parent: $Shader);
         get name(): string;
         get count(): number;
         get type(): number;
-        get floatBuffer(): $FloatBuffer;
         get intBuffer(): $IntBuffer;
+        get floatBuffer(): $FloatBuffer;
     }
     export class $FogShape extends $Enum<$FogShape> {
         static values(): $FogShape[];
@@ -61,37 +60,37 @@ declare module "@package/com/mojang/blaze3d/shaders" {
      */
     export type $FogShape_ = "sphere" | "cylinder";
     export class $ProgramManager {
-        static glUseProgram(arg0: number): void;
-        static linkShader(arg0: $Shader): void;
+        static glUseProgram(program: number): void;
         static createProgram(): number;
-        static releaseProgram(arg0: $Shader): void;
+        static releaseProgram(shader: $Shader): void;
+        static linkShader(shader: $Shader): void;
         constructor();
     }
     export class $AbstractUniform {
-        set(arg0: number[]): void;
-        set(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        set(arg0: number, arg1: number, arg2: number): void;
-        set(arg0: number, arg1: number): void;
-        set(arg0: $Matrix3f): void;
-        set(arg0: $Matrix4f): void;
-        set(arg0: $Vector4f): void;
-        set(arg0: $Vector3f): void;
-        set(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        set(arg0: number, arg1: number, arg2: number): void;
-        set(arg0: number): void;
-        set(arg0: number, arg1: number): void;
-        set(arg0: number): void;
-        setSafe(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        setSafe(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        setMat3x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number): void;
-        setMat4x2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        setMat2x2(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        setMat2x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
-        setMat2x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        setMat3x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
-        setMat3x2(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
-        setMat4x3(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
-        setMat4x4(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: number, arg15: number): void;
+        set(valueArray: number[]): void;
+        set(x: number, y: number, z: number, w: number): void;
+        set(x: number, y: number, z: number): void;
+        set(x: number, y: number): void;
+        set(matrix: $Matrix3f): void;
+        set(matrix: $Matrix4f): void;
+        set(vector: $Vector4f): void;
+        set(vector: $Vector3f): void;
+        set(x: number, y: number, z: number, w: number): void;
+        set(x: number, y: number, z: number): void;
+        set(x: number): void;
+        set(x: number, y: number): void;
+        set(x: number): void;
+        setSafe(x: number, y: number, z: number, w: number): void;
+        setSafe(x: number, y: number, z: number, w: number): void;
+        setMat2x3(m00: number, m01: number, m02: number, m10: number, m11: number, m12: number): void;
+        setMat2x2(x: number, y: number, z: number, w: number): void;
+        setMat2x4(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number): void;
+        setMat3x2(m00: number, m01: number, m02: number, m10: number, m11: number, m12: number): void;
+        setMat4x2(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number): void;
+        setMat4x3(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number): void;
+        setMat3x3(m00: number, m01: number, m02: number, m10: number, m11: number, m12: number, m20: number, m21: number, m22: number): void;
+        setMat3x4(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number): void;
+        setMat4x4(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number): void;
         constructor();
     }
     export class $Effect {
@@ -103,9 +102,9 @@ declare module "@package/com/mojang/blaze3d/shaders" {
         static values(): $Program$Type[];
         static valueOf(arg0: string): $Program$Type;
         getExtension(): string;
-        static createProgramType$iris_$md$9aa1a5$0(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
-        static createProgramType$ldlib2_$md$9aa1a5$1(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
         getPrograms(): $Map<string, $Program>;
+        static createProgramType$ldlib2_$md$dd6cb9$1(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
+        static createProgramType$iris_$md$dd6cb9$0(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
         static VERTEX: $Program$Type;
         static FRAGMENT: $Program$Type;
         get extension(): string;
@@ -115,24 +114,24 @@ declare module "@package/com/mojang/blaze3d/shaders" {
      * Values that may be interpreted as {@link $Program$Type}.
      */
     export type $Program$Type_ = "vertex" | "fragment" | "geometry" | "tess_control" | "tess_eval" | "geometry";
-    export class $Program implements $DynamicBufferProgramAccessor, $ProgramExtension {
+    export class $Program implements $ProgramExtension {
         getName(): string;
-        close(): void;
-        sable$getSource(): string;
-        attachToShader(arg0: $Shader): void;
-        static compileShader(arg0: $Program$Type_, arg1: string, arg2: $InputStream, arg3: string, arg4: $GlslPreprocessor): $Program;
         getId(): number;
-        setId(arg0: number): void;
-        constructor(arg0: $Program$Type_, arg1: number, arg2: string);
+        close(): void;
+        static compileShader(type: $Program$Type_, name: string, shaderData: $InputStream, sourceName: string, preprocessor: $GlslPreprocessor): $Program;
+        attachToShader(shader: $Shader): void;
+        sable$getSource(): string;
+        constructor(type: $Program$Type_, id: number, name: string);
         get name(): string;
+        get id(): number;
     }
     export class $Shader {
     }
     export interface $Shader {
         getId(): number;
         getVertexProgram(): $Program;
-        attachToProgram(): void;
         getFragmentProgram(): $Program;
+        attachToProgram(): void;
         markDirty(): void;
         get id(): number;
         get vertexProgram(): $Program;
@@ -141,10 +140,10 @@ declare module "@package/com/mojang/blaze3d/shaders" {
     export class $BlendMode {
         apply(): void;
         isOpaque(): boolean;
-        static stringToBlendFactor(arg0: string): number;
-        static stringToBlendFunc(arg0: string): number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number);
-        constructor(arg0: number, arg1: number, arg2: number);
+        static stringToBlendFactor(factorName: string): number;
+        static stringToBlendFunc(factorName: string): number;
+        constructor(srcColorFactor: number, dstColorFactor: number, srcAlphaFactor: number, dstAlphaFactor: number, blendFunc: number);
+        constructor(srcFactor: number, dstFactor: number, blendFunc: number);
         constructor();
         get opaque(): boolean;
     }

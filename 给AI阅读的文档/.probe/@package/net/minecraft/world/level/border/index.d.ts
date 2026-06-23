@@ -12,20 +12,23 @@ import { $Vec3_, $AABB_ } from "@package/net/minecraft/world/phys";
 
 declare module "@package/net/minecraft/world/level/border" {
     export class $BorderChangeListener$DelegateBorderChangeListener implements $BorderChangeListener {
-        onBorderSetDamageSafeZOne(arg0: $WorldBorder, arg1: number): void;
-        onBorderSizeLerping(arg0: $WorldBorder, arg1: number, arg2: number, arg3: number): void;
-        onBorderSetWarningBlocks(arg0: $WorldBorder, arg1: number): void;
-        onBorderSetDamagePerBlock(arg0: $WorldBorder, arg1: number): void;
-        onBorderSetWarningTime(arg0: $WorldBorder, arg1: number): void;
-        onBorderCenterSet(arg0: $WorldBorder, arg1: number, arg2: number): void;
-        onBorderSizeSet(arg0: $WorldBorder, arg1: number): void;
-        constructor(arg0: $WorldBorder);
+        onBorderSizeLerping(border: $WorldBorder, oldSize: number, arg2: number, newSize: number): void;
+        onBorderSetDamagePerBlock(border: $WorldBorder, newAmount: number): void;
+        onBorderSetWarningTime(border: $WorldBorder, newDistance: number): void;
+        onBorderSetDamageSafeZOne(border: $WorldBorder, newAmount: number): void;
+        onBorderSetWarningBlocks(border: $WorldBorder, newDistance: number): void;
+        onBorderCenterSet(border: $WorldBorder, x: number, arg2: number): void;
+        onBorderSizeSet(border: $WorldBorder, newAmount: number): void;
+        constructor(worldBorder: $WorldBorder);
     }
     export class $WorldBorder$MovingBorderExtent implements $WorldBorder$BorderExtent {
     }
     export class $BorderStatus extends $Enum<$BorderStatus> {
         static values(): $BorderStatus[];
         static valueOf(arg0: string): $BorderStatus;
+        /**
+         * Retrieves the color that the border should be, while in this state.
+         */
         getColor(): number;
         static GROWING: $BorderStatus;
         static SHRINKING: $BorderStatus;
@@ -39,39 +42,39 @@ declare module "@package/net/minecraft/world/level/border" {
     export class $BorderChangeListener {
     }
     export interface $BorderChangeListener {
-        onBorderSetDamageSafeZOne(arg0: $WorldBorder, arg1: number): void;
-        onBorderSizeLerping(arg0: $WorldBorder, arg1: number, arg2: number, arg3: number): void;
-        onBorderSetWarningBlocks(arg0: $WorldBorder, arg1: number): void;
-        onBorderSetDamagePerBlock(arg0: $WorldBorder, arg1: number): void;
-        onBorderSetWarningTime(arg0: $WorldBorder, arg1: number): void;
-        onBorderCenterSet(arg0: $WorldBorder, arg1: number, arg2: number): void;
-        onBorderSizeSet(arg0: $WorldBorder, arg1: number): void;
+        onBorderSizeLerping(border: $WorldBorder, oldSize: number, arg2: number, newSize: number): void;
+        onBorderSetDamagePerBlock(border: $WorldBorder, damagePerBlock: number): void;
+        onBorderSetWarningTime(border: $WorldBorder, warningBlocks: number): void;
+        onBorderSetDamageSafeZOne(border: $WorldBorder, damagePerBlock: number): void;
+        onBorderSetWarningBlocks(border: $WorldBorder, warningBlocks: number): void;
+        onBorderCenterSet(border: $WorldBorder, x: number, arg2: number): void;
+        onBorderSizeSet(border: $WorldBorder, damagePerBlock: number): void;
     }
     export class $WorldBorder$StaticBorderExtent implements $WorldBorder$BorderExtent {
     }
     export class $WorldBorder$Settings {
-        write(arg0: $CompoundTag_): void;
-        static read(arg0: $DynamicLike<never>, arg1: $WorldBorder$Settings): $WorldBorder$Settings;
+        write(nbt: $CompoundTag_): void;
+        static read(dynamic: $DynamicLike<never>, defaultValue: $WorldBorder$Settings): $WorldBorder$Settings;
         getSize(): number;
         getCenterX(): number;
         getCenterZ(): number;
         getDamagePerBlock(): number;
         getSafeZone(): number;
         getWarningTime(): number;
+        getWarningBlocks(): number;
         getSizeLerpTime(): number;
         getSizeLerpTarget(): number;
-        getWarningBlocks(): number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number);
-        constructor(arg0: $WorldBorder);
+        constructor(centerX: number, arg1: number, centerZ: number, arg3: number, damagePerBlock: number, arg5: number, safeZone: number, arg7: number, warningBlocks: number);
+        constructor(border: $WorldBorder);
         get size(): number;
         get centerX(): number;
         get centerZ(): number;
         get damagePerBlock(): number;
         get safeZone(): number;
         get warningTime(): number;
+        get warningBlocks(): number;
         get sizeLerpTime(): number;
         get sizeLerpTarget(): number;
-        get warningBlocks(): number;
     }
     export class $WorldBorder$BorderExtent {
     }
@@ -80,66 +83,66 @@ declare module "@package/net/minecraft/world/level/border" {
     export class $WorldBorder implements $WorldBorderExtension {
         getSize(): number;
         tick(): void;
-        setSize(arg0: number): void;
-        getListeners(): $List<$BorderChangeListener>;
-        removeListener(arg0: $BorderChangeListener): void;
+        setSize(damagePerBlock: number): void;
         getStatus(): $BorderStatus;
-        addListener(arg0: $BorderChangeListener): void;
+        getMinZ(): number;
+        setCenter(x: number, arg1: number): void;
+        getMaxX(): number;
+        getMinX(): number;
+        getMaxZ(): number;
+        addListener(listener: $BorderChangeListener): void;
+        removeListener(listener: $BorderChangeListener): void;
+        getListeners(): $List<$BorderChangeListener>;
         getCenterX(): number;
         getCenterZ(): number;
-        getDistanceToBorder(arg0: number, arg1: number): number;
-        getDistanceToBorder(arg0: $Entity): number;
-        clampToBounds(arg0: $BlockPos_): $BlockPos;
-        clampToBounds(arg0: number, arg1: number, arg2: number): $BlockPos;
-        clampToBounds(arg0: $Vec3_): $BlockPos;
-        getMinZ(): number;
-        getMaxX(): number;
-        getMaxZ(): number;
-        setCenter(arg0: number, arg1: number): void;
-        getMinX(): number;
-        getCollisionShape(): $VoxelShape;
-        isWithinBounds(arg0: $Vec3_): boolean;
-        isWithinBounds(arg0: $ChunkPos): boolean;
-        isWithinBounds(arg0: $BlockPos_): boolean;
-        isWithinBounds(arg0: number, arg1: number, arg2: number): boolean;
-        isWithinBounds(arg0: $AABB_): boolean;
-        isWithinBounds(arg0: number, arg1: number): boolean;
-        sable$setLevel(arg0: $Level_): void;
+        clampToBounds(pos: $BlockPos_): $BlockPos;
+        clampToBounds(x: number, arg1: number, y: number): $BlockPos;
+        clampToBounds(pos: $Vec3_): $BlockPos;
+        setAbsoluteMaxSize(size: number): void;
+        getDistanceToBorder(entity: $Entity): number;
+        getDistanceToBorder(x: number, arg1: number): number;
+        isWithinBounds(pos: $BlockPos_): boolean;
+        isWithinBounds(x: number, arg1: number, z: number): boolean;
+        isWithinBounds(x: number, arg1: number): boolean;
+        isWithinBounds(pos: $Vec3_): boolean;
+        isWithinBounds(chunkPos: $ChunkPos): boolean;
+        isWithinBounds(box: $AABB_): boolean;
+        handler$hba000$sable$isWithinBounds(arg0: number, arg1: number, arg2: number, arg3: $CallbackInfoReturnable<any>): void;
+        handler$hba000$sable$isInsideCloseToBorder(arg0: $Entity, arg1: $AABB_, arg2: $CallbackInfoReturnable<any>): void;
         getDamageSafeZone(): number;
         getDamagePerBlock(): number;
-        handler$hfj000$sable$isInsideCloseToBorder(arg0: $Entity, arg1: $AABB_, arg2: $CallbackInfoReturnable<any>): void;
-        handler$hfj000$sable$isWithinBounds(arg0: number, arg1: number, arg2: number, arg3: $CallbackInfoReturnable<any>): void;
+        getCollisionShape(): $VoxelShape;
         getLerpRemainingTime(): number;
-        setAbsoluteMaxSize(arg0: number): void;
-        isInsideCloseToBorder(arg0: $Entity, arg1: $AABB_): boolean;
-        setDamageSafeZone(arg0: number): void;
-        applySettings(arg0: $WorldBorder$Settings): void;
-        getLerpTarget(): number;
-        lerpSizeBetween(arg0: number, arg1: number, arg2: number): void;
-        getWarningTime(): number;
-        setWarningTime(arg0: number): void;
+        isInsideCloseToBorder(entity: $Entity, bounds: $AABB_): boolean;
+        sable$setLevel(arg0: $Level_): void;
+        setDamageSafeZone(damagePerBlock: number): void;
+        setDamagePerBlock(damagePerBlock: number): void;
         createSettings(): $WorldBorder$Settings;
         getLerpSpeed(): number;
-        setWarningBlocks(arg0: number): void;
-        setDamagePerBlock(arg0: number): void;
-        getAbsoluteMaxSize(): number;
+        getWarningTime(): number;
+        lerpSizeBetween(oldSize: number, arg1: number, newSize: number): void;
         getWarningBlocks(): number;
+        setWarningBlocks(size: number): void;
+        getAbsoluteMaxSize(): number;
+        setWarningTime(size: number): void;
+        applySettings(serializer: $WorldBorder$Settings): void;
+        getLerpTarget(): number;
         absoluteMaxSize: number;
         static DEFAULT_SETTINGS: $WorldBorder$Settings;
         static MAX_SIZE: number;
         static MAX_CENTER_COORDINATE: number;
         constructor();
-        get listeners(): $List<$BorderChangeListener>;
         get status(): $BorderStatus;
-        get centerX(): number;
-        get centerZ(): number;
         get minZ(): number;
         get maxX(): number;
-        get maxZ(): number;
         get minX(): number;
+        get maxZ(): number;
+        get listeners(): $List<$BorderChangeListener>;
+        get centerX(): number;
+        get centerZ(): number;
         get collisionShape(): $VoxelShape;
         get lerpRemainingTime(): number;
-        get lerpTarget(): number;
         get lerpSpeed(): number;
+        get lerpTarget(): number;
     }
 }

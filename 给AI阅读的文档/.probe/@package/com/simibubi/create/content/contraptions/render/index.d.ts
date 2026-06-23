@@ -25,16 +25,16 @@ declare module "@package/com/simibubi/create/content/contraptions/render" {
     }
     export class $ContraptionMatrices {
         static transform(arg0: $PoseStack, arg1: $PoseStack): void;
+        getLight(): $Matrix4f;
         static clearStack(arg0: $PoseStack): void;
         getWorld(): $Matrix4f;
-        getLight(): $Matrix4f;
-        static translateToEntity(arg0: $Matrix4f, arg1: $Entity, arg2: number): void;
         getViewProjection(): $PoseStack;
         getModel(): $PoseStack;
         getModelViewProjection(): $PoseStack;
+        static translateToEntity(arg0: $Matrix4f, arg1: $Entity, arg2: number): void;
         constructor();
-        get world(): $Matrix4f;
         get light(): $Matrix4f;
+        get world(): $Matrix4f;
         get viewProjection(): $PoseStack;
         get model(): $PoseStack;
         get modelViewProjection(): $PoseStack;
@@ -46,14 +46,14 @@ declare module "@package/com/simibubi/create/content/contraptions/render" {
     }
     export class $ClientContraption {
         getBlockEntity(arg0: $BlockPos_): $BlockEntity;
+        invalidateStructure(): void;
         resetRenderLevel(): void;
         invalidateChildren(): void;
-        invalidateStructure(): void;
         getAndAdjustShouldRenderBlockEntities(): $BitSet;
+        readBlockEntity(arg0: $Level_, arg1: $StructureTemplate$StructureBlockInfo_, arg2: boolean): $BlockEntity;
         getRenderLevel(): $VirtualRenderWorld;
         getMatrices(): $ContraptionMatrices;
         structureVersion(): number;
-        readBlockEntity(arg0: $Level_, arg1: $StructureTemplate$StructureBlockInfo_, arg2: boolean): $BlockEntity;
         getRenderedBlocks(): $ClientContraption$RenderedBlocks;
         childrenVersion(): number;
         shouldRenderBlockEntities: $BitSet;

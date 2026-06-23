@@ -21,8 +21,8 @@ declare module "@package/java/math" {
      */
     export type $RoundingMode_ = "up" | "down" | "ceiling" | "floor" | "half_up" | "half_down" | "half_even" | "unnecessary";
     export class $MathContext implements $Serializable {
-        getPrecision(): number;
         getRoundingMode(): $RoundingMode;
+        getPrecision(): number;
         static DECIMAL128: $MathContext;
         static DECIMAL64: $MathContext;
         static DECIMAL32: $MathContext;
@@ -30,8 +30,8 @@ declare module "@package/java/math" {
         constructor(arg0: string);
         constructor(arg0: number, arg1: $RoundingMode_);
         constructor(arg0: number);
-        get precision(): number;
         get roundingMode(): $RoundingMode;
+        get precision(): number;
     }
     export class $BigInteger extends $Number implements $Comparable<$BigInteger> {
         bitCount(): number;
@@ -94,36 +94,33 @@ declare module "@package/java/math" {
         get lowestSetBit(): number;
     }
     export class $BigDecimal extends $Number implements $Comparable<$BigDecimal> {
-        stripTrailingZeros(): $BigDecimal;
-        movePointLeft(arg0: number): $BigDecimal;
-        toEngineeringString(): string;
-        toPlainString(): string;
         abs(): $BigDecimal;
         abs(arg0: $MathContext): $BigDecimal;
         sqrt(arg0: $MathContext): $BigDecimal;
-        pow(arg0: number, arg1: $MathContext): $BigDecimal;
         pow(arg0: number): $BigDecimal;
+        pow(arg0: number, arg1: $MathContext): $BigDecimal;
         min(arg0: $BigDecimal): $BigDecimal;
         max(arg0: $BigDecimal): $BigDecimal;
         round(arg0: $MathContext): $BigDecimal;
         signum(): number;
         compareTo(arg0: $BigDecimal): number;
-        static valueOf(arg0: number, arg1: number): $BigDecimal;
         static valueOf(arg0: number): $BigDecimal;
+        static valueOf(arg0: number, arg1: number): $BigDecimal;
         static valueOf(arg0: number): $BigDecimal;
         scale(): number;
         add(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal;
         add(arg0: $BigDecimal): $BigDecimal;
-        multiply(arg0: $BigDecimal): $BigDecimal;
         multiply(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal;
+        multiply(arg0: $BigDecimal): $BigDecimal;
         ulp(): $BigDecimal;
         remainder(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal;
         remainder(arg0: $BigDecimal): $BigDecimal;
-        subtract(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal;
         subtract(arg0: $BigDecimal): $BigDecimal;
-        negate(arg0: $MathContext): $BigDecimal;
+        subtract(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal;
         negate(): $BigDecimal;
+        negate(arg0: $MathContext): $BigDecimal;
         toBigInteger(): $BigInteger;
+        divide(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal;
         /**
          * @deprecated
          */
@@ -135,7 +132,6 @@ declare module "@package/java/math" {
         divide(arg0: $BigDecimal, arg1: number): $BigDecimal;
         divide(arg0: $BigDecimal): $BigDecimal;
         divide(arg0: $BigDecimal, arg1: $RoundingMode_): $BigDecimal;
-        divide(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal;
         divideAndRemainder(arg0: $BigDecimal, arg1: $MathContext): $BigDecimal[];
         divideAndRemainder(arg0: $BigDecimal): $BigDecimal[];
         longValueExact(): number;
@@ -152,11 +148,15 @@ declare module "@package/java/math" {
         precision(): number;
         unscaledValue(): $BigInteger;
         setScale(arg0: number, arg1: $RoundingMode_): $BigDecimal;
-        setScale(arg0: number): $BigDecimal;
         /**
          * @deprecated
          */
         setScale(arg0: number, arg1: number): $BigDecimal;
+        setScale(arg0: number): $BigDecimal;
+        stripTrailingZeros(): $BigDecimal;
+        movePointLeft(arg0: number): $BigDecimal;
+        toEngineeringString(): string;
+        toPlainString(): string;
         static ZERO: $BigDecimal;
         /**
          * @deprecated
@@ -193,21 +193,21 @@ declare module "@package/java/math" {
         static ROUND_HALF_EVEN: number;
         static TEN: $BigDecimal;
         static TWO: $BigDecimal;
+        constructor(arg0: $BigInteger, arg1: number);
+        constructor(arg0: $BigInteger, arg1: $MathContext);
+        constructor(arg0: $BigInteger);
+        constructor(arg0: number, arg1: $MathContext);
+        constructor(arg0: number, arg1: $MathContext);
+        constructor(arg0: number);
+        constructor(arg0: number, arg1: $MathContext);
+        constructor(arg0: number);
+        constructor(arg0: $BigInteger, arg1: number, arg2: $MathContext);
+        constructor(arg0: string[]);
+        constructor(arg0: string[], arg1: number, arg2: number, arg3: $MathContext);
+        constructor(arg0: string[], arg1: number, arg2: number);
+        constructor(arg0: number);
+        constructor(arg0: string, arg1: $MathContext);
         constructor(arg0: string);
         constructor(arg0: string[], arg1: $MathContext);
-        constructor(arg0: number);
-        constructor(arg0: number, arg1: $MathContext);
-        constructor(arg0: string[], arg1: number, arg2: number);
-        constructor(arg0: string[], arg1: number, arg2: number, arg3: $MathContext);
-        constructor(arg0: string[]);
-        constructor(arg0: $BigInteger, arg1: $MathContext);
-        constructor(arg0: $BigInteger, arg1: number);
-        constructor(arg0: $BigInteger, arg1: number, arg2: $MathContext);
-        constructor(arg0: number);
-        constructor(arg0: number, arg1: $MathContext);
-        constructor(arg0: string, arg1: $MathContext);
-        constructor(arg0: number);
-        constructor(arg0: number, arg1: $MathContext);
-        constructor(arg0: $BigInteger);
     }
 }

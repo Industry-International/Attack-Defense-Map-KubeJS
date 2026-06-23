@@ -23,8 +23,8 @@ declare module "@package/xaero/pac/common/claims/tracker/api" {
     export class $IClaimsManagerListenerAPI {
     }
     export interface $IClaimsManagerListenerAPI {
-        onChunkChange(arg0: $ResourceLocation_, arg1: number, arg2: number, arg3: $IPlayerChunkClaimAPI): void;
-        onDimensionChange(arg0: $ResourceLocation_): void;
         onWholeRegionChange(arg0: $ResourceLocation_, arg1: number, arg2: number): void;
+        onDimensionChange(arg0: $ResourceLocation_): void;
+        onChunkChange(arg0: $ResourceLocation_, arg1: number, arg2: number, arg3: $IPlayerChunkClaimAPI | null): void;
     }
 }

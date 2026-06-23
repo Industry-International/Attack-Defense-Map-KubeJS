@@ -14,12 +14,12 @@ export * as schemas from "@package/net/minecraft/util/datafix/schemas";
 declare module "@package/net/minecraft/util/datafix" {
     export class $DataFixTypes extends $Enum<$DataFixTypes> {
         static values(): $DataFixTypes[];
-        update<T>(arg0: $DataFixer, arg1: $Dynamic<T>, arg2: number, arg3: number): $Dynamic<T>;
-        update(arg0: $DataFixer, arg1: $CompoundTag_, arg2: number, arg3: number): $CompoundTag;
+        update(fixer: $DataFixer, tag: $CompoundTag_, version: number, newVersion: number): $CompoundTag;
+        update<T>(fixer: $DataFixer, input: $Dynamic<T>, version: number, newVersion: number): $Dynamic<T>;
         static valueOf(arg0: string): $DataFixTypes;
-        updateToCurrentVersion(arg0: $DataFixer, arg1: $CompoundTag_, arg2: number): $CompoundTag;
-        updateToCurrentVersion<T>(arg0: $DataFixer, arg1: $Dynamic<T>, arg2: number): $Dynamic<T>;
-        wrapCodec<A>(arg0: $Codec<A>, arg1: $DataFixer, arg2: number): $Codec<A>;
+        updateToCurrentVersion(fixer: $DataFixer, tag: $CompoundTag_, version: number): $CompoundTag;
+        updateToCurrentVersion<T>(fixer: $DataFixer, input: $Dynamic<T>, version: number): $Dynamic<T>;
+        wrapCodec<A>(codec: $Codec<A>, dataFixer: $DataFixer, dataVersion: number): $Codec<A>;
         static currentVersion(): number;
         static SAVED_DATA_MAP_DATA: $DataFixTypes;
         static WORLD_GEN_SETTINGS: $DataFixTypes;
@@ -47,36 +47,36 @@ declare module "@package/net/minecraft/util/datafix" {
      */
     export type $DataFixTypes_ = "level" | "player" | "chunk" | "hotbar" | "options" | "structure" | "stats" | "saved_data_command_storage" | "saved_data_forced_chunks" | "saved_data_map_data" | "saved_data_map_index" | "saved_data_raids" | "saved_data_random_sequences" | "saved_data_scoreboard" | "saved_data_structure_feature_indices" | "advancements" | "poi_chunk" | "world_gen_settings" | "entity_chunk";
     export class $DataFixers {
-        static optimize(arg0: $Set_<$DSL$TypeReference_>): $CompletableFuture<never>;
+        static optimize(references: $Set_<$DSL$TypeReference_>): $CompletableFuture<never>;
         static getDataFixer(): $DataFixer;
         static BLENDING_VERSION: number;
         static get dataFixer(): $DataFixer;
     }
     export class $ComponentDataFixUtils {
-        static createEmptyComponent<T>(arg0: $DynamicOps<T>): $Dynamic<T>;
-        static extractTranslationString(arg0: string): (string) | undefined;
-        static createPlainTextComponent<T>(arg0: $DynamicOps<T>, arg1: string): $Dynamic<T>;
-        static rewriteFromLenient(arg0: $Dynamic<never>): $Dynamic<never>;
-        static createTranslatableComponent<T>(arg0: $DynamicOps<T>, arg1: string): $Dynamic<T>;
-        static wrapLiteralStringAsComponent<T>(arg0: $Dynamic<T>): $Dynamic<T>;
+        static rewriteFromLenient(dynamic: $Dynamic<never>): $Dynamic<never>;
+        static createEmptyComponent<T>(ops: $DynamicOps<T>): $Dynamic<T>;
+        static extractTranslationString(data: string): (string) | undefined;
+        static createPlainTextComponent<T>(ops: $DynamicOps<T>, text: string): $Dynamic<T>;
+        static wrapLiteralStringAsComponent<T>(dynamic: $Dynamic<T>): $Dynamic<T>;
+        static createTranslatableComponent<T>(ops: $DynamicOps<T>, text: string): $Dynamic<T>;
         constructor();
     }
     export class $ExtraDataFixUtils {
-        static cast<T, R>(arg0: $Type<R>, arg1: $Typed<T>): $Typed<R>;
-        static fixBlockPos(arg0: $Dynamic<never>): $Dynamic<never>;
-        static chainAllFilters<T>(...arg0: $Function_<$Typed<never>, $Typed<never>>[]): $Function<$Typed<never>, $Typed<never>>;
+        static cast<T, R>(type: $Type<R>, data: $Typed<T>): $Typed<R>;
+        static fixBlockPos(data: $Dynamic<never>): $Dynamic<never>;
+        static chainAllFilters<T>(...filters: $Function_<$Typed<never>, $Typed<never>>[]): $Function<$Typed<never>, $Typed<never>>;
         constructor();
     }
     export class $FixWolfHealth extends $NamedEntityFix {
-        constructor(arg0: $Schema);
+        constructor(outputSchema: $Schema);
     }
     export class $PackedBitStorage {
-        get(arg0: number): number;
-        set(arg0: number, arg1: number): void;
+        get(index: number): number;
+        set(bits: number, size: number): void;
         getBits(): number;
         getRaw(): number[];
-        constructor(arg0: number, arg1: number);
-        constructor(arg0: number, arg1: number, arg2: number[]);
+        constructor(bits: number, size: number);
+        constructor(bits: number, size: number, data: number[]);
         get bits(): number;
         get raw(): number[];
     }

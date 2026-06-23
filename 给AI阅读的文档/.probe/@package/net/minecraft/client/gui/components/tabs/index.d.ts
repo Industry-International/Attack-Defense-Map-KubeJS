@@ -11,51 +11,92 @@ import { $AbstractContainerEventHandler } from "@package/net/minecraft/client/gu
 import { $TabNavigationBarAccessor } from "@package/dev/isxander/yacl3/mixin";
 
 declare module "@package/net/minecraft/client/gui/components/tabs" {
+    /**
+     * Builder class for creating a TabNavigationBar instance.
+     */
     export class $TabNavigationBar$Builder {
+        /**
+         * Builds and returns a new TabNavigationBar instance.
+         * 
+         * @return a new TabNavigationBar instance.
+         */
         build(): $TabNavigationBar;
-        addTabs(...arg0: $Tab[]): $TabNavigationBar$Builder;
-        constructor(arg0: $TabManager, arg1: number);
+        /**
+         * Adds multiple tabs to the TabNavigationBar.
+         * 
+         * @return the `Builder` instance.
+         */
+        addTabs(...tabs: $Tab[]): $TabNavigationBar$Builder;
+        constructor(tabManager: $TabManager, width: number);
     }
     export class $TabManager {
-        setTabArea(arg0: $ScreenRectangle_): void;
         getCurrentTab(): $Tab;
-        setCurrentTab(arg0: $Tab, arg1: boolean): void;
-        constructor(arg0: $Consumer_<$AbstractWidget>, arg1: $Consumer_<$AbstractWidget>);
+        setTabArea(tabArea: $ScreenRectangle_): void;
+        setCurrentTab(tab: $Tab, playClickSound: boolean): void;
+        constructor(addWidget: $Consumer_<$AbstractWidget>, removeWidget: $Consumer_<$AbstractWidget>);
         set tabArea(value: $ScreenRectangle_);
     }
     export class $Tab {
     }
     export interface $Tab {
-        visitChildren(arg0: $Consumer_<$AbstractWidget>): void;
-        doLayout(arg0: $ScreenRectangle_): void;
+        visitChildren(consumer: $Consumer_<$AbstractWidget>): void;
+        doLayout(rectangle: $ScreenRectangle_): void;
         getTabTitle(): $Component;
         get tabTitle(): $Component;
     }
     export class $GridLayoutTab implements $Tab {
-        visitChildren(arg0: $Consumer_<$AbstractWidget>): void;
-        doLayout(arg0: $ScreenRectangle_): void;
+        visitChildren(consumer: $Consumer_<$AbstractWidget>): void;
+        doLayout(rectangle: $ScreenRectangle_): void;
         getTabTitle(): $Component;
         layout: $GridLayout;
-        constructor(arg0: $Component_);
+        constructor(title: $Component_);
         get tabTitle(): $Component;
     }
     export class $TabNavigationBar extends $AbstractContainerEventHandler implements $Renderable, $NarratableEntry, $TabNavigationBarAccessor {
-        static builder(arg0: $TabManager, arg1: number): $TabNavigationBar$Builder;
-        render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        selectTab(arg0: number, arg1: boolean): void;
-        keyPressed(arg0: number): boolean;
+        static builder(tabManager: $TabManager, width: number): $TabNavigationBar$Builder;
+        /**
+         * Renders the graphical user interface (GUI) element.
+         */
+        render(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number): void;
+        setWidth(width: number): void;
+        /**
+         * Selects the tab at the specified index.
+         */
+        selectTab(index: number, playClickSound: boolean): void;
+        /**
+         * Updates the narration output with the current narration information.
+         */
+        updateNarration(narrationElementOutput: $NarrationElementOutput): void;
+        /**
+         * @return the narration priority
+         */
         narrationPriority(): $NarratableEntry$NarrationPriority;
-        updateNarration(arg0: $NarrationElementOutput): void;
+        /**
+         * Arranges the elements within the tabbed layout.
+         */
         arrangeElements(): void;
-        setWidth(arg0: number): void;
-        narrateListElementPosition(arg0: $NarrationElementOutput, arg1: $TabButton): void;
+        /**
+         * Handles key pressed events.
+         * 
+         * @return `true` if the key press was handled, `false` otherwise.
+         */
+        keyPressed(keycode: number): boolean;
+        narrateListElementPosition(tabButton: $NarrationElementOutput, arg1: $TabButton): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
         isActive(): boolean;
-        yacl$getTabManager(): $TabManager;
         yacl$getLayout(): $LinearLayout;
+        /**
+         * Returns the index of the current tab.
+         * 
+         * @return the index of the current tab, or -1 if no current tab is set.
+         */
         yacl$getWidth(): number;
+        yacl$getTabManager(): $TabManager;
         yacl$getTabButtons(): $ImmutableList<$TabButton>;
         yacl$getTabs(): $ImmutableList<$Tab>;
-        constructor(arg0: number, arg1: $TabManager, arg2: $Iterable_<$Tab>);
+        constructor(width: number, tabManager: $TabManager, tabs: $Iterable_<$Tab>);
         set width(value: number);
         get active(): boolean;
     }

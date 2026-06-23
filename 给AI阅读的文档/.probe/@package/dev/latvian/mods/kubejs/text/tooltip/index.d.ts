@@ -9,8 +9,8 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/dev/latvian/mods/kubejs/text/tooltip" {
     export class $TooltipRequirements extends $Record {
         shift(): $Tristate;
-        alt(): $Tristate;
         stages(): $Map<string, $Tristate>;
+        alt(): $Tristate;
         advanced(): $Tristate;
         creative(): $Tristate;
         ctrl(): $Tristate;

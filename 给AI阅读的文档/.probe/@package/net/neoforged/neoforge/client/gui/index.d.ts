@@ -52,7 +52,7 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Component_, arg2: $Map_<$ResourceLocation_, $Component_>);
+        constructor(parentScreen: $Screen, reason: $Component_, mismatchedChannelData: $Map_<$ResourceLocation_, $Component_>);
     }
     export class $ConfigurationScreen$TranslationChecker {
         finish(): void;
@@ -62,11 +62,20 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         existsWithFallback(arg0: string): boolean;
         constructor();
     }
+    /**
+     * Register an instance to `ModContainer#registerExtensionPoint(Class, Supplier)`
+     * to supply a config screen for your mod.
+     * 
+     * The config screen will be accessible from the mod list menu.
+     */
     export class $IConfigScreenFactory {
-        static getForMod(arg0: $IModInfo): ($IConfigScreenFactory) | undefined;
+        static getForMod(selectedMod: $IModInfo): ($IConfigScreenFactory) | undefined;
     }
     export interface $IConfigScreenFactory extends $IExtensionPoint {
-        createScreen(arg0: $ModContainer, arg1: $Screen): $Screen;
+        /**
+         * Creates a new config screen. The `modListScreen` parameter can be used for a "back" button.
+         */
+        createScreen(container: $ModContainer, modListScreen: $Screen): $Screen;
     }
     /**
      * Values that may be interpreted as {@link $IConfigScreenFactory}.
@@ -104,10 +113,10 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         constructor(arg0: $Screen, arg1: $ModConfig$Type_, arg2: $ModConfig, arg3: $Component_);
     }
     export class $ModListScreen extends $Screen {
-        setSelected(arg0: $ModListWidget$ModEntry): void;
-        getFontRenderer(): $Font;
-        buildModList<T extends $ObjectSelectionList$Entry<T>>(arg0: $Consumer_<T>, arg1: $Function_<$ModContainer, T>): void;
+        setSelected(entry: $ModListWidget$ModEntry): void;
         getMinecraftInstance(): $Minecraft;
+        buildModList<T extends $ObjectSelectionList$Entry<T>>(modListViewConsumer: $Consumer_<T>, newEntry: $Function_<$ModContainer, T>): void;
+        getFontRenderer(): $Font;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -125,17 +134,23 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen);
+        constructor(parentScreen: $Screen);
         set selected(value: $ModListWidget$ModEntry);
-        get fontRenderer(): $Font;
         get minecraftInstance(): $Minecraft;
+        get fontRenderer(): $Font;
     }
+    /**
+     * Adaptation of `LayeredDraw` that is used for `Gui` rendering specifically,
+     * to give layers a name and fire appropriate events.
+     * 
+     * Overlays can be registered using the `RegisterGuiLayersEvent` event.
+     */
     export class $GuiLayerManager {
-        add(arg0: $GuiLayerManager, arg1: $BooleanSupplier_): $GuiLayerManager;
-        add(arg0: $ResourceLocation_, arg1: $LayeredDraw$Layer_): $GuiLayerManager;
-        render(arg0: $GuiGraphics, arg1: $DeltaTracker): void;
-        getLayerCount(): number;
+        add(child: $GuiLayerManager, shouldRender: $BooleanSupplier_): $GuiLayerManager;
+        add(name: $ResourceLocation_, layer: $LayeredDraw$Layer_): $GuiLayerManager;
+        render(guiGraphics: $GuiGraphics, partialTick: $DeltaTracker): void;
         initModdedLayers(): void;
+        getLayerCount(): number;
         static Z_SEPARATION: number;
         constructor();
         get layerCount(): number;
@@ -160,7 +175,7 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $List_<$ModLoadingIssue_>, arg1: $File_, arg2: $Runnable_);
+        constructor(issues: $List_<$ModLoadingIssue_>, dumpedLocation: $File_, nextScreenTask: $Runnable_);
     }
     export class $ModMismatchDisconnectedScreen$MismatchInfoPanel extends $ScrollPanel {
     }
@@ -170,10 +185,10 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         name(): $Component;
         option(): $OptionInstance<never>;
         any(): $Object;
-        undoable(): boolean;
+        widget(): $AbstractWidget;
         tooltip(): $Component;
         getWidget(arg0: $Options): $AbstractWidget;
-        widget(): $AbstractWidget;
+        undoable(): boolean;
         constructor(arg0: $Component_, arg1: $Component_, arg2: $OptionInstance<never>, arg3: boolean);
         constructor(arg0: $Component_, arg1: $Component_, arg2: $OptionInstance<never>);
         constructor(arg0: $Component_, arg1: $Component_, arg2: $AbstractWidget, arg3: boolean);
@@ -279,11 +294,11 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         height: number;
     }
     export class $CreativeTabsScreenPage {
+        getColumn(tab: $CreativeModeTab_): number;
         getDefaultTab(): $CreativeModeTab;
-        getColumn(arg0: $CreativeModeTab_): number;
-        isTop(arg0: $CreativeModeTab_): boolean;
+        isTop(tab: $CreativeModeTab_): boolean;
         getVisibleTabs(): $List<$CreativeModeTab>;
-        constructor(arg0: $List_<$CreativeModeTab_>);
+        constructor(tabs: $List_<$CreativeModeTab_>);
         get defaultTab(): $CreativeModeTab;
         get visibleTabs(): $List<$CreativeModeTab>;
     }
@@ -311,23 +326,44 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
     }
     /**
      * @deprecated
+     * This class provides several methods and constants used by the Config GUI classes.
      */
     export class $ScreenUtils {
-        static blitWithBorder(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number): void;
-        static blitWithBorder(arg0: $GuiGraphics, arg1: $ResourceLocation_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number, arg14: number): void;
-        static blitWithBorder(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number): void;
-        static blitWithBorder(arg0: $GuiGraphics, arg1: $ResourceLocation_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number): void;
-        static blitInscribed(arg0: $GuiGraphics, arg1: $ResourceLocation_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        static blitInscribed(arg0: $GuiGraphics, arg1: $ResourceLocation_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean, arg9: boolean): void;
-        static getColorFromFormattingCharacter(arg0: string, arg1: boolean): number;
         /**
          * @deprecated
          */
-        static drawGradientRect(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+        static drawGradientRect(mat: $Matrix4f, zLevel: number, left: number, top: number, right: number, bottom: number, startColor: number, endColor: number): void;
+        /**
+         * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
+         * and filler. It is assumed that the desired texture ResourceLocation object has been bound using
+         * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
+         */
+        static blitWithBorder(guiGraphics: $GuiGraphics, x: number, y: number, u: number, v: number, width: number, height: number, textureWidth: number, textureHeight: number, topBorder: number, bottomBorder: number, leftBorder: number, rightBorder: number, zLevel: number): void;
+        /**
+         * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
+         * and filler. The provided ResourceLocation object will be bound using
+         * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
+         */
+        static blitWithBorder(guiGraphics: $GuiGraphics, res: $ResourceLocation_, x: number, y: number, u: number, v: number, width: number, height: number, textureWidth: number, textureHeight: number, topBorder: number, bottomBorder: number, leftBorder: number, rightBorder: number, zLevel: number): void;
+        /**
+         * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
+         * and filler. It is assumed that the desired texture ResourceLocation object has been bound using
+         * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
+         */
+        static blitWithBorder(guiGraphics: $GuiGraphics, x: number, y: number, u: number, v: number, width: number, height: number, textureWidth: number, textureHeight: number, borderSize: number, zLevel: number): void;
+        /**
+         * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
+         * and filler. The provided ResourceLocation object will be bound using
+         * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
+         */
+        static blitWithBorder(guiGraphics: $GuiGraphics, res: $ResourceLocation_, x: number, y: number, u: number, v: number, width: number, height: number, textureWidth: number, textureHeight: number, borderSize: number, zLevel: number): void;
+        static blitInscribed(guiGraphics: $GuiGraphics, texture: $ResourceLocation_, x: number, y: number, boundsWidth: number, boundsHeight: number, rectWidth: number, rectHeight: number, centerX: boolean, centerY: boolean): void;
+        static blitInscribed(guiGraphics: $GuiGraphics, texture: $ResourceLocation_, x: number, y: number, boundsWidth: number, boundsHeight: number, rectWidth: number, rectHeight: number): void;
+        static getColorFromFormattingCharacter(c: string, isLighter: boolean): number;
         /**
          * @deprecated
          */
-        static drawTexturedModalRect(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+        static drawTexturedModalRect(guiGraphics: $GuiGraphics, x: number, y: number, u: number, v: number, width: number, height: number, zLevel: number): void;
         static DEFAULT_BORDER_COLOR_START: number;
         static TEXT_COLOR_CODES: number[];
         static UNDO_CHAR: string;
@@ -358,6 +394,11 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         hovered: $LoadingErrorScreen$LoadingEntryList$LoadingMessageEntry;
         height: number;
     }
+    /**
+     * Identifiers for the vanilla `Layer`, in the order that they render.
+     * 
+     * The corresponding rendering code can be found in the source code of `Gui`.
+     */
     export class $VanillaGuiLayers {
         static FOOD_LEVEL: $ResourceLocation;
         static JUMP_METER: $ResourceLocation;
@@ -387,10 +428,10 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         constructor();
     }
     export class $ConfigurationScreen$UndoManager$Step<T> extends $Record {
+        undo(): $Consumer<T>;
         run(): $Consumer<T>;
         oldValue(): T;
         newValue(): T;
-        undo(): $Consumer<T>;
         constructor(run: $Consumer_<T>, newValue: T, undo: $Consumer_<T>, oldValue: T);
     }
     export class $ModListScreen$SortType extends $Enum<$ModListScreen$SortType> implements $Comparator<$ModContainer> {
@@ -429,11 +470,19 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $PackRepository, arg2: $Consumer_<$PackRepository>);
+        constructor(parent: $Screen, packRepository: $PackRepository, output: $Consumer_<$PackRepository>);
     }
+    /**
+     * Manager for `ClientTooltipComponent` factories.
+     * 
+     * Provides a lookup.
+     */
     export class $ClientTooltipComponentManager {
         static init(): void;
-        static createClientTooltipComponent(arg0: $TooltipComponent): $ClientTooltipComponent;
+        /**
+         * Creates a client component for the given argument, or null if unsupported.
+         */
+        static createClientTooltipComponent(component: $TooltipComponent): $ClientTooltipComponent;
     }
     export class $ConfigurationScreen$ConfigurationSectionScreen$Context extends $Record {
         parent(): $Screen;
@@ -443,9 +492,9 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
         static top(arg0: string, arg1: $Screen, arg2: $ModConfig, arg3: $ConfigurationScreen$ConfigurationSectionScreen$Filter_): $ConfigurationScreen$ConfigurationSectionScreen$Context;
         static section(arg0: $ConfigurationScreen$ConfigurationSectionScreen$Context_, arg1: $Screen, arg2: $Set_<$UnmodifiableConfig$Entry>, arg3: $Map_<string, $Object>, arg4: string): $ConfigurationScreen$ConfigurationSectionScreen$Context;
         modId(): string;
+        modConfig(): $ModConfig;
         modSpec(): $ModConfigSpec;
         valueSpecs(): $Map<string, $Object>;
-        modConfig(): $ModConfig;
         keylist(): $List<string>;
         constructor(modId: string, parent: $Screen, modConfig: $ModConfig, modSpec: $ModConfigSpec, entries: $Set_<$UnmodifiableConfig$Entry>, valueSpecs: $Map_<string, $Object>, keylist: $List_<string>, filter: $ConfigurationScreen$ConfigurationSectionScreen$Filter_);
     }
@@ -476,21 +525,21 @@ declare module "@package/net/neoforged/neoforge/client/gui" {
     export class $ConfigurationScreen$ConfigurationSectionScreen$Custom<T> extends $Record implements $OptionInstance$ValueSet<T> {
         values(): $List<T>;
         validateValue(arg0: T): (T) | undefined;
-        codec(): $Codec<T>;
         createButton(arg0: $OptionInstance$TooltipSupplier_<T>, arg1: $Options, arg2: number, arg3: number, arg4: number, arg5: $Consumer_<T>): $Function<$OptionInstance<T>, $AbstractWidget>;
+        codec(): $Codec<T>;
         static BOOLEAN_VALUES_NO_PREFIX: $ConfigurationScreen$ConfigurationSectionScreen$Custom<boolean>;
         constructor(values: $List_<T>);
     }
     export class $ConfigurationScreen$UndoManager {
+        undo(): void;
         add<T>(arg0: $Consumer_<T>, arg1: T, arg2: $Consumer_<T>, arg3: T): void;
         add(...arg0: $ConfigurationScreen$UndoManager$Step_<never>[]): void;
         add(arg0: $List_<$ConfigurationScreen$UndoManager$Step_<never>>): void;
         step<T>(arg0: $Consumer_<T>, arg1: T, arg2: $Consumer_<T>, arg3: T): $ConfigurationScreen$UndoManager$Step<T>;
-        undo(): void;
+        addNoExecute<T>(arg0: $Consumer_<T>, arg1: T, arg2: $Consumer_<T>, arg3: T): void;
         redo(): void;
         canUndo(): boolean;
         canRedo(): boolean;
-        addNoExecute<T>(arg0: $Consumer_<T>, arg1: T, arg2: $Consumer_<T>, arg3: T): void;
         constructor();
     }
     export class $ModMismatchDisconnectedScreen$MismatchInfoPanel$1Row extends $Record {

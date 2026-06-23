@@ -74,10 +74,10 @@ import { $DamageType } from "@package/net/minecraft/world/damagesource";
 
 declare module "@package/net/minecraft/core/registries" {
     export class $Registries {
-        static levelToLevelStem(arg0: $ResourceKey_<$Level>): $ResourceKey<$LevelStem>;
-        static elementsDirPath(arg0: $ResourceKey_<$Registry<never>>): string;
-        static levelStemToLevel(arg0: $ResourceKey_<$LevelStem>): $ResourceKey<$Level>;
-        static tagsDirPath(arg0: $ResourceKey_<$Registry<never>>): string;
+        static tagsDirPath(registryKey: $ResourceKey_<$Registry<never>>): string;
+        static levelToLevelStem(levelStem: $ResourceKey_<$Level>): $ResourceKey<$LevelStem>;
+        static levelStemToLevel(levelStem: $ResourceKey_<$LevelStem>): $ResourceKey<$Level>;
+        static elementsDirPath(registryKey: $ResourceKey_<$Registry<never>>): string;
         static ENCHANTMENT_LOCATION_BASED_EFFECT_TYPE: $ResourceKey<$Registry<$MapCodec<$EnchantmentLocationBasedEffect>>>;
         static VILLAGER_TYPE: $ResourceKey<$Registry<$VillagerType>>;
         static PROCESSOR_LIST: $ResourceKey<$Registry<$StructureProcessorList>>;

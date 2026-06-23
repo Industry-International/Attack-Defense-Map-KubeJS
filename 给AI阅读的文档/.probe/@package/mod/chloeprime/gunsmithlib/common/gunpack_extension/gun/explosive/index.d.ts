@@ -6,35 +6,35 @@ import { $RandomSource } from "@package/net/minecraft/util";
 
 declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/gun/explosive" {
     export class $GunExplosiveFragData {
-        static of(arg0: $GunInfo_): ($GunExplosiveFragData) | undefined;
         static of(arg0: $ItemStack_): ($GunExplosiveFragData) | undefined;
+        static of(arg0: $GunInfo_): ($GunExplosiveFragData) | undefined;
         getCount(): number;
         getConfigSource(): ($ItemStack) | undefined;
-        sampleFragVelocity(arg0: $RandomSource): number;
         getDistribution(): $FragDistribution;
-        getMaxFragVelocity(): number;
+        sampleFragVelocity(arg0: $RandomSource): number;
         getMinFragVelocity(): number;
+        getMaxFragVelocity(): number;
         constructor();
         get count(): number;
         get configSource(): ($ItemStack) | undefined;
         get distribution(): $FragDistribution;
-        get maxFragVelocity(): number;
         get minFragVelocity(): number;
+        get maxFragVelocity(): number;
     }
     export class $GunExplosiveData {
         getFragData(): $GunExplosiveFragData;
-        getAirburstRangefinderMaxDistance(): $OptionalDouble;
+        getAirburstDistancesDistribution(): number;
         getAirburstDistances(): $DoubleList;
         getProximityFuseDistance(): number;
-        getAirburstDistancesDistribution(): number;
-        willPreventDestroyingLootItems(): boolean;
+        getAirburstRangefinderMaxDistance(): $OptionalDouble;
         static fromGun(arg0: $GunInfo_): ($GunExplosiveData) | undefined;
         static fromGun(arg0: $ItemStack_): ($GunExplosiveData) | undefined;
+        willPreventDestroyingLootItems(): boolean;
         constructor();
         get fragData(): $GunExplosiveFragData;
-        get airburstRangefinderMaxDistance(): $OptionalDouble;
+        get airburstDistancesDistribution(): number;
         get airburstDistances(): $DoubleList;
         get proximityFuseDistance(): number;
-        get airburstDistancesDistribution(): number;
+        get airburstRangefinderMaxDistance(): $OptionalDouble;
     }
 }

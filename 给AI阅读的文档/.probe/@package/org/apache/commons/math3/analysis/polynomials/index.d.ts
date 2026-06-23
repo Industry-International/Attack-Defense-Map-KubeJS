@@ -4,13 +4,13 @@ import { $DerivativeStructure, $UnivariateDifferentiableFunction } from "@packag
 
 declare module "@package/org/apache/commons/math3/analysis/polynomials" {
     export class $PolynomialFunction implements $UnivariateDifferentiableFunction, $DifferentiableUnivariateFunction, $Serializable {
-        value(arg0: $DerivativeStructure): $DerivativeStructure;
+        degree(): number;
         value(arg0: number): number;
+        value(arg0: $DerivativeStructure): $DerivativeStructure;
         add(arg0: $PolynomialFunction): $PolynomialFunction;
         multiply(arg0: $PolynomialFunction): $PolynomialFunction;
         subtract(arg0: $PolynomialFunction): $PolynomialFunction;
         negate(): $PolynomialFunction;
-        degree(): number;
         derivative(): $UnivariateFunction;
         polynomialDerivative(): $PolynomialFunction;
         getCoefficients(): number[];
@@ -21,14 +21,14 @@ declare module "@package/org/apache/commons/math3/analysis/polynomials" {
         value(arg0: $DerivativeStructure): $DerivativeStructure;
         value(arg0: number): number;
         derivative(): $UnivariateFunction;
-        getPolynomials(): $PolynomialFunction[];
-        isValidPoint(arg0: number): boolean;
         getN(): number;
         getKnots(): number[];
+        getPolynomials(): $PolynomialFunction[];
+        isValidPoint(arg0: number): boolean;
         polynomialSplineDerivative(): $PolynomialSplineFunction;
         constructor(arg0: number[], arg1: $PolynomialFunction[]);
-        get polynomials(): $PolynomialFunction[];
         get n(): number;
         get knots(): number[];
+        get polynomials(): $PolynomialFunction[];
     }
 }

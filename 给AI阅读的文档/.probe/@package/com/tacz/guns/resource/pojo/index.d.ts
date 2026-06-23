@@ -9,8 +9,8 @@ declare module "@package/com/tacz/guns/resource/pojo" {
         getName(): string;
         getSort(): number;
         getStackSize(): number;
-        getTooltip(): string;
         gunsmith$getGunsmithLibExtension(): $Optional<any>;
+        getTooltip(): string;
         getDisplay(): $ResourceLocation;
         constructor();
         get name(): string;
@@ -25,16 +25,16 @@ declare module "@package/com/tacz/guns/resource/pojo" {
         getSort(): number;
         getData(): $ResourceLocation;
         getTooltip(): string;
-        getItemType(): string;
         getDisplay(): $ResourceLocation;
+        getItemType(): string;
         constructor();
         get name(): string;
         get type(): string;
         get sort(): number;
         get data(): $ResourceLocation;
         get tooltip(): string;
-        get itemType(): string;
         get display(): $ResourceLocation;
+        get itemType(): string;
     }
     export class $AttachmentIndexPOJO {
         getName(): string;

@@ -28,7 +28,7 @@ import { $KMath, $TextWrapper, $IngredientWrapper, $SizedIngredientWrapper, $UUI
 import { $ScrollDataSource, $DataBindingBuilder, $SupplierDataSource } from "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings/impl";
 import { $ColorPattern } from "@package/com/lowdragmc/lowdraglib2/gui";
 import { $ModularUITooltipComponent } from "@package/com/lowdragmc/lowdraglib2/gui/ui/utils";
-import { $Switch, $Selector, $UITemplateElement, $ScrollerView, $Menu, $SplitView$Horizontal, $Label, $TreeList, $ProgressBar, $ColorSelector, $StructuredTagEditor, $Inspector, $Scroller$Horizontal, $TextField, $TagField, $Tab, $Scroller$Vertical, $SplitView$Vertical, $Button, $Toggle, $Scene, $ToggleGroupElement, $SearchComponent, $Dialog, $ItemSlot, $TextArea, $GraphView, $BindableValue, $FluidSlot, $TextElement, $TabView } from "@package/com/lowdragmc/lowdraglib2/gui/ui/elements";
+import { $Switch, $Selector, $UITemplateElement, $ScrollerView, $Menu, $SplitView$Horizontal, $Label, $TreeList, $ProgressBar, $ColorSelector, $StructuredTagEditor, $Inspector, $Scroller$Horizontal, $TextField, $TagField, $Tab, $Scroller$Vertical, $SplitView$Vertical, $Button, $Toggle, $Scene, $ToggleGroupElement, $SearchComponent, $Dialog, $ItemSlot, $TextArea, $GraphView, $BindableValue, $FluidSlot, $TextElement, $TabView, $VirtualScrollerView } from "@package/com/lowdragmc/lowdraglib2/gui/ui/elements";
 import { $Duration } from "@package/java/time";
 import { $RPCEventBuilder } from "@package/com/lowdragmc/lowdraglib2/gui/sync/rpc";
 import { $BlockStateProperties } from "@package/net/minecraft/world/level/block/state/properties";
@@ -121,6 +121,7 @@ declare global {
     let Languages: typeof $Languages;
     let LanguageDefinition: typeof $LanguageDefinition;
     let CodeEditor: typeof $CodeEditor;
+    let VirtualScrollerView: typeof $VirtualScrollerView<any>;
     let UITemplateElement: typeof $UITemplateElement;
     let TreeList: typeof $TreeList<any>;
     let ToggleGroupElement: typeof $ToggleGroupElement;

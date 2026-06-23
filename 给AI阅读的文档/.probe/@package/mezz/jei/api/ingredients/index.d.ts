@@ -22,10 +22,10 @@ declare module "@package/mezz/jei/api/ingredients" {
         render(arg0: $GuiGraphics, arg1: T, arg2: number, arg3: number): void;
         render(arg0: $GuiGraphics, arg1: T): void;
         renderBatch(arg0: $GuiGraphics, arg1: $List_<$BatchRenderElement_<T>>): void;
-        getFontRenderer(arg0: $Minecraft, arg1: T): $Font;
-        getHeight(): number;
-        getTooltip(arg0: T, arg1: $TooltipFlag): $List<$Component>;
         getTooltip(arg0: $ITooltipBuilder, arg1: T, arg2: $TooltipFlag): void;
+        getTooltip(arg0: T, arg1: $TooltipFlag): $List<$Component>;
+        getHeight(): number;
+        getFontRenderer(arg0: $Minecraft, arg1: T): $Font;
         get width(): number;
         get height(): number;
     }
@@ -43,12 +43,12 @@ declare module "@package/mezz/jei/api/ingredients" {
     export interface $ITypedIngredient<T> {
         cast<V>(arg0: $IIngredientType_<V>): $ITypedIngredient<V>;
         getType(): $IIngredientType<T>;
-        getIngredient(): T;
-        getIngredient<V>(arg0: $IIngredientType_<V>): (V) | undefined;
-        getCastIngredient<V>(arg0: $IIngredientType_<V>): V;
-        castToItemStackType(): $ITypedIngredient<$ItemStack>;
-        getItemStack(): ($ItemStack) | undefined;
         getBaseIngredient<B>(arg0: $IIngredientTypeWithSubtypes<B, T>): B;
+        getCastIngredient<V>(arg0: $IIngredientType_<V>): V;
+        getItemStack(): ($ItemStack) | undefined;
+        getIngredient<V>(arg0: $IIngredientType_<V>): (V) | undefined;
+        getIngredient(): T;
+        castToItemStackType(): $ITypedIngredient<$ItemStack>;
         get type(): $IIngredientType<T>;
         get itemStack(): ($ItemStack) | undefined;
     }
@@ -56,11 +56,11 @@ declare module "@package/mezz/jei/api/ingredients" {
     }
     export interface $IIngredientTypeWithSubtypes<B, I> extends $IIngredientType<I> {
         getBase(arg0: I): B;
+        getIngredientBaseClass(): $Class<B>;
         getIngredientClass(): $Class<I>;
         getDefaultIngredient(arg0: B): I;
-        getIngredientBaseClass(): $Class<B>;
-        get ingredientClass(): $Class<I>;
         get ingredientBaseClass(): $Class<B>;
+        get ingredientClass(): $Class<I>;
     }
     export class $IIngredientType<T> {
     }
@@ -80,39 +80,39 @@ declare module "@package/mezz/jei/api/ingredients" {
     }
     export interface $IIngredientHelper<V> {
         getDisplayName(arg0: V): string;
+        getResourceLocation(arg0: V): $ResourceLocation;
         getUid(arg0: $ITypedIngredient<V>, arg1: $UidContext_): $Object;
         getUid(arg0: V, arg1: $UidContext_): $Object;
-        getColors(arg0: V): $Iterable<number>;
-        getIngredientType(): $IIngredientType<V>;
         copyWithAmount(arg0: V, arg1: number): V;
-        getTagStream(arg0: V): $Stream<$ResourceLocation>;
         /**
          * @deprecated
          */
         getTagEquivalent(arg0: $Collection_<V>): ($ResourceLocation) | undefined;
-        isValidIngredient(arg0: V): boolean;
-        hasSubtypes(arg0: V): boolean;
-        copyIngredient(arg0: V): V;
         /**
          * @deprecated
          */
         getWildcardId(arg0: V): string;
-        getGroupingUid(arg0: V): $Object;
+        hasSubtypes(arg0: V): boolean;
         getGroupingUid(arg0: $ITypedIngredient<V>): $Object;
+        getGroupingUid(arg0: V): $Object;
+        getTagStream(arg0: V): $Stream<$ResourceLocation>;
+        getIngredientType(): $IIngredientType<V>;
+        copyIngredient(arg0: V): V;
+        isValidIngredient(arg0: V): boolean;
+        isIngredientOnServer(arg0: V): boolean;
+        normalizeIngredient(arg0: V): V;
+        getTagKeyEquivalent(arg0: $Collection_<V>): ($TagKey<never>) | undefined;
+        getAmount(arg0: V): number;
+        getColors(arg0: V): $Iterable<number>;
+        getErrorInfo(arg0: V): string;
+        getDisplayModId(arg0: V): string;
+        getCheatItemStack(arg0: V): $ItemStack;
+        isHiddenFromRecipeViewersByTags(arg0: V): boolean;
+        isHiddenFromRecipeViewersByTags(arg0: $ITypedIngredient<V>): boolean;
         /**
          * @deprecated
          */
         getUniqueId(arg0: V, arg1: $UidContext_): string;
-        getAmount(arg0: V): number;
-        getErrorInfo(arg0: V): string;
-        getDisplayModId(arg0: V): string;
-        isHiddenFromRecipeViewersByTags(arg0: V): boolean;
-        isHiddenFromRecipeViewersByTags(arg0: $ITypedIngredient<V>): boolean;
-        getResourceLocation(arg0: V): $ResourceLocation;
-        getCheatItemStack(arg0: V): $ItemStack;
-        getTagKeyEquivalent(arg0: $Collection_<V>): ($TagKey<never>) | undefined;
-        normalizeIngredient(arg0: V): V;
-        isIngredientOnServer(arg0: V): boolean;
         get ingredientType(): $IIngredientType<V>;
     }
 }

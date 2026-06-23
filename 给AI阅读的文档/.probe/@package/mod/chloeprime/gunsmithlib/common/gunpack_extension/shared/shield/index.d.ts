@@ -1,6 +1,6 @@
 import { $ItemStack_ } from "@package/net/minecraft/world/item";
 import { $Enum } from "@package/java/lang";
-import { $AttachmentInfo_, $GunInfo_ } from "@package/mod/chloeprime/gunsmithlib/api/util";
+import { $GunInfo_, $AttachmentInfo_ } from "@package/mod/chloeprime/gunsmithlib/api/util";
 
 declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/shared/shield" {
     export class $ShieldData$Condition extends $Enum<$ShieldData$Condition> {
@@ -16,14 +16,14 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/sha
      */
     export type $ShieldData$Condition_ = "when_aiming" | "when_not_aiming" | "always" | "custom";
     export class $ShieldData {
-        blockBulletDamageAngle(): number;
-        blockVanillaDamageAngle(): number;
+        disableShieldWhenReloading(): boolean;
         static fromAttachment(arg0: $ItemStack_): ($ShieldData) | undefined;
         static fromAttachment(arg0: $AttachmentInfo_): ($ShieldData) | undefined;
-        disableShieldWhenReloading(): boolean;
-        getCondition(): $ShieldData$Condition;
+        blockVanillaDamageAngle(): number;
+        blockBulletDamageAngle(): number;
         static fromGun(arg0: $GunInfo_): ($ShieldData) | undefined;
         static fromGun(arg0: $ItemStack_): ($ShieldData) | undefined;
+        getCondition(): $ShieldData$Condition;
         canBeDisabledByAxes(): boolean;
         constructor();
         get condition(): $ShieldData$Condition;

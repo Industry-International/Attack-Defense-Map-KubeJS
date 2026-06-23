@@ -6,25 +6,62 @@ import { $Enum } from "@package/java/lang";
 import { $BlockEvent } from "@package/net/neoforged/neoforge/event/level";
 
 declare module "@package/net/neoforged/neoforge/event/level/block" {
+    /**
+     * Fired when "growing age" blocks (for example cacti, chorus plants, or crops
+     * in vanilla) have successfully grown. The block's original state is available,
+     * in addition to its new state.
+     * 
+     * This event is only fired on the logical server.
+     */
     export class $CropGrowEvent$Post extends $CropGrowEvent {
+        /**
+         * @return the original state of the crop before growing
+         */
         getOriginalState(): $BlockState;
-        constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $BlockState_);
+        constructor(level: $Level_, pos: $BlockPos_, original: $BlockState_, state: $BlockState_);
         get originalState(): $BlockState;
     }
+    /**
+     * Fired when any "growing age" blocks (for example cacti, chorus plants, or crops
+     * in vanilla) attempt to advance to the next growth age state during a random tick.
+     * 
+     * This event is only fired on the logical server.
+     */
     export class $CropGrowEvent$Pre extends $CropGrowEvent {
         setResult(arg0: $CropGrowEvent$Pre$Result_): void;
         getResult(): $CropGrowEvent$Pre$Result;
-        constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_);
+        constructor(level: $Level_, pos: $BlockPos_, state: $BlockState_);
     }
+    /**
+     * Parent of the two crop growth events.
+     */
     export class $CropGrowEvent extends $BlockEvent {
-        constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_);
+        constructor(level: $Level_, pos: $BlockPos_, state: $BlockState_);
     }
+    /**
+     * Fired when a fluid checks if nearby blocks can convert it to a source block.
+     * 
+     * This can be used to manipulate if fluids are allowed to create sources dynamically.
+     */
     export class $CreateFluidSourceEvent extends $BlockEvent {
+        /**
+         * Returns if the fluid would normally be converted to a source block.
+         * 
+         * This is computed by calling `IFluidStateExtension#canConvertToSource(Level, BlockPos)`.
+         */
         canConvert(): boolean;
         getFluidState(): $FluidState;
-        setCanConvert(arg0: boolean): void;
+        /**
+         * Sets if the fluid will be converted to a source block.
+         */
+        setCanConvert(convert: boolean): void;
+        /**
+         * Returns if the fluid would normally be converted to a source block.
+         * 
+         * This is computed by calling `IFluidStateExtension#canConvertToSource(Level, BlockPos)`.
+         */
         getVanillaResult(): boolean;
-        constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_);
+        constructor(level: $Level_, pos: $BlockPos_, state: $BlockState_);
         get fluidState(): $FluidState;
         get vanillaResult(): boolean;
     }

@@ -4,26 +4,26 @@ import { $BlockPlaceContext, $UseOnContext } from "@package/net/minecraft/world/
 import { $FoodProperties_ } from "@package/net/minecraft/world/food";
 import { $BlockState } from "@package/net/minecraft/world/level/block/state";
 import { $ResourceLocation } from "@package/net/minecraft/resources";
-import { $SoundType_, $Block_, $Block } from "@package/net/minecraft/world/level/block";
+import { $SoundType_, $Block, $Block_ } from "@package/net/minecraft/world/level/block";
 import { $Map } from "@package/java/util";
 import { $Object } from "@package/java/lang";
 
 declare module "@package/net/mehvahdjukaar/moonlight/api/item/additional_placements" {
     export class $AdditionalItemPlacement {
         overrideUpdatePlacementContext(arg0: $BlockPlaceContext): $BlockPlaceContext;
-        overrideUseOn(arg0: $UseOnContext, arg1: $FoodProperties_): $InteractionResult;
         overrideGetPlacementState(arg0: $BlockPlaceContext): $BlockState;
+        static getBlockPlacer(): $BlockPlacerItem;
+        overrideUseOn(arg0: $UseOnContext, arg1: $FoodProperties_): $InteractionResult;
         getPlacedBlock(): $Block;
         overridePlace(arg0: $BlockPlaceContext): $InteractionResult;
-        static getBlockPlacer(): $BlockPlacerItem;
         constructor(arg0: $Block_);
-        get placedBlock(): $Block;
         static get blockPlacer(): $BlockPlacerItem;
+        get placedBlock(): $Block;
     }
     export class $BlockPlacerItem extends $BlockItem {
         static get(): $BlockPlacerItem;
-        mimicPlace(arg0: $BlockPlaceContext, arg1: $Block_, arg2: $SoundType_): $InteractionResult;
         mimicUseOn(arg0: $UseOnContext, arg1: $Block_, arg2: $FoodProperties_): $InteractionResult;
+        mimicPlace(arg0: $BlockPlaceContext, arg1: $Block_, arg2: $SoundType_): $InteractionResult;
         mimicGetPlacementState(arg0: $BlockPlaceContext, arg1: $Block_): $BlockState;
         static BASE_ATTACK_DAMAGE_ID: $ResourceLocation;
         static DEFAULT_MAX_STACK_SIZE: number;

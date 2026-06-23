@@ -39,24 +39,24 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
     export class $EditGameRulesScreen$EntryFactory<T extends $GameRules$Value<T>> {
     }
     export interface $EditGameRulesScreen$EntryFactory<T extends $GameRules$Value<T>> {
-        create(arg0: $Component_, arg1: $List_<$FormattedCharSequence_>, arg2: string, arg3: T): $EditGameRulesScreen$RuleEntry;
+        create(label: $Component_, tooltip: $List_<$FormattedCharSequence_>, arg2: string, arg3: T): $EditGameRulesScreen$RuleEntry;
     }
     /**
      * Values that may be interpreted as {@link $EditGameRulesScreen$EntryFactory}.
      */
     export type $EditGameRulesScreen$EntryFactory_<T> = ((arg0: $Component, arg1: $List<$FormattedCharSequence>, arg2: string, arg3: T) => $EditGameRulesScreen$RuleEntry);
     export class $EditGameRulesScreen extends $Screen implements $EditGameRulesScreenAccessor {
-        static access$000(arg0: $EditGameRulesScreen): $Minecraft;
-        static access$200(arg0: $EditGameRulesScreen): $Minecraft;
-        static access$300(arg0: $EditGameRulesScreen): $Minecraft;
-        static access$100(arg0: $EditGameRulesScreen): $Minecraft;
         static access$500(arg0: $EditGameRulesScreen): $Minecraft;
         static access$400(arg0: $EditGameRulesScreen): $Minecraft;
         static access$600(arg0: $EditGameRulesScreen): $Font;
-        markInvalid(arg0: $EditGameRulesScreen$RuleEntry): void;
-        clearInvalid(arg0: $EditGameRulesScreen$RuleEntry): void;
-        callMarkValid(arg0: $EditGameRulesScreen$RuleEntry): void;
-        callMarkInvalid(arg0: $EditGameRulesScreen$RuleEntry): void;
+        static access$100(arg0: $EditGameRulesScreen): $Minecraft;
+        static access$000(arg0: $EditGameRulesScreen): $Minecraft;
+        static access$200(arg0: $EditGameRulesScreen): $Minecraft;
+        static access$300(arg0: $EditGameRulesScreen): $Minecraft;
+        markInvalid(ruleEntry: $EditGameRulesScreen$RuleEntry): void;
+        clearInvalid(ruleEntry: $EditGameRulesScreen$RuleEntry): void;
+        callMarkValid(ruleEntry: $EditGameRulesScreen$RuleEntry): void;
+        callMarkInvalid(ruleEntry: $EditGameRulesScreen$RuleEntry): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -75,7 +75,7 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $GameRules, arg1: $Consumer_<($GameRules) | undefined>);
+        constructor(gameRules: $GameRules, exitCallback: $Consumer_<($GameRules) | undefined>);
     }
     export class $PresetEditor {
         /**
@@ -84,19 +84,19 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         static EDITORS: $Map<($ResourceKey<$WorldPreset>) | undefined, $PresetEditor>;
     }
     export interface $PresetEditor {
-        createEditScreen(arg0: $CreateWorldScreen, arg1: $WorldCreationContext_): $Screen;
+        createEditScreen(lastScreen: $CreateWorldScreen, context: $WorldCreationContext_): $Screen;
     }
     /**
      * Values that may be interpreted as {@link $PresetEditor}.
      */
     export type $PresetEditor_ = ((arg0: $CreateWorldScreen, arg1: $WorldCreationContext) => $Screen);
     export class $WorldSelectionList extends $ObjectSelectionList<$WorldSelectionList$Entry> {
-        setSelected(arg0: $WorldSelectionList$Entry): void;
-        static access$000(arg0: $WorldSelectionList): $Minecraft;
         static access$100(arg0: $WorldSelectionList, arg1: number, arg2: number): $AbstractSelectionList$Entry<any>;
-        getSelectedOpt(): ($WorldSelectionList$WorldListEntry) | undefined;
+        static access$000(arg0: $WorldSelectionList): $Minecraft;
         getScreen(): $SelectWorldScreen;
-        updateFilter(arg0: string): void;
+        setSelected(selected: $WorldSelectionList$Entry | null): void;
+        updateFilter(filter: string): void;
+        getSelectedOpt(): ($WorldSelectionList$WorldListEntry) | undefined;
         reloadWorldList(): void;
         minecraft: $Minecraft;
         static DATE_FORMAT: $DateTimeFormatter;
@@ -134,10 +134,10 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         headerHeight: number;
         hovered: $WorldSelectionList$Entry;
         static JOIN_SPRITE: $ResourceLocation;
-        constructor(arg0: $SelectWorldScreen, arg1: $Minecraft, arg2: number, arg3: number, arg4: number, arg5: number, arg6: string, arg7: $WorldSelectionList);
-        set selected(value: $WorldSelectionList$Entry);
-        get selectedOpt(): ($WorldSelectionList$WorldListEntry) | undefined;
+        constructor(screen: $SelectWorldScreen, minecraft: $Minecraft, width: number, height: number, y: number, itemHeight: number, filter: string, worlds: $WorldSelectionList | null);
         get screen(): $SelectWorldScreen;
+        set selected(value: $WorldSelectionList$Entry | null);
+        get selectedOpt(): ($WorldSelectionList$WorldListEntry) | undefined;
     }
     export class $WorldCreationContext$OptionsModifier {
     }
@@ -148,10 +148,10 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
      */
     export type $WorldCreationContext$OptionsModifier_ = (() => void);
     export class $SwitchGrid$SwitchBuilder {
-        build(arg0: $SwitchGrid$Builder, arg1: $GridLayout, arg2: number): $SwitchGrid$LabeledSwitch;
-        withInfo(arg0: $Component_): $SwitchGrid$SwitchBuilder;
-        withIsActiveCondition(arg0: $BooleanSupplier_): $SwitchGrid$SwitchBuilder;
-        constructor(arg0: $Component_, arg1: $BooleanSupplier_, arg2: $Consumer_<boolean>, arg3: number);
+        build(builder: $SwitchGrid$Builder, gridLayout: $GridLayout, column: number): $SwitchGrid$LabeledSwitch;
+        withInfo(info: $Component_): $SwitchGrid$SwitchBuilder;
+        withIsActiveCondition(isActiveCondition: $BooleanSupplier_): $SwitchGrid$SwitchBuilder;
+        constructor(label: $Component_, stateSupplier: $BooleanSupplier_, onClicked: $Consumer_<boolean>, buttonWidth: number);
     }
     export class $EditGameRulesScreen$BooleanRuleEntry extends $EditGameRulesScreen$GameRuleEntry {
         this$0: $EditGameRulesScreen;
@@ -170,11 +170,11 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
          * @deprecated
          */
         list: $AbstractSelectionList<$WorldSelectionList$Entry>;
-        constructor(arg0: $Minecraft);
+        constructor(minecraft: $Minecraft);
     }
     export class $ExperimentsScreen extends $Screen {
-        static getHumanReadableTitle(arg0: $Pack): $Component;
         onDone(): void;
+        static getHumanReadableTitle(pack: $Pack): $Component;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -197,11 +197,11 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $PackRepository, arg2: $Consumer_<$PackRepository>);
+        constructor(parent: $Screen, packRepository: $PackRepository, output: $Consumer_<$PackRepository>);
     }
     export class $EditWorldScreen extends $Screen {
-        static create(arg0: $Minecraft, arg1: $LevelStorageSource$LevelStorageAccess, arg2: $BooleanConsumer_): $EditWorldScreen;
-        static makeBackupAndShowToast(arg0: $LevelStorageSource$LevelStorageAccess): boolean;
+        static create(minecraft: $Minecraft, levelAccess: $LevelStorageSource$LevelStorageAccess, callback: $BooleanConsumer_): $EditWorldScreen;
+        static makeBackupAndShowToast(levelAccess: $LevelStorageSource$LevelStorageAccess): boolean;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -224,16 +224,16 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         layout: $GridLayout;
     }
     export class $WorldOpenFlows {
-        openWorld(arg0: string, arg1: $Runnable_): void;
-        createFreshLevel(arg0: string, arg1: $LevelSettings, arg2: $WorldOptions, arg3: $Function_<$RegistryAccess, $WorldDimensions>, arg4: $Screen): void;
-        static confirmWorldCreation(arg0: $Minecraft, arg1: $CreateWorldScreen, arg2: $Lifecycle, arg3: $Runnable_, arg4: boolean): void;
-        recreateWorldData(arg0: $LevelStorageSource$LevelStorageAccess): $Pair<$LevelSettings, $WorldCreationContext>;
-        loadWorldStem(arg0: $Dynamic<never>, arg1: boolean, arg2: $PackRepository): $WorldStem;
-        createLevelFromExistingSettings(arg0: $LevelStorageSource$LevelStorageAccess, arg1: $ReloadableServerResources, arg2: $LayeredRegistryAccess<$RegistryLayer_>, arg3: $WorldData): void;
-        constructor(arg0: $Minecraft, arg1: $LevelStorageSource);
+        createFreshLevel(levelName: string, levelSettings: $LevelSettings, worldOptions: $WorldOptions, dimensionGetter: $Function_<$RegistryAccess, $WorldDimensions>, lastScreen: $Screen): void;
+        openWorld(worldName: string, onFail: $Runnable_): void;
+        loadWorldStem(dynamic: $Dynamic<never>, safeMode: boolean, packRepository: $PackRepository): $WorldStem;
+        recreateWorldData(levelStorage: $LevelStorageSource$LevelStorageAccess): $Pair<$LevelSettings, $WorldCreationContext>;
+        createLevelFromExistingSettings(levelStorage: $LevelStorageSource$LevelStorageAccess, resources: $ReloadableServerResources, registries: $LayeredRegistryAccess<$RegistryLayer_>, worldData: $WorldData): void;
+        static confirmWorldCreation(minecraft: $Minecraft, screen: $CreateWorldScreen, lifecycle: $Lifecycle, loadWorld: $Runnable_, skipWarnings: boolean): void;
+        constructor(minecraft: $Minecraft, levelSource: $LevelStorageSource);
     }
     export class $OptimizeWorldScreen extends $Screen {
-        static create(arg0: $Minecraft, arg1: $BooleanConsumer_, arg2: $DataFixer, arg3: $LevelStorageSource$LevelStorageAccess, arg4: boolean): $OptimizeWorldScreen;
+        static create(minecraft: $Minecraft, callback: $BooleanConsumer_, dataFixer: $DataFixer, levelStorage: $LevelStorageSource$LevelStorageAccess, eraseCache: boolean): $OptimizeWorldScreen;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -254,11 +254,14 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
     }
     export class $WorldSelectionList$WorldListEntry extends $WorldSelectionList$Entry implements $AutoCloseable {
         getLevelName(): string;
+        editWorld(): void;
+        joinWorld(): void;
         deleteWorld(): void;
         recreateWorld(): void;
         doDeleteWorld(): void;
-        editWorld(): void;
-        joinWorld(): void;
+        /**
+         * @return `true` if the GUI element is focused, `false` otherwise
+         */
         canJoin(): boolean;
         summary: $LevelSummary;
         this$0: $WorldSelectionList;
@@ -266,7 +269,7 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
          * @deprecated
          */
         list: $AbstractSelectionList<$WorldSelectionList$Entry>;
-        constructor(arg0: $WorldSelectionList, arg1: $WorldSelectionList, arg2: $LevelSummary);
+        constructor(worldSelectionList: $WorldSelectionList, summary: $WorldSelectionList, arg2: $LevelSummary);
         get levelName(): string;
     }
     export class $EditGameRulesScreen$CategoryRuleEntry extends $EditGameRulesScreen$RuleEntry {
@@ -277,10 +280,10 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
          * @deprecated
          */
         list: $AbstractSelectionList<$EditGameRulesScreen$RuleEntry>;
-        constructor(arg0: $EditGameRulesScreen, arg1: $Component_);
+        constructor(label: $EditGameRulesScreen, arg1: $Component_);
     }
     export class $EditGameRulesScreen$GameRuleEntry extends $EditGameRulesScreen$RuleEntry {
-        renderLabel(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        renderLabel(guiGraphics: $GuiGraphics, x: number, y: number): void;
         this$0: $EditGameRulesScreen;
         tooltip: $List<$FormattedCharSequence>;
         label: $List<$FormattedCharSequence>;
@@ -314,18 +317,18 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         validate(): void;
         options(): $WorldOptions;
         dataPackResources(): $ReloadableServerResources;
-        selectedDimensions(): $WorldDimensions;
-        withSettings(arg0: $WorldOptions, arg1: $WorldDimensions_): $WorldCreationContext;
-        worldgenRegistries(): $LayeredRegistryAccess<$RegistryLayer>;
-        withDimensions(arg0: $WorldCreationContext$DimensionsUpdater_): $WorldCreationContext;
-        withOptions(arg0: $WorldCreationContext$OptionsModifier_): $WorldCreationContext;
-        datapackDimensions(): $Registry<$LevelStem>;
-        dataConfiguration(): $WorldDataConfiguration;
-        worldgenLoadContext(): $RegistryAccess$Frozen;
+        withOptions(optionsModifier: $WorldCreationContext$OptionsModifier_): $WorldCreationContext;
         withDataConfiguration(arg0: $WorldDataConfiguration_): $WorldCreationContext;
+        worldgenLoadContext(): $RegistryAccess$Frozen;
+        dataConfiguration(): $WorldDataConfiguration;
+        datapackDimensions(): $Registry<$LevelStem>;
+        withDimensions(dimensionsUpdater: $WorldCreationContext$DimensionsUpdater_): $WorldCreationContext;
+        worldgenRegistries(): $LayeredRegistryAccess<$RegistryLayer>;
+        selectedDimensions(): $WorldDimensions;
+        withSettings(options: $WorldOptions, selectedDimensions: $WorldDimensions_): $WorldCreationContext;
         constructor(options: $WorldOptions, datapackDimensions: $Registry<$LevelStem_>, selectedDimensions: $WorldDimensions_, worldgenRegistries: $LayeredRegistryAccess<$RegistryLayer_>, dataPackResources: $ReloadableServerResources, dataConfiguration: $WorldDataConfiguration_);
-        constructor(arg0: $WorldOptions, arg1: $WorldDimensions_, arg2: $LayeredRegistryAccess<$RegistryLayer_>, arg3: $ReloadableServerResources, arg4: $WorldDataConfiguration_);
-        constructor(arg0: $WorldGenSettings_, arg1: $LayeredRegistryAccess<$RegistryLayer_>, arg2: $ReloadableServerResources, arg3: $WorldDataConfiguration_);
+        constructor(options: $WorldOptions, selectedDimensions: $WorldDimensions_, worldGenRegistries: $LayeredRegistryAccess<$RegistryLayer_>, dataPackResources: $ReloadableServerResources, dataConfiguration: $WorldDataConfiguration_);
+        constructor(worldGenSettings: $WorldGenSettings_, worldGenRegistries: $LayeredRegistryAccess<$RegistryLayer_>, dataPackResources: $ReloadableServerResources, dataConfiguration: $WorldDataConfiguration_);
     }
     export class $ConfirmExperimentalFeaturesScreen$DetailsScreen$PackListEntry extends $ObjectSelectionList$Entry<$ConfirmExperimentalFeaturesScreen$DetailsScreen$PackListEntry> {
         /**
@@ -344,57 +347,57 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
      */
     export type $WorldCreationContext$DimensionsUpdater_ = (() => void);
     export class $SwitchGrid$Builder {
-        build(arg0: $Consumer_<$LayoutElement>): $SwitchGrid;
-        withInfoUnderneath(arg0: number, arg1: boolean): $SwitchGrid$Builder;
-        withRowSpacing(arg0: number): $SwitchGrid$Builder;
-        withPaddingLeft(arg0: number): $SwitchGrid$Builder;
+        build(consumer: $Consumer_<$LayoutElement>): $SwitchGrid;
+        withRowSpacing(paddingLeft: number): $SwitchGrid$Builder;
+        withInfoUnderneath(maxInfoRows: number, alwaysMaxHeight: boolean): $SwitchGrid$Builder;
+        withPaddingLeft(paddingLeft: number): $SwitchGrid$Builder;
         increaseRow(): void;
-        addSwitch(arg0: $Component_, arg1: $BooleanSupplier_, arg2: $Consumer_<boolean>): $SwitchGrid$SwitchBuilder;
+        addSwitch(label: $Component_, stateSupplier: $BooleanSupplier_, onClicked: $Consumer_<boolean>): $SwitchGrid$SwitchBuilder;
         infoUnderneath: ($SwitchGrid$InfoUnderneathSettings) | undefined;
         width: number;
         rowCount: number;
         rowSpacing: number;
         paddingLeft: number;
-        constructor(arg0: number);
+        constructor(width: number);
     }
     export class $WorldCreationUiState {
         getName(): string;
-        setName(arg0: string): void;
+        setName(name: string): void;
         isDebug(): boolean;
-        setSeed(arg0: string): void;
+        setSeed(name: string): void;
         getSeed(): string;
-        setSettings(arg0: $WorldCreationContext_): void;
+        setSettings(settings: $WorldCreationContext_): void;
         getSettings(): $WorldCreationContext;
-        setGameMode(arg0: $WorldCreationUiState$SelectedGameMode_): void;
-        addListener(arg0: $Consumer_<$WorldCreationUiState>): void;
-        onChanged(): void;
-        setAllowCommands(arg0: boolean): void;
-        getTargetFolder(): string;
-        getGameRules(): $GameRules;
-        getDifficulty(): $Difficulty;
-        isHardcore(): boolean;
-        setDifficulty(arg0: $Difficulty_): void;
+        addListener(listener: $Consumer_<$WorldCreationUiState>): void;
         isAllowCommands(): boolean;
-        getGameMode(): $WorldCreationUiState$SelectedGameMode;
-        updateDimensions(arg0: $WorldCreationContext$DimensionsUpdater_): void;
-        tryUpdateDataConfiguration(arg0: $WorldDataConfiguration_): boolean;
+        setDifficulty(difficulty: $Difficulty_): void;
+        setGameMode(gameMode: $WorldCreationUiState$SelectedGameMode_): void;
+        isHardcore(): boolean;
         getWorldType(): $WorldCreationUiState$WorldTypeEntry;
-        setGameRules(arg0: $GameRules): void;
-        setWorldType(arg0: $WorldCreationUiState$WorldTypeEntry_): void;
-        getAltPresetList(): $List<$WorldCreationUiState$WorldTypeEntry>;
-        setBonusChest(arg0: boolean): void;
-        isBonusChest(): boolean;
-        getPresetEditor(): $PresetEditor;
-        getNormalPresetList(): $List<$WorldCreationUiState$WorldTypeEntry>;
+        onChanged(): void;
+        getDifficulty(): $Difficulty;
+        getGameRules(): $GameRules;
+        tryUpdateDataConfiguration(worldDataConfiguration: $WorldDataConfiguration_): boolean;
+        updateDimensions(dimensionsUpdater: $WorldCreationContext$DimensionsUpdater_): void;
+        getGameMode(): $WorldCreationUiState$SelectedGameMode;
+        setAllowCommands(allowCommands: boolean): void;
+        getTargetFolder(): string;
         isGenerateStructures(): boolean;
-        setGenerateStructures(arg0: boolean): void;
-        constructor(arg0: $Path_, arg1: $WorldCreationContext_, arg2: ($ResourceKey_<$WorldPreset>) | undefined, arg3: $OptionalLong);
+        setGenerateStructures(allowCommands: boolean): void;
+        getNormalPresetList(): $List<$WorldCreationUiState$WorldTypeEntry>;
+        getAltPresetList(): $List<$WorldCreationUiState$WorldTypeEntry>;
+        getPresetEditor(): $PresetEditor;
+        setGameRules(gameRules: $GameRules): void;
+        setBonusChest(allowCommands: boolean): void;
+        setWorldType(worldType: $WorldCreationUiState$WorldTypeEntry_): void;
+        isBonusChest(): boolean;
+        constructor(savesFolder: $Path_, settings: $WorldCreationContext_, preset: ($ResourceKey_<$WorldPreset>) | undefined, seed: $OptionalLong);
         get debug(): boolean;
-        get targetFolder(): string;
         get hardcore(): boolean;
+        get targetFolder(): string;
+        get normalPresetList(): $List<$WorldCreationUiState$WorldTypeEntry>;
         get altPresetList(): $List<$WorldCreationUiState$WorldTypeEntry>;
         get presetEditor(): $PresetEditor;
-        get normalPresetList(): $List<$WorldCreationUiState$WorldTypeEntry>;
     }
     export class $EditGameRulesScreen$RuleEntry extends $ContainerObjectSelectionList$Entry<$EditGameRulesScreen$RuleEntry> {
         tooltip: $List<$FormattedCharSequence>;
@@ -402,7 +405,7 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
          * @deprecated
          */
         list: $AbstractSelectionList<$EditGameRulesScreen$RuleEntry>;
-        constructor(arg0: $List_<$FormattedCharSequence_>);
+        constructor(tooltip: $List_<$FormattedCharSequence_> | null);
     }
     export class $WorldSelectionList$Entry extends $ObjectSelectionList$Entry<$WorldSelectionList$Entry> implements $AutoCloseable {
         close(): void;
@@ -413,7 +416,7 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         constructor();
     }
     export class $SelectWorldScreen extends $Screen {
-        updateButtonStatus(arg0: $LevelSummary): void;
+        updateButtonStatus(levelSummary: $LevelSummary | null): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static TEST_OPTIONS: $WorldOptions;
@@ -434,7 +437,7 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen);
+        constructor(lastScreen: $Screen);
     }
     export class $EditGameRulesScreen$RuleList extends $ContainerObjectSelectionList<$EditGameRulesScreen$RuleEntry> {
         minecraft: $Minecraft;
@@ -456,7 +459,7 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         headerHeight: number;
         hovered: $EditGameRulesScreen$RuleEntry;
         height: number;
-        constructor(arg0: $EditGameRulesScreen, arg1: $GameRules);
+        constructor(gameRules: $EditGameRulesScreen, arg1: $GameRules);
     }
     export class $ConfirmExperimentalFeaturesScreen$DetailsScreen$PackList extends $ObjectSelectionList<$ConfirmExperimentalFeaturesScreen$DetailsScreen$PackListEntry> {
         minecraft: $Minecraft;
@@ -480,9 +483,9 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
     }
     export class $WorldCreationUiState$WorldTypeEntry extends $Record {
         preset(): $Holder<$WorldPreset>;
-        isAmplified(): boolean;
         describePreset(): $Component;
-        constructor(preset: $Holder_<$WorldPreset>);
+        isAmplified(): boolean;
+        constructor(preset: $Holder_<$WorldPreset> | null);
         get amplified(): boolean;
     }
     export class $SwitchGrid$LabeledSwitch extends $Record {
@@ -508,7 +511,7 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Collection_<$Pack>, arg1: $BooleanConsumer_);
+        constructor(enabledPacks: $Collection_<$Pack>, callback: $BooleanConsumer_);
     }
     export class $CreateWorldScreen$WorldTab extends $GridLayoutTab {
         layout: $GridLayout;
@@ -539,21 +542,21 @@ declare module "@package/net/minecraft/client/gui/screens/worldselection" {
      */
     export type $WorldCreationUiState$SelectedGameMode_ = "survival" | "hardcore" | "creative" | "debug";
     export class $CreateWorldScreen extends $Screen {
+        static access$500(arg0: $CreateWorldScreen): $Font;
+        static access$700(arg0: $CreateWorldScreen): $Minecraft;
+        static access$400(arg0: $CreateWorldScreen): $Minecraft;
+        static access$600(arg0: $CreateWorldScreen): $Font;
+        static access$100(arg0: $CreateWorldScreen, arg1: $GuiEventListener): void;
         static access$000(arg0: $CreateWorldScreen): $Font;
         static access$200(arg0: $CreateWorldScreen): $Font;
         static access$300(arg0: $CreateWorldScreen): $Minecraft;
-        static access$100(arg0: $CreateWorldScreen, arg1: $GuiEventListener): void;
-        static access$700(arg0: $CreateWorldScreen): $Minecraft;
-        static access$500(arg0: $CreateWorldScreen): $Font;
-        static access$400(arg0: $CreateWorldScreen): $Minecraft;
-        static access$600(arg0: $CreateWorldScreen): $Font;
-        static createTempDataPackDirFromExistingWorld(arg0: $Path_, arg1: $Minecraft): $Path;
-        static createFromExisting(arg0: $Minecraft, arg1: $Screen, arg2: $LevelSettings, arg3: $WorldCreationContext_, arg4: $Path_): $CreateWorldScreen;
-        openDataPackSelectionScreen(arg0: $WorldDataConfiguration_): void;
+        openExperimentsScreen(worldDataConfiguration: $WorldDataConfiguration_): void;
         getUiState(): $WorldCreationUiState;
+        static openFresh(minecraft: $Minecraft, lastScreen: $Screen | null): void;
         popScreen(): void;
-        static openFresh(arg0: $Minecraft, arg1: $Screen): void;
-        openExperimentsScreen(arg0: $WorldDataConfiguration_): void;
+        static createTempDataPackDirFromExistingWorld(datapackDir: $Path_, minecraft: $Minecraft): $Path;
+        static createFromExisting(minecraft: $Minecraft, lastScreen: $Screen | null, levelSettings: $LevelSettings, settings: $WorldCreationContext_, tempDataPackDir: $Path_ | null): $CreateWorldScreen;
+        openDataPackSelectionScreen(worldDataConfiguration: $WorldDataConfiguration_): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static GAME_MODEL_LABEL: $Component;

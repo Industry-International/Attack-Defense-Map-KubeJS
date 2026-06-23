@@ -17,8 +17,8 @@ declare module "@package/dev/aika/taczjs/neoforge/events/index" {
         get POJO(): $Object;
     }
     export class $GunIndexLoadEvent extends $AbstractIndexLoadEvent {
-        getPOJO(): $Object;
         removeGun(): void;
+        getPOJO(): $Object;
         constructor(id: $ResourceLocation_, json: $JsonElement_);
         get POJO(): $Object;
     }

@@ -47,24 +47,24 @@ declare module "@package/mezz/jei/api/recipe/transfer" {
     }
     export interface $IRecipeTransferHandlerHelper {
         createUnregisteredRecipeTransferHandler<C extends $AbstractContainerMenu, R>(arg0: $IRecipeTransferInfo<C, R>): $IRecipeTransferHandler<C, R>;
-        createUserErrorWithTooltip(arg0: $Component_): $IRecipeTransferError;
-        createInternalError(): $IRecipeTransferError;
-        createRecipeSlotsView(arg0: $List_<$IRecipeSlotView>): $IRecipeSlotsView;
         createBasicRecipeTransferInfo<C extends $AbstractContainerMenu, R>(arg0: $Class<C>, arg1: $MenuType_<C>, arg2: $RecipeType<R>, arg3: number, arg4: number, arg5: number, arg6: number): $IRecipeTransferInfo<C, R>;
-        recipeTransferHasServerSupport(): boolean;
-        createUserErrorForMissingSlots(arg0: $Component_, arg1: $Collection_<$IRecipeSlotView>): $IRecipeTransferError;
         getGuiSlotIndexToIngredientMap(arg0: $RecipeHolder_<$CraftingRecipe>): $Map<number, $Ingredient>;
+        createUserErrorForMissingSlots(arg0: $Component_, arg1: $Collection_<$IRecipeSlotView>): $IRecipeTransferError;
+        recipeTransferHasServerSupport(): boolean;
+        createInternalError(): $IRecipeTransferError;
+        createUserErrorWithTooltip(arg0: $Component_): $IRecipeTransferError;
+        createRecipeSlotsView(arg0: $List_<$IRecipeSlotView>): $IRecipeSlotsView;
     }
     export class $IRecipeTransferHandler<C extends $AbstractContainerMenu, R> {
     }
     export interface $IRecipeTransferHandler<C extends $AbstractContainerMenu, R> {
-        getRecipeType(): $RecipeType<R>;
         getMenuType(): ($MenuType<C>) | undefined;
-        getContainerClass(): $Class<C>;
         transferRecipe(arg0: C, arg1: R, arg2: $IRecipeSlotsView_, arg3: $Player, arg4: boolean, arg5: boolean): $IRecipeTransferError;
-        get recipeType(): $RecipeType<R>;
+        getContainerClass(): $Class<C>;
+        getRecipeType(): $RecipeType<R>;
         get menuType(): ($MenuType<C>) | undefined;
         get containerClass(): $Class<C>;
+        get recipeType(): $RecipeType<R>;
     }
     export class $IRecipeTransferManager {
     }
@@ -79,24 +79,24 @@ declare module "@package/mezz/jei/api/recipe/transfer" {
     }
     export interface $IUniversalRecipeTransferHandler<C extends $AbstractContainerMenu> {
         getMenuType(): ($MenuType<C>) | undefined;
-        getContainerClass(): $Class<C>;
         transferRecipe(arg0: C, arg1: $Object, arg2: $IRecipeSlotsView_, arg3: $Player, arg4: boolean, arg5: boolean): $IRecipeTransferError;
+        getContainerClass(): $Class<C>;
         get menuType(): ($MenuType<C>) | undefined;
         get containerClass(): $Class<C>;
     }
     export class $IRecipeTransferInfo<C extends $AbstractContainerMenu, R> {
     }
     export interface $IRecipeTransferInfo<C extends $AbstractContainerMenu, R> {
-        getRecipeType(): $RecipeType<R>;
+        getInventorySlots(arg0: C, arg1: R): $List<$Slot>;
         getMenuType(): ($MenuType<C>) | undefined;
         getContainerClass(): $Class<C>;
         getRecipeSlots(arg0: C, arg1: R): $List<$Slot>;
+        getRecipeType(): $RecipeType<R>;
+        requireCompleteSets(arg0: C, arg1: R): boolean;
         canHandle(arg0: C, arg1: R): boolean;
         getHandlingError(arg0: C, arg1: R): $IRecipeTransferError;
-        getInventorySlots(arg0: C, arg1: R): $List<$Slot>;
-        requireCompleteSets(arg0: C, arg1: R): boolean;
-        get recipeType(): $RecipeType<R>;
         get menuType(): ($MenuType<C>) | undefined;
         get containerClass(): $Class<C>;
+        get recipeType(): $RecipeType<R>;
     }
 }

@@ -15,15 +15,15 @@ import { $AccessKeyBindsScreen, $AccessKeyBindsScreenNeoForge } from "@package/c
 
 declare module "@package/net/minecraft/client/gui/screens/options/controls" {
     export class $KeyBindsList extends $ContainerObjectSelectionList<$KeyBindsList$Entry> {
-        static access$000(arg0: $KeyBindsList): $Minecraft;
-        static access$200(arg0: $KeyBindsList): number;
-        static access$300(arg0: $KeyBindsList): number;
-        static access$100(arg0: $KeyBindsList): $Minecraft;
         static access$500(arg0: $KeyBindsList): $Minecraft;
         static access$400(arg0: $KeyBindsList): $Minecraft;
         static access$600(arg0: $KeyBindsList): $Minecraft;
-        resetMappingAndUpdateButtons(): void;
+        static access$100(arg0: $KeyBindsList): $Minecraft;
+        static access$000(arg0: $KeyBindsList): $Minecraft;
+        static access$200(arg0: $KeyBindsList): number;
+        static access$300(arg0: $KeyBindsList): number;
         refreshEntries(): void;
+        resetMappingAndUpdateButtons(): void;
         minecraft: $Minecraft;
         static SCROLLER_BACKGROUND_SPRITE: $ResourceLocation;
         visible: boolean;
@@ -43,7 +43,7 @@ declare module "@package/net/minecraft/client/gui/screens/options/controls" {
         headerHeight: number;
         hovered: $KeyBindsList$Entry;
         height: number;
-        constructor(arg0: $KeyBindsScreen, arg1: $Minecraft);
+        constructor(keyBindsScreen: $KeyBindsScreen, minecraft: $Minecraft);
     }
     export class $KeyBindsList$Entry extends $ContainerObjectSelectionList$Entry<$KeyBindsList$Entry> {
         refreshEntry(): void;
@@ -75,7 +75,7 @@ declare module "@package/net/minecraft/client/gui/screens/options/controls" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $KeyBindsList$CategoryEntry extends $KeyBindsList$Entry {
         this$0: $KeyBindsList;
@@ -84,7 +84,7 @@ declare module "@package/net/minecraft/client/gui/screens/options/controls" {
          * @deprecated
          */
         list: $AbstractSelectionList<$KeyBindsList$Entry>;
-        constructor(arg0: $KeyBindsList, arg1: $Component_);
+        constructor(name: $KeyBindsList, arg1: $Component_);
     }
     export class $KeyBindsList$KeyEntry extends $KeyBindsList$Entry {
         this$0: $KeyBindsList;
@@ -92,21 +92,33 @@ declare module "@package/net/minecraft/client/gui/screens/options/controls" {
          * @deprecated
          */
         list: $AbstractSelectionList<$KeyBindsList$Entry>;
-        constructor(arg0: $KeyBindsList, arg1: $KeyMapping, arg2: $Component_);
+        constructor(key: $KeyBindsList, name: $KeyMapping, arg2: $Component_);
     }
     export class $KeyBindsScreen extends $OptionsSubScreen implements $AccessKeyBindsScreen, $AccessKeyBindsScreenNeoForge {
+        setLastPressedModifier(arg0: $InputConstants$Key): void;
+        /**
+         * Sets the focus state of the GUI element.
+         */
+        setIsLastModifierHeldDown(focused: boolean): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        isIsLastKeyHeldDown(): boolean;
+        /**
+         * Sets the focus state of the GUI element.
+         */
+        setIsLastKeyHeldDown(focused: boolean): void;
+        getLastPressedModifier(): $InputConstants$Key;
+        controlling$getResetButton(): $Button;
+        controlling$setResetButton(arg0: $Button): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        isIsLastModifierHeldDown(): boolean;
+        setLastPressedKey(arg0: $InputConstants$Key): void;
+        getLastPressedKey(): $InputConstants$Key;
         controlling$setKeyBindsList(arg0: $KeyBindsList): void;
         controlling$getKeyBindsList(): $KeyBindsList;
-        setIsLastModifierHeldDown(arg0: boolean): void;
-        getLastPressedModifier(): $InputConstants$Key;
-        setLastPressedModifier(arg0: $InputConstants$Key): void;
-        controlling$setResetButton(arg0: $Button): void;
-        isIsLastKeyHeldDown(): boolean;
-        controlling$getResetButton(): $Button;
-        setIsLastKeyHeldDown(arg0: boolean): void;
-        isIsLastModifierHeldDown(): boolean;
-        getLastPressedKey(): $InputConstants$Key;
-        setLastPressedKey(arg0: $InputConstants$Key): void;
         selectedKey: $KeyMapping;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -130,6 +142,6 @@ declare module "@package/net/minecraft/client/gui/screens/options/controls" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
 }

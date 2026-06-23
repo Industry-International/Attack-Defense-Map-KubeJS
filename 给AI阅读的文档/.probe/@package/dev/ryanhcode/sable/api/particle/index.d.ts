@@ -4,9 +4,9 @@ declare module "@package/dev/ryanhcode/sable/api/particle" {
     export class $ParticleSubLevelKickable {
     }
     export interface $ParticleSubLevelKickable {
-        sable$getUpDirection(): $Vector3dc;
         sable$shouldKickFromTracking(): boolean;
-        sable$shouldCareAboutIntersectingSubLevels(): boolean;
+        sable$getUpDirection(): $Vector3dc;
         sable$shouldCollideWithTrackingSubLevel(): boolean;
+        sable$shouldCareAboutIntersectingSubLevels(): boolean;
     }
 }

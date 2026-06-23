@@ -13,11 +13,11 @@ declare module "@package/net/minecraft/client/main" {
         singleplayer(): string;
         multiplayer(): string;
         realms(): string;
-        constructor(arg0: string, arg1: string, arg2: string, arg3: string);
+        constructor(arg0: string | null, arg1: string | null, arg2: string | null, arg3: string | null);
         get enabled(): boolean;
     }
     export class $Main {
-        static main(arg0: string[]): void;
+        static main(args: string[]): void;
         constructor();
     }
     export class $GameConfig$UserData {
@@ -25,7 +25,7 @@ declare module "@package/net/minecraft/client/main" {
         userProperties: $PropertyMap;
         profileProperties: $PropertyMap;
         user: $User;
-        constructor(arg0: $User, arg1: $PropertyMap, arg2: $PropertyMap, arg3: $Proxy);
+        constructor(user: $User, userProperties: $PropertyMap, profileProperties: $PropertyMap, proxy: $Proxy);
     }
     export class $GameConfig$GameData {
         versionType: string;
@@ -33,7 +33,7 @@ declare module "@package/net/minecraft/client/main" {
         disableMultiplayer: boolean;
         launchVersion: string;
         demo: boolean;
-        constructor(arg0: boolean, arg1: string, arg2: string, arg3: boolean, arg4: boolean);
+        constructor(demo: boolean, launchVersion: string, versionType: string, disableMultiplayer: boolean, disableChat: boolean);
     }
     export class $GameConfig {
         game: $GameConfig$GameData;
@@ -41,7 +41,7 @@ declare module "@package/net/minecraft/client/main" {
         quickPlay: $GameConfig$QuickPlayData;
         location: $GameConfig$FolderData;
         user: $GameConfig$UserData;
-        constructor(arg0: $GameConfig$UserData, arg1: $DisplayData, arg2: $GameConfig$FolderData, arg3: $GameConfig$GameData, arg4: $GameConfig$QuickPlayData_);
+        constructor(user: $GameConfig$UserData, display: $DisplayData, location: $GameConfig$FolderData, game: $GameConfig$GameData, quickPlay: $GameConfig$QuickPlayData_);
     }
     export class $GameConfig$FolderData {
         getExternalAssetSource(): $Path;
@@ -49,11 +49,11 @@ declare module "@package/net/minecraft/client/main" {
         assetIndex: string;
         assetDirectory: $File;
         resourcePackDirectory: $File;
-        constructor(arg0: $File_, arg1: $File_, arg2: $File_, arg3: string);
+        constructor(gameDirectory: $File_, resourcePackDirectory: $File_, assetDirectory: $File_, assetIndex: string | null);
         get externalAssetSource(): $Path;
     }
     export class $SilentInitException extends $RuntimeException {
-        constructor(arg0: string);
-        constructor(arg0: string, arg1: $Throwable);
+        constructor(message: string);
+        constructor(message: string, cause: $Throwable);
     }
 }

@@ -9,30 +9,30 @@ declare module "@package/xaero/lib/client/gui/config/context" {
     }
     export interface $IEditConfigScreenContext {
         reset(arg0: $ConfigChannel): void;
-        profileExists(arg0: string, arg1: $ConfigChannel): boolean;
-        getCurrentProfile(arg0: $ConfigChannel): $ConfigProfile;
-        confirmProfile(arg0: $ConfigProfile, arg1: $ConfigChannel): void;
-        getSyncMessage(): $Component;
-        getSyncStatus(arg0: $ConfigChannel): boolean;
-        getEnforcedConfig(arg0: $ConfigChannel): $Config;
-        getProfiles(arg0: $ConfigChannel): $Iterable<$IConfigProfileInfo>;
-        setCurrentProfile(arg0: string, arg1: $ConfigChannel): void;
-        isAutoConfirm(): boolean;
+        deleteProfile(arg0: $ConfigProfile, arg1: $ConfigChannel): void;
         hasPermission(arg0: $ConfigChannel): boolean;
         isClientSide(): boolean;
+        getCurrentProfile(arg0: $ConfigChannel): $ConfigProfile;
         createProfile(arg0: string, arg1: string, arg2: $ConfigChannel, arg3: string): void;
-        getScreenTitleFormat(): string;
-        setDefaultProfileId(arg0: string, arg1: $ConfigChannel): void;
-        getDefaultProfileId(arg0: $ConfigChannel): string;
         getSelectedProfileId(arg0: $ConfigChannel): string;
-        isAutoDefaultProfile(): boolean;
         getDropdownNarration(): $Component;
-        deleteProfile(arg0: $ConfigProfile, arg1: $ConfigChannel): void;
-        get syncMessage(): $Component;
-        get autoConfirm(): boolean;
+        setDefaultProfileId(arg0: string, arg1: $ConfigChannel): void;
+        isAutoDefaultProfile(): boolean;
+        getScreenTitleFormat(): string;
+        getDefaultProfileId(arg0: $ConfigChannel): string;
+        getProfiles(arg0: $ConfigChannel): $Iterable<$IConfigProfileInfo>;
+        isAutoConfirm(): boolean;
+        getSyncStatus(arg0: $ConfigChannel): boolean;
+        setCurrentProfile(arg0: string, arg1: $ConfigChannel): void;
+        getSyncMessage(): $Component;
+        confirmProfile(arg0: $ConfigProfile, arg1: $ConfigChannel): void;
+        getEnforcedConfig(arg0: $ConfigChannel): $Config;
+        profileExists(arg0: string, arg1: $ConfigChannel): boolean;
         get clientSide(): boolean;
-        get screenTitleFormat(): string;
-        get autoDefaultProfile(): boolean;
         get dropdownNarration(): $Component;
+        get autoDefaultProfile(): boolean;
+        get screenTitleFormat(): string;
+        get autoConfirm(): boolean;
+        get syncMessage(): $Component;
     }
 }

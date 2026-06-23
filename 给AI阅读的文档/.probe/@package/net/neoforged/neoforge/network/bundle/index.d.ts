@@ -8,12 +8,15 @@ import { $ClientCommonPacketListener } from "@package/net/minecraft/network/prot
 
 declare module "@package/net/neoforged/neoforge/network/bundle" {
     export class $PacketAndPayloadAcceptor<L extends $ClientCommonPacketListener> {
-        accept(arg0: $Packet<L>): $PacketAndPayloadAcceptor<L>;
-        accept(arg0: $CustomPacketPayload_): $PacketAndPayloadAcceptor<L>;
+        accept(packet: $Packet<L>): $PacketAndPayloadAcceptor<L>;
+        accept(payload: $CustomPacketPayload_): $PacketAndPayloadAcceptor<L>;
         consumer: $Consumer<$Packet<L>>;
-        constructor(arg0: $Consumer_<$Packet<L>>);
+        constructor(consumer: $Consumer_<$Packet<L>>);
     }
+    /**
+     * Utility class for dealing with `BundlePacket`s.
+     */
     export class $BundlePacketUtils {
-        static flatten<T extends $PacketListener>(arg0: $Iterable_<$Packet<T>>): $List<$Packet<T>>;
+        static flatten<T extends $PacketListener>(packets: $Iterable_<$Packet<T>>): $List<$Packet<T>>;
     }
 }

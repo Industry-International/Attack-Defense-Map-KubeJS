@@ -12,9 +12,9 @@ declare module "@package/top/theillusivec4/curios/api/type/inventory" {
     }
     export interface $IDynamicStackHandler extends $IItemHandlerModifiable {
         grow(arg0: number): void;
-        shrink(arg0: number): void;
-        getSlots(): number;
         getStackInSlot(arg0: number): $ItemStack;
+        getSlots(): number;
+        shrink(arg0: number): void;
         setPreviousStackInSlot(arg0: number, arg1: $ItemStack_): void;
         getPreviousStackInSlot(arg0: number): $ItemStack;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
@@ -25,6 +25,19 @@ declare module "@package/top/theillusivec4/curios/api/type/inventory" {
     export class $ICurioStacksHandler {
     }
     export interface $ICurioStacksHandler {
+        getActiveStates(): $NonNullList<boolean>;
+        /**
+         * @deprecated
+         */
+        getSizeShift(): number;
+        getCosmeticStacks(): $IDynamicStackHandler;
+        applySyncTag(arg0: $CompoundTag_): void;
+        canToggleRendering(): boolean;
+        hasCosmetic(): boolean;
+        getCachedModifiers(): $Set<$AttributeModifier>;
+        copyModifiers(arg0: $ICurioStacksHandler): void;
+        updateActiveState(arg0: number): void;
+        getDropRule(): $ICurio$DropRule;
         getStacks(): $IDynamicStackHandler;
         getModifiers(): $Map<$ResourceLocation, $AttributeModifier>;
         update(): void;
@@ -32,49 +45,36 @@ declare module "@package/top/theillusivec4/curios/api/type/inventory" {
          * @deprecated
          */
         grow(arg0: number): void;
+        getSlots(): number;
         getIdentifier(): string;
+        getSyncTag(): $CompoundTag;
         /**
          * @deprecated
          */
         shrink(arg0: number): void;
-        clearModifiers(): void;
-        getSyncTag(): $CompoundTag;
-        getDropRule(): $ICurio$DropRule;
-        /**
-         * @deprecated
-         */
-        getSizeShift(): number;
-        getActiveStates(): $NonNullList<boolean>;
-        getCosmeticStacks(): $IDynamicStackHandler;
-        hasCosmetic(): boolean;
-        copyModifiers(arg0: $ICurioStacksHandler): void;
-        getCachedModifiers(): $Set<$AttributeModifier>;
-        applySyncTag(arg0: $CompoundTag_): void;
-        updateActiveState(arg0: number): void;
-        canToggleRendering(): boolean;
-        isVisible(): boolean;
-        getSlots(): number;
-        addTransientModifier(arg0: $AttributeModifier_): void;
         getPermanentModifiers(): $Set<$AttributeModifier>;
-        getModifiersByOperation(arg0: $AttributeModifier$Operation_): $Collection<$AttributeModifier>;
         clearCachedModifiers(): void;
+        getModifiersByOperation(arg0: $AttributeModifier$Operation_): $Collection<$AttributeModifier>;
+        addPermanentModifier(arg0: $AttributeModifier_): void;
         serializeNBT(): $CompoundTag;
         deserializeNBT(arg0: $CompoundTag_): void;
+        addTransientModifier(arg0: $AttributeModifier_): void;
+        isVisible(): boolean;
         removeModifier(arg0: $ResourceLocation_): void;
-        addPermanentModifier(arg0: $AttributeModifier_): void;
         getRenders(): $NonNullList<boolean>;
-        get stacks(): $IDynamicStackHandler;
-        get modifiers(): $Map<$ResourceLocation, $AttributeModifier>;
-        get identifier(): string;
-        get syncTag(): $CompoundTag;
-        get dropRule(): $ICurio$DropRule;
-        get sizeShift(): number;
+        clearModifiers(): void;
         get activeStates(): $NonNullList<boolean>;
+        get sizeShift(): number;
         get cosmeticStacks(): $IDynamicStackHandler;
         get cachedModifiers(): $Set<$AttributeModifier>;
-        get visible(): boolean;
+        get dropRule(): $ICurio$DropRule;
+        get stacks(): $IDynamicStackHandler;
+        get modifiers(): $Map<$ResourceLocation, $AttributeModifier>;
         get slots(): number;
+        get identifier(): string;
+        get syncTag(): $CompoundTag;
         get permanentModifiers(): $Set<$AttributeModifier>;
+        get visible(): boolean;
         get renders(): $NonNullList<boolean>;
     }
 }

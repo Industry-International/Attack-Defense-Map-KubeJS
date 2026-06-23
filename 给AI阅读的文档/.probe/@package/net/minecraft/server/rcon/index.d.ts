@@ -5,34 +5,70 @@ export * as thread from "@package/net/minecraft/server/rcon/thread";
 
 declare module "@package/net/minecraft/server/rcon" {
     export class $RconConsoleSource implements $CommandSource {
+        sendSystemMessage(component: $Component_): void;
+        createCommandSourceStack(): $CommandSourceStack;
         shouldInformAdmins(): boolean;
         acceptsSuccess(): boolean;
         acceptsFailure(): boolean;
-        sendSystemMessage(arg0: $Component_): void;
-        createCommandSourceStack(): $CommandSourceStack;
-        prepareForCommand(): void;
+        /**
+         * Gets the contents of the RCon log
+         */
         getCommandResponse(): string;
+        /**
+         * Clears the RCon log
+         */
+        prepareForCommand(): void;
         alwaysAccepts(): boolean;
-        constructor(arg0: $MinecraftServer);
+        constructor(server: $MinecraftServer);
         get commandResponse(): string;
     }
     export class $NetworkDataOutputStream {
+        /**
+         * Resets the byte array output.
+         */
         reset(): void;
-        write(arg0: number): void;
-        writeInt(arg0: number): void;
-        writeBytes(arg0: number[]): void;
-        writeFloat(arg0: number): void;
+        write(capacity: number): void;
+        writeInt(capacity: number): void;
+        /**
+         * Writes the given byte array to the output stream
+         */
+        writeBytes(data: number[]): void;
+        writeFloat(data: number): void;
+        /**
+         * Returns the contents of the output stream as a byte array
+         */
         toByteArray(): number[];
-        writeShort(arg0: number): void;
-        writeString(arg0: string): void;
-        constructor(arg0: number);
+        /**
+         * Writes the given short to the output stream
+         */
+        writeShort(data: number): void;
+        /**
+         * Writes the given String to the output stream
+         */
+        writeString(data: string): void;
+        constructor(capacity: number);
     }
     export class $PktUtils {
-        static toHexString(arg0: number): string;
-        static intFromNetworkByteArray(arg0: number[], arg1: number, arg2: number): number;
-        static stringFromByteArray(arg0: number[], arg1: number, arg2: number): string;
-        static intFromByteArray(arg0: number[], arg1: number, arg2: number): number;
-        static intFromByteArray(arg0: number[], arg1: number): number;
+        /**
+         * Returns a String representation of the byte in hexadecimal format
+         */
+        static toHexString(input: number): string;
+        /**
+         * Read 4 bytes from the given array in little-endian format and return them as an int
+         */
+        static intFromNetworkByteArray(input: number[], offset: number, length: number): number;
+        /**
+         * Read 4 bytes from the given array in little-endian format and return them as an int
+         */
+        static intFromByteArray(input: number[], offset: number, length: number): number;
+        /**
+         * Read 4 bytes from the
+         */
+        static intFromByteArray(input: number[], offset: number): number;
+        /**
+         * Read a null-terminated string from the given byte array
+         */
+        static stringFromByteArray(input: number[], offset: number, length: number): string;
         static MAX_PACKET_SIZE: number;
         static HEX_CHAR: string[];
         constructor();

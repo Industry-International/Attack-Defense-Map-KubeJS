@@ -7,8 +7,8 @@ declare module "@package/net/createmod/catnip/math" {
         static values(): $Pointing[];
         static valueOf(arg0: string): $Pointing;
         getXRotation(): number;
-        getCombinedDirection(arg0: $Direction_): $Direction;
         getSerializedName(): string;
+        getCombinedDirection(arg0: $Direction_): $Direction;
         getRemappedEnumConstantName(): string;
         static DOWN: $Pointing;
         static LEFT: $Pointing;

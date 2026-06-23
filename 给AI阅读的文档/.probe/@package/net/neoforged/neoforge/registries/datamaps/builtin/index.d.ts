@@ -50,8 +50,8 @@ declare module "@package/net/neoforged/neoforge/registries/datamaps/builtin" {
         constructor(strippedBlock: $Block_);
     }
     export class $Compostable extends $Record {
-        canVillagerCompost(): boolean;
         chance(): number;
+        canVillagerCompost(): boolean;
         static CODEC: $Codec<$Compostable>;
         static CHANCE_CODEC: $Codec<$Compostable>;
         constructor(arg0: number);
@@ -63,6 +63,12 @@ declare module "@package/net/neoforged/neoforge/registries/datamaps/builtin" {
         static CODEC: $Codec<$BiomeVillagerType>;
         constructor(type: $VillagerType_);
     }
+    /**
+     * Holds all data maps provided by NeoForge.
+     * 
+     * These data maps are usually replacements for vanilla in-code maps, and are optionally
+     * synced so that mods can use them on the client side.
+     */
     export class $NeoForgeDataMaps {
         static RAID_HERO_GIFTS: $DataMapType<$VillagerProfession, $RaidHeroGift>;
         static WAXABLES: $DataMapType<$Block, $Waxable>;

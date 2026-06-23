@@ -52,14 +52,14 @@ declare module "@package/com/hlysine/create_power_loader/content" {
     }
     export interface $ChunkLoader {
         getLocation(): $Pair<$ResourceLocation, $BlockPos>;
-        getForcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
-        addToManager(): void;
         getLoaderMode(): $LoaderMode;
         getLoaderType(): $LoaderType;
+        addToManager(): void;
         removeFromManager(): void;
+        getForcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
         get location(): $Pair<$ResourceLocation, $BlockPos>;
-        get forcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
         get loaderMode(): $LoaderMode;
         get loaderType(): $LoaderType;
+        get forcedChunks(): $Set<$ChunkLoadManager$LoadedChunkPos>;
     }
 }

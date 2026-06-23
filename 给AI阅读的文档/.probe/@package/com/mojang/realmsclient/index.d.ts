@@ -34,10 +34,10 @@ declare module "@package/com/mojang/realmsclient" {
     export class $RealmsAvailability$Result extends $Record {
         type(): $RealmsAvailability$Type;
         exception(): $RealmsServiceException;
-        createErrorScreen(arg0: $Screen): $Screen;
-        constructor(arg0: $RealmsAvailability$Type_, arg1: $RealmsServiceException);
-        constructor(arg0: $RealmsServiceException);
-        constructor(arg0: $RealmsAvailability$Type_);
+        createErrorScreen(lastScreen: $Screen): $Screen;
+        constructor(arg0: $RealmsAvailability$Type_, arg1: $RealmsServiceException | null);
+        constructor(exception: $RealmsServiceException);
+        constructor(type: $RealmsAvailability$Type_);
     }
     export class $RealmsMainScreen$RealmsCall<T> {
     }
@@ -133,10 +133,10 @@ declare module "@package/com/mojang/realmsclient" {
     export class $Unit extends $Enum<$Unit> {
         static values(): $Unit[];
         static valueOf(arg0: string): $Unit;
-        static convertTo(arg0: number, arg1: $Unit_): number;
-        static getLargest(arg0: number): $Unit;
-        static humanReadable(arg0: number): string;
-        static humanReadable(arg0: number, arg1: $Unit_): string;
+        static humanReadable(bytes: number, arg1: $Unit_): string;
+        static humanReadable(bytes: number): string;
+        static convertTo(bytes: number, arg1: $Unit_): number;
+        static getLargest(bytes: number): $Unit;
         static B: $Unit;
         static MB: $Unit;
         static KB: $Unit;
@@ -153,14 +153,17 @@ declare module "@package/com/mojang/realmsclient" {
      */
     export type $RealmsMainScreen$LayoutState_ = "loading" | "no_realms" | "list";
     export class $RealmsMainScreen extends $RealmsScreen {
-        static getVersionComponent(arg0: string, arg1: boolean): $Component;
-        static getVersionComponent(arg0: string, arg1: number): $Component;
-        static play(arg0: $RealmsServer, arg1: $Screen, arg2: boolean): void;
-        static play(arg0: $RealmsServer, arg1: $Screen): void;
+        static getVersionComponent(version: string, color: number): $Component;
+        static getVersionComponent(version: string, compatible: boolean): $Component;
         static refreshServerList(): void;
         resetScreen(): void;
-        static isSnapshot(): boolean;
+        static play(realmsServer: $RealmsServer | null, lastScreen: $Screen): void;
+        static play(realmsServer: $RealmsServer | null, lastScreen: $Screen, allowSnapshots: boolean): void;
         static refreshPendingInvites(): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        static isSnapshot(): boolean;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -187,7 +190,7 @@ declare module "@package/com/mojang/realmsclient" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen);
+        constructor(lastScreen: $Screen);
         static get snapshot(): boolean;
     }
     export class $RealmsMainScreen$ParentEntry extends $RealmsMainScreen$Entry {

@@ -36,86 +36,86 @@ declare module "@package/xfacthd/framedblocks/api/camo" {
         isEmpty(): boolean;
         getFactory(): $CamoContainerFactory<T>;
         getContent(): C;
-        getBeaconColorMultiplier(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): number;
+        rotateCamo(): T;
+        canRotateCamo(): boolean;
+        appendJadeTooltip(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $Consumer_<$Component>): void;
+        canTriviallyConvertToItemStack(): boolean;
         getTintColor(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: number): number;
         getTintColor(arg0: $ItemStack_, arg1: number): number;
         getMapColor(arg0: $BlockGetter, arg1: $BlockPos_): $MapColor;
-        canRotateCamo(): boolean;
-        appendJadeTooltip(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $Consumer_<$Component>): void;
-        rotateCamo(): T;
-        canTriviallyConvertToItemStack(): boolean;
+        getBeaconColorMultiplier(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): number;
         get empty(): boolean;
         get factory(): $CamoContainerFactory<T>;
         get content(): C;
     }
     export class $CamoContent<C extends $CamoContent<C>> implements $QuadCacheKey {
         isEmpty(): boolean;
-        getExplosionResistance(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Explosion): number;
-        shouldDisplayFluidOverlay(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState): boolean;
-        getBeaconColorMultiplier(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): number;
-        propagatesSkylightDown(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
+        getFireSpreadSpeed(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): number;
+        getLightEmission(): number;
+        canSustainPlant(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_, arg3: $BlockState_): $TriState;
+        canEntityDestroy(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Entity): boolean;
         isFlammable(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): boolean;
         getFlammability(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): number;
-        canSustainPlant(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_, arg3: $BlockState_): $TriState;
-        getLightEmission(): number;
-        isSolid(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
-        getAsBlockState(): $BlockState;
-        getCamoName(): $MutableComponent;
-        getSoundType(): $SoundType;
-        getFriction(arg0: $LevelReader, arg1: $BlockPos_, arg2: $Entity, arg3: number): number;
-        getTintColor(arg0: $ItemStack_, arg1: number): number;
+        getCamoId(): string;
         getTintColor(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: number): number;
-        camo(): $CamoContent<never>;
-        isEmissive(): boolean;
-        canEntityDestroy(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Entity): boolean;
-        getFireSpreadSpeed(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Direction_): number;
-        getShadeBrightness(arg0: $BlockGetter, arg1: $BlockPos_, arg2: number): number;
-        getMapColor(arg0: $BlockGetter, arg1: $BlockPos_): $MapColor;
+        getTintColor(arg0: $ItemStack_, arg1: number): number;
+        propagatesSkylightDown(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
         canOcclude(): boolean;
-        makeRunningLandingParticles(arg0: $BlockPos_): $ParticleOptions;
+        getClientHandler(): $CamoClientHandler<C>;
         isOccludedBy(arg0: $CamoContent<never>, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $BlockPos_): boolean;
         isOccludedBy(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $BlockPos_): boolean;
         getAppearanceState(): $BlockState;
-        getClientHandler(): $CamoClientHandler<C>;
-        getCamoId(): string;
+        isEmissive(): boolean;
+        camo(): $CamoContent<never>;
+        isSolid(arg0: $BlockGetter, arg1: $BlockPos_): boolean;
+        getMapColor(arg0: $BlockGetter, arg1: $BlockPos_): $MapColor;
+        getShadeBrightness(arg0: $BlockGetter, arg1: $BlockPos_, arg2: number): number;
+        getSoundType(): $SoundType;
+        makeRunningLandingParticles(arg0: $BlockPos_): $ParticleOptions;
+        shouldDisplayFluidOverlay(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $FluidState): boolean;
+        getExplosionResistance(arg0: $BlockGetter, arg1: $BlockPos_, arg2: $Explosion): number;
+        getBeaconColorMultiplier(arg0: $LevelReader, arg1: $BlockPos_, arg2: $BlockPos_): number;
+        getFriction(arg0: $LevelReader, arg1: $BlockPos_, arg2: $Entity, arg3: number): number;
+        getCamoName(): $MutableComponent;
+        getAsBlockState(): $BlockState;
         occludes(arg0: $BlockState_, arg1: $BlockGetter, arg2: $BlockPos_, arg3: $BlockPos_): boolean;
         ctCtx(): $Object;
         constructor();
         get empty(): boolean;
         get lightEmission(): number;
-        get asBlockState(): $BlockState;
-        get camoName(): $MutableComponent;
-        get soundType(): $SoundType;
-        get emissive(): boolean;
-        get appearanceState(): $BlockState;
-        get clientHandler(): $CamoClientHandler<C>;
         get camoId(): string;
+        get clientHandler(): $CamoClientHandler<C>;
+        get appearanceState(): $BlockState;
+        get emissive(): boolean;
+        get soundType(): $SoundType;
+        get camoName(): $MutableComponent;
+        get asBlockState(): $BlockState;
     }
     export class $TriggerRegistrar {
         static DEFAULT_REMOVAL: $Predicate<$ItemStack>;
     }
     export interface $TriggerRegistrar {
         registerApplicationPredicate(arg0: $Predicate_<$ItemStack>): void;
-        registerApplicationItem(arg0: $Item_): void;
         registerRemovalItem(arg0: $Item_): void;
         registerRemovalPredicate(arg0: $Predicate_<$ItemStack>): void;
+        registerApplicationItem(arg0: $Item_): void;
     }
     export class $CamoContainerFactory<T extends $CamoContainer<never, T>> {
-        codec(): $MapCodec<T>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        removeCamo(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $ItemStack_, arg4: T): boolean;
+        applyCamo(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $ItemStack_): T;
+        codec(): $MapCodec<T>;
+        canTriviallyConvertToItemStack(): boolean;
+        validateCamo(arg0: T): boolean;
+        dropCamo(arg0: T): $ItemStack;
         handleInteraction(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: T, arg4: $ItemStack_, arg5: $InteractionHand_): T;
         /**
          * @deprecated
          */
         handleInteraction(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: T, arg4: $ItemStack_): T;
-        dropCamo(arg0: T): $ItemStack;
-        canTriviallyConvertToItemStack(): boolean;
-        applyCamo(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $ItemStack_): T;
-        removeCamo(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $ItemStack_, arg4: T): boolean;
-        validateCamo(arg0: T): boolean;
-        applyCamoInCraftingRecipe(arg0: $ItemStack_): T;
         getCraftingRemainder(arg0: $ItemStack_): $ItemStack;
         canApplyInCraftingRecipe(arg0: $ItemStack_): boolean;
+        applyCamoInCraftingRecipe(arg0: $ItemStack_): T;
         registerTriggerItems(arg0: $TriggerRegistrar): void;
         static MSG_BLACKLISTED: $Component;
         constructor();
@@ -124,5 +124,5 @@ declare module "@package/xfacthd/framedblocks/api/camo" {
      * Values that may be interpreted as {@link $CamoContainerFactory}.
      */
     export type $CamoContainerFactory_<T> = RegistryTypes.FramedblocksCamoContainers;
-    export interface $CamoContainerFactory extends RegistryMarked<RegistryTypes.FramedblocksCamoContainersTag, RegistryTypes.FramedblocksCamoContainers> {}
+    export interface $CamoContainerFactory<T> extends RegistryMarked<RegistryTypes.FramedblocksCamoContainersTag, RegistryTypes.FramedblocksCamoContainers> {}
 }

@@ -16,14 +16,14 @@ declare module "@package/xaero/lib/client/gui/widget" {
     export class $Tooltip implements $Supplier<$Tooltip> {
         get(): $Tooltip;
         getLine(arg0: number): $Component;
-        drawBox(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
         getPlainText(): string;
+        setAutoLinebreak(arg0: boolean): void;
+        getFullCode(): string;
+        createLines(arg0: $Component_): void;
+        drawBox(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
+        splitWords(arg0: $ArrayList<$Component_>, arg1: $FormattedText): void;
         withWidth(arg0: number): $Tooltip;
         setStartWidth(arg0: number): void;
-        getFullCode(): string;
-        splitWords(arg0: $ArrayList<$Component_>, arg1: $FormattedText): void;
-        setAutoLinebreak(arg0: boolean): void;
-        createLines(arg0: $Component_): void;
         constructor(arg0: $Component_);
         constructor(arg0: $Component_, arg1: boolean);
         constructor(arg0: number);
@@ -32,9 +32,9 @@ declare module "@package/xaero/lib/client/gui/widget" {
         constructor(arg0: string, arg1: $Style);
         constructor(arg0: string, arg1: $Style, arg2: boolean);
         get plainText(): string;
-        set startWidth(value: number);
-        get fullCode(): string;
         set autoLinebreak(value: boolean);
+        get fullCode(): string;
+        set startWidth(value: number);
     }
     export class $ITooltipHaver {
     }

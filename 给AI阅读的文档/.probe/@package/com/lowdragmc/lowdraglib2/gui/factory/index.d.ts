@@ -5,7 +5,7 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/factory" {
     export class $IContainerUIHolder {
     }
     export interface $IContainerUIHolder {
-        createUI(arg0: $Player): $ModularUI;
         isStillValid(arg0: $Player): boolean;
+        createUI(arg0: $Player): $ModularUI;
     }
 }

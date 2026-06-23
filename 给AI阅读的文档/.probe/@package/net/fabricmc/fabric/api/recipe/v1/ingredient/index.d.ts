@@ -11,9 +11,9 @@ declare module "@package/net/fabricmc/fabric/api/recipe/v1/ingredient" {
     }
     export interface $CustomIngredient {
         test(arg0: $ItemStack_): boolean;
+        getMatchingStacks(): $List<$ItemStack>;
         toVanilla(): $Ingredient;
         requiresTesting(): boolean;
-        getMatchingStacks(): $List<$ItemStack>;
         getSerializer(): $CustomIngredientSerializer<never>;
         get matchingStacks(): $List<$ItemStack>;
         get serializer(): $CustomIngredientSerializer<never>;
@@ -21,8 +21,8 @@ declare module "@package/net/fabricmc/fabric/api/recipe/v1/ingredient" {
     export class $FabricIngredient {
     }
     export interface $FabricIngredient {
-        requiresTesting(): boolean;
         getCustomIngredient(): $CustomIngredient;
+        requiresTesting(): boolean;
         get customIngredient(): $CustomIngredient;
     }
     export class $CustomIngredientSerializer<T extends $CustomIngredient> {

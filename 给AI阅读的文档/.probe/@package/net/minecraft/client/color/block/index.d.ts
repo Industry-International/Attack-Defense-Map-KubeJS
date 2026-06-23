@@ -6,9 +6,8 @@ import { $Reference2ReferenceMap, $ReferenceSet } from "@package/it/unimi/dsi/fa
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
 import { $BlockState_, $BlockState } from "@package/net/minecraft/world/level/block/state";
 import { $ColorProviderRegistryImpl$ColorMapperHolder } from "@package/net/fabricmc/fabric/impl/client/rendering";
-import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
-import { $Map, $Set } from "@package/java/util";
-import { $BlockColorsAccessor } from "@package/com/github/argon4w/acceleratedrendering/features/items/mixins/accessors";
+import { $Block_ } from "@package/net/minecraft/world/level/block";
+import { $Set } from "@package/java/util";
 
 declare module "@package/net/minecraft/client/color/block" {
     export class $BlockTintCache$LatestCacheInfo {
@@ -16,34 +15,32 @@ declare module "@package/net/minecraft/client/color/block" {
     export class $BlockColor {
     }
     export interface $BlockColor {
-        getColor(arg0: $BlockState_, arg1: $BlockAndTintGetter, arg2: $BlockPos_, arg3: number): number;
+        getColor(state: $BlockState_, level: $BlockAndTintGetter | null, pos: $BlockPos_ | null, tintIndex: number): number;
     }
     /**
      * Values that may be interpreted as {@link $BlockColor}.
      */
     export type $BlockColor_ = ((arg0: $BlockState, arg1: $BlockAndTintGetter, arg2: $BlockPos, arg3: number) => number);
-    export class $BlockColors implements $BlockColorsAccessor, $ColorProviderRegistryImpl$ColorMapperHolder<any, any>, $BlockColorsExtension {
+    export class $BlockColors implements $ColorProviderRegistryImpl$ColorMapperHolder<any, any>, $BlockColorsExtension {
         get(arg0: $Block_): $BlockColor;
         /**
          * @deprecated
          */
-        register(arg0: $BlockColor_, ...arg1: $Block_[]): void;
-        getColor(arg0: $BlockState_, arg1: $BlockAndTintGetter, arg2: $BlockPos_, arg3: number): number;
-        getColor(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_): number;
+        register(blockColor: $BlockColor_, ...blocks: $Block_[]): void;
+        getColor(state: $BlockState_, level: $BlockAndTintGetter | null, pos: $BlockPos_ | null, tintIndex: number): number;
+        getColor(state: $BlockState_, level: $Level_, pos: $BlockPos_): number;
         sodium$getOverridenVanillaBlocks(): $ReferenceSet<any>;
         static createDefault(): $BlockColors;
         sodium$getProviders(): $Reference2ReferenceMap<any, any>;
-        getColoringProperties(arg0: $Block_): $Set<$Property<never>>;
-        getBlockColors(): $Map<$Block, $BlockColor>;
+        getColoringProperties(block: $Block_): $Set<$Property<never>>;
         constructor();
-        get blockColors(): $Map<$Block, $BlockColor>;
     }
     export class $BlockTintCache$CacheData {
     }
     export class $BlockTintCache {
-        getColor(arg0: $BlockPos_): number;
+        getColor(pos: $BlockPos_): number;
         invalidateAll(): void;
-        invalidateForChunk(arg0: number, arg1: number): void;
-        constructor(arg0: $ToIntFunction_<$BlockPos>);
+        invalidateForChunk(chunkX: number, chunkZ: number): void;
+        constructor(source: $ToIntFunction_<$BlockPos>);
     }
 }

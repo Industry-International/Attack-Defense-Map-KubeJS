@@ -5,16 +5,29 @@ declare module "@package/net/irisshaders/iris/mixinterface" {
     export class $ShaderInstanceInterface {
     }
     export interface $ShaderInstanceInterface {
-        iris$createExtraShaders(arg0: $ResourceProvider_, arg1: string): void;
         setShouldSkip(arg0: $MethodHandle): void;
+        iris$createExtraShaders(arg0: $ResourceProvider_, arg1: string): void;
         set shouldSkip(value: $MethodHandle);
+    }
+    export class $ShadowRenderRegion {
+    }
+    export interface $ShadowRenderRegion {
+        swapToRegularRenderList(): void;
+        swapToShadowRenderList(): void;
+        iris$forceClearAllBatches(): void;
+    }
+    export class $ItemInHandInterface {
+    }
+    export interface $ItemInHandInterface {
+        iris$isAnyHandSolid(): boolean;
+        iris$isAnyHandTranslucent(): boolean;
     }
     export class $ExtendedBiome {
     }
     export interface $ExtendedBiome {
         getDownfall(): number;
-        getBiomeCategory(): number;
         setBiomeCategory(arg0: number): void;
+        getBiomeCategory(): number;
         get downfall(): number;
     }
     export class $BiomeAmbienceInterface {

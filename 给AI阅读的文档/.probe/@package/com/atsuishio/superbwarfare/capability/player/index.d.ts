@@ -14,15 +14,15 @@ declare module "@package/com/atsuishio/superbwarfare/capability/player" {
         static getOrDefault(arg0: $Entity): $PlayerVariable;
         copy(): $PlayerVariable;
         sync(arg0: $Entity): void;
-        watch(): $PlayerVariable;
-        static modify(arg0: $Player, arg1: $Consumer_<$PlayerVariable>): void;
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
         forceUpdate(): $Map<number, number>;
-        writeToNBT(): $CompoundTag;
-        readFromNBT(arg0: $CompoundTag_): void;
-        compareAndUpdate(): $Map<number, number>;
-        getActiveThermalImaging(): boolean;
+        watch(): $PlayerVariable;
         setActiveThermalImaging(arg0: boolean): void;
+        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
+        readFromNBT(arg0: $CompoundTag_): void;
+        writeToNBT(): $CompoundTag;
+        static modify(arg0: $Player, arg1: $Consumer_<$PlayerVariable>): void;
+        getActiveThermalImaging(): boolean;
+        compareAndUpdate(): $Map<number, number>;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static Companion: $PlayerVariable$Companion;
         ammo: $Map<$Ammo, number>;
@@ -30,11 +30,11 @@ declare module "@package/com/atsuishio/superbwarfare/capability/player" {
     }
     export class $PlayerVariable$Companion {
         getOrDefault(arg0: $Entity): $PlayerVariable;
-        onPlayerLoggedIn(arg0: $PlayerEvent$PlayerLoggedInEvent): void;
-        modify(arg0: $Player, arg1: $Consumer_<$PlayerVariable>): void;
-        onPlayerRespawn(arg0: $PlayerEvent$PlayerRespawnEvent): void;
         clonePlayer(arg0: $PlayerEvent$Clone): void;
+        onPlayerRespawn(arg0: $PlayerEvent$PlayerRespawnEvent): void;
+        modify(arg0: $Player, arg1: $Consumer_<$PlayerVariable>): void;
         onPlayerChangeDimension(arg0: $PlayerEvent$PlayerChangedDimensionEvent): void;
+        onPlayerLoggedIn(arg0: $PlayerEvent$PlayerLoggedInEvent): void;
         constructor(arg0: $DefaultConstructorMarker);
     }
 }

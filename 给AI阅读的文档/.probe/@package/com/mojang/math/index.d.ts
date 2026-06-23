@@ -13,13 +13,13 @@ declare module "@package/com/mojang/math" {
     export class $OctahedralGroup extends $Enum<$OctahedralGroup> implements $StringRepresentable {
         static values(): $OctahedralGroup[];
         static valueOf(arg0: string): $OctahedralGroup;
-        compose(arg0: $OctahedralGroup_): $OctahedralGroup;
-        rotate(arg0: $FrontAndTop_): $FrontAndTop;
-        rotate(arg0: $Direction_): $Direction;
-        inverts(arg0: $Direction$Axis_): boolean;
+        compose(other: $OctahedralGroup_): $OctahedralGroup;
+        rotate(direction: $Direction_): $Direction;
+        rotate(frontAndTop: $FrontAndTop_): $FrontAndTop;
         inverse(): $OctahedralGroup;
-        transformation(): $Matrix3f;
         getSerializedName(): string;
+        transformation(): $Matrix3f;
+        inverts(axis: $Direction$Axis_): boolean;
         getRemappedEnumConstantName(): string;
         static ROT_60_REF_PNP: $OctahedralGroup;
         static ROT_180_EDGE_YZ_POS: $OctahedralGroup;
@@ -79,7 +79,7 @@ declare module "@package/com/mojang/math" {
     export class $Divisor implements $IntIterator {
         hasNext(): boolean;
         nextInt(): number;
-        static asIterable(arg0: number, arg1: number): $Iterable<number>;
+        static asIterable(numerator: number, denominator: number): $Iterable<number>;
         /**
          * @deprecated
          */
@@ -89,36 +89,53 @@ declare module "@package/com/mojang/math" {
         forEachRemaining(arg0: $IntConsumer_): void;
         remove(): void;
         next(): number;
-        constructor(arg0: number, arg1: number);
+        constructor(numerator: number, denominator: number);
     }
     export class $Transformation implements $ITransformationExtension {
         static identity(): $Transformation;
-        compose(arg0: $Transformation): $Transformation;
-        getTranslation(): $Vector3f;
+        compose(other: $Transformation): $Transformation;
         inverse(): $Transformation;
-        getMatrix(): $Matrix4f;
-        getLeftRotation(): $Quaternionf;
-        getRightRotation(): $Quaternionf;
+        slerp(transformation: $Transformation, delta: number): $Transformation;
         getScale(): $Vector3f;
-        slerp(arg0: $Transformation, arg1: number): $Transformation;
         getNormalMatrix(): $Matrix3f;
+        getTranslation(): $Vector3f;
+        getRightRotation(): $Quaternionf;
+        getLeftRotation(): $Quaternionf;
+        getMatrix(): $Matrix4f;
+        /**
+         * @return whether this transformation is the identity transformation
+         */
         isIdentity(): boolean;
-        transformNormal(arg0: $Vector3f): void;
-        transformPosition(arg0: $Vector4f): void;
-        applyOrigin(arg0: $Vector3f): $Transformation;
-        rotateTransform(arg0: $Direction_): $Direction;
+        /**
+         * Transforms the position according to this transformation.
+         */
+        transformPosition(position: $Vector4f): void;
+        /**
+         * Transforms the normal according to this transformation and normalizes it.
+         */
+        transformNormal(normal: $Vector3f): void;
+        /**
+         * Rotates the direction according to this transformation and returns the nearest `Direction` to the
+         * resulting direction.
+         */
+        rotateTransform(facing: $Direction_): $Direction;
+        /**
+         * Returns a new transformation with a changed origin by applying the given parameter (which is relative to the
+         * current origin). This can be used for switching between coordinate systems.
+         */
+        applyOrigin(origin: $Vector3f): $Transformation;
         blockCornerToCenter(): $Transformation;
         blockCenterToCorner(): $Transformation;
         static CODEC: $Codec<$Transformation>;
         static EXTENDED_CODEC: $Codec<$Transformation>;
-        constructor(arg0: $Matrix4f);
-        constructor(arg0: $Vector3f, arg1: $Quaternionf, arg2: $Vector3f, arg3: $Quaternionf);
-        get translation(): $Vector3f;
-        get matrix(): $Matrix4f;
-        get leftRotation(): $Quaternionf;
-        get rightRotation(): $Quaternionf;
+        constructor(matrix: $Matrix4f | null);
+        constructor(translation: $Vector3f | null, leftRotation: $Quaternionf | null, scale: $Vector3f | null, rightRotation: $Quaternionf | null);
         get scale(): $Vector3f;
         get normalMatrix(): $Matrix3f;
+        get translation(): $Vector3f;
+        get rightRotation(): $Quaternionf;
+        get leftRotation(): $Quaternionf;
+        get matrix(): $Matrix4f;
     }
     export class $Constants {
         static PI: number;
@@ -127,12 +144,15 @@ declare module "@package/com/mojang/math" {
         static EPSILON: number;
         constructor();
     }
+    /**
+     * The symmetric group S3, also known as all the permutation orders of three elements.
+     */
     export class $SymmetricGroup3 extends $Enum<$SymmetricGroup3> {
         static values(): $SymmetricGroup3[];
         static valueOf(arg0: string): $SymmetricGroup3;
-        compose(arg0: $SymmetricGroup3_): $SymmetricGroup3;
+        compose(other: $SymmetricGroup3_): $SymmetricGroup3;
         transformation(): $Matrix3f;
-        permutation(arg0: number): number;
+        permutation(element: number): number;
         static P213: $SymmetricGroup3;
         static P312: $SymmetricGroup3;
         static P132: $SymmetricGroup3;
@@ -152,27 +172,27 @@ declare module "@package/com/mojang/math" {
         sin(): number;
         cos(): number;
         inverse(): $GivensParameters;
-        sinHalf(): number;
-        static fromUnnormalized(arg0: number, arg1: number): $GivensParameters;
-        static fromPositiveAngle(arg0: number): $GivensParameters;
+        static fromPositiveAngle(angle: number): $GivensParameters;
+        static fromUnnormalized(sinHalf: number, cosHalf: number): $GivensParameters;
+        aroundZ(matrix: $Matrix3f): $Matrix3f;
+        aroundZ(quaternion: $Quaternionf): $Quaternionf;
+        aroundY(quaternion: $Quaternionf): $Quaternionf;
+        aroundY(matrix: $Matrix3f): $Matrix3f;
+        aroundX(quaternion: $Quaternionf): $Quaternionf;
+        aroundX(matrix: $Matrix3f): $Matrix3f;
         cosHalf(): number;
-        aroundY(arg0: $Quaternionf): $Quaternionf;
-        aroundY(arg0: $Matrix3f): $Matrix3f;
-        aroundX(arg0: $Quaternionf): $Quaternionf;
-        aroundX(arg0: $Matrix3f): $Matrix3f;
-        aroundZ(arg0: $Quaternionf): $Quaternionf;
-        aroundZ(arg0: $Matrix3f): $Matrix3f;
+        sinHalf(): number;
         constructor(arg0: number, arg1: number);
     }
     export class $MatrixUtil {
-        static mulComponentWise(arg0: $Matrix4f, arg1: number): $Matrix4f;
-        static isPureTranslation(arg0: $Matrix4f): boolean;
-        static isOrthonormal(arg0: $Matrix4f): boolean;
-        static svdDecompose(arg0: $Matrix3f): $Triple<$Quaternionf, $Vector3f, $Quaternionf>;
-        static eigenvalueJacobi(arg0: $Matrix3f, arg1: number): $Quaternionf;
+        static eigenvalueJacobi(input: $Matrix3f, iterations: number): $Quaternionf;
+        static svdDecompose(matrix: $Matrix3f): $Triple<$Quaternionf, $Vector3f, $Quaternionf>;
+        static mulComponentWise(matrix: $Matrix4f, scalar: number): $Matrix4f;
+        static isPureTranslation(matrix: $Matrix4f): boolean;
+        static isOrthonormal(matrix: $Matrix4f): boolean;
     }
     export class $Axis {
-        static of(arg0: $Vector3f): $Axis;
+        static of(axis: $Vector3f): $Axis;
         static ZN: $Axis;
         static YN: $Axis;
         static XN: $Axis;
@@ -181,8 +201,8 @@ declare module "@package/com/mojang/math" {
         static XP: $Axis;
     }
     export interface $Axis {
-        rotation(arg0: number): $Quaternionf;
-        rotationDegrees(arg0: number): $Quaternionf;
+        rotation(radians: number): $Quaternionf;
+        rotationDegrees(radians: number): $Quaternionf;
     }
     /**
      * Values that may be interpreted as {@link $Axis}.

@@ -15,8 +15,8 @@ declare module "@package/com/railwayteam/railways/mixin/conductor_possession" {
     export class $ServerPlayerAccessor {
     }
     export interface $ServerPlayerAccessor {
-        getCamera(): $Entity;
         setCamera(arg0: $Entity): void;
+        getCamera(): $Entity;
     }
     export class $AccessorClientChunkCacheStorage {
     }

@@ -4,16 +4,19 @@ export * as pack from "@package/net/minecraft/server/packs/metadata/pack";
 
 declare module "@package/net/minecraft/server/packs/metadata" {
     export class $MetadataSectionType<T> {
-        static fromCodec<T>(arg0: string, arg1: $Codec<T>): $MetadataSectionType<T>;
+        static fromCodec<T>(name: string, codec: $Codec<T>): $MetadataSectionType<T>;
     }
     export interface $MetadataSectionType<T> extends $MetadataSectionSerializer<T> {
-        toJson(arg0: T): $JsonObject;
+        toJson(data: T): $JsonObject;
     }
     export class $MetadataSectionSerializer<T> {
     }
     export interface $MetadataSectionSerializer<T> {
-        fromJson(arg0: $JsonObject_): T;
+        /**
+         * The name of this section type as it appears in JSON.
+         */
         getMetadataSectionName(): string;
+        fromJson(json: $JsonObject_): T;
         get metadataSectionName(): string;
     }
 }

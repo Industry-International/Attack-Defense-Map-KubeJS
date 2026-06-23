@@ -1,6 +1,6 @@
 import { $Reader, $Externalizable, $ObjectInput, $ObjectOutput } from "@package/java/io";
 import { $EventObject, $Map, $EventListener } from "@package/java/util";
-import { $Object, $Cloneable, $ClassLoader, $Class } from "@package/java/lang";
+import { $Object, $ClassLoader, $Cloneable, $Class } from "@package/java/lang";
 
 declare module "@package/java/awt/datatransfer" {
     export class $Clipboard {
@@ -29,11 +29,12 @@ declare module "@package/java/awt/datatransfer" {
         writeExternal(arg0: $ObjectOutput): void;
         readExternal(arg0: $ObjectInput): void;
         getParameter(arg0: string): string;
+        getPrimaryType(): string;
         isRepresentationClassInputStream(): boolean;
         isRepresentationClassByteBuffer(): boolean;
         isFlavorTextType(): boolean;
-        isMimeTypeEqual(arg0: string): boolean;
         isMimeTypeEqual(arg0: $DataFlavor): boolean;
+        isMimeTypeEqual(arg0: string): boolean;
         isRepresentationClassReader(): boolean;
         isRepresentationClassCharBuffer(): boolean;
         getDefaultRepresentationClass(): $Class<never>;
@@ -49,7 +50,6 @@ declare module "@package/java/awt/datatransfer" {
         isFlavorSerializedObjectType(): boolean;
         isFlavorRemoteObjectType(): boolean;
         isFlavorJavaFileListType(): boolean;
-        getPrimaryType(): string;
         getMimeType(): string;
         getSubType(): string;
         getRepresentationClass(): $Class<never>;
@@ -71,6 +71,7 @@ declare module "@package/java/awt/datatransfer" {
         constructor(arg0: $Class<never>, arg1: string);
         constructor(arg0: string, arg1: string);
         constructor(arg0: string, arg1: string, arg2: $ClassLoader);
+        get primaryType(): string;
         get representationClassInputStream(): boolean;
         get representationClassByteBuffer(): boolean;
         get flavorTextType(): boolean;
@@ -85,7 +86,6 @@ declare module "@package/java/awt/datatransfer" {
         get flavorSerializedObjectType(): boolean;
         get flavorRemoteObjectType(): boolean;
         get flavorJavaFileListType(): boolean;
-        get primaryType(): string;
         get mimeType(): string;
         get subType(): string;
         get representationClass(): $Class<never>;

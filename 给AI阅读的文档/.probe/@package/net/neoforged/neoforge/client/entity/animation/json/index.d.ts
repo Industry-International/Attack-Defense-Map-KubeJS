@@ -5,33 +5,95 @@ import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/re
 import { $SimpleJsonResourceReloadListener } from "@package/net/minecraft/server/packs/resources";
 
 declare module "@package/net/neoforged/neoforge/client/entity/animation/json" {
+    /**
+     * Manager for custom `AnimationTarget`s and interpolation functions.
+     * 
+     * The built-in `AnimationTarget`s are: `minecraft:position`, `minecraft:rotation`, and
+     * `minecraft:scale`.
+     * 
+     * The built-in interpolation functions are `minecraft:linear` and
+     * `minecraft:catmullrom`.
+     */
     export class $AnimationTypeManager {
         static init(): void;
-        static getTarget(arg0: $ResourceLocation_): $AnimationTarget;
-        static getTargetName(arg0: $AnimationTarget_): $ResourceLocation;
-        static getKeyframeCodec(arg0: $AnimationTarget_): $Codec<$Keyframe>;
-        static getTargetList(): string;
-        static getInterpolation(arg0: $ResourceLocation_): $AnimationChannel$Interpolation;
+        /**
+         * Gets the `AnimationTarget` associated with the given `name`.
+         */
+        static getTarget(name: $ResourceLocation_): $AnimationTarget;
+        /**
+         * Gets the interpolation function associated with the given `name`.
+         */
+        static getInterpolation(name: $ResourceLocation_): $AnimationChannel$Interpolation;
+        /**
+         * Gets the `ResourceLocation` associated with the given `target`.
+         */
+        static getTargetName(target: $AnimationTarget_): $ResourceLocation;
+        /**
+         * Gets the `ResourceLocation` associated with the given `interpolation`.
+         */
+        static getInterpolationName(interpolation: $AnimationChannel$Interpolation_): $ResourceLocation;
+        /**
+         * Retrieves a comma-separated list of all available `AnimationTarget`s, for use in error messages.
+         */
         static getInterpolationList(): string;
-        static getInterpolationName(arg0: $AnimationChannel$Interpolation_): $ResourceLocation;
-        static getTargetFromChannelTarget(arg0: $AnimationChannel$Target_): $AnimationTarget;
-        static get targetList(): string;
+        /**
+         * Gets the full `AnimationTarget` from its channelTarget.
+         */
+        static getTargetFromChannelTarget(target: $AnimationChannel$Target_): $AnimationTarget;
+        /**
+         * Gets the `Codec` used to decode a `Keyframe` with the specified `AnimationTarget`.
+         */
+        static getKeyframeCodec(target: $AnimationTarget_): $Codec<$Keyframe>;
+        /**
+         * Retrieves a comma-separated list of all available `AnimationTarget`s, for use in error messages.
+         */
+        static getTargetList(): string;
         static get interpolationList(): string;
+        static get targetList(): string;
     }
+    /**
+     * Holds a single `AnimationDefinition` loaded from resource packs. Objects of this class will be automatically updated with new
+     * `AnimationDefinition`s on reload.
+     */
     export class $AnimationHolder {
+        /**
+         * Gets the currently loaded animation. If the animation has not been loaded, returns `#EMPTY_ANIMATION`.
+         */
         get(): $AnimationDefinition;
+        /**
+         * Gets the key associated with this animation.
+         */
         key(): $ResourceLocation;
-        getOrNull(): $AnimationDefinition;
+        /**
+         * Returns whether the animation has been loaded.
+         */
         isBound(): boolean;
+        /**
+         * Gets the currently loaded animation. If the animation has not been loaded, returns `#EMPTY_ANIMATION`.
+         */
+        getOrNull(): $AnimationDefinition;
         static EMPTY_ANIMATION: $AnimationDefinition;
-        get orNull(): $AnimationDefinition;
         get bound(): boolean;
+        get orNull(): $AnimationDefinition;
     }
+    /**
+     * A loader for entity animations written in JSON. You can also get parsed animations from this class.
+     */
     export class $AnimationLoader extends $SimpleJsonResourceReloadListener {
-        getAnimation(arg0: $ResourceLocation_): $AnimationDefinition;
-        getAnimationHolder(arg0: $ResourceLocation_): $AnimationHolder;
+        /**
+         * Returns an `AnimationHolder` for an animation. If the specified animation has not been loaded, the holder
+         * will be unbound, but may be bound in the future.
+         */
+        getAnimationHolder(key: $ResourceLocation_): $AnimationHolder;
+        /**
+         * Gets a loaded `AnimationDefinition` with the specified `key`.
+         */
+        getAnimation(key: $ResourceLocation_): $AnimationDefinition;
         static INSTANCE: $AnimationLoader;
     }
+    /**
+     * A parser for parsing JSON-based entity animation files.
+     */
     export class $AnimationParser {
         static CHANNEL_CODEC: $MapCodec<$AnimationChannel>;
         static CODEC: $Codec<$AnimationDefinition>;

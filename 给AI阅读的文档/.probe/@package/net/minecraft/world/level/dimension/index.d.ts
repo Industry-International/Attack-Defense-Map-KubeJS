@@ -33,38 +33,38 @@ declare module "@package/net/minecraft/world/level/dimension" {
         static OVERWORLD: $ResourceKey<$LevelStem>;
         static NETHER: $ResourceKey<$LevelStem>;
         static END: $ResourceKey<$LevelStem>;
-        constructor(arg0: $Holder_<$DimensionType>, arg1: $ChunkGenerator);
+        constructor(type: $Holder_<$DimensionType>, generator: $ChunkGenerator);
     }
     export interface $DimensionType extends RegistryMarked<RegistryTypes.DimensionTypeTag, RegistryTypes.DimensionType> {}
     export class $DimensionType extends $Record implements $DimensionTypeAccessor {
-        timeOfDay(arg0: number): number;
+        timeOfDay(dayTime: number): number;
         /**
          * @deprecated
          */
-        static parseLegacy(arg0: $Dynamic<never>): $DataResult<$ResourceKey<$Level>>;
-        static getTeleportationScale(arg0: $DimensionType_, arg1: $DimensionType_): number;
-        height(): number;
-        natural(): boolean;
-        bedWorks(): boolean;
-        monsterSpawnLightTest(): $IntProvider;
-        moonPhase(arg0: number): number;
+        static parseLegacy(dynamic: $Dynamic<never>): $DataResult<$ResourceKey<$Level>>;
         hasCeiling(): boolean;
-        ambientLight(): number;
-        ultraWarm(): boolean;
-        respawnAnchorWorks(): boolean;
-        coordinateScale(): number;
-        hasFixedTime(): boolean;
-        hasSkyLight(): boolean;
-        infiniburn(): $TagKey<$Block>;
-        fixedTime(): $OptionalLong;
         hasRaids(): boolean;
-        logicalHeight(): number;
+        fixedTime(): $OptionalLong;
+        height(): number;
+        minY(): number;
+        natural(): boolean;
         effectsLocation(): $ResourceLocation;
-        monsterSettings(): $DimensionType$MonsterSettings;
-        static getStorageFolder(arg0: $ResourceKey_<$Level>, arg1: $Path_): $Path;
+        monsterSpawnLightTest(): $IntProvider;
+        moonPhase(dayTime: number): number;
+        logicalHeight(): number;
         monsterSpawnBlockLightLimit(): number;
         piglinSafe(): boolean;
-        minY(): number;
+        coordinateScale(): number;
+        ambientLight(): number;
+        static getTeleportationScale(firstType: $DimensionType_, secondType: $DimensionType_): number;
+        monsterSettings(): $DimensionType$MonsterSettings;
+        static getStorageFolder(dimensionKey: $ResourceKey_<$Level>, levelFolder: $Path_): $Path;
+        bedWorks(): boolean;
+        hasSkyLight(): boolean;
+        hasFixedTime(): boolean;
+        ultraWarm(): boolean;
+        infiniburn(): $TagKey<$Block>;
+        respawnAnchorWorks(): boolean;
         getFixedTime(): $OptionalLong;
         getAmbientLight(): number;
         static MIN_Y: number;
@@ -78,15 +78,15 @@ declare module "@package/net/minecraft/world/level/dimension" {
         static BITS_FOR_Y: number;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$DimensionType>>;
         static MOON_BRIGHTNESS_PER_PHASE: number[];
-        constructor(arg0: $OptionalLong, arg1: boolean, arg2: boolean, arg3: boolean, arg4: boolean, arg5: number, arg6: boolean, arg7: boolean, arg8: number, arg9: number, arg10: number, arg11: $TagKey_<$Block>, arg12: $ResourceLocation_, arg13: number, arg14: $DimensionType$MonsterSettings_);
+        constructor(fixedTime: $OptionalLong, hasSkyLight: boolean, hasCeiling: boolean, ultraWarm: boolean, natural: boolean, coordinateScale: number, arg6: boolean, bedWorks: boolean, respawnAnchorWorks: number, minY: number, height: number, logicalHeight: $TagKey_<$Block>, infiniburn: $ResourceLocation_, effectsLocation: number, ambientLight: $DimensionType$MonsterSettings_);
     }
     /**
      * Values that may be interpreted as {@link $DimensionType}.
      */
     export type $DimensionType_ = RegistryTypes.DimensionType;
     export class $DimensionType$MonsterSettings extends $Record {
-        monsterSpawnLightTest(): $IntProvider;
         hasRaids(): boolean;
+        monsterSpawnLightTest(): $IntProvider;
         monsterSpawnBlockLightLimit(): number;
         piglinSafe(): boolean;
         static CODEC: $MapCodec<$DimensionType$MonsterSettings>;

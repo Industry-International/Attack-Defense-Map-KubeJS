@@ -9,10 +9,10 @@ import { $LevelStem_, $LevelStem } from "@package/net/minecraft/world/level/dime
 
 declare module "@package/net/minecraft/world/level/levelgen/presets" {
     export class $WorldPresets {
-        static bootstrap(arg0: $BootstrapContext<$WorldPreset_>): void;
-        static fromSettings(arg0: $WorldDimensions_): ($ResourceKey<$WorldPreset>) | undefined;
-        static getNormalOverworld(arg0: $RegistryAccess): $LevelStem;
-        static createNormalWorldDimensions(arg0: $RegistryAccess): $WorldDimensions;
+        static bootstrap(context: $BootstrapContext<$WorldPreset_>): void;
+        static createNormalWorldDimensions(registry: $RegistryAccess): $WorldDimensions;
+        static fromSettings(worldDimensions: $WorldDimensions_): ($ResourceKey<$WorldPreset>) | undefined;
+        static getNormalOverworld(registry: $RegistryAccess): $LevelStem;
         static AMPLIFIED: $ResourceKey<$WorldPreset>;
         static FLAT: $ResourceKey<$WorldPreset>;
         static SINGLE_BIOME_SURFACE: $ResourceKey<$WorldPreset>;
@@ -28,7 +28,7 @@ declare module "@package/net/minecraft/world/level/levelgen/presets" {
         createWorldDimensions(): $WorldDimensions;
         static CODEC: $Codec<$Holder<$WorldPreset>>;
         static DIRECT_CODEC: $Codec<$WorldPreset>;
-        constructor(arg0: $Map_<$ResourceKey_<$LevelStem>, $LevelStem_>);
+        constructor(dimensions: $Map_<$ResourceKey_<$LevelStem>, $LevelStem_>);
     }
     /**
      * Values that may be interpreted as {@link $WorldPreset}.

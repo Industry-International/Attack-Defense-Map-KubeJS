@@ -10,15 +10,15 @@ declare module "@package/com/jesz/createdieselgenerators/fuel_type" {
     export interface $FuelType extends RegistryMarked<RegistryTypes.CreatedieselgeneratorsFuelTypeTag, RegistryTypes.CreatedieselgeneratorsFuelType> {}
     export class $FuelType extends $Record {
         normal(): $FuelType$PerEngineProperties;
+        burnerStrength(): number;
         isFlammable(): boolean;
-        fluid(): $HolderSet<$Fluid>;
         getGenerated(arg0: $EngineTypes_): $FuelType$PerEngineProperties;
         getGenerated(arg0: $BlockEntity): $FuelType$PerEngineProperties;
         static getTypeFor(arg0: $HolderLookup$RegistryLookup<$FuelType_>, arg1: $Fluid_): $FuelType;
-        modular(): $FuelType$PerEngineProperties;
         huge(): $FuelType$PerEngineProperties;
+        fluid(): $HolderSet<$Fluid>;
         soundPitch(): number;
-        burnerStrength(): number;
+        modular(): $FuelType$PerEngineProperties;
         static CODEC: $Codec<$FuelType>;
         static NCODEC: $Codec<$FuelType>;
         static EMPTY: $FuelType;
@@ -30,9 +30,9 @@ declare module "@package/com/jesz/createdieselgenerators/fuel_type" {
      */
     export type $FuelType_ = RegistryTypes.CreatedieselgeneratorsFuelType;
     export class $FuelType$PerEngineProperties extends $Record {
-        burn(): number;
-        strength(): number;
         speed(): number;
+        strength(): number;
+        burn(): number;
         static CODEC: $Codec<$FuelType$PerEngineProperties>;
         constructor(speed: number, strength: number, burn: number);
     }

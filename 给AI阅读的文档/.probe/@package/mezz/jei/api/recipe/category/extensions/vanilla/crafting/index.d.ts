@@ -20,29 +20,29 @@ declare module "@package/mezz/jei/api/recipe/category/extensions/vanilla/craftin
     export class $ICraftingCategoryExtension<R extends $CraftingRecipe> {
     }
     export interface $ICraftingCategoryExtension<R extends $CraftingRecipe> extends $IRecipeCategoryExtension<$RecipeHolder<R>> {
+        onDisplayedIngredientsUpdate(arg0: $RecipeHolder_<R>, arg1: $List_<$IRecipeSlotDrawable>, arg2: $IFocusGroup): void;
         /**
          * @deprecated
          */
         getWidth(): number;
         getWidth(arg0: $RecipeHolder_<R>): number;
-        /**
-         * @deprecated
-         */
-        setRecipe(arg0: $IRecipeLayoutBuilder, arg1: $ICraftingGridHelper, arg2: $IFocusGroup): void;
         setRecipe(arg0: $RecipeHolder_<R>, arg1: $IRecipeLayoutBuilder, arg2: $ICraftingGridHelper, arg3: $IFocusGroup): void;
         /**
          * @deprecated
          */
-        getHeight(): number;
-        getHeight(arg0: $RecipeHolder_<R>): number;
-        /**
-         * @deprecated
-         */
-        getRegistryName(): $ResourceLocation;
+        setRecipe(arg0: $IRecipeLayoutBuilder, arg1: $ICraftingGridHelper, arg2: $IFocusGroup): void;
         /**
          * @deprecated
          */
         getRegistryName(arg0: $RecipeHolder_<R>): ($ResourceLocation) | undefined;
-        onDisplayedIngredientsUpdate(arg0: $RecipeHolder_<R>, arg1: $List_<$IRecipeSlotDrawable>, arg2: $IFocusGroup): void;
+        /**
+         * @deprecated
+         */
+        getRegistryName(): $ResourceLocation;
+        getHeight(arg0: $RecipeHolder_<R>): number;
+        /**
+         * @deprecated
+         */
+        getHeight(): number;
     }
 }

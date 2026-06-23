@@ -9,7 +9,7 @@ import { $PlacedFeature } from "@package/net/minecraft/world/level/levelgen/plac
 
 declare module "@package/net/minecraft/data/worldgen/features" {
     export class $CaveFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static UNDERWATER_MAGMA: $ResourceKey<$ConfiguredFeature<never, never>>;
         static SCULK_PATCH_DEEP_DARK: $ResourceKey<$ConfiguredFeature<never, never>>;
         static FOSSIL_DIAMONDS: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -37,7 +37,7 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $EndFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static CHORUS_PLANT: $ResourceKey<$ConfiguredFeature<never, never>>;
         static END_GATEWAY_DELAYED: $ResourceKey<$ConfiguredFeature<never, never>>;
         static END_ISLAND: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -47,7 +47,7 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $PileFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static PILE_PUMPKIN: $ResourceKey<$ConfiguredFeature<never, never>>;
         static PILE_SNOW: $ResourceKey<$ConfiguredFeature<never, never>>;
         static PILE_ICE: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -56,7 +56,7 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $MiscOverworldFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static ICE_SPIKE: $ResourceKey<$ConfiguredFeature<never, never>>;
         static DISK_SAND: $ResourceKey<$ConfiguredFeature<never, never>>;
         static ICEBERG_PACKED: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -78,7 +78,7 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $VegetationFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static PATCH_CACTUS: $ResourceKey<$ConfiguredFeature<never, never>>;
         static PATCH_RED_MUSHROOM: $ResourceKey<$ConfiguredFeature<never, never>>;
         static MUSHROOM_ISLAND_VEGETATION: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -126,7 +126,7 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $TreeFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static FANCY_OAK_BEES_005: $ResourceKey<$ConfiguredFeature<never, never>>;
         static TALL_MANGROVE: $ResourceKey<$ConfiguredFeature<never, never>>;
         static BIRCH_BEES_002: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -167,7 +167,7 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $AquaticFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static SEAGRASS_MID: $ResourceKey<$ConfiguredFeature<never, never>>;
         static WARM_OCEAN_VEGETATION: $ResourceKey<$ConfiguredFeature<never, never>>;
         static SEAGRASS_TALL: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -179,7 +179,7 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $NetherFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static CRIMSON_FOREST_VEGETATION: $ResourceKey<$ConfiguredFeature<never, never>>;
         static CRIMSON_FOREST_VEGETATION_BONEMEAL: $ResourceKey<$ConfiguredFeature<never, never>>;
         static DELTA: $ResourceKey<$ConfiguredFeature<never, never>>;
@@ -205,18 +205,18 @@ declare module "@package/net/minecraft/data/worldgen/features" {
         constructor();
     }
     export class $FeatureUtils {
-        static register(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>, arg1: $ResourceKey_<$ConfiguredFeature<never, never>>, arg2: $Feature_<$NoneFeatureConfiguration>): void;
-        static register<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>, arg1: $ResourceKey_<$ConfiguredFeature<never, never>>, arg2: F, arg3: FC): void;
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
-        static createKey(arg0: string): $ResourceKey<$ConfiguredFeature<never, never>>;
-        static simpleRandomPatchConfiguration(arg0: number, arg1: $Holder_<$PlacedFeature>): $RandomPatchConfiguration;
-        static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC, arg2: $List_<$Block_>): $RandomPatchConfiguration;
-        static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC): $RandomPatchConfiguration;
-        static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC, arg2: $List_<$Block_>, arg3: number): $RandomPatchConfiguration;
+        static register(context: $BootstrapContext<$ConfiguredFeature_<never, never>>, key: $ResourceKey_<$ConfiguredFeature<never, never>>, feature: $Feature_<$NoneFeatureConfiguration>): void;
+        static register<FC extends $FeatureConfiguration, F extends $Feature<FC>>(context: $BootstrapContext<$ConfiguredFeature_<never, never>>, key: $ResourceKey_<$ConfiguredFeature<never, never>>, feature: F, config: FC): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(feature: F, config: FC, blocks: $List_<$Block_>): $RandomPatchConfiguration;
+        static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(feature: F, config: FC, blocks: $List_<$Block_>, tries: number): $RandomPatchConfiguration;
+        static simplePatchConfiguration<FC extends $FeatureConfiguration, F extends $Feature<FC>>(feature: F, config: FC): $RandomPatchConfiguration;
+        static simpleRandomPatchConfiguration(tries: number, feature: $Holder_<$PlacedFeature>): $RandomPatchConfiguration;
+        static createKey(name: string): $ResourceKey<$ConfiguredFeature<never, never>>;
         constructor();
     }
     export class $OreFeatures {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredFeature_<never, never>>): void;
         static ORE_DIORITE: $ResourceKey<$ConfiguredFeature<never, never>>;
         static ORE_ANDESITE: $ResourceKey<$ConfiguredFeature<never, never>>;
         static ORE_TUFF: $ResourceKey<$ConfiguredFeature<never, never>>;

@@ -24,6 +24,7 @@ declare module "@package/java/lang/management" {
         getPriority(): number;
         isDaemon(): boolean;
         getThreadId(): number;
+        getThreadName(): string;
         getThreadState(): $Thread$State;
         getLockName(): string;
         getLockOwnerName(): string;
@@ -37,11 +38,11 @@ declare module "@package/java/lang/management" {
         getWaitedTime(): number;
         getWaitedCount(): number;
         getLockedMonitors(): $MonitorInfo[];
-        getThreadName(): string;
         get stackTrace(): $StackTraceElement[];
         get priority(): number;
         get daemon(): boolean;
         get threadId(): number;
+        get threadName(): string;
         get threadState(): $Thread$State;
         get lockName(): string;
         get lockOwnerName(): string;
@@ -55,6 +56,5 @@ declare module "@package/java/lang/management" {
         get waitedTime(): number;
         get waitedCount(): number;
         get lockedMonitors(): $MonitorInfo[];
-        get threadName(): string;
     }
 }

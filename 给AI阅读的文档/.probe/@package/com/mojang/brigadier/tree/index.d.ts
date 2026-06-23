@@ -38,22 +38,22 @@ declare module "@package/com/mojang/brigadier/tree" {
         createBuilder(): $ArgumentBuilder<S, never>;
         getExamples(): $Collection<string>;
         getCommand(): $Command<S>;
-        findAmbiguities(arg0: $AmbiguityConsumer_<S>): void;
+        listSuggestions(arg0: $CommandContext<S>, arg1: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
+        getRedirectModifier(): $RedirectModifier<S>;
         getUsageText(): string;
         getRelevantNodes(arg0: $StringReader): $Collection<$CommandNode<S>>;
-        getRedirectModifier(): $RedirectModifier<S>;
-        isFork(): boolean;
-        listSuggestions(arg0: $CommandContext<S>, arg1: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
+        findAmbiguities(arg0: $AmbiguityConsumer_<S>): void;
         getRequirement(): $Predicate<S>;
         getRedirect(): $CommandNode<S>;
+        isFork(): boolean;
         get name(): string;
         get children(): $Collection<$CommandNode<S>>;
         get examples(): $Collection<string>;
         get command(): $Command<S>;
-        get usageText(): string;
         get redirectModifier(): $RedirectModifier<S>;
-        get fork(): boolean;
+        get usageText(): string;
         get requirement(): $Predicate<S>;
         get redirect(): $CommandNode<S>;
+        get fork(): boolean;
     }
 }

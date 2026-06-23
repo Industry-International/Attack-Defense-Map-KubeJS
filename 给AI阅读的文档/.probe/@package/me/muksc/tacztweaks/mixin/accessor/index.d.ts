@@ -31,9 +31,9 @@ declare module "@package/me/muksc/tacztweaks/mixin/accessor" {
     export class $ClipContextAccessor {
     }
     export interface $ClipContextAccessor {
+        tacztweaks$getCollisionContext(): $CollisionContext;
         tacztweaks$getBlock(): $ClipContext$Block;
         tacztweaks$getFluid(): $ClipContext$Fluid;
-        tacztweaks$getCollisionContext(): $CollisionContext;
     }
     export class $LocalPlayerDataHolderAccessor {
     }
@@ -53,11 +53,11 @@ declare module "@package/me/muksc/tacztweaks/mixin/accessor" {
     export class $EntityKineticBulletAccessor {
     }
     export interface $EntityKineticBulletAccessor {
-        tacztweaks$invokeOnHitEntity(arg0: $TacHitResult, arg1: $Vec3_, arg2: $Vec3_): void;
-        tacztweaks$invokeOnHitBlock(arg0: $BlockHitResult, arg1: $Vec3_, arg2: $Vec3_): void;
         tacztweaks$setPierce(arg0: number): void;
-        tacztweaks$getPierce(): number;
         tacztweaks$getExplosion(): boolean;
+        tacztweaks$getPierce(): number;
+        tacztweaks$invokeOnHitBlock(arg0: $BlockHitResult, arg1: $Vec3_, arg2: $Vec3_): void;
+        tacztweaks$invokeOnHitEntity(arg0: $TacHitResult, arg1: $Vec3_, arg2: $Vec3_): void;
     }
     export class $InaccuracyTypeAccessor {
         static tacztweaks$invokeIsMove(arg0: $LivingEntity): boolean;
@@ -67,8 +67,8 @@ declare module "@package/me/muksc/tacztweaks/mixin/accessor" {
     export class $ExplosionAccessor {
     }
     export interface $ExplosionAccessor {
-        tacztweaks$setY(arg0: number): void;
         tacztweaks$setX(arg0: number): void;
+        tacztweaks$setY(arg0: number): void;
         tacztweaks$setZ(arg0: number): void;
     }
 }

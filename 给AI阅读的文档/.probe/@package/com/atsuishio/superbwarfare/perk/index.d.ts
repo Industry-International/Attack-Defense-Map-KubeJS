@@ -16,8 +16,8 @@ declare module "@package/com/atsuishio/superbwarfare/perk" {
         level(): number;
         component1(): $Perk;
         component2(): number;
-        static copy$default(arg0: $PerkInstance_, arg1: $Perk_, arg2: number, arg3: number, arg4: $Object): $PerkInstance;
         perk(): $Perk;
+        static copy$default(arg0: $PerkInstance_, arg1: $Perk_, arg2: number, arg3: number, arg4: $Object): $PerkInstance;
         constructor(arg0: $Perk_, arg1: number);
     }
     export class $Perk$Type extends $Enum<$Perk$Type> {
@@ -45,19 +45,19 @@ declare module "@package/com/atsuishio/superbwarfare/perk" {
         tick(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity): void;
         getItem(): $DeferredHolder<$Item, $Item>;
         modifyProperty(arg0: $PMC<$GunData, $DefaultGunData>): void;
+        onMeleeAttack(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity, arg3: $DamageSource_): void;
+        onHurtEntity(arg0: number, arg1: $GunData, arg2: $PerkInstance_, arg3: $Entity, arg4: $DamageSource_): void;
+        getModifiedDamage(arg0: number, arg1: $GunData, arg2: $PerkInstance_, arg3: $Entity, arg4: $DamageSource_): number;
+        onHit(arg0: $LivingEntity, arg1: $GunData, arg2: $PerkInstance_, arg3: $Entity): void;
+        postReload(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity): void;
+        onKill(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity, arg3: $DamageSource_): void;
+        preReload(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity): void;
+        getModifiedCustomRPM(arg0: number, arg1: $GunData, arg2: $PerkInstance_): number;
+        getModifiedDamageReduceRate(arg0: $DamageReduce): number;
+        getModifiedDamageReduceMinDistance(arg0: $DamageReduce): number;
         onChangeSlot(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity): void;
         modifyProjectile(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity): void;
         getDescriptionId(): string;
-        onHit(arg0: $LivingEntity, arg1: $GunData, arg2: $PerkInstance_, arg3: $Entity): void;
-        getModifiedDamageReduceMinDistance(arg0: $DamageReduce): number;
-        getModifiedDamageReduceRate(arg0: $DamageReduce): number;
-        getModifiedCustomRPM(arg0: number, arg1: $GunData, arg2: $PerkInstance_): number;
-        getModifiedDamage(arg0: number, arg1: $GunData, arg2: $PerkInstance_, arg3: $Entity, arg4: $DamageSource_): number;
-        onMeleeAttack(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity, arg3: $DamageSource_): void;
-        onHurtEntity(arg0: number, arg1: $GunData, arg2: $PerkInstance_, arg3: $Entity, arg4: $DamageSource_): void;
-        preReload(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity): void;
-        postReload(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity): void;
-        onKill(arg0: $GunData, arg1: $PerkInstance_, arg2: $Entity, arg3: $DamageSource_): void;
         constructor(arg0: string, arg1: $Perk$Type_);
         get name(): string;
         get type(): $Perk$Type;

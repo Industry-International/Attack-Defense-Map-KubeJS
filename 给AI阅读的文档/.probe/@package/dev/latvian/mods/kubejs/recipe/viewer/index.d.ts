@@ -23,8 +23,8 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/viewer" {
      */
     export type $RemoveRecipesKubeEvent_ = ((category: $ResourceLocation, recipesToRemove: $ResourceLocation[]) => void);
     export class $RecipeViewerEntryType {
-        getBase(from: $Object): $Object;
         static fromString(id: $Object): $RecipeViewerEntryType;
+        getBase(from: $Object): $Object;
         wrapEntry(from: $Object): $Object;
         wrapPredicate(from: $Object): $Object;
         static ITEM: $RecipeViewerEntryType;

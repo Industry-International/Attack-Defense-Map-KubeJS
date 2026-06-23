@@ -17,9 +17,21 @@ declare module "@package/net/neoforged/neoforge/network/connection" {
      * Values that may be interpreted as {@link $ConnectionType}.
      */
     export type $ConnectionType_ = "neoforge" | "other";
+    /**
+     * Utility class for storing and retrieving `Connection` objects from `ChannelHandlerContext` objects.
+     */
     export class $ConnectionUtils {
-        static getConnection(arg0: $ChannelHandlerContext): $Connection;
-        static setConnection(arg0: $ChannelHandlerContext, arg1: $Connection): void;
-        static removeConnection(arg0: $ChannelHandlerContext): void;
+        /**
+         * Gets the `Connection` object from the `ChannelHandlerContext` object.
+         */
+        static getConnection(connection: $ChannelHandlerContext): $Connection;
+        /**
+         * Removes the `Connection` object from the `ChannelHandlerContext` object.
+         */
+        static removeConnection(connection: $ChannelHandlerContext): void;
+        /**
+         * Sets the `Connection` object to the `ChannelHandlerContext` object.
+         */
+        static setConnection(connection: $ChannelHandlerContext, value: $Connection): void;
     }
 }

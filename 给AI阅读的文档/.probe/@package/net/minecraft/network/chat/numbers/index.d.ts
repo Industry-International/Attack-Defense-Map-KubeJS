@@ -15,13 +15,13 @@ declare module "@package/net/minecraft/network/chat/numbers" {
     }
     export class $FixedFormat implements $NumberFormat {
         type(): $NumberFormatType<$FixedFormat>;
-        format(arg0: number): $MutableComponent;
+        format(number: number): $MutableComponent;
         static TYPE: $NumberFormatType<$FixedFormat>;
         value: $Component;
-        constructor(arg0: $Component_);
+        constructor(value: $Component_);
     }
     export class $NumberFormatTypes {
-        static bootstrap(arg0: $Registry<$NumberFormatType_<never>>): $NumberFormatType<never>;
+        static bootstrap(regsitry: $Registry<$NumberFormatType_<never>>): $NumberFormatType<never>;
         static CODEC: $Codec<$NumberFormat>;
         static MAP_CODEC: $MapCodec<$NumberFormat>;
         static OPTIONAL_STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, ($NumberFormat) | undefined>;
@@ -32,24 +32,24 @@ declare module "@package/net/minecraft/network/chat/numbers" {
     }
     export interface $NumberFormat {
         type(): $NumberFormatType<$NumberFormat>;
-        format(arg0: number): $MutableComponent;
+        format(number: number): $MutableComponent;
     }
-    export interface $NumberFormatType extends RegistryMarked<RegistryTypes.NumberFormatTypeTag, RegistryTypes.NumberFormatType> {}
+    export interface $NumberFormatType<T> extends RegistryMarked<RegistryTypes.NumberFormatTypeTag, RegistryTypes.NumberFormatType> {}
     export class $StyledFormat implements $NumberFormat {
         type(): $NumberFormatType<$StyledFormat>;
-        format(arg0: number): $MutableComponent;
+        format(number: number): $MutableComponent;
         static PLAYER_LIST_DEFAULT: $StyledFormat;
         static SIDEBAR_DEFAULT: $StyledFormat;
         style: $Style;
         static TYPE: $NumberFormatType<$StyledFormat>;
         static NO_STYLE: $StyledFormat;
-        constructor(arg0: $Style);
+        constructor(style: $Style);
     }
     export class $NumberFormatType<T extends $NumberFormat> {
     }
     export interface $NumberFormatType<T extends $NumberFormat> {
-        mapCodec(): $MapCodec<T>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        mapCodec(): $MapCodec<T>;
     }
     /**
      * Values that may be interpreted as {@link $NumberFormatType}.

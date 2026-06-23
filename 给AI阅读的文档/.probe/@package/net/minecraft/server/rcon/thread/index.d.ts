@@ -4,7 +4,7 @@ import { $Runnable, $Thread } from "@package/java/lang";
 
 declare module "@package/net/minecraft/server/rcon/thread" {
     export class $RconThread extends $GenericThread {
-        static create(arg0: $ServerInterface): $RconThread;
+        static create(serverInterface: $ServerInterface): $RconThread;
         running: boolean;
         name: string;
         thread: $Thread;
@@ -13,22 +13,28 @@ declare module "@package/net/minecraft/server/rcon/thread" {
         running: boolean;
         name: string;
         thread: $Thread;
-        constructor(arg0: $ServerInterface, arg1: string, arg2: $Socket);
+        constructor(serverInterface: $ServerInterface, rconPassword: string, client: $Socket);
     }
     export class $QueryThreadGs4 extends $GenericThread {
-        static create(arg0: $ServerInterface): $QueryThreadGs4;
+        static create(serverInterface: $ServerInterface): $QueryThreadGs4;
         running: boolean;
         name: string;
         thread: $Thread;
     }
     export class $GenericThread implements $Runnable {
+        /**
+         * Returns `true` if the Thread is running, `false` otherwise.
+         */
         start(): boolean;
         stop(): void;
+        /**
+         * Returns `true` if the Thread is running, `false` otherwise.
+         */
         isRunning(): boolean;
         running: boolean;
         name: string;
         thread: $Thread;
-        constructor(arg0: string);
+        constructor(name: string);
     }
     export class $QueryThreadGs4$RequestChallenge {
     }

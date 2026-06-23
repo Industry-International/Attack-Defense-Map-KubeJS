@@ -10,7 +10,7 @@ import { $BlockPredicate } from "@package/net/minecraft/world/level/levelgen/blo
 
 declare module "@package/net/minecraft/data/worldgen/placement" {
     export class $AquaticPlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static SEAGRASS_DEEP: $ResourceKey<$PlacedFeature>;
         static SEAGRASS_RIVER: $ResourceKey<$PlacedFeature>;
         static SEAGRASS_NORMAL: $ResourceKey<$PlacedFeature>;
@@ -27,17 +27,17 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $PlacementUtils {
+        static countExtra(baseValue: number, chance: number, addedAmount: number): $PlacementModifier;
         static isEmpty(): $PlacementFilter;
-        static register(arg0: $BootstrapContext<$PlacedFeature_>, arg1: $ResourceKey_<$PlacedFeature>, arg2: $Holder_<$ConfiguredFeature<never, never>>, ...arg3: $PlacementModifier[]): void;
-        static register(arg0: $BootstrapContext<$PlacedFeature_>, arg1: $ResourceKey_<$PlacedFeature>, arg2: $Holder_<$ConfiguredFeature<never, never>>, arg3: $List_<$PlacementModifier>): void;
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
-        static filtered<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC, arg2: $BlockPredicate): $Holder<$PlacedFeature>;
-        static createKey(arg0: string): $ResourceKey<$PlacedFeature>;
-        static inlinePlaced(arg0: $Holder_<$ConfiguredFeature<never, never>>, ...arg1: $PlacementModifier[]): $Holder<$PlacedFeature>;
-        static inlinePlaced<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC, ...arg2: $PlacementModifier[]): $Holder<$PlacedFeature>;
-        static onlyWhenEmpty<FC extends $FeatureConfiguration, F extends $Feature<FC>>(arg0: F, arg1: FC): $Holder<$PlacedFeature>;
-        static countExtra(arg0: number, arg1: number, arg2: number): $PlacementModifier;
-        static filteredByBlockSurvival(arg0: $Block_): $BlockPredicateFilter;
+        static register(context: $BootstrapContext<$PlacedFeature_>, key: $ResourceKey_<$PlacedFeature>, configuredFeature: $Holder_<$ConfiguredFeature<never, never>>, placements: $List_<$PlacementModifier>): void;
+        static register(context: $BootstrapContext<$PlacedFeature_>, key: $ResourceKey_<$PlacedFeature>, configuredFeature: $Holder_<$ConfiguredFeature<never, never>>, ...placements: $PlacementModifier[]): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
+        static onlyWhenEmpty<FC extends $FeatureConfiguration, F extends $Feature<FC>>(feature: F, config: FC): $Holder<$PlacedFeature>;
+        static inlinePlaced(feature: $Holder_<$ConfiguredFeature<never, never>>, ...placements: $PlacementModifier[]): $Holder<$PlacedFeature>;
+        static inlinePlaced<FC extends $FeatureConfiguration, F extends $Feature<FC>>(feature: F, config: FC, ...placements: $PlacementModifier[]): $Holder<$PlacedFeature>;
+        static filtered<FC extends $FeatureConfiguration, F extends $Feature<FC>>(feature: F, config: FC, predicate: $BlockPredicate): $Holder<$PlacedFeature>;
+        static filteredByBlockSurvival(block: $Block_): $BlockPredicateFilter;
+        static createKey(key: string): $ResourceKey<$PlacedFeature>;
         static RANGE_8_8: $PlacementModifier;
         static FULL_RANGE: $PlacementModifier;
         static RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT: $PlacementModifier;
@@ -51,7 +51,7 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         static get empty(): $PlacementFilter;
     }
     export class $NetherPlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static CRIMSON_FOREST_VEGETATION: $ResourceKey<$PlacedFeature>;
         static DELTA: $ResourceKey<$PlacedFeature>;
         static WEEPING_VINES: $ResourceKey<$PlacedFeature>;
@@ -75,7 +75,7 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $CavePlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static UNDERWATER_MAGMA: $ResourceKey<$PlacedFeature>;
         static SCULK_PATCH_DEEP_DARK: $ResourceKey<$PlacedFeature>;
         static LUSH_CAVES_CLAY: $ResourceKey<$PlacedFeature>;
@@ -99,7 +99,7 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $OrePlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static ORE_GRANITE_UPPER: $ResourceKey<$PlacedFeature>;
         static ORE_IRON_MIDDLE: $ResourceKey<$PlacedFeature>;
         static ORE_TUFF: $ResourceKey<$PlacedFeature>;
@@ -143,7 +143,7 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $EndPlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static CHORUS_PLANT: $ResourceKey<$PlacedFeature>;
         static END_SPIKE: $ResourceKey<$PlacedFeature>;
         static END_GATEWAY_RETURN: $ResourceKey<$PlacedFeature>;
@@ -152,7 +152,7 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $TreePlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static BIRCH_BEES_002: $ResourceKey<$PlacedFeature>;
         static FANCY_OAK_BEES_002: $ResourceKey<$PlacedFeature>;
         static CHERRY_BEES_005: $ResourceKey<$PlacedFeature>;
@@ -185,7 +185,7 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $VillagePlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static FLOWER_PLAIN_VILLAGE: $ResourceKey<$PlacedFeature>;
         static PATCH_BERRY_BUSH_VILLAGE: $ResourceKey<$PlacedFeature>;
         static PATCH_CACTUS_VILLAGE: $ResourceKey<$PlacedFeature>;
@@ -202,10 +202,10 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $VegetationPlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
-        static treePlacement(arg0: $PlacementModifier): $List<$PlacementModifier>;
-        static treePlacement(arg0: $PlacementModifier, arg1: $Block_): $List<$PlacementModifier>;
-        static worldSurfaceSquaredWithCount(arg0: number): $List<$PlacementModifier>;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
+        static treePlacement(placement: $PlacementModifier): $List<$PlacementModifier>;
+        static treePlacement(placement: $PlacementModifier, saplingBlock: $Block_): $List<$PlacementModifier>;
+        static worldSurfaceSquaredWithCount(count: number): $List<$PlacementModifier>;
         static TREES_WINDSWEPT_FOREST: $ResourceKey<$PlacedFeature>;
         static GRASS_BONEMEAL: $ResourceKey<$PlacedFeature>;
         static TREES_CHERRY: $ResourceKey<$PlacedFeature>;
@@ -284,7 +284,7 @@ declare module "@package/net/minecraft/data/worldgen/placement" {
         constructor();
     }
     export class $MiscOverworldPlacements {
-        static bootstrap(arg0: $BootstrapContext<$PlacedFeature_>): void;
+        static bootstrap(context: $BootstrapContext<$PlacedFeature_>): void;
         static ICE_SPIKE: $ResourceKey<$PlacedFeature>;
         static DISK_SAND: $ResourceKey<$PlacedFeature>;
         static ICEBERG_PACKED: $ResourceKey<$PlacedFeature>;

@@ -20,19 +20,35 @@ declare module "@package/net/neoforged/neoforge/network/configuration" {
         static TYPE: $ConfigurationTask$Type;
         constructor();
     }
+    /**
+     * Defines a custom configuration task that should be run when a client connects.
+     * 
+     * This interface is a wrapper functional interface around `ConfigurationTask`.
+     * Allowing for easily sending custom payloads to the client, without having to perform the wrapping
+     * in `ClientboundCustomPayloadPacket` yourself.
+     * 
+     * It is recommended to use this interface over `ConfigurationTask` when you need to send custom payloads.
+     * It's functionality is otherwise identical.
+     */
     export class $ICustomConfigurationTask {
     }
     export interface $ICustomConfigurationTask extends $ConfigurationTask {
-        run(arg0: $Consumer_<$CustomPacketPayload>): void;
-        start(arg0: $Consumer_<$Packet<never>>): void;
+        /**
+         * Invoked when it is time for this configuration to run.
+         */
+        run(sender: $Consumer_<$CustomPacketPayload>): void;
+        /**
+         * Invoked when it is time for this configuration to run.
+         */
+        start(sender: $Consumer_<$Packet<never>>): void;
     }
     export class $CheckExtensibleEnums extends $Record implements $ConfigurationTask {
         type(): $ConfigurationTask$Type;
         start(arg0: $Consumer_<$Packet<never>>): void;
         listener(): $ServerConfigurationPacketListener;
-        static handleVanillaServerConnection(arg0: $ClientConfigurationPacketListener): boolean;
-        static handleClientboundPayload(arg0: $ExtensibleEnumDataPayload_, arg1: $IPayloadContext): void;
         static handleServerboundPayload(arg0: $ExtensibleEnumAcknowledgePayload, arg1: $IPayloadContext): void;
+        static handleClientboundPayload(arg0: $ExtensibleEnumDataPayload_, arg1: $IPayloadContext): void;
+        static handleVanillaServerConnection(arg0: $ClientConfigurationPacketListener): boolean;
         static TYPE: $ConfigurationTask$Type;
         constructor(listener: $ServerConfigurationPacketListener);
     }
@@ -84,23 +100,23 @@ declare module "@package/net/neoforged/neoforge/network/configuration" {
         type(): $ConfigurationTask$Type;
         start(arg0: $Consumer_<$Packet<never>>): void;
         listener(): $ServerConfigurationPacketListener;
-        static handleVanillaServerConnection(arg0: $ClientConfigurationPacketListener): boolean;
-        static handleClientboundPayload(arg0: $FeatureFlagDataPayload_, arg1: $IPayloadContext): void;
         static handleServerboundPayload(arg0: $FeatureFlagAcknowledgePayload, arg1: $IPayloadContext): void;
+        static handleClientboundPayload(arg0: $FeatureFlagDataPayload_, arg1: $IPayloadContext): void;
+        static handleVanillaServerConnection(arg0: $ClientConfigurationPacketListener): boolean;
         static TYPE: $ConfigurationTask$Type;
         constructor(listener: $ServerConfigurationPacketListener);
     }
     export class $CheckExtensibleEnums$EnumEntry extends $Record {
         className(): string;
         data(): ($CheckExtensibleEnums$ExtensionData) | undefined;
-        isServerbound(): boolean;
         isClientbound(): boolean;
+        isServerbound(): boolean;
         isExtended(): boolean;
         networkCheck(): $NetworkedEnum$NetworkCheck;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $CheckExtensibleEnums$EnumEntry>;
         constructor(className: string, networkCheck: $NetworkedEnum$NetworkCheck_, data: ($CheckExtensibleEnums$ExtensionData_) | undefined);
-        get serverbound(): boolean;
         get clientbound(): boolean;
+        get serverbound(): boolean;
         get extended(): boolean;
     }
 }

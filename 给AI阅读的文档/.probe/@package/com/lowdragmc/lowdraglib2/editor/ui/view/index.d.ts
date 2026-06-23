@@ -18,13 +18,13 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/ui/view" {
     export class $ResourceView extends $View {
         clear(): void;
         getResources(): $Map<$Resource<never>, $ResourceInstance<never>>;
-        loadResources(arg0: $Resources): void;
         getResourceInstance<T>(arg0: $Resource<never>): $ResourceInstance<T>;
+        loadResources(arg0: $Resources): void;
         removeResource(arg0: $Resource<never>): void;
         getSelectedResourceInstance(): $ResourceInstance<never>;
-        addResourceInstances(...arg0: $ResourceInstance<never>[]): void;
         selectResourceInstance(arg0: $Resource<never>): void;
         addResourceInstance(arg0: $ResourceInstance<never>): void;
+        addResourceInstances(...arg0: $ResourceInstance<never>[]): void;
         getResourceTabs(): $BiMap<$Resource<never>, $Tab>;
         editor: $Editor;
         static CODEC: $Codec<$UIElement>;
@@ -52,24 +52,24 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/ui/view" {
         clearHistory(): void;
         redo(): void;
         pushHistory(arg0: $Component_, arg1: $EditAction): void;
-        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: boolean): void;
         pushHistory(arg0: $Component_, arg1: $EditAction, arg2: $Object, arg3: boolean): void;
-        setMaxHistoryCount(arg0: number): void;
-        getRedoStack(): $Stack<$IHistoryStack$HistoryItem>;
-        getUndoStack(): $Stack<$IHistoryStack$HistoryItem>;
+        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: boolean): void;
         jumpToHistory(arg0: $IHistoryStack$HistoryItem_): void;
+        setMaxHistoryCount(arg0: number): void;
+        getUndoStack(): $Stack<$IHistoryStack$HistoryItem>;
+        getRedoStack(): $Stack<$IHistoryStack$HistoryItem>;
         getCurrentHistory(): $IHistoryStack$HistoryItem;
         getMaxHistoryCount(): number;
-        recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T): $SerializableRecordAction<T>;
         recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T, arg2: $Object): $SerializableRecordAction<T>;
+        recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T): $SerializableRecordAction<T>;
         editor: $Editor;
         static CODEC: $Codec<$UIElement>;
         static EMPTY_LAYOUT: $Layout;
         scrollerView: $ScrollerView;
         static MAX_HISTORY_COUNT: number;
         constructor(arg0: $Editor);
-        get redoStack(): $Stack<$IHistoryStack$HistoryItem>;
         get undoStack(): $Stack<$IHistoryStack$HistoryItem>;
+        get redoStack(): $Stack<$IHistoryStack$HistoryItem>;
         get currentHistory(): $IHistoryStack$HistoryItem;
     }
 }

@@ -28,71 +28,100 @@ export * as packs from "@package/net/minecraft/data/loot/packs";
 
 declare module "@package/net/minecraft/data/loot" {
     export class $LootTableProvider implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
+        run(output: $CachedOutput_): $CompletableFuture<never>;
         validate(arg0: $WritableRegistry<$LootTable>, arg1: $ValidationContext, arg2: $ProblemReporter$Collector): void;
         getTables(): $List<$LootTableProvider$SubProviderEntry>;
-        constructor(arg0: $PackOutput, arg1: $Set_<$ResourceKey_<$LootTable>>, arg2: $List_<$LootTableProvider$SubProviderEntry_>, arg3: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, requiredTables: $Set_<$ResourceKey_<$LootTable>>, subProviders: $List_<$LootTableProvider$SubProviderEntry_>, registries: $CompletableFuture<$HolderLookup$Provider>);
         get name(): string;
         get tables(): $List<$LootTableProvider$SubProviderEntry>;
     }
     export class $BlockLootSubProvider implements $LootTableSubProvider, $BlockLootSubProviderAccessor, $BlockLootTableGeneratorAccessor, $FabricBlockLootTableGenerator {
-        add(arg0: $Block_, arg1: $Function_<$Block, $LootTable$Builder>): void;
-        add(arg0: $Block_, arg1: $LootTable$Builder): void;
+        add(block: $Block_, builder: $LootTable$Builder): void;
+        add(block: $Block_, factory: $Function_<$Block, $LootTable$Builder>): void;
         generate(): void;
-        generate(arg0: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
-        doesNotHaveSilkTouch(): $LootItemCondition$Builder;
-        createAttachedStemDrops(arg0: $Block_, arg1: $Item_): $LootTable$Builder;
+        generate(output: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
+        createCandleDrops(block: $Block_): $LootTable$Builder;
+        createBannerDrop(block: $Block_): $LootTable$Builder;
+        createBeeNestDrop(block: $Block_): $LootTable$Builder;
+        createOreDrop(block: $Block_, item: $Item_): $LootTable$Builder;
+        /**
+         * Used for all leaves, drops self with silk touch, otherwise drops the second Block param with the passed chances for fortune levels, adding in sticks.
+         */
+        createLeavesDrops(leavesBlock: $Block_, saplingBlock: $Block_, ...chances: number[]): $LootTable$Builder;
+        createBeeHiveDrop(block: $Block_): $LootTable$Builder;
+        createGrassDrops(block: $Block_): $LootTable$Builder;
+        /**
+         * If `dropGrownCropCondition` fails (i.e. crop is not ready), drops 1 `seedsItem`.
+         * If `dropGrownCropCondition` succeeds (i.e. crop is ready), drops 1 `grownCropItem`, and 0-3 `seedsItem` with fortune applied.
+         */
+        createCropDrops(cropBlock: $Block_, grownCropItem: $Item_, seedsItem: $Item_, dropGrownCropCondition: $LootItemCondition$Builder_): $LootTable$Builder;
+        dropSelf(flowerPot: $Block_): void;
         static noDrop(): $LootTable$Builder;
-        dropSelf(arg0: $Block_): void;
-        applyExplosionCondition<T extends $ConditionUserBuilder<T>>(arg0: $ItemLike_, arg1: $ConditionUserBuilder<T>): T;
-        createShearsDispatchTable(arg0: $Block_, arg1: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
-        createShulkerBoxDrop(arg0: $Block_): $LootTable$Builder;
-        applyExplosionDecay<T extends $FunctionUserBuilder<T>>(arg0: $ItemLike_, arg1: $FunctionUserBuilder<T>): T;
-        createCopperOreDrops(arg0: $Block_): $LootTable$Builder;
-        createLapisOreDrops(arg0: $Block_): $LootTable$Builder;
-        createRedstoneOreDrops(arg0: $Block_): $LootTable$Builder;
-        createCaveVinesDrop(arg0: $Block_): $LootTable$Builder;
-        createMushroomBlockDrop(arg0: $Block_, arg1: $ItemLike_): $LootTable$Builder;
-        createSingleItemTable(arg0: $ItemLike_): $LootTable$Builder;
-        createSingleItemTable(arg0: $ItemLike_, arg1: $NumberProvider_): $LootTable$Builder;
-        createSilkTouchOnlyTable(arg0: $ItemLike_): $LootTable$Builder;
-        static createCandleCakeDrops(arg0: $Block_): $LootTable$Builder;
-        createPotFlowerItemTable(arg0: $ItemLike_): $LootTable$Builder;
-        addNetherVinesDropTable(arg0: $Block_, arg1: $Block_): void;
-        createMangroveLeavesDrops(arg0: $Block_): $LootTable$Builder;
-        createSlabItemTable(arg0: $Block_): $LootTable$Builder;
-        static createShearsOnlyDrop(arg0: $ItemLike_): $LootTable$Builder;
-        createOakLeavesDrops(arg0: $Block_, arg1: $Block_, ...arg2: number[]): $LootTable$Builder;
-        createMultifaceBlockDrops(arg0: $Block_, arg1: $LootItemCondition$Builder_): $LootTable$Builder;
-        createDoublePlantWithSeedDrops(arg0: $Block_, arg1: $Block_): $LootTable$Builder;
-        createSingleItemTableWithSilkTouch(arg0: $Block_, arg1: $ItemLike_): $LootTable$Builder;
-        createSingleItemTableWithSilkTouch(arg0: $Block_, arg1: $ItemLike_, arg2: $NumberProvider_): $LootTable$Builder;
-        createDoublePlantShearsDrop(arg0: $Block_): $LootTable$Builder;
-        createNameableBlockEntityTable(arg0: $Block_): $LootTable$Builder;
-        createSilkTouchDispatchTable(arg0: $Block_, arg1: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
+        createSinglePropConditionTable<T extends $Comparable<T>>(block: $Block_, property: $Property<T>, value: T): $LootTable$Builder;
+        /**
+         * If the condition from `conditionBuilder` succeeds, drops 1 `block`.
+         * Otherwise, drops loot specified by `alternativeBuilder`.
+         */
+        static createSelfDropDispatchTable(block: $Block_, conditionBuilder: $LootItemCondition$Builder_, alternativeBuilder: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
         doesNotHaveShearsOrSilkTouch(): $LootItemCondition$Builder;
-        static createSelfDropDispatchTable(arg0: $Block_, arg1: $LootItemCondition$Builder_, arg2: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
-        hasShearsOrSilkTouch(): $LootItemCondition$Builder;
-        dropOther(arg0: $Block_, arg1: $ItemLike_): void;
-        dropWhenSilkTouch(arg0: $Block_): void;
-        otherWhenSilkTouch(arg0: $Block_, arg1: $Block_): void;
+        /**
+         * If the block is mined with Shears, drops 1 `block`.
+         * Otherwise, drops loot specified by `builder`.
+         */
+        createSilkTouchOrShearsDispatchTable(block: $Block_, builder: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
+        otherWhenSilkTouch(vines: $Block_, plant: $Block_): void;
+        dropPottedContents(flowerPot: $Block_): void;
+        createPetalsDrops(block: $Block_): $LootTable$Builder;
+        createDoorTable(block: $Block_): $LootTable$Builder;
         getKnownBlocks(): $Iterable<$Block>;
-        createGrassDrops(arg0: $Block_): $LootTable$Builder;
-        dropPottedContents(arg0: $Block_): void;
-        createLeavesDrops(arg0: $Block_, arg1: $Block_, ...arg2: number[]): $LootTable$Builder;
-        createBeeHiveDrop(arg0: $Block_): $LootTable$Builder;
-        createOreDrop(arg0: $Block_, arg1: $Item_): $LootTable$Builder;
-        createBannerDrop(arg0: $Block_): $LootTable$Builder;
-        createBeeNestDrop(arg0: $Block_): $LootTable$Builder;
-        createCropDrops(arg0: $Block_, arg1: $Item_, arg2: $Item_, arg3: $LootItemCondition$Builder_): $LootTable$Builder;
-        createCandleDrops(arg0: $Block_): $LootTable$Builder;
-        createPetalsDrops(arg0: $Block_): $LootTable$Builder;
-        createDoorTable(arg0: $Block_): $LootTable$Builder;
-        createSilkTouchOrShearsDispatchTable(arg0: $Block_, arg1: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
-        createSinglePropConditionTable<T extends $Comparable<T>>(arg0: $Block_, arg1: $Property<T>, arg2: T): $LootTable$Builder;
+        /**
+         * If the block is mined with Shears, drops 1 `block`.
+         * Otherwise, drops loot specified by `builder`.
+         */
+        createSilkTouchDispatchTable(block: $Block_, builder: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
+        createDoublePlantShearsDrop(block: $Block_): $LootTable$Builder;
+        createDoublePlantWithSeedDrops(block: $Block_, sheared: $Block_): $LootTable$Builder;
+        createSingleItemTableWithSilkTouch(block: $Block_, item: $ItemLike_, count: $NumberProvider_): $LootTable$Builder;
+        createSingleItemTableWithSilkTouch(block: $Block_, item: $ItemLike_): $LootTable$Builder;
+        createNameableBlockEntityTable(block: $Block_): $LootTable$Builder;
+        applyExplosionCondition<T extends $ConditionUserBuilder<T>>(item: $ItemLike_, conditionBuilder: $ConditionUserBuilder<T>): T;
+        /**
+         * Used for all leaves, drops self with silk touch, otherwise drops the second Block param with the passed chances for fortune levels, adding in sticks.
+         */
+        createOakLeavesDrops(leavesBlock: $Block_, saplingBlock: $Block_, ...chances: number[]): $LootTable$Builder;
+        createMangroveLeavesDrops(block: $Block_): $LootTable$Builder;
+        static createCandleCakeDrops(block: $Block_): $LootTable$Builder;
+        addNetherVinesDropTable(vines: $Block_, plant: $Block_): void;
+        createPotFlowerItemTable(item: $ItemLike_): $LootTable$Builder;
+        createCaveVinesDrop(block: $Block_): $LootTable$Builder;
+        createSlabItemTable(block: $Block_): $LootTable$Builder;
+        createShulkerBoxDrop(block: $Block_): $LootTable$Builder;
+        createSilkTouchOnlyTable(item: $ItemLike_): $LootTable$Builder;
+        /**
+         * If the block is mined with Shears, drops 1 `block`.
+         * Otherwise, drops loot specified by `builder`.
+         */
+        createShearsDispatchTable(block: $Block_, builder: $LootPoolEntryContainer$Builder<never>): $LootTable$Builder;
+        createRedstoneOreDrops(block: $Block_): $LootTable$Builder;
+        createMushroomBlockDrop(block: $Block_, item: $ItemLike_): $LootTable$Builder;
+        createSingleItemTable(item: $ItemLike_): $LootTable$Builder;
+        createSingleItemTable(item: $ItemLike_, count: $NumberProvider_): $LootTable$Builder;
+        createCopperOreDrops(block: $Block_): $LootTable$Builder;
+        applyExplosionDecay<T extends $FunctionUserBuilder<T>>(item: $ItemLike_, functionBuilder: $FunctionUserBuilder<T>): T;
+        createLapisOreDrops(block: $Block_): $LootTable$Builder;
+        createMultifaceBlockDrops(block: $Block_, builder: $LootItemCondition$Builder_): $LootTable$Builder;
+        static createShearsOnlyDrop(item: $ItemLike_): $LootTable$Builder;
+        dropWhenSilkTouch(flowerPot: $Block_): void;
+        dropOther(block: $Block_, item: $ItemLike_): void;
+        createAttachedStemDrops(block: $Block_, item: $Item_): $LootTable$Builder;
+        doesNotHaveSilkTouch(): $LootItemCondition$Builder;
+        hasShearsOrSilkTouch(): $LootItemCondition$Builder;
         hasSilkTouch(): $LootItemCondition$Builder;
-        createStemDrops(arg0: $Block_, arg1: $Item_): $LootTable$Builder;
+        createStemDrops(block: $Block_, item: $Item_): $LootTable$Builder;
         withConditions(...arg0: $ResourceCondition[]): $BlockLootSubProvider;
         getRegistries(): $HolderLookup$Provider;
         create$hasSilkTouch(): $LootItemCondition$Builder;
@@ -102,8 +131,8 @@ declare module "@package/net/minecraft/data/loot" {
         registries: $HolderLookup$Provider;
         map: $Map<$ResourceKey<$LootTable>, $LootTable$Builder>;
         static NORMAL_LEAVES_SAPLING_CHANCES: number[];
-        constructor(arg0: $Set_<$Item_>, arg1: $FeatureFlagSet, arg2: $HolderLookup$Provider);
-        constructor(arg0: $Set_<$Item_>, arg1: $FeatureFlagSet, arg2: $Map_<$ResourceKey_<$LootTable>, $LootTable$Builder>, arg3: $HolderLookup$Provider);
+        constructor(explosionResistant: $Set_<$Item_>, enabledFeatures: $FeatureFlagSet, registries: $HolderLookup$Provider);
+        constructor(explosionResistant: $Set_<$Item_>, enabledFeatures: $FeatureFlagSet, map: $Map_<$ResourceKey_<$LootTable>, $LootTable$Builder>, registries: $HolderLookup$Provider);
         get knownBlocks(): $Iterable<$Block>;
     }
     export class $LootTableProvider$SubProviderEntry extends $Record {
@@ -114,26 +143,26 @@ declare module "@package/net/minecraft/data/loot" {
     export class $LootTableSubProvider {
     }
     export interface $LootTableSubProvider {
-        generate(arg0: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
+        generate(output: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
     }
     /**
      * Values that may be interpreted as {@link $LootTableSubProvider}.
      */
     export type $LootTableSubProvider_ = ((arg0: $BiConsumer<$ResourceKey<$LootTable>, $LootTable$Builder>) => void);
     export class $EntityLootSubProvider implements $LootTableSubProvider {
-        add(arg0: $EntityType_<never>, arg1: $ResourceKey_<$LootTable>, arg2: $LootTable$Builder): void;
-        add(arg0: $EntityType_<never>, arg1: $LootTable$Builder): void;
+        add(entityType: $EntityType_<never>, defaultLootTable: $ResourceKey_<$LootTable>, builder: $LootTable$Builder): void;
+        add(entityType: $EntityType_<never>, builder: $LootTable$Builder): void;
+        generate(output: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
         generate(): void;
-        generate(arg0: $BiConsumer_<$ResourceKey<$LootTable>, $LootTable$Builder>): void;
-        shouldSmeltLoot(): $AnyOfCondition$Builder;
         killedByFrog(): $LootItemCondition$Builder;
-        static createSheepTable(arg0: $ItemLike_): $LootTable$Builder;
-        canHaveLootTable(arg0: $EntityType_<never>): boolean;
+        static createSheepTable(woolItem: $ItemLike_): $LootTable$Builder;
+        canHaveLootTable(entityType: $EntityType_<never>): boolean;
+        shouldSmeltLoot(): $AnyOfCondition$Builder;
         getKnownEntityTypes(): $Stream<$EntityType<never>>;
-        killedByFrogVariant(arg0: $ResourceKey_<$FrogVariant>): $LootItemCondition$Builder;
+        killedByFrogVariant(frogVariant: $ResourceKey_<$FrogVariant>): $LootItemCondition$Builder;
         registries: $HolderLookup$Provider;
-        constructor(arg0: $FeatureFlagSet, arg1: $FeatureFlagSet, arg2: $HolderLookup$Provider);
-        constructor(arg0: $FeatureFlagSet, arg1: $HolderLookup$Provider);
+        constructor(allowed: $FeatureFlagSet, required: $FeatureFlagSet, registries: $HolderLookup$Provider);
+        constructor(required: $FeatureFlagSet, registries: $HolderLookup$Provider);
         get knownEntityTypes(): $Stream<$EntityType<never>>;
     }
 }

@@ -9,13 +9,13 @@ declare module "@package/rbasamoyai/createbigcannons/crafting/builtup" {
         matches(arg0: $Level_, arg1: $BlockPos_): boolean;
         layers(): $Set<$BlockRecipeIngredient>;
         getType(): $BlockRecipeType<never>;
-        layerList(): $List<$BlockRecipeIngredient>;
-        getSerializer(): $BlockRecipeSerializer<never>;
-        getResultBlock(): $Block;
         assembleInWorld(arg0: $Level_, arg1: $BlockPos_): void;
+        getResultBlock(): $Block;
+        getSerializer(): $BlockRecipeSerializer<never>;
+        layerList(): $List<$BlockRecipeIngredient>;
         constructor(arg0: $List_<$BlockRecipeIngredient>, arg1: $Block_);
         get type(): $BlockRecipeType<never>;
-        get serializer(): $BlockRecipeSerializer<never>;
         get resultBlock(): $Block;
+        get serializer(): $BlockRecipeSerializer<never>;
     }
 }

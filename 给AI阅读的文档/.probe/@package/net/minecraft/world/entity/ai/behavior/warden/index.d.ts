@@ -12,12 +12,12 @@ declare module "@package/net/minecraft/world/entity/ai/behavior/warden" {
         constructor();
     }
     export class $Emerging<E extends $Warden> extends $Behavior<E> {
-        start(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        canStillUse(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
+        start(level: $ServerLevel, entity: E, gameTime: number): void;
+        stop(level: $ServerLevel, entity: E, gameTime: number): void;
+        canStillUse(level: $ServerLevel, entity: E, gameTime: number): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
-        constructor(arg0: number);
+        constructor(duration: number);
     }
     export class $Roar extends $Behavior<$Warden> {
         start(arg0: $ServerLevel, arg1: $Warden, arg2: number): void;
@@ -29,12 +29,12 @@ declare module "@package/net/minecraft/world/entity/ai/behavior/warden" {
         constructor();
     }
     export class $SonicBoom extends $Behavior<$Warden> {
-        start(arg0: $ServerLevel, arg1: $Warden, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: $Warden, arg2: number): void;
-        tick(arg0: $ServerLevel, arg1: $Warden, arg2: number): void;
-        static setCooldown(arg0: $LivingEntity, arg1: number): void;
-        canStillUse(arg0: $ServerLevel, arg1: $Warden, arg2: number): boolean;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Warden): boolean;
+        start(level: $ServerLevel, entity: $Warden, gameTime: number): void;
+        stop(level: $ServerLevel, entity: $Warden, gameTime: number): void;
+        tick(level: $ServerLevel, entity: $Warden, gameTime: number): void;
+        canStillUse(level: $ServerLevel, entity: $Warden, gameTime: number): boolean;
+        static setCooldown(entity: $LivingEntity, cooldown: number): void;
+        checkExtraStartConditions(level: $ServerLevel, owner: $Warden): boolean;
         static COOLDOWN: number;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
@@ -50,24 +50,24 @@ declare module "@package/net/minecraft/world/entity/ai/behavior/warden" {
         constructor();
     }
     export class $Sniffing<E extends $Warden> extends $Behavior<E> {
-        start(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        canStillUse(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
+        start(level: $ServerLevel, entity: E, gameTime: number): void;
+        stop(level: $ServerLevel, entity: E, gameTime: number): void;
+        canStillUse(level: $ServerLevel, entity: E, gameTime: number): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
-        constructor(arg0: number);
+        constructor(duration: number);
     }
     export class $Digging<E extends $Warden> extends $Behavior<E> {
-        start(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: E, arg2: number): void;
-        canStillUse(arg0: $ServerLevel, arg1: E, arg2: number): boolean;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: E): boolean;
+        start(level: $ServerLevel, entity: E, gameTime: number): void;
+        stop(level: $ServerLevel, entity: E, gameTime: number): void;
+        canStillUse(level: $ServerLevel, entity: E, gameTime: number): boolean;
+        checkExtraStartConditions(level: $ServerLevel, owner: E): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
-        constructor(arg0: number);
+        constructor(duration: number);
     }
     export class $SetRoarTarget {
-        static create<E extends $Warden>(arg0: $Function_<E, ($LivingEntity) | undefined>): $BehaviorControl<E>;
+        static create<E extends $Warden>(targetFinder: $Function_<E, ($LivingEntity) | undefined>): $BehaviorControl<E>;
         constructor();
     }
 }

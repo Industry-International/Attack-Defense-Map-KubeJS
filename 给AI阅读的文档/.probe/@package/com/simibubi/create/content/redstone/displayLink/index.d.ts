@@ -18,32 +18,32 @@ export * as target from "@package/com/simibubi/create/content/redstone/displayLi
 declare module "@package/com/simibubi/create/content/redstone/displayLink" {
     export class $DisplayLinkContext {
         level(): $Level;
+        sourceConfig(): $CompoundTag;
+        getSourceBlockEntity(): $BlockEntity;
+        getSourcePos(): $BlockPos;
+        blockEntity(): $DisplayLinkBlockEntity;
         getTargetPos(): $BlockPos;
         getTargetBlockEntity(): $BlockEntity;
-        sourceConfig(): $CompoundTag;
-        blockEntity(): $DisplayLinkBlockEntity;
-        getSourcePos(): $BlockPos;
-        getSourceBlockEntity(): $BlockEntity;
         flapDisplayContext: $Object;
         constructor(arg0: $Level_, arg1: $DisplayLinkBlockEntity);
+        get sourceBlockEntity(): $BlockEntity;
+        get sourcePos(): $BlockPos;
         get targetPos(): $BlockPos;
         get targetBlockEntity(): $BlockEntity;
-        get sourcePos(): $BlockPos;
-        get sourceBlockEntity(): $BlockEntity;
     }
     export class $DisplayLinkBlockEntity extends $LinkWithBulbBlockEntity implements $TransformableBlockEntity {
         target(arg0: $BlockPos_): void;
         transform(arg0: $BlockEntity, arg1: $StructureTransform): void;
         getTargetPosition(): $BlockPos;
-        onNoLongerPowered(): void;
-        handler$hkc001$sable$accountForSubLevels(arg0: $CallbackInfoReturnable<any>): void;
-        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
-        getSourcePosition(): $BlockPos;
         getDirection(): $Direction;
-        updateGatheredData(): void;
-        getSourceConfig(): $CompoundTag;
+        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
         tickSource(): void;
+        handler$hfn001$sable$accountForSubLevels(arg0: $CallbackInfoReturnable<any>): void;
         setSourceConfig(arg0: $CompoundTag_): void;
+        getSourcePosition(): $BlockPos;
+        onNoLongerPowered(): void;
+        getSourceConfig(): $CompoundTag;
+        updateGatheredData(): void;
         worldPosition: $BlockPos;
         refreshTicks: number;
         level: $Level;
@@ -55,15 +55,15 @@ declare module "@package/com/simibubi/create/content/redstone/displayLink" {
         activeSource: $DisplaySource;
         constructor(arg0: $BlockEntityType_<never>, arg1: $BlockPos_, arg2: $BlockState_);
         get targetPosition(): $BlockPos;
-        get sourcePosition(): $BlockPos;
         get direction(): $Direction;
+        get sourcePosition(): $BlockPos;
     }
     export class $LinkWithBulbBlockEntity extends $SmartBlockEntity {
+        sendPulseNextSync(): void;
         pulse(): void;
-        getGlow(arg0: number): number;
         getBulbOffset(arg0: $BlockState_): $Vec3;
         getBulbFacing(arg0: $BlockState_): $Direction;
-        sendPulseNextSync(): void;
+        getGlow(arg0: number): number;
         worldPosition: $BlockPos;
         level: $Level;
         static ATTACHMENTS_NBT_KEY: string;

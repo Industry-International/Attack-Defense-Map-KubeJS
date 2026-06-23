@@ -40,7 +40,7 @@ declare module "@package/net/minecraft/client/gui/screens/debug" {
         constructor();
     }
     export class $GameModeSwitcherScreen$GameModeSlot extends $AbstractWidget {
-        setSelected(arg0: boolean): void;
+        setSelected(isSelected: boolean): void;
         packedFGColor: number;
         static UNSET_FG_COLOR: number;
         visible: boolean;
@@ -50,7 +50,7 @@ declare module "@package/net/minecraft/client/gui/screens/debug" {
         tooltip: $WidgetTooltipHolder;
         active: boolean;
         height: number;
-        constructor(arg0: $GameModeSwitcherScreen, arg1: $GameModeSwitcherScreen$GameModeIcon_, arg2: number, arg3: number);
+        constructor(icon: $GameModeSwitcherScreen, x: $GameModeSwitcherScreen$GameModeIcon_, y: number, arg3: number);
         set selected(value: boolean);
     }
 }

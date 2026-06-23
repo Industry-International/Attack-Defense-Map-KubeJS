@@ -24,88 +24,91 @@ declare module "@package/net/neoforged/neoforge/client/model/generators" {
         ao(arg0: boolean): $ModelBuilder$ElementBuilder$FaceBuilder;
         color(arg0: number): $ModelBuilder$ElementBuilder$FaceBuilder;
         texture(arg0: string): $ModelBuilder$ElementBuilder$FaceBuilder;
-        uvs(arg0: number, arg1: number, arg2: number, arg3: number): $ModelBuilder$ElementBuilder$FaceBuilder;
-        cullface(arg0: $Direction_): $ModelBuilder$ElementBuilder$FaceBuilder;
-        tintindex(arg0: number): $ModelBuilder$ElementBuilder$FaceBuilder;
-        rotation(arg0: $ModelBuilder$FaceRotation_): $ModelBuilder$ElementBuilder$FaceBuilder;
         emissivity(arg0: number, arg1: number): $ModelBuilder$ElementBuilder$FaceBuilder;
+        rotation(arg0: $ModelBuilder$FaceRotation_): $ModelBuilder$ElementBuilder$FaceBuilder;
+        uvs(arg0: number, arg1: number, arg2: number, arg3: number): $ModelBuilder$ElementBuilder$FaceBuilder;
+        tintindex(arg0: number): $ModelBuilder$ElementBuilder$FaceBuilder;
+        cullface(arg0: $Direction_): $ModelBuilder$ElementBuilder$FaceBuilder;
     }
     export class $ModelProvider<T extends $ModelBuilder<T>> implements $DataProvider {
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
+        run(cache: $CachedOutput_): $CompletableFuture<never>;
         sign(arg0: string, arg1: $ResourceLocation_): T;
+        nested(): T;
+        getBuilder(arg0: string): T;
         button(arg0: string, arg1: $ResourceLocation_): T;
+        cross(arg0: string, arg1: $ResourceLocation_): T;
         stairsInner(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
         stairsOuter(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
+        getExistingFile(path: $ResourceLocation_): $ModelFile$ExistingModelFile;
+        doorTopLeftOpen(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        buttonPressed(arg0: string, arg1: $ResourceLocation_): T;
+        trapdoorTop(arg0: string, arg1: $ResourceLocation_): T;
+        pressurePlateDown(arg0: string, arg1: $ResourceLocation_): T;
+        doorBottomLeft(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
         fenceGateWall(arg0: string, arg1: $ResourceLocation_): T;
-        trapdoorOpen(arg0: string, arg1: $ResourceLocation_): T;
-        paneSideAlt(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        paneNoSideAlt(arg0: string, arg1: $ResourceLocation_): T;
         doorTopRight(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
         fenceGateOpen(arg0: string, arg1: $ResourceLocation_): T;
-        doorBottomRight(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        trapdoorTop(arg0: string, arg1: $ResourceLocation_): T;
-        wallSideTall(arg0: string, arg1: $ResourceLocation_): T;
         doorTopRightOpen(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        pressurePlateDown(arg0: string, arg1: $ResourceLocation_): T;
-        buttonPressed(arg0: string, arg1: $ResourceLocation_): T;
-        doorBottomLeft(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
         trapdoorBottom(arg0: string, arg1: $ResourceLocation_): T;
-        getExistingFile(arg0: $ResourceLocation_): $ModelFile$ExistingModelFile;
-        doorBottomLeftOpen(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        doorTopLeft(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        doorTopLeftOpen(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
         fenceGateWallOpen(arg0: string, arg1: $ResourceLocation_): T;
-        singleTexture(arg0: string, arg1: $ResourceLocation_, arg2: string, arg3: $ResourceLocation_): T;
-        singleTexture(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        doorTopLeft(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        paneNoSideAlt(arg0: string, arg1: $ResourceLocation_): T;
+        paneSideAlt(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        doorBottomLeftOpen(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        wallSideTall(arg0: string, arg1: $ResourceLocation_): T;
+        trapdoorOpen(arg0: string, arg1: $ResourceLocation_): T;
+        doorBottomRight(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
         cubeBottomTop(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
         buttonInventory(arg0: string, arg1: $ResourceLocation_): T;
-        fenceInventory(arg0: string, arg1: $ResourceLocation_): T;
         orientableVertical(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
         wallInventory(arg0: string, arg1: $ResourceLocation_): T;
-        nested(): T;
-        crop(arg0: string, arg1: $ResourceLocation_): T;
-        carpet(arg0: string, arg1: $ResourceLocation_): T;
-        cube(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_, arg5: $ResourceLocation_, arg6: $ResourceLocation_): T;
-        torch(arg0: string, arg1: $ResourceLocation_): T;
-        leaves(arg0: string, arg1: $ResourceLocation_): T;
-        slab(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
-        getBuilder(arg0: string): T;
-        pressurePlate(arg0: string, arg1: $ResourceLocation_): T;
+        fenceInventory(arg0: string, arg1: $ResourceLocation_): T;
+        singleTexture(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        singleTexture(arg0: string, arg1: $ResourceLocation_, arg2: string, arg3: $ResourceLocation_): T;
         withExistingParent(arg0: string, arg1: $ResourceLocation_): T;
         withExistingParent(arg0: string, arg1: string): T;
-        doorBottomRightOpen(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        trapdoorOrientableOpen(arg0: string, arg1: $ResourceLocation_): T;
-        cubeColumnHorizontal(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        trapdoorOrientableTop(arg0: string, arg1: $ResourceLocation_): T;
-        trapdoorOrientableBottom(arg0: string, arg1: $ResourceLocation_): T;
-        orientableWithBottom(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_): T;
-        modLoc(arg0: string): $ResourceLocation;
-        cubeAll(arg0: string, arg1: $ResourceLocation_): T;
-        cross(arg0: string, arg1: $ResourceLocation_): T;
-        fenceGate(arg0: string, arg1: $ResourceLocation_): T;
-        stairs(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
-        cubeColumn(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        orientable(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
+        pressurePlate(arg0: string, arg1: $ResourceLocation_): T;
         slabTop(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
-        wallPost(arg0: string, arg1: $ResourceLocation_): T;
         wallSide(arg0: string, arg1: $ResourceLocation_): T;
-        fenceSide(arg0: string, arg1: $ResourceLocation_): T;
-        paneNoSide(arg0: string, arg1: $ResourceLocation_): T;
-        fencePost(arg0: string, arg1: $ResourceLocation_): T;
         panePost(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        paneNoSide(arg0: string, arg1: $ResourceLocation_): T;
+        mcLoc(name: string): $ResourceLocation;
         paneSide(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
-        mcLoc(arg0: string): $ResourceLocation;
-        torchWall(arg0: string, arg1: $ResourceLocation_): T;
+        cubeColumn(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        fencePost(arg0: string, arg1: $ResourceLocation_): T;
+        orientable(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
+        wallPost(arg0: string, arg1: $ResourceLocation_): T;
+        fenceSide(arg0: string, arg1: $ResourceLocation_): T;
         cubeTop(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        torchWall(arg0: string, arg1: $ResourceLocation_): T;
+        cube(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_, arg5: $ResourceLocation_, arg6: $ResourceLocation_): T;
+        carpet(arg0: string, arg1: $ResourceLocation_): T;
+        leaves(arg0: string, arg1: $ResourceLocation_): T;
+        crop(arg0: string, arg1: $ResourceLocation_): T;
+        slab(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
+        torch(arg0: string, arg1: $ResourceLocation_): T;
+        modLoc(name: string): $ResourceLocation;
+        cubeAll(arg0: string, arg1: $ResourceLocation_): T;
+        stairs(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): T;
+        fenceGate(arg0: string, arg1: $ResourceLocation_): T;
+        cubeColumnHorizontal(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        doorBottomRightOpen(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_): T;
+        orientableWithBottom(arg0: string, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_): T;
+        trapdoorOrientableBottom(arg0: string, arg1: $ResourceLocation_): T;
+        trapdoorOrientableTop(arg0: string, arg1: $ResourceLocation_): T;
+        trapdoorOrientableOpen(arg0: string, arg1: $ResourceLocation_): T;
         static TEXTURE: $ExistingFileHelper$ResourceType;
         static ITEM_FOLDER: string;
         generatedModels: $Map<$ResourceLocation, T>;
         existingFileHelper: $ExistingFileHelper;
         static BLOCK_FOLDER: string;
-        constructor(arg0: $PackOutput, arg1: string, arg2: string, arg3: $BiFunction_<$ResourceLocation, $ExistingFileHelper, T>, arg4: $ExistingFileHelper);
-        constructor(arg0: $PackOutput, arg1: string, arg2: string, arg3: $Function_<$ResourceLocation, T>, arg4: $ExistingFileHelper);
+        constructor(output: $PackOutput, modid: string, folder: string, builderFromModId: $BiFunction_<$ResourceLocation, $ExistingFileHelper, T>, existingFileHelper: $ExistingFileHelper);
+        constructor(output: $PackOutput, modid: string, folder: string, factory: $Function_<$ResourceLocation, T>, existingFileHelper: $ExistingFileHelper);
     }
     export class $ModelBuilder$RootTransformsBuilder {
+        /**
+         * Finish configuring the parent builder
+         */
         end(): $ModelBuilder<T>;
         scale(arg0: $Vector3f): $ModelBuilder$RootTransformsBuilder;
         scale(arg0: number): $ModelBuilder$RootTransformsBuilder;
@@ -129,28 +132,36 @@ declare module "@package/net/neoforged/neoforge/client/model/generators" {
         append(...arg0: $ConfiguredModel[]): $BlockStateProvider$ConfiguredModelList;
         toJSON(): $JsonElement;
         constructor(...arg0: $ConfiguredModel[]);
-        constructor(arg0: $ConfiguredModel);
+        constructor(model: $ConfiguredModel);
     }
     export class $MultiPartBlockStateBuilder$PartBuilder$ConditionGroup {
+        /**
+         * Ends this condition group and returns the part builder
+         */
         end(): $MultiPartBlockStateBuilder$PartBuilder;
         condition<T extends $Comparable<T>>(arg0: $Property<T>, ...arg1: T[]): $MultiPartBlockStateBuilder$PartBuilder$ConditionGroup;
         useOr(): $MultiPartBlockStateBuilder$PartBuilder$ConditionGroup;
-        endNestedGroup(): $MultiPartBlockStateBuilder$PartBuilder$ConditionGroup;
         nestedGroup(): $MultiPartBlockStateBuilder$PartBuilder$ConditionGroup;
+        endNestedGroup(): $MultiPartBlockStateBuilder$PartBuilder$ConditionGroup;
         nestedConditionGroups: $List<$MultiPartBlockStateBuilder$PartBuilder$ConditionGroup>;
         conditions: $Multimap<$Property<never>, $Comparable<never>>;
         constructor(arg0: $MultiPartBlockStateBuilder$PartBuilder);
     }
     export class $VariantBlockStateBuilder$PartialBlockstate implements $Predicate<$BlockState> {
-        test(arg0: $BlockState_): boolean;
+        test(blockState: $BlockState_): boolean;
         "with"<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T): $VariantBlockStateBuilder$PartialBlockstate;
         getOwner(): $Block;
         partialState(): $VariantBlockStateBuilder$PartialBlockstate;
+        /**
+         * Creates a builder for models to assign to this state, which when completed
+         * via `Builder#addModel()` will assign the resultant set
+         * of models to this state.
+         */
         modelForState(): $ConfiguredModel$Builder<$VariantBlockStateBuilder>;
         setModels(...arg0: $ConfiguredModel[]): $VariantBlockStateBuilder;
         addModels(...arg0: $ConfiguredModel[]): $VariantBlockStateBuilder$PartialBlockstate;
-        static comparingByProperties(): $Comparator<$VariantBlockStateBuilder$PartialBlockstate>;
         getSetStates(): $SortedMap<$Property<never>, $Comparable<never>>;
+        static comparingByProperties(): $Comparator<$VariantBlockStateBuilder$PartialBlockstate>;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
@@ -161,62 +172,85 @@ declare module "@package/net/neoforged/neoforge/client/model/generators" {
     export class $ModelBuilder$ElementBuilder$RotationBuilder {
         end(): $ModelBuilder$ElementBuilder;
         origin(arg0: number, arg1: number, arg2: number): $ModelBuilder$ElementBuilder$RotationBuilder;
-        rescale(arg0: boolean): $ModelBuilder$ElementBuilder$RotationBuilder;
-        axis(arg0: $Direction$Axis_): $ModelBuilder$ElementBuilder$RotationBuilder;
         angle(arg0: number): $ModelBuilder$ElementBuilder$RotationBuilder;
+        axis(arg0: $Direction$Axis_): $ModelBuilder$ElementBuilder$RotationBuilder;
+        rescale(arg0: boolean): $ModelBuilder$ElementBuilder$RotationBuilder;
         constructor(arg0: $ModelBuilder$ElementBuilder);
     }
+    /**
+     * Builder for item models, adds the ability to build overrides via
+     * `#override()`.
+     */
     export class $ItemModelBuilder extends $ModelBuilder<$ItemModelBuilder> {
         override(arg0: number): $ItemModelBuilder$OverrideBuilder;
         override(): $ItemModelBuilder$OverrideBuilder;
-        constructor(arg0: $ResourceLocation_, arg1: $ExistingFileHelper);
+        constructor(outputLocation: $ResourceLocation_, existingFileHelper: $ExistingFileHelper);
     }
+    /**
+     * General purpose model builder, contains all the commonalities between item
+     * and block models.
+     */
     export class $ModelBuilder<T extends $ModelBuilder<T>> extends $ModelFile {
         parent(arg0: $ModelFile): T;
         ao(arg0: boolean): T;
         element(): $ModelBuilder$ElementBuilder;
         element(arg0: number): $ModelBuilder$ElementBuilder;
-        toJson(): $JsonObject;
         texture(arg0: string, arg1: $ResourceLocation_): T;
         texture(arg0: string, arg1: string): T;
-        customLoader<L extends $CustomLoaderBuilder<T>>(arg0: $BiFunction_<T, $ExistingFileHelper, L>): L;
+        toJson(): $JsonObject;
+        /**
+         * @return the number of elements in this model builder
+         */
         getElementCount(): number;
         rootTransforms(): $ModelBuilder$RootTransformsBuilder;
+        customLoader<L extends $CustomLoaderBuilder<T>>(arg0: $BiFunction_<T, $ExistingFileHelper, L>): L;
         guiLight(arg0: $BlockModel$GuiLight_): T;
-        transforms(): $ModelBuilder$TransformsBuilder;
-        renderType(arg0: string): T;
         renderType(arg0: $ResourceLocation_): T;
+        renderType(arg0: string): T;
+        transforms(): $ModelBuilder$TransformsBuilder;
         get elementCount(): number;
     }
     export class $ModelFile$UncheckedModelFile extends $ModelFile {
-        constructor(arg0: string);
-        constructor(arg0: $ResourceLocation_);
+        constructor(location: string);
+        constructor(location: $ResourceLocation_);
     }
+    /**
+     * Builder for block models, does not currently provide any additional
+     * functionality over `ModelBuilder`, purely a stub class with a concrete
+     * generic.
+     */
     export class $BlockModelBuilder extends $ModelBuilder<$BlockModelBuilder> {
-        constructor(arg0: $ResourceLocation_, arg1: $ExistingFileHelper);
+        constructor(outputLocation: $ResourceLocation_, existingFileHelper: $ExistingFileHelper);
     }
     export class $ModelFile {
         getLocation(): $ResourceLocation;
-        getUncheckedLocation(): $ResourceLocation;
+        /**
+         * Assert that this model exists.
+         */
         assertExistence(): void;
+        getUncheckedLocation(): $ResourceLocation;
         get location(): $ResourceLocation;
         get uncheckedLocation(): $ResourceLocation;
     }
+    /**
+     * Stub class to extend for item model data providers, eliminates some
+     * boilerplate constructor parameters.
+     */
     export class $ItemModelProvider extends $ModelProvider<$ItemModelBuilder> {
-        simpleBlockItem(arg0: $ResourceLocation_): $ItemModelBuilder;
-        simpleBlockItem(arg0: $Block_): $ItemModelBuilder;
-        spawnEggItem(arg0: $Item_): $ItemModelBuilder;
-        spawnEggItem(arg0: $ResourceLocation_): $ItemModelBuilder;
-        handheldItem(arg0: $Item_): $ItemModelBuilder;
-        handheldItem(arg0: $ResourceLocation_): $ItemModelBuilder;
-        basicItem(arg0: $ResourceLocation_): $ItemModelBuilder;
-        basicItem(arg0: $Item_): $ItemModelBuilder;
+        simpleBlockItem(item: $ResourceLocation_): $ItemModelBuilder;
+        simpleBlockItem(block: $Block_): $ItemModelBuilder;
+        spawnEggItem(item: $Item_): $ItemModelBuilder;
+        spawnEggItem(item: $ResourceLocation_): $ItemModelBuilder;
+        handheldItem(item: $Item_): $ItemModelBuilder;
+        handheldItem(item: $ResourceLocation_): $ItemModelBuilder;
+        basicItem(item: $ResourceLocation_): $ItemModelBuilder;
+        basicItem(item: $Item_): $ItemModelBuilder;
         static TEXTURE: $ExistingFileHelper$ResourceType;
         static ITEM_FOLDER: string;
         generatedModels: $Map<$ResourceLocation, $ItemModelBuilder>;
         existingFileHelper: $ExistingFileHelper;
         static BLOCK_FOLDER: string;
-        constructor(arg0: $PackOutput, arg1: string, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, modid: string, existingFileHelper: $ExistingFileHelper);
     }
     export class $ItemModelBuilder$OverrideBuilder {
         end(): $ItemModelBuilder;
@@ -225,15 +259,19 @@ declare module "@package/net/neoforged/neoforge/client/model/generators" {
         constructor(arg0: $ItemModelBuilder);
     }
     export class $ModelFile$ExistingModelFile extends $ModelFile {
-        constructor(arg0: $ResourceLocation_, arg1: $ExistingFileHelper);
+        constructor(location: $ResourceLocation_, existingHelper: $ExistingFileHelper);
     }
+    /**
+     * Stub class to extend for block model data providers, eliminates some
+     * boilerplate constructor parameters.
+     */
     export class $BlockModelProvider extends $ModelProvider<$BlockModelBuilder> {
         static TEXTURE: $ExistingFileHelper$ResourceType;
         static ITEM_FOLDER: string;
         generatedModels: $Map<$ResourceLocation, $BlockModelBuilder>;
         existingFileHelper: $ExistingFileHelper;
         static BLOCK_FOLDER: string;
-        constructor(arg0: $PackOutput, arg1: string, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, modid: string, existingFileHelper: $ExistingFileHelper);
     }
     export class $IGeneratedBlockState {
     }
@@ -246,122 +284,130 @@ declare module "@package/net/neoforged/neoforge/client/model/generators" {
     export type $IGeneratedBlockState_ = (() => $JsonObject_);
     export class $CustomLoaderBuilder<T extends $ModelBuilder<T>> {
         end(): T;
+        /**
+         * Mark the custom loader as optional for this model to allow it to be loaded through vanilla paths
+         * if the loader is not present
+         */
         optional(): $CustomLoaderBuilder<T>;
-        toJson(arg0: $JsonObject_): $JsonObject;
-        visibility(arg0: string, arg1: boolean): $CustomLoaderBuilder<T>;
+        toJson(json: $JsonObject_): $JsonObject;
+        visibility(partName: string, show: boolean): $CustomLoaderBuilder<T>;
     }
+    /**
+     * Data provider for blockstate files. Extends `BlockModelProvider` so that
+     * blockstates and their referenced models can be provided in tandem.
+     */
     export class $BlockStateProvider implements $DataProvider {
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        blockTexture(arg0: $Block_): $ResourceLocation;
-        getVariantBuilder(arg0: $Block_): $VariantBlockStateBuilder;
-        horizontalBlock(arg0: $Block_, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        horizontalBlock(arg0: $Block_, arg1: $ModelFile): void;
-        horizontalBlock(arg0: $Block_, arg1: $ModelFile, arg2: number): void;
-        horizontalBlock(arg0: $Block_, arg1: $Function_<$BlockState, $ModelFile>): void;
-        horizontalBlock(arg0: $Block_, arg1: $Function_<$BlockState, $ModelFile>, arg2: number): void;
-        directionalBlock(arg0: $Block_, arg1: $Function_<$BlockState, $ModelFile>): void;
-        directionalBlock(arg0: $Block_, arg1: $ModelFile, arg2: number): void;
-        directionalBlock(arg0: $Block_, arg1: $ModelFile): void;
-        directionalBlock(arg0: $Block_, arg1: $Function_<$BlockState, $ModelFile>, arg2: number): void;
-        simpleBlockItem(arg0: $Block_, arg1: $ModelFile): void;
-        stairsBlock(arg0: $StairBlock, arg1: $ModelFile, arg2: $ModelFile, arg3: $ModelFile): void;
-        stairsBlock(arg0: $StairBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_): void;
-        stairsBlock(arg0: $StairBlock, arg1: $ResourceLocation_): void;
-        stairsBlock(arg0: $StairBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        stairsBlock(arg0: $StairBlock, arg1: string, arg2: $ResourceLocation_): void;
-        trapdoorBlock(arg0: $TrapDoorBlock, arg1: string, arg2: $ResourceLocation_, arg3: boolean): void;
-        trapdoorBlock(arg0: $TrapDoorBlock, arg1: $ResourceLocation_, arg2: boolean): void;
-        trapdoorBlock(arg0: $TrapDoorBlock, arg1: $ModelFile, arg2: $ModelFile, arg3: $ModelFile, arg4: boolean): void;
-        hangingSignBlock(arg0: $CeilingHangingSignBlock, arg1: $WallHangingSignBlock, arg2: $ModelFile): void;
-        hangingSignBlock(arg0: $CeilingHangingSignBlock, arg1: $WallHangingSignBlock, arg2: $ResourceLocation_): void;
-        fourWayBlock(arg0: $CrossCollisionBlock, arg1: $ModelFile, arg2: $ModelFile): void;
-        pressurePlateBlock(arg0: $PressurePlateBlock, arg1: $ResourceLocation_): void;
-        pressurePlateBlock(arg0: $PressurePlateBlock, arg1: $ModelFile, arg2: $ModelFile): void;
-        buttonBlock(arg0: $ButtonBlock, arg1: $ModelFile, arg2: $ModelFile): void;
-        buttonBlock(arg0: $ButtonBlock, arg1: $ResourceLocation_): void;
-        fenceGateBlock(arg0: $FenceGateBlock, arg1: $ResourceLocation_): void;
-        fenceGateBlock(arg0: $FenceGateBlock, arg1: $ModelFile, arg2: $ModelFile, arg3: $ModelFile, arg4: $ModelFile): void;
-        fenceGateBlock(arg0: $FenceGateBlock, arg1: string, arg2: $ResourceLocation_): void;
-        fourWayMultipart(arg0: $MultiPartBlockStateBuilder, arg1: $ModelFile): void;
+        run(cache: $CachedOutput_): $CompletableFuture<never>;
+        blockTexture(block: $Block_): $ResourceLocation;
+        directionalBlock(block: $Block_, expander: $Function_<$BlockState, $ModelFile>): void;
+        directionalBlock(block: $Block_, modelFunc: $Function_<$BlockState, $ModelFile>, angleOffset: number): void;
+        directionalBlock(block: $Block_, model: $ModelFile, angleOffset: number): void;
+        directionalBlock(block: $Block_, model: $ModelFile): void;
+        horizontalBlock(block: $Block_, modelFunc: $Function_<$BlockState, $ModelFile>, angleOffset: number): void;
+        horizontalBlock(block: $Block_, expander: $Function_<$BlockState, $ModelFile>): void;
+        horizontalBlock(block: $Block_, model: $ModelFile): void;
+        horizontalBlock(block: $Block_, side: $ResourceLocation_, front: $ResourceLocation_, top: $ResourceLocation_): void;
+        horizontalBlock(block: $Block_, model: $ModelFile, angleOffset: number): void;
+        getVariantBuilder(b: $Block_): $VariantBlockStateBuilder;
+        simpleBlockItem(block: $Block_, model: $ModelFile): void;
+        stairsBlock(block: $StairBlock, side: $ResourceLocation_, bottom: $ResourceLocation_, top: $ResourceLocation_): void;
+        stairsBlock(block: $StairBlock, texture: $ResourceLocation_): void;
+        stairsBlock(block: $StairBlock, name: string, texture: $ResourceLocation_): void;
+        stairsBlock(block: $StairBlock, stairs: $ModelFile, stairsInner: $ModelFile, stairsOuter: $ModelFile): void;
+        stairsBlock(block: $StairBlock, name: string, side: $ResourceLocation_, bottom: $ResourceLocation_, top: $ResourceLocation_): void;
+        trapdoorBlock(block: $TrapDoorBlock, bottom: $ModelFile, top: $ModelFile, open: $ModelFile, orientable: boolean): void;
+        trapdoorBlock(block: $TrapDoorBlock, name: string, texture: $ResourceLocation_, orientable: boolean): void;
+        trapdoorBlock(block: $TrapDoorBlock, texture: $ResourceLocation_, orientable: boolean): void;
+        fenceGateBlock(block: $FenceGateBlock, name: string, texture: $ResourceLocation_): void;
+        fenceGateBlock(block: $FenceGateBlock, texture: $ResourceLocation_): void;
+        fenceGateBlock(block: $FenceGateBlock, gate: $ModelFile, gateOpen: $ModelFile, gateWall: $ModelFile, gateWallOpen: $ModelFile): void;
+        fourWayBlock(block: $CrossCollisionBlock, post: $ModelFile, side: $ModelFile): void;
+        hangingSignBlock(hangingSignBlock: $CeilingHangingSignBlock, wallHangingSignBlock: $WallHangingSignBlock, texture: $ResourceLocation_): void;
+        hangingSignBlock(hangingSignBlock: $CeilingHangingSignBlock, wallHangingSignBlock: $WallHangingSignBlock, hangingSign: $ModelFile): void;
+        fourWayMultipart(builder: $MultiPartBlockStateBuilder, side: $ModelFile): void;
+        buttonBlock(block: $ButtonBlock, texture: $ResourceLocation_): void;
+        buttonBlock(block: $ButtonBlock, button: $ModelFile, buttonPressed: $ModelFile): void;
+        pressurePlateBlock(block: $PressurePlateBlock, texture: $ResourceLocation_): void;
+        pressurePlateBlock(block: $PressurePlateBlock, pressurePlate: $ModelFile, pressurePlateDown: $ModelFile): void;
+        simpleBlock(block: $Block_): void;
+        simpleBlock(block: $Block_, model: $ModelFile): void;
+        simpleBlock(block: $Block_, expander: $Function_<$ModelFile, $ConfiguredModel[]>): void;
         simpleBlock(arg0: $Block_, ...arg1: $ConfiguredModel[]): void;
-        simpleBlock(arg0: $Block_, arg1: $Function_<$ModelFile, $ConfiguredModel[]>): void;
-        simpleBlock(arg0: $Block_, arg1: $ModelFile): void;
-        simpleBlock(arg0: $Block_): void;
-        logBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_): void;
-        logBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: string): void;
-        wallBlockWithRenderType(arg0: $WallBlock, arg1: $ResourceLocation_, arg2: string): void;
-        wallBlockWithRenderType(arg0: $WallBlock, arg1: string, arg2: $ResourceLocation_, arg3: string): void;
-        wallBlockWithRenderType(arg0: $WallBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        wallBlockWithRenderType(arg0: $WallBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        paneBlockWithRenderType(arg0: $IronBarsBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: string): void;
-        paneBlockWithRenderType(arg0: $IronBarsBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_): void;
-        paneBlockWithRenderType(arg0: $IronBarsBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        paneBlockWithRenderType(arg0: $IronBarsBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: string): void;
-        axisBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_, arg2: string): void;
-        axisBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        axisBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_): void;
-        axisBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: string): void;
-        axisBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: string): void;
-        axisBlockWithRenderType(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_, arg5: string): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: $ResourceLocation_, arg2: string): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: string): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: string, arg2: $ResourceLocation_, arg3: string): void;
-        stairsBlockWithRenderType(arg0: $StairBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_, arg5: $ResourceLocation_): void;
-        doorBlockWithRenderType(arg0: $DoorBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        doorBlockWithRenderType(arg0: $DoorBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: string): void;
-        doorBlockWithRenderType(arg0: $DoorBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_): void;
-        doorBlockWithRenderType(arg0: $DoorBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: string): void;
-        getMultipartBuilder(arg0: $Block_): $MultiPartBlockStateBuilder;
-        horizontalFaceBlock(arg0: $Block_, arg1: $Function_<$BlockState, $ModelFile>): void;
-        horizontalFaceBlock(arg0: $Block_, arg1: $ModelFile): void;
-        horizontalFaceBlock(arg0: $Block_, arg1: $ModelFile, arg2: number): void;
-        horizontalFaceBlock(arg0: $Block_, arg1: $Function_<$BlockState, $ModelFile>, arg2: number): void;
-        fenceBlockWithRenderType(arg0: $FenceBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        fenceBlockWithRenderType(arg0: $FenceBlock, arg1: string, arg2: $ResourceLocation_, arg3: string): void;
-        fenceBlockWithRenderType(arg0: $FenceBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        fenceBlockWithRenderType(arg0: $FenceBlock, arg1: $ResourceLocation_, arg2: string): void;
-        simpleBlockWithItem(arg0: $Block_, arg1: $ModelFile): void;
-        modLoc(arg0: string): $ResourceLocation;
-        models(): $BlockModelProvider;
-        cubeAll(arg0: $Block_): $ModelFile;
-        trapdoorBlockWithRenderType(arg0: $TrapDoorBlock, arg1: $ResourceLocation_, arg2: boolean, arg3: string): void;
-        trapdoorBlockWithRenderType(arg0: $TrapDoorBlock, arg1: string, arg2: $ResourceLocation_, arg3: boolean, arg4: $ResourceLocation_): void;
-        trapdoorBlockWithRenderType(arg0: $TrapDoorBlock, arg1: string, arg2: $ResourceLocation_, arg3: boolean, arg4: string): void;
-        trapdoorBlockWithRenderType(arg0: $TrapDoorBlock, arg1: $ResourceLocation_, arg2: boolean, arg3: $ResourceLocation_): void;
-        fenceGateBlockWithRenderType(arg0: $FenceGateBlock, arg1: $ResourceLocation_, arg2: string): void;
-        fenceGateBlockWithRenderType(arg0: $FenceGateBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        fenceGateBlockWithRenderType(arg0: $FenceGateBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        fenceGateBlockWithRenderType(arg0: $FenceGateBlock, arg1: string, arg2: $ResourceLocation_, arg3: string): void;
+        axisBlock(block: $RotatedPillarBlock, side: $ResourceLocation_, end: $ResourceLocation_): void;
+        axisBlock(block: $RotatedPillarBlock, baseName: $ResourceLocation_): void;
+        axisBlock(block: $RotatedPillarBlock): void;
+        axisBlock(block: $RotatedPillarBlock, vertical: $ModelFile, horizontal: $ModelFile): void;
+        wallBlock(block: $WallBlock, name: string, texture: $ResourceLocation_): void;
+        wallBlock(block: $WallBlock, post: $ModelFile, side: $ModelFile, sideTall: $ModelFile): void;
+        wallBlock(block: $WallBlock, texture: $ResourceLocation_): void;
+        fenceBlock(block: $FenceBlock, texture: $ResourceLocation_): void;
+        fenceBlock(block: $FenceBlock, name: string, texture: $ResourceLocation_): void;
         itemModels(): $ItemModelProvider;
-        signBlock(arg0: $StandingSignBlock, arg1: $WallSignBlock, arg2: $ResourceLocation_): void;
-        signBlock(arg0: $StandingSignBlock, arg1: $WallSignBlock, arg2: $ModelFile): void;
-        wallBlock(arg0: $WallBlock, arg1: string, arg2: $ResourceLocation_): void;
-        wallBlock(arg0: $WallBlock, arg1: $ResourceLocation_): void;
-        wallBlock(arg0: $WallBlock, arg1: $ModelFile, arg2: $ModelFile, arg3: $ModelFile): void;
-        paneBlock(arg0: $IronBarsBlock, arg1: $ModelFile, arg2: $ModelFile, arg3: $ModelFile, arg4: $ModelFile, arg5: $ModelFile): void;
-        paneBlock(arg0: $IronBarsBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        paneBlock(arg0: $IronBarsBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        doorBlock(arg0: $DoorBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        doorBlock(arg0: $DoorBlock, arg1: $ModelFile, arg2: $ModelFile, arg3: $ModelFile, arg4: $ModelFile, arg5: $ModelFile, arg6: $ModelFile, arg7: $ModelFile, arg8: $ModelFile): void;
-        doorBlock(arg0: $DoorBlock, arg1: string, arg2: $ResourceLocation_, arg3: $ResourceLocation_): void;
-        axisBlock(arg0: $RotatedPillarBlock): void;
-        axisBlock(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_): void;
-        axisBlock(arg0: $RotatedPillarBlock, arg1: $ModelFile, arg2: $ModelFile): void;
-        axisBlock(arg0: $RotatedPillarBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        slabBlock(arg0: $SlabBlock, arg1: $ModelFile, arg2: $ModelFile, arg3: $ModelFile): void;
-        slabBlock(arg0: $SlabBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $ResourceLocation_, arg4: $ResourceLocation_): void;
-        slabBlock(arg0: $SlabBlock, arg1: $ResourceLocation_, arg2: $ResourceLocation_): void;
-        logBlock(arg0: $RotatedPillarBlock): void;
-        fenceBlock(arg0: $FenceBlock, arg1: $ResourceLocation_): void;
-        fenceBlock(arg0: $FenceBlock, arg1: string, arg2: $ResourceLocation_): void;
-        mcLoc(arg0: string): $ResourceLocation;
+        mcLoc(name: string): $ResourceLocation;
+        slabBlock(block: $SlabBlock, bottom: $ModelFile, top: $ModelFile, doubleslab: $ModelFile): void;
+        slabBlock(block: $SlabBlock, doubleslab: $ResourceLocation_, texture: $ResourceLocation_): void;
+        slabBlock(block: $SlabBlock, doubleslab: $ResourceLocation_, side: $ResourceLocation_, bottom: $ResourceLocation_, top: $ResourceLocation_): void;
+        logBlock(block: $RotatedPillarBlock): void;
+        signBlock(signBlock: $StandingSignBlock, wallSignBlock: $WallSignBlock, texture: $ResourceLocation_): void;
+        signBlock(signBlock: $StandingSignBlock, wallSignBlock: $WallSignBlock, sign: $ModelFile): void;
+        doorBlock(block: $DoorBlock, name: string, bottom: $ResourceLocation_, top: $ResourceLocation_): void;
+        doorBlock(block: $DoorBlock, bottomLeft: $ModelFile, bottomLeftOpen: $ModelFile, bottomRight: $ModelFile, bottomRightOpen: $ModelFile, topLeft: $ModelFile, topLeftOpen: $ModelFile, topRight: $ModelFile, topRightOpen: $ModelFile): void;
+        doorBlock(block: $DoorBlock, bottom: $ResourceLocation_, top: $ResourceLocation_): void;
+        paneBlock(block: $IronBarsBlock, post: $ModelFile, side: $ModelFile, sideAlt: $ModelFile, noSide: $ModelFile, noSideAlt: $ModelFile): void;
+        paneBlock(block: $IronBarsBlock, pane: $ResourceLocation_, edge: $ResourceLocation_): void;
+        paneBlock(block: $IronBarsBlock, name: string, pane: $ResourceLocation_, edge: $ResourceLocation_): void;
+        trapdoorBlockWithRenderType(block: $TrapDoorBlock, texture: $ResourceLocation_, orientable: boolean, renderType: string): void;
+        trapdoorBlockWithRenderType(block: $TrapDoorBlock, name: string, texture: $ResourceLocation_, orientable: boolean, renderType: string): void;
+        trapdoorBlockWithRenderType(block: $TrapDoorBlock, texture: $ResourceLocation_, orientable: boolean, renderType: $ResourceLocation_): void;
+        trapdoorBlockWithRenderType(block: $TrapDoorBlock, name: string, texture: $ResourceLocation_, orientable: boolean, renderType: $ResourceLocation_): void;
+        fenceGateBlockWithRenderType(block: $FenceGateBlock, name: string, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        fenceGateBlockWithRenderType(block: $FenceGateBlock, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        fenceGateBlockWithRenderType(block: $FenceGateBlock, name: string, texture: $ResourceLocation_, renderType: string): void;
+        fenceGateBlockWithRenderType(block: $FenceGateBlock, texture: $ResourceLocation_, renderType: string): void;
+        models(): $BlockModelProvider;
+        modLoc(name: string): $ResourceLocation;
+        cubeAll(block: $Block_): $ModelFile;
+        axisBlockWithRenderType(block: $RotatedPillarBlock, baseName: $ResourceLocation_): void;
+        axisBlockWithRenderType(block: $RotatedPillarBlock, side: $ResourceLocation_, end: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        axisBlockWithRenderType(block: $RotatedPillarBlock, side: $ResourceLocation_, end: $ResourceLocation_, renderType: string): void;
+        axisBlockWithRenderType(block: $RotatedPillarBlock, side: $ResourceLocation_, end: $ResourceLocation_): void;
+        axisBlockWithRenderType(block: $RotatedPillarBlock, renderType: string): void;
+        axisBlockWithRenderType(block: $RotatedPillarBlock, baseName: $ResourceLocation_, renderType: string): void;
+        horizontalFaceBlock(block: $Block_, modelFunc: $Function_<$BlockState, $ModelFile>, angleOffset: number): void;
+        horizontalFaceBlock(block: $Block_, model: $ModelFile): void;
+        horizontalFaceBlock(block: $Block_, model: $ModelFile, angleOffset: number): void;
+        horizontalFaceBlock(block: $Block_, expander: $Function_<$BlockState, $ModelFile>): void;
+        getMultipartBuilder(b: $Block_): $MultiPartBlockStateBuilder;
+        stairsBlockWithRenderType(block: $StairBlock, name: string, side: $ResourceLocation_, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: string): void;
+        stairsBlockWithRenderType(block: $StairBlock, texture: $ResourceLocation_, renderType: string): void;
+        stairsBlockWithRenderType(block: $StairBlock, name: string, texture: $ResourceLocation_, renderType: string): void;
+        stairsBlockWithRenderType(block: $StairBlock, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        stairsBlockWithRenderType(block: $StairBlock, name: string, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        stairsBlockWithRenderType(block: $StairBlock, side: $ResourceLocation_, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        stairsBlockWithRenderType(block: $StairBlock, name: string, side: $ResourceLocation_, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        stairsBlockWithRenderType(block: $StairBlock, side: $ResourceLocation_, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: string): void;
+        fenceBlockWithRenderType(block: $FenceBlock, texture: $ResourceLocation_, renderType: string): void;
+        fenceBlockWithRenderType(block: $FenceBlock, name: string, texture: $ResourceLocation_, renderType: string): void;
+        fenceBlockWithRenderType(block: $FenceBlock, name: string, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        fenceBlockWithRenderType(block: $FenceBlock, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        wallBlockWithRenderType(block: $WallBlock, name: string, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        wallBlockWithRenderType(block: $WallBlock, texture: $ResourceLocation_, renderType: string): void;
+        wallBlockWithRenderType(block: $WallBlock, texture: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        wallBlockWithRenderType(block: $WallBlock, name: string, texture: $ResourceLocation_, renderType: string): void;
+        simpleBlockWithItem(block: $Block_, model: $ModelFile): void;
+        doorBlockWithRenderType(block: $DoorBlock, name: string, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        doorBlockWithRenderType(block: $DoorBlock, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        doorBlockWithRenderType(block: $DoorBlock, name: string, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: string): void;
+        doorBlockWithRenderType(block: $DoorBlock, bottom: $ResourceLocation_, top: $ResourceLocation_, renderType: string): void;
+        paneBlockWithRenderType(block: $IronBarsBlock, pane: $ResourceLocation_, edge: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        paneBlockWithRenderType(block: $IronBarsBlock, name: string, pane: $ResourceLocation_, edge: $ResourceLocation_, renderType: string): void;
+        paneBlockWithRenderType(block: $IronBarsBlock, pane: $ResourceLocation_, edge: $ResourceLocation_, renderType: string): void;
+        paneBlockWithRenderType(block: $IronBarsBlock, name: string, pane: $ResourceLocation_, edge: $ResourceLocation_, renderType: $ResourceLocation_): void;
+        logBlockWithRenderType(block: $RotatedPillarBlock, renderType: string): void;
+        logBlockWithRenderType(block: $RotatedPillarBlock, baseName: $ResourceLocation_): void;
         static WALL_PROPS: $ImmutableMap<$Direction, $Property<$WallSide>>;
-        constructor(arg0: $PackOutput, arg1: string, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, modid: string, exFileHelper: $ExistingFileHelper);
         get name(): string;
     }
     export class $ModelBuilder$FaceRotation extends $Enum<$ModelBuilder$FaceRotation> {
@@ -391,30 +437,52 @@ declare module "@package/net/neoforged/neoforge/client/model/generators" {
         to(arg0: number, arg1: number, arg2: number): $ModelBuilder$ElementBuilder;
         ao(arg0: boolean): $ModelBuilder$ElementBuilder;
         color(arg0: number): $ModelBuilder$ElementBuilder;
-        texture(arg0: string): $ModelBuilder$ElementBuilder;
-        cube(arg0: string): $ModelBuilder$ElementBuilder;
-        face(arg0: $Direction_): $ModelBuilder$ElementBuilder$FaceBuilder;
         shade(arg0: boolean): $ModelBuilder$ElementBuilder;
-        faces(arg0: $BiConsumer_<$Direction, $ModelBuilder$ElementBuilder$FaceBuilder>): $ModelBuilder$ElementBuilder;
-        rotation(): $ModelBuilder$ElementBuilder$RotationBuilder;
-        emissivity(arg0: number, arg1: number): $ModelBuilder$ElementBuilder;
-        allFaces(arg0: $BiConsumer_<$Direction, $ModelBuilder$ElementBuilder$FaceBuilder>): $ModelBuilder$ElementBuilder;
+        texture(arg0: string): $ModelBuilder$ElementBuilder;
         textureAll(arg0: string): $ModelBuilder$ElementBuilder;
+        emissivity(arg0: number, arg1: number): $ModelBuilder$ElementBuilder;
+        face(arg0: $Direction_): $ModelBuilder$ElementBuilder$FaceBuilder;
+        allFaces(arg0: $BiConsumer_<$Direction, $ModelBuilder$ElementBuilder$FaceBuilder>): $ModelBuilder$ElementBuilder;
+        rotation(): $ModelBuilder$ElementBuilder$RotationBuilder;
+        cube(arg0: string): $ModelBuilder$ElementBuilder;
+        faces(arg0: $BiConsumer_<$Direction, $ModelBuilder$ElementBuilder$FaceBuilder>): $ModelBuilder$ElementBuilder;
         allFacesExcept(arg0: $BiConsumer_<$Direction, $ModelBuilder$ElementBuilder$FaceBuilder>, arg1: $Set_<$Direction_>): $ModelBuilder$ElementBuilder;
         constructor(arg0: $ModelBuilder<any>);
     }
     export class $MultiPartBlockStateBuilder implements $IGeneratedBlockState {
+        /**
+         * Creates a builder for models to assign to a `PartBuilder`, which when
+         * completed via `Builder#addModel()` will assign the
+         * resultant set of models to the part and return it for further processing.
+         */
         part(): $ConfiguredModel$Builder<$MultiPartBlockStateBuilder$PartBuilder>;
         toJson(): $JsonObject;
-        constructor(arg0: $Block_);
+        constructor(owner: $Block_);
     }
+    /**
+     * Builder for variant-type blockstates, i.e. non-multipart blockstates. Should
+     * not be manually instantiated, instead use
+     * `BlockStateProvider#getVariantBuilder(Block)`.
+     * 
+     * Variants can either be set via
+     * `#setModels(PartialBlockstate, ConfiguredModel...)` or
+     * `#addModels(PartialBlockstate, ConfiguredModel...)`, where model(s) can
+     * be assigned directly to partial states, or builder
+     * style via `#partialState()` and its subsequent methods.
+     * 
+     * This class also provides the convenience methods
+     * `#forAllStates(Function)` and
+     * `#forAllStatesExcept(Function, Property...)` for cases where the model
+     * for each variant can be decided dynamically based on the state's property
+     * values.
+     */
     export class $VariantBlockStateBuilder implements $IGeneratedBlockState {
         getOwner(): $Block;
-        toJson(): $JsonObject;
-        forAllStates(arg0: $Function_<$BlockState, $ConfiguredModel[]>): $VariantBlockStateBuilder;
-        partialState(): $VariantBlockStateBuilder$PartialBlockstate;
-        forAllStatesExcept(arg0: $Function_<$BlockState, $ConfiguredModel[]>, ...arg1: $Property<never>[]): $VariantBlockStateBuilder;
         getModels(): $Map<$VariantBlockStateBuilder$PartialBlockstate, $BlockStateProvider$ConfiguredModelList>;
+        toJson(): $JsonObject;
+        partialState(): $VariantBlockStateBuilder$PartialBlockstate;
+        forAllStates(mapper: $Function_<$BlockState, $ConfiguredModel[]>): $VariantBlockStateBuilder;
+        forAllStatesExcept(arg0: $Function_<$BlockState, $ConfiguredModel[]>, ...arg1: $Property<never>[]): $VariantBlockStateBuilder;
         setModels(arg0: $VariantBlockStateBuilder$PartialBlockstate, ...arg1: $ConfiguredModel[]): $VariantBlockStateBuilder;
         addModels(arg0: $VariantBlockStateBuilder$PartialBlockstate, ...arg1: $ConfiguredModel[]): $VariantBlockStateBuilder;
         get owner(): $Block;
@@ -424,41 +492,74 @@ declare module "@package/net/neoforged/neoforge/client/model/generators" {
         transform(arg0: $ItemDisplayContext_): $ModelBuilder$TransformsBuilder$TransformVecBuilder;
         constructor(arg0: $ModelBuilder<any>);
     }
+    /**
+     * A builder for `ConfiguredModel`s, which can contain a callback for
+     * processing the finished result. If no callback is available (e.g. in the case
+     * of `ConfiguredModel#builder()`), some methods will not be available.
+     * 
+     * Multiple models can be configured at once through the use of
+     * `#nextModel()`.
+     */
     export class $ConfiguredModel$Builder<T> {
+        /**
+         * Build all configured models and return them as an array.
+         */
         build(): $ConfiguredModel[];
         weight(arg0: number): $ConfiguredModel$Builder<T>;
-        rotationX(arg0: number): $ConfiguredModel$Builder<T>;
-        rotationY(arg0: number): $ConfiguredModel$Builder<T>;
-        uvLock(arg0: boolean): $ConfiguredModel$Builder<T>;
-        modelFile(arg0: $ModelFile): $ConfiguredModel$Builder<T>;
-        addModel(): T;
-        buildLast(): $ConfiguredModel;
         nextModel(): $ConfiguredModel$Builder<T>;
+        /**
+         * Build the most recent model, as if `#nextModel()` was never called.
+         * Useful for single-model builders.
+         */
+        buildLast(): $ConfiguredModel;
+        rotationY(arg0: number): $ConfiguredModel$Builder<T>;
+        rotationX(arg0: number): $ConfiguredModel$Builder<T>;
+        uvLock(arg0: boolean): $ConfiguredModel$Builder<T>;
+        addModel(): T;
+        modelFile(arg0: $ModelFile): $ConfiguredModel$Builder<T>;
     }
     export class $MultiPartBlockStateBuilder$PartBuilder {
         end(): $MultiPartBlockStateBuilder;
         condition<T extends $Comparable<T>>(arg0: $Property<T>, ...arg1: T[]): $MultiPartBlockStateBuilder$PartBuilder;
-        canApplyTo(arg0: $Block_): boolean;
         useOr(): $MultiPartBlockStateBuilder$PartBuilder;
+        canApplyTo(b: $Block_): boolean;
         nestedGroup(): $MultiPartBlockStateBuilder$PartBuilder$ConditionGroup;
         nestedConditionGroups: $List<$MultiPartBlockStateBuilder$PartBuilder$ConditionGroup>;
         models: $BlockStateProvider$ConfiguredModelList;
         conditions: $Multimap<$Property<never>, $Comparable<never>>;
     }
+    /**
+     * Represents a model with blockstate configurations, e.g. rotation, uvlock, and
+     * random weight.
+     * 
+     * Can be manually constructed, created by static factory such as
+     * `#allYRotations(ModelFile, int, boolean)`, or created by builder via
+     * `#builder()`.
+     */
     export class $ConfiguredModel {
         static builder(): $ConfiguredModel$Builder<never>;
-        static allRotations(arg0: $ModelFile, arg1: boolean): $ConfiguredModel[];
-        static allRotations(arg0: $ModelFile, arg1: boolean, arg2: number): $ConfiguredModel[];
-        static allYRotations(arg0: $ModelFile, arg1: number, arg2: boolean, arg3: number): $ConfiguredModel[];
-        static allYRotations(arg0: $ModelFile, arg1: number, arg2: boolean): $ConfiguredModel[];
+        static allRotations(model: $ModelFile, uvlock: boolean): $ConfiguredModel[];
+        static allRotations(model: $ModelFile, uvlock: boolean, weight: number): $ConfiguredModel[];
+        static allYRotations(model: $ModelFile, x: number, uvlock: boolean): $ConfiguredModel[];
+        static allYRotations(model: $ModelFile, x: number, uvlock: boolean, weight: number): $ConfiguredModel[];
         rotationX: number;
         rotationY: number;
         uvLock: boolean;
         weight: number;
         model: $ModelFile;
         static DEFAULT_WEIGHT: number;
-        constructor(arg0: $ModelFile, arg1: number, arg2: number, arg3: boolean);
-        constructor(arg0: $ModelFile);
-        constructor(arg0: $ModelFile, arg1: number, arg2: number, arg3: boolean, arg4: number);
+        /**
+         * Construct a new `ConfiguredModel` with the default rotation (0, 0),
+         * uvlock (false), and default random weight.
+         */
+        constructor(model: $ModelFile);
+        /**
+         * Construct a new `ConfiguredModel` with the random weight.
+         */
+        constructor(model: $ModelFile, rotationX: number, rotationY: number, uvLock: boolean);
+        /**
+         * Construct a new `ConfiguredModel`.
+         */
+        constructor(model: $ModelFile, rotationX: number, rotationY: number, uvLock: boolean, weight: number);
     }
 }

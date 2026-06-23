@@ -14,17 +14,17 @@ declare module "@package/com/tacz/guns/client/resource/pojo/display" {
      */
     export type $IDisplay_ = (() => void);
     export class $LaserConfig {
-        getWidth(): number;
         getLength(): number;
-        canEdit(): boolean;
+        getWidth(): number;
         getDefaultColor(): number;
-        getLengthThird(): number;
+        canEdit(): boolean;
         getWidthThird(): number;
+        getLengthThird(): number;
         constructor();
-        get width(): number;
         get length(): number;
+        get width(): number;
         get defaultColor(): number;
-        get lengthThird(): number;
         get widthThird(): number;
+        get lengthThird(): number;
     }
 }

@@ -10,17 +10,17 @@ import { $Vec3_, $Vec3 } from "@package/net/minecraft/world/phys";
 
 declare module "@package/net/minecraft/world/level/portal" {
     export class $PortalForcer {
-        findClosestPortalPosition(arg0: $BlockPos_, arg1: boolean, arg2: $WorldBorder): ($BlockPos) | undefined;
-        createPortal(arg0: $BlockPos_, arg1: $Direction$Axis_): ($BlockUtil$FoundRectangle) | undefined;
+        createPortal(pos: $BlockPos_, axis: $Direction$Axis_): ($BlockUtil$FoundRectangle) | undefined;
+        findClosestPortalPosition(exitPos: $BlockPos_, isNether: boolean, worldBorder: $WorldBorder): ($BlockPos) | undefined;
         level: $ServerLevel;
         static TICKET_RADIUS: number;
-        constructor(arg0: $ServerLevel);
+        constructor(level: $ServerLevel);
     }
     export class $DimensionTransition$PostDimensionTransition {
     }
     export interface $DimensionTransition$PostDimensionTransition {
-        then(arg0: $DimensionTransition$PostDimensionTransition_): $DimensionTransition$PostDimensionTransition;
-        onTransition(arg0: $Entity): void;
+        then(transition: $DimensionTransition$PostDimensionTransition_): $DimensionTransition$PostDimensionTransition;
+        onTransition(entity: $Entity): void;
     }
     /**
      * Values that may be interpreted as {@link $DimensionTransition$PostDimensionTransition}.
@@ -28,32 +28,32 @@ declare module "@package/net/minecraft/world/level/portal" {
     export type $DimensionTransition$PostDimensionTransition_ = ((arg0: $Entity) => void);
     export class $PortalShape {
         isValid(): boolean;
-        static findCollisionFreePosition(arg0: $Vec3_, arg1: $ServerLevel, arg2: $Entity, arg3: $EntityDimensions_): $Vec3;
         isComplete(): boolean;
-        static findEmptyPortalShape(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $Direction$Axis_): ($PortalShape) | undefined;
         createPortalBlocks(): void;
-        static getRelativePosition(arg0: $BlockUtil$FoundRectangle, arg1: $Direction$Axis_, arg2: $Vec3_, arg3: $EntityDimensions_): $Vec3;
-        static findPortalShape(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $Predicate_<$PortalShape>, arg3: $Direction$Axis_): ($PortalShape) | undefined;
+        static findEmptyPortalShape(level: $LevelAccessor, bottomLeft: $BlockPos_, axis: $Direction$Axis_): ($PortalShape) | undefined;
+        static findCollisionFreePosition(pos: $Vec3_, level: $ServerLevel, entity: $Entity, dimensions: $EntityDimensions_): $Vec3;
+        static getRelativePosition(foundRectangle: $BlockUtil$FoundRectangle, axis: $Direction$Axis_, pos: $Vec3_, entityDimensions: $EntityDimensions_): $Vec3;
+        static findPortalShape(level: $LevelAccessor, bottomLeft: $BlockPos_, predicate: $Predicate_<$PortalShape>, axis: $Direction$Axis_): ($PortalShape) | undefined;
         static MAX_WIDTH: number;
         static MAX_HEIGHT: number;
-        constructor(arg0: $LevelAccessor, arg1: $BlockPos_, arg2: $Direction$Axis_);
+        constructor(level: $LevelAccessor, bottomLeft: $BlockPos_, axis: $Direction$Axis_);
         get valid(): boolean;
         get complete(): boolean;
     }
     export class $DimensionTransition extends $Record {
         pos(): $Vec3;
         newLevel(): $ServerLevel;
-        yRot(): number;
-        xRot(): number;
         speed(): $Vec3;
-        static missingRespawnBlock(arg0: $ServerLevel, arg1: $Entity, arg2: $DimensionTransition$PostDimensionTransition_): $DimensionTransition;
         missingRespawnBlock(): boolean;
+        static missingRespawnBlock(level: $ServerLevel, entity: $Entity, postDimensionTransition: $DimensionTransition$PostDimensionTransition_): $DimensionTransition;
+        xRot(): number;
+        yRot(): number;
         postDimensionTransition(): $DimensionTransition$PostDimensionTransition;
         static PLACE_PORTAL_TICKET: $DimensionTransition$PostDimensionTransition;
         static PLAY_PORTAL_SOUND: $DimensionTransition$PostDimensionTransition;
         static DO_NOTHING: $DimensionTransition$PostDimensionTransition;
         constructor(arg0: $ServerLevel, arg1: $Vec3_, arg2: $Vec3_, arg3: number, arg4: number, arg5: boolean, arg6: $DimensionTransition$PostDimensionTransition_);
-        constructor(arg0: $ServerLevel, arg1: $Entity, arg2: $DimensionTransition$PostDimensionTransition_);
-        constructor(arg0: $ServerLevel, arg1: $Vec3_, arg2: $Vec3_, arg3: number, arg4: number, arg5: $DimensionTransition$PostDimensionTransition_);
+        constructor(newLevel: $ServerLevel, entity: $Entity, postDimensionTransition: $DimensionTransition$PostDimensionTransition_);
+        constructor(newLevel: $ServerLevel, pos: $Vec3_, speed: $Vec3_, yRot: number, xRot: number, postDimensionTransition: $DimensionTransition$PostDimensionTransition_);
     }
 }

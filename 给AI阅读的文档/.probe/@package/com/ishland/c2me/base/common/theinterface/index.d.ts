@@ -16,9 +16,6 @@ declare module "@package/com/ishland/c2me/base/common/theinterface" {
     }
     export interface $IDirectStorage {
         setRawChunkData(arg0: $ChunkPos, arg1: number[]): $CompletableFuture<void>;
+        setRawChunkData(arg0: $ChunkPos, arg1: $CompletableFuture<number[]>): $CompletableFuture<void>;
     }
-    /**
-     * Values that may be interpreted as {@link $IDirectStorage}.
-     */
-    export type $IDirectStorage_ = ((arg0: $ChunkPos, arg1: number[]) => $CompletableFuture<void>);
 }

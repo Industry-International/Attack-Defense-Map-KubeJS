@@ -2,16 +2,16 @@ import { $Type } from "@package/org/objectweb/asm";
 
 declare module "@package/org/spongepowered/asm/mixin/injection/callback" {
     export class $CallbackInfoReturnable<R> extends $CallbackInfo {
-        getReturnValue(): R;
-        getReturnValueI(): number;
         getReturnValueB(): number;
-        getReturnValueJ(): number;
-        getReturnValueS(): number;
-        getReturnValueZ(): boolean;
-        setReturnValue(arg0: R): void;
         getReturnValueC(): string;
         getReturnValueD(): number;
         getReturnValueF(): number;
+        getReturnValueZ(): boolean;
+        getReturnValueS(): number;
+        setReturnValue(arg0: R): void;
+        getReturnValueJ(): number;
+        getReturnValueI(): number;
+        getReturnValue(): R;
         constructor(arg0: string, arg1: boolean, arg2: number);
         constructor(arg0: string, arg1: boolean, arg2: number);
         constructor(arg0: string, arg1: boolean, arg2: number);
@@ -22,14 +22,14 @@ declare module "@package/org/spongepowered/asm/mixin/injection/callback" {
         constructor(arg0: string, arg1: boolean, arg2: number);
         constructor(arg0: string, arg1: boolean, arg2: string);
         constructor(arg0: string, arg1: boolean, arg2: number);
-        get returnValueI(): number;
         get returnValueB(): number;
-        get returnValueJ(): number;
-        get returnValueS(): number;
-        get returnValueZ(): boolean;
         get returnValueC(): string;
         get returnValueD(): number;
         get returnValueF(): number;
+        get returnValueZ(): boolean;
+        get returnValueS(): number;
+        get returnValueJ(): number;
+        get returnValueI(): number;
     }
     export class $CallbackInfo implements $Cancellable {
         getId(): string;

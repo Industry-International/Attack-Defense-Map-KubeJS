@@ -1,5 +1,7 @@
+import { $PhysicsPipelineBody } from "@package/dev/ryanhcode/sable/api/physics";
 import { $Enum } from "@package/java/lang";
-import { $Vector3d } from "@package/org/joml";
+import { $Vector3dc, $Vector3d } from "@package/org/joml";
+import { $ServerSubLevelContainer } from "@package/dev/ryanhcode/sable/api/sublevel";
 
 declare module "@package/dev/ryanhcode/sable/api/physics/constraint" {
     export class $PhysicsConstraintHandle {
@@ -7,9 +9,9 @@ declare module "@package/dev/ryanhcode/sable/api/physics/constraint" {
     export interface $PhysicsConstraintHandle {
         remove(): void;
         isValid(): boolean;
-        setContactsEnabled(arg0: boolean): void;
-        setMotor(arg0: $ConstraintJointAxis_, arg1: number, arg2: number, arg3: number, arg4: boolean, arg5: number): void;
         getJointImpulses(arg0: $Vector3d, arg1: $Vector3d): void;
+        setMotor(arg0: $ConstraintJointAxis_, arg1: number, arg2: number, arg3: number, arg4: boolean, arg5: number): void;
+        setContactsEnabled(arg0: boolean): void;
         get valid(): boolean;
         set contactsEnabled(value: boolean);
     }
@@ -31,7 +33,9 @@ declare module "@package/dev/ryanhcode/sable/api/physics/constraint" {
      */
     export type $ConstraintJointAxis_ = "linear_x" | "linear_y" | "linear_z" | "angular_x" | "angular_y" | "angular_z";
     export class $PhysicsConstraintConfiguration<T extends $PhysicsConstraintHandle> {
+        static validateAnchors(arg0: $ServerSubLevelContainer, arg1: $PhysicsPipelineBody, arg2: $PhysicsPipelineBody, arg3: $Vector3dc, arg4: $Vector3dc): void;
     }
     export interface $PhysicsConstraintConfiguration<T extends $PhysicsConstraintHandle> {
+        validate(arg0: $ServerSubLevelContainer, arg1: $PhysicsPipelineBody, arg2: $PhysicsPipelineBody): void;
     }
 }

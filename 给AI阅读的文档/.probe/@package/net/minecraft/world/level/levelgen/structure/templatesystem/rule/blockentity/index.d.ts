@@ -7,15 +7,15 @@ import { $RandomSource } from "@package/net/minecraft/util";
 
 declare module "@package/net/minecraft/world/level/levelgen/structure/templatesystem/rule/blockentity" {
     export class $Clear implements $RuleBlockEntityModifier {
-        apply(arg0: $RandomSource, arg1: $CompoundTag_): $CompoundTag;
+        apply(arg0: $RandomSource, arg1: $CompoundTag_ | null): $CompoundTag;
         getType(): $RuleBlockEntityModifierType<never>;
         static CODEC: $MapCodec<$Clear>;
         constructor();
         get type(): $RuleBlockEntityModifierType<never>;
     }
-    export interface $RuleBlockEntityModifierType extends RegistryMarked<RegistryTypes.RuleBlockEntityModifierTag, RegistryTypes.RuleBlockEntityModifier> {}
+    export interface $RuleBlockEntityModifierType<P> extends RegistryMarked<RegistryTypes.RuleBlockEntityModifierTag, RegistryTypes.RuleBlockEntityModifier> {}
     export class $Passthrough implements $RuleBlockEntityModifier {
-        apply(arg0: $RandomSource, arg1: $CompoundTag_): $CompoundTag;
+        apply(arg0: $RandomSource, arg1: $CompoundTag_ | null): $CompoundTag;
         getType(): $RuleBlockEntityModifierType<never>;
         static CODEC: $MapCodec<$Passthrough>;
         static INSTANCE: $Passthrough;
@@ -36,25 +36,25 @@ declare module "@package/net/minecraft/world/level/levelgen/structure/templatesy
      */
     export type $RuleBlockEntityModifierType_<P> = RegistryTypes.RuleBlockEntityModifier | (() => $MapCodec_<P>);
     export class $AppendStatic implements $RuleBlockEntityModifier {
-        apply(arg0: $RandomSource, arg1: $CompoundTag_): $CompoundTag;
+        apply(random: $RandomSource, tag: $CompoundTag_ | null): $CompoundTag;
         getType(): $RuleBlockEntityModifierType<never>;
         static CODEC: $MapCodec<$AppendStatic>;
-        constructor(arg0: $CompoundTag_);
+        constructor(tag: $CompoundTag_);
         get type(): $RuleBlockEntityModifierType<never>;
     }
     export class $RuleBlockEntityModifier {
         static CODEC: $Codec<$RuleBlockEntityModifier>;
     }
     export interface $RuleBlockEntityModifier {
-        apply(arg0: $RandomSource, arg1: $CompoundTag_): $CompoundTag;
+        apply(random: $RandomSource, tag: $CompoundTag_ | null): $CompoundTag;
         getType(): $RuleBlockEntityModifierType<never>;
         get type(): $RuleBlockEntityModifierType<never>;
     }
     export class $AppendLoot implements $RuleBlockEntityModifier {
-        apply(arg0: $RandomSource, arg1: $CompoundTag_): $CompoundTag;
+        apply(random: $RandomSource, tag: $CompoundTag_ | null): $CompoundTag;
         getType(): $RuleBlockEntityModifierType<never>;
         static CODEC: $MapCodec<$AppendLoot>;
-        constructor(arg0: $ResourceKey_<$LootTable>);
+        constructor(lootTable: $ResourceKey_<$LootTable>);
         get type(): $RuleBlockEntityModifierType<never>;
     }
 }

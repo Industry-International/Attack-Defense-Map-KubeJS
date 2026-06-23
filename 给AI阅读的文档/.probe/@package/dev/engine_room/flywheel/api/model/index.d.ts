@@ -5,8 +5,8 @@ import { $Vector4fc } from "@package/org/joml";
 
 declare module "@package/dev/engine_room/flywheel/api/model" {
     export class $Model$ConfiguredMesh extends $Record {
-        material(): $Material;
         mesh(): $Mesh;
+        material(): $Material;
         constructor(material: $Material, mesh: $Mesh);
     }
     export class $Model {

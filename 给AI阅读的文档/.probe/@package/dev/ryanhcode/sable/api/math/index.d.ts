@@ -1,7 +1,7 @@
 import { $BlockPos$MutableBlockPos } from "@package/net/minecraft/core";
 import { $BoundingBox3d, $Pose3d } from "@package/dev/ryanhcode/sable/companion/math";
 import { $VoxelShape } from "@package/net/minecraft/world/phys/shapes";
-import { $Matrix4d, $Vector3dc, $Quaterniond, $Vector2d, $Vector3d } from "@package/org/joml";
+import { $Matrix4d, $Quaterniond, $Vector3dc, $Vector2d, $Vector3d } from "@package/org/joml";
 
 declare module "@package/dev/ryanhcode/sable/api/math" {
     export class $LevelReusedVectors {

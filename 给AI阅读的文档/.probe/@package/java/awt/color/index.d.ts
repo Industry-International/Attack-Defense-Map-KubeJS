@@ -7,12 +7,12 @@ declare module "@package/java/awt/color" {
         getType(): number;
         getMinValue(arg0: number): number;
         getMaxValue(arg0: number): number;
-        isCS_sRGB(): boolean;
-        getNumComponents(): number;
         toRGB(arg0: number[]): number[];
         toCIEXYZ(arg0: number[]): number[];
         fromCIEXYZ(arg0: number[]): number[];
         fromRGB(arg0: number[]): number[];
+        isCS_sRGB(): boolean;
+        getNumComponents(): number;
         static TYPE_ECLR: number;
         static TYPE_Lab: number;
         static TYPE_Luv: number;

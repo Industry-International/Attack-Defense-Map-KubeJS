@@ -146,22 +146,22 @@ declare module "@package/java/nio/file" {
         kind(): $WatchEvent$Kind<T>;
     }
     export class $FileStore {
+        getUnallocatedSpace(): number;
+        getBlockSize(): number;
+        supportsFileAttributeView(arg0: $Class<$FileAttributeView_>): boolean;
+        supportsFileAttributeView(arg0: string): boolean;
+        getFileStoreAttributeView<V extends $FileStoreAttributeView>(arg0: $Class<V>): V;
         name(): string;
         type(): string;
         isReadOnly(): boolean;
         getTotalSpace(): number;
         getUsableSpace(): number;
         getAttribute(arg0: string): $Object;
-        getUnallocatedSpace(): number;
-        getBlockSize(): number;
-        supportsFileAttributeView(arg0: $Class<$FileAttributeView_>): boolean;
-        supportsFileAttributeView(arg0: string): boolean;
-        getFileStoreAttributeView<V extends $FileStoreAttributeView>(arg0: $Class<V>): V;
+        get unallocatedSpace(): number;
+        get blockSize(): number;
         get readOnly(): boolean;
         get totalSpace(): number;
         get usableSpace(): number;
-        get unallocatedSpace(): number;
-        get blockSize(): number;
     }
     export class $WatchEvent$Kind<T> {
     }

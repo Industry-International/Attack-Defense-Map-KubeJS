@@ -12,18 +12,18 @@ declare module "@package/mod/chloeprime/gunsmithlib/mixin" {
     export class $EntityKineticBulletAccessor {
     }
     export interface $EntityKineticBulletAccessor {
-        getExplosionRadius(): number;
-        getGravity(): number;
         getLife(): number;
+        getExplosionRadius(): number;
+        getGunId(): $ResourceLocation;
         setGravity(arg0: number): void;
         setExplosionDelayCount(arg0: number): void;
-        getGunId(): $ResourceLocation;
         getExplosion(): boolean;
+        getGravity(): number;
         setArmorIgnore(arg0: number): void;
-        get explosionRadius(): number;
         get life(): number;
-        set explosionDelayCount(value: number);
+        get explosionRadius(): number;
         get gunId(): $ResourceLocation;
+        set explosionDelayCount(value: number);
         get explosion(): boolean;
         set armorIgnore(value: number);
     }

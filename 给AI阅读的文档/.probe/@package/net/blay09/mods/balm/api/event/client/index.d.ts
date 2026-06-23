@@ -20,12 +20,12 @@ export * as screen from "@package/net/blay09/mods/balm/api/event/client/screen";
 declare module "@package/net/blay09/mods/balm/api/event/client" {
     export class $RenderHandEvent extends $BalmEvent {
         getItemStack(): $ItemStack;
-        getHand(): $InteractionHand;
         getSwingProgress(): number;
+        getHand(): $InteractionHand;
         constructor(arg0: $InteractionHand_, arg1: $ItemStack_, arg2: number);
         get itemStack(): $ItemStack;
-        get hand(): $InteractionHand;
         get swingProgress(): number;
+        get hand(): $InteractionHand;
     }
     export class $GuiDrawEvent$Element extends $Enum<$GuiDrawEvent$Element> {
         static values(): $GuiDrawEvent$Element[];
@@ -84,22 +84,22 @@ declare module "@package/net/blay09/mods/balm/api/event/client" {
         get guiGraphics(): $GuiGraphics;
     }
     export class $OpenScreenEvent extends $BalmEvent {
+        getScreen(): $Screen;
         setScreen(arg0: $Screen): void;
         getNewScreen(): $Screen;
-        getScreen(): $Screen;
         constructor(arg0: $Screen);
         get newScreen(): $Screen;
     }
     export class $BlockHighlightDrawEvent extends $BalmEvent {
-        getHitResult(): $BlockHitResult;
+        getMultiBufferSource(): $MultiBufferSource;
         getCamera(): $Camera;
         getPoseStack(): $PoseStack;
-        getMultiBufferSource(): $MultiBufferSource;
+        getHitResult(): $BlockHitResult;
         constructor(arg0: $BlockHitResult, arg1: $PoseStack, arg2: $MultiBufferSource_, arg3: $Camera);
-        get hitResult(): $BlockHitResult;
+        get multiBufferSource(): $MultiBufferSource;
         get camera(): $Camera;
         get poseStack(): $PoseStack;
-        get multiBufferSource(): $MultiBufferSource;
+        get hitResult(): $BlockHitResult;
     }
     export class $GuiDrawEvent$Post extends $GuiDrawEvent {
         constructor(arg0: $Window, arg1: $GuiGraphics, arg2: $GuiDrawEvent$Element_);

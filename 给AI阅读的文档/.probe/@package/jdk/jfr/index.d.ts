@@ -24,23 +24,23 @@ declare module "@package/jdk/jfr" {
      */
     export type $RecordingState_ = "new" | "delayed" | "running" | "stopped" | "closed";
     export class $Configuration {
-        getLabel(): string;
+        getDescription(): string;
         getName(): string;
-        static create(arg0: $Reader): $Configuration;
         static create(arg0: $Path_): $Configuration;
+        static create(arg0: $Reader): $Configuration;
         getProvider(): string;
         getContents(): string;
         getSettings(): $Map<string, string>;
         static getConfigurations(): $List<$Configuration>;
         static getConfiguration(arg0: string): $Configuration;
-        getDescription(): string;
-        get label(): string;
+        getLabel(): string;
+        get description(): string;
         get name(): string;
         get provider(): string;
         get contents(): string;
         get settings(): $Map<string, string>;
         static get configurations(): $List<$Configuration>;
-        get description(): string;
+        get label(): string;
     }
     export class $AnnotationElement {
         getValue(arg0: string): $Object;
@@ -61,54 +61,52 @@ declare module "@package/jdk/jfr" {
         get valueDescriptors(): $List<$ValueDescriptor>;
     }
     export class $ValueDescriptor {
-        getLabel(): string;
+        getContentType(): string;
+        getDescription(): string;
         getName(): string;
         isArray(): boolean;
         getTypeName(): string;
         getFields(): $List<$ValueDescriptor>;
         getAnnotation<A extends $Annotation>(arg0: $Class<A>): A;
-        getContentType(): string;
-        getDescription(): string;
+        getLabel(): string;
         getTypeId(): number;
         getAnnotationElements(): $List<$AnnotationElement>;
         constructor(arg0: $Class<never>, arg1: string);
         constructor(arg0: $Class<never>, arg1: string, arg2: $List_<$AnnotationElement>);
-        get label(): string;
+        get contentType(): string;
+        get description(): string;
         get name(): string;
         get array(): boolean;
         get typeName(): string;
         get fields(): $List<$ValueDescriptor>;
-        get contentType(): string;
-        get description(): string;
+        get label(): string;
         get typeId(): number;
         get annotationElements(): $List<$AnnotationElement>;
     }
     export class $EventType {
-        getSettingDescriptors(): $List<$SettingDescriptor>;
-        getLabel(): string;
+        getDescription(): string;
         getName(): string;
         isEnabled(): boolean;
         getFields(): $List<$ValueDescriptor>;
         getField(arg0: string): $ValueDescriptor;
         getAnnotation<A extends $Annotation>(arg0: $Class<A>): A;
         getId(): number;
+        getSettingDescriptors(): $List<$SettingDescriptor>;
+        getLabel(): string;
         getCategoryNames(): $List<string>;
-        getDescription(): string;
         static getEventType(arg0: $Class<$Event>): $EventType;
         getAnnotationElements(): $List<$AnnotationElement>;
-        get settingDescriptors(): $List<$SettingDescriptor>;
-        get label(): string;
+        get description(): string;
         get name(): string;
         get enabled(): boolean;
         get fields(): $List<$ValueDescriptor>;
         get id(): number;
+        get settingDescriptors(): $List<$SettingDescriptor>;
+        get label(): string;
         get categoryNames(): $List<string>;
-        get description(): string;
         get annotationElements(): $List<$AnnotationElement>;
     }
     export class $Recording implements $Closeable {
-        getMaxSize(): number;
-        getMaxAge(): $Duration;
         getName(): string;
         start(): void;
         stop(): boolean;
@@ -122,7 +120,6 @@ declare module "@package/jdk/jfr" {
         enable(arg0: $Class<$Event>): $EventSettings;
         enable(arg0: string): $EventSettings;
         getDuration(): $Duration;
-        getDumpOnExit(): boolean;
         setToDisk(arg0: boolean): void;
         setSettings(arg0: $Map_<string, string>): void;
         setMaxAge(arg0: $Duration_): void;
@@ -132,38 +129,41 @@ declare module "@package/jdk/jfr" {
         scheduleStart(arg0: $Duration_): void;
         isToDisk(): boolean;
         getSettings(): $Map<string, string>;
-        getDestination(): $Path;
-        disable(arg0: $Class<$Event>): $EventSettings;
-        disable(arg0: string): $EventSettings;
-        getStopTime(): $Instant;
-        setDestination(arg0: $Path_): void;
         getStartTime(): $Instant;
+        getDestination(): $Path;
+        getDumpOnExit(): boolean;
+        disable(arg0: string): $EventSettings;
+        disable(arg0: $Class<$Event>): $EventSettings;
+        getMaxSize(): number;
+        getMaxAge(): $Duration;
+        setDestination(arg0: $Path_): void;
+        getStopTime(): $Instant;
         getStream(arg0: $Instant, arg1: $Instant): $InputStream;
         constructor(arg0: $Map_<string, string>);
-        constructor();
         constructor(arg0: $Configuration);
+        constructor();
         get id(): number;
         get state(): $RecordingState;
         get size(): number;
-        get stopTime(): $Instant;
         get startTime(): $Instant;
+        get stopTime(): $Instant;
     }
     export class $SettingDescriptor {
-        getLabel(): string;
+        getContentType(): string;
+        getDescription(): string;
         getName(): string;
         getTypeName(): string;
         getAnnotation<A extends $Annotation>(arg0: $Class<A>): A;
         getDefaultValue(): string;
-        getContentType(): string;
-        getDescription(): string;
+        getLabel(): string;
         getTypeId(): number;
         getAnnotationElements(): $List<$AnnotationElement>;
-        get label(): string;
+        get contentType(): string;
+        get description(): string;
         get name(): string;
         get typeName(): string;
         get defaultValue(): string;
-        get contentType(): string;
-        get description(): string;
+        get label(): string;
         get typeId(): number;
         get annotationElements(): $List<$AnnotationElement>;
     }

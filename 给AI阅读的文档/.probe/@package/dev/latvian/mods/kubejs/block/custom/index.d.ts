@@ -239,8 +239,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
         constructor(i: $ResourceLocation_);
     }
     export class $DoorBlockBuilder extends $ShapedBlockBuilder {
-        behaviour(wt: $BlockSetType_): this;
         wooden(): this;
+        behaviour(wt: $BlockSetType_): this;
         static DOOR_TAGS: $ResourceLocation[];
         sourceLine: $SourceLine;
         id: $ResourceLocation;
@@ -307,10 +307,10 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
         constructor(i: $ResourceLocation_);
     }
     export class $BasicKubeBlock extends $Block implements $SimpleWaterloggedBlock {
-        getPickupSound(): ($SoundEvent) | undefined;
+        canPlaceLiquid(player: $Player, blockGetter: $BlockGetter, blockPos: $BlockPos_, blockState: $BlockState_, fluid: $Fluid_): boolean;
         placeLiquid(levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockState: $BlockState_, fluidState: $FluidState): boolean;
         pickupBlock(player: $Player, levelAccessor: $LevelAccessor, blockPos: $BlockPos_, blockState: $BlockState_): $ItemStack;
-        canPlaceLiquid(player: $Player, blockGetter: $BlockGetter, blockPos: $BlockPos_, blockState: $BlockState_, fluid: $Fluid_): boolean;
+        getPickupSound(): ($SoundEvent) | undefined;
         getPickupSound(arg0: $BlockState_): ($SoundEvent) | undefined;
         explosionResistance: number;
         static UPDATE_SHAPE_ORDER: $Direction[];
@@ -393,6 +393,10 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
          */
         shape(age: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number): $CropBlockBuilder$ShapeBuilder;
         /**
+         * Makes the block to have a box like wheat for each stage.
+         */
+        wheat(): $CropBlockBuilder$ShapeBuilder;
+        /**
          * Makes the block to have a box like beetroot for each stage.
          */
         beetroot(): $CropBlockBuilder$ShapeBuilder;
@@ -404,10 +408,6 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
          * Makes the block to have a box like potato for each stage.
          */
         potato(): $CropBlockBuilder$ShapeBuilder;
-        /**
-         * Makes the block to have a box like wheat for each stage.
-         */
-        wheat(): $CropBlockBuilder$ShapeBuilder;
         getShapes(): $List<$VoxelShape>;
         constructor(age: number);
         get shapes(): $List<$VoxelShape>;
@@ -449,28 +449,28 @@ declare module "@package/dev/latvian/mods/kubejs/block/custom" {
     }
     export class $CropBlockBuilder extends $BlockBuilder {
         /**
-         * Set the age of the crop and the shape of the crop at that age.
-         */
-        age(age: number, builder: $Consumer_<$CropBlockBuilder$ShapeBuilder>): this;
-        /**
          * Set the age of the crop. Note that the box will be the same for all ages (A full block size).
          */
         age(age: number): this;
         /**
-         * Add a crop output with exactly one output.
+         * Set the age of the crop and the shape of the crop at that age.
          */
-        crop(output: $Holder_<$Item>): this;
+        age(age: number, builder: $Consumer_<$CropBlockBuilder$ShapeBuilder>): this;
         /**
          * Add a crop output with a specific amount.
          */
         crop(output: $Holder_<$Item>, chance: $NumberProvider_): this;
+        /**
+         * Add a crop output with exactly one output.
+         */
+        crop(output: $Holder_<$Item>): this;
         farmersCanPlant(): this;
-        survive(surviveCallback: $CropBlockBuilder$SurviveCallback_): this;
+        growTick(growSpeedCallback: $ToDoubleFunction_<$RandomTickCallback>): this;
         /**
          * Remove seed drops from the loot table, does not prevent seed item from creating.
          */
         noSeeds(): this;
-        growTick(growSpeedCallback: $ToDoubleFunction_<$RandomTickCallback>): this;
+        survive(surviveCallback: $CropBlockBuilder$SurviveCallback_): this;
         bonemeal(bonemealCallback: $ToIntFunction_<$RandomTickCallback>): this;
         sourceLine: $SourceLine;
         id: $ResourceLocation;

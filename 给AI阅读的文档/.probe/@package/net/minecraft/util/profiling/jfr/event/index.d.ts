@@ -6,10 +6,10 @@ import { $ResourceKey_ } from "@package/net/minecraft/resources";
 
 declare module "@package/net/minecraft/util/profiling/jfr/event" {
     export class $NetworkSummaryEvent$SumAggregation {
-        trackReceivedPacket(arg0: number): void;
+        trackSentPacket(delta: number): void;
         commitEvent(): void;
-        trackSentPacket(arg0: number): void;
-        constructor(arg0: string);
+        trackReceivedPacket(delta: number): void;
+        constructor(remoteAddress: string);
     }
     export class $ChunkGenerationEvent$Fields {
         static STATUS: string;
@@ -23,7 +23,7 @@ declare module "@package/net/minecraft/util/profiling/jfr/event" {
         static EVENT_NAME: string;
         averageTickDurationNanos: number;
         static TYPE: $EventType;
-        constructor(arg0: number);
+        constructor(averageTickDurationMs: number);
     }
     export class $ChunkRegionWriteEvent extends $ChunkRegionIoEvent {
         regionPosX: number;
@@ -61,7 +61,7 @@ declare module "@package/net/minecraft/util/profiling/jfr/event" {
         static TYPE: $EventType;
         sentBytes: number;
         remoteAddress: string;
-        constructor(arg0: string);
+        constructor(remoteAddress: string);
     }
     export class $PacketEvent extends $Event {
         packetDirection: string;
@@ -69,7 +69,7 @@ declare module "@package/net/minecraft/util/profiling/jfr/event" {
         protocolId: string;
         bytes: number;
         remoteAddress: string;
-        constructor(arg0: string, arg1: string, arg2: string, arg3: $SocketAddress, arg4: number);
+        constructor(protocolId: string, packetDirection: string, packetId: string, address: $SocketAddress, bytes: number);
     }
     export class $ChunkRegionReadEvent extends $ChunkRegionIoEvent {
         regionPosX: number;
@@ -140,7 +140,7 @@ declare module "@package/net/minecraft/util/profiling/jfr/event" {
         type: string;
         compression: string;
         dimension: string;
-        constructor(arg0: $RegionStorageInfo_, arg1: $ChunkPos, arg2: $RegionFileVersion, arg3: number);
+        constructor(regionStorageInfo: $RegionStorageInfo_, chunkPos: $ChunkPos, version: $RegionFileVersion, bytes: number);
     }
     export class $ChunkGenerationEvent extends $Event {
         worldPosZ: number;
@@ -151,6 +151,6 @@ declare module "@package/net/minecraft/util/profiling/jfr/event" {
         targetStatus: string;
         static TYPE: $EventType;
         worldPosX: number;
-        constructor(arg0: $ChunkPos, arg1: $ResourceKey_<$Level>, arg2: string);
+        constructor(chunkPos: $ChunkPos, level: $ResourceKey_<$Level>, targetStatus: string);
     }
 }

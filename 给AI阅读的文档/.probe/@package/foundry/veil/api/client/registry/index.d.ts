@@ -12,7 +12,7 @@ import { $Property } from "@package/foundry/veil/api/client/property";
 import { $RenderTypeLayer } from "@package/foundry/veil/api/client/render/rendertype/layer";
 
 declare module "@package/foundry/veil/api/client/registry" {
-    export interface $PostPipelineStageRegistry$PipelineType extends RegistryMarked<RegistryTypes.VeilPostPipelineStageTag, RegistryTypes.VeilPostPipelineStage> {}
+    export interface $PostPipelineStageRegistry$PipelineType<T> extends RegistryMarked<RegistryTypes.VeilPostPipelineStageTag, RegistryTypes.VeilPostPipelineStage> {}
     export class $LightTypeRegistry$RendererFactory<T extends $LightData> {
     }
     export interface $LightTypeRegistry$RendererFactory<T extends $LightData> {
@@ -31,8 +31,8 @@ declare module "@package/foundry/veil/api/client/registry" {
      * Values that may be interpreted as {@link $LightTypeRegistry$LightType}.
      */
     export type $LightTypeRegistry$LightType_<T> = RegistryTypes.VeilLightType;
-    export interface $PropertyModifierRegistry$PropertyModifierType extends RegistryMarked<RegistryTypes.VeilPropertyModifierTag, RegistryTypes.VeilPropertyModifier> {}
-    export interface $LightTypeRegistry$LightType extends RegistryMarked<RegistryTypes.VeilLightTypeTag, RegistryTypes.VeilLightType> {}
+    export interface $PropertyModifierRegistry$PropertyModifierType<T, M> extends RegistryMarked<RegistryTypes.VeilPropertyModifierTag, RegistryTypes.VeilPropertyModifier> {}
+    export interface $LightTypeRegistry$LightType<T> extends RegistryMarked<RegistryTypes.VeilLightTypeTag, RegistryTypes.VeilLightType> {}
     export class $LightTypeRegistry$DebugLightFactory {
     }
     export interface $LightTypeRegistry$DebugLightFactory {
@@ -58,7 +58,7 @@ declare module "@package/foundry/veil/api/client/registry" {
      * Values that may be interpreted as {@link $PostPipelineStageRegistry$PipelineType}.
      */
     export type $PostPipelineStageRegistry$PipelineType_<T> = RegistryTypes.VeilPostPipelineStage;
-    export interface $RenderTypeLayerRegistry$LayerType extends RegistryMarked<RegistryTypes.VeilRenderTypeLayerTag, RegistryTypes.VeilRenderTypeLayer> {}
+    export interface $RenderTypeLayerRegistry$LayerType<T> extends RegistryMarked<RegistryTypes.VeilRenderTypeLayerTag, RegistryTypes.VeilRenderTypeLayer> {}
     export class $PropertyRegistry$PropertyType<T, M extends $Property<T>> extends $Record {
         glType(): $GlslTypeSpecifier$BuiltinType;
         codec(): $MapCodec<M>;
@@ -76,5 +76,5 @@ declare module "@package/foundry/veil/api/client/registry" {
      * Values that may be interpreted as {@link $RenderTypeLayerRegistry$LayerType}.
      */
     export type $RenderTypeLayerRegistry$LayerType_<T> = RegistryTypes.VeilRenderTypeLayer;
-    export interface $PropertyRegistry$PropertyType extends RegistryMarked<RegistryTypes.VeilPropertyTag, RegistryTypes.VeilProperty> {}
+    export interface $PropertyRegistry$PropertyType<T, M> extends RegistryMarked<RegistryTypes.VeilPropertyTag, RegistryTypes.VeilProperty> {}
 }

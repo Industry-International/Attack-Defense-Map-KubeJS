@@ -35,12 +35,12 @@ declare module "@package/com/mojang/realmsclient/gui" {
         newsManager: $RealmsNewsManager;
         serverListUpdateTask: $DataFetcher$Task<$RealmsDataFetcher$ServerListData>;
         onlinePlayersTask: $DataFetcher$Task<$RealmsServerPlayerLists>;
-        constructor(arg0: $RealmsClient);
+        constructor(realmsClient: $RealmsClient);
         get tasks(): $List<$DataFetcher$Task<never>>;
     }
     export class $RealmsWorldSlotButton extends $Button {
         getState(): $RealmsWorldSlotButton$State;
-        setServerData(arg0: $RealmsServer): void;
+        setServerData(serverData: $RealmsServer): void;
         static SPRITES: $WidgetSprites;
         visible: boolean;
         createNarration: $Button$CreateNarration;
@@ -62,22 +62,22 @@ declare module "@package/com/mojang/realmsclient/gui" {
         static DEFAULT_WORLD_SLOT_1: $ResourceLocation;
         static DEFAULT_SPACING: number;
         height: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $Button$OnPress_);
+        constructor(x: number, y: number, width: number, height: number, slotIndex: number, onPress: $Button$OnPress_);
         get state(): $RealmsWorldSlotButton$State;
         set serverData(value: $RealmsServer);
     }
     export class $RowButton {
         getRight(): number;
         getBottom(): number;
-        onClick(arg0: number): void;
-        static rowButtonMouseClicked(arg0: $RealmsObjectSelectionList<never>, arg1: $ObjectSelectionList$Entry<never>, arg2: $List_<$RowButton>, arg3: number, arg4: number, arg5: number): void;
-        drawForRowAt(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        static drawButtonsInRow(arg0: $GuiGraphics, arg1: $List_<$RowButton>, arg2: $RealmsObjectSelectionList<never>, arg3: number, arg4: number, arg5: number, arg6: number): void;
+        onClick(index: number): void;
+        static rowButtonMouseClicked(list: $RealmsObjectSelectionList<never>, entry: $ObjectSelectionList$Entry<never>, buttons: $List_<$RowButton>, button: number, mouseX: number, arg5: number): void;
+        static drawButtonsInRow(guiGraphics: $GuiGraphics, buttons: $List_<$RowButton>, pendingInvitations: $RealmsObjectSelectionList<never>, x: number, y: number, mouseX: number, mouseY: number): void;
+        drawForRowAt(guiGraphics: $GuiGraphics, x: number, y: number, mouseX: number, mouseY: number): void;
         yOffset: number;
         xOffset: number;
         width: number;
         height: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number);
+        constructor(width: number, height: number, xOffset: number, yOffset: number);
         get right(): number;
         get bottom(): number;
     }
@@ -85,22 +85,22 @@ declare module "@package/com/mojang/realmsclient/gui" {
         minigame: boolean;
         action: $RealmsWorldSlotButton$Action;
         empty: boolean;
-        constructor(arg0: $RealmsServer, arg1: number);
+        constructor(server: $RealmsServer, slot: number);
     }
     export class $RealmsNewsManager {
-        newsLink(): string;
-        updateUnreadNews(arg0: $RealmsNews): void;
         hasUnreadNews(): boolean;
-        constructor(arg0: $RealmsPersistence);
+        updateUnreadNews(realmsNews: $RealmsNews): void;
+        newsLink(): string;
+        constructor(newsLocalStorage: $RealmsPersistence);
     }
     export class $RealmsServerList implements $Iterable<$RealmsServer> {
         isEmpty(): boolean;
         iterator(): $Iterator<$RealmsServer>;
-        removeItem(arg0: $RealmsServer): void;
-        updateServersList(arg0: $List_<$RealmsServer>): void;
+        removeItem(server: $RealmsServer): void;
+        updateServersList(servers: $List_<$RealmsServer>): void;
         spliterator(): $Spliterator<$RealmsServer>;
         forEach(arg0: $Consumer_<$RealmsServer>): void;
-        constructor(arg0: $Minecraft);
+        constructor(minecraft: $Minecraft);
         [Symbol.iterator](): Iterator<$RealmsServer>
         get empty(): boolean;
     }

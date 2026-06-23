@@ -4,11 +4,11 @@ declare module "@package/org/anti_ad/mc/ipnext/mixin" {
     export class $IMixinKeyBinding {
     }
     export interface $IMixinKeyBinding {
-        setPressed(arg0: boolean): void;
-        getPressed(): boolean;
-        getKeyCode(): $InputConstants$Key;
         getTimesPressed(): number;
         setTimesPressed(arg0: number): void;
+        getPressed(): boolean;
+        setPressed(arg0: boolean): void;
+        getKeyCode(): $InputConstants$Key;
         get keyCode(): $InputConstants$Key;
     }
 }

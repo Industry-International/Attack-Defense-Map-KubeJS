@@ -9,14 +9,14 @@ declare module "@package/net/minecraft/util/profiling/metrics/storage" {
         tick: number;
         profilerResultAtTick: $ProfileResults;
         timestamp: $Instant;
-        constructor(arg0: $Instant, arg1: number, arg2: $ProfileResults);
+        constructor(timestamp: $Instant, tick: number, profilerResultAtTick: $ProfileResults);
     }
     export class $MetricsPersister {
-        saveReports(arg0: $Set_<$MetricSampler>, arg1: $Map_<$MetricSampler, $List_<$RecordedDeviation>>, arg2: $ProfileResults): $Path;
+        saveReports(samplers: $Set_<$MetricSampler>, deviations: $Map_<$MetricSampler, $List_<$RecordedDeviation>>, results: $ProfileResults): $Path;
         static DEVIATIONS_DIR_NAME: string;
         static METRICS_DIR_NAME: string;
         static PROFILING_RESULTS_DIR: $Path;
         static PROFILING_RESULT_FILENAME: string;
-        constructor(arg0: string);
+        constructor(rootFolderName: string);
     }
 }

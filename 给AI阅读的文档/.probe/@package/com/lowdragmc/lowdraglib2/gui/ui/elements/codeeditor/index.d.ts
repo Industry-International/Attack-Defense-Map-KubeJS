@@ -28,9 +28,9 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor" {
         get syntaxParser(): $SyntaxParser;
     }
     export class $StyledLine extends $Record {
-        getWidth(arg0: $Font, arg1: $Style): number;
         line(): number;
         text(): $List<$StyledText>;
+        getWidth(arg0: $Font, arg1: $Style): number;
         constructor(line: number, text: $List_<$StyledText_>);
     }
     export class $StyledText extends $Record {

@@ -12,10 +12,10 @@ declare module "@package/com/mojang/datafixers/functions" {
         constructor();
     }
     export class $PointFreeRule {
-        static one(arg0: $PointFreeRule_): $PointFreeRule;
         static seq(...arg0: $PointFreeRule_[]): $PointFreeRule;
         static all(arg0: $PointFreeRule_): $PointFreeRule;
         static choice(...arg0: $PointFreeRule_[]): $PointFreeRule;
+        static one(arg0: $PointFreeRule_): $PointFreeRule;
         static nop(): $PointFreeRule;
         static everywhere(arg0: $PointFreeRule_, arg1: $PointFreeRule_): $PointFreeRule;
         static many(arg0: $PointFreeRule_): $PointFreeRule;

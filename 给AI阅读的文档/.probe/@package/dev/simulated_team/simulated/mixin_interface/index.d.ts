@@ -6,6 +6,7 @@ import { $EndDragonFight$Data_ } from "@package/net/minecraft/world/level/dimens
 export * as diagram from "@package/dev/simulated_team/simulated/mixin_interface/diagram";
 export * as extra_kinetics from "@package/dev/simulated_team/simulated/mixin_interface/extra_kinetics";
 export * as ponder from "@package/dev/simulated_team/simulated/mixin_interface/ponder";
+export * as sounds from "@package/dev/simulated_team/simulated/mixin_interface/sounds";
 export * as tooltip_flag from "@package/dev/simulated_team/simulated/mixin_interface/tooltip_flag";
 export * as assembly_preventer from "@package/dev/simulated_team/simulated/mixin_interface/assembly_preventer";
 
@@ -13,33 +14,33 @@ declare module "@package/dev/simulated_team/simulated/mixin_interface" {
     export class $PlayerLaunchedPlungerExtension {
     }
     export interface $PlayerLaunchedPlungerExtension {
-        simulated$getLaunchedPlunger(): $LaunchedPlungerEntity;
         simulated$setLaunchedPlunger(arg0: $LaunchedPlungerEntity): void;
+        simulated$getLaunchedPlunger(): $LaunchedPlungerEntity;
     }
     export class $SpriteContentsExtension {
     }
     export interface $SpriteContentsExtension {
-        simulated$getTicker(): $SpriteContents$Ticker;
         simulated$setTicker(arg0: $SpriteContents$Ticker): void;
+        simulated$getTicker(): $SpriteContents$Ticker;
     }
     export class $TickerExtension {
     }
     export interface $TickerExtension {
-        simulated$setPlaying(arg0: boolean): void;
         simulated$isPlaying(): boolean;
+        simulated$setPlaying(arg0: boolean): void;
     }
     export class $PlayerTypewriterExtension {
     }
     export interface $PlayerTypewriterExtension {
-        simulated$getCurrentTypewriter(): $BlockPos;
         simulated$setCurrentTypewriter(arg0: $BlockPos_): void;
+        simulated$getCurrentTypewriter(): $BlockPos;
     }
     export class $PrimaryLevelDataExtension {
     }
     export interface $PrimaryLevelDataExtension {
-        setEndDragonFight(arg0: $EndDragonFight$Data_): void;
         setPreset(arg0: $ResourceLocation_): void;
         getPreset(): $ResourceLocation;
+        setEndDragonFight(arg0: $EndDragonFight$Data_): void;
         set endDragonFight(value: $EndDragonFight$Data_);
     }
 }

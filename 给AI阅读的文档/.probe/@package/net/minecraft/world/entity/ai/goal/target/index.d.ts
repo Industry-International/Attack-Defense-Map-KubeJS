@@ -1,6 +1,6 @@
 import { $Goal } from "@package/net/minecraft/world/entity/ai/goal";
 import { $Predicate_ } from "@package/java/util/function";
-import { $Mob, $TamableAnimal, $LivingEntity, $PathfinderMob } from "@package/net/minecraft/world/entity";
+import { $TamableAnimal, $Mob, $LivingEntity, $PathfinderMob } from "@package/net/minecraft/world/entity";
 import { $TargetingConditions } from "@package/net/minecraft/world/entity/ai/targeting";
 import { $Raider } from "@package/net/minecraft/world/entity/raid";
 import { $Class } from "@package/java/lang";
@@ -17,45 +17,51 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
         targetMob: $LivingEntity;
         targetConditions: $TargetingConditions;
         target: $LivingEntity;
-        constructor(arg0: $TamableAnimal, arg1: $Class<T>, arg2: boolean, arg3: $Predicate_<$LivingEntity>);
+        constructor(tamableMob: $TamableAnimal, targetType: $Class<T>, mustSee: boolean, targetPredicate: $Predicate_<$LivingEntity> | null);
     }
     export class $DefendVillageTargetGoal extends $TargetGoal {
         mob: $Mob;
         mustSee: boolean;
         unseenMemoryTicks: number;
         targetMob: $LivingEntity;
-        constructor(arg0: $IronGolem);
+        constructor(golem: $IronGolem);
     }
     export class $OwnerHurtByTargetGoal extends $TargetGoal {
         mob: $Mob;
         mustSee: boolean;
         unseenMemoryTicks: number;
         targetMob: $LivingEntity;
-        constructor(arg0: $TamableAnimal);
+        constructor(tameAnimal: $TamableAnimal);
     }
     export class $HurtByTargetGoal extends $TargetGoal {
+        alertOther(mob: $Mob, target: $LivingEntity): void;
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
         alertOthers(): void;
-        alertOther(arg0: $Mob, arg1: $LivingEntity): void;
-        setAlertOthers(...arg0: $Class<never>[]): $HurtByTargetGoal;
+        setAlertOthers(...reinforcementTypes: $Class<never>[]): $HurtByTargetGoal;
         mob: $Mob;
         mustSee: boolean;
         unseenMemoryTicks: number;
         targetMob: $LivingEntity;
-        constructor(arg0: $PathfinderMob, ...arg1: $Class<never>[]);
+        constructor(mob: $PathfinderMob, ...toIgnoreDamage: $Class<never>[]);
     }
     export class $ResetUniversalAngerTargetGoal<T extends $Mob> extends $Goal {
-        constructor(arg0: T, arg1: boolean);
+        constructor(mob: T, alertOthersOfSameType: boolean);
     }
     export class $TargetGoal extends $Goal {
-        canAttack(arg0: $LivingEntity, arg1: $TargetingConditions): boolean;
+        setUnseenMemoryTicks(unseenMemoryTicks: number): $TargetGoal;
+        /**
+         * Checks if this is a suitable target.
+         */
+        canAttack(potentialTarget: $LivingEntity | null, targetPredicate: $TargetingConditions): boolean;
         getFollowDistance(): number;
-        setUnseenMemoryTicks(arg0: number): $TargetGoal;
         mob: $Mob;
         mustSee: boolean;
         unseenMemoryTicks: number;
         targetMob: $LivingEntity;
-        constructor(arg0: $Mob, arg1: boolean);
-        constructor(arg0: $Mob, arg1: boolean, arg2: boolean);
+        constructor(mob: $Mob, mustSee: boolean);
+        constructor(mob: $Mob, mustSee: boolean, mustReach: boolean);
         get followDistance(): number;
     }
     export class $OwnerHurtTargetGoal extends $TargetGoal {
@@ -63,9 +69,12 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
         mustSee: boolean;
         unseenMemoryTicks: number;
         targetMob: $LivingEntity;
-        constructor(arg0: $TamableAnimal);
+        constructor(tameAnimal: $TamableAnimal);
     }
     export class $NearestHealableRaiderTargetGoal<T extends $LivingEntity> extends $NearestAttackableTargetGoal<T> {
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
         decrementCooldown(): void;
         getCooldown(): number;
         randomInterval: number;
@@ -76,11 +85,11 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
         targetMob: $LivingEntity;
         targetConditions: $TargetingConditions;
         target: $LivingEntity;
-        constructor(arg0: $Raider, arg1: $Class<T>, arg2: boolean, arg3: $Predicate_<$LivingEntity>);
+        constructor(mob: $Raider, targetType: $Class<T>, mustSee: boolean, targetPredicate: $Predicate_<$LivingEntity> | null);
         get cooldown(): number;
     }
     export class $NearestAttackableWitchTargetGoal<T extends $LivingEntity> extends $NearestAttackableTargetGoal<T> {
-        setCanAttack(arg0: boolean): void;
+        setCanAttack(active: boolean): void;
         randomInterval: number;
         mob: $Mob;
         mustSee: boolean;
@@ -89,12 +98,15 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
         targetMob: $LivingEntity;
         targetConditions: $TargetingConditions;
         target: $LivingEntity;
-        constructor(arg0: $Raider, arg1: $Class<T>, arg2: number, arg3: boolean, arg4: boolean, arg5: $Predicate_<$LivingEntity>);
+        constructor(mob: $Raider, targetType: $Class<T>, randomInterval: number, mustSee: boolean, mustReach: boolean, targetPredicate: $Predicate_<$LivingEntity> | null);
     }
     export class $NearestAttackableTargetGoal<T extends $LivingEntity> extends $TargetGoal {
-        setTarget(arg0: $LivingEntity): void;
-        getTargetSearchArea(arg0: number): $AABB;
+        setTarget(target: $LivingEntity | null): void;
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
         findTarget(): void;
+        getTargetSearchArea(targetDistance: number): $AABB;
         randomInterval: number;
         mob: $Mob;
         mustSee: boolean;
@@ -103,9 +115,9 @@ declare module "@package/net/minecraft/world/entity/ai/goal/target" {
         targetMob: $LivingEntity;
         targetConditions: $TargetingConditions;
         target: $LivingEntity;
-        constructor(arg0: $Mob, arg1: $Class<T>, arg2: number, arg3: boolean, arg4: boolean, arg5: $Predicate_<$LivingEntity>);
-        constructor(arg0: $Mob, arg1: $Class<T>, arg2: boolean, arg3: boolean);
-        constructor(arg0: $Mob, arg1: $Class<T>, arg2: boolean, arg3: $Predicate_<$LivingEntity>);
-        constructor(arg0: $Mob, arg1: $Class<T>, arg2: boolean);
+        constructor(mob: $Mob, targetType: $Class<T>, randomInterval: number, mustSee: boolean, mustReach: boolean, targetPredicate: $Predicate_<$LivingEntity> | null);
+        constructor(mob: $Mob, targetType: $Class<T>, mustSee: boolean, mustReach: boolean);
+        constructor(mob: $Mob, targetType: $Class<T>, mustSee: boolean, targetPredicate: $Predicate_<$LivingEntity>);
+        constructor(mob: $Mob, targetType: $Class<T>, mustSee: boolean);
     }
 }

@@ -5,6 +5,6 @@ declare module "@package/net/neoforged/neoforge/server/console" {
     export class $ConsoleCommandCompleter implements $Completer {
     }
     export class $TerminalHandler {
-        static handleCommands(arg0: $DedicatedServer): boolean;
+        static handleCommands(server: $DedicatedServer): boolean;
     }
 }

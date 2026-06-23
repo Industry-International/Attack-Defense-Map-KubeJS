@@ -30,12 +30,12 @@ declare module "@package/net/minecraft/client/gui/screens/telemetry" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $TelemetryEventWidget extends $AbstractScrollWidget {
         updateLayout(): void;
-        setOnScrolledListener(arg0: $DoubleConsumer_): void;
-        onOptInChanged(arg0: boolean): void;
+        setOnScrolledListener(onScrolledListener: $DoubleConsumer_ | null): void;
+        onOptInChanged(optIn: boolean): void;
         packedFGColor: number;
         static UNSET_FG_COLOR: number;
         visible: boolean;
@@ -44,8 +44,8 @@ declare module "@package/net/minecraft/client/gui/screens/telemetry" {
         tooltip: $WidgetTooltipHolder;
         active: boolean;
         height: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: $Font);
-        set onScrolledListener(value: $DoubleConsumer_);
+        constructor(x: number, y: number, width: number, height: number, font: $Font);
+        set onScrolledListener(value: $DoubleConsumer_ | null);
     }
     export class $TelemetryEventWidget$ContentBuilder {
     }

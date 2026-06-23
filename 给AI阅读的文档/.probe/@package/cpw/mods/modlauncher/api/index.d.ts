@@ -10,7 +10,7 @@ declare module "@package/cpw/mods/modlauncher/api" {
         getProperty<T>(arg0: $TypesafeMap$Key<T>): (T) | undefined;
         findLaunchPlugin(arg0: string): ($ILaunchPluginService) | undefined;
         findLaunchHandler(arg0: string): ($ILaunchHandlerService) | undefined;
-        computePropertyIfAbsent<T>(arg0: $TypesafeMap$Key<T>, arg1: $Function_<$TypesafeMap$Key<T>, T>): T;
         findModuleLayerManager(): ($IModuleLayerManager) | undefined;
+        computePropertyIfAbsent<T>(arg0: $TypesafeMap$Key<T>, arg1: $Function_<$TypesafeMap$Key<T>, T>): T;
     }
 }

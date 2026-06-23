@@ -25,7 +25,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/stateprovide
         static WEIGHTED_STATE_PROVIDER: $BlockStateProviderType<$WeightedStateProvider>;
         static NOISE_THRESHOLD_PROVIDER: $BlockStateProviderType<$NoiseThresholdProvider>;
         static NOISE_PROVIDER: $BlockStateProviderType<$NoiseProvider>;
-        constructor(arg0: $MapCodec_<P>);
+        constructor(codec: $MapCodec_<P>);
     }
     /**
      * Values that may be interpreted as {@link $BlockStateProviderType}.
@@ -33,71 +33,71 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/stateprovide
     export type $BlockStateProviderType_<P> = RegistryTypes.WorldgenBlockStateProviderType;
     export class $BlockStateProvider {
         type(): $BlockStateProviderType<never>;
-        getState(arg0: $RandomSource, arg1: $BlockPos_): $BlockState;
-        static simple(arg0: $BlockState_): $SimpleStateProvider;
-        static simple(arg0: $Block_): $SimpleStateProvider;
+        getState(random: $RandomSource, pos: $BlockPos_): $BlockState;
+        static simple(state: $BlockState_): $SimpleStateProvider;
+        static simple(block: $Block_): $SimpleStateProvider;
         static CODEC: $Codec<$BlockStateProvider>;
         constructor();
     }
     export class $DualNoiseProvider extends $NoiseProvider {
-        getSlowNoiseValue(arg0: $BlockPos_): number;
+        getSlowNoiseValue(pos: $BlockPos_): number;
         static CODEC: $MapCodec<$DualNoiseProvider>;
         seed: number;
         noise: $NormalNoise;
         scale: number;
         parameters: $NormalNoise$NoiseParameters;
         states: $List<$BlockState>;
-        constructor(arg0: $InclusiveRange_<number>, arg1: $NormalNoise$NoiseParameters_, arg2: number, arg3: number, arg4: $NormalNoise$NoiseParameters_, arg5: number, arg6: $List_<$BlockState_>);
+        constructor(variety: $InclusiveRange_<number>, slowNoiseParameters: $NormalNoise$NoiseParameters_, slowScale: number, seed: number, arg4: $NormalNoise$NoiseParameters_, parameters: number, scale: $List_<$BlockState_>);
     }
     export class $NoiseProvider extends $NoiseBasedStateProvider {
-        static noiseProviderCodec<P extends $NoiseProvider>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P4<$RecordCodecBuilder$Mu<P>, number, $NormalNoise$NoiseParameters, number, $List<$BlockState>>;
-        getRandomState(arg0: $List_<$BlockState_>, arg1: number): $BlockState;
-        getRandomState(arg0: $List_<$BlockState_>, arg1: $BlockPos_, arg2: number): $BlockState;
+        getRandomState(possibleStates: $List_<$BlockState_>, delta: number): $BlockState;
+        getRandomState(possibleStates: $List_<$BlockState_>, pos: $BlockPos_, delta: number): $BlockState;
+        static noiseProviderCodec<P extends $NoiseProvider>(instance: $RecordCodecBuilder$Instance<P>): $Products$P4<$RecordCodecBuilder$Mu<P>, number, $NormalNoise$NoiseParameters, number, $List<$BlockState>>;
         static CODEC: $MapCodec<$NoiseProvider>;
         seed: number;
         noise: $NormalNoise;
         scale: number;
         parameters: $NormalNoise$NoiseParameters;
         states: $List<$BlockState>;
-        constructor(arg0: number, arg1: $NormalNoise$NoiseParameters_, arg2: number, arg3: $List_<$BlockState_>);
+        constructor(seed: number, arg1: $NormalNoise$NoiseParameters_, parameters: number, scale: $List_<$BlockState_>);
     }
     export class $RuleBasedBlockStateProvider$Rule extends $Record {
-        then(): $BlockStateProvider;
         ifTrue(): $BlockPredicate;
+        then(): $BlockStateProvider;
         static CODEC: $Codec<$RuleBasedBlockStateProvider$Rule>;
         constructor(arg0: $BlockPredicate, arg1: $BlockStateProvider);
     }
     export class $NoiseBasedStateProvider extends $BlockStateProvider {
-        static noiseCodec<P extends $NoiseBasedStateProvider>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, number, $NormalNoise$NoiseParameters, number>;
-        getNoiseValue(arg0: $BlockPos_, arg1: number): number;
+        getNoiseValue(pos: $BlockPos_, delta: number): number;
+        static noiseCodec<P extends $NoiseBasedStateProvider>(instance: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, number, $NormalNoise$NoiseParameters, number>;
         static CODEC: $Codec<$BlockStateProvider>;
         seed: number;
         noise: $NormalNoise;
         scale: number;
         parameters: $NormalNoise$NoiseParameters;
-        constructor(arg0: number, arg1: $NormalNoise$NoiseParameters_, arg2: number);
+        constructor(seed: number, arg1: $NormalNoise$NoiseParameters_, parameters: number);
     }
     export class $RandomizedIntStateProvider extends $BlockStateProvider {
         static CODEC: $MapCodec<$RandomizedIntStateProvider>;
-        constructor(arg0: $BlockStateProvider, arg1: $IntegerProperty, arg2: $IntProvider_);
-        constructor(arg0: $BlockStateProvider, arg1: string, arg2: $IntProvider_);
+        constructor(source: $BlockStateProvider, property: $IntegerProperty, values: $IntProvider_);
+        constructor(source: $BlockStateProvider, propertyName: string, values: $IntProvider_);
     }
     export class $WeightedStateProvider extends $BlockStateProvider {
         static CODEC: $MapCodec<$WeightedStateProvider>;
-        constructor(arg0: $SimpleWeightedRandomList$Builder<$BlockState_>);
-        constructor(arg0: $SimpleWeightedRandomList<$BlockState_>);
+        constructor(builder: $SimpleWeightedRandomList$Builder<$BlockState_>);
+        constructor(weightedList: $SimpleWeightedRandomList<$BlockState_>);
     }
-    export interface $BlockStateProviderType extends RegistryMarked<RegistryTypes.WorldgenBlockStateProviderTypeTag, RegistryTypes.WorldgenBlockStateProviderType> {}
+    export interface $BlockStateProviderType<P> extends RegistryMarked<RegistryTypes.WorldgenBlockStateProviderTypeTag, RegistryTypes.WorldgenBlockStateProviderType> {}
     export class $RotatedBlockProvider extends $BlockStateProvider {
         static CODEC: $MapCodec<$RotatedBlockProvider>;
-        constructor(arg0: $Block_);
+        constructor(block: $Block_);
     }
     export class $RuleBasedBlockStateProvider extends $Record {
-        getState(arg0: $WorldGenLevel, arg1: $RandomSource, arg2: $BlockPos_): $BlockState;
+        getState(level: $WorldGenLevel, random: $RandomSource, pos: $BlockPos_): $BlockState;
         fallback(): $BlockStateProvider;
         rules(): $List<$RuleBasedBlockStateProvider$Rule>;
-        static simple(arg0: $Block_): $RuleBasedBlockStateProvider;
-        static simple(arg0: $BlockStateProvider): $RuleBasedBlockStateProvider;
+        static simple(block: $Block_): $RuleBasedBlockStateProvider;
+        static simple(fallback: $BlockStateProvider): $RuleBasedBlockStateProvider;
         static CODEC: $Codec<$RuleBasedBlockStateProvider>;
         constructor(arg0: $BlockStateProvider, arg1: $List_<$RuleBasedBlockStateProvider$Rule_>);
     }
@@ -107,10 +107,10 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/stateprovide
         noise: $NormalNoise;
         scale: number;
         parameters: $NormalNoise$NoiseParameters;
-        constructor(arg0: number, arg1: $NormalNoise$NoiseParameters_, arg2: number, arg3: number, arg4: number, arg5: $BlockState_, arg6: $List_<$BlockState_>, arg7: $List_<$BlockState_>);
+        constructor(seed: number, arg1: $NormalNoise$NoiseParameters_, parameters: number, scale: number, threshold: number, highChance: $BlockState_, defaultState: $List_<$BlockState_>, lowStates: $List_<$BlockState_>);
     }
     export class $SimpleStateProvider extends $BlockStateProvider {
         static CODEC: $MapCodec<$SimpleStateProvider>;
-        constructor(arg0: $BlockState_);
+        constructor(state: $BlockState_);
     }
 }

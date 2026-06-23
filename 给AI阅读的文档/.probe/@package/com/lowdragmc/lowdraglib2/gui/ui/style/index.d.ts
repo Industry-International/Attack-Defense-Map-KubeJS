@@ -28,12 +28,12 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
     }
     export class $IValueInterpolator<T> {
         static binary<V>(): $IValueInterpolator<V>;
-        static snapToEnd<V>(): $IValueInterpolator<V>;
-        static neverInterpolate<V>(): $IValueInterpolator<V>;
         /**
          * @deprecated
          */
         static alwaysInterpolate<V>(): $IValueInterpolator<V>;
+        static neverInterpolate<V>(): $IValueInterpolator<V>;
+        static snapToEnd<V>(): $IValueInterpolator<V>;
         static BINARY: $IValueInterpolator<any>;
         static SNAP_TO_END: $IValueInterpolator<any>;
         /**
@@ -55,11 +55,11 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
         merge(arg0: $Stylesheet): void;
         setName(arg0: string): void;
         static parse(arg0: string): $Stylesheet;
-        static parseStyleValues(arg0: string): $Map<$Property<never>, $StyleValue<never>>;
         addRule(arg0: $StyleRule): void;
+        static parseStyleValues(arg0: string): $Map<$Property<never>, $StyleValue<never>>;
         calculateValues(arg0: $UIElement): $List<$StyleRule>;
-        getRawLss(): string;
         removeRule(arg0: $StyleRule): void;
+        getRawLss(): string;
         static DECL: $Pattern;
         static RULE: $Pattern;
         rules: $List<$StyleRule>;
@@ -78,20 +78,20 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
         get specificity(): number;
     }
     export class $StylesheetManager implements $ResourceManagerReloadListener {
-        unregisterBuiltinStylesheet(arg0: $ResourceLocation_): void;
         getStylesheet(arg0: $ResourceLocation_): $Stylesheet;
+        registerBuiltinStylesheet(arg0: $ResourceLocation_, arg1: $Stylesheet): void;
+        getAllBuiltinStylesheets(): $Collection<$ResourceLocation>;
+        getMergedStylesheetsSafe(arg0: string): $Stylesheet;
+        getMergedStylesheets(arg0: string): $Stylesheet;
+        getAllPackStylesheets(): $Collection<$ResourceLocation>;
+        getStylesheetOrElse(arg0: $ResourceLocation_, arg1: $Stylesheet): $Stylesheet;
+        getMergedStylesheetsOrElse(arg0: string, arg1: $Stylesheet): $Stylesheet;
         onResourceManagerReload(arg0: $ResourceManager): void;
-        getStylesheetSafe(arg0: $ResourceLocation_): $Stylesheet;
-        unregisterEngine(arg0: $StyleEngine): void;
         hasStylesheet(arg0: $ResourceLocation_): boolean;
         registerEngine(arg0: $StyleEngine): void;
-        getAllBuiltinStylesheets(): $Collection<$ResourceLocation>;
-        getMergedStylesheetsOrElse(arg0: string, arg1: $Stylesheet): $Stylesheet;
-        registerBuiltinStylesheet(arg0: $ResourceLocation_, arg1: $Stylesheet): void;
-        getMergedStylesheets(arg0: string): $Stylesheet;
-        getStylesheetOrElse(arg0: $ResourceLocation_, arg1: $Stylesheet): $Stylesheet;
-        getAllPackStylesheets(): $Collection<$ResourceLocation>;
-        getMergedStylesheetsSafe(arg0: string): $Stylesheet;
+        unregisterEngine(arg0: $StyleEngine): void;
+        getStylesheetSafe(arg0: $ResourceLocation_): $Stylesheet;
+        unregisterBuiltinStylesheet(arg0: $ResourceLocation_): void;
         reload(arg0: $PreparableReloadListener$PreparationBarrier_, arg1: $ResourceManager, arg2: $ProfilerFiller, arg3: $ProfilerFiller, arg4: $Executor_, arg5: $Executor_): $CompletableFuture<void>;
         getName(): string;
         static PATH: string;
@@ -166,19 +166,19 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
     export class $StyleBag {
         compute(arg0: number): void;
         isDirty(): boolean;
-        putCandidates(arg0: $Map_<$Property<never>, $StyleValue<never>>, arg1: $StyleOrigin_, arg2: number, arg3: number): void;
-        removeCandidates(arg0: $Predicate_<$StyleSlot<never>>): void;
-        removeCandidates(arg0: $Property<never>, arg1: $Predicate_<$StyleSlot<never>>): void;
-        computeCandidate<T>(arg0: $Property<T>): T;
         moveInlineAsDefault(): void;
         replaceOrPutCandidate<T>(arg0: $Property<T>, arg1: $StyleSlot_<T>): void;
-        markDirty(): void;
-        getComputed<T>(arg0: $Property<T>): T;
-        onAnimationUpdate<T>(arg0: $StyleOrigin_, arg1: $Property<T>, arg2: T): void;
-        onTransitionUpdate<T>(arg0: $TransitionAnimation<T>, arg1: T, arg2: T): void;
-        containsCandidate(arg0: $Property<never>, arg1: $Predicate_<$StyleSlot<never>>): boolean;
+        computeCandidate<T>(arg0: $Property<T>): T;
         clearCandidates(): void;
+        containsCandidate(arg0: $Property<never>, arg1: $Predicate_<$StyleSlot<never>>): boolean;
+        onTransitionUpdate<T>(arg0: $TransitionAnimation<T>, arg1: T, arg2: T): void;
         putCandidate<T>(arg0: $Property<T>, arg1: $StyleSlot_<T>): void;
+        onAnimationUpdate<T>(arg0: $StyleOrigin_, arg1: $Property<T>, arg2: T): void;
+        removeCandidates(arg0: $Property<never>, arg1: $Predicate_<$StyleSlot<never>>): void;
+        removeCandidates(arg0: $Predicate_<$StyleSlot<never>>): void;
+        putCandidates(arg0: $Map_<$Property<never>, $StyleValue<never>>, arg1: $StyleOrigin_, arg2: number, arg3: number): void;
+        getComputed<T>(arg0: $Property<T>): T;
+        markDirty(): void;
         computeCandidateSlot<T>(arg0: $Property<T>): $StyleSlot<T>;
         onTransitionFinished<T>(arg0: $TransitionAnimation<T>): void;
         replaceAnimationFinal<T>(arg0: $Property<T>, arg1: $Predicate_<$StyleSlot<never>>, arg2: $StyleSlot_<T>): void;
@@ -200,33 +200,33 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
         remove(arg0: $StyleBag): void;
         enqueue(arg0: $StyleBag): void;
         dispose(): void;
-        addLocalStylesheet(arg0: $UIElement, arg1: $Stylesheet): void;
-        scheduleReloadElementStyles(arg0: $UIElement): void;
+        removeLocalStylesheet(arg0: $UIElement, arg1: $Stylesheet): void;
         addStylesheets(arg0: $List_<$Stylesheet>): void;
         addStylesheets(...arg0: $Stylesheet[]): void;
+        calculateStyle(): void;
         onElementRegister(arg0: $UIElement): void;
         requireCalculate(): boolean;
-        calculateStyle(): void;
-        removeLocalStylesheet(arg0: $UIElement, arg1: $Stylesheet): void;
-        inQueue(arg0: $StyleBag): boolean;
-        removeStylesheet(arg0: $Stylesheet): void;
-        addStylesheet(arg0: $Stylesheet): void;
-        scheduleFullReload(): void;
-        onElementUnregister(arg0: $UIElement): void;
         clearAllStylesheets(): void;
         getElementStyleRules(): $Map<$UIElement, $Map<$Stylesheet, $List<$StyleRule>>>;
+        addLocalStylesheet(arg0: $UIElement, arg1: $Stylesheet): void;
+        scheduleFullReload(): void;
+        scheduleReloadElementStyles(arg0: $UIElement): void;
+        onElementUnregister(arg0: $UIElement): void;
+        addStylesheet(arg0: $Stylesheet): void;
+        removeStylesheet(arg0: $Stylesheet): void;
+        inQueue(arg0: $StyleBag): boolean;
         modularUI: $ModularUI;
         globalSheets: $List<$Stylesheet>;
         constructor(arg0: $ModularUI);
         get elementStyleRules(): $Map<$UIElement, $Map<$Stylesheet, $List<$StyleRule>>>;
     }
     export class $LayoutStyle extends $Style {
-        getWidth(): $TaffyDimension;
+        overflow(arg0: $YogaOverflow_): $LayoutStyle;
+        top(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
         top(arg0: $StyleLength): $LayoutStyle;
-        top(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
@@ -247,120 +247,34 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
          */
         width(arg0: $StyleSizeLength): $LayoutStyle;
         width(arg0: number): $LayoutStyle;
+        minWidth(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
         minWidth(arg0: $StyleSizeLength): $LayoutStyle;
-        minWidth(arg0: number): $LayoutStyle;
         maxWidth(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
         maxWidth(arg0: $StyleSizeLength): $LayoutStyle;
+        setAspectRatio(arg0: number): $LayoutStyle;
+        widthPercent(arg0: number): $LayoutStyle;
+        heightPercent(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        height(arg0: $StyleSizeLength): $LayoutStyle;
-        height(arg0: number): $LayoutStyle;
+        marginRight(arg0: $StyleLength): $LayoutStyle;
+        marginRight(arg0: number): $LayoutStyle;
+        paddingAll(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMinHeightPercent(arg0: number): $LayoutStyle;
-        marginHorizontalPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinWidthFitContent(): $LayoutStyle;
-        maxHeightMinContent(): $LayoutStyle;
-        marginVerticalPercent(arg0: number): $LayoutStyle;
-        paddingRightPercent(arg0: number): $LayoutStyle;
-        paddingBottomPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setHeightMaxContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinHeightMaxContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setHeightFitContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinHeightFitContent(): $LayoutStyle;
-        minHeightFitContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinWidthMaxContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxHeightPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxHeightMaxContent(): $LayoutStyle;
-        paddingHorizontalPercent(arg0: number): $LayoutStyle;
-        minHeightMaxContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxHeightFitContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexBasisPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexBasisFitContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinHeightStretch(): $LayoutStyle;
-        minHeightMinContent(): $LayoutStyle;
-        marginHorizontalAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxWidthMaxContent(): $LayoutStyle;
-        flexBasisMaxContent(): $LayoutStyle;
-        flexBasisMinContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxHeightStretch(): $LayoutStyle;
-        flexBasisFitContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexBasisStretch(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxWidthFitContent(): $LayoutStyle;
-        maxHeightMaxContent(): $LayoutStyle;
-        maxHeightFitContent(): $LayoutStyle;
-        paddingVerticalPercent(arg0: number): $LayoutStyle;
-        marginBottomPercent(arg0: number): $LayoutStyle;
-        gridTemplateColumns(arg0: $GridTemplate_): $LayoutStyle;
-        gridTemplateColumns(arg0: string): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexBasisMaxContent(): $LayoutStyle;
+        paddingAll(arg0: $StyleLength): $LayoutStyle;
         /**
          * @deprecated
          */
         setDisplay(arg0: $YogaDisplay_): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setDirection(arg0: $YogaDirection_): $LayoutStyle;
+        getWidth(): $TaffyDimension;
         /**
          * @deprecated
          */
@@ -369,12 +283,337 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
         /**
          * @deprecated
          */
+        setMaxWidth(arg0: $StyleSizeLength): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMaxWidth(arg0: number): $LayoutStyle;
+        setMaxWidth(arg0: $TaffyDimension): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        height(arg0: $StyleSizeLength): $LayoutStyle;
+        height(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        gapAll(arg0: $StyleLength): $LayoutStyle;
+        gapAll(arg0: number): $LayoutStyle;
+        setWidth(arg0: $TaffyDimension): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWidth(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWidth(arg0: $StyleSizeLength): $LayoutStyle;
+        setHeight(arg0: $TaffyDimension): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setHeight(arg0: $StyleSizeLength): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setHeight(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setPosition(arg0: $YogaEdge_, arg1: $StyleLength): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setPosition(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setOverflow(arg0: $YogaOverflow_): $LayoutStyle;
+        setFlexShrink(arg0: number): $LayoutStyle;
+        setFlexShrinkAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMaxHeight(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMaxHeight(arg0: $StyleSizeLength): $LayoutStyle;
+        setMaxHeight(arg0: $TaffyDimension): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinWidth(arg0: $StyleSizeLength): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinWidth(arg0: number): $LayoutStyle;
+        setMinWidth(arg0: $TaffyDimension): $LayoutStyle;
+        setMinHeight(arg0: $TaffyDimension): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinHeight(arg0: $StyleSizeLength): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinHeight(arg0: number): $LayoutStyle;
+        setFlexGrow(arg0: number): $LayoutStyle;
+        setFlexGrowAuto(): $LayoutStyle;
+        marginBottom(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        marginBottom(arg0: $StyleLength): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMaxWidthPercent(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        marginHorizontal(arg0: $StyleLength): $LayoutStyle;
+        marginHorizontal(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMarginPercent(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMarginAuto(arg0: $YogaEdge_): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinWidthStretch(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinWidthPercent(arg0: number): $LayoutStyle;
+        maxHeightStretch(): $LayoutStyle;
+        minWidthStretch(): $LayoutStyle;
+        setAspectRatioAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWidthPercent(arg0: number): $LayoutStyle;
+        heightMinContent(): $LayoutStyle;
+        minWidthAuto(): $LayoutStyle;
+        heightStretch(): $LayoutStyle;
+        minHeightPercent(arg0: number): $LayoutStyle;
+        marginVertical(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        marginVertical(arg0: $StyleLength): $LayoutStyle;
+        maxHeightAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWidthAuto(): $LayoutStyle;
+        marginLeftPercent(arg0: number): $LayoutStyle;
+        widthFitContent(): $LayoutStyle;
+        marginTopPercent(arg0: number): $LayoutStyle;
+        minWidthFitContent(): $LayoutStyle;
+        maxWidthPercent(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWidthMaxContent(): $LayoutStyle;
+        marginRightPercent(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinHeightAuto(): $LayoutStyle;
+        minWidthPercent(arg0: number): $LayoutStyle;
+        marginAllPercent(arg0: number): $LayoutStyle;
+        maxWidthMaxContent(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMaxWidthStretch(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMaxWidthAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setHeightStretch(): $LayoutStyle;
+        widthMinContent(): $LayoutStyle;
+        minHeightAuto(): $LayoutStyle;
+        minHeightStretch(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWidthStretch(): $LayoutStyle;
+        widthStretch(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMaxHeightAuto(): $LayoutStyle;
+        minWidthMinContent(): $LayoutStyle;
+        heightFitContent(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setHeightAuto(): $LayoutStyle;
+        maxWidthStretch(): $LayoutStyle;
+        heightMaxContent(): $LayoutStyle;
+        widthMaxContent(): $LayoutStyle;
+        maxWidthMinContent(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setMinWidthAuto(): $LayoutStyle;
+        maxHeightPercent(arg0: number): $LayoutStyle;
+        minWidthMaxContent(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setHeightPercent(arg0: number): $LayoutStyle;
+        maxWidthAuto(): $LayoutStyle;
+        maxWidthFitContent(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWidthFitContent(): $LayoutStyle;
+        getOverflow(): $YogaOverflow;
+        paddingTopPercent(arg0: number): $LayoutStyle;
+        gapColumnPercent(arg0: number): $LayoutStyle;
+        marginAllAuto(): $LayoutStyle;
+        getAlignContent(): $AlignContent;
+        gridAutoRows(arg0: $GridAuto_): $LayoutStyle;
+        gridAutoRows(arg0: string): $LayoutStyle;
+        leftPercent(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setAlignItems(arg0: $YogaAlign_): $LayoutStyle;
+        getPositionType(): $TaffyPosition;
+        getAlignSelf(): $AlignItems;
+        /**
+         * @deprecated
+         */
+        setAlignContent(arg0: $YogaAlign_): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setGapPercent(arg0: $YogaGutter_, arg1: number): $LayoutStyle;
+        bottomPercent(arg0: number): $LayoutStyle;
+        flexBasisPercent(arg0: number): $LayoutStyle;
+        marginRightAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setPositionPercent(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setFlexBasisAuto(): $LayoutStyle;
+        flexBasisStretch(): $LayoutStyle;
+        aspectRatio(arg0: number): $LayoutStyle;
+        gapRowPercent(arg0: number): $LayoutStyle;
+        gridTemplateAreas(arg0: $GridTemplateAreas_): $LayoutStyle;
+        gridTemplateAreas(arg0: string): $LayoutStyle;
+        gapAllPercent(arg0: number): $LayoutStyle;
+        marginVerticalAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setAlignSelf(arg0: $YogaAlign_): $LayoutStyle;
+        marginBottomAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        paddingHorizontal(arg0: $StyleLength): $LayoutStyle;
+        paddingHorizontal(arg0: number): $LayoutStyle;
+        gridAutoColumns(arg0: $GridAuto_): $LayoutStyle;
+        gridAutoColumns(arg0: string): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setFlexAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setPaddingPercent(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
+        getMinHeight(): $TaffyDimension;
+        /**
+         * @deprecated
+         */
+        setJustifyContent(arg0: $YogaJustify_): $LayoutStyle;
+        marginLeftAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setFlexBasis(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setPositionType(arg0: $YogaPositionType_): $LayoutStyle;
+        getFlexBasis(): $TaffyDimension;
+        paddingVertical(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        paddingVertical(arg0: $StyleLength): $LayoutStyle;
+        flexGrowAuto(): $LayoutStyle;
+        rightPercent(arg0: number): $LayoutStyle;
+        getStyleDirection(): $TaffyDirection;
+        flexBasisAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setFlexDirection(arg0: $YogaFlexDirection_): $LayoutStyle;
+        justifySelf(arg0: $AlignItems_): $LayoutStyle;
+        getFlexDirection(): $FlexDirection;
+        aspectRatioAuto(): $LayoutStyle;
+        gridAutoFlow(arg0: $GridAutoFlow_): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setPositionAuto(arg0: $YogaEdge_): $LayoutStyle;
+        justifyItems(arg0: $AlignItems_): $LayoutStyle;
+        getJustifyContent(): $AlignContent;
+        getJustifyItems(): $AlignItems;
+        getJustifySelf(): $AlignItems;
+        paddingAllPercent(arg0: number): $LayoutStyle;
+        paddingLeftPercent(arg0: number): $LayoutStyle;
+        getAlignItems(): $AlignItems;
+        getFlexGrow(): number;
+        flexShrinkAuto(): $LayoutStyle;
+        getFlexShrink(): number;
+        getAspectRatio(): number;
+        marginTopAuto(): $LayoutStyle;
+        gridTemplateRows(arg0: $GridTemplate_): $LayoutStyle;
+        gridTemplateRows(arg0: string): $LayoutStyle;
+        getMaxWidth(): $TaffyDimension;
+        getMaxHeight(): $TaffyDimension;
+        /**
+         * @deprecated
+         */
         setMargin(arg0: $YogaEdge_, arg1: $StyleLength): $LayoutStyle;
         /**
          * @deprecated
          */
         setMargin(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
+        alignItems(arg0: $AlignItems_): $LayoutStyle;
+        topAuto(): $LayoutStyle;
+        widthAuto(): $LayoutStyle;
+        rightAuto(): $LayoutStyle;
+        bottomAuto(): $LayoutStyle;
+        flexShrink(arg0: number): $LayoutStyle;
+        flexWrap(arg0: $FlexWrap_): $LayoutStyle;
+        gapColumn(arg0: number): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        gapColumn(arg0: $StyleLength): $LayoutStyle;
         flexGrow(arg0: number): $LayoutStyle;
+        topPercent(arg0: number): $LayoutStyle;
+        flexBasis(arg0: number): $LayoutStyle;
+        leftAuto(): $LayoutStyle;
         /**
          * @deprecated
          */
@@ -383,56 +622,31 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
          * @deprecated
          */
         setGap(arg0: $YogaGutter_, arg1: number): $LayoutStyle;
+        gridColumn(arg0: $Grid_): $LayoutStyle;
+        gridColumn(arg0: string): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setWrap(arg0: $YogaWrap_): $LayoutStyle;
+        gridRow(arg0: $Grid_): $LayoutStyle;
+        gridRow(arg0: string): $LayoutStyle;
+        flexAuto(): $LayoutStyle;
+        heightAuto(): $LayoutStyle;
+        /**
+         * @deprecated
+         */
+        setFlex(arg0: number): $LayoutStyle;
         gapRow(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
         gapRow(arg0: $StyleLength): $LayoutStyle;
-        rightAuto(): $LayoutStyle;
-        flexBasis(arg0: number): $LayoutStyle;
+        getHeight(): $TaffyDimension;
+        minHeight(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        setFlex(arg0: number): $LayoutStyle;
-        bottomAuto(): $LayoutStyle;
-        flexShrink(arg0: number): $LayoutStyle;
-        gridRow(arg0: string): $LayoutStyle;
-        gridRow(arg0: $Grid_): $LayoutStyle;
-        gridColumn(arg0: $Grid_): $LayoutStyle;
-        gridColumn(arg0: string): $LayoutStyle;
-        flexAuto(): $LayoutStyle;
-        flexWrap(arg0: $FlexWrap_): $LayoutStyle;
-        gapColumn(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        gapColumn(arg0: $StyleLength): $LayoutStyle;
-        topAuto(): $LayoutStyle;
-        alignItems(arg0: $AlignItems_): $LayoutStyle;
-        widthAuto(): $LayoutStyle;
-        heightAuto(): $LayoutStyle;
-        leftAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setWrap(arg0: $YogaWrap_): $LayoutStyle;
-        topPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        gapAll(arg0: $StyleLength): $LayoutStyle;
-        gapAll(arg0: number): $LayoutStyle;
-        flex(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        marginAll(arg0: $StyleLength): $LayoutStyle;
-        marginAll(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        marginLeft(arg0: $StyleLength): $LayoutStyle;
-        marginLeft(arg0: number): $LayoutStyle;
+        minHeight(arg0: $StyleSizeLength): $LayoutStyle;
         /**
          * @deprecated
          */
@@ -444,28 +658,30 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
         /**
          * @deprecated
          */
-        setOverflow(arg0: $YogaOverflow_): $LayoutStyle;
-        getMaxHeight(): $TaffyDimension;
-        getMaxWidth(): $TaffyDimension;
-        marginRight(arg0: number): $LayoutStyle;
+        paddingTop(arg0: $StyleLength): $LayoutStyle;
+        paddingTop(arg0: number): $LayoutStyle;
+        maxHeight(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        marginRight(arg0: $StyleLength): $LayoutStyle;
-        overflow(arg0: $YogaOverflow_): $LayoutStyle;
+        maxHeight(arg0: $StyleSizeLength): $LayoutStyle;
+        flex(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        setPosition(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
+        marginLeft(arg0: $StyleLength): $LayoutStyle;
+        marginLeft(arg0: number): $LayoutStyle;
+        marginAll(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        setPosition(arg0: $YogaEdge_, arg1: $StyleLength): $LayoutStyle;
-        minHeight(arg0: number): $LayoutStyle;
+        marginAll(arg0: $StyleLength): $LayoutStyle;
+        getMinWidth(): $TaffyDimension;
+        paddingRight(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        minHeight(arg0: $StyleSizeLength): $LayoutStyle;
+        paddingRight(arg0: $StyleLength): $LayoutStyle;
         /**
          * @deprecated
          */
@@ -474,355 +690,139 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
         /**
          * @deprecated
          */
-        paddingRight(arg0: $StyleLength): $LayoutStyle;
-        paddingRight(arg0: number): $LayoutStyle;
+        paddingBottom(arg0: $StyleLength): $LayoutStyle;
         paddingBottom(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        paddingBottom(arg0: $StyleLength): $LayoutStyle;
-        paddingTop(arg0: number): $LayoutStyle;
+        setMinWidthFitContent(): $LayoutStyle;
+        maxHeightMinContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        paddingTop(arg0: $StyleLength): $LayoutStyle;
+        setFlexBasisFitContent(): $LayoutStyle;
+        gridTemplateColumns(arg0: $GridTemplate_): $LayoutStyle;
+        gridTemplateColumns(arg0: string): $LayoutStyle;
+        minHeightFitContent(): $LayoutStyle;
+        flexBasisMaxContent(): $LayoutStyle;
+        paddingRightPercent(arg0: number): $LayoutStyle;
+        paddingVerticalPercent(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        maxHeight(arg0: $StyleSizeLength): $LayoutStyle;
-        maxHeight(arg0: number): $LayoutStyle;
-        getHeight(): $TaffyDimension;
-        getMinWidth(): $TaffyDimension;
+        setFlexBasisPercent(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        setWidth(arg0: $StyleSizeLength): $LayoutStyle;
+        setMaxHeightPercent(arg0: number): $LayoutStyle;
+        maxHeightFitContent(): $LayoutStyle;
+        marginHorizontalAuto(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setWidth(arg0: number): $LayoutStyle;
-        setWidth(arg0: $TaffyDimension): $LayoutStyle;
+        setMinHeightStretch(): $LayoutStyle;
+        paddingBottomPercent(arg0: number): $LayoutStyle;
+        flexBasisFitContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setHeight(arg0: number): $LayoutStyle;
+        setFlexBasisStretch(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setHeight(arg0: $StyleSizeLength): $LayoutStyle;
-        setHeight(arg0: $TaffyDimension): $LayoutStyle;
-        paddingAll(arg0: number): $LayoutStyle;
+        setMaxWidthFitContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        paddingAll(arg0: $StyleLength): $LayoutStyle;
+        setMinHeightMaxContent(): $LayoutStyle;
+        minHeightMinContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMaxWidth(arg0: $StyleSizeLength): $LayoutStyle;
-        setMaxWidth(arg0: $TaffyDimension): $LayoutStyle;
+        setMaxWidthMaxContent(): $LayoutStyle;
+        paddingHorizontalPercent(arg0: number): $LayoutStyle;
+        flexBasisMinContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMaxWidth(arg0: number): $LayoutStyle;
-        heightPercent(arg0: number): $LayoutStyle;
-        widthPercent(arg0: number): $LayoutStyle;
-        setAspectRatio(arg0: number): $LayoutStyle;
+        setHeightFitContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMinWidthPercent(arg0: number): $LayoutStyle;
-        minWidthPercent(arg0: number): $LayoutStyle;
+        setMaxHeightMaxContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMinWidthAuto(): $LayoutStyle;
-        minWidthAuto(): $LayoutStyle;
-        setFlexShrinkAuto(): $LayoutStyle;
+        setMaxHeightFitContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMaxHeight(arg0: $StyleSizeLength): $LayoutStyle;
-        setMaxHeight(arg0: $TaffyDimension): $LayoutStyle;
+        setMaxHeightStretch(): $LayoutStyle;
+        marginHorizontalPercent(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMaxHeight(arg0: number): $LayoutStyle;
+        setMinHeightFitContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setWidthPercent(arg0: number): $LayoutStyle;
-        minWidthMaxContent(): $LayoutStyle;
-        minWidthMinContent(): $LayoutStyle;
-        minWidthFitContent(): $LayoutStyle;
+        setMinWidthMaxContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setMinWidthStretch(): $LayoutStyle;
-        setFlexGrow(arg0: number): $LayoutStyle;
+        setFlexBasisMaxContent(): $LayoutStyle;
+        minHeightMaxContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setWidthMaxContent(): $LayoutStyle;
-        widthMaxContent(): $LayoutStyle;
+        setMinHeightPercent(arg0: number): $LayoutStyle;
+        maxHeightMaxContent(): $LayoutStyle;
         /**
          * @deprecated
          */
-        setWidthAuto(): $LayoutStyle;
+        setHeightMaxContent(): $LayoutStyle;
+        marginBottomPercent(arg0: number): $LayoutStyle;
+        marginVerticalPercent(arg0: number): $LayoutStyle;
         /**
          * @deprecated
          */
-        setWidthFitContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinHeight(arg0: $StyleSizeLength): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinHeight(arg0: number): $LayoutStyle;
-        setMinHeight(arg0: $TaffyDimension): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinWidth(arg0: $StyleSizeLength): $LayoutStyle;
-        setMinWidth(arg0: $TaffyDimension): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinWidth(arg0: number): $LayoutStyle;
-        setFlexShrink(arg0: number): $LayoutStyle;
-        setFlexGrowAuto(): $LayoutStyle;
-        setAspectRatioAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setWidthStretch(): $LayoutStyle;
-        widthMinContent(): $LayoutStyle;
-        widthStretch(): $LayoutStyle;
-        widthFitContent(): $LayoutStyle;
-        paddingAllPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexBasisAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMinHeightAuto(): $LayoutStyle;
-        marginVerticalAuto(): $LayoutStyle;
-        marginAllAuto(): $LayoutStyle;
-        flexBasisAuto(): $LayoutStyle;
-        leftPercent(arg0: number): $LayoutStyle;
-        flexBasisPercent(arg0: number): $LayoutStyle;
-        marginRightAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexBasis(arg0: number): $LayoutStyle;
-        maxWidthMinContent(): $LayoutStyle;
-        maxWidthPercent(arg0: number): $LayoutStyle;
-        flexBasisStretch(): $LayoutStyle;
-        maxWidthStretch(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setHeightStretch(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setPaddingPercent(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
-        maxWidthMaxContent(): $LayoutStyle;
-        minHeightAuto(): $LayoutStyle;
-        minHeightPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        marginHorizontal(arg0: $StyleLength): $LayoutStyle;
-        marginHorizontal(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setHeightAuto(): $LayoutStyle;
-        marginTopPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMarginAuto(arg0: $YogaEdge_): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setAlignContent(arg0: $YogaAlign_): $LayoutStyle;
-        heightMaxContent(): $LayoutStyle;
-        marginAllPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexDirection(arg0: $YogaFlexDirection_): $LayoutStyle;
-        maxWidthAuto(): $LayoutStyle;
-        marginTopAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setPositionType(arg0: $YogaPositionType_): $LayoutStyle;
-        marginBottomAuto(): $LayoutStyle;
-        maxHeightPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxHeightAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMarginPercent(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
-        paddingLeftPercent(arg0: number): $LayoutStyle;
-        paddingTopPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxWidthPercent(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setPositionPercent(arg0: $YogaEdge_, arg1: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setPositionAuto(arg0: $YogaEdge_): $LayoutStyle;
-        rightPercent(arg0: number): $LayoutStyle;
-        maxWidthFitContent(): $LayoutStyle;
-        marginBottom(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        marginBottom(arg0: $StyleLength): $LayoutStyle;
-        bottomPercent(arg0: number): $LayoutStyle;
-        marginLeftPercent(arg0: number): $LayoutStyle;
-        minHeightStretch(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        marginVertical(arg0: $StyleLength): $LayoutStyle;
-        marginVertical(arg0: number): $LayoutStyle;
-        marginLeftAuto(): $LayoutStyle;
-        heightFitContent(): $LayoutStyle;
-        heightStretch(): $LayoutStyle;
-        paddingHorizontal(arg0: number): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        paddingHorizontal(arg0: $StyleLength): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxWidthStretch(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setAlignItems(arg0: $YogaAlign_): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setAlignSelf(arg0: $YogaAlign_): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        paddingVertical(arg0: $StyleLength): $LayoutStyle;
-        paddingVertical(arg0: number): $LayoutStyle;
-        heightMinContent(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setMaxWidthAuto(): $LayoutStyle;
-        maxHeightAuto(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setFlexAuto(): $LayoutStyle;
-        maxHeightStretch(): $LayoutStyle;
-        minWidthStretch(): $LayoutStyle;
-        /**
-         * @deprecated
-         */
-        setHeightPercent(arg0: number): $LayoutStyle;
-        marginRightPercent(arg0: number): $LayoutStyle;
-        aspectRatio(arg0: number): $LayoutStyle;
-        getJustifySelf(): $AlignItems;
-        gridAutoRows(arg0: string): $LayoutStyle;
-        gridAutoRows(arg0: $GridAuto_): $LayoutStyle;
-        justifyItems(arg0: $AlignItems_): $LayoutStyle;
-        getFlexShrink(): number;
-        getAspectRatio(): number;
-        getPositionType(): $TaffyPosition;
-        /**
-         * @deprecated
-         */
-        setJustifyContent(arg0: $YogaJustify_): $LayoutStyle;
-        justifySelf(arg0: $AlignItems_): $LayoutStyle;
-        gapColumnPercent(arg0: number): $LayoutStyle;
-        getJustifyContent(): $AlignContent;
-        getAlignItems(): $AlignItems;
-        gridTemplateRows(arg0: $GridTemplate_): $LayoutStyle;
-        gridTemplateRows(arg0: string): $LayoutStyle;
-        getAlignContent(): $AlignContent;
-        /**
-         * @deprecated
-         */
-        setGapPercent(arg0: $YogaGutter_, arg1: number): $LayoutStyle;
-        getFlexDirection(): $FlexDirection;
-        getStyleDirection(): $TaffyDirection;
-        gapRowPercent(arg0: number): $LayoutStyle;
-        flexGrowAuto(): $LayoutStyle;
-        getFlexGrow(): number;
-        flexShrinkAuto(): $LayoutStyle;
-        gridTemplateAreas(arg0: $GridTemplateAreas_): $LayoutStyle;
-        gridTemplateAreas(arg0: string): $LayoutStyle;
-        getMinHeight(): $TaffyDimension;
-        getAlignSelf(): $AlignItems;
-        gridAutoColumns(arg0: $GridAuto_): $LayoutStyle;
-        gridAutoColumns(arg0: string): $LayoutStyle;
-        getOverflow(): $YogaOverflow;
-        getJustifyItems(): $AlignItems;
-        getFlexBasis(): $TaffyDimension;
-        aspectRatioAuto(): $LayoutStyle;
-        gapAllPercent(arg0: number): $LayoutStyle;
-        gridAutoFlow(arg0: $GridAutoFlow_): $LayoutStyle;
+        setDirection(arg0: $YogaDirection_): $LayoutStyle;
         holder: $UIElement;
         constructor(arg0: $UIElement);
         set display(value: $YogaDisplay_);
-        set direction(value: $YogaDirection_);
-        set wrap(value: $YogaWrap_);
         set marginAuto(value: $YogaEdge_);
-        set positionAuto(value: $YogaEdge_);
         get styleDirection(): $TaffyDirection;
+        set positionAuto(value: $YogaEdge_);
+        set wrap(value: $YogaWrap_);
+        set direction(value: $YogaDirection_);
     }
     export class $BasicStyle extends $Style {
         static init(): void;
-        color(arg0: number): $BasicStyle;
         color(): number;
-        transition(): $Transition;
+        color(arg0: number): $BasicStyle;
         transition(arg0: $Transition_): $BasicStyle;
-        opacity(arg0: number): $BasicStyle;
-        opacity(): number;
-        backgroundTexture(arg0: $IGuiTexture_): $BasicStyle;
-        backgroundTexture(): $IGuiTexture;
-        background(arg0: $IGuiTexture_): $BasicStyle;
+        transition(): $Transition;
+        appendTooltips(...arg0: $Component_[]): $BasicStyle;
         zIndex(arg0: number): $BasicStyle;
         zIndex(): number;
+        background(arg0: $IGuiTexture_): $BasicStyle;
+        opacity(): number;
+        opacity(arg0: number): $BasicStyle;
+        overflowClip(): $IGuiTexture;
+        overflowClip(arg0: $IGuiTexture_): $BasicStyle;
         overlay(arg0: $IGuiTexture_): $BasicStyle;
         appendTooltipsString(...arg0: string[]): $BasicStyle;
-        overflowVisible(arg0: boolean): $BasicStyle;
-        overflowVisible(): boolean;
-        transform2D(): $Transform2D;
-        transform2D(arg0: $Transform2D): $BasicStyle;
-        overflowClip(arg0: $IGuiTexture_): $BasicStyle;
-        overflowClip(): $IGuiTexture;
-        tooltips(...arg0: $Component_[]): $BasicStyle;
+        backgroundTexture(): $IGuiTexture;
+        backgroundTexture(arg0: $IGuiTexture_): $BasicStyle;
         tooltips(): $Tooltips;
         tooltips(arg0: $Tooltips_): $BasicStyle;
-        appendTooltips(...arg0: $Component_[]): $BasicStyle;
-        overlayTexture(arg0: $IGuiTexture_): $BasicStyle;
+        overflowVisible(arg0: boolean): $BasicStyle;
+        overflowVisible(): boolean;
+        transform2D(arg0: $Transform2D): $BasicStyle;
+        transform2D(): $Transform2D;
+        tooltips(...arg0: $Component_[]): $BasicStyle;
         overlayTexture(): $IGuiTexture;
+        overlayTexture(arg0: $IGuiTexture_): $BasicStyle;
         holder: $UIElement;
         constructor(arg0: $UIElement);
     }
@@ -834,25 +834,25 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style" {
         property(): $Property<T>;
         origin(): $StyleOrigin;
         typeEquals(arg0: $StyleSlot_<never>): boolean;
-        sourceOrder(): number;
         specificity(): number;
+        sourceOrder(): number;
         constructor(property: $Property<T>, origin: $StyleOrigin_, specificity: number, sourceOrder: number, value: T);
     }
     export class $Property<VALUE> {
         getValue(arg0: $Map_<string, $StyleValue<never>>): (VALUE) | undefined;
-        static of<T>(arg0: string, arg1: $Codec<T>, arg2: T, arg3: $ValueParser_<T>): $Property<T>;
         static of<T>(arg0: string, arg1: $Class<T>, arg2: $Codec<T>, arg3: T, arg4: $ValueParser_<T>): $Property<T>;
+        static of<T>(arg0: string, arg1: $Codec<T>, arg2: T, arg3: $ValueParser_<T>): $Property<T>;
         notifyListeners(arg0: $UIElement, arg1: VALUE, arg2: VALUE): void;
-        getConfigName(): string;
         addListener(arg0: $StyleChangeListener_<VALUE>): $Property<VALUE>;
+        getConfigName(): string;
         getInterpolator(): $IValueInterpolator<VALUE>;
-        createConfigurator(arg0: $Supplier_<VALUE>, arg1: $Consumer_<VALUE>, arg2: VALUE): $Configurator;
         setInterpolator(arg0: $IValueInterpolator_<VALUE>): $Property<VALUE>;
-        setConfigName(arg0: string): $Property<VALUE>;
-        setAllowTransition(arg0: boolean): $Property<VALUE>;
-        getConfigTooltips(): $Component[];
-        setConfigTooltips(arg0: $Tooltips_): $Property<VALUE>;
         isAllowTransition(): boolean;
+        setConfigTooltips(arg0: $Tooltips_): $Property<VALUE>;
+        getConfigTooltips(): $Component[];
+        setAllowTransition(arg0: boolean): $Property<VALUE>;
+        setConfigName(arg0: string): $Property<VALUE>;
+        createConfigurator(arg0: $Supplier_<VALUE>, arg1: $Consumer_<VALUE>, arg2: VALUE): $Configurator;
         codec: $Codec<VALUE>;
         static CODEC: $Codec<$Property<never>>;
         name: string;

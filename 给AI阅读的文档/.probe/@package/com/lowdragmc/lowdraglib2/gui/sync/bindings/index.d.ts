@@ -1,8 +1,9 @@
 import { $SyncValue } from "@package/com/lowdragmc/lowdraglib2/gui/sync";
-import { $Consumer_, $Supplier_ } from "@package/java/util/function";
+import { $Supplier_, $Consumer_ } from "@package/java/util/function";
 import { $ISubscription } from "@package/com/lowdragmc/lowdraglib2/syncdata";
 import { $UIElement } from "@package/com/lowdragmc/lowdraglib2/gui/ui";
 import { $Enum } from "@package/java/lang";
+import { $Collection } from "@package/java/util";
 export * as impl from "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings/impl";
 
 declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings" {
@@ -45,14 +46,18 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings" {
     export class $IObservable<T> {
     }
     export interface $IObservable<T> {
-        bindObserver(arg0: $IObserver_<T>): $UIElement;
         unbindObserver(arg0: $IObserver_<T>): $UIElement;
+        bindObserver(arg0: $IObserver_<T>): $UIElement;
+        getBoundObservers(): $Collection<$IObserver<T>>;
+        get boundObservers(): $Collection<$IObserver<T>>;
     }
     export class $IDataConsumer<T> {
     }
     export interface $IDataConsumer<T> {
         bindDataSource(arg0: $IDataProvider<T>): $UIElement;
         unbindDataSource(arg0: $IDataProvider<T>): $UIElement;
+        getBoundDataSources(): $Collection<$IDataProvider<T>>;
+        get boundDataSources(): $Collection<$IDataProvider<T>>;
     }
     export class $IDataProvider<T> {
     }
@@ -65,15 +70,15 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/bindings" {
     export class $IBinding<T> {
     }
     export interface $IBinding<T> {
-        acceptC2S(): boolean;
-        acceptS2C(): boolean;
+        getSyncValue(): $SyncValue<T>;
+        s2cStrategy(): $SyncStrategy;
+        c2sStrategy(): $SyncStrategy;
         setServerDataSource(arg0: $IDataSource<T>): void;
         getServerDataSource(): $IDataSource<T>;
-        getSyncValue(): $SyncValue<T>;
         getRemoteDataSource(): $IDataSource<T>;
         setRemoteDataSource(arg0: $IDataSource<T>): void;
-        c2sStrategy(): $SyncStrategy;
-        s2cStrategy(): $SyncStrategy;
+        acceptS2C(): boolean;
+        acceptC2S(): boolean;
         get syncValue(): $SyncValue<T>;
     }
 }

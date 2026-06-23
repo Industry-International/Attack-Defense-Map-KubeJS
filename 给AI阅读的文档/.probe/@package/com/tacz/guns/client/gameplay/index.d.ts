@@ -8,10 +8,10 @@ import { $LocalPlayerDataHolderAccessor } from "@package/me/muksc/tacztweaks/mix
 declare module "@package/com/tacz/guns/client/gameplay" {
     export class $LocalPlayerDataHolder implements $LocalPlayerDataHolderAccessor, $ManualBoltingData {
         reset(): void;
-        lockState(arg0: $Predicate_<$IGunOperator>): void;
+        lockState(arg0: $Predicate_<$IGunOperator> | null): void;
         tickStateLock(): void;
-        tacztweaks$setBoltBeforeReload(arg0: boolean): void;
         tacztweaks$getBoltBeforeReload(): boolean;
+        tacztweaks$setBoltBeforeReload(arg0: boolean): void;
         tacztweaks$getPlayer(): $LocalPlayer;
         clientShootTimestamp: number;
         chargeProgress: number;

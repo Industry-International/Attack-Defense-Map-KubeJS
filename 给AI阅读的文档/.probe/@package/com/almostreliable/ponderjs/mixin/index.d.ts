@@ -28,10 +28,10 @@ declare module "@package/com/almostreliable/ponderjs/mixin" {
     export interface $ParticleAccessor {
         ponderjs$setRoll(arg0: number): void;
         ponderjs$setAlpha(arg0: number): void;
-        ponderjs$setGravity(arg0: number): void;
+        ponderjs$setStoppedByCollision(arg0: boolean): void;
         ponderjs$setHasPhysics(arg0: boolean): void;
         ponderjs$setFriction(arg0: number): void;
         ponderjs$setLifetime(arg0: number): void;
-        ponderjs$setStoppedByCollision(arg0: boolean): void;
+        ponderjs$setGravity(arg0: number): void;
     }
 }

@@ -41,16 +41,16 @@ declare module "@package/com/mojang/brigadier" {
         peek(): string;
         getString(): string;
         getRemaining(): string;
-        getRemainingLength(): number;
-        getTotalLength(): number;
         getCursor(): number;
         getRead(): string;
+        getRemainingLength(): number;
+        getTotalLength(): number;
         get string(): string;
         get remaining(): string;
-        get remainingLength(): number;
-        get totalLength(): number;
         get cursor(): number;
         get read(): string;
+        get remainingLength(): number;
+        get totalLength(): number;
     }
     export class $ResultConsumer<S> {
     }
@@ -102,9 +102,9 @@ declare module "@package/com/mojang/brigadier" {
         setConsumer(arg0: $ResultConsumer_<S>): void;
         getCompletionSuggestions(arg0: $ParseResults<S>): $CompletableFuture<$Suggestions>;
         getCompletionSuggestions(arg0: $ParseResults<S>, arg1: number): $CompletableFuture<$Suggestions>;
-        findAmbiguities(arg0: $AmbiguityConsumer_<S>): void;
-        getAllUsage(arg0: $CommandNode<S>, arg1: S, arg2: boolean): string[];
         getSmartUsage(arg0: $CommandNode<S>, arg1: S): $Map<$CommandNode<S>, string>;
+        getAllUsage(arg0: $CommandNode<S>, arg1: S, arg2: boolean): string[];
+        findAmbiguities(arg0: $AmbiguityConsumer_<S>): void;
         static ARGUMENT_SEPARATOR: string;
         static ARGUMENT_SEPARATOR_CHAR: string;
         constructor(arg0: $RootCommandNode<S>);
@@ -113,14 +113,13 @@ declare module "@package/com/mojang/brigadier" {
         set consumer(value: $ResultConsumer_<S>);
     }
     export class $StringReader implements $ImmutableStringReader {
-        skipWhitespace(): void;
         read(): string;
         readInt(): number;
         canRead(): boolean;
         canRead(arg0: number): boolean;
         skip(): void;
-        peek(arg0: number): string;
         peek(): string;
+        peek(arg0: number): string;
         expect(arg0: string): void;
         readFloat(): number;
         readBoolean(): boolean;
@@ -129,17 +128,18 @@ declare module "@package/com/mojang/brigadier" {
         readString(): string;
         getString(): string;
         getRemaining(): string;
-        getRemainingLength(): number;
-        getTotalLength(): number;
-        getCursor(): number;
-        getRead(): string;
-        readQuotedString(): string;
         readUnquotedString(): string;
+        readQuotedString(): string;
         static isAllowedNumber(arg0: string): boolean;
         readStringUntil(arg0: string): string;
-        setCursor(arg0: number): void;
+        skipWhitespace(): void;
+        getCursor(): number;
         static isQuotedStringStart(arg0: string): boolean;
         static isAllowedInUnquotedString(arg0: string): boolean;
+        setCursor(arg0: number): void;
+        getRead(): string;
+        getRemainingLength(): number;
+        getTotalLength(): number;
         constructor(arg0: $StringReader);
         constructor(arg0: string);
         get string(): string;

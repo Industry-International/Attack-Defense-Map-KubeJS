@@ -41,8 +41,8 @@ declare module "@package/net/caffeinemc/mods/sodium/client/world" {
         static of<T>(arg0: $PalettedContainerRO<T>): $PalettedContainerROExtension<T>;
     }
     export interface $PalettedContainerROExtension<T> {
-        sodium$copy(): $PalettedContainerRO<T>;
         sodium$unpack(arg0: T[], arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): void;
         sodium$unpack(arg0: T[]): void;
+        sodium$copy(): $PalettedContainerRO<T>;
     }
 }

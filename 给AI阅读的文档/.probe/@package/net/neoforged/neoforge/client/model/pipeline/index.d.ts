@@ -1,162 +1,147 @@
-import { $IAcceleratedRenderer_ } from "@package/com/github/argon4w/acceleratedrendering/core/buffers/accelerated/renderers";
 import { $Direction_ } from "@package/net/minecraft/core";
-import { $IMemoryLayout } from "@package/com/github/argon4w/acceleratedrendering/core/buffers/memory";
-import { $RenderType } from "@package/net/minecraft/client/renderer";
+import { $Operation_ } from "@package/com/llamalad7/mixinextras/injector/wrapoperation";
 import { $BakedQuad } from "@package/net/minecraft/client/renderer/block/model";
-import { $VertexFormatElement, $VertexConsumer, $VertexFormatElement_, $PoseStack$Pose, $VertexFormat } from "@package/com/mojang/blaze3d/vertex";
+import { $VertexConsumer, $VertexFormatElement_, $PoseStack$Pose, $VertexFormat } from "@package/com/mojang/blaze3d/vertex";
 import { $TextureAtlasSprite } from "@package/net/minecraft/client/renderer/texture";
-import { $NativeImage } from "@package/com/mojang/blaze3d/platform";
 import { $ByteBuffer } from "@package/java/nio";
 import { $Transformation } from "@package/com/mojang/math";
-import { $ServerMesh_ } from "@package/com/github/argon4w/acceleratedrendering/core/meshes";
 import { $Matrix4f, $Matrix3f, $Vector3f } from "@package/org/joml";
 
 declare module "@package/net/neoforged/neoforge/client/model/pipeline" {
+    /**
+     * Vertex pipeline element that applies a transformation to incoming geometry.
+     */
     export class $TransformingVertexPipeline extends $VertexConsumerWrapper {
-        constructor(arg0: $VertexConsumer, arg1: $Transformation);
+        constructor(parent: $VertexConsumer, transformation: $Transformation);
     }
+    /**
+     * Wrapper for `VertexConsumer` which delegates all operations to its parent.
+     * 
+     * Useful for defining custom pipeline elements that only process certain data.
+     */
     export class $VertexConsumerWrapper implements $VertexConsumer {
-        setColor(arg0: number, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setUv(arg0: number, arg1: number): $VertexConsumer;
-        addVertex(arg0: number, arg1: number, arg2: number): $VertexConsumer;
-        setUv2(arg0: number, arg1: number): $VertexConsumer;
-        setNormal(arg0: number, arg1: number, arg2: number): $VertexConsumer;
-        setUv1(arg0: number, arg1: number): $VertexConsumer;
+        setColor(r: number, g: number, b: number, a: number): $VertexConsumer;
+        addVertex(x: number, y: number, z: number): $VertexConsumer;
+        setUv(u: number, v: number): $VertexConsumer;
+        setUv1(u: number, v: number): $VertexConsumer;
+        setNormal(x: number, y: number, z: number): $VertexConsumer;
+        setUv2(u: number, v: number): $VertexConsumer;
         misc(arg0: $VertexFormatElement_, ...arg1: number[]): $VertexConsumer;
-        setColor(arg0: number, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setColor(arg0: number): $VertexConsumer;
-        addVertex(arg0: $Vector3f): $VertexConsumer;
-        addVertex(arg0: $PoseStack$Pose, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        addVertex(arg0: $PoseStack$Pose, arg1: $Vector3f): $VertexConsumer;
-        addVertex(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        addVertex(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number): void;
-        setOverlay(arg0: number): $VertexConsumer;
-        isAccelerated(): boolean;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number[], arg3: number, arg4: number, arg5: number, arg6: number, arg7: number[], arg8: number, arg9: boolean): void;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        setWhiteAlpha(arg0: number): $VertexConsumer;
-        setNormal(arg0: $PoseStack$Pose, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setLight(arg0: number): $VertexConsumer;
-        applyBakedNormals(arg0: $Vector3f, arg1: $ByteBuffer, arg2: $Matrix3f): void;
-        applyBakedLighting(arg0: number, arg1: $ByteBuffer): number;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean): void;
-        getLayout(): $IMemoryLayout<$VertexFormatElement>;
-        decorate(arg0: $VertexConsumer): $VertexConsumer;
-        getRenderType(): $RenderType;
-        endTransform(): void;
-        downloadTexture(): $NativeImage;
-        getPolygonSize(): number;
-        addClientMesh(arg0: $ByteBuffer, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        addServerMesh(arg0: $ServerMesh_, arg1: number, arg2: number, arg3: number): void;
-        beginTransform(arg0: $Matrix4f, arg1: $Matrix3f): void;
-        doRender<T>(arg0: $IAcceleratedRenderer_<T>, arg1: T, arg2: $Matrix4f, arg3: $Matrix3f, arg4: number, arg5: number, arg6: number): void;
-        constructor(arg0: $VertexConsumer);
-        set overlay(value: number);
-        get accelerated(): boolean;
+        setColor(packedOverlay: number): $VertexConsumer;
+        setColor(red: number, green: number, blue: number, alpha: number): $VertexConsumer;
+        wrapMethod$cob000$sodium$modifyPutBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number[], arg3: number, arg4: number, arg5: number, arg6: number, arg7: number[], arg8: number, arg9: boolean, arg10: $Operation_<any>): void;
+        wrapMethod$cob000$sodium$modifyPutBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: $Operation_<any>): void;
+        putBulkData(pose: $PoseStack$Pose, quad: $BakedQuad, brightness: number[], red: number, green: number, blue: number, alpha: number, lightmap: number[], packedOverlay: number, readAlpha: boolean): void;
+        putBulkData(pose: $PoseStack$Pose, quad: $BakedQuad, red: number, green: number, blue: number, alpha: number, packedLight: number, packedOverlay: number): void;
+        setWhiteAlpha(packedOverlay: number): $VertexConsumer;
+        addVertex(pose: $Matrix4f, x: number, y: number, z: number): $VertexConsumer;
+        addVertex(pos: $Vector3f): $VertexConsumer;
+        addVertex(pose: $PoseStack$Pose, pos: $Vector3f): $VertexConsumer;
+        addVertex(pose: $PoseStack$Pose, normalX: number, normalY: number, normalZ: number): $VertexConsumer;
+        addVertex(x: number, y: number, z: number, color: number, u: number, v: number, packedOverlay: number, packedLight: number, normalX: number, normalY: number, normalZ: number): void;
+        setOverlay(packedOverlay: number): $VertexConsumer;
+        setNormal(pose: $PoseStack$Pose, normalX: number, normalY: number, normalZ: number): $VertexConsumer;
+        setLight(packedOverlay: number): $VertexConsumer;
+        applyBakedNormals(generated: $Vector3f, data: $ByteBuffer, normalTransform: $Matrix3f): void;
+        /**
+         * Variant with no per-vertex shading.
+         */
+        putBulkData(pose: $PoseStack$Pose, bakedQuad: $BakedQuad, red: number, green: number, blue: number, alpha: number, packedLight: number, packedOverlay: number, readExistingColor: boolean): void;
+        applyBakedLighting(packedLight: number, data: $ByteBuffer): number;
+        constructor(parent: $VertexConsumer);
         set whiteAlpha(value: number);
+        set overlay(value: number);
         set light(value: number);
-        get layout(): $IMemoryLayout<$VertexFormatElement>;
-        get renderType(): $RenderType;
-        get polygonSize(): number;
     }
+    /**
+     * Vertex consumer that outputs baked quads.
+     * 
+     * This consumer accepts data in `DefaultVertexFormat#BLOCK` and is not picky about
+     * ordering or missing elements, but will not automatically populate missing data (color will be black, for example).
+     * 
+     * Built quads must be retrieved after building four vertices
+     */
     export class $QuadBakingVertexConsumer implements $VertexConsumer {
-        setColor(arg0: number, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setDirection(arg0: $Direction_): void;
-        setUv(arg0: number, arg1: number): $VertexConsumer;
-        addVertex(arg0: number, arg1: number, arg2: number): $VertexConsumer;
-        setSprite(arg0: $TextureAtlasSprite): void;
-        bakeQuad(): $BakedQuad;
-        setUv2(arg0: number, arg1: number): $VertexConsumer;
-        setNormal(arg0: number, arg1: number, arg2: number): $VertexConsumer;
-        setUv1(arg0: number, arg1: number): $VertexConsumer;
+        setColor(r: number, g: number, b: number, a: number): $VertexConsumer;
+        setTintIndex(tintIndex: number): void;
+        addVertex(x: number, y: number, z: number): $VertexConsumer;
+        setUv(u: number, v: number): $VertexConsumer;
+        setUv1(u: number, v: number): $VertexConsumer;
+        setNormal(x: number, y: number, z: number): $VertexConsumer;
+        setUv2(u: number, v: number): $VertexConsumer;
         misc(arg0: $VertexFormatElement_, ...arg1: number[]): $VertexConsumer;
-        setHasAmbientOcclusion(arg0: boolean): void;
-        setShade(arg0: boolean): void;
-        setTintIndex(arg0: number): void;
-        setColor(arg0: number, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setColor(arg0: number): $VertexConsumer;
-        addVertex(arg0: $Vector3f): $VertexConsumer;
-        addVertex(arg0: $PoseStack$Pose, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        addVertex(arg0: $PoseStack$Pose, arg1: $Vector3f): $VertexConsumer;
-        addVertex(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        addVertex(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number): void;
-        setOverlay(arg0: number): $VertexConsumer;
-        isAccelerated(): boolean;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number[], arg3: number, arg4: number, arg5: number, arg6: number, arg7: number[], arg8: number, arg9: boolean): void;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        setWhiteAlpha(arg0: number): $VertexConsumer;
-        setNormal(arg0: $PoseStack$Pose, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setLight(arg0: number): $VertexConsumer;
-        applyBakedNormals(arg0: $Vector3f, arg1: $ByteBuffer, arg2: $Matrix3f): void;
-        applyBakedLighting(arg0: number, arg1: $ByteBuffer): number;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean): void;
-        getLayout(): $IMemoryLayout<$VertexFormatElement>;
-        decorate(arg0: $VertexConsumer): $VertexConsumer;
-        getRenderType(): $RenderType;
-        endTransform(): void;
-        downloadTexture(): $NativeImage;
-        getPolygonSize(): number;
-        addClientMesh(arg0: $ByteBuffer, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        addServerMesh(arg0: $ServerMesh_, arg1: number, arg2: number, arg3: number): void;
-        beginTransform(arg0: $Matrix4f, arg1: $Matrix3f): void;
-        doRender<T>(arg0: $IAcceleratedRenderer_<T>, arg1: T, arg2: $Matrix4f, arg3: $Matrix3f, arg4: number, arg5: number, arg6: number): void;
+        setShade(shade: boolean): void;
+        setDirection(direction: $Direction_): void;
+        setSprite(sprite: $TextureAtlasSprite): void;
+        setHasAmbientOcclusion(shade: boolean): void;
+        bakeQuad(): $BakedQuad;
+        setColor(packedOverlay: number): $VertexConsumer;
+        setColor(red: number, green: number, blue: number, alpha: number): $VertexConsumer;
+        wrapMethod$cob000$sodium$modifyPutBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number[], arg3: number, arg4: number, arg5: number, arg6: number, arg7: number[], arg8: number, arg9: boolean, arg10: $Operation_<any>): void;
+        wrapMethod$cob000$sodium$modifyPutBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: $Operation_<any>): void;
+        putBulkData(pose: $PoseStack$Pose, quad: $BakedQuad, brightness: number[], red: number, green: number, blue: number, alpha: number, lightmap: number[], packedOverlay: number, readAlpha: boolean): void;
+        putBulkData(pose: $PoseStack$Pose, quad: $BakedQuad, red: number, green: number, blue: number, alpha: number, packedLight: number, packedOverlay: number): void;
+        setWhiteAlpha(packedOverlay: number): $VertexConsumer;
+        addVertex(pose: $Matrix4f, x: number, y: number, z: number): $VertexConsumer;
+        addVertex(pos: $Vector3f): $VertexConsumer;
+        addVertex(pose: $PoseStack$Pose, pos: $Vector3f): $VertexConsumer;
+        addVertex(pose: $PoseStack$Pose, normalX: number, normalY: number, normalZ: number): $VertexConsumer;
+        addVertex(x: number, y: number, z: number, color: number, u: number, v: number, packedOverlay: number, packedLight: number, normalX: number, normalY: number, normalZ: number): void;
+        setOverlay(packedOverlay: number): $VertexConsumer;
+        setNormal(pose: $PoseStack$Pose, normalX: number, normalY: number, normalZ: number): $VertexConsumer;
+        setLight(packedOverlay: number): $VertexConsumer;
+        applyBakedNormals(generated: $Vector3f, data: $ByteBuffer, normalTransform: $Matrix3f): void;
+        /**
+         * Variant with no per-vertex shading.
+         */
+        putBulkData(pose: $PoseStack$Pose, bakedQuad: $BakedQuad, red: number, green: number, blue: number, alpha: number, packedLight: number, packedOverlay: number, readExistingColor: boolean): void;
+        applyBakedLighting(packedLight: number, data: $ByteBuffer): number;
         constructor();
+        set tintIndex(value: number);
+        set shade(value: boolean);
         set direction(value: $Direction_);
         set sprite(value: $TextureAtlasSprite);
         set hasAmbientOcclusion(value: boolean);
-        set shade(value: boolean);
-        set tintIndex(value: number);
-        set overlay(value: number);
-        get accelerated(): boolean;
         set whiteAlpha(value: number);
+        set overlay(value: number);
         set light(value: number);
-        get layout(): $IMemoryLayout<$VertexFormatElement>;
-        get renderType(): $RenderType;
-        get polygonSize(): number;
     }
+    /**
+     * Vertex pipeline element that remaps incoming data to another format.
+     */
     export class $RemappingVertexPipeline implements $VertexConsumer {
-        setColor(arg0: number, arg1: number, arg2: number, arg3: number): $VertexConsumer;
+        setColor(r: number, g: number, b: number, a: number): $VertexConsumer;
         endVertex(): void;
-        setUv(arg0: number, arg1: number): $VertexConsumer;
-        addVertex(arg0: number, arg1: number, arg2: number): $VertexConsumer;
-        setUv2(arg0: number, arg1: number): $VertexConsumer;
-        setNormal(arg0: number, arg1: number, arg2: number): $VertexConsumer;
-        setUv1(arg0: number, arg1: number): $VertexConsumer;
+        addVertex(x: number, y: number, z: number): $VertexConsumer;
+        setUv(u: number, v: number): $VertexConsumer;
+        setUv1(u: number, v: number): $VertexConsumer;
+        setNormal(x: number, y: number, z: number): $VertexConsumer;
+        setUv2(u: number, v: number): $VertexConsumer;
         misc(arg0: $VertexFormatElement_, ...arg1: number[]): $VertexConsumer;
-        setColor(arg0: number, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setColor(arg0: number): $VertexConsumer;
-        addVertex(arg0: $Vector3f): $VertexConsumer;
-        addVertex(arg0: $PoseStack$Pose, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        addVertex(arg0: $PoseStack$Pose, arg1: $Vector3f): $VertexConsumer;
-        addVertex(arg0: $Matrix4f, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        addVertex(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number): void;
-        setOverlay(arg0: number): $VertexConsumer;
-        isAccelerated(): boolean;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number[], arg3: number, arg4: number, arg5: number, arg6: number, arg7: number[], arg8: number, arg9: boolean): void;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        setWhiteAlpha(arg0: number): $VertexConsumer;
-        setNormal(arg0: $PoseStack$Pose, arg1: number, arg2: number, arg3: number): $VertexConsumer;
-        setLight(arg0: number): $VertexConsumer;
-        applyBakedNormals(arg0: $Vector3f, arg1: $ByteBuffer, arg2: $Matrix3f): void;
-        applyBakedLighting(arg0: number, arg1: $ByteBuffer): number;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean): void;
-        getLayout(): $IMemoryLayout<$VertexFormatElement>;
-        decorate(arg0: $VertexConsumer): $VertexConsumer;
-        getRenderType(): $RenderType;
-        endTransform(): void;
-        downloadTexture(): $NativeImage;
-        getPolygonSize(): number;
-        addClientMesh(arg0: $ByteBuffer, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        addServerMesh(arg0: $ServerMesh_, arg1: number, arg2: number, arg3: number): void;
-        beginTransform(arg0: $Matrix4f, arg1: $Matrix3f): void;
-        doRender<T>(arg0: $IAcceleratedRenderer_<T>, arg1: T, arg2: $Matrix4f, arg3: $Matrix3f, arg4: number, arg5: number, arg6: number): void;
-        constructor(arg0: $VertexConsumer, arg1: $VertexFormat);
-        set overlay(value: number);
-        get accelerated(): boolean;
+        setColor(packedOverlay: number): $VertexConsumer;
+        setColor(red: number, green: number, blue: number, alpha: number): $VertexConsumer;
+        wrapMethod$cob000$sodium$modifyPutBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number[], arg3: number, arg4: number, arg5: number, arg6: number, arg7: number[], arg8: number, arg9: boolean, arg10: $Operation_<any>): void;
+        wrapMethod$cob000$sodium$modifyPutBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: $Operation_<any>): void;
+        putBulkData(pose: $PoseStack$Pose, quad: $BakedQuad, brightness: number[], red: number, green: number, blue: number, alpha: number, lightmap: number[], packedOverlay: number, readAlpha: boolean): void;
+        putBulkData(pose: $PoseStack$Pose, quad: $BakedQuad, red: number, green: number, blue: number, alpha: number, packedLight: number, packedOverlay: number): void;
+        setWhiteAlpha(packedOverlay: number): $VertexConsumer;
+        addVertex(pose: $Matrix4f, x: number, y: number, z: number): $VertexConsumer;
+        addVertex(pos: $Vector3f): $VertexConsumer;
+        addVertex(pose: $PoseStack$Pose, pos: $Vector3f): $VertexConsumer;
+        addVertex(pose: $PoseStack$Pose, normalX: number, normalY: number, normalZ: number): $VertexConsumer;
+        addVertex(x: number, y: number, z: number, color: number, u: number, v: number, packedOverlay: number, packedLight: number, normalX: number, normalY: number, normalZ: number): void;
+        setOverlay(packedOverlay: number): $VertexConsumer;
+        setNormal(pose: $PoseStack$Pose, normalX: number, normalY: number, normalZ: number): $VertexConsumer;
+        setLight(packedOverlay: number): $VertexConsumer;
+        applyBakedNormals(generated: $Vector3f, data: $ByteBuffer, normalTransform: $Matrix3f): void;
+        /**
+         * Variant with no per-vertex shading.
+         */
+        putBulkData(pose: $PoseStack$Pose, bakedQuad: $BakedQuad, red: number, green: number, blue: number, alpha: number, packedLight: number, packedOverlay: number, readExistingColor: boolean): void;
+        applyBakedLighting(packedLight: number, data: $ByteBuffer): number;
+        constructor(parent: $VertexConsumer, targetFormat: $VertexFormat);
         set whiteAlpha(value: number);
+        set overlay(value: number);
         set light(value: number);
-        get layout(): $IMemoryLayout<$VertexFormatElement>;
-        get renderType(): $RenderType;
-        get polygonSize(): number;
     }
 }

@@ -26,38 +26,89 @@ import { $Vec3 } from "@package/net/minecraft/world/phys";
 
 declare module "@package/net/minecraft/world/entity/item" {
     export class $ItemEntity extends $Entity implements $TraceableEntity, $ItemEntityAccess, $ItemEntityKJS, $IItemEntity {
-        static merge(arg0: $ItemStack_, arg1: $ItemStack_, arg2: number): $ItemStack;
+        static merge(destinationStack: $ItemStack_, originStack: $ItemStack_, amount: number): $ItemStack;
         copy(): $ItemEntity;
         getTarget(): $UUID;
-        setTarget(arg0: $UUID_): void;
+        setTarget(target: $UUID_ | null): void;
         getOwner(): $Entity;
+        /**
+         * Gets the item that this entity represents.
+         */
         getItem(): $ItemStack;
+        /**
+         * The maximum height from where the entity is allowed to jump (used in pathfinder)
+         */
         getAge(): number;
-        getXaero_OPAC_target(): $UUID;
-        setUnlimitedLifetime(): void;
+        /**
+         * Prepares this entity in new dimension by copying NBT data from entity in old dimension
+         */
+        setThrower(entity: $Entity): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        makeFakeItem(): void;
+        static areMergable(destinationStack: $ItemStack_, originStack: $ItemStack_): boolean;
+        /**
+         * Returns `true` if it's possible to attack this entity with an item.
+         */
+        hasPickUpDelay(): boolean;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        setNoPickUpDelay(): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        setNeverPickUp(): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
         setExtendedLifetime(): void;
         getXaero_OPAC_thrower(): $UUID;
-        setXaero_OPAC_throwerAccessor(arg0: $UUID_): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        setUnlimitedLifetime(): void;
+        getXaero_OPAC_target(): $UUID;
+        setPickUpDelay(pickupDelay: number): void;
+        getSpin(partialTicks: number): number;
+        /**
+         * Sets the item that this entity represents.
+         */
+        setItem(stack: $ItemStack_): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        setDefaultPickUpDelay(): void;
         getXaero_OPAC_throwerAccessor(): $UUID;
-        setPickUpDelay(arg0: number): void;
-        static areMergable(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
-        hasPickUpDelay(): boolean;
-        setNoPickUpDelay(): void;
-        makeFakeItem(): void;
-        setNeverPickUp(): void;
-        setThrower(arg0: $Entity): void;
-        setItem(arg0: $ItemStack_): void;
-        getSpin(arg0: number): number;
-        setDefaultPickUpDelay(): void;
-        setDefaultPickUpDelay(): void;
-        setNoPickUpDelay(): void;
-        setInfinitePickUpDelay(): void;
-        setTicksUntilDespawn(ticks: number): void;
+        setXaero_OPAC_throwerAccessor(target: $UUID_): void;
+        /**
+         * The maximum height from where the entity is allowed to jump (used in pathfinder)
+         */
         getTicksUntilDespawn(): number;
-        setLifespan(lifespan: number): void;
-        getLifespan(): number;
+        setTicksUntilDespawn(pickupDelay: number): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
         setNoDespawn(): void;
-        setAge(arg0: number): void;
+        /**
+         * The maximum height from where the entity is allowed to jump (used in pathfinder)
+         */
+        getLifespan(): number;
+        setLifespan(pickupDelay: number): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        setDefaultPickUpDelay(): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        setNoPickUpDelay(): void;
+        /**
+         * Looks for other itemstacks nearby and tries to stack them together
+         */
+        setInfinitePickUpDelay(): void;
+        setAge(pickupDelay: number): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         lifespan: number;
@@ -136,22 +187,31 @@ declare module "@package/net/minecraft/world/entity/item" {
         age: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $ItemStack_, arg5: number, arg6: number, arg7: number);
-        constructor(arg0: $EntityType_<$ItemEntity>, arg1: $Level_);
-        constructor(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $ItemStack_);
+        constructor(level: $Level_, posX: number, arg2: number, posY: number, arg4: $ItemStack_, posZ: number, arg6: number, itemStack: number);
+        constructor(level: $Level_, posX: number, arg2: number, posY: number, arg4: $ItemStack_);
+        constructor(entityType: $EntityType_<$ItemEntity>, level: $Level_);
         get owner(): $Entity;
-        get xaero_OPAC_target(): $UUID;
-        get xaero_OPAC_thrower(): $UUID;
-        set pickUpDelay(value: number);
         set thrower(value: $Entity);
+        get xaero_OPAC_thrower(): $UUID;
+        get xaero_OPAC_target(): $UUID;
+        set pickUpDelay(value: number);
     }
     export class $PrimedTnt extends $Entity implements $TraceableEntity, $TNTEntityAccess, $EntityDynamicLightSource {
+        /**
+         * Returns null or the entityliving it was ignited by
+         */
         getOwner(): $LivingEntity;
-        setBlockState(arg0: $BlockState_): void;
+        setBlockState(blockState: $BlockState_): void;
+        /**
+         * Called to update the entity's position/logic.
+         */
         explode(): void;
         getBlockState(): $BlockState;
+        setFuse(life: number): void;
+        /**
+         * Gets the fuse from the data manager
+         */
         getFuse(): number;
-        setFuse(arg0: number): void;
         setOwner(arg0: $LivingEntity): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
@@ -225,20 +285,23 @@ declare module "@package/net/minecraft/world/entity/item" {
         static BASE_SAFE_FALL_DISTANCE: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $EntityType_<$PrimedTnt>, arg1: $Level_);
-        constructor(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $LivingEntity);
+        constructor(entityType: $EntityType_<$PrimedTnt>, level: $Level_);
+        constructor(level: $Level_, x: number, arg2: number, y: number, arg4: $LivingEntity | null);
     }
     export class $FallingBlockEntity extends $Entity implements $FallingBlockEntityAccessor {
-        handler$fhl000$architectury$handleLand(ci: $CallbackInfo, block: $Block_, blockPos2: $BlockPos_, bl: boolean, bl2: boolean, d: number, blockState: $BlockState_): void;
-        static callInit$create_$md$9aa1a5$0(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $BlockState_): $FallingBlockEntity;
-        callOnBrokenAfterFall(arg0: $Block_, arg1: $BlockPos_): void;
-        setHurtsEntities(arg0: number, arg1: number): void;
-        setBlockState(state: $BlockState_): void;
-        getStartPos(): $BlockPos;
-        setStartPos(arg0: $BlockPos_): void;
-        getBlockState(): $BlockState;
-        static fall(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): $FallingBlockEntity;
+        handler$fda000$architectury$handleLand(ci: $CallbackInfo, block: $Block_, blockPos2: $BlockPos_, bl: boolean, bl2: boolean, d: number, blockState: $BlockState_): void;
+        callOnBrokenAfterFall(block: $Block_, pos: $BlockPos_): void;
+        setHurtsEntities(fallDamagePerDistance: number, fallDamageMax: number): void;
+        /**
+         * Called to update the entity's position/logic.
+         */
         disableDrop(): void;
+        static callInit$create_$md$dd6cb9$0(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $BlockState_): $FallingBlockEntity;
+        getBlockState(): $BlockState;
+        static fall(level: $Level_, pos: $BlockPos_, blockState: $BlockState_): $FallingBlockEntity;
+        getStartPos(): $BlockPos;
+        setBlockState(state: $BlockState_): void;
+        setStartPos(startPos: $BlockPos_): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         cancelDrop: boolean;
@@ -316,6 +379,6 @@ declare module "@package/net/minecraft/world/entity/item" {
         static BASE_SAFE_FALL_DISTANCE: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $EntityType_<$FallingBlockEntity>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$FallingBlockEntity>, level: $Level_);
     }
 }

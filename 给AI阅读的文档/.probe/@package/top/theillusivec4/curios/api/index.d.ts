@@ -7,16 +7,16 @@ export * as extensions from "@package/top/theillusivec4/curios/api/extensions";
 
 declare module "@package/top/theillusivec4/curios/api" {
     export class $SlotContext extends $Record {
+        identifier(): string;
         index(): number;
         visible(): boolean;
         entity(): $LivingEntity;
-        identifier(): string;
         cosmetic(): boolean;
         constructor(identifier: string, entity: $LivingEntity, index: number, cosmetic: boolean, visible: boolean);
     }
     export class $SlotResult extends $Record {
-        stack(): $ItemStack;
         slotContext(): $SlotContext;
+        stack(): $ItemStack;
         constructor(slotContext: $SlotContext_, stack: $ItemStack_);
     }
 }

@@ -13,12 +13,12 @@ declare module "@package/com/moulberry/axiom/render" {
         x(): number;
         z(): number;
         y(): number;
-        yRot(): number;
-        xRot(): number;
+        partialTick(): number;
         projection(): $Matrix4fc;
+        xRot(): number;
+        yRot(): number;
         rotation(): $Quaternionfc;
         blockPosition(): $BlockPos;
-        partialTick(): number;
         poseStack(): $PoseStack;
         rawCameraDontUse(): $Camera;
         constructor(camera: $Camera, tickDelta: number, poseStack: $PoseStack, projection: $Matrix4fc);

@@ -67,17 +67,17 @@ export * as debug from "@package/net/minecraft/client/gui/screens/debug";
 
 declare module "@package/net/minecraft/client/gui/screens" {
     export class $LoadingOverlay extends $Overlay {
-        static registerTextures(arg0: $Minecraft): void;
+        static registerTextures(minecraft: $Minecraft): void;
         static FADE_OUT_TIME: number;
         static MOJANG_STUDIOS_LOGO_LOCATION: $ResourceLocation;
         static FADE_IN_TIME: number;
-        constructor(arg0: $Minecraft, arg1: $ReloadInstance, arg2: $Consumer_<($Throwable) | undefined>, arg3: boolean);
+        constructor(minecraft: $Minecraft, reload: $ReloadInstance, onFinish: $Consumer_<($Throwable) | undefined>, fadeIn: boolean);
     }
     export class $MenuScreens$ScreenConstructor<T extends $AbstractContainerMenu, U extends $Screen> {
     }
     export interface $MenuScreens$ScreenConstructor<T extends $AbstractContainerMenu, U extends $Screen> {
-        create(arg0: T, arg1: $Inventory, arg2: $Component_): U;
-        fromPacket(arg0: $Component_, arg1: $MenuType_<T>, arg2: $Minecraft, arg3: number): void;
+        create(menu: T, inventory: $Inventory, title: $Component_): U;
+        fromPacket(title: $Component_, type: $MenuType_<T>, mc: $Minecraft, windowId: number): void;
     }
     /**
      * Values that may be interpreted as {@link $MenuScreens$ScreenConstructor}.
@@ -101,7 +101,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $BooleanSupplier_, arg1: $ReceivingLevelScreen$Reason_);
+        constructor(levelReceived: $BooleanSupplier_, reason: $ReceivingLevelScreen$Reason_);
     }
     export class $DatapackLoadFailureScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -121,7 +121,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Runnable_, arg1: $Runnable_);
+        constructor(cancelCallback: $Runnable_, safeModeCallback: $Runnable_);
     }
     export class $CreateBuffetWorldScreen extends $Screen {
         updateButtonValidity(): void;
@@ -144,7 +144,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $WorldCreationContext_, arg2: $Consumer_<$Holder<$Biome>>);
+        constructor(parent: $Screen, context: $WorldCreationContext_, applySettings: $Consumer_<$Holder<$Biome>>);
     }
     export class $OutOfMemoryScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -187,10 +187,13 @@ declare module "@package/net/minecraft/client/gui/screens" {
     }
     export class $ProgressScreen extends $Screen implements $ProgressListener {
         stop(): void;
-        progressStagePercentage(arg0: number): void;
-        progressStartNoAbort(arg0: $Component_): void;
-        progressStage(arg0: $Component_): void;
-        progressStart(arg0: $Component_): void;
+        /**
+         * Updates the progress bar on the loading screen to the specified amount.
+         */
+        progressStagePercentage(progress: number): void;
+        progressStartNoAbort(component: $Component_): void;
+        progressStart(component: $Component_): void;
+        progressStage(component: $Component_): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -208,10 +211,10 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: boolean);
+        constructor(clearScreenAfterStop: boolean);
     }
     export class $ConnectScreen extends $Screen implements $ConnectScreenAccessor {
-        static startConnecting(arg0: $Screen, arg1: $Minecraft, arg2: $ServerAddress, arg3: $ServerData, arg4: boolean, arg5: $TransferState_): void;
+        static startConnecting(parent: $Screen, minecraft: $Minecraft, serverAddress: $ServerAddress, serverData: $ServerData, isQuickPlay: boolean, transferState: $TransferState_ | null): void;
         getConnection(): $Connection;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -257,7 +260,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $Component_);
+        constructor(title: $Component_, message: $Component_);
     }
     export class $DirectJoinServerScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -277,7 +280,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $BooleanConsumer_, arg2: $ServerData);
+        constructor(lastScreen: $Screen, callback: $BooleanConsumer_, serverData: $ServerData);
     }
     export class $CreateBuffetWorldScreen$BiomeList$Entry extends $ObjectSelectionList$Entry<$CreateBuffetWorldScreen$BiomeList$Entry> {
         /**
@@ -287,7 +290,10 @@ declare module "@package/net/minecraft/client/gui/screens" {
     }
     export class $CreateFlatWorldScreen extends $Screen {
         settings(): $FlatLevelGeneratorSettings;
-        setConfig(arg0: $FlatLevelGeneratorSettings): void;
+        setConfig(generator: $FlatLevelGeneratorSettings): void;
+        /**
+         * Would update whether the edit and remove buttons are enabled, but is currently disabled and always disables the buttons (which are invisible anyway).
+         */
         updateButtonValidity(): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -309,104 +315,155 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $CreateWorldScreen, arg1: $Consumer_<$FlatLevelGeneratorSettings>, arg2: $FlatLevelGeneratorSettings);
+        constructor(parent: $CreateWorldScreen, applySettings: $Consumer_<$FlatLevelGeneratorSettings>, generator: $FlatLevelGeneratorSettings);
         set config(value: $FlatLevelGeneratorSettings);
     }
     export class $Screen extends $AbstractContainerEventHandler implements $Renderable, $ScreenExtensions, $GuiScreenAccessor, $ScreenExt, $ScreenButtonExtension, $ScreenAccessor$3, $ScreenAccessor, $GuiEventListener, $ContainerEventHandler, $ScreenAccessor$1, $ScreenAccessor$2 {
+        init(minecraft: $Minecraft, width: number, height: number): void;
         init(): void;
-        init(arg0: $Minecraft, arg1: number, arg2: number): void;
         added(): void;
         removed(): void;
-        resize(arg0: $Minecraft, arg1: number, arg2: number): void;
+        resize(minecraft: $Minecraft, width: number, height: number): void;
         onClose(): void;
         tick(): void;
         getTitle(): $Component;
-        static isCopy(arg0: number): boolean;
-        render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        static findNarratableWidget(arg0: $List_<$NarratableEntry>, arg1: $NarratableEntry): $Screen$NarratableSearchResult;
-        renderMenuBackground(arg0: $GuiGraphics): void;
-        renderMenuBackground(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        addRenderableWidget<T extends $GuiEventListener>(arg0: T): T;
-        triggerImmediateNarration(arg0: boolean): void;
-        updateNarratorStatus(arg0: boolean): void;
+        /**
+         * Renders the graphical user interface (GUI) element.
+         */
+        render(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number): void;
+        static isCopy(keyCode: number): boolean;
+        triggerImmediateNarration(onlyNarrateNew: boolean): void;
+        renderMenuBackground(guiGraphics: $GuiGraphics, x: number, y: number, width: number, height: number): void;
+        renderMenuBackground(partialTick: $GuiGraphics): void;
+        updateNarratorStatus(onlyNarrateNew: boolean): void;
+        addRenderableWidget<T extends $GuiEventListener>(widget: T): T;
         afterKeyboardAction(): void;
-        shouldNarrateNavigation(): boolean;
-        renderBlurredBackground(arg0: number): void;
+        fabric_getRemoveEvent(): $Event<any>;
         getNarrationMessage(): $Component;
+        static findNarratableWidget(entries: $List_<$NarratableEntry>, target: $NarratableEntry | null): $Screen$NarratableSearchResult;
+        renderBlurredBackground(partialTick: number): void;
+        isValidCharacterForName(text: string, charTyped: string, cursorPos: number): boolean;
+        updateNarrationState(narrationElementOutput: $NarrationElementOutput): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        shouldNarrateNavigation(): boolean;
+        updateNarratedWidget(narrationElementOutput: $NarrationElementOutput): void;
         handleDelayedNarration(): void;
-        updateNarratedWidget(arg0: $NarrationElementOutput): void;
-        handleComponentClicked(arg0: $Style): boolean;
-        isValidCharacterForName(arg0: string, arg1: string, arg2: number): boolean;
-        updateNarrationState(arg0: $NarrationElementOutput): void;
+        handleComponentClicked(style: $Style | null): boolean;
         fabric_getBeforeTickEvent(): $Event<any>;
         fabric_getAfterRenderEvent(): $Event<any>;
-        fabric_getRemoveEvent(): $Event<any>;
         fabric_getAfterTickEvent(): $Event<any>;
-        clearFocus(): void;
-        fabric_getAllowMouseClickEvent(): $Event<any>;
-        fabric_getAfterMouseScrollEvent(): $Event<any>;
-        fabric_getBeforeMouseReleaseEvent(): $Event<any>;
-        fabric_getAfterMouseReleaseEvent(): $Event<any>;
-        fabric_getAllowMouseScrollEvent(): $Event<any>;
-        fabric_getAfterMouseClickEvent(): $Event<any>;
-        fabric_getBeforeMouseScrollEvent(): $Event<any>;
-        fabric_getAllowMouseReleaseEvent(): $Event<any>;
-        fabric_getBeforeMouseClickEvent(): $Event<any>;
-        addWidget<T extends $GuiEventListener>(arg0: T): T;
-        static isCut(arg0: number): boolean;
-        insertText(arg0: string, arg1: boolean): void;
-        static isPaste(arg0: number): boolean;
-        static wrapScreenError(arg0: $Runnable_, arg1: string, arg2: string): void;
+        static getTooltipFromItem(minecraft: $Minecraft, item: $ItemStack_): $List<$Component>;
+        static renderMenuBackgroundTexture(guiGraphics: $GuiGraphics, texture: $ResourceLocation_, x: number, y: number, uOffset: number, vOffset: number, width: number, height: number): void;
+        static wrapScreenError(action: $Runnable_, errorDesc: string, screenName: string): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
         static hasControlDown(): boolean;
-        renderWithTooltip(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        renderBackground(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
+        getBackgroundMusic(): $Music;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        doesPassEvents(): boolean;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        static hasAltDown(): boolean;
+        /**
+         * @return a List containing all GUI element children of this GUI element
+         */
+        replay_getButtons(): $List<any>;
+        changeFocus(path: $ComponentPath): void;
+        addRenderableOnly<T extends $Renderable>(renderable: T): T;
+        setInitialFocus(listener: $GuiEventListener): void;
+        setInitialFocus(): void;
+        repositionElements(): void;
+        static isSelectAll(keyCode: number): boolean;
+        setPassEvents(onlyNarrateNew: boolean): void;
+        removeWidget(listener: $GuiEventListener): void;
+        renderPanorama(guiGraphics: $GuiGraphics, partialTick: number): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
         shouldCloseOnEsc(): boolean;
-        clearWidgets(): void;
-        addRenderableOnly<T extends $Renderable>(arg0: T): T;
         rebuildWidgets(): void;
         afterMouseMove(): void;
         afterMouseAction(): void;
-        static isSelectAll(arg0: number): boolean;
-        changeFocus(arg0: $ComponentPath): void;
-        onFilesDrop(arg0: $List_<$Path_>): void;
-        setInitialFocus(arg0: $GuiEventListener): void;
-        setInitialFocus(): void;
-        repositionElements(): void;
-        renderPanorama(arg0: $GuiGraphics, arg1: number): void;
-        removeWidget(arg0: $GuiEventListener): void;
+        /**
+         * @return a List containing all GUI element children of this GUI element
+         */
         fabric_getButtons(): $List<any>;
-        replay_getButtons(): $List<any>;
-        setPassEvents(passEvents: boolean): void;
+        /**
+         * Renders the graphical user interface (GUI) element.
+         */
+        renderBackground(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number): void;
+        /**
+         * Renders the graphical user interface (GUI) element.
+         */
+        renderWithTooltip(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number): void;
+        onFilesDrop(packs: $List_<$Path_>): void;
+        clearWidgets(): void;
         getUsageNarration(): $Component;
+        static isPaste(keyCode: number): boolean;
+        insertText(text: string, overwrite: boolean): void;
+        addWidget<T extends $GuiEventListener>(widget: T): T;
+        static isCut(keyCode: number): boolean;
+        fabric_getAfterKeyPressEvent(): $Event<any>;
+        fabric_getAfterMouseScrollEvent(): $Event<any>;
+        clearTooltipForNextRenderPass(): void;
+        fabric_getBeforeMouseClickEvent(): $Event<any>;
+        fabric_getBeforeMouseReleaseEvent(): $Event<any>;
+        fabric_getAfterMouseReleaseEvent(): $Event<any>;
+        renderTransparentBackground(partialTick: $GuiGraphics): void;
+        setTooltipForNextRenderPass(tooltip: $Tooltip, positioner: $ClientTooltipPositioner_, override: boolean): void;
+        setTooltipForNextRenderPass(title: $Component_): void;
+        setTooltipForNextRenderPass(tooltip: $List_<$FormattedCharSequence_>, positioner: $ClientTooltipPositioner_, override: boolean): void;
+        setTooltipForNextRenderPass(packs: $List_<$FormattedCharSequence_>): void;
         fabric_getBeforeRenderEvent(): $Event<any>;
         fabric_getAllowKeyPressEvent(): $Event<any>;
-        fabric_getBeforeKeyPressEvent(): $Event<any>;
-        fabric_getAfterKeyPressEvent(): $Event<any>;
         fabric_getAllowKeyReleaseEvent(): $Event<any>;
         fabric_getBeforeKeyReleaseEvent(): $Event<any>;
-        static renderMenuBackgroundTexture(arg0: $GuiGraphics, arg1: $ResourceLocation_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        clearTooltipForNextRenderPass(): void;
-        renderTransparentBackground(arg0: $GuiGraphics): void;
-        setTooltipForNextRenderPass(arg0: $Tooltip, arg1: $ClientTooltipPositioner_, arg2: boolean): void;
-        setTooltipForNextRenderPass(arg0: $Component_): void;
-        setTooltipForNextRenderPass(arg0: $List_<$FormattedCharSequence_>): void;
-        setTooltipForNextRenderPass(arg0: $List_<$FormattedCharSequence_>, arg1: $ClientTooltipPositioner_, arg2: boolean): void;
-        isPauseScreen(): boolean;
-        static getTooltipFromItem(arg0: $Minecraft, arg1: $ItemStack_): $List<$Component>;
-        static hasAltDown(): boolean;
-        getBackgroundMusic(): $Music;
-        doesPassEvents(): boolean;
-        static hasShiftDown(): boolean;
         fabric_getAfterKeyReleaseEvent(): $Event<any>;
-        balm$addRenderableWidget<T extends $GuiEventListener>(arg0: T): T;
+        fabric_getAllowMouseClickEvent(): $Event<any>;
+        fabric_getAfterMouseClickEvent(): $Event<any>;
+        fabric_getAllowMouseReleaseEvent(): $Event<any>;
+        fabric_getAllowMouseScrollEvent(): $Event<any>;
+        fabric_getBeforeMouseScrollEvent(): $Event<any>;
+        fabric_getBeforeKeyPressEvent(): $Event<any>;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        static hasShiftDown(): boolean;
+        clearFocus(): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        isPauseScreen(): boolean;
+        /**
+         * @return a List containing all GUI element children of this GUI element
+         */
         catnip$getRenderables(): $List<$Renderable>;
-        balm_getNarratables(): $List<$NarratableEntry>;
+        /**
+         * @return a List containing all GUI element children of this GUI element
+         */
         balm_getRenderables(): $List<$Renderable>;
-        balm_getChildren(): $List<$GuiEventListener>;
-        libgui$getChildren(): $List<$GuiEventListener>;
-        getMinecraft(): $Minecraft;
-        invokeAddButton<T extends $GuiEventListener>(arg0: T): T;
+        balm$addRenderableWidget<T extends $GuiEventListener>(widget: T): T;
+        /**
+         * @return a List containing all GUI element children of this GUI element
+         */
+        balm_getNarratables(): $List<$NarratableEntry>;
         getFont(): $Font;
+        invokeAddButton<T extends $GuiEventListener>(widget: T): T;
+        /**
+         * @return a List containing all GUI element children of this GUI element
+         */
+        balm_getChildren(): $List<$GuiEventListener>;
+        getMinecraft(): $Minecraft;
+        /**
+         * @return a List containing all GUI element children of this GUI element
+         */
+        libgui$getChildren(): $List<$GuiEventListener>;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -424,12 +481,12 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_);
+        constructor(title: $Component_);
         get narrationMessage(): $Component;
+        get backgroundMusic(): $Music;
         set passEvents(value: boolean);
         get usageNarration(): $Component;
         get pauseScreen(): boolean;
-        get backgroundMusic(): $Music;
     }
     export class $CreateFlatWorldScreen$DetailsList$Entry extends $ObjectSelectionList$Entry<$CreateFlatWorldScreen$DetailsList$Entry> {
         /**
@@ -438,15 +495,15 @@ declare module "@package/net/minecraft/client/gui/screens" {
         list: $AbstractSelectionList<$CreateFlatWorldScreen$DetailsList$Entry>;
     }
     export class $MenuScreens {
-        static getConstructor<T extends $AbstractContainerMenu>(arg0: $MenuType_<T>): $MenuScreens$ScreenConstructor<T, never>;
+        static getConstructor<T extends $AbstractContainerMenu>(type: $MenuType_<T>): $MenuScreens$ScreenConstructor<T, never>;
         /**
          * @deprecated
          */
-        static register<M extends $AbstractContainerMenu, U extends $Screen>(arg0: $MenuType_<M>, arg1: $MenuScreens$ScreenConstructor_<M, U>): void;
+        static register<M extends $AbstractContainerMenu, U extends $Screen>(type: $MenuType_<M>, factory: $MenuScreens$ScreenConstructor_<M, U>): void;
         static init(): void;
-        static create<T extends $AbstractContainerMenu>(arg0: $MenuType_<T>, arg1: $Minecraft, arg2: number, arg3: $Component_): void;
-        static getScreenFactory<T extends $AbstractContainerMenu>(arg0: $MenuType_<T>): ($MenuScreens$ScreenConstructor<T, never>) | undefined;
+        static create<T extends $AbstractContainerMenu>(type: $MenuType_<T>, mc: $Minecraft, windowId: number, title: $Component_): void;
         static selfTest(): boolean;
+        static getScreenFactory<T extends $AbstractContainerMenu>(arg0: $MenuType_<T>): ($MenuScreens$ScreenConstructor<T, never>) | undefined;
         constructor();
     }
     export class $DemoIntroScreen extends $Screen {
@@ -470,7 +527,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         constructor();
     }
     export class $LevelLoadingScreen extends $Screen {
-        static renderChunks(arg0: $GuiGraphics, arg1: $StoringChunkProgressListener, arg2: number, arg3: number, arg4: number, arg5: number): void;
+        static renderChunks(guiGraphics: $GuiGraphics, progressListener: $StoringChunkProgressListener, x: number, y: number, arg4: number, arg5: number): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -488,7 +545,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $StoringChunkProgressListener);
+        constructor(progressListener: $StoringChunkProgressListener);
     }
     export class $RecoverWorldDataScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -508,7 +565,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Minecraft, arg1: $BooleanConsumer_, arg2: $LevelStorageSource$LevelStorageAccess);
+        constructor(minecraft: $Minecraft, callback: $BooleanConsumer_, storageAccess: $LevelStorageSource$LevelStorageAccess);
     }
     export class $EditServerScreen extends $Screen implements $AddServerScreenAccessor {
         getServerData(): $ServerData;
@@ -529,12 +586,12 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $BooleanConsumer_, arg2: $ServerData);
+        constructor(lastScreen: $Screen, callback: $BooleanConsumer_, serverData: $ServerData);
         get serverData(): $ServerData;
     }
     export class $TitleScreen extends $Screen {
+        static preloadResources(texMngr: $TextureManager, backgroundExecutor: $Executor_): $CompletableFuture<void>;
         handler$bff000$iris$firstInit(arg0: $CallbackInfo): void;
-        static preloadResources(arg0: $TextureManager, arg1: $Executor_): $CompletableFuture<void>;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -552,8 +609,8 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: boolean, arg1: $LogoRenderer);
-        constructor(arg0: boolean);
+        constructor(fading: boolean, logoRenderer: $LogoRenderer | null);
+        constructor(fading: boolean);
         constructor();
     }
     export class $GenericMessageScreen extends $Screen {
@@ -577,8 +634,8 @@ declare module "@package/net/minecraft/client/gui/screens" {
         constructor(arg0: $Component_);
     }
     export class $GenericWaitingScreen extends $Screen {
-        static createCompleted(arg0: $Component_, arg1: $Component_, arg2: $Component_, arg3: $Runnable_): $GenericWaitingScreen;
-        static createWaiting(arg0: $Component_, arg1: $Component_, arg2: $Runnable_): $GenericWaitingScreen;
+        static createCompleted(title: $Component_, messageText: $Component_, buttonLabel: $Component_, buttonCallback: $Runnable_): $GenericWaitingScreen;
+        static createWaiting(title: $Component_, buttonLabel: $Component_, buttonCallback: $Runnable_): $GenericWaitingScreen;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -596,12 +653,12 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $Component_, arg2: $Component_, arg3: $Runnable_, arg4: number);
+        constructor(title: $Component_, messageText: $Component_ | null, buttonLabel: $Component_, buttonCallback: $Runnable_, disableButtonTicks: number);
     }
     export class $ConfirmScreen extends $Screen {
-        setDelay(arg0: number): void;
-        addButtons(arg0: number): void;
-        addExitButton(arg0: $Button): void;
+        setDelay(y: number): void;
+        addExitButton(exitButton: $Button): void;
+        addButtons(y: number): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -622,17 +679,17 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $BooleanConsumer_, arg1: $Component_, arg2: $Component_);
-        constructor(arg0: $BooleanConsumer_, arg1: $Component_, arg2: $Component_, arg3: $Component_, arg4: $Component_);
+        constructor(callback: $BooleanConsumer_, title: $Component_, message: $Component_);
+        constructor(callback: $BooleanConsumer_, title: $Component_, message: $Component_, yesButton: $Component_, noButton: $Component_);
         set delay(value: number);
     }
     export class $LoadingDotsText {
-        static get(arg0: number): string;
+        static get(millis: number): string;
         constructor();
     }
     export class $NoticeWithLinkScreen extends $Screen {
-        static createPackSymlinkWarningScreen(arg0: $Runnable_): $Screen;
-        static createWorldSymlinkWarningScreen(arg0: $Runnable_): $Screen;
+        static createWorldSymlinkWarningScreen(onClose: $Runnable_): $Screen;
+        static createPackSymlinkWarningScreen(onClose: $Runnable_): $Screen;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -650,16 +707,19 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $Component_, arg2: $URI, arg3: $Runnable_);
+        constructor(title: $Component_, message: $Component_, uri: $URI, onClose: $Runnable_);
     }
     export class $ChatScreen extends $Screen {
-        normalizeChatMessage(arg0: string): string;
-        handler$jdb000$imblocker$removeChatState(arg0: $CallbackInfo): void;
-        handler$jdb000$imblocker$initChatState(arg0: $CallbackInfo): void;
-        handler$jdb000$imblocker$updateChatState(arg0: string, arg1: $CallbackInfo): void;
-        handler$dgo000$nochatreports$onBeforeMessage(arg0: string, arg1: $CallbackInfoReturnable<any>): void;
-        handleChatInput(arg0: string, arg1: boolean): void;
-        moveInHistory(arg0: number): void;
+        normalizeChatMessage(message: string): string;
+        handleChatInput(message: string, addToRecentChat: boolean): void;
+        /**
+         * Input is relative and is applied directly to the sentHistoryCursor so -1 is the previous message, 1 is the next message from the current cursor position.
+         */
+        moveInHistory(msgPos: number): void;
+        handler$dcd000$nochatreports$onBeforeMessage(arg0: string, arg1: $CallbackInfoReturnable<any>): void;
+        handler$ipn000$imblocker$removeChatState(arg0: $CallbackInfo): void;
+        handler$ipn000$imblocker$initChatState(arg0: $CallbackInfo): void;
+        handler$ipn000$imblocker$updateChatState(arg0: string, arg1: $CallbackInfo): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -680,7 +740,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: string);
+        constructor(initial: string);
     }
     export class $PauseScreen$FeedbackSubScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -739,23 +799,26 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Component_, arg2: $DisconnectionDetails_, arg3: $Component_);
-        constructor(arg0: $Screen, arg1: $Component_, arg2: $DisconnectionDetails_);
-        constructor(arg0: $Screen, arg1: $Component_, arg2: $Component_, arg3: $Component_);
-        constructor(arg0: $Screen, arg1: $Component_, arg2: $Component_);
+        constructor(parent: $Screen, title: $Component_, details: $DisconnectionDetails_, buttonText: $Component_);
+        constructor(parent: $Screen, title: $Component_, details: $DisconnectionDetails_);
+        constructor(parent: $Screen, title: $Component_, reason: $Component_, buttonText: $Component_);
+        constructor(parent: $Screen, title: $Component_, reason: $Component_);
     }
     export class $ConfirmLinkScreen extends $ConfirmScreen {
-        static confirmLink(arg0: $Screen, arg1: string): $Button$OnPress;
-        static confirmLink(arg0: $Screen, arg1: $URI): $Button$OnPress;
-        static confirmLink(arg0: $Screen, arg1: $URI, arg2: boolean): $Button$OnPress;
-        static confirmLink(arg0: $Screen, arg1: string, arg2: boolean): $Button$OnPress;
-        static confirmMessage(arg0: boolean): $MutableComponent;
-        static confirmMessage(arg0: boolean, arg1: string): $MutableComponent;
-        static confirmLinkNow(arg0: $Screen, arg1: string, arg2: boolean): void;
-        static confirmLinkNow(arg0: $Screen, arg1: string): void;
-        static confirmLinkNow(arg0: $Screen, arg1: $URI, arg2: boolean): void;
-        static confirmLinkNow(arg0: $Screen, arg1: $URI): void;
+        static confirmLink(lastScreen: $Screen, uri: $URI): $Button$OnPress;
+        static confirmLink(lastScreen: $Screen, url: string): $Button$OnPress;
+        static confirmLink(lastScreen: $Screen, uri: $URI, trusted: boolean): $Button$OnPress;
+        static confirmLink(lastScreen: $Screen, url: string, trusted: boolean): $Button$OnPress;
+        /**
+         * Copies the link to the system clipboard.
+         */
         copyToClipboard(): void;
+        static confirmLinkNow(lastScreen: $Screen, url: string, trusted: boolean): void;
+        static confirmLinkNow(lastScreen: $Screen, uri: $URI, trusted: boolean): void;
+        static confirmLinkNow(lastScreen: $Screen, uri: $URI): void;
+        static confirmLinkNow(lastScreen: $Screen, url: string): void;
+        static confirmMessage(trusted: boolean): $MutableComponent;
+        static confirmMessage(trusted: boolean, extraInfo: string): $MutableComponent;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -776,22 +839,34 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $BooleanConsumer_, arg1: $Component_, arg2: $Component_, arg3: string, arg4: $Component_, arg5: boolean);
-        constructor(arg0: $BooleanConsumer_, arg1: $Component_, arg2: $Component_, arg3: $URI, arg4: $Component_, arg5: boolean);
-        constructor(arg0: $BooleanConsumer_, arg1: $Component_, arg2: $URI, arg3: boolean);
-        constructor(arg0: $BooleanConsumer_, arg1: $Component_, arg2: string, arg3: boolean);
-        constructor(arg0: $BooleanConsumer_, arg1: string, arg2: boolean);
+        constructor(callback: $BooleanConsumer_, title: $Component_, message: $Component_, url: string, noButton: $Component_, trusted: boolean);
+        constructor(callback: $BooleanConsumer_, title: $Component_, message: $Component_, uri: $URI, noButton: $Component_, trusted: boolean);
+        constructor(callback: $BooleanConsumer_, title: $Component_, uri: $URI, trusted: boolean);
+        constructor(callback: $BooleanConsumer_, title: $Component_, url: string, trusted: boolean);
+        constructor(callback: $BooleanConsumer_, url: string, trusted: boolean);
     }
     export class $ShareToLanScreen extends $Screen implements $IShareToLanScreenParamAccessor {
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getPort(): number;
-        getGameType(): $GameType;
         setPort(arg0: number): void;
+        getLSPData(): $OpenToLanScreenEx;
+        getGameType(): $GameType;
         setGameType(arg0: $GameType_): void;
         getLastScreen(): $Screen;
-        getLSPData(): $OpenToLanScreenEx;
-        isCommandEnabled(): boolean;
+        /**
+         * Sets the focus state of the GUI element.
+         */
+        setCommandEnabled(focused: boolean): void;
         movePortEditBox(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        setCommandEnabled(arg0: boolean): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        isCommandEnabled(): boolean;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -809,9 +884,9 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen);
-        get lastScreen(): $Screen;
+        constructor(lastScreen: $Screen);
         get LSPData(): $OpenToLanScreenEx;
+        get lastScreen(): $Screen;
     }
     export class $DeathScreen$TitleConfirmScreen extends $ConfirmScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -856,12 +931,12 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Runnable_, arg1: $BackupConfirmScreen$Listener_, arg2: $Component_, arg3: $Component_, arg4: boolean);
+        constructor(onCancel: $Runnable_, onProceed: $BackupConfirmScreen$Listener_, title: $Component_, description: $Component_, promptForCacheErase: boolean);
     }
     export class $BackupConfirmScreen$Listener {
     }
     export interface $BackupConfirmScreen$Listener {
-        proceed(arg0: boolean, arg1: boolean): void;
+        proceed(confirmed: boolean, eraseCache: boolean): void;
     }
     /**
      * Values that may be interpreted as {@link $BackupConfirmScreen$Listener}.
@@ -870,15 +945,15 @@ declare module "@package/net/minecraft/client/gui/screens" {
     export class $FaviconTexture implements $AutoCloseable {
         clear(): void;
         close(): void;
+        upload(image: $NativeImage): void;
         textureLocation(): $ResourceLocation;
-        upload(arg0: $NativeImage): void;
-        static forWorld(arg0: $TextureManager, arg1: string): $FaviconTexture;
-        static forServer(arg0: $TextureManager, arg1: string): $FaviconTexture;
+        static forWorld(textureManager: $TextureManager, worldName: string): $FaviconTexture;
+        static forServer(textureManager: $TextureManager, worldName: string): $FaviconTexture;
     }
     export class $PresetFlatWorldScreen extends $Screen {
-        static save(arg0: $FlatLevelGeneratorSettings): string;
-        static fromString(arg0: $HolderGetter<$Block_>, arg1: $HolderGetter<$Biome_>, arg2: $HolderGetter<$StructureSet_>, arg3: $HolderGetter<$PlacedFeature_>, arg4: string, arg5: $FlatLevelGeneratorSettings): $FlatLevelGeneratorSettings;
-        updateButtonValidity(arg0: boolean): void;
+        static fromString(blockGetter: $HolderGetter<$Block_>, biomeGetter: $HolderGetter<$Biome_>, structureSetGetter: $HolderGetter<$StructureSet_>, placedFeatureGetter: $HolderGetter<$PlacedFeature_>, settings: string, layerGenerationSettings: $FlatLevelGeneratorSettings): $FlatLevelGeneratorSettings;
+        static save(levelGeneratorSettings: $FlatLevelGeneratorSettings): string;
+        updateButtonValidity(valid: boolean): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         settings: $FlatLevelGeneratorSettings;
@@ -901,10 +976,13 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $CreateFlatWorldScreen);
+        constructor(parent: $CreateFlatWorldScreen);
     }
     export class $PauseScreen extends $Screen {
-        static addFeedbackButtons(arg0: $Screen, arg1: $GridLayout$RowHelper): void;
+        static addFeedbackButtons(lastScreen: $Screen, rowHelper: $GridLayout$RowHelper): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
         showsPauseMenu(): boolean;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -923,7 +1001,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: boolean);
+        constructor(showPauseMenu: boolean);
     }
     export class $WinScreen$CreditsReader {
     }
@@ -953,7 +1031,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Options, arg1: $Runnable_);
+        constructor(options: $Options, onClose: $Runnable_);
     }
     export class $InBedChatScreen extends $ChatScreen {
         onPlayerWokeUp(): void;
@@ -997,7 +1075,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen);
+        constructor(lastScreen: $Screen);
     }
     export class $Overlay implements $Renderable {
         isPauseScreen(): boolean;
@@ -1072,17 +1150,17 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Runnable_, arg1: $Component_, arg2: $Component_);
-        constructor(arg0: $Runnable_, arg1: $Component_, arg2: $Component_, arg3: $Component_, arg4: boolean);
+        constructor(callback: $Runnable_, title: $Component_, text: $Component_);
+        constructor(callback: $Runnable_, title: $Component_, messageText: $Component_, okButton: $Component_, shouldCloseOnEsc: boolean);
     }
     export class $Screen$NarratableSearchResult {
         entry: $NarratableEntry;
         index: number;
         priority: $NarratableEntry$NarrationPriority;
-        constructor(arg0: $NarratableEntry, arg1: number, arg2: $NarratableEntry$NarrationPriority_);
+        constructor(entry: $NarratableEntry, index: number, priority: $NarratableEntry$NarrationPriority_);
     }
     export class $DeathScreen extends $Screen {
-        static renderDeathBackground(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        static renderDeathBackground(guiGraphics: $GuiGraphics, width: number, height: number): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -1100,7 +1178,7 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: boolean);
+        constructor(causeOfDeath: $Component_ | null, hardcore: boolean);
     }
     export class $WinScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -1120,12 +1198,12 @@ declare module "@package/net/minecraft/client/gui/screens" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: boolean, arg1: $Runnable_);
+        constructor(poem: boolean, onFinished: $Runnable_);
     }
     export class $BanNoticeScreens {
-        static create(arg0: $BooleanConsumer_, arg1: $BanDetails_): $ConfirmLinkScreen;
-        static createSkinBan(arg0: $Runnable_): $ConfirmLinkScreen;
-        static createNameBan(arg0: string, arg1: $Runnable_): $ConfirmLinkScreen;
+        static create(callback: $BooleanConsumer_, banDetails: $BanDetails_): $ConfirmLinkScreen;
+        static createNameBan(username: string, callback: $Runnable_): $ConfirmLinkScreen;
+        static createSkinBan(callback: $Runnable_): $ConfirmLinkScreen;
         static NAME_BAN_TITLE: $Component;
         constructor();
     }

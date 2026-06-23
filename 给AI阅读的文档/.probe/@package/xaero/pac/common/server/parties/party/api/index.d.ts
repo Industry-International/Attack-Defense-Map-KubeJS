@@ -11,15 +11,15 @@ declare module "@package/xaero/pac/common/server/parties/party/api" {
     export class $IPartyManagerAPI {
     }
     export interface $IPartyManagerAPI {
-        getPartyByMember(arg0: $UUID_): $IServerPartyAPI;
-        getPartyByOwner(arg0: $UUID_): $IServerPartyAPI;
-        getAllStream(): $Stream<$IServerPartyAPI>;
-        getPartyById(arg0: $UUID_): $IServerPartyAPI;
-        createPartyForOwner(arg0: $Player): $IServerPartyAPI;
         removeParty(arg0: $IServerPartyAPI): void;
-        removePartyById(arg0: $UUID_): void;
-        removePartyByOwner(arg0: $UUID_): void;
         getPartiesThatAlly(arg0: $UUID_): $Stream<$IServerPartyAPI>;
+        removePartyByOwner(arg0: $UUID_): void;
+        removePartyById(arg0: $UUID_): void;
+        getPartyByOwner(arg0: $UUID_): $IServerPartyAPI;
+        getPartyByMember(arg0: $UUID_): $IServerPartyAPI;
+        getAllStream(): $Stream<$IServerPartyAPI>;
+        createPartyForOwner(arg0: $Player): $IServerPartyAPI;
+        getPartyById(arg0: $UUID_): $IServerPartyAPI;
         partyExistsForOwner(arg0: $UUID_): boolean;
         get allStream(): $Stream<$IServerPartyAPI>;
     }
@@ -28,38 +28,38 @@ declare module "@package/xaero/pac/common/server/parties/party/api" {
     export interface $IServerPartyAPI extends $IPartyAPI {
         getId(): $UUID;
         getOwner(): $IPartyMemberAPI;
-        removeMember(arg0: $UUID_): $IPartyMemberAPI;
-        getDefaultName(): string;
-        addMember(arg0: $UUID_, arg1: $PartyMemberRank_, arg2: string): $IPartyMemberAPI;
-        setRank(arg0: $IPartyMemberAPI, arg1: $PartyMemberRank_): boolean;
-        invitePlayer(arg0: $UUID_, arg1: string): $IPartyPlayerInfoAPI;
+        getMemberCount(): number;
         isInvited(arg0: $UUID_): boolean;
+        setRank(arg0: $IPartyMemberAPI, arg1: $PartyMemberRank_): boolean;
+        removeMember(arg0: $UUID_): $IPartyMemberAPI;
+        invitePlayer(arg0: $UUID_, arg1: string): $IPartyPlayerInfoAPI;
+        addMember(arg0: $UUID_, arg1: $PartyMemberRank_ | null, arg2: string): $IPartyMemberAPI;
         isAlly(arg0: $UUID_): boolean;
-        getMemberInfo(arg0: $UUID_): $IPartyMemberAPI;
-        getMemberInfo(arg0: string): $IPartyMemberAPI;
-        uninvitePlayer(arg0: $UUID_): $IPartyPlayerInfoAPI;
+        getDefaultName(): string;
         getAllyPartiesStream(): $Stream<$IPartyAllyAPI>;
         getInvitedPlayersStream(): $Stream<$IPartyPlayerInfoAPI>;
-        getNonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
         getMemberInfoStream(): $Stream<$IPartyMemberAPI>;
-        getInviteCount(): number;
+        getNonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
+        getOnlineMemberStream(): $Stream<$ServerPlayer>;
+        uninvitePlayer(arg0: $UUID_): $IPartyPlayerInfoAPI;
+        getMemberInfo(arg0: $UUID_): $IPartyMemberAPI;
+        getMemberInfo(arg0: string): $IPartyMemberAPI;
+        addAllyParty(arg0: $UUID_): void;
         removeAllyParty(arg0: $UUID_): void;
         getAllyCount(): number;
-        getMemberCount(): number;
+        getInviteCount(): number;
         getStaffInfoStream(): $Stream<$IPartyMemberAPI>;
-        addAllyParty(arg0: $UUID_): void;
-        getOnlineMemberStream(): $Stream<$ServerPlayer>;
         get id(): $UUID;
         get owner(): $IPartyMemberAPI;
+        get memberCount(): number;
         get defaultName(): string;
         get allyPartiesStream(): $Stream<$IPartyAllyAPI>;
         get invitedPlayersStream(): $Stream<$IPartyPlayerInfoAPI>;
-        get nonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
         get memberInfoStream(): $Stream<$IPartyMemberAPI>;
-        get inviteCount(): number;
-        get allyCount(): number;
-        get memberCount(): number;
-        get staffInfoStream(): $Stream<$IPartyMemberAPI>;
+        get nonStaffInfoStream(): $Stream<$IPartyMemberAPI>;
         get onlineMemberStream(): $Stream<$ServerPlayer>;
+        get allyCount(): number;
+        get inviteCount(): number;
+        get staffInfoStream(): $Stream<$IPartyMemberAPI>;
     }
 }

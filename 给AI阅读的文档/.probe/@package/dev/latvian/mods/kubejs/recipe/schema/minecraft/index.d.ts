@@ -1,6 +1,6 @@
 import { $JsonObject } from "@package/com/google/gson";
-import { $KubeRecipe, $RecipeTypeFunction } from "@package/dev/latvian/mods/kubejs/recipe";
 import { $TypeInfo } from "@package/dev/latvian/mods/rhino/type";
+import { $KubeRecipe, $RecipeTypeFunction } from "@package/dev/latvian/mods/kubejs/recipe";
 import { $KubeRecipeFactory } from "@package/dev/latvian/mods/kubejs/recipe/schema";
 import { $SourceLine } from "@package/dev/latvian/mods/kubejs/script";
 

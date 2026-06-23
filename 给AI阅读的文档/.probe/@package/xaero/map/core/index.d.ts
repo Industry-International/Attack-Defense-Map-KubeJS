@@ -12,8 +12,8 @@ declare module "@package/xaero/map/core" {
     export class $IWorldMapServerLevel {
     }
     export interface $IWorldMapServerLevel {
-        getXaero_wm_capabilities(): $ServerWorldCapabilities;
         setXaero_wm_capabilities(arg0: $ServerWorldCapabilities): void;
+        getXaero_wm_capabilities(): $ServerWorldCapabilities;
     }
     export class $IWorldMapSMultiBlockChangePacket {
     }

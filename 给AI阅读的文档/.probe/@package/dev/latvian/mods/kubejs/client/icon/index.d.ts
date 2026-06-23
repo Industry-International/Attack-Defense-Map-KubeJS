@@ -14,8 +14,8 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/dev/latvian/mods/kubejs/client/icon" {
     export class $AtlasSpriteKubeIcon extends $Record implements $KubeIcon {
         getType(): $KubeIconType<never>;
-        atlas(): ($ResourceLocation) | undefined;
         sprite(): $ResourceLocation;
+        atlas(): ($ResourceLocation) | undefined;
         static TYPE: $KubeIconType<$AtlasSpriteKubeIcon>;
         constructor(atlas: ($ResourceLocation_) | undefined, sprite: $ResourceLocation_);
         get type(): $KubeIconType<never>;
@@ -53,8 +53,8 @@ declare module "@package/dev/latvian/mods/kubejs/client/icon" {
     export type $KubeIconTypeRegistry_ = ((type: $KubeIconType<never>) => void);
     export class $KubeIconType<T extends $KubeIcon> extends $Record {
         id(): $ResourceLocation;
-        codec(): $MapCodec<T>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        codec(): $MapCodec<T>;
         static TYPES: $Lazy<$Map<$ResourceLocation, $KubeIconType<never>>>;
         static CODEC: $Codec<$KubeIconType<never>>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $KubeIconType<never>>;

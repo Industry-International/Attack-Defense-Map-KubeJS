@@ -28,9 +28,12 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 
 declare module "@package/net/minecraft/world/entity/ambient" {
     export class $Bat extends $AmbientCreature {
-        static checkBatSpawnRules(arg0: $EntityType_<$Bat>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        setResting(arg0: boolean): void;
+        setResting(isResting: boolean): void;
+        /**
+         * Return whether this entity should NOT trigger a pressure plate or a tripwire.
+         */
         isResting(): boolean;
+        static checkBatSpawnRules(bat: $EntityType_<$Bat>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
         static createAttributes(): $AttributeSupplier$Builder;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
@@ -202,7 +205,7 @@ declare module "@package/net/minecraft/world/entity/ambient" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Bat>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Bat>, level: $Level_);
     }
     export class $AmbientCreature extends $Mob {
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;

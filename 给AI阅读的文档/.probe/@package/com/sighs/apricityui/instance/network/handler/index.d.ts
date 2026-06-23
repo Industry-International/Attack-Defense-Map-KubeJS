@@ -7,16 +7,16 @@ declare module "@package/com/sighs/apricityui/instance/network/handler" {
     export class $BindingBuilder {
         entity(arg0: $Entity): $BindingBuilder;
         entity(arg0: string): $BindingBuilder;
+        saveddata(): $BindingBuilder;
+        saveddata(arg0: string): $BindingBuilder;
+        saveddata(arg0: string, arg1: number): $BindingBuilder;
         player(): $BindingBuilder;
-        blockEntity(arg0: $BlockPos_): $BindingBuilder;
         blockEntity(arg0: $BlockPos_, arg1: $Direction_): $BindingBuilder;
-        savedData(arg0: string, arg1: string, arg2: number): $BindingBuilder;
+        blockEntity(arg0: $BlockPos_): $BindingBuilder;
         savedData(): $BindingBuilder;
         savedData(arg0: string): $BindingBuilder;
         savedData(arg0: string, arg1: number): $BindingBuilder;
-        saveddata(arg0: string): $BindingBuilder;
-        saveddata(): $BindingBuilder;
-        saveddata(arg0: string, arg1: number): $BindingBuilder;
+        savedData(arg0: string, arg1: string, arg2: number): $BindingBuilder;
     }
     export class $PendingMenu {
         bind(arg0: $Consumer_<$BindingBuilder>): void;

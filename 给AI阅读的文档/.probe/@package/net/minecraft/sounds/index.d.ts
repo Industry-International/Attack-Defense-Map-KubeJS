@@ -10,12 +10,12 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
 declare module "@package/net/minecraft/sounds" {
     export class $Music {
+        replaceCurrentMusic(): boolean;
         getEvent(): $Holder<$SoundEvent>;
         getMinDelay(): number;
         getMaxDelay(): number;
-        replaceCurrentMusic(): boolean;
         static CODEC: $Codec<$Music>;
-        constructor(arg0: $Holder_<$SoundEvent>, arg1: number, arg2: number, arg3: boolean);
+        constructor(event: $Holder_<$SoundEvent>, minDelay: number, maxDelay: number, replaceCurrentMusic: boolean);
         get event(): $Holder<$SoundEvent>;
         get minDelay(): number;
         get maxDelay(): number;
@@ -23,9 +23,9 @@ declare module "@package/net/minecraft/sounds" {
     export interface $SoundEvent extends RegistryMarked<RegistryTypes.SoundEventTag, RegistryTypes.SoundEvent> {}
     export class $SoundEvent {
         getLocation(): $ResourceLocation;
-        getRange(arg0: number): number;
-        static createVariableRangeEvent(arg0: $ResourceLocation_): $SoundEvent;
-        static createFixedRangeEvent(arg0: $ResourceLocation_, arg1: number): $SoundEvent;
+        getRange(volume: number): number;
+        static createFixedRangeEvent(location: $ResourceLocation_, range: number): $SoundEvent;
+        static createVariableRangeEvent(location: $ResourceLocation_): $SoundEvent;
         static CODEC: $Codec<$Holder<$SoundEvent>>;
         static DIRECT_CODEC: $Codec<$SoundEvent>;
         static DIRECT_STREAM_CODEC: $StreamCodec<$ByteBuf, $SoundEvent>;
@@ -56,7 +56,7 @@ declare module "@package/net/minecraft/sounds" {
      */
     export type $SoundSource_ = "master" | "music" | "records" | "weather" | "blocks" | "hostile" | "neutral" | "players" | "ambient" | "voice";
     export class $Musics {
-        static createGameMusic(arg0: $Holder_<$SoundEvent>): $Music;
+        static createGameMusic(event: $Holder_<$SoundEvent>): $Music;
         static CREDITS: $Music;
         static UNDER_WATER: $Music;
         static GAME: $Music;

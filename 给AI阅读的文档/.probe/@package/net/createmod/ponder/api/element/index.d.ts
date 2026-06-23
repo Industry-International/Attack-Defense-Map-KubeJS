@@ -22,13 +22,13 @@ declare module "@package/net/createmod/ponder/api/element" {
     export class $InputElementBuilder {
     }
     export interface $InputElementBuilder {
-        withItem(arg0: $ItemStack_): $InputElementBuilder;
-        scroll(): $InputElementBuilder;
-        leftClick(): $InputElementBuilder;
         rightClick(): $InputElementBuilder;
+        withItem(arg0: $ItemStack_): $InputElementBuilder;
+        whileSneaking(): $InputElementBuilder;
+        leftClick(): $InputElementBuilder;
+        scroll(): $InputElementBuilder;
         showing(arg0: $ScreenElement_): $InputElementBuilder;
         whileCTRL(): $InputElementBuilder;
-        whileSneaking(): $InputElementBuilder;
     }
     export class $PonderSceneElement {
     }
@@ -41,8 +41,8 @@ declare module "@package/net/createmod/ponder/api/element" {
     }
     export interface $MinecartElement extends $AnimatedSceneElement {
         getPositionOffset(): $Vec3;
-        getRotation(): $Vec3;
         setRotation(arg0: number, arg1: boolean): void;
+        getRotation(): $Vec3;
         setPositionOffset(arg0: $Vec3_, arg1: boolean): void;
     }
     export class $PonderOverlayElement {
@@ -56,15 +56,15 @@ declare module "@package/net/createmod/ponder/api/element" {
         text(arg0: string): $TextElementBuilder;
         text(arg0: string, ...arg1: $Object[]): $TextElementBuilder;
         colored(arg0: $PonderPalette_): $TextElementBuilder;
-        attachKeyFrame(): $TextElementBuilder;
-        placeNearTarget(): $TextElementBuilder;
-        independent(): $TextElementBuilder;
-        independent(arg0: number): $TextElementBuilder;
-        pointAt(arg0: $Vec3_): $TextElementBuilder;
-        sharedText(arg0: string, ...arg1: $Object[]): $TextElementBuilder;
         sharedText(arg0: $ResourceLocation_): $TextElementBuilder;
-        sharedText(arg0: string): $TextElementBuilder;
         sharedText(arg0: $ResourceLocation_, ...arg1: $Object[]): $TextElementBuilder;
+        sharedText(arg0: string): $TextElementBuilder;
+        sharedText(arg0: string, ...arg1: $Object[]): $TextElementBuilder;
+        pointAt(arg0: $Vec3_): $TextElementBuilder;
+        placeNearTarget(): $TextElementBuilder;
+        attachKeyFrame(): $TextElementBuilder;
+        independent(arg0: number): $TextElementBuilder;
+        independent(): $TextElementBuilder;
     }
     export class $MinecartElement$MinecartConstructor {
     }
@@ -79,10 +79,10 @@ declare module "@package/net/createmod/ponder/api/element" {
     }
     export interface $ParrotElement extends $AnimatedSceneElement {
         getPositionOffset(): $Vec3;
-        getRotation(): $Vec3;
         setRotation(arg0: $Vec3_, arg1: boolean): void;
-        setPose(arg0: $ParrotPose): void;
+        getRotation(): $Vec3;
         setPositionOffset(arg0: $Vec3_, arg1: boolean): void;
+        setPose(arg0: $ParrotPose): void;
         set pose(value: $ParrotPose);
     }
     export class $PonderElement {
@@ -90,9 +90,9 @@ declare module "@package/net/createmod/ponder/api/element" {
     export interface $PonderElement {
         reset(arg0: $PonderScene): void;
         tick(arg0: $PonderScene): void;
+        whileSkipping(arg0: $PonderScene): void;
         setVisible(arg0: boolean): void;
         isVisible(): boolean;
-        whileSkipping(arg0: $PonderScene): void;
     }
     export class $ElementLink<T extends $PonderElement> {
     }
@@ -117,18 +117,18 @@ declare module "@package/net/createmod/ponder/api/element" {
         add(arg0: $Selection): void;
         set(arg0: $Selection): void;
         erase(arg0: $Selection): void;
+        setAnimatedOffset(arg0: $Vec3_, arg1: boolean): void;
         setEmpty(): void;
         rayTrace(arg0: $PonderLevel, arg1: $Vec3_, arg2: $Vec3_): $Pair<$Vec3, $BlockHitResult>;
-        queueRedraw(): void;
-        mergeOnto(arg0: $WorldSectionElement): void;
         selectBlock(arg0: $BlockPos_): void;
+        queueRedraw(): void;
         resetSelectedBlock(): void;
-        setAnimatedOffset(arg0: $Vec3_, arg1: boolean): void;
-        stabilizeRotation(arg0: $Vec3_): void;
-        getAnimatedOffset(): $Vec3;
-        setCenterOfRotation(arg0: $Vec3_): void;
+        mergeOnto(arg0: $WorldSectionElement): void;
         getAnimatedRotation(): $Vec3;
+        setCenterOfRotation(arg0: $Vec3_): void;
         setAnimatedRotation(arg0: $Vec3_, arg1: boolean): void;
+        getAnimatedOffset(): $Vec3;
+        stabilizeRotation(arg0: $Vec3_): void;
         set centerOfRotation(value: $Vec3_);
     }
     export class $AnimatedSceneElement {

@@ -24,32 +24,32 @@ import { $ShortList } from "@package/it/unimi/dsi/fastutil/shorts";
 declare module "@package/com/sonicether/soundphysics/world" {
     export class $ClonedClientLevel implements $ClientLevelProxy {
         getOrigin(): $BlockPos;
+        getBlockEntity(arg0: $BlockPos_): $BlockEntity;
         getFluidState(arg0: $BlockPos_): $FluidState;
         getTick(): number;
-        getBlockState(arg0: $BlockPos_): $BlockState;
-        getMinBuildHeight(): number;
-        getHeight(): number;
-        getBlockEntity(arg0: $BlockPos_): $BlockEntity;
         getChunk(arg0: number, arg1: number): $ClonedLevelChunk;
-        handler$ibc000$aero_cam_sync$shiftClipForCameraTilt(arg0: $ClipContext, arg1: $CallbackInfoReturnable<any>): void;
-        clip(arg0: $ClipContext): $BlockHitResult;
+        getBlockState(arg0: $BlockPos_): $BlockState;
+        getHeight(): number;
+        getMinBuildHeight(): number;
         getLightEmission(arg0: $BlockPos_): number;
-        clipWithInteractionOverride(arg0: $Vec3_, arg1: $Vec3_, arg2: $BlockPos_, arg3: $VoxelShape, arg4: $BlockState_): $BlockHitResult;
         isBlockInLine(arg0: $ClipBlockStateContext): $BlockHitResult;
-        getBlockStates(arg0: $AABB_): $Stream<$BlockState>;
-        getMaxLightLevel(): number;
+        handler$hna000$aero_cam_sync$shiftClipForCameraTilt(arg0: $ClipContext, arg1: $CallbackInfoReturnable<any>): void;
+        getBlockEntity<T extends $BlockEntity>(arg0: $BlockPos_, arg1: $BlockEntityType_<T>): (T) | undefined;
+        clipWithInteractionOverride(arg0: $Vec3_, arg1: $Vec3_, arg2: $BlockPos_, arg3: $VoxelShape, arg4: $BlockState_): $BlockHitResult;
         getBlockFloorHeight(arg0: $BlockPos_): number;
         getBlockFloorHeight(arg0: $VoxelShape, arg1: $Supplier_<$VoxelShape>): number;
-        getBlockEntity<T extends $BlockEntity>(arg0: $BlockPos_, arg1: $BlockEntityType_<T>): (T) | undefined;
-        isOutsideBuildHeight(arg0: number): boolean;
-        isOutsideBuildHeight(arg0: $BlockPos_): boolean;
-        getMaxBuildHeight(): number;
+        getMaxLightLevel(): number;
+        getBlockStates(arg0: $AABB_): $Stream<$BlockState>;
+        clip(arg0: $ClipContext): $BlockHitResult;
+        getSectionIndexFromSectionY(arg0: number): number;
+        getSectionYFromSectionIndex(arg0: number): number;
+        getMaxSection(): number;
         getSectionsCount(): number;
         getMinSection(): number;
-        getMaxSection(): number;
         getSectionIndex(arg0: number): number;
-        getSectionYFromSectionIndex(arg0: number): number;
-        getSectionIndexFromSectionY(arg0: number): number;
+        getMaxBuildHeight(): number;
+        isOutsideBuildHeight(arg0: $BlockPos_): boolean;
+        isOutsideBuildHeight(arg0: number): boolean;
         getModelData(arg0: $BlockPos_): $ModelData;
         getAuxLightManager(arg0: $ChunkPos): $AuxiliaryLightManager;
         getAuxLightManager(arg0: $BlockPos_): $AuxiliaryLightManager;
@@ -59,18 +59,18 @@ declare module "@package/com/sonicether/soundphysics/world" {
         constructor(arg0: $ClientLevel, arg1: $BlockPos_, arg2: number, arg3: number);
         get origin(): $BlockPos;
         get tick(): number;
-        get minBuildHeight(): number;
         get height(): number;
+        get minBuildHeight(): number;
         get maxLightLevel(): number;
-        get maxBuildHeight(): number;
+        get maxSection(): number;
         get sectionsCount(): number;
         get minSection(): number;
-        get maxSection(): number;
+        get maxBuildHeight(): number;
     }
     export class $CachingClientLevel {
     }
     export interface $CachingClientLevel {
-        sound_physics_remastered$setCachedClone(arg0: $ClonedClientLevel): void;
+        sound_physics_remastered$setCachedClone(arg0: $ClonedClientLevel | null): void;
         sound_physics_remastered$getCachedClone(): $ClonedClientLevel;
     }
     export class $ClonedLevelChunk extends $ChunkAccess {
@@ -88,7 +88,7 @@ declare module "@package/com/sonicether/soundphysics/world" {
         unsaved: boolean;
         heightmaps: $Map<$Heightmap$Types, $Heightmap>;
         static NO_FILLED_SECTION: number;
-        constructor(arg0: $Level_, arg1: $ChunkPos, arg2: $LevelChunkSection[]);
+        constructor(arg0: $Level_, arg1: $ChunkPos, arg2: $LevelChunkSection[] | null);
     }
     export class $ClientLevelProxy {
     }

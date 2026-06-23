@@ -7,19 +7,19 @@ declare module "@package/org/lwjgl/glfw" {
         static create(arg0: number): $GLFWVidMode;
         static create(arg0: number, arg1: number): $GLFWVidMode$Buffer;
         width(): number;
-        static nwidth(arg0: number): number;
-        static nheight(arg0: number): number;
-        static createSafe(arg0: number, arg1: number): $GLFWVidMode$Buffer;
-        static createSafe(arg0: number): $GLFWVidMode;
-        static nblueBits(arg0: number): number;
-        static ngreenBits(arg0: number): number;
-        greenBits(): number;
-        blueBits(): number;
-        static nredBits(arg0: number): number;
-        redBits(): number;
-        height(): number;
         refreshRate(): number;
         static nrefreshRate(arg0: number): number;
+        static createSafe(arg0: number): $GLFWVidMode;
+        static createSafe(arg0: number, arg1: number): $GLFWVidMode$Buffer;
+        static nheight(arg0: number): number;
+        static nwidth(arg0: number): number;
+        greenBits(): number;
+        blueBits(): number;
+        redBits(): number;
+        static ngreenBits(arg0: number): number;
+        static nblueBits(arg0: number): number;
+        static nredBits(arg0: number): number;
+        height(): number;
         static ALIGNOF: number;
         static SIZEOF: number;
         static GREENBITS: number;
@@ -34,9 +34,9 @@ declare module "@package/org/lwjgl/glfw" {
         static CIF: $FFICIF;
     }
     export interface $GLFWMouseButtonCallbackI extends $CallbackI {
+        callback(arg0: number, arg1: number): void;
         invoke(arg0: number, arg1: number, arg2: number, arg3: number): void;
         getCallInterface(): $FFICIF;
-        callback(arg0: number, arg1: number): void;
         get callInterface(): $FFICIF;
     }
     /**
@@ -47,9 +47,9 @@ declare module "@package/org/lwjgl/glfw" {
         static CIF: $FFICIF;
     }
     export interface $GLFWErrorCallbackI extends $CallbackI {
+        callback(arg0: number, arg1: number): void;
         invoke(arg0: number, arg1: number): void;
         getCallInterface(): $FFICIF;
-        callback(arg0: number, arg1: number): void;
         get callInterface(): $FFICIF;
     }
     /**
@@ -58,11 +58,11 @@ declare module "@package/org/lwjgl/glfw" {
     export type $GLFWErrorCallbackI_ = ((arg0: number, arg1: number) => void);
     export class $GLFWVidMode$Buffer extends $StructBuffer<$GLFWVidMode, $GLFWVidMode$Buffer> {
         width(): number;
+        refreshRate(): number;
         greenBits(): number;
         blueBits(): number;
         redBits(): number;
         height(): number;
-        refreshRate(): number;
         constructor(arg0: number, arg1: number);
         constructor(arg0: $ByteBuffer);
     }
@@ -70,9 +70,9 @@ declare module "@package/org/lwjgl/glfw" {
         static CIF: $FFICIF;
     }
     export interface $GLFWKeyCallbackI extends $CallbackI {
+        callback(arg0: number, arg1: number): void;
         invoke(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
         getCallInterface(): $FFICIF;
-        callback(arg0: number, arg1: number): void;
         get callInterface(): $FFICIF;
     }
     /**
@@ -83,9 +83,9 @@ declare module "@package/org/lwjgl/glfw" {
         static CIF: $FFICIF;
     }
     export interface $GLFWDropCallbackI extends $CallbackI {
+        callback(arg0: number, arg1: number): void;
         invoke(arg0: number, arg1: number, arg2: number): void;
         getCallInterface(): $FFICIF;
-        callback(arg0: number, arg1: number): void;
         get callInterface(): $FFICIF;
     }
     /**
@@ -96,9 +96,9 @@ declare module "@package/org/lwjgl/glfw" {
         static CIF: $FFICIF;
     }
     export interface $GLFWCharModsCallbackI extends $CallbackI {
+        callback(arg0: number, arg1: number): void;
         invoke(arg0: number, arg1: number, arg2: number): void;
         getCallInterface(): $FFICIF;
-        callback(arg0: number, arg1: number): void;
         get callInterface(): $FFICIF;
     }
     /**
@@ -109,9 +109,9 @@ declare module "@package/org/lwjgl/glfw" {
         static CIF: $FFICIF;
     }
     export interface $GLFWCursorPosCallbackI extends $CallbackI {
+        callback(arg0: number, arg1: number): void;
         invoke(arg0: number, arg1: number, arg2: number): void;
         getCallInterface(): $FFICIF;
-        callback(arg0: number, arg1: number): void;
         get callInterface(): $FFICIF;
     }
     /**
@@ -122,9 +122,9 @@ declare module "@package/org/lwjgl/glfw" {
         static CIF: $FFICIF;
     }
     export interface $GLFWScrollCallbackI extends $CallbackI {
+        callback(arg0: number, arg1: number): void;
         invoke(arg0: number, arg1: number, arg2: number): void;
         getCallInterface(): $FFICIF;
-        callback(arg0: number, arg1: number): void;
         get callInterface(): $FFICIF;
     }
     /**

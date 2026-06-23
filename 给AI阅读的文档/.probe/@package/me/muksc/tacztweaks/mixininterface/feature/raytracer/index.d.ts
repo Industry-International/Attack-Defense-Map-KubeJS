@@ -19,7 +19,7 @@ declare module "@package/me/muksc/tacztweaks/mixininterface/feature/raytracer" {
         static of(arg0: $EntityKineticBullet): $RayTracingBullet;
     }
     export interface $RayTracingBullet {
-        tacztweaks$getCurrentHitPosition(): $Vec3;
         tacztweaks$setCurrentHitPosition(arg0: $Vec3_): void;
+        tacztweaks$getCurrentHitPosition(): $Vec3;
     }
 }

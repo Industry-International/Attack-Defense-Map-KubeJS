@@ -4,18 +4,40 @@ import { $BlockEntity } from "@package/net/minecraft/world/level/block/entity";
 import { $WeakReference } from "@package/java/lang/ref";
 
 declare module "@package/net/neoforged/neoforge/server/timings" {
+    /**
+     * ObjectTimings aggregates timings data collected by `TimeTracker` for an Object
+     * and performs operations for interpretation of the data.
+     */
     export class $ObjectTimings<T> {
+        /**
+         * Retrieves the object that the timings are for
+         */
         getObject(): $WeakReference<T>;
+        /**
+         * Averages the raw timings data collected
+         */
         getAverageTimings(): number;
         constructor(arg0: T, arg1: number[]);
         get object(): $WeakReference<T>;
         get averageTimings(): number;
     }
+    /**
+     * A class to assist in the collection of data to measure the update times of ticking objects {currently Tile Entities and Entities}
+     */
     export class $TimeTracker<T> {
+        /**
+         * Resets the tracker (clears timings and stops any in-progress timings)
+         */
         reset(): void;
-        enable(arg0: number): void;
-        trackEnd(arg0: T): void;
+        /**
+         * Starts recording tracking data for the given duration in seconds
+         */
+        enable(duration: number): void;
         trackStart(arg0: T): void;
+        trackEnd(arg0: T): void;
+        /**
+         * Returns the timings data recorded by the tracker
+         */
         getTimingData(): $ImmutableList<$ObjectTimings<T>>;
         static ENTITY_UPDATE: $TimeTracker<$Entity>;
         static BLOCK_ENTITY_UPDATE: $TimeTracker<$BlockEntity>;

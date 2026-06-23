@@ -7,7 +7,7 @@ declare module "@package/net/neoforged/neoforge/mixins" {
     export class $BlockEntityTypeAccessor {
     }
     export interface $BlockEntityTypeAccessor {
-        neoforge$setValidBlocks(arg0: $Set_<$Block_>): void;
+        neoforge$setValidBlocks(validBlocks: $Set_<$Block_>): void;
     }
     /**
      * Values that may be interpreted as {@link $BlockEntityTypeAccessor}.

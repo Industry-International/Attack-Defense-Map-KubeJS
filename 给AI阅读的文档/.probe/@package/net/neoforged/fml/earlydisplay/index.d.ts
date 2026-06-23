@@ -19,11 +19,11 @@ declare module "@package/net/neoforged/fml/earlydisplay" {
         clear(): void;
         init(): void;
         close(): void;
+        updateScreenSizeUniform(arg0: number, arg1: number): void;
+        activate(): void;
+        program(): number;
         updateTextureUniform(arg0: number): void;
         updateRenderTypeUniform(arg0: $ElementShader$RenderType_): void;
-        activate(): void;
-        updateScreenSizeUniform(arg0: number, arg1: number): void;
-        program(): number;
         constructor();
     }
     export class $RenderElement$DisplayContext extends $Record {
@@ -31,19 +31,19 @@ declare module "@package/net/neoforged/fml/earlydisplay" {
         width(): number;
         colourScheme(): $ColourScheme;
         scaledWidth(): number;
-        scaledHeight(): number;
         elementShader(): $ElementShader;
+        scaledHeight(): number;
         height(): number;
         performance(): $PerformanceInfo;
         constructor(width: number, height: number, scale: number, elementShader: $ElementShader, colourScheme: $ColourScheme_, performance: $PerformanceInfo);
     }
     export class $ColourScheme$Colour extends $Record {
         red(): number;
-        blue(): number;
         green(): number;
-        bluef(): number;
-        greenf(): number;
+        blue(): number;
         redf(): number;
+        greenf(): number;
+        bluef(): number;
         packedint(arg0: number): number;
         constructor(red: number, green: number, blue: number);
     }
@@ -64,21 +64,21 @@ declare module "@package/net/neoforged/fml/earlydisplay" {
         initialize(arg0: string[]): $Runnable;
         start(arg0: string, arg1: string): $Runnable;
         close(): void;
-        positionWindow(arg0: (never) | undefined, arg1: $IntConsumer_, arg2: $IntConsumer_, arg3: $IntConsumer_, arg4: $IntConsumer_): boolean;
-        getGLVersion(): string;
-        updateModuleReads(arg0: $ModuleLayer): void;
-        periodicTick(): void;
-        loadingOverlay<T>(arg0: $Supplier_<never>, arg1: $Supplier_<never>, arg2: $Consumer_<($Throwable) | undefined>, arg3: boolean): $Supplier<T>;
-        setupMinecraftWindow(arg0: $IntSupplier_, arg1: $IntSupplier_, arg2: $Supplier_<string>, arg3: $LongSupplier_): number;
-        updateFramebufferSize(arg0: $IntConsumer_, arg1: $IntConsumer_): void;
-        addMojangTexture(arg0: number): void;
-        initWindow(arg0: string): void;
-        render(arg0: number): void;
-        crash(arg0: string): void;
         getFramebufferTextureId(): number;
+        render(arg0: number): void;
+        getGLVersion(): string;
+        loadingOverlay<T>(arg0: $Supplier_<never>, arg1: $Supplier_<never>, arg2: $Consumer_<($Throwable) | undefined>, arg3: boolean): $Supplier<T>;
+        periodicTick(): void;
+        updateModuleReads(arg0: $ModuleLayer): void;
+        positionWindow(arg0: (never) | undefined, arg1: $IntConsumer_, arg2: $IntConsumer_, arg3: $IntConsumer_, arg4: $IntConsumer_): boolean;
+        initWindow(arg0: string): void;
+        addMojangTexture(arg0: number): void;
+        updateFramebufferSize(arg0: $IntConsumer_, arg1: $IntConsumer_): void;
+        setupMinecraftWindow(arg0: $IntSupplier_, arg1: $IntSupplier_, arg2: $Supplier_<string>, arg3: $LongSupplier_): number;
+        crash(arg0: string): void;
         constructor();
-        get GLVersion(): string;
         get framebufferTextureId(): number;
+        get GLVersion(): string;
     }
     export class $PerformanceInfo {
     }

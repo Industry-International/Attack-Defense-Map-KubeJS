@@ -17,23 +17,32 @@ declare module "@package/net/minecraft/world/level/levelgen/flat" {
     }
     export interface $FlatLevelGeneratorPreset extends RegistryMarked<RegistryTypes.WorldgenFlatLevelGeneratorPresetTag, RegistryTypes.WorldgenFlatLevelGeneratorPreset> {}
     export class $FlatLevelGeneratorSettings {
-        static getDefault(arg0: $HolderGetter<$Biome_>, arg1: $HolderGetter<$StructureSet_>, arg2: $HolderGetter<$PlacedFeature_>): $FlatLevelGeneratorSettings;
-        updateLayers(): void;
-        getBiome(): $Holder<$Biome>;
-        withBiomeAndLayers(arg0: $List_<$FlatLayerInfo>, arg1: ($HolderSet_<$StructureSet>) | undefined, arg2: $Holder_<$Biome>): $FlatLevelGeneratorSettings;
-        static createLakesList(arg0: $HolderGetter<$PlacedFeature_>): $List<$Holder<$PlacedFeature>>;
-        setDecoration(): void;
-        setAddLakes(): void;
-        static getDefaultBiome(arg0: $HolderGetter<$Biome_>): $Holder<$Biome>;
-        getLayersInfo(): $List<$FlatLayerInfo>;
-        structureOverrides(): ($HolderSet<$StructureSet>) | undefined;
+        /**
+         * Return the list of layers on this preset.
+         */
         getLayers(): $List<$BlockState>;
-        adjustGenerationSettings(arg0: $Holder_<$Biome>): $BiomeGenerationSettings;
+        static getDefault(biomes: $HolderGetter<$Biome_>, structureSetGetter: $HolderGetter<$StructureSet_>, placedFeatureGetter: $HolderGetter<$PlacedFeature_>): $FlatLevelGeneratorSettings;
+        structureOverrides(): ($HolderSet<$StructureSet>) | undefined;
+        setAddLakes(): void;
+        /**
+         * Return the list of layers on this preset.
+         */
+        getLayersInfo(): $List<$FlatLayerInfo>;
+        setDecoration(): void;
+        static createLakesList(placedFEatureGetter: $HolderGetter<$PlacedFeature_>): $List<$Holder<$PlacedFeature>>;
+        static getDefaultBiome(biomes: $HolderGetter<$Biome_>): $Holder<$Biome>;
+        withBiomeAndLayers(layerInfos: $List_<$FlatLayerInfo>, structureSets: ($HolderSet_<$StructureSet>) | undefined, biome: $Holder_<$Biome>): $FlatLevelGeneratorSettings;
+        updateLayers(): void;
+        /**
+         * Return the biome used on this preset.
+         */
+        getBiome(): $Holder<$Biome>;
+        adjustGenerationSettings(biome: $Holder_<$Biome>): $BiomeGenerationSettings;
         static CODEC: $Codec<$FlatLevelGeneratorSettings>;
-        constructor(arg0: ($HolderSet_<$StructureSet>) | undefined, arg1: $Holder_<$Biome>, arg2: $List_<$Holder_<$PlacedFeature>>);
-        get biome(): $Holder<$Biome>;
-        get layersInfo(): $List<$FlatLayerInfo>;
+        constructor(structureOverrides: ($HolderSet_<$StructureSet>) | undefined, biome: $Holder_<$Biome>, lakes: $List_<$Holder_<$PlacedFeature>>);
         get layers(): $List<$BlockState>;
+        get layersInfo(): $List<$FlatLayerInfo>;
+        get biome(): $Holder<$Biome>;
     }
     export class $FlatLevelGeneratorPreset extends $Record {
         settings(): $FlatLevelGeneratorSettings;
@@ -47,7 +56,7 @@ declare module "@package/net/minecraft/world/level/levelgen/flat" {
      */
     export type $FlatLevelGeneratorPreset_ = RegistryTypes.WorldgenFlatLevelGeneratorPreset;
     export class $FlatLevelGeneratorPresets {
-        static bootstrap(arg0: $BootstrapContext<$FlatLevelGeneratorPreset_>): void;
+        static bootstrap(context: $BootstrapContext<$FlatLevelGeneratorPreset_>): void;
         static OVERWORLD: $ResourceKey<$FlatLevelGeneratorPreset>;
         static WATER_WORLD: $ResourceKey<$FlatLevelGeneratorPreset>;
         static THE_VOID: $ResourceKey<$FlatLevelGeneratorPreset>;
@@ -61,9 +70,12 @@ declare module "@package/net/minecraft/world/level/levelgen/flat" {
     }
     export class $FlatLayerInfo {
         getBlockState(): $BlockState;
+        /**
+         * Return the amount of layers for this set of layers.
+         */
         getHeight(): number;
         static CODEC: $Codec<$FlatLayerInfo>;
-        constructor(arg0: number, arg1: $Block_);
+        constructor(height: number, block: $Block_);
         get blockState(): $BlockState;
         get height(): number;
     }

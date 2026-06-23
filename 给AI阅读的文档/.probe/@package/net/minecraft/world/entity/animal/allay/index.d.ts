@@ -38,19 +38,31 @@ declare module "@package/net/minecraft/world/entity/animal/allay" {
         get deliveryMode(): $GameEventListener$DeliveryMode;
     }
     export class $Allay extends $PathfinderMob implements $InventoryCarrier, $VibrationSystem {
-        setJukeboxPlaying(arg0: $BlockPos_, arg1: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isDancing(): boolean;
+        setDancing(dancing: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isSpinning(): boolean;
+        getInventory(): $SimpleContainer;
+        getHoldingItemAnimationProgress(partialTick: number): number;
+        static createAttributes(): $AttributeSupplier$Builder;
+        getSpinningProgress(partialTick: number): number;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         hasItemInHand(): boolean;
-        getHoldingItemAnimationProgress(arg0: number): number;
-        getSpinningProgress(arg0: number): number;
+        setJukeboxPlaying(jukeboxPos: $BlockPos_, jukeboxPlaying: boolean): void;
         getVibrationUser(): $VibrationSystem$User;
         getVibrationData(): $VibrationSystem$Data;
-        isSpinning(): boolean;
-        setDancing(arg0: boolean): void;
-        isDancing(): boolean;
-        getInventory(): $SimpleContainer;
-        static createAttributes(): $AttributeSupplier$Builder;
-        writeInventoryToTag(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
-        readInventoryFromTag(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
+        readInventoryFromTag(tag: $CompoundTag_, levelRegistry: $HolderLookup$Provider): void;
+        writeInventoryToTag(tag: $CompoundTag_, levelRegistry: $HolderLookup$Provider): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -222,26 +234,26 @@ declare module "@package/net/minecraft/world/entity/animal/allay" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Allay>, arg1: $Level_);
-        get vibrationUser(): $VibrationSystem$User;
-        get vibrationData(): $VibrationSystem$Data;
+        constructor(entityType: $EntityType_<$Allay>, level: $Level_);
         get spinning(): boolean;
         get inventory(): $SimpleContainer;
+        get vibrationUser(): $VibrationSystem$User;
+        get vibrationData(): $VibrationSystem$Data;
     }
     export class $AllayAi {
-        static updateActivity(arg0: $Allay): void;
-        static makeBrain(arg0: $Brain<$Allay>): $Brain<never>;
-        static getLikedPlayer(arg0: $LivingEntity): ($ServerPlayer) | undefined;
-        static hearNoteblock(arg0: $LivingEntity, arg1: $BlockPos_): void;
+        static updateActivity(allay: $Allay): void;
+        static hearNoteblock(entity: $LivingEntity, pos: $BlockPos_): void;
+        static makeBrain(brain: $Brain<$Allay>): $Brain<never>;
+        static getLikedPlayer(entity: $LivingEntity): ($ServerPlayer) | undefined;
         constructor();
     }
     export class $Allay$VibrationUser implements $VibrationSystem$User {
+        requiresAdjacentChunksToBeTicking(): boolean;
         onDataChanged(): void;
         isValidVibration(arg0: $Holder_<$GameEvent>, arg1: $GameEvent$Context_): boolean;
-        requiresAdjacentChunksToBeTicking(): boolean;
-        calculateTravelTimeInTicks(arg0: number): number;
-        getListenableEvents(): $TagKey<$GameEvent>;
         canTriggerAvoidVibration(): boolean;
+        getListenableEvents(): $TagKey<$GameEvent>;
+        calculateTravelTimeInTicks(arg0: number): number;
         get listenableEvents(): $TagKey<$GameEvent>;
     }
 }

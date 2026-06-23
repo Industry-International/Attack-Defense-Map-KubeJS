@@ -9,11 +9,11 @@ declare module "@package/mezz/jei/api/recipe/advanced" {
     export class $ISimpleRecipeManagerPlugin<T> {
     }
     export interface $ISimpleRecipeManagerPlugin<T> {
-        getRecipesForOutput(arg0: $ITypedIngredient<never>): $List<T>;
         getRecipesForInput(arg0: $ITypedIngredient<never>): $List<T>;
+        isHandledOutput(arg0: $ITypedIngredient<never>): boolean;
         getAllRecipes(): $List<T>;
         isHandledInput(arg0: $ITypedIngredient<never>): boolean;
-        isHandledOutput(arg0: $ITypedIngredient<never>): boolean;
+        getRecipesForOutput(arg0: $ITypedIngredient<never>): $List<T>;
         get allRecipes(): $List<T>;
     }
     export class $IRecipeButtonControllerFactory {

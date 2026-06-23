@@ -28,21 +28,21 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         floorSearchRange: number;
         placementRadiusAroundFloor: number;
         placementProbabilityPerValidPosition: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(floorSearchRange: number, placementRadiusAroundFloor: number, placementProbabilityPerValidPosition: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $OreConfiguration$TargetBlockState {
         static CODEC: $Codec<$OreConfiguration$TargetBlockState>;
         state: $BlockState;
         target: $RuleTest;
-        constructor(arg0: $RuleTest_, arg1: $BlockState_);
+        constructor(target: $RuleTest_, state: $BlockState_);
     }
     export class $RandomFeatureConfiguration implements $FeatureConfiguration {
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         features: $List<$WeightedPlacedFeature>;
         static CODEC: $Codec<$RandomFeatureConfiguration>;
         defaultFeature: $Holder<$PlacedFeature>;
-        constructor(arg0: $List_<$WeightedPlacedFeature>, arg1: $Holder_<$PlacedFeature>);
+        constructor(features: $List_<$WeightedPlacedFeature>, defaultFeature: $Holder_<$PlacedFeature>);
     }
     export class $VegetationPatchConfiguration implements $FeatureConfiguration {
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
@@ -57,7 +57,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         xzRadius: $IntProvider;
         groundState: $BlockStateProvider;
         verticalRange: number;
-        constructor(arg0: $TagKey_<$Block>, arg1: $BlockStateProvider, arg2: $Holder_<$PlacedFeature>, arg3: $CaveSurface_, arg4: $IntProvider_, arg5: number, arg6: number, arg7: number, arg8: $IntProvider_, arg9: number);
+        constructor(replaceable: $TagKey_<$Block>, groundState: $BlockStateProvider, vegetationFeature: $Holder_<$PlacedFeature>, surface: $CaveSurface_, depth: $IntProvider_, extraBottomBlockChance: number, verticalRange: number, vegetationChance: number, xzRadius: $IntProvider_, extraEdgeColumnChance: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $RootSystemConfiguration implements $FeatureConfiguration {
@@ -76,21 +76,21 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         rootRadius: number;
         rootColumnMaxHeight: number;
         treeFeature: $Holder<$PlacedFeature>;
-        constructor(arg0: $Holder_<$PlacedFeature>, arg1: number, arg2: number, arg3: $TagKey_<$Block>, arg4: $BlockStateProvider, arg5: number, arg6: number, arg7: number, arg8: number, arg9: $BlockStateProvider, arg10: number, arg11: number, arg12: $BlockPredicate);
+        constructor(treeFeature: $Holder_<$PlacedFeature>, requiredVerticalSpaceForTree: number, rootRadius: number, rootReplaceable: $TagKey_<$Block>, rootStateProvider: $BlockStateProvider, rootPlacementAttempts: number, rootColumnMaxHeight: number, hangingRootRadius: number, hangingRootsVerticalSpawn: number, hangingRootStateProvider: $BlockStateProvider, hangingRootPlacementAttempts: number, allowedVerticalWaterForTree: number, allowedTreePosition: $BlockPredicate);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $ReplaceBlockConfiguration implements $FeatureConfiguration {
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$ReplaceBlockConfiguration>;
         targetStates: $List<$OreConfiguration$TargetBlockState>;
-        constructor(arg0: $BlockState_, arg1: $BlockState_);
-        constructor(arg0: $List_<$OreConfiguration$TargetBlockState>);
+        constructor(targetState: $BlockState_, state: $BlockState_);
+        constructor(targetStates: $List_<$OreConfiguration$TargetBlockState>);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $TwistingVinesConfig extends $Record implements $FeatureConfiguration {
-        maxHeight(): number;
         spreadWidth(): number;
         spreadHeight(): number;
+        maxHeight(): number;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$TwistingVinesConfig>;
         constructor(arg0: number, arg1: number, arg2: number);
@@ -108,7 +108,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         stalagmiteBluntness: $FloatProvider;
         windSpeed: $FloatProvider;
         minBluntnessForWind: number;
-        constructor(arg0: number, arg1: $IntProvider_, arg2: $FloatProvider, arg3: number, arg4: $FloatProvider, arg5: $FloatProvider, arg6: $FloatProvider, arg7: number, arg8: number);
+        constructor(floorToCeilingSearchRange: number, columnRadius: $IntProvider_, heightScale: $FloatProvider, maxColumnRadiusToCaveHeightRatio: number, stalactiteBluntness: $FloatProvider, stalagmiteBluntness: $FloatProvider, windSpeed: $FloatProvider, minRadiusForWind: number, minBluntnessForWind: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $FeatureConfiguration {
@@ -123,16 +123,16 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         spreadHeight: number;
         spreadWidth: number;
         stateProvider: $BlockStateProvider;
-        constructor(arg0: $BlockStateProvider, arg1: number, arg2: number);
+        constructor(stateProvider: $BlockStateProvider, spreadWidth: number, spreadHeight: number);
     }
     export class $SculkPatchConfiguration extends $Record implements $FeatureConfiguration {
-        extraRareGrowths(): $IntProvider;
-        spreadRounds(): number;
-        chargeCount(): number;
-        amountPerCharge(): number;
         growthRounds(): number;
+        amountPerCharge(): number;
         spreadAttempts(): number;
         catalystChance(): number;
+        spreadRounds(): number;
+        extraRareGrowths(): $IntProvider;
+        chargeCount(): number;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$SculkPatchConfiguration>;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $IntProvider_, arg6: number);
@@ -142,8 +142,8 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         count(): $IntProvider;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$CountConfiguration>;
-        constructor(arg0: number);
-        constructor(arg0: $IntProvider_);
+        constructor(count: number);
+        constructor(count: $IntProvider_);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $HugeMushroomFeatureConfiguration implements $FeatureConfiguration {
@@ -152,7 +152,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         static CODEC: $Codec<$HugeMushroomFeatureConfiguration>;
         stemProvider: $BlockStateProvider;
         foliageRadius: number;
-        constructor(arg0: $BlockStateProvider, arg1: $BlockStateProvider, arg2: number);
+        constructor(capProvider: $BlockStateProvider, stemProvider: $BlockStateProvider, foliageRadius: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $TreeConfiguration implements $FeatureConfiguration {
@@ -168,7 +168,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         minimumSize: $FeatureSize;
         forceDirt: boolean;
         dirtProvider: $BlockStateProvider;
-        constructor(arg0: $BlockStateProvider, arg1: $TrunkPlacer, arg2: $BlockStateProvider, arg3: $FoliagePlacer, arg4: ($RootPlacer) | undefined, arg5: $BlockStateProvider, arg6: $FeatureSize, arg7: $List_<$TreeDecorator>, arg8: boolean, arg9: boolean);
+        constructor(trunkProvider: $BlockStateProvider, trunkPlacer: $TrunkPlacer, foliageProvider: $BlockStateProvider, foliagePlacer: $FoliagePlacer, rootPlacer: ($RootPlacer) | undefined, dirtProvider: $BlockStateProvider, minimumSize: $FeatureSize, decorators: $List_<$TreeDecorator>, ignoreVines: boolean, forceDirt: boolean);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $RandomPatchConfiguration extends $Record implements $FeatureConfiguration {
@@ -185,19 +185,19 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$BlockStateConfiguration>;
         state: $BlockState;
-        constructor(arg0: $BlockState_);
+        constructor(state: $BlockState_);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $TreeConfiguration$TreeConfigurationBuilder {
         build(): $TreeConfiguration;
-        dirt(arg0: $BlockStateProvider): $TreeConfiguration$TreeConfigurationBuilder;
-        ignoreVines(): $TreeConfiguration$TreeConfigurationBuilder;
+        dirt(dirtProvider: $BlockStateProvider): $TreeConfiguration$TreeConfigurationBuilder;
+        decorators(decorators: $List_<$TreeDecorator>): $TreeConfiguration$TreeConfigurationBuilder;
         forceDirt(): $TreeConfiguration$TreeConfigurationBuilder;
-        decorators(arg0: $List_<$TreeDecorator>): $TreeConfiguration$TreeConfigurationBuilder;
+        ignoreVines(): $TreeConfiguration$TreeConfigurationBuilder;
         trunkProvider: $BlockStateProvider;
         foliageProvider: $BlockStateProvider;
-        constructor(arg0: $BlockStateProvider, arg1: $TrunkPlacer, arg2: $BlockStateProvider, arg3: $FoliagePlacer, arg4: ($RootPlacer) | undefined, arg5: $FeatureSize);
-        constructor(arg0: $BlockStateProvider, arg1: $TrunkPlacer, arg2: $BlockStateProvider, arg3: $FoliagePlacer, arg4: $FeatureSize);
+        constructor(trunkProvider: $BlockStateProvider, trunkPlacer: $TrunkPlacer, foliageProvider: $BlockStateProvider, foliagePlacer: $FoliagePlacer, rootPlacer: ($RootPlacer) | undefined, minimumSize: $FeatureSize);
+        constructor(trunkProvider: $BlockStateProvider, trunkPlacer: $TrunkPlacer, foliageProvider: $BlockStateProvider, foliagePlacer: $FoliagePlacer, minimumSize: $FeatureSize);
     }
     export class $NoneFeatureConfiguration implements $FeatureConfiguration {
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
@@ -212,7 +212,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         static CODEC: $Codec<$ReplaceSphereConfiguration>;
         targetState: $BlockState;
         replaceState: $BlockState;
-        constructor(arg0: $BlockState_, arg1: $BlockState_, arg2: $IntProvider_);
+        constructor(targetState: $BlockState_, replaceState: $BlockState_, radius: $IntProvider_);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $SpringConfiguration implements $FeatureConfiguration {
@@ -223,14 +223,14 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         requiresBlockBelow: boolean;
         state: $FluidState;
         validBlocks: $HolderSet<$Block>;
-        constructor(arg0: $FluidState, arg1: boolean, arg2: number, arg3: number, arg4: $HolderSet_<$Block>);
+        constructor(state: $FluidState, requiresBlockBelow: boolean, rockCount: number, holeCount: number, validBlocks: $HolderSet_<$Block>);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $EndGatewayConfiguration implements $FeatureConfiguration {
-        static knownExit(arg0: $BlockPos_, arg1: boolean): $EndGatewayConfiguration;
         getExit(): ($BlockPos) | undefined;
-        isExitExact(): boolean;
         static delayedExitSearch(): $EndGatewayConfiguration;
+        isExitExact(): boolean;
+        static knownExit(exit: $BlockPos_, exact: boolean): $EndGatewayConfiguration;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$EndGatewayConfiguration>;
         get exit(): ($BlockPos) | undefined;
@@ -238,16 +238,16 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $OreConfiguration implements $FeatureConfiguration {
-        static target(arg0: $RuleTest_, arg1: $BlockState_): $OreConfiguration$TargetBlockState;
+        static target(target: $RuleTest_, state: $BlockState_): $OreConfiguration$TargetBlockState;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         discardChanceOnAirExposure: number;
         static CODEC: $Codec<$OreConfiguration>;
         size: number;
         targetStates: $List<$OreConfiguration$TargetBlockState>;
-        constructor(arg0: $RuleTest_, arg1: $BlockState_, arg2: number);
-        constructor(arg0: $RuleTest_, arg1: $BlockState_, arg2: number, arg3: number);
-        constructor(arg0: $List_<$OreConfiguration$TargetBlockState>, arg1: number);
-        constructor(arg0: $List_<$OreConfiguration$TargetBlockState>, arg1: number, arg2: number);
+        constructor(target: $RuleTest_, state: $BlockState_, size: number);
+        constructor(target: $RuleTest_, state: $BlockState_, size: number, discardChanceOnAirExposure: number);
+        constructor(targetStates: $List_<$OreConfiguration$TargetBlockState>, size: number);
+        constructor(targetStates: $List_<$OreConfiguration$TargetBlockState>, size: number, discardChanceOnAirExposure: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $LayerConfiguration implements $FeatureConfiguration {
@@ -255,7 +255,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         static CODEC: $Codec<$LayerConfiguration>;
         state: $BlockState;
         height: number;
-        constructor(arg0: number, arg1: $BlockState_);
+        constructor(height: number, state: $BlockState_);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $GeodeConfiguration implements $FeatureConfiguration {
@@ -275,7 +275,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         static CHANCE_RANGE: $Codec<number>;
         distributionPoints: $IntProvider;
         outerWallDistance: $IntProvider;
-        constructor(arg0: $GeodeBlockSettings, arg1: $GeodeLayerSettings, arg2: $GeodeCrackSettings, arg3: number, arg4: number, arg5: boolean, arg6: $IntProvider_, arg7: $IntProvider_, arg8: $IntProvider_, arg9: number, arg10: number, arg11: number, arg12: number);
+        constructor(geodeBlockSettings: $GeodeBlockSettings, geodeLayerSettings: $GeodeLayerSettings, geodeCrackSettings: $GeodeCrackSettings, usePotentialPlacementsChance: number, arg4: number, useAlternateLayer0Chance: boolean, arg6: $IntProvider_, placementsRequireLayer0Alternate: $IntProvider_, outerWallDistance: $IntProvider_, distributionPoints: number, pointOffset: number, minGenOffset: number, maxGenOffset: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $DeltaFeatureConfiguration implements $FeatureConfiguration {
@@ -285,14 +285,14 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         rim(): $BlockState;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$DeltaFeatureConfiguration>;
-        constructor(arg0: $BlockState_, arg1: $BlockState_, arg2: $IntProvider_, arg3: $IntProvider_);
+        constructor(contents: $BlockState_, rim: $BlockState_, size: $IntProvider_, rimSize: $IntProvider_);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $DiskConfiguration extends $Record implements $FeatureConfiguration {
         target(): $BlockPredicate;
-        halfHeight(): number;
-        stateProvider(): $RuleBasedBlockStateProvider;
         radius(): $IntProvider;
+        stateProvider(): $RuleBasedBlockStateProvider;
+        halfHeight(): number;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$DiskConfiguration>;
         constructor(arg0: $RuleBasedBlockStateProvider_, arg1: $BlockPredicate, arg2: $IntProvider_, arg3: number);
@@ -303,25 +303,25 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         static CODEC: $Codec<$RandomBooleanFeatureConfiguration>;
         featureTrue: $Holder<$PlacedFeature>;
         featureFalse: $Holder<$PlacedFeature>;
-        constructor(arg0: $Holder_<$PlacedFeature>, arg1: $Holder_<$PlacedFeature>);
+        constructor(featureTrue: $Holder_<$PlacedFeature>, featureFalse: $Holder_<$PlacedFeature>);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $SimpleRandomFeatureConfiguration implements $FeatureConfiguration {
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         features: $HolderSet<$PlacedFeature>;
         static CODEC: $Codec<$SimpleRandomFeatureConfiguration>;
-        constructor(arg0: $HolderSet_<$PlacedFeature>);
+        constructor(features: $HolderSet_<$PlacedFeature>);
     }
     export class $BlockPileConfiguration implements $FeatureConfiguration {
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$BlockPileConfiguration>;
         stateProvider: $BlockStateProvider;
-        constructor(arg0: $BlockStateProvider);
+        constructor(stateProvider: $BlockStateProvider);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $MultifaceGrowthConfiguration implements $FeatureConfiguration {
-        getShuffledDirections(arg0: $RandomSource): $List<$Direction>;
-        getShuffledDirectionsExcept(arg0: $RandomSource, arg1: $Direction_): $List<$Direction>;
+        getShuffledDirections(random: $RandomSource): $List<$Direction>;
+        getShuffledDirectionsExcept(random: $RandomSource, direction: $Direction_): $List<$Direction>;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         canPlaceOnWall: boolean;
         chanceOfSpreading: number;
@@ -331,21 +331,21 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         canPlaceOnFloor: boolean;
         canBePlacedOn: $HolderSet<$Block>;
         placeBlock: $MultifaceBlock;
-        constructor(arg0: $MultifaceBlock, arg1: number, arg2: boolean, arg3: boolean, arg4: boolean, arg5: number, arg6: $HolderSet_<$Block>);
+        constructor(placeBlock: $MultifaceBlock, searchRange: number, canPlaceOnFloor: boolean, canPlaceOnCeiling: boolean, canPlaceOnWall: boolean, chanceOfSpreading: number, canBePlacedOn: $HolderSet_<$Block>);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $ProbabilityFeatureConfiguration implements $FeatureConfiguration {
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$ProbabilityFeatureConfiguration>;
         probability: number;
-        constructor(arg0: number);
+        constructor(probability: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $SimpleBlockConfiguration extends $Record implements $FeatureConfiguration {
         toPlace(): $BlockStateProvider;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$SimpleBlockConfiguration>;
-        constructor(arg0: $BlockStateProvider);
+        constructor(toPlace: $BlockStateProvider);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $ColumnFeatureConfiguration implements $FeatureConfiguration {
@@ -353,14 +353,14 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         reach(): $IntProvider;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$ColumnFeatureConfiguration>;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_);
+        constructor(reach: $IntProvider_, height: $IntProvider_);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $BlockColumnConfiguration extends $Record implements $FeatureConfiguration {
-        static layer(arg0: $IntProvider_, arg1: $BlockStateProvider): $BlockColumnConfiguration$Layer;
+        static layer(height: $IntProvider_, state: $BlockStateProvider): $BlockColumnConfiguration$Layer;
         layers(): $List<$BlockColumnConfiguration$Layer>;
         direction(): $Direction;
-        static simple(arg0: $IntProvider_, arg1: $BlockStateProvider): $BlockColumnConfiguration;
+        static simple(height: $IntProvider_, state: $BlockStateProvider): $BlockColumnConfiguration;
         allowedPlacement(): $BlockPredicate;
         prioritizeTip(): boolean;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
@@ -382,7 +382,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         maxDistanceFromCenterAffectingHeightBias: number;
         maxDistanceFromEdgeAffectingChanceOfDripstoneColumn: number;
         height: $IntProvider;
-        constructor(arg0: number, arg1: $IntProvider_, arg2: $IntProvider_, arg3: number, arg4: number, arg5: $IntProvider_, arg6: $FloatProvider, arg7: $FloatProvider, arg8: number, arg9: number, arg10: number);
+        constructor(floorToCeilingSearchRange: number, height: $IntProvider_, radius: $IntProvider_, maxStalagmiteStalactiteHeightDiff: number, heightDeviation: number, dripstoneBlockLayerThickness: $IntProvider_, density: $FloatProvider, wetness: $FloatProvider, chanceOfDripstoneColumnAtMaxDistanceFromCenter: number, maxDistanceFromEdgeAffectingChanceOfDripstoneColumn: number, maxDistanceFromCenterAffectingHeightBias: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $BlockColumnConfiguration$Layer extends $Record {
@@ -392,15 +392,15 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         constructor(arg0: $IntProvider_, arg1: $BlockStateProvider);
     }
     export class $SpikeConfiguration implements $FeatureConfiguration {
-        isCrystalInvulnerable(): boolean;
-        getCrystalBeamTarget(): $BlockPos;
         getSpikes(): $List<$SpikeFeature$EndSpike>;
+        getCrystalBeamTarget(): $BlockPos;
+        isCrystalInvulnerable(): boolean;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$SpikeConfiguration>;
-        constructor(arg0: boolean, arg1: $List_<$SpikeFeature$EndSpike>, arg2: $BlockPos_);
-        get crystalInvulnerable(): boolean;
-        get crystalBeamTarget(): $BlockPos;
+        constructor(crystalInvulnerable: boolean, spikes: $List_<$SpikeFeature$EndSpike>, crystalBeamTarget: $BlockPos_ | null);
         get spikes(): $List<$SpikeFeature$EndSpike>;
+        get crystalBeamTarget(): $BlockPos;
+        get crystalInvulnerable(): boolean;
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
     export class $PointedDripstoneConfiguration implements $FeatureConfiguration {
@@ -410,7 +410,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/configuratio
         chanceOfSpreadRadius3: number;
         chanceOfSpreadRadius2: number;
         chanceOfDirectionalSpread: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number);
+        constructor(chanceOfTallerDripstone: number, chanceOfDirectionalSpread: number, chanceOfSpreadRadius2: number, chanceOfSpreadRadius3: number);
         get features(): $Stream<$ConfiguredFeature<never, never>>;
     }
 }

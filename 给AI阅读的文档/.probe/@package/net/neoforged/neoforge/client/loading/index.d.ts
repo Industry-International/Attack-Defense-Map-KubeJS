@@ -12,25 +12,33 @@ import { $CommonModLoader } from "@package/net/neoforged/neoforge/internal";
 
 declare module "@package/net/neoforged/neoforge/client/loading" {
     export class $ClientModLoader extends $CommonModLoader {
-        static begin(arg0: $Minecraft, arg1: $PackRepository, arg2: $ReloadableResourceManager): void;
+        static begin(minecraft: $Minecraft, defaultResourcePacks: $PackRepository, mcResourceManager: $ReloadableResourceManager): void;
         static isLoading(): boolean;
-        static completeModLoading(arg0: $Runnable_): $Runnable;
         static checkForUpdates(): $VersionChecker$Status;
+        static completeModLoading(initialScreensTask: $Runnable_): $Runnable;
         constructor();
         static get loading(): boolean;
     }
+    /**
+     * This is an implementation of the LoadingOverlay that calls back into the early window rendering, as part of the
+     * game loading cycle. We completely replace the `#render(GuiGraphics, int, int, float)` call from the parent
+     * with one of our own, that allows us to blend our early loading screen into the main window, in the same manner as
+     * the Mojang screen. It also allows us to see and tick appropriately as the later stages of the loading system run.
+     * 
+     * It is somewhat a copy of the superclass render method.
+     */
     export class $NeoForgeLoadingOverlay extends $LoadingOverlay {
-        static newInstance(arg0: $Supplier_<$Minecraft>, arg1: $Supplier_<$ReloadInstance>, arg2: $Consumer_<($Throwable) | undefined>, arg3: $DisplayWindow): $Supplier<$LoadingOverlay>;
+        static newInstance(mc: $Supplier_<$Minecraft>, ri: $Supplier_<$ReloadInstance>, handler: $Consumer_<($Throwable) | undefined>, window: $DisplayWindow): $Supplier<$LoadingOverlay>;
         static FADE_OUT_TIME: number;
         static MOJANG_STUDIOS_LOGO_LOCATION: $ResourceLocation;
         static FADE_IN_TIME: number;
-        constructor(arg0: $Minecraft, arg1: $ReloadInstance, arg2: $Consumer_<($Throwable) | undefined>, arg3: $DisplayWindow);
+        constructor(mc: $Minecraft, reloader: $ReloadInstance, errorConsumer: $Consumer_<($Throwable) | undefined>, displayWindow: $DisplayWindow);
     }
     export class $NoVizFallback {
-        static loadingOverlay(arg0: $Supplier_<$Minecraft>, arg1: $Supplier_<$ReloadInstance>, arg2: $Consumer_<($Throwable) | undefined>, arg3: boolean): $Supplier<$LoadingOverlay>;
+        static windowHandoff(width: $IntSupplier_, height: $IntSupplier_, title: $Supplier_<string>, monitor: $LongSupplier_): $LongSupplier;
+        static windowPositioning(monitor: ($Monitor) | undefined, widthSetter: $IntConsumer_, heightSetter: $IntConsumer_, xSetter: $IntConsumer_, ySetter: $IntConsumer_): boolean;
+        static loadingOverlay(mc: $Supplier_<$Minecraft>, ri: $Supplier_<$ReloadInstance>, ex: $Consumer_<($Throwable) | undefined>, fadein: boolean): $Supplier<$LoadingOverlay>;
         static glVersion(): string;
-        static windowHandoff(arg0: $IntSupplier_, arg1: $IntSupplier_, arg2: $Supplier_<string>, arg3: $LongSupplier_): $LongSupplier;
-        static windowPositioning(arg0: ($Monitor) | undefined, arg1: $IntConsumer_, arg2: $IntConsumer_, arg3: $IntConsumer_, arg4: $IntConsumer_): boolean;
         constructor();
     }
 }

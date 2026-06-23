@@ -6,13 +6,13 @@ import { $Enum, $Class } from "@package/java/lang";
 import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
 declare module "@package/cn/chloeprime/commons_impl/rpc/serialization" {
-    export interface $RpcParameterSerializer extends RegistryMarked<RegistryTypes.KuroutilsRpcParameterSerializersTag, RegistryTypes.KuroutilsRpcParameterSerializers> {}
+    export interface $RpcParameterSerializer<T> extends RegistryMarked<RegistryTypes.KuroutilsRpcParameterSerializersTag, RegistryTypes.KuroutilsRpcParameterSerializers> {}
     export class $RpcParameterSerializer<T> {
+        static ofArray<A>(arg0: $Class<A>, arg1: $IntFunction_<A>, arg2: $ToIntFunction_<A>, arg3: $BiConsumer_<$RegistryFriendlyByteBuf, A>, arg4: $BiConsumer_<$RegistryFriendlyByteBuf, A>): $RpcParameterSerializer<A>;
         static of<T>(arg0: $Class<T>, arg1: $Codec<T>): $RpcParameterSerializer<T>;
         static of<T>(arg0: $Class<T>, arg1: $StreamCodec<$RegistryFriendlyByteBuf, T>): $RpcParameterSerializer<T>;
         static of<T>(arg0: $Class<T>, arg1: $BiConsumer_<$RegistryFriendlyByteBuf, T>, arg2: $Function_<$RegistryFriendlyByteBuf, T>): $RpcParameterSerializer<T>;
         static arrayOf<T>(arg0: $Class<T>, arg1: $BiConsumer_<$RegistryFriendlyByteBuf, T>, arg2: $Function_<$RegistryFriendlyByteBuf, T>): $RpcParameterSerializer<T[]>;
-        static ofArray<A>(arg0: $Class<A>, arg1: $IntFunction_<A>, arg2: $ToIntFunction_<A>, arg3: $BiConsumer_<$RegistryFriendlyByteBuf, A>, arg4: $BiConsumer_<$RegistryFriendlyByteBuf, A>): $RpcParameterSerializer<A>;
         static forEnum<E extends $Enum<E>>(arg0: $Class<E>): $RpcParameterSerializer<E>;
     }
     export interface $RpcParameterSerializer<T> {

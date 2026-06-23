@@ -13,15 +13,15 @@ declare module "@package/com/lowdragmc/lowdraglib2/syncdata" {
     export class $IPersistedSerializable {
     }
     export interface $IPersistedSerializable extends $INBTSerializable<$CompoundTag> {
+        beforeDeserialize(): void;
+        writeToBuff(arg0: $ByteBuf): void;
+        readFromBuff(arg0: $ByteBuf): void;
+        afterDeserialize(): void;
+        afterSerialize(): void;
+        beforeSerialize(): void;
         serializeAdditionalNBT(arg0: $HolderLookup$Provider): $Tag;
         deserializeAdditionalNBT(arg0: $Tag_, arg1: $HolderLookup$Provider): void;
         deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        beforeSerialize(): void;
-        writeToBuff(arg0: $ByteBuf): void;
-        afterSerialize(): void;
-        readFromBuff(arg0: $ByteBuf): void;
-        afterDeserialize(): void;
-        beforeDeserialize(): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
     }
     export class $SyncValueHolder<T> {

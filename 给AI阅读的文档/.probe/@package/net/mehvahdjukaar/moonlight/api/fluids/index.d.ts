@@ -22,10 +22,10 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/fluids" {
     export class $FluidContainerList implements $Iterable<$FluidContainerList$Category> {
         iterator(): $Iterator<$FluidContainerList$Category>;
         getEmpty(arg0: $Item_): ($Item) | undefined;
+        getFilled(arg0: $Item_): ($Item) | undefined;
         getCategories(): $List<$FluidContainerList$Category>;
         getPossibleFilled(): $Collection<$Item>;
         getPossibleEmpty(): $Collection<$Item>;
-        getFilled(arg0: $Item_): ($Item) | undefined;
         getCategoryFromEmpty(arg0: $Item_): ($FluidContainerList$Category) | undefined;
         getCategoryFromFilled(arg0: $Item_): ($FluidContainerList$Category) | undefined;
         spliterator(): $Spliterator<$FluidContainerList$Category>;
@@ -41,31 +41,31 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/fluids" {
     export class $SoftFluid {
         isEnabled(): boolean;
         isEquivalent(arg0: $Holder_<$Fluid>): boolean;
-        getLuminosity(): number;
+        getTranslatedName(): $Component;
+        getTintColor(): number;
+        getFlowingTexture(): $ResourceLocation;
+        getStillTexture(): $ResourceLocation;
         getEmptyContainer(arg0: $Item_): ($Item) | undefined;
         getContainerList(): $FluidContainerList;
         isColored(): boolean;
         afterInit(): void;
-        getTintColor(): number;
-        getFlowingTexture(): $ResourceLocation;
-        getStillTexture(): $ResourceLocation;
-        getTranslatedName(): $Component;
+        getLuminosity(): number;
         isFood(): boolean;
-        getTextureOverride(): $ResourceLocation;
-        getVanillaFluid(): $Holder<$Fluid>;
-        getFoodProvider(): $FoodProvider;
+        getEquivalentFluids(): $HolderSet<$Fluid>;
+        getFilledContainer(arg0: $Item_): ($Item) | undefined;
         /**
          * @deprecated
          */
         isEmptyFluid(): boolean;
+        getTextureOverride(): $ResourceLocation;
+        getFoodProvider(): $FoodProvider;
         getEmissivity(): number;
-        static getRenderingData(arg0: $ResourceLocation_): $Triplet<$ResourceLocation, $ResourceLocation, number>;
         getTintMethod(): $SoftFluid$TintMethod;
-        getFilledContainer(arg0: $Item_): ($Item) | undefined;
-        getPreservedComponents(): $HolderSet<$DataComponentType<never>>;
+        static getRenderingData(arg0: $ResourceLocation_): $Triplet<$ResourceLocation, $ResourceLocation, number>;
+        getVanillaFluid(): $Holder<$Fluid>;
         static getFluidSpecificAttributes(arg0: $Fluid_): $Pair<number, $Component>;
         getAverageTextureTintColor(): number;
-        getEquivalentFluids(): $HolderSet<$Fluid>;
+        getPreservedComponents(): $HolderSet<$DataComponentType<never>>;
         static BOTTLE_COUNT: number;
         isGenerated: boolean;
         static CODEC: $Codec<$SoftFluid>;
@@ -77,47 +77,47 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/fluids" {
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$SoftFluid>>;
         constructor(arg0: $Holder_<$Fluid>);
         get enabled(): boolean;
-        get luminosity(): number;
-        get containerList(): $FluidContainerList;
-        get colored(): boolean;
+        get translatedName(): $Component;
         get tintColor(): number;
         get flowingTexture(): $ResourceLocation;
         get stillTexture(): $ResourceLocation;
-        get translatedName(): $Component;
+        get containerList(): $FluidContainerList;
+        get colored(): boolean;
+        get luminosity(): number;
         get food(): boolean;
-        get textureOverride(): $ResourceLocation;
-        get vanillaFluid(): $Holder<$Fluid>;
-        get foodProvider(): $FoodProvider;
+        get equivalentFluids(): $HolderSet<$Fluid>;
         get emptyFluid(): boolean;
+        get textureOverride(): $ResourceLocation;
+        get foodProvider(): $FoodProvider;
         get emissivity(): number;
         get tintMethod(): $SoftFluid$TintMethod;
-        get preservedComponents(): $HolderSet<$DataComponentType<never>>;
+        get vanillaFluid(): $Holder<$Fluid>;
         get averageTextureTintColor(): number;
-        get equivalentFluids(): $HolderSet<$Fluid>;
+        get preservedComponents(): $HolderSet<$DataComponentType<never>>;
     }
     /**
      * Values that may be interpreted as {@link $SoftFluid}.
      */
     export type $SoftFluid_ = RegistryTypes.MoonlightSoftFluid;
     export class $FluidContainerList$Category {
-        isEmpty(): boolean;
-        getFillSound(): $SoundEvent;
-        getFilledItems(): $List<$Item>;
-        getEmptyContainer(): $Item;
         getCapacity(): number;
+        isEmpty(): boolean;
         /**
          * @deprecated
          */
         getAmount(): number;
+        getFillSound(): $SoundEvent;
+        getEmptyContainer(): $Item;
+        getFilledItems(): $List<$Item>;
         getEmptySound(): $SoundEvent;
         getFirstFilled(): ($Item) | undefined;
         static CODEC: $Codec<$FluidContainerList$Category>;
-        get empty(): boolean;
-        get fillSound(): $SoundEvent;
-        get filledItems(): $List<$Item>;
-        get emptyContainer(): $Item;
         get capacity(): number;
+        get empty(): boolean;
         get amount(): number;
+        get fillSound(): $SoundEvent;
+        get emptyContainer(): $Item;
+        get filledItems(): $List<$Item>;
         get emptySound(): $SoundEvent;
         get firstFilled(): ($Item) | undefined;
     }
@@ -126,8 +126,8 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/fluids" {
         static values(): $SoftFluid$TintMethod[];
         static valueOf(arg0: string): $SoftFluid$TintMethod;
         getSerializedName(): string;
-        appliesToFlowing(): boolean;
         appliesToStill(): boolean;
+        appliesToFlowing(): boolean;
         getRemappedEnumConstantName(): string;
         static FLOWING: $SoftFluid$TintMethod;
         static CODEC: $Codec<$SoftFluid$TintMethod>;

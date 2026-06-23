@@ -50,11 +50,11 @@ declare module "@package/javax/print" {
     export interface $DocPrintJob {
         print(arg0: $Doc, arg1: $PrintRequestAttributeSet): void;
         getAttributes(): $PrintJobAttributeSet;
+        removePrintJobAttributeListener(arg0: $PrintJobAttributeListener_): void;
         getPrintService(): $PrintService;
         addPrintJobListener(arg0: $PrintJobListener): void;
         removePrintJobListener(arg0: $PrintJobListener): void;
         addPrintJobAttributeListener(arg0: $PrintJobAttributeListener_, arg1: $PrintJobAttributeSet): void;
-        removePrintJobAttributeListener(arg0: $PrintJobAttributeListener_): void;
         get attributes(): $PrintJobAttributeSet;
         get printService(): $PrintService;
     }

@@ -3,7 +3,7 @@ import { $ServerPlayer, $ServerLevel } from "@package/net/minecraft/server/level
 import { $FriendlyByteBuf } from "@package/net/minecraft/network";
 import { $WorldPropertyDataType, $WorldPropertyCategory, $WorldPropertyWidgetType, $WorldPropertyCategory_ } from "@package/com/moulberry/axiom/world_properties";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
-import { $List, $List_, $LinkedHashMap, $Map } from "@package/java/util";
+import { $List, $LinkedHashMap, $List_, $Map } from "@package/java/util";
 
 declare module "@package/com/moulberry/axiom/world_properties/server" {
     export class $ServerWorldProperty<T> {

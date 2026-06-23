@@ -7,14 +7,14 @@ declare module "@package/net/minecraft/world/level/levelgen/material" {
     export class $WorldGenMaterialRule {
     }
     export interface $WorldGenMaterialRule {
-        apply(arg0: $NoiseChunk, arg1: number, arg2: number, arg3: number): $BlockState;
+        apply(chunk: $NoiseChunk, x: number, y: number, z: number): $BlockState;
     }
     /**
      * Values that may be interpreted as {@link $WorldGenMaterialRule}.
      */
     export type $WorldGenMaterialRule_ = ((arg0: $NoiseChunk, arg1: number, arg2: number, arg3: number) => $BlockState_);
     export class $MaterialRuleList extends $Record implements $NoiseChunk$BlockStateFiller {
-        calculate(arg: $DensityFunction$FunctionContext): $BlockState;
+        calculate(arg0: $DensityFunction$FunctionContext): $BlockState;
         materialRuleList(): $List<$NoiseChunk$BlockStateFiller>;
         constructor(arg0: $List_<$NoiseChunk$BlockStateFiller_>);
     }

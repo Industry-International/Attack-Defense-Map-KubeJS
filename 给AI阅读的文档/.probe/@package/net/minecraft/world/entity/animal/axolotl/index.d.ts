@@ -3,7 +3,7 @@ import { $SmoothSwimmingMoveControl, $MoveControl, $MoveControl$Operation, $Look
 import { $SensorType, $Sensor } from "@package/net/minecraft/world/entity/ai/sensing";
 import { $Codec } from "@package/com/mojang/serialization";
 import { $CompoundTag_ } from "@package/net/minecraft/nbt";
-import { $EntityType_, $Pose, $VariantHolder, $PortalProcessor, $LerpingModel, $Entity, $AgeableMob$AgeableMobGroupData, $EntityDimensions, $Entity$RemovalReason, $LivingEntity, $WalkAnimationState, $Mob, $MobSpawnType_ } from "@package/net/minecraft/world/entity";
+import { $EntityType_, $Pose, $PortalProcessor, $VariantHolder, $LerpingModel, $Entity, $AgeableMob$AgeableMobGroupData, $EntityDimensions, $Entity$RemovalReason, $LivingEntity, $WalkAnimationState, $Mob, $MobSpawnType_ } from "@package/net/minecraft/world/entity";
 import { $FluidType } from "@package/net/neoforged/neoforge/fluids";
 import { $AttributeSupplier$Builder } from "@package/net/minecraft/world/entity/ai/attributes";
 import { $UUID, $Stack, $Map } from "@package/java/util";
@@ -59,13 +59,13 @@ declare module "@package/net/minecraft/world/entity/animal/axolotl" {
         lookAtCooldown: number;
     }
     export class $Axolotl$AxolotlGroupData extends $AgeableMob$AgeableMobGroupData {
-        getVariant(arg0: $RandomSource): $Axolotl$Variant;
+        getVariant(random: $RandomSource): $Axolotl$Variant;
         types: $Axolotl$Variant[];
-        constructor(...arg0: $Axolotl$Variant_[]);
+        constructor(...types: $Axolotl$Variant_[]);
     }
     export class $AxolotlAi {
-        static updateActivity(arg0: $Axolotl): void;
-        static makeBrain(arg0: $Brain<$Axolotl>): $Brain<never>;
+        static updateActivity(axolotl: $Axolotl): void;
+        static makeBrain(brain: $Brain<$Axolotl>): $Brain<never>;
         static getTemptations(): $Predicate<$ItemStack>;
         constructor();
         static get temptations(): $Predicate<$ItemStack>;
@@ -84,22 +84,33 @@ declare module "@package/net/minecraft/world/entity/animal/axolotl" {
         static MIN_SPEED: number;
     }
     export class $Axolotl extends $Animal implements $LerpingModel, $VariantHolder<$Axolotl$Variant>, $Bucketable {
-        setVariant(arg0: $Axolotl$Variant_): void;
+        setVariant(variant: $Axolotl$Variant_): void;
         getPickupSound(): $SoundEvent;
-        static onStopAttacking(arg0: $Axolotl, arg1: $LivingEntity): void;
-        isPlayingDead(): boolean;
-        setPlayingDead(arg0: boolean): void;
-        rehydrate(): void;
-        static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         fromBucket(): boolean;
-        handleAirSupply(arg0: number): void;
-        applySupportingEffects(arg0: $Player): void;
-        static checkAxolotlSpawnRules(arg0: $EntityType_<$LivingEntity>, arg1: $ServerLevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
+        /**
+         * Gets called every tick from main Entity class
+         */
+        rehydrate(): void;
+        setPlayingDead(fromBucket: boolean): void;
+        static onStopAttacking(axolotl: $Axolotl, target: $LivingEntity): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isPlayingDead(): boolean;
+        static createAttributes(): $AttributeSupplier$Builder;
+        applySupportingEffects(player: $Player): void;
         getModelRotationValues(): $Map<string, $Vector3f>;
-        saveToBucketTag(arg0: $ItemStack_): void;
-        setFromBucket(arg0: boolean): void;
-        loadFromBucketTag(arg0: $CompoundTag_): void;
+        static checkAxolotlSpawnRules(axolotl: $EntityType_<$LivingEntity>, level: $ServerLevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        saveToBucketTag(stack: $ItemStack_): void;
+        setFromBucket(fromBucket: boolean): void;
+        loadFromBucketTag(compound: $CompoundTag_): void;
         getBucketItemStack(): $ItemStack;
+        handleAirSupply(airSupply: number): void;
         getVariant(): $Axolotl$Variant;
         serializeNBT(arg0: $HolderLookup$Provider): $Axolotl$Variant;
         static MAX_WEARING_ARMOR_CHANCE: number;
@@ -279,7 +290,7 @@ declare module "@package/net/minecraft/world/entity/animal/axolotl" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Axolotl>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Axolotl>, level: $Level_);
         get pickupSound(): $SoundEvent;
         get modelRotationValues(): $Map<string, $Vector3f>;
         get bucketItemStack(): $ItemStack;
@@ -290,9 +301,9 @@ declare module "@package/net/minecraft/world/entity/animal/axolotl" {
         static valueOf(arg0: string): $Axolotl$Variant;
         getId(): number;
         getSerializedName(): string;
-        static getCommonSpawnVariant(arg0: $RandomSource): $Axolotl$Variant;
-        static getRareSpawnVariant(arg0: $RandomSource): $Axolotl$Variant;
-        static byId(arg0: number): $Axolotl$Variant;
+        static byId(id: number): $Axolotl$Variant;
+        static getRareSpawnVariant(random: $RandomSource): $Axolotl$Variant;
+        static getCommonSpawnVariant(random: $RandomSource): $Axolotl$Variant;
         getRemappedEnumConstantName(): string;
         static GOLD: $Axolotl$Variant;
         static WILD: $Axolotl$Variant;

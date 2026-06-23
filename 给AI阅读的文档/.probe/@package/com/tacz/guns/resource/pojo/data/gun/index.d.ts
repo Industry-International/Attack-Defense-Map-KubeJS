@@ -33,13 +33,13 @@ declare module "@package/com/tacz/guns/resource/pojo/data/gun" {
     export type $Bolt_ = "open_bolt" | "closed_bolt" | "manual_action";
     export class $MoveSpeed {
         static of(arg0: $MoveSpeed, arg1: $List_<$MoveSpeed>): $MoveSpeed;
-        getBaseMultiplier(): number;
         getAimMultiplier(): number;
+        getBaseMultiplier(): number;
         getReloadMultiplier(): number;
         constructor();
         constructor(arg0: number, arg1: number, arg2: number);
-        get baseMultiplier(): number;
         get aimMultiplier(): number;
+        get baseMultiplier(): number;
         get reloadMultiplier(): number;
     }
     export class $ChargeType extends $Enum<$ChargeType> {
@@ -54,55 +54,55 @@ declare module "@package/com/tacz/guns/resource/pojo/data/gun" {
      */
     export type $ChargeType_ = "auto" | "hold" | "delay";
     export class $BulletData {
-        getLifeSecond(): number;
-        getGravity(): number;
-        getSpeed(): number;
         getExplosionData(): $ExplosionData;
         getIgnite(): $Ignite;
-        getIgniteEntityTime(): number;
         getTracerCountInterval(): number;
+        getLifeSecond(): number;
+        getExtraDamage(): $ExtraDamage;
+        hasTracerAmmo(): boolean;
+        getIgniteEntityTime(): number;
+        getPierce(): number;
+        getKnockback(): number;
+        getSpeed(): number;
+        getGravity(): number;
         getBulletAmount(): number;
         getFriction(): number;
-        getKnockback(): number;
-        getPierce(): number;
-        hasTracerAmmo(): boolean;
-        getExtraDamage(): $ExtraDamage;
         getDamageAmount(): number;
         constructor();
-        get lifeSecond(): number;
-        get gravity(): number;
-        get speed(): number;
         get explosionData(): $ExplosionData;
         get ignite(): $Ignite;
-        get igniteEntityTime(): number;
         get tracerCountInterval(): number;
+        get lifeSecond(): number;
+        get extraDamage(): $ExtraDamage;
+        get igniteEntityTime(): number;
+        get pierce(): number;
+        get knockback(): number;
+        get speed(): number;
+        get gravity(): number;
         get bulletAmount(): number;
         get friction(): number;
-        get knockback(): number;
-        get pierce(): number;
-        get extraDamage(): $ExtraDamage;
         get damageAmount(): number;
     }
     export class $GunHeatData {
-        getHeatMax(): number;
+        getCoolingMultiplier(): number;
         getMaxInaccuracy(): number;
         getMinInaccuracy(): number;
         getHeatPerShot(): number;
-        getMinRpmMod(): number;
         getCoolingDelay(): number;
+        getMinRpmMod(): number;
         getMaxRpmMod(): number;
         getOverHeatTime(): number;
-        getCoolingMultiplier(): number;
+        getHeatMax(): number;
         constructor();
-        get heatMax(): number;
+        get coolingMultiplier(): number;
         get maxInaccuracy(): number;
         get minInaccuracy(): number;
         get heatPerShot(): number;
-        get minRpmMod(): number;
         get coolingDelay(): number;
+        get minRpmMod(): number;
         get maxRpmMod(): number;
         get overHeatTime(): number;
-        get coolingMultiplier(): number;
+        get heatMax(): number;
     }
     export class $FeedType extends $Enum<$FeedType> {
         static values(): $FeedType[];
@@ -119,34 +119,34 @@ declare module "@package/com/tacz/guns/resource/pojo/data/gun" {
     export class $ChargeData {
         getMaxCharge(): number;
         getFireThreshold(): number;
-        getDecreaseOnFire(): number;
-        getDecreasePerTick(): number;
+        isChargeDuringCooldown(): boolean;
         getChargeType(): $ChargeType;
         getIncreasePerTick(): number;
-        isChargeDuringCooldown(): boolean;
+        getDecreasePerTick(): number;
+        getDecreaseOnFire(): number;
         constructor();
         get maxCharge(): number;
         get fireThreshold(): number;
-        get decreaseOnFire(): number;
-        get decreasePerTick(): number;
+        get chargeDuringCooldown(): boolean;
         get chargeType(): $ChargeType;
         get increasePerTick(): number;
-        get chargeDuringCooldown(): boolean;
+        get decreasePerTick(): number;
+        get decreaseOnFire(): number;
     }
     export class $ExplosionData {
         getDelay(): number;
         isExplode(): boolean;
         isKnockback(): boolean;
         isDestroyBlock(): boolean;
-        getRadius(): number;
         getDamage(): number;
+        getRadius(): number;
         constructor(arg0: boolean, arg1: number, arg2: number, arg3: boolean, arg4: number, arg5: boolean);
         get delay(): number;
         get explode(): boolean;
         get knockback(): boolean;
         get destroyBlock(): boolean;
-        get radius(): number;
         get damage(): number;
+        get radius(): number;
     }
     export class $GunReloadTime {
         getTacticalTime(): number;
@@ -157,99 +157,99 @@ declare module "@package/com/tacz/guns/resource/pojo/data/gun" {
     }
     export class $GunData implements $EnhancedGunData {
         getScript(): $ResourceLocation;
-        getWeight(): number;
-        getBulletData(): $BulletData;
+        getCrawlRecoilMultiplier(): number;
+        gunsmith$getArcanaExtras(): $Optional<any>;
+        getExclusiveAttachments(): $Map<$ResourceLocation, $AttachmentData>;
+        getBuiltInAttachments(): $Map<$AttachmentType, $ResourceLocation>;
+        getAllowAttachments(): $List<$AttachmentType>;
+        getExtendedMagAmmoAmount(): number[];
+        getHurtBobTweakMultiplier(): number;
+        getBurstShootInterval(): number;
+        getFireModeAdjustData(arg0: $FireMode_): $GunFireModeAdjustData;
         hasHeatData(): boolean;
+        getBulletData(): $BulletData;
+        getWeight(): number;
+        gunsmith$getGunsmithLibExtension(): $Optional<any>;
         canSlide(): boolean;
-        getFireModeSet(): $List<$FireMode>;
-        getShootInterval(arg0: $LivingEntity, arg1: $FireMode_, arg2: $ItemStack_): number;
-        getFireSound(): $FireSound;
-        getMeleeData(): $GunMeleeData;
-        getScriptParam(): $Map<string, $Object>;
-        getMoveSpeed(): $MoveSpeed;
-        getBoltFeedTime(): number;
-        getChargeData(arg0: $FireMode_): $ChargeData;
-        getBurstData(): $BurstData;
-        getSprintTime(): number;
-        getBoltActionTime(): number;
-        getAmmoAmount(): number;
-        setInaccuracy(arg0: $Map_<$InaccuracyType_, number>): void;
-        getInaccuracy(arg0: $InaccuracyType_): number;
-        getInaccuracy(arg0: $InaccuracyType_, arg1: number): number;
-        getInaccuracy(): $Map<$InaccuracyType, number>;
-        getPutAwayTime(): number;
-        getDrawTime(): number;
-        getHeatData(): $GunHeatData;
+        isCanCrawl(): boolean;
+        getRecoil(): $GunRecoil;
+        getAimTime(): number;
+        getBolt(): $Bolt;
         /**
          * @deprecated
          */
         gunsmith$getOldFireControlSystemData(): $Optional<any>;
-        getReloadData(): $GunReloadData;
+        getAmmoId(): $ResourceLocation;
+        getMeleeData(): $GunMeleeData;
+        getHeatData(): $GunHeatData;
+        getShootInterval(arg0: $LivingEntity, arg1: $FireMode_, arg2: $ItemStack_): number;
+        getBoltActionTime(): number;
+        getChargeData(arg0: $FireMode_): $ChargeData;
+        getDrawTime(): number;
+        getFireSound(): $FireSound;
+        getAmmoAmount(): number;
+        getBurstData(): $BurstData;
+        getBoltFeedTime(): number;
+        getSprintTime(): number;
+        getInaccuracy(arg0: $InaccuracyType_): number;
+        getInaccuracy(arg0: $InaccuracyType_, arg1: number): number;
+        getInaccuracy(): $Map<$InaccuracyType, number>;
+        setInaccuracy(arg0: $Map_<$InaccuracyType_, number>): void;
+        getScriptParam(): $Map<string, $Object>;
+        getMoveSpeed(): $MoveSpeed;
+        getPutAwayTime(): number;
+        getFireModeSet(): $List<$FireMode>;
         getRoundsPerMinute(): number;
         getRoundsPerMinute(arg0: $FireMode_): number;
-        getAimTime(): number;
-        getRecoil(): $GunRecoil;
-        isCanCrawl(): boolean;
-        getBolt(): $Bolt;
-        getAmmoId(): $ResourceLocation;
-        gunsmith$getGunsmithLibExtension(): $Optional<any>;
-        gunsmith$getArcanaExtras(): $Optional<any>;
-        getAllowAttachments(): $List<$AttachmentType>;
-        getCrawlRecoilMultiplier(): number;
-        getBurstShootInterval(): number;
-        getExtendedMagAmmoAmount(): number[];
-        getExclusiveAttachments(): $Map<$ResourceLocation, $AttachmentData>;
-        getHurtBobTweakMultiplier(): number;
-        getFireModeAdjustData(arg0: $FireMode_): $GunFireModeAdjustData;
-        getBuiltInAttachments(): $Map<$AttachmentType, $ResourceLocation>;
+        getReloadData(): $GunReloadData;
         constructor();
         get script(): $ResourceLocation;
-        get weight(): number;
+        get crawlRecoilMultiplier(): number;
+        get exclusiveAttachments(): $Map<$ResourceLocation, $AttachmentData>;
+        get builtInAttachments(): $Map<$AttachmentType, $ResourceLocation>;
+        get allowAttachments(): $List<$AttachmentType>;
+        get extendedMagAmmoAmount(): number[];
+        get hurtBobTweakMultiplier(): number;
+        get burstShootInterval(): number;
         get bulletData(): $BulletData;
-        get fireModeSet(): $List<$FireMode>;
-        get fireSound(): $FireSound;
-        get meleeData(): $GunMeleeData;
-        get scriptParam(): $Map<string, $Object>;
-        get moveSpeed(): $MoveSpeed;
-        get boltFeedTime(): number;
-        get burstData(): $BurstData;
-        get sprintTime(): number;
-        get boltActionTime(): number;
-        get ammoAmount(): number;
-        get putAwayTime(): number;
-        get drawTime(): number;
-        get heatData(): $GunHeatData;
-        get reloadData(): $GunReloadData;
-        get aimTime(): number;
-        get recoil(): $GunRecoil;
+        get weight(): number;
         get canCrawl(): boolean;
+        get recoil(): $GunRecoil;
+        get aimTime(): number;
         get bolt(): $Bolt;
         get ammoId(): $ResourceLocation;
-        get allowAttachments(): $List<$AttachmentType>;
-        get crawlRecoilMultiplier(): number;
-        get burstShootInterval(): number;
-        get extendedMagAmmoAmount(): number[];
-        get exclusiveAttachments(): $Map<$ResourceLocation, $AttachmentData>;
-        get hurtBobTweakMultiplier(): number;
-        get builtInAttachments(): $Map<$AttachmentType, $ResourceLocation>;
+        get meleeData(): $GunMeleeData;
+        get heatData(): $GunHeatData;
+        get boltActionTime(): number;
+        get drawTime(): number;
+        get fireSound(): $FireSound;
+        get ammoAmount(): number;
+        get burstData(): $BurstData;
+        get boltFeedTime(): number;
+        get sprintTime(): number;
+        get scriptParam(): $Map<string, $Object>;
+        get moveSpeed(): $MoveSpeed;
+        get putAwayTime(): number;
+        get fireModeSet(): $List<$FireMode>;
+        get reloadData(): $GunReloadData;
     }
     export class $ExtraDamage {
-        getArmorIgnore(): number;
         getHeadShotMultiplier(): number;
+        getArmorIgnore(): number;
         getDamageAdjust(): $LinkedList<$ExtraDamage$DistanceDamagePair>;
         constructor();
-        get armorIgnore(): number;
         get headShotMultiplier(): number;
+        get armorIgnore(): number;
         get damageAdjust(): $LinkedList<$ExtraDamage$DistanceDamagePair>;
     }
     export class $GunRecoil implements $DynamicGunRecoil {
-        getPitch(): $GunRecoilKeyFrame[];
-        setPitch(arg0: $GunRecoilKeyFrame[]): void;
-        setYaw(arg0: $GunRecoilKeyFrame[]): void;
+        setPitch(arg0: $GunRecoilKeyFrame[] | null): void;
+        setYaw(arg0: $GunRecoilKeyFrame[] | null): void;
         getYaw(): $GunRecoilKeyFrame[];
-        tacztweaks$setDynamicModifierMapper(arg0: $Function_<any, any>): void;
+        getPitch(): $GunRecoilKeyFrame[];
         genPitchSplineFunction(arg0: number): $PolynomialSplineFunction;
         genYawSplineFunction(arg0: number): $PolynomialSplineFunction;
+        tacztweaks$setDynamicModifierMapper(arg0: $Function_<any, any>): void;
         constructor();
     }
     export class $GunReloadData {
@@ -264,23 +264,23 @@ declare module "@package/com/tacz/guns/resource/pojo/data/gun" {
         get feed(): $GunReloadTime;
     }
     export class $GunFireModeAdjustData {
-        getSpeed(): number;
+        getHeadShotMultiplier(): number;
         getArmorIgnore(): number;
-        getRoundsPerMinute(): number;
         getKnockback(): number;
+        getSpeed(): number;
+        getRoundsPerMinute(): number;
         getDamageAmount(): number;
         getOtherInaccuracy(): number;
         getAimInaccuracy(): number;
-        getHeadShotMultiplier(): number;
         constructor();
-        get speed(): number;
+        get headShotMultiplier(): number;
         get armorIgnore(): number;
-        get roundsPerMinute(): number;
         get knockback(): number;
+        get speed(): number;
+        get roundsPerMinute(): number;
         get damageAmount(): number;
         get otherInaccuracy(): number;
         get aimInaccuracy(): number;
-        get headShotMultiplier(): number;
     }
     export class $GunRecoilKeyFrame implements $Comparable<$GunRecoilKeyFrame> {
         compareTo(arg0: $GunRecoilKeyFrame): number;
@@ -299,22 +299,22 @@ declare module "@package/com/tacz/guns/resource/pojo/data/gun" {
     }
     export class $BurstData {
         getCount(): number;
-        getMinInterval(): number;
         getBpm(): number;
+        getMinInterval(): number;
         isContinuousShoot(): boolean;
         constructor();
         get count(): number;
-        get minInterval(): number;
         get bpm(): number;
+        get minInterval(): number;
         get continuousShoot(): boolean;
     }
     export class $InaccuracyType extends $Enum<$InaccuracyType> implements $InaccuracyTypeAccessor {
         static values(): $InaccuracyType[];
         static valueOf(arg0: string): $InaccuracyType;
+        static getInaccuracyType(arg0: $LivingEntity): $InaccuracyType;
         isAim(): boolean;
         static getDefaultInaccuracy(): $Map<$InaccuracyType, number>;
-        static getInaccuracyType(arg0: $LivingEntity): $InaccuracyType;
-        static invokeIsMove$tacztweaks_$md$9aa1a5$0(arg0: $LivingEntity): boolean;
+        static invokeIsMove$tacztweaks_$md$dd6cb9$0(arg0: $LivingEntity): boolean;
         static SNEAK: $InaccuracyType;
         static MOVE: $InaccuracyType;
         static AIM: $InaccuracyType;
@@ -337,26 +337,26 @@ declare module "@package/com/tacz/guns/resource/pojo/data/gun" {
         get defaultMeleeData(): $GunDefaultMeleeData;
     }
     export class $Ignite {
-        isIgniteBlock(): boolean;
         isIgniteEntity(): boolean;
+        isIgniteBlock(): boolean;
         constructor(arg0: boolean, arg1: boolean);
         constructor(arg0: boolean);
-        get igniteBlock(): boolean;
         get igniteEntity(): boolean;
+        get igniteBlock(): boolean;
     }
     export class $GunDefaultMeleeData {
         getDistance(): number;
-        getCooldown(): number;
-        getKnockback(): number;
         getDamage(): number;
+        getKnockback(): number;
+        getCooldown(): number;
         getRangeAngle(): number;
         getPrepTime(): number;
         getAnimationType(): string;
         constructor();
         get distance(): number;
-        get cooldown(): number;
-        get knockback(): number;
         get damage(): number;
+        get knockback(): number;
+        get cooldown(): number;
         get rangeAngle(): number;
         get prepTime(): number;
         get animationType(): string;

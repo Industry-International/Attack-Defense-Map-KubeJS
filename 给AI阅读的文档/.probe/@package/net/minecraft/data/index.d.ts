@@ -29,19 +29,19 @@ export * as metadata from "@package/net/minecraft/data/metadata";
 
 declare module "@package/net/minecraft/data" {
     export class $BlockFamily {
-        get(arg0: $BlockFamily$Variant_): $Block;
+        get(variant: $BlockFamily$Variant_): $Block;
         getVariants(): $Map<$BlockFamily$Variant, $Block>;
-        getBaseBlock(): $Block;
-        getRecipeUnlockedBy(): (string) | undefined;
         shouldGenerateRecipe(): boolean;
         getRecipeGroupPrefix(): (string) | undefined;
+        getRecipeUnlockedBy(): (string) | undefined;
+        getBaseBlock(): $Block;
         shouldGenerateModel(): boolean;
         generateModel: boolean;
         recipeUnlockedBy: string;
         recipeGroupPrefix: string;
         variants: $Map<$BlockFamily$Variant, $Block>;
         generateRecipe: boolean;
-        constructor(arg0: $Block_);
+        constructor(baseBlock: $Block_);
         get baseBlock(): $Block;
     }
     export class $HashCache$ProviderCacheBuilder extends $Record {
@@ -49,18 +49,18 @@ declare module "@package/net/minecraft/data" {
     export class $HashCache$UpdateFunction {
     }
     export interface $HashCache$UpdateFunction {
-        update(arg0: $CachedOutput_): $CompletableFuture<never>;
+        update(output: $CachedOutput_): $CompletableFuture<never>;
     }
     /**
      * Values that may be interpreted as {@link $HashCache$UpdateFunction}.
      */
     export type $HashCache$UpdateFunction_ = ((arg0: $CachedOutput) => $CompletableFuture<never>);
     export class $PackOutput$PathProvider {
-        file(arg0: $ResourceLocation_, arg1: string): $Path;
-        json(arg0: $ResourceLocation_): $Path;
+        file(location: $ResourceLocation_, extension: string): $Path;
+        json(location: $ResourceLocation_): $Path;
         kind: string;
         root: $Path;
-        constructor(arg0: $PackOutput, arg1: $PackOutput$Target_, arg2: string);
+        constructor(output: $PackOutput, target: $PackOutput$Target_, kind: string);
     }
     export class $PackOutput$Target extends $Enum<$PackOutput$Target> {
         static values(): $PackOutput$Target[];
@@ -77,7 +77,7 @@ declare module "@package/net/minecraft/data" {
     export class $DataProvider$Factory<T extends $DataProvider> {
     }
     export interface $DataProvider$Factory<T extends $DataProvider> {
-        create(arg0: $PackOutput): T;
+        create(output: $PackOutput): T;
     }
     /**
      * Values that may be interpreted as {@link $DataProvider$Factory}.
@@ -112,23 +112,26 @@ declare module "@package/net/minecraft/data" {
      */
     export type $BlockFamily$Variant_ = "button" | "chiseled" | "cracked" | "cut" | "door" | "custom_fence" | "fence" | "custom_fence_gate" | "fence_gate" | "mosaic" | "sign" | "slab" | "stairs" | "pressure_plate" | "polished" | "trapdoor" | "wall" | "wall_sign";
     export class $DataGenerator implements $DataGeneratorExtension {
+        /**
+         * Runs all the previously registered data providers.
+         */
         run(): void;
         merge(arg0: $DataGenerator): void;
-        addProvider<T extends $DataProvider>(arg0: boolean, arg1: $DataProvider$Factory_<T>): T;
         addProvider<T extends $DataProvider>(arg0: boolean, arg1: T): T;
-        getPackOutput(arg0: string): $PackOutput;
-        getPackOutput(): $PackOutput;
-        getVanillaPack(arg0: boolean): $DataGenerator$PackGenerator;
+        addProvider<T extends $DataProvider>(arg0: boolean, arg1: $DataProvider$Factory_<T>): T;
         createPack(arg0: string, arg1: $PackOutput): $DataGenerator$PackGenerator;
-        getBuiltinDatapack(arg0: boolean, arg1: string): $DataGenerator$PackGenerator;
         getBuiltinDatapack(arg0: boolean, arg1: string, arg2: string): $DataGenerator$PackGenerator;
+        getBuiltinDatapack(toRun: boolean, providerPrefix: string): $DataGenerator$PackGenerator;
         getPackGenerator(arg0: boolean, arg1: string, arg2: string): $DataGenerator$PackGenerator;
         getProvidersView(): $Map<string, $DataProvider>;
+        getPackOutput(): $PackOutput;
+        getPackOutput(arg0: string): $PackOutput;
+        getVanillaPack(toRun: boolean): $DataGenerator$PackGenerator;
         createBuiltinResourcePack(arg0: boolean, arg1: $ResourceLocation_, arg2: $ModContainer, arg3: boolean): $Pair<any, any>;
         vanillaPackOutput: $PackOutput;
         providersToRun: $Map<string, $DataProvider>;
         allProviderIds: $Set<string>;
-        constructor(arg0: $Path_, arg1: $WorldVersion, arg2: boolean);
+        constructor(rootOutputFolder: $Path_, version: $WorldVersion, alwaysGenerate: boolean);
         get providersView(): $Map<string, $DataProvider>;
     }
     export class $HashCache$ProviderCache extends $Record {
@@ -140,86 +143,92 @@ declare module "@package/net/minecraft/data" {
         constructor(providerId: string, cache: $HashCache$ProviderCache_, writes: number);
     }
     export class $DataGenerator$PackGenerator {
-        addProvider<T extends $DataProvider>(arg0: $DataProvider$Factory_<T>): T;
+        addProvider<T extends $DataProvider>(factory: $DataProvider$Factory_<T>): T;
         this$0: $DataGenerator;
-        constructor(arg0: $DataGenerator, arg1: boolean, arg2: string, arg3: $PackOutput);
+        constructor(toRun: $DataGenerator, providerPrefix: boolean, output: string, arg3: $PackOutput);
     }
     export class $Main {
-        static main(arg0: string[]): void;
-        static createStandardGenerator(arg0: $Path_, arg1: $Collection_<$Path_>, arg2: boolean, arg3: boolean, arg4: boolean, arg5: boolean, arg6: boolean, arg7: $WorldVersion, arg8: boolean): $DataGenerator;
+        static main(args: string[]): void;
+        static createStandardGenerator(outputFolder: $Path_, inputFolders: $Collection_<$Path_>, client: boolean, server: boolean, dev: boolean, reports: boolean, validate: boolean, version: $WorldVersion, alwaysGenerate: boolean): $DataGenerator;
         constructor();
     }
     export class $CachedOutput {
         static NO_CACHE: $CachedOutput;
     }
     export interface $CachedOutput {
-        writeIfNeeded(arg0: $Path_, arg1: number[], arg2: $HashCode): void;
+        writeIfNeeded(filePath: $Path_, data: number[], hashCode: $HashCode): void;
     }
     /**
      * Values that may be interpreted as {@link $CachedOutput}.
      */
     export type $CachedOutput_ = ((arg0: $Path, arg1: number[], arg2: $HashCode) => void);
     export class $HashCache {
-        applyUpdate(arg0: $HashCache$UpdateResult_): void;
+        /**
+         * Writes the cache file containing the hashes of newly created files to the disk, and deletes any stale files.
+         */
         purgeStaleAndWrite(): void;
-        generateUpdate(arg0: string, arg1: $HashCache$UpdateFunction_): $CompletableFuture<$HashCache$UpdateResult>;
-        shouldRunInThisVersion(arg0: string): boolean;
+        generateUpdate(provider: string, updateFunction: $HashCache$UpdateFunction_): $CompletableFuture<$HashCache$UpdateResult>;
+        applyUpdate(updateResult: $HashCache$UpdateResult_): void;
+        shouldRunInThisVersion(provider: string): boolean;
         cachePaths: $Set<$Path>;
         static LOGGER: $Logger;
-        constructor(arg0: $Path_, arg1: $Collection_<string>, arg2: $WorldVersion);
+        constructor(rootDir: $Path_, providers: $Collection_<string>, version: $WorldVersion);
     }
     export class $BlockFamily$Builder {
-        fence(arg0: $Block_): $BlockFamily$Builder;
-        sign(arg0: $Block_, arg1: $Block_): $BlockFamily$Builder;
+        fence(buttonBlock: $Block_): $BlockFamily$Builder;
+        sign(signBlock: $Block_, wallSignBlock: $Block_): $BlockFamily$Builder;
         getFamily(): $BlockFamily;
-        wall(arg0: $Block_): $BlockFamily$Builder;
-        button(arg0: $Block_): $BlockFamily$Builder;
-        door(arg0: $Block_): $BlockFamily$Builder;
-        trapdoor(arg0: $Block_): $BlockFamily$Builder;
-        slab(arg0: $Block_): $BlockFamily$Builder;
-        pressurePlate(arg0: $Block_): $BlockFamily$Builder;
-        polished(arg0: $Block_): $BlockFamily$Builder;
-        cut(arg0: $Block_): $BlockFamily$Builder;
-        chiseled(arg0: $Block_): $BlockFamily$Builder;
-        fenceGate(arg0: $Block_): $BlockFamily$Builder;
-        stairs(arg0: $Block_): $BlockFamily$Builder;
-        cracked(arg0: $Block_): $BlockFamily$Builder;
-        mosaic(arg0: $Block_): $BlockFamily$Builder;
-        recipeUnlockedBy(arg0: string): $BlockFamily$Builder;
-        customFenceGate(arg0: $Block_): $BlockFamily$Builder;
+        wall(buttonBlock: $Block_): $BlockFamily$Builder;
+        recipeUnlockedBy(recipeGroupPrefix: string): $BlockFamily$Builder;
+        recipeGroupPrefix(recipeGroupPrefix: string): $BlockFamily$Builder;
+        button(buttonBlock: $Block_): $BlockFamily$Builder;
+        pressurePlate(buttonBlock: $Block_): $BlockFamily$Builder;
+        door(buttonBlock: $Block_): $BlockFamily$Builder;
+        trapdoor(buttonBlock: $Block_): $BlockFamily$Builder;
+        slab(buttonBlock: $Block_): $BlockFamily$Builder;
+        cut(buttonBlock: $Block_): $BlockFamily$Builder;
+        chiseled(buttonBlock: $Block_): $BlockFamily$Builder;
+        stairs(buttonBlock: $Block_): $BlockFamily$Builder;
+        fenceGate(buttonBlock: $Block_): $BlockFamily$Builder;
+        polished(buttonBlock: $Block_): $BlockFamily$Builder;
+        cracked(buttonBlock: $Block_): $BlockFamily$Builder;
+        customFence(buttonBlock: $Block_): $BlockFamily$Builder;
+        customFenceGate(buttonBlock: $Block_): $BlockFamily$Builder;
+        mosaic(buttonBlock: $Block_): $BlockFamily$Builder;
         dontGenerateRecipe(): $BlockFamily$Builder;
-        customFence(arg0: $Block_): $BlockFamily$Builder;
         dontGenerateModel(): $BlockFamily$Builder;
-        recipeGroupPrefix(arg0: string): $BlockFamily$Builder;
-        constructor(arg0: $Block_);
+        constructor(baseBlock: $Block_);
         get family(): $BlockFamily;
     }
     export class $DataProvider {
-        static saveStable<T>(arg0: $CachedOutput_, arg1: $HolderLookup$Provider, arg2: $Codec<T>, arg3: T, arg4: $Path_): $CompletableFuture<never>;
-        static saveStable(arg0: $CachedOutput_, arg1: $JsonElement_, arg2: $Path_): $CompletableFuture<never>;
+        static saveStable(output: $CachedOutput_, json: $JsonElement_, path: $Path_): $CompletableFuture<never>;
+        static saveStable<T>(output: $CachedOutput_, registries: $HolderLookup$Provider, codec: $Codec<T>, value: T, path: $Path_): $CompletableFuture<never>;
         static FIXED_ORDER_FIELDS: $ToIntFunction<string>;
         static INDENT_WIDTH: $AtomicInteger;
         static KEY_COMPARATOR: $Comparator<string>;
         static LOGGER: $Logger;
     }
     export interface $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
+        run(output: $CachedOutput_): $CompletableFuture<never>;
         get name(): string;
     }
     export class $PackOutput {
-        createPathProvider(arg0: $PackOutput$Target_, arg1: string): $PackOutput$PathProvider;
-        getOutputFolder(arg0: $PackOutput$Target_): $Path;
+        createRegistryElementsPathProvider(registryKey: $ResourceKey_<$Registry<never>>): $PackOutput$PathProvider;
+        createRegistryTagsPathProvider(registryKey: $ResourceKey_<$Registry<never>>): $PackOutput$PathProvider;
+        getOutputFolder(target: $PackOutput$Target_): $Path;
         getOutputFolder(): $Path;
-        createRegistryElementsPathProvider(arg0: $ResourceKey_<$Registry<never>>): $PackOutput$PathProvider;
-        createRegistryTagsPathProvider(arg0: $ResourceKey_<$Registry<never>>): $PackOutput$PathProvider;
-        constructor(arg0: $Path_);
+        createPathProvider(target: $PackOutput$Target_, kind: string): $PackOutput$PathProvider;
+        constructor(outputFolder: $Path_);
     }
     export class $HashCache$CacheUpdater implements $CachedOutput {
     }
     export class $BlockFamilies {
         static getAllFamilies(): $Stream<$BlockFamily>;
-        static familyBuilder(arg0: $Block_): $BlockFamily$Builder;
+        static familyBuilder(baseBlock: $Block_): $BlockFamily$Builder;
         static MUD_BRICKS: $BlockFamily;
         static BAMBOO_PLANKS: $BlockFamily;
         static DARK_PRISMARINE: $BlockFamily;

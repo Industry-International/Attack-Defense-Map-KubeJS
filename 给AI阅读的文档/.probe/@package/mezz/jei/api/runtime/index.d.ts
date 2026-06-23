@@ -35,94 +35,94 @@ declare module "@package/mezz/jei/api/runtime" {
         /**
          * @deprecated
          */
-        getIngredient(): T;
+        getIngredientType(): $IIngredientType<T>;
         /**
          * @deprecated
          */
-        getIngredientType(): $IIngredientType<T>;
+        getIngredient(): T;
         getArea(): $Rect2i;
         getTypedIngredient(): $ITypedIngredient<T>;
-        get ingredient(): T;
         get ingredientType(): $IIngredientType<T>;
+        get ingredient(): T;
         get area(): $Rect2i;
         get typedIngredient(): $ITypedIngredient<T>;
     }
     export class $IIngredientManager$IIngredientListener {
     }
     export interface $IIngredientManager$IIngredientListener {
-        onIngredientsAdded<V>(arg0: $IIngredientHelper<V>, arg1: $Collection_<$ITypedIngredient<V>>): void;
         onIngredientsRemoved<V>(arg0: $IIngredientHelper<V>, arg1: $Collection_<$ITypedIngredient<V>>): void;
+        onIngredientsAdded<V>(arg0: $IIngredientHelper<V>, arg1: $Collection_<$ITypedIngredient<V>>): void;
     }
     export class $IEditModeConfig {
     }
     export interface $IEditModeConfig {
-        isIngredientHiddenUsingConfigFile<V>(arg0: $ITypedIngredient<V>): boolean;
         getIngredientHiddenUsingConfigFile<V>(arg0: $ITypedIngredient<V>): $Set<$IEditModeConfig$HideMode>;
-        hideIngredientUsingConfigFile<V>(arg0: $ITypedIngredient<V>, arg1: $IEditModeConfig$HideMode_): void;
         showIngredientUsingConfigFile<V>(arg0: $ITypedIngredient<V>, arg1: $IEditModeConfig$HideMode_): void;
+        hideIngredientUsingConfigFile<V>(arg0: $ITypedIngredient<V>, arg1: $IEditModeConfig$HideMode_): void;
+        isIngredientHiddenUsingConfigFile<V>(arg0: $ITypedIngredient<V>): boolean;
     }
     export class $IScreenHelper {
     }
     export interface $IScreenHelper {
         getClickableIngredientUnderMouse(arg0: $Screen, arg1: number, arg2: number): $Stream<$IClickableIngredient<never>>;
         getGuiProperties<T extends $Screen>(arg0: T): ($IGuiProperties) | undefined;
+        getGuiClickableArea(arg0: $AbstractContainerScreen<never>, arg1: number, arg2: number): $Stream<$IGuiClickableArea>;
         /**
          * @deprecated
          */
         getGhostIngredientHandler<T extends $Screen>(arg0: T): ($IGhostIngredientHandler<T>) | undefined;
-        getGuiClickableArea(arg0: $AbstractContainerScreen<never>, arg1: number, arg2: number): $Stream<$IGuiClickableArea>;
         getGhostIngredientHandlers<T extends $Screen>(arg0: T): $List<$IGhostIngredientHandler<T>>;
         getGuiExclusionAreas(arg0: $Screen): $Stream<$Rect2i>;
     }
     export class $IJeiKeyMapping {
     }
     export interface $IJeiKeyMapping {
-        getTranslatedKeyMessage(): $Component;
-        isActiveAndMatches(arg0: $InputConstants$Key): boolean;
         isUnbound(): boolean;
-        get translatedKeyMessage(): $Component;
+        isActiveAndMatches(arg0: $InputConstants$Key): boolean;
+        getTranslatedKeyMessage(): $Component;
         get unbound(): boolean;
+        get translatedKeyMessage(): $Component;
     }
     export class $IJeiKeyMappings {
     }
     export interface $IJeiKeyMappings {
-        getShowRecipe(): $IJeiKeyMapping;
         getShowUses(): $IJeiKeyMapping;
-        get showRecipe(): $IJeiKeyMapping;
+        getShowRecipe(): $IJeiKeyMapping;
         get showUses(): $IJeiKeyMapping;
+        get showRecipe(): $IJeiKeyMapping;
     }
     export class $IJeiRuntime {
     }
     export interface $IJeiRuntime {
-        getKeyMappings(): $IJeiKeyMappings;
-        getJeiHelpers(): $IJeiHelpers;
-        getRecipeManager(): $IRecipeManager;
-        getIngredientListOverlay(): $IIngredientListOverlay;
-        getIngredientFilter(): $IIngredientFilter;
         getIngredientManager(): $IIngredientManager;
-        getRecipesGui(): $IRecipesGui;
-        getBookmarkOverlay(): $IBookmarkOverlay;
-        getConfigManager(): $IJeiConfigManager;
-        getEditModeConfig(): $IEditModeConfig;
-        getScreenHelper(): $IScreenHelper;
-        getRecipeTransferManager(): $IRecipeTransferManager;
         /**
          * @deprecated
          */
         getIngredientVisibility(): $IIngredientVisibility;
-        get keyMappings(): $IJeiKeyMappings;
-        get jeiHelpers(): $IJeiHelpers;
-        get recipeManager(): $IRecipeManager;
-        get ingredientListOverlay(): $IIngredientListOverlay;
-        get ingredientFilter(): $IIngredientFilter;
+        getRecipeTransferManager(): $IRecipeTransferManager;
+        getIngredientFilter(): $IIngredientFilter;
+        getIngredientListOverlay(): $IIngredientListOverlay;
+        getJeiHelpers(): $IJeiHelpers;
+        getScreenHelper(): $IScreenHelper;
+        getBookmarkOverlay(): $IBookmarkOverlay;
+        getConfigManager(): $IJeiConfigManager;
+        getEditModeConfig(): $IEditModeConfig;
+        getRecipesGui(): $IRecipesGui;
+        getRecipeManager(): $IRecipeManager;
+        getKeyMappings(): $IJeiKeyMappings;
         get ingredientManager(): $IIngredientManager;
-        get recipesGui(): $IRecipesGui;
+        get ingredientVisibility(): $IIngredientVisibility;
+        get recipeTransferManager(): $IRecipeTransferManager;
+        get ingredientFilter(): $IIngredientFilter;
+        get ingredientListOverlay(): $IIngredientListOverlay;
+        get jeiHelpers(): $IJeiHelpers;
+        get screenHelper(): $IScreenHelper;
         get bookmarkOverlay(): $IBookmarkOverlay;
         get configManager(): $IJeiConfigManager;
         get editModeConfig(): $IEditModeConfig;
-        get screenHelper(): $IScreenHelper;
-        get recipeTransferManager(): $IRecipeTransferManager;
-        get ingredientVisibility(): $IIngredientVisibility;
+        get recipesGui(): $IRecipesGui;
+        get recipeManager(): $IRecipeManager;
+        get keyMappings(): $IJeiKeyMappings;
     }
     export class $IBookmarkOverlay {
     }
@@ -135,9 +135,9 @@ declare module "@package/mezz/jei/api/runtime" {
     export class $IIngredientListOverlay {
     }
     export interface $IIngredientListOverlay {
-        isListDisplayed(): boolean;
         getIngredientUnderMouse(): ($ITypedIngredient<never>) | undefined;
         getIngredientUnderMouse<T>(arg0: $IIngredientType_<T>): T;
+        isListDisplayed(): boolean;
         hasKeyboardFocus(): boolean;
         getVisibleIngredients<T>(arg0: $IIngredientType_<T>): $List<T>;
         get listDisplayed(): boolean;
@@ -155,11 +155,11 @@ declare module "@package/mezz/jei/api/runtime" {
     }
     export interface $IRecipesGui {
         showTypes(arg0: $List_<$RecipeType<never>>): void;
-        show<V>(arg0: $IFocus<V>): void;
-        show(arg0: $List_<$IFocus<never>>): void;
-        showRecipes<T>(arg0: $IRecipeCategory<T>, arg1: $List_<T>, arg2: $List_<$IFocus<never>>): void;
         getIngredientUnderMouse<T>(arg0: $IIngredientType_<T>): (T) | undefined;
+        showRecipes<T>(arg0: $IRecipeCategory<T>, arg1: $List_<T>, arg2: $List_<$IFocus<never>>): void;
         getParentScreen(): ($Screen) | undefined;
+        show(arg0: $List_<$IFocus<never>>): void;
+        show<V>(arg0: $IFocus<V>): void;
         get parentScreen(): ($Screen) | undefined;
     }
     export class $IIngredientVisibility$IListener {
@@ -174,17 +174,44 @@ declare module "@package/mezz/jei/api/runtime" {
     export class $IIngredientManager {
     }
     export interface $IIngredientManager {
-        getIngredientTypeWithSubtypesFromBase<B, I>(arg0: B): ($IIngredientTypeWithSubtypes<B, I>) | undefined;
+        /**
+         * @deprecated
+         */
+        createTypedIngredient<V>(arg0: $IIngredientType_<V>, arg1: V): ($ITypedIngredient<V>) | undefined;
+        createTypedIngredient<V>(arg0: $IIngredientType_<V>, arg1: V, arg2: boolean): ($ITypedIngredient<V>) | undefined;
+        createTypedIngredient<T>(arg0: T, arg1: boolean): ($ITypedIngredient<T>) | undefined;
+        /**
+         * @deprecated
+         */
+        createTypedIngredient<V>(arg0: V): ($ITypedIngredient<V>) | undefined;
+        getIngredientHelper<V>(arg0: V): $IIngredientHelper<V>;
+        getIngredientHelper<V>(arg0: $IIngredientType_<V>): $IIngredientHelper<V>;
         getIngredientType<V>(arg0: V): $IIngredientType<V>;
+        getClickableIngredientFactory(): $IClickableIngredientFactory;
+        getRegisteredIngredientTypes(): $Collection<$IIngredientType<never>>;
+        getIngredientCodec<V>(arg0: $IIngredientType_<V>): $Codec<V>;
+        getIngredientTypeWithSubtypesFromBase<B, I>(arg0: B): ($IIngredientTypeWithSubtypes<B, I>) | undefined;
+        getAllIngredients<V>(arg0: $IIngredientType_<V>): $Collection<V>;
+        addIngredientsAtRuntime<V>(arg0: $IIngredientType_<V>, arg1: $Collection_<V>): void;
+        getIngredientTypeChecked<V>(arg0: $Class<V>): ($IIngredientType<V>) | undefined;
+        getIngredientTypeChecked<V>(arg0: V): ($IIngredientType<V>) | undefined;
+        removeIngredientsAtRuntime<V>(arg0: $IIngredientType_<V>, arg1: $Collection_<V>): void;
+        /**
+         * @deprecated
+         */
+        getIngredientByUid<V>(arg0: $IIngredientType_<V>, arg1: string): (V) | undefined;
+        getAllItemStacks(): $Collection<$ItemStack>;
         registerIngredientListener(arg0: $IIngredientManager$IIngredientListener): void;
+        getIngredientAliases(arg0: $ITypedIngredient<never>): $Collection<string>;
+        getIngredientTypeForUid(arg0: string): ($IIngredientType<never>) | undefined;
         getIngredientRenderer<V>(arg0: $IIngredientType_<V>): $IIngredientRenderer<V>;
         getIngredientRenderer<V>(arg0: V): $IIngredientRenderer<V>;
         /**
          * @deprecated
          */
         getTypedIngredientByUid<V>(arg0: $IIngredientType_<V>, arg1: string): ($ITypedIngredient<V>) | undefined;
-        normalizeTypedIngredient<V>(arg0: $ITypedIngredient<V>): $ITypedIngredient<V>;
         getAllTypedIngredients<V>(arg0: $IIngredientType_<V>): $Collection<$ITypedIngredient<V>>;
+        normalizeTypedIngredient<V>(arg0: $ITypedIngredient<V>): $ITypedIngredient<V>;
         /**
          * @deprecated
          */
@@ -193,36 +220,9 @@ declare module "@package/mezz/jei/api/runtime" {
          * @deprecated
          */
         createClickableIngredient<V>(arg0: V, arg1: $Rect2i, arg2: boolean): ($IClickableIngredient<V>) | undefined;
-        getIngredientTypeForUid(arg0: string): ($IIngredientType<never>) | undefined;
-        getIngredientAliases(arg0: $ITypedIngredient<never>): $Collection<string>;
-        getIngredientCodec<V>(arg0: $IIngredientType_<V>): $Codec<V>;
-        createTypedIngredient<V>(arg0: $IIngredientType_<V>, arg1: V, arg2: boolean): ($ITypedIngredient<V>) | undefined;
-        /**
-         * @deprecated
-         */
-        createTypedIngredient<V>(arg0: $IIngredientType_<V>, arg1: V): ($ITypedIngredient<V>) | undefined;
-        /**
-         * @deprecated
-         */
-        createTypedIngredient<V>(arg0: V): ($ITypedIngredient<V>) | undefined;
-        createTypedIngredient<T>(arg0: T, arg1: boolean): ($ITypedIngredient<T>) | undefined;
-        getIngredientHelper<V>(arg0: V): $IIngredientHelper<V>;
-        getIngredientHelper<V>(arg0: $IIngredientType_<V>): $IIngredientHelper<V>;
-        getAllIngredients<V>(arg0: $IIngredientType_<V>): $Collection<V>;
-        getIngredientTypeChecked<V>(arg0: $Class<V>): ($IIngredientType<V>) | undefined;
-        getIngredientTypeChecked<V>(arg0: V): ($IIngredientType<V>) | undefined;
-        addIngredientsAtRuntime<V>(arg0: $IIngredientType_<V>, arg1: $Collection_<V>): void;
-        removeIngredientsAtRuntime<V>(arg0: $IIngredientType_<V>, arg1: $Collection_<V>): void;
-        getAllItemStacks(): $Collection<$ItemStack>;
-        /**
-         * @deprecated
-         */
-        getIngredientByUid<V>(arg0: $IIngredientType_<V>, arg1: string): (V) | undefined;
-        getClickableIngredientFactory(): $IClickableIngredientFactory;
-        getRegisteredIngredientTypes(): $Collection<$IIngredientType<never>>;
-        get allItemStacks(): $Collection<$ItemStack>;
         get clickableIngredientFactory(): $IClickableIngredientFactory;
         get registeredIngredientTypes(): $Collection<$IIngredientType<never>>;
+        get allItemStacks(): $Collection<$ItemStack>;
     }
     export class $IIngredientVisibility {
     }
@@ -236,8 +236,8 @@ declare module "@package/mezz/jei/api/runtime" {
     export interface $IIngredientFilter {
         getFilterText(): string;
         setFilterText(arg0: string): void;
-        getFilteredItemStacks(): $List<$ItemStack>;
         getFilteredIngredients<T>(arg0: $IIngredientType_<T>): $List<T>;
+        getFilteredItemStacks(): $List<$ItemStack>;
         get filteredItemStacks(): $List<$ItemStack>;
     }
 }

@@ -10,11 +10,14 @@ import { $LootContextParam } from "@package/net/minecraft/world/level/storage/lo
 import { $LootContextUser, $ValidationContext, $LootContext, $LootContext$EntityTarget_ } from "@package/net/minecraft/world/level/storage/loot";
 
 declare module "@package/net/minecraft/world/level/storage/loot/providers/number" {
+    /**
+     * Provides a float or int based on a `LootContext`.
+     */
     export class $NumberProvider {
     }
     export interface $NumberProvider extends $LootContextUser {
-        getInt(arg0: $LootContext): number;
-        getFloat(arg0: $LootContext): number;
+        getInt(lootContext: $LootContext): number;
+        getFloat(lootContext: $LootContext): number;
         getType(): $LootNumberProviderType;
         get type(): $LootNumberProviderType;
     }
@@ -22,47 +25,78 @@ declare module "@package/net/minecraft/world/level/storage/loot/providers/number
      * Values that may be interpreted as {@link $NumberProvider}.
      */
     export type $NumberProvider_ = number | [min: number, max: number, ] | { min: number, max: number,  } | { n: number, p: number,  } | { value: number,  };
+    /**
+     * Generates a random number which is uniformly distributed between a minimum and a maximum.
+     * Minimum and maximum are themselves NumberProviders.
+     */
     export class $UniformGenerator extends $Record implements $NumberProvider {
         min(): $NumberProvider;
         max(): $NumberProvider;
-        getInt(arg0: $LootContext): number;
-        getFloat(arg0: $LootContext): number;
+        getInt(lootContext: $LootContext): number;
+        getFloat(lootContext: $LootContext): number;
         getType(): $LootNumberProviderType;
-        static between(arg0: number, arg1: number): $UniformGenerator;
+        static between(min: number, max: number): $UniformGenerator;
+        /**
+         * Get the parameters used by this object.
+         */
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        validate(arg0: $ValidationContext): void;
+        /**
+         * Validate that this object is used correctly according to the given ValidationContext.
+         */
+        validate(context: $ValidationContext): void;
         static CODEC: $MapCodec<$UniformGenerator>;
-        constructor(arg0: $NumberProvider_, arg1: $NumberProvider_);
+        constructor(min: $NumberProvider_, max: $NumberProvider_);
         get type(): $LootNumberProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }
+    /**
+     * A `NumberProvider` that provides a constant value.
+     */
     export class $ConstantValue extends $Record implements $NumberProvider {
         value(): number;
-        getFloat(arg0: $LootContext): number;
+        getFloat(lootContext: $LootContext): number;
         getType(): $LootNumberProviderType;
-        static exactly(arg0: number): $ConstantValue;
-        getInt(arg0: $LootContext): number;
-        validate(arg0: $ValidationContext): void;
+        static exactly(value: number): $ConstantValue;
+        getInt(lootContext: $LootContext): number;
+        /**
+         * Validate that this object is used correctly according to the given ValidationContext.
+         */
+        validate(context: $ValidationContext): void;
+        /**
+         * Get the parameters used by this object.
+         */
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static INLINE_CODEC: $Codec<$ConstantValue>;
         static CODEC: $MapCodec<$ConstantValue>;
-        constructor(arg0: number);
+        constructor(value: number);
         get type(): $LootNumberProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }
     export class $StorageValue extends $Record implements $NumberProvider {
-        getInt(arg0: $LootContext): number;
-        getFloat(arg0: $LootContext): number;
+        getInt(lootContext: $LootContext): number;
+        getFloat(lootContext: $LootContext): number;
         getType(): $LootNumberProviderType;
         path(): $NbtPathArgument$NbtPath;
         storage(): $ResourceLocation;
-        validate(arg0: $ValidationContext): void;
+        /**
+         * Validate that this object is used correctly according to the given ValidationContext.
+         */
+        validate(context: $ValidationContext): void;
+        /**
+         * Get the parameters used by this object.
+         */
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static CODEC: $MapCodec<$StorageValue>;
         constructor(arg0: $ResourceLocation_, arg1: $NbtPathArgument$NbtPath);
         get type(): $LootNumberProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }
+    /**
+     * Registration for `LootNumberProviderType`.
+     * 
+     * @see LootNumberProviderType
+     * @see NumberProvider
+     */
     export class $NumberProviders {
         static STORAGE: $LootNumberProviderType;
         static CODEC: $Codec<$NumberProvider>;
@@ -74,35 +108,54 @@ declare module "@package/net/minecraft/world/level/storage/loot/providers/number
         constructor();
     }
     export interface $LootNumberProviderType extends RegistryMarked<RegistryTypes.LootNumberProviderTypeTag, RegistryTypes.LootNumberProviderType> {}
+    /**
+     * Provides a number by reading the score of a scoreboard member whose name is provided by a `ScoreboardNameProvider`.
+     * Additionally a scale can be provided, which will be multiplied with the score.
+     */
     export class $ScoreboardValue extends $Record implements $NumberProvider {
         target(): $ScoreboardNameProvider;
-        getFloat(arg0: $LootContext): number;
+        getFloat(lootContext: $LootContext): number;
         scale(): number;
         getType(): $LootNumberProviderType;
         score(): string;
-        static fromScoreboard(arg0: $LootContext$EntityTarget_, arg1: string): $ScoreboardValue;
-        static fromScoreboard(arg0: $LootContext$EntityTarget_, arg1: string, arg2: number): $ScoreboardValue;
+        static fromScoreboard(entityTarget: $LootContext$EntityTarget_, score: string): $ScoreboardValue;
+        static fromScoreboard(entityTarget: $LootContext$EntityTarget_, score: string, scale: number): $ScoreboardValue;
+        /**
+         * Get the parameters used by this object.
+         */
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        getInt(arg0: $LootContext): number;
-        validate(arg0: $ValidationContext): void;
+        getInt(lootContext: $LootContext): number;
+        /**
+         * Validate that this object is used correctly according to the given ValidationContext.
+         */
+        validate(context: $ValidationContext): void;
         static CODEC: $MapCodec<$ScoreboardValue>;
-        constructor(arg0: $ScoreboardNameProvider, arg1: string, arg2: number);
+        constructor(target: $ScoreboardNameProvider, score: string, scale: number);
         get type(): $LootNumberProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }
     export class $EnchantmentLevelProvider extends $Record implements $NumberProvider {
-        getFloat(arg0: $LootContext): number;
+        static forEnchantmentLevel(amount: $LevelBasedValue): $EnchantmentLevelProvider;
+        getFloat(lootContext: $LootContext): number;
         getType(): $LootNumberProviderType;
         amount(): $LevelBasedValue;
-        static forEnchantmentLevel(arg0: $LevelBasedValue): $EnchantmentLevelProvider;
-        getInt(arg0: $LootContext): number;
-        validate(arg0: $ValidationContext): void;
+        getInt(lootContext: $LootContext): number;
+        /**
+         * Validate that this object is used correctly according to the given ValidationContext.
+         */
+        validate(context: $ValidationContext): void;
+        /**
+         * Get the parameters used by this object.
+         */
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static CODEC: $MapCodec<$EnchantmentLevelProvider>;
         constructor(arg0: $LevelBasedValue);
         get type(): $LootNumberProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }
+    /**
+     * The SerializerType for `NumberProvider`.
+     */
     export class $LootNumberProviderType extends $Record {
         codec(): $MapCodec<$NumberProvider>;
         constructor(arg0: $MapCodec_<$NumberProvider_>);
@@ -111,17 +164,26 @@ declare module "@package/net/minecraft/world/level/storage/loot/providers/number
      * Values that may be interpreted as {@link $LootNumberProviderType}.
      */
     export type $LootNumberProviderType_ = RegistryTypes.LootNumberProviderType;
+    /**
+     * A number provider which generates a random number based on a binomial distribution.
+     */
     export class $BinomialDistributionGenerator extends $Record implements $NumberProvider {
-        getInt(arg0: $LootContext): number;
-        getFloat(arg0: $LootContext): number;
+        getInt(lootContext: $LootContext): number;
+        getFloat(lootContext: $LootContext): number;
         n(): $NumberProvider;
         p(): $NumberProvider;
         getType(): $LootNumberProviderType;
-        static binomial(arg0: number, arg1: number): $BinomialDistributionGenerator;
+        static binomial(n: number, p: number): $BinomialDistributionGenerator;
+        /**
+         * Get the parameters used by this object.
+         */
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
-        validate(arg0: $ValidationContext): void;
+        /**
+         * Validate that this object is used correctly according to the given ValidationContext.
+         */
+        validate(context: $ValidationContext): void;
         static CODEC: $MapCodec<$BinomialDistributionGenerator>;
-        constructor(arg0: $NumberProvider_, arg1: $NumberProvider_);
+        constructor(n: $NumberProvider_, p: $NumberProvider_);
         get type(): $LootNumberProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }

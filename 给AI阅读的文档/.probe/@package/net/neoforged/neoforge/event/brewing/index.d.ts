@@ -8,28 +8,70 @@ import { $PlayerEvent } from "@package/net/neoforged/neoforge/event/entity/playe
 declare module "@package/net/neoforged/neoforge/event/brewing" {
     export class $PotionBrewEvent extends $Event {
         getLength(): number;
-        getItem(arg0: number): $ItemStack;
-        setItem(arg0: number, arg1: $ItemStack_): void;
+        getItem(index: number): $ItemStack;
+        setItem(index: number, stack: $ItemStack_): void;
         get length(): number;
     }
+    /**
+     * This event is called when a player picks up a potion from a brewing stand.
+     */
     export class $PlayerBrewedPotionEvent extends $PlayerEvent {
+        /**
+         * The ItemStack of the potion.
+         */
         getStack(): $ItemStack;
-        constructor(arg0: $Player, arg1: $ItemStack_);
+        constructor(player: $Player, stack: $ItemStack_);
         get stack(): $ItemStack;
     }
+    /**
+     * Event to register new brewing recipes.
+     * 
+     * Fired on both client and server side, on the main event bus.
+     */
     export class $RegisterBrewingRecipesEvent extends $Event {
-        getBuilder(): $PotionBrewing$Builder;
         getRegistryAccess(): $RegistryAccess;
-        constructor(arg0: $PotionBrewing$Builder, arg1: $RegistryAccess);
-        get builder(): $PotionBrewing$Builder;
+        getBuilder(): $PotionBrewing$Builder;
+        constructor(builder: $PotionBrewing$Builder, registryAccess: $RegistryAccess);
         get registryAccess(): $RegistryAccess;
+        get builder(): $PotionBrewing$Builder;
     }
+    /**
+     * PotionBrewEvent.Post is fired when a potion is brewed in the brewing stand.
+     * 
+     * The event is fired during the `BrewingStandBlockEntity#doBrew(Level, BlockPos, NonNullList)` method invocation.
+     * 
+     * `#stacks` contains the itemstack array from the TileEntityBrewer holding all items in Brewer.
+     * 
+     * This event is not `ICancellableEvent`.
+     * 
+     * This event does not have a result. `HasResult`
+     * 
+     * This event is fired on the `NeoForge#EVENT_BUS`.
+     */
     export class $PotionBrewEvent$Post extends $PotionBrewEvent {
-        constructor(arg0: $NonNullList<$ItemStack_>);
+        constructor(stacks: $NonNullList<$ItemStack_>);
     }
+    /**
+     * PotionBrewEvent.Pre is fired before vanilla brewing takes place.
+     * All changes made to the event's array will be made to the TileEntity if the event is canceled.
+     * 
+     * The event is fired during the `BrewingStandBlockEntity#doBrew(Level, BlockPos, NonNullList)` method invocation.
+     * 
+     * `#stacks` contains the itemstack array from the TileEntityBrewer holding all items in Brewer.
+     * 
+     * This event is `ICancellableEvent`.
+     * 
+     * If the event is not canceled, the vanilla brewing will take place instead of modded brewing.
+     * 
+     * This event does not have a result. `HasResult`
+     * 
+     * This event is fired on the `NeoForge#EVENT_BUS`.
+     * 
+     * If this event is canceled, and items have been modified, PotionBrewEvent.Post will automatically be fired.
+     */
     export class $PotionBrewEvent$Pre extends $PotionBrewEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
-        constructor(arg0: $NonNullList<$ItemStack_>);
+        setCanceled(arg0: boolean): void;
+        constructor(stacks: $NonNullList<$ItemStack_>);
     }
 }

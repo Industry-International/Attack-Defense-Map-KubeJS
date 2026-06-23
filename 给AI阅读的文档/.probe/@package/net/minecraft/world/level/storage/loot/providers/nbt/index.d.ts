@@ -8,15 +8,23 @@ import { $LootContextParam } from "@package/net/minecraft/world/level/storage/lo
 import { $LootContext, $LootContext$EntityTarget_ } from "@package/net/minecraft/world/level/storage/loot";
 
 declare module "@package/net/minecraft/world/level/storage/loot/providers/nbt" {
+    /**
+     * A provider for NBT data based on a LootContext.
+     * 
+     * @see NbtProviders
+     */
     export class $NbtProvider {
     }
     export interface $NbtProvider {
-        get(arg0: $LootContext): $Tag;
+        get(lootContext: $LootContext): $Tag;
         getType(): $LootNbtProviderType;
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         get type(): $LootNbtProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }
+    /**
+     * Registry for `NbtProvider`
+     */
     export class $NbtProviders {
         static STORAGE: $LootNbtProviderType;
         static CODEC: $Codec<$NbtProvider>;
@@ -27,6 +35,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/providers/nbt" {
     }
     export interface $ContextNbtProvider$Getter {
     }
+    /**
+     * The SerializerType for `NbtProvider`.
+     */
     export class $LootNbtProviderType extends $Record {
         codec(): $MapCodec<$NbtProvider>;
         constructor(arg0: $MapCodec_<$NbtProvider>);
@@ -35,10 +46,13 @@ declare module "@package/net/minecraft/world/level/storage/loot/providers/nbt" {
      * Values that may be interpreted as {@link $LootNbtProviderType}.
      */
     export type $LootNbtProviderType_ = RegistryTypes.LootNbtProviderType;
+    /**
+     * A NbtProvider that provides either the block entity's NBT data or an entity's NBT data based on an `EntityTarget`.
+     */
     export class $ContextNbtProvider implements $NbtProvider {
-        get(arg0: $LootContext): $Tag;
+        get(lootContext: $LootContext): $Tag;
         getType(): $LootNbtProviderType;
-        static forContextEntity(arg0: $LootContext$EntityTarget_): $NbtProvider;
+        static forContextEntity(entityTarget: $LootContext$EntityTarget_): $NbtProvider;
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static INLINE_CODEC: $Codec<$ContextNbtProvider>;
         static CODEC: $MapCodec<$ContextNbtProvider>;
@@ -46,13 +60,16 @@ declare module "@package/net/minecraft/world/level/storage/loot/providers/nbt" {
         get type(): $LootNbtProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }
+    /**
+     * An NbtProvider that provides NBT data from a named `CommandStorage`.
+     */
     export class $StorageNbtProvider extends $Record implements $NbtProvider {
-        get(arg0: $LootContext): $Tag;
+        get(lootContext: $LootContext): $Tag;
         id(): $ResourceLocation;
         getType(): $LootNbtProviderType;
         getReferencedContextParams(): $Set<$LootContextParam<never>>;
         static CODEC: $MapCodec<$StorageNbtProvider>;
-        constructor(arg0: $ResourceLocation_);
+        constructor(id: $ResourceLocation_);
         get type(): $LootNbtProviderType;
         get referencedContextParams(): $Set<$LootContextParam<never>>;
     }

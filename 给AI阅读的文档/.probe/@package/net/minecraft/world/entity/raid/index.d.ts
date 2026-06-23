@@ -39,47 +39,47 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 declare module "@package/net/minecraft/world/entity/raid" {
     export class $Raider$RaiderCelebration extends $Goal {
         this$0: $Raider;
-        constructor(arg0: $Raider, arg1: $Raider);
+        constructor(mob: $Raider, arg1: $Raider);
     }
     export class $Raider$ObtainRaidLeaderBannerGoal<T extends $Raider> extends $Goal {
     }
     export class $Raid {
         stop(): void;
         getId(): number;
-        save(arg0: $CompoundTag_): $CompoundTag;
+        save(compound: $CompoundTag_): $CompoundTag;
         isStarted(): boolean;
         isActive(): boolean;
         tick(): void;
         getLevel(): $Level;
-        isStopped(): boolean;
-        getCenter(): $BlockPos;
-        handler$zdp000$openpartiesandclaims$onFindRandomSpawnPosPre(arg0: $CallbackInfoReturnable<any>): void;
-        handler$zdp000$openpartiesandclaims$onFindRandomSpawnPosPost(arg0: $CallbackInfoReturnable<any>): void;
-        getMaxRaidOmenLevel(): number;
-        hasFirstWaveSpawned(): boolean;
-        getTotalRaidersAlive(): number;
-        getNumGroups(arg0: $Difficulty_): number;
-        getEnchantOdds(): number;
-        getRaidOmenLevel(): number;
-        addHeroOfTheVillage(arg0: $Entity): void;
-        removeFromRaid(arg0: $Raider, arg1: boolean): void;
-        removeLeader(arg0: number): void;
-        getGroupsSpawned(): number;
-        updateBossbar(): void;
-        joinRaid(arg0: number, arg1: $Raider, arg2: $BlockPos_, arg3: boolean): void;
-        addWaveMob(arg0: number, arg1: $Raider, arg2: boolean): boolean;
-        setLeader(arg0: number, arg1: $Raider): void;
-        getLeader(arg0: number): $Raider;
-        isLoss(): boolean;
+        joinRaid(wave: number, raider: $Raider, pos: $BlockPos_ | null, isRecruited: boolean): void;
+        addWaveMob(wave: number, raider: $Raider, isRecruited: boolean): boolean;
+        setLeader(wave: number, raider: $Raider): void;
+        getLeader(wave: number): $Raider;
         isOver(): boolean;
-        static getLeaderBannerInstance(arg0: $HolderGetter<$BannerPattern_>): $ItemStack;
-        isVictory(): boolean;
-        setRaidOmenLevel(arg0: number): void;
-        getTotalHealth(): number;
-        getAllRaiders(): $Set<$Raider>;
-        isBetweenWaves(): boolean;
-        absorbRaidOmen(arg0: $ServerPlayer): boolean;
+        isLoss(): boolean;
+        isStopped(): boolean;
+        getMaxRaidOmenLevel(): number;
+        static getLeaderBannerInstance(patternRegistry: $HolderGetter<$BannerPattern_>): $ItemStack;
         getHealthOfLivingRaiders(): number;
+        getTotalRaidersAlive(): number;
+        hasFirstWaveSpawned(): boolean;
+        getCenter(): $BlockPos;
+        removeFromRaid(raider: $Raider, wanderedOutOfRaid: boolean): void;
+        updateBossbar(): void;
+        getGroupsSpawned(): number;
+        removeLeader(wave: number): void;
+        getNumGroups(difficulty: $Difficulty_): number;
+        getEnchantOdds(): number;
+        addHeroOfTheVillage(player: $Entity): void;
+        getRaidOmenLevel(): number;
+        setRaidOmenLevel(wave: number): void;
+        getTotalHealth(): number;
+        absorbRaidOmen(player: $ServerPlayer): boolean;
+        isBetweenWaves(): boolean;
+        getAllRaiders(): $Set<$Raider>;
+        isVictory(): boolean;
+        handler$zdp000$openpartiesandclaims$onFindRandomSpawnPosPost(arg0: $CallbackInfoReturnable<any>): void;
+        handler$zdp000$openpartiesandclaims$onFindRandomSpawnPosPre(arg0: $CallbackInfoReturnable<any>): void;
         static RAID_REMOVAL_THRESHOLD_SQR: number;
         static TICKS_PER_DAY: number;
         static VILLAGE_RADIUS_BUFFER: number;
@@ -87,25 +87,25 @@ declare module "@package/net/minecraft/world/entity/raid" {
         static VALID_RAID_RADIUS_SQR: number;
         static MAX_NO_ACTION_TIME: number;
         static DEFAULT_MAX_RAID_OMEN_LEVEL: number;
-        constructor(arg0: number, arg1: $ServerLevel, arg2: $BlockPos_);
-        constructor(arg0: $ServerLevel, arg1: $CompoundTag_);
+        constructor(id: number, level: $ServerLevel, center: $BlockPos_);
+        constructor(level: $ServerLevel, compound: $CompoundTag_);
         get id(): number;
         get started(): boolean;
         get active(): boolean;
         get level(): $Level;
-        get stopped(): boolean;
-        get center(): $BlockPos;
-        get maxRaidOmenLevel(): number;
-        get totalRaidersAlive(): number;
-        get enchantOdds(): number;
-        get groupsSpawned(): number;
-        get loss(): boolean;
         get over(): boolean;
-        get victory(): boolean;
-        get totalHealth(): number;
-        get allRaiders(): $Set<$Raider>;
-        get betweenWaves(): boolean;
+        get loss(): boolean;
+        get stopped(): boolean;
+        get maxRaidOmenLevel(): number;
         get healthOfLivingRaiders(): number;
+        get totalRaidersAlive(): number;
+        get center(): $BlockPos;
+        get groupsSpawned(): number;
+        get enchantOdds(): number;
+        get totalHealth(): number;
+        get betweenWaves(): boolean;
+        get allRaiders(): $Set<$Raider>;
+        get victory(): boolean;
     }
     export class $Raid$RaiderType extends $Enum<$Raid$RaiderType> implements $IExtensibleEnum {
         static values(): $Raid$RaiderType[];
@@ -140,37 +140,66 @@ declare module "@package/net/minecraft/world/entity/raid" {
     export class $Raider$HoldGroundAttackGoal extends $Goal {
     }
     export class $Raids extends $SavedData {
-        get(arg0: number): $Raid;
-        static load(arg0: $ServerLevel, arg1: $CompoundTag_): $Raids;
-        static factory(arg0: $ServerLevel): $SavedData$Factory<$Raids>;
+        get(id: number): $Raid;
+        static load(level: $ServerLevel, tag: $CompoundTag_): $Raids;
+        static factory(level: $ServerLevel): $SavedData$Factory<$Raids>;
+        /**
+         * Marks this `SavedData` dirty, to be saved to disk when the level next saves.
+         */
         tick(): void;
-        createOrExtendRaid(arg0: $ServerPlayer, arg1: $BlockPos_): $Raid;
-        getNearbyRaid(arg0: $BlockPos_, arg1: number): $Raid;
-        static canJoinRaid(arg0: $Raider, arg1: $Raid): boolean;
-        static getFileId(arg0: $Holder_<$DimensionType>): string;
-        constructor(arg0: $ServerLevel);
+        static getFileId(dimensionTypeHolder: $Holder_<$DimensionType>): string;
+        getNearbyRaid(pos: $BlockPos_, distance: number): $Raid;
+        static canJoinRaid(raider: $Raider, raid: $Raid): boolean;
+        createOrExtendRaid(player: $ServerPlayer, pos: $BlockPos_): $Raid;
+        constructor(level: $ServerLevel);
     }
     export class $Raider extends $PatrollingMonster {
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getWave(): number;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isCaptain(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        hasRaid(): boolean;
+        setWave(ticksOutsideRaid: number): void;
+        static access$400(arg0: $Raider): $RandomSource;
+        static access$100(arg0: $Raider): $RandomSource;
         static access$000(arg0: $Raider): $RandomSource;
         static access$200(arg0: $Raider): boolean;
         static access$300(arg0: $Raider): $RandomSource;
-        static access$100(arg0: $Raider): $RandomSource;
-        static access$400(arg0: $Raider): $RandomSource;
-        getTicksOutsideRaid(): number;
-        setTicksOutsideRaid(arg0: number): void;
-        getCelebrateSound(): $SoundEvent;
-        applyRaidBuffs(arg0: $ServerLevel, arg1: number, arg2: boolean): void;
-        setCurrentRaid(arg0: $Raid): void;
-        setCanJoinRaid(arg0: boolean): void;
-        getCurrentRaid(): $Raid;
-        setCelebrating(arg0: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         hasActiveRaid(): boolean;
-        isCelebrating(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         canJoinRaid(): boolean;
-        hasRaid(): boolean;
-        getWave(): number;
-        isCaptain(): boolean;
-        setWave(arg0: number): void;
+        getCurrentRaid(): $Raid;
+        setCelebrating(canJoinRaid: boolean): void;
+        applyRaidBuffs(level: $ServerLevel, wave: number, unused: boolean): void;
+        setCanJoinRaid(canJoinRaid: boolean): void;
+        getCelebrateSound(): $SoundEvent;
+        setCurrentRaid(raid: $Raid | null): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isCelebrating(): boolean;
+        setTicksOutsideRaid(ticksOutsideRaid: number): void;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getTicksOutsideRaid(): number;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -341,8 +370,8 @@ declare module "@package/net/minecraft/world/entity/raid" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Raider>, arg1: $Level_);
-        get celebrateSound(): $SoundEvent;
+        constructor(entityType: $EntityType_<$Raider>, level: $Level_);
         get captain(): boolean;
+        get celebrateSound(): $SoundEvent;
     }
 }

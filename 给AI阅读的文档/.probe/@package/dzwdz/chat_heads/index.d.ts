@@ -4,8 +4,8 @@ export * as mixininterface from "@package/dzwdz/chat_heads/mixininterface";
 
 declare module "@package/dzwdz/chat_heads" {
     export class $HeadData extends $Record {
-        static of(playerInfo: $PlayerInfo): $HeadData;
         hasHeadPosition(): boolean;
+        static of(playerInfo: $PlayerInfo): $HeadData;
         playerInfo(): $PlayerInfo;
         codePointIndex(): number;
         static EMPTY: $HeadData;

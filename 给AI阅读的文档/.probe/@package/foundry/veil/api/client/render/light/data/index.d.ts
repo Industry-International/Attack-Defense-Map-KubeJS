@@ -7,17 +7,20 @@ import { $Vector3fc } from "@package/org/joml";
 declare module "@package/foundry/veil/api/client/render/light/data" {
     export class $LightData {
         getType(): $LightTypeRegistry$LightType<never>;
-        setColor(arg0: number, arg1: number, arg2: number): $LightData;
-        setColor(arg0: $Colorc): $LightData;
         setColor(arg0: number): $LightData;
+        setColor(arg0: $Colorc): $LightData;
         setColor(arg0: $Vector3fc): $LightData;
-        getColor(): $Color;
-        getBrightness(): number;
+        setColor(arg0: number, arg1: number, arg2: number): $LightData;
         setTo(arg0: $Camera): $LightData;
-        isVisible(arg0: $CullFrustum): boolean;
+        getRevision(): number;
+        getColor(): $Color;
         setBrightness(arg0: number): $LightData;
+        getBrightness(): number;
+        isVisible(arg0: $CullFrustum): boolean;
+        markDirty(): void;
         constructor();
         get type(): $LightTypeRegistry$LightType<never>;
         set to(value: $Camera);
+        get revision(): number;
     }
 }

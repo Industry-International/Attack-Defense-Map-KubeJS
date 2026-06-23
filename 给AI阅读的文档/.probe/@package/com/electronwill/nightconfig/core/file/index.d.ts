@@ -5,11 +5,11 @@ import { $URL } from "@package/java/net";
 
 declare module "@package/com/electronwill/nightconfig/core/file" {
     export class $FileNotFoundAction {
-        static copyData(arg0: $URL): $FileNotFoundAction;
-        static copyData(arg0: $File_): $FileNotFoundAction;
-        static copyData(arg0: $InputStream): $FileNotFoundAction;
-        static copyData(arg0: $Path_): $FileNotFoundAction;
         static copyResource(arg0: string): $FileNotFoundAction;
+        static copyData(arg0: $File_): $FileNotFoundAction;
+        static copyData(arg0: $Path_): $FileNotFoundAction;
+        static copyData(arg0: $InputStream): $FileNotFoundAction;
+        static copyData(arg0: $URL): $FileNotFoundAction;
         static READ_NOTHING: $FileNotFoundAction;
         static CREATE_EMPTY: $FileNotFoundAction;
         static THROW_ERROR: $FileNotFoundAction;

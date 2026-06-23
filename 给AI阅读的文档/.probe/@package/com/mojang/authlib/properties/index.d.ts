@@ -13,7 +13,7 @@ declare module "@package/com/mojang/authlib/properties" {
          */
         isSignatureValid(arg0: $PublicKey): boolean;
         constructor(arg0: string, arg1: string);
-        constructor(name: string, value: string, signature: string);
+        constructor(name: string, value: string, signature: string | null);
     }
     export class $PropertyMap extends $ForwardingMultimap<string, $Property> {
         constructor();

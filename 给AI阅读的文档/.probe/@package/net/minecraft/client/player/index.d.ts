@@ -48,54 +48,131 @@ export * as inventory from "@package/net/minecraft/client/player/inventory";
 
 declare module "@package/net/minecraft/client/player" {
     export class $LocalPlayer extends $AbstractClientPlayer implements $LocalPlayerInterface, $AccessorLocalPlayer, $LocalClientPlayerKJS, $PlayerFreezeExtension, $IClientPlayerGunOperator, $SlideDataHolder {
+        drop(fullStack: boolean): boolean;
         getStatsCounter(): $StatsCounter;
-        draw(arg0: $ItemStack_): void;
-        shoot(): $ShootResult;
-        isCrawl(): boolean;
-        isAim(): boolean;
-        shouldShowDeathScreen(): boolean;
-        resetPos(): void;
-        hurtTo(arg0: number): void;
-        resetDraw(): void;
-        isCharging(): boolean;
-        wrapOperation$ick000$tacz$swapSprintStatus(arg0: $LocalPlayer, arg1: boolean, arg2: $Operation_<any>): void;
-        handler$ick000$tacz$onTickClientSide(arg0: $CallbackInfo): void;
-        handler$dkc000$xaerominimap$onTickStart(arg0: $CallbackInfo): void;
-        inspect(): void;
-        drop(arg0: boolean): boolean;
-        setDoLimitedCrafting(arg0: boolean): void;
-        clientSideCloseContainer(): void;
-        removeRecipeHighlight(arg0: $RecipeHolder_<never>): void;
-        setExperienceValues(arg0: number, arg1: number, arg2: number): void;
-        getDoLimitedCrafting(): boolean;
-        getClientShootCoolDown(): number;
-        getCurrentConstantMood(): number;
-        getClientAimingProgress(arg0: number): number;
-        sable$calculateViewVector2(arg0: number, arg1: number): $Vec3;
-        getDataHolder(): $LocalPlayerDataHolder;
-        isHandsBusy(): boolean;
-        sendOpenInventory(): void;
-        handler$ick000$tacz$onRespawn(arg0: $CallbackInfo): void;
         getActivePortalLocalTransition(): $Portal$Transition;
-        handler$ehj000$superbwarfare$sbw$isCrouching(arg0: $CallbackInfoReturnable<any>): void;
+        handler$iaa000$tacz$onRespawn(arg0: $CallbackInfo): void;
+        /**
+         * Gets the current pitch of the entity.
+         */
+        getClientAimingProgress(partialTick: number): number;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        clientSideCloseContainer(): void;
+        /**
+         * Sets the current XP, total XP, and level number.
+         */
+        setExperienceValues(currentXP: number, maxXP: number, level: number): void;
+        sable$calculateViewVector2(xRot: number, yRot: number): $Vec3;
+        setDoLimitedCrafting(useConfusion: boolean): void;
+        /**
+         * Returns whether the entity is in a server world
+         */
+        getDoLimitedCrafting(): boolean;
+        removeRecipeHighlight(recipe: $RecipeHolder_<never>): void;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
+        getCurrentConstantMood(): number;
+        getClientShootCoolDown(): number;
+        draw(stack: $ItemStack_): void;
+        handler$eci000$superbwarfare$sbw$isCrouching(arg0: $CallbackInfoReturnable<any>): void;
+        /**
+         * Returns whether the entity is in a server world
+         */
+        shouldShowDeathScreen(): boolean;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        sendOpenInventory(): void;
+        getDataHolder(): $LocalPlayerDataHolder;
         getRecipeBook(): $ClientRecipeBook;
-        wrapOperation$ccj000$vista$suppl$preventMovementWhileOperatingCannon(arg0: $Input, arg1: boolean, arg2: number, arg3: $Operation_<any>): void;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        inspect(): void;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        resetPos(): void;
+        /**
+         * Heal living entity (param: amount of half-hearts)
+         */
+        hurtTo(healAmount: number): void;
+        /**
+         * Returns whether the entity is in a server world
+         */
+        isCharging(): boolean;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        resetDraw(): void;
+        /**
+         * Returns whether the entity is in a server world
+         */
+        isHandsBusy(): boolean;
+        handler$iaa000$tacz$onTickClientSide(arg0: $CallbackInfo): void;
+        wrapOperation$iaa000$tacz$swapSprintStatus(arg0: $LocalPlayer, arg1: boolean, arg2: $Operation_<any>): void;
+        handler$dfg000$xaerominimap$onTickStart(arg0: $CallbackInfo): void;
+        /**
+         * Returns whether the entity is in a server world
+         */
+        isCrawl(): boolean;
+        /**
+         * Returns whether the entity is in a server world
+         */
+        isAim(): boolean;
+        shoot(): $ShootResult;
+        /**
+         * Returns whether the entity is in a server world
+         */
         isControlledCamera(): boolean;
-        getCurrentMood(): number;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
         getJumpRidingScale(): number;
-        setPermissionLevel(arg0: number): void;
-        isMovingSlowly(): boolean;
-        setShowDeathScreen(arg0: boolean): void;
         jumpableVehicle(): $PlayerRideableJumping;
+        setPermissionLevel(permissionLevel: number): void;
+        /**
+         * Returns whether the entity is in a server world
+         */
+        isMovingSlowly(): boolean;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         sendRidingJump(): void;
+        setShowDeathScreen(useConfusion: boolean): void;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
+        getCurrentMood(): number;
+        /**
+         * Returns whether the entity is in a server world
+         */
         isAutoJumpEnabled(): boolean;
-        getChargeProgress(): number;
-        onGameModeChanged(arg0: $GameType_): void;
-        getWaterVision(): number;
-        updateAutoJump(arg0: number, arg1: number): void;
+        chargeShoot(fullStack: boolean): boolean;
+        onGameModeChanged(gameMode: $GameType_): void;
+        /**
+         * Returns whether the entity is in a server world
+         */
         isReadyToDraw(): boolean;
-        chargeShoot(arg0: boolean): boolean;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
+        getWaterVision(): number;
+        updateAutoJump(movementX: number, movementZ: number): void;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
+        getChargeProgress(): number;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
         railways$getYRotLast(): number;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
         railways$getXRotLast(): number;
         getMinecraft(): $Minecraft;
         serializeNBT(arg0: $HolderLookup$Provider): $Player;
@@ -309,27 +386,27 @@ declare module "@package/net/minecraft/client/player" {
         removeStingerTime: number;
         static DATA_SHOULDER_RIGHT: $EntityDataAccessor<$CompoundTag>;
         currentExplosionCause: $Entity;
-        constructor(arg0: $Minecraft, arg1: $ClientLevel, arg2: $ClientPacketListener, arg3: $StatsCounter, arg4: $ClientRecipeBook, arg5: boolean, arg6: boolean);
+        constructor(minecraft: $Minecraft, clientLevel: $ClientLevel, connection: $ClientPacketListener, stats: $StatsCounter, recipeBook: $ClientRecipeBook, wasShiftKeyDown: boolean, wasSprinting: boolean);
         get statsCounter(): $StatsCounter;
-        get charging(): boolean;
-        get clientShootCoolDown(): number;
-        get currentConstantMood(): number;
-        get dataHolder(): $LocalPlayerDataHolder;
         get activePortalLocalTransition(): $Portal$Transition;
+        get currentConstantMood(): number;
+        get clientShootCoolDown(): number;
+        get dataHolder(): $LocalPlayerDataHolder;
         get recipeBook(): $ClientRecipeBook;
+        get charging(): boolean;
         get controlledCamera(): boolean;
-        get currentMood(): number;
         get jumpRidingScale(): number;
         set permissionLevel(value: number);
         get movingSlowly(): boolean;
         set showDeathScreen(value: boolean);
+        get currentMood(): number;
         get autoJumpEnabled(): boolean;
-        get chargeProgress(): number;
-        get waterVision(): number;
         get readyToDraw(): boolean;
+        get waterVision(): number;
+        get chargeProgress(): number;
     }
     export class $KeyboardInput extends $Input {
-        handler$ehp000$superbwarfare$tick(arg0: boolean, arg1: number, arg2: $CallbackInfo): void;
+        handler$eco000$superbwarfare$tick(arg0: boolean, arg1: number, arg2: $CallbackInfo): void;
         forwardImpulse: number;
         jumping: boolean;
         left: boolean;
@@ -338,13 +415,16 @@ declare module "@package/net/minecraft/client/player" {
         up: boolean;
         right: boolean;
         down: boolean;
-        constructor(arg0: $Options);
+        constructor(options: $Options);
     }
     export class $AbstractClientPlayer extends $Player implements $AbstractClientPlayerAccessor, $ClientPlayerKJS {
-        getSkin(): $PlayerSkin;
-        handler$ifk000$create_sa$getSkinMixin(arg0: $CallbackInfoReturnable<any>): void;
+        getDeltaMovementLerped(patialTick: number): $Vec3;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
         getFieldOfViewModifier(): number;
-        getDeltaMovementLerped(arg0: number): $Vec3;
+        getSkin(): $PlayerSkin;
+        handler$icg000$create_sa$getSkinMixin(arg0: $CallbackInfoReturnable<any>): void;
         getPlayerInfo(): $PlayerInfo;
         flywheel$getPlayerInfo(): $PlayerInfo;
         serializeNBT(arg0: $HolderLookup$Provider): $Player;
@@ -546,13 +626,13 @@ declare module "@package/net/minecraft/client/player" {
         removeStingerTime: number;
         static DATA_SHOULDER_RIGHT: $EntityDataAccessor<$CompoundTag>;
         currentExplosionCause: $Entity;
-        constructor(arg0: $ClientLevel, arg1: $GameProfile);
-        get skin(): $PlayerSkin;
+        constructor(clientLevel: $ClientLevel, gameProfile: $GameProfile);
         get fieldOfViewModifier(): number;
+        get skin(): $PlayerSkin;
         get playerInfo(): $PlayerInfo;
     }
     export class $Input {
-        tick(arg0: boolean, arg1: number): void;
+        tick(isSneaking: boolean, sneakingSpeedMultiplier: number): void;
         hasForwardImpulse(): boolean;
         getMoveVector(): $Vec2;
         forwardImpulse: number;
@@ -766,6 +846,6 @@ declare module "@package/net/minecraft/client/player" {
         removeStingerTime: number;
         static DATA_SHOULDER_RIGHT: $EntityDataAccessor<$CompoundTag>;
         currentExplosionCause: $Entity;
-        constructor(arg0: $ClientLevel, arg1: $GameProfile);
+        constructor(clientLevel: $ClientLevel, gameProfile: $GameProfile);
     }
 }

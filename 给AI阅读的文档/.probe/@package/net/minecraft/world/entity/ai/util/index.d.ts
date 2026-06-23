@@ -7,52 +7,96 @@ import { $RandomSource } from "@package/net/minecraft/util";
 
 declare module "@package/net/minecraft/world/entity/ai/util" {
     export class $AirAndWaterRandomPos {
-        static getPos(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $Vec3;
-        static generateRandomPos(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: boolean): $BlockPos;
+        static generateRandomPos(mob: $PathfinderMob, maxDistance: number, yRange: number, y: number, x: number, arg5: number, z: number, arg7: boolean): $BlockPos;
+        static getPos(mob: $PathfinderMob, maxDistance: number, yRange: number, y: number, x: number, arg5: number, z: number): $Vec3;
         constructor();
     }
     export class $AirRandomPos {
-        static getPosTowards(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: number, arg4: $Vec3_, arg5: number): $Vec3;
+        static getPosTowards(mob: $PathfinderMob, radius: number, yRange: number, y: number, vectorPosition: $Vec3_, amplifier: number): $Vec3;
         constructor();
     }
     export class $GoalUtils {
-        static isSolid(arg0: $PathfinderMob, arg1: $BlockPos_): boolean;
-        static isRestricted(arg0: boolean, arg1: $PathfinderMob, arg2: $BlockPos_): boolean;
-        static isWater(arg0: $PathfinderMob, arg1: $BlockPos_): boolean;
-        static hasGroundPathNavigation(arg0: $Mob): boolean;
-        static isOutsideLimits(arg0: $BlockPos_, arg1: $PathfinderMob): boolean;
-        static mobRestricted(arg0: $PathfinderMob, arg1: number): boolean;
-        static isNotStable(arg0: $PathNavigation, arg1: $BlockPos_): boolean;
-        static hasMalus(arg0: $PathfinderMob, arg1: $BlockPos_): boolean;
+        /**
+         * @return if a mob is stuck, within a certain radius beyond it's restriction radius
+         */
+        static mobRestricted(mob: $PathfinderMob, radius: number): boolean;
+        /**
+         * @return if a mob is above or below the map
+         */
+        static isOutsideLimits(pos: $BlockPos_, mob: $PathfinderMob): boolean;
+        /**
+         * @return if the pathfinding malus exists
+         */
+        static isSolid(mob: $PathfinderMob, pos: $BlockPos_): boolean;
+        /**
+         * @return if a mob is restricted. The first parameter short circuits the operation.
+         */
+        static isRestricted(shortCircuit: boolean, mob: $PathfinderMob, pos: $BlockPos_): boolean;
+        static hasGroundPathNavigation(mob: $Mob): boolean;
+        /**
+         * @return if the pathfinding malus exists
+         */
+        static isWater(mob: $PathfinderMob, pos: $BlockPos_): boolean;
+        /**
+         * @return if the destination can't be pathfinded to
+         */
+        static isNotStable(navigation: $PathNavigation, pos: $BlockPos_): boolean;
+        /**
+         * @return if the pathfinding malus exists
+         */
+        static hasMalus(mob: $PathfinderMob, pos: $BlockPos_): boolean;
         constructor();
     }
     export class $DefaultRandomPos {
-        static getPos(arg0: $PathfinderMob, arg1: number, arg2: number): $Vec3;
-        static getPosAway(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: $Vec3_): $Vec3;
-        static getPosTowards(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: $Vec3_, arg4: number): $Vec3;
+        static getPos(mob: $PathfinderMob, radius: number, verticalDistance: number): $Vec3;
+        static getPosAway(mob: $PathfinderMob, radius: number, yRange: number, vectorPosition: $Vec3_): $Vec3;
+        static getPosTowards(mob: $PathfinderMob, radius: number, yRange: number, vectorPosition: $Vec3_, amplifier: number): $Vec3;
         constructor();
     }
     export class $LandRandomPos {
-        static getPos(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: $ToDoubleFunction_<$BlockPos>): $Vec3;
-        static getPos(arg0: $PathfinderMob, arg1: number, arg2: number): $Vec3;
-        static getPosAway(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: $Vec3_): $Vec3;
-        static getPosTowards(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: $Vec3_): $Vec3;
-        static generateRandomPosTowardDirection(arg0: $PathfinderMob, arg1: number, arg2: boolean, arg3: $BlockPos_): $BlockPos;
-        static movePosUpOutOfSolid(arg0: $PathfinderMob, arg1: $BlockPos_): $BlockPos;
+        static getPos(mob: $PathfinderMob, radius: number, verticalRange: number): $Vec3;
+        static getPos(mob: $PathfinderMob, radius: number, yRange: number, toDoubleFunction: $ToDoubleFunction_<$BlockPos>): $Vec3;
+        static getPosAway(mob: $PathfinderMob, radius: number, yRange: number, vectorPosition: $Vec3_): $Vec3;
+        static getPosTowards(mob: $PathfinderMob, radius: number, yRange: number, vectorPosition: $Vec3_): $Vec3;
+        static generateRandomPosTowardDirection(mob: $PathfinderMob, radius: number, shortCircuit: boolean, pos: $BlockPos_): $BlockPos;
+        static movePosUpOutOfSolid(mob: $PathfinderMob, pos: $BlockPos_): $BlockPos;
         constructor();
     }
     export class $RandomPos {
-        static moveUpToAboveSolid(arg0: $BlockPos_, arg1: number, arg2: number, arg3: $Predicate_<$BlockPos>): $BlockPos;
-        static generateRandomDirectionWithinRadians(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $BlockPos;
-        static moveUpOutOfSolid(arg0: $BlockPos_, arg1: number, arg2: $Predicate_<$BlockPos>): $BlockPos;
-        static generateRandomPos(arg0: $PathfinderMob, arg1: $Supplier_<$BlockPos>): $Vec3;
-        static generateRandomPos(arg0: $Supplier_<$BlockPos>, arg1: $ToDoubleFunction_<$BlockPos>): $Vec3;
-        static generateRandomPosTowardDirection(arg0: $PathfinderMob, arg1: number, arg2: $RandomSource, arg3: $BlockPos_): $BlockPos;
-        static generateRandomDirection(arg0: $RandomSource, arg1: number, arg2: number): $BlockPos;
+        /**
+         * @return a random (x, y, z) coordinate by picking a point (x, z), adding a random angle, up to a difference of `maxAngleDelta`. The y position is randomly chosen from the range `[y - yRange, y + yRange]`. Will be `null` if the chosen coordinate is outside a distance of `maxHorizontalDistance` from the origin.
+         */
+        static generateRandomDirectionWithinRadians(random: $RandomSource, maxHorizontalDifference: number, yRange: number, y: number, x: number, arg5: number, z: number): $BlockPos;
+        /**
+         * Tries 10 times to maximize the return value of the position to double function based on the supplied position
+         */
+        static generateRandomPos(posSupplier: $Supplier_<$BlockPos>, toDoubleFunction: $ToDoubleFunction_<$BlockPos>): $Vec3;
+        static generateRandomPos(mob: $PathfinderMob, posSupplier: $Supplier_<$BlockPos>): $Vec3;
+        /**
+         * @return the highest above position that is within the provided conditions
+         */
+        static moveUpOutOfSolid(pos: $BlockPos_, maxY: number, posPredicate: $Predicate_<$BlockPos>): $BlockPos;
+        /**
+         * Finds a position above based on the conditions.
+         * 
+         * After it finds the position once, it will continue to move up until aboveSolidAmount is reached or the position is no longer valid
+         */
+        static moveUpToAboveSolid(pos: $BlockPos_, aboveSolidAmount: number, maxY: number, posPredicate: $Predicate_<$BlockPos>): $BlockPos;
+        /**
+         * @return a random position within range, only if the mob is currently restricted
+         */
+        static generateRandomPosTowardDirection(mob: $PathfinderMob, range: number, random: $RandomSource, pos: $BlockPos_): $BlockPos;
+        /**
+         * Gets a random position within a certain distance.
+         */
+        static generateRandomDirection(random: $RandomSource, horizontalDistance: number, verticalDistance: number): $BlockPos;
         constructor();
     }
     export class $HoverRandomPos {
-        static getPos(arg0: $PathfinderMob, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): $Vec3;
+        /**
+         * Tries to generate a random position a couple different ways, and if failing, sees if swimming vertically is an option.
+         */
+        static getPos(mob: $PathfinderMob, radius: number, yRange: number, x: number, arg4: number, z: number, arg6: number, amplifier: number): $Vec3;
         constructor();
     }
 }

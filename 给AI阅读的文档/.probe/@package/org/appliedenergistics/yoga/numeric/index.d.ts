@@ -9,12 +9,12 @@ declare module "@package/org/appliedenergistics/yoga/numeric" {
         unwrap(): number;
         isDefined(): boolean;
         isLessThan(arg0: $FloatOptional): boolean;
-        isUndefined(): boolean;
-        unwrapOrDefault(arg0: number): number;
         isGreaterThan(arg0: $FloatOptional): boolean;
         maxOrDefined(arg0: $FloatOptional): $FloatOptional;
         inexactEquals(arg0: $FloatOptional): boolean;
         isLessThanOrEqual(arg0: $FloatOptional): boolean;
+        isUndefined(): boolean;
+        unwrapOrDefault(arg0: number): number;
         isGreaterThanOrEqual(arg0: $FloatOptional): boolean;
         get value(): number;
         get defined(): boolean;

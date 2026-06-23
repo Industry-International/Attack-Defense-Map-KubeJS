@@ -42,46 +42,46 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/net/minecraft/world/item/component" {
     export class $Fireworks extends $Record implements $TooltipProvider {
         explosions(): $List<$FireworkExplosion>;
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
         flightDuration(): number;
+        addToTooltip(context: $Item$TooltipContext, tooltipAdder: $Consumer_<$Component>, tooltipFlag: $TooltipFlag): void;
         static CODEC: $Codec<$Fireworks>;
         static MAX_EXPLOSIONS: number;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $Fireworks>;
-        constructor(arg0: number, arg1: $List_<$FireworkExplosion_>);
+        constructor(flightDuration: number, explosions: $List_<$FireworkExplosion_>);
     }
     export class $BookContent<T, C> {
     }
     export interface $BookContent<T, C> {
         pages(): $List<$Filterable<T>>;
-        withReplacedPages(arg0: $List_<$Filterable_<T>>): C;
+        withReplacedPages(newPages: $List_<$Filterable_<T>>): C;
     }
     export class $LodestoneTracker extends $Record {
         target(): ($GlobalPos) | undefined;
-        tick(arg0: $ServerLevel): $LodestoneTracker;
+        tick(level: $ServerLevel): $LodestoneTracker;
         tracked(): boolean;
         static CODEC: $Codec<$LodestoneTracker>;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $LodestoneTracker>;
         constructor(arg0: ($GlobalPos_) | undefined, arg1: boolean);
     }
     export class $WritableBookContent extends $Record implements $BookContent<string, $WritableBookContent> {
+        getPages(filtered: boolean): $Stream<string>;
         pages(): $List<$Filterable<string>>;
-        getPages(arg0: boolean): $Stream<string>;
-        withReplacedPages(arg0: $List_<$Filterable_<string>>): $WritableBookContent;
+        withReplacedPages(newPages: $List_<$Filterable_<string>>): $WritableBookContent;
         static MAX_PAGES: number;
         static PAGE_EDIT_LENGTH: number;
         static CODEC: $Codec<$WritableBookContent>;
         static PAGES_CODEC: $Codec<$List<$Filterable<string>>>;
         static EMPTY: $WritableBookContent;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $WritableBookContent>;
-        constructor(arg0: $List_<$Filterable_<string>>);
+        constructor(pages: $List_<$Filterable_<string>>);
     }
     export class $DyedItemColor extends $Record implements $TooltipProvider {
-        static getOrDefault(arg0: $ItemStack_, arg1: number): number;
+        static getOrDefault(stack: $ItemStack_, defaultValue: number): number;
+        static applyDyes(stack: $ItemStack_, dyes: $List_<$DyeItem>): $ItemStack;
         rgb(): number;
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
+        withTooltip(showInTooltip: boolean): $DyedItemColor;
+        addToTooltip(context: $Item$TooltipContext, tooltipAdder: $Consumer_<$Component>, tooltipFlag: $TooltipFlag): void;
         showInTooltip(): boolean;
-        static applyDyes(arg0: $ItemStack_, arg1: $List_<$DyeItem>): $ItemStack;
-        withTooltip(arg0: boolean): $DyedItemColor;
         static CODEC: $Codec<$DyedItemColor>;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $DyedItemColor>;
         static LEATHER_COLOR: number;
@@ -89,7 +89,7 @@ declare module "@package/net/minecraft/world/item/component" {
     }
     export class $ItemAttributeModifiers$Entry extends $Record {
         slot(): $EquipmentSlotGroup;
-        matches(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_): boolean;
+        matches(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): boolean;
         modifier(): $AttributeModifier;
         attribute(): $Holder<$Attribute>;
         static CODEC: $Codec<$ItemAttributeModifiers$Entry>;
@@ -111,9 +111,9 @@ declare module "@package/net/minecraft/world/item/component" {
         constructor(arg0: $ResourceKey_<$LootTable>, arg1: number);
     }
     export class $Unbreakable extends $Record implements $TooltipProvider {
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
+        withTooltip(showInTooltip: boolean): $Unbreakable;
+        addToTooltip(context: $Item$TooltipContext, tooltipAdder: $Consumer_<$Component>, tooltipFlag: $TooltipFlag): void;
         showInTooltip(): boolean;
-        withTooltip(arg0: boolean): $Unbreakable;
         static CODEC: $Codec<$Unbreakable>;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $Unbreakable>;
         constructor(arg0: boolean);
@@ -125,7 +125,7 @@ declare module "@package/net/minecraft/world/item/component" {
         constructor(index: number, item: $ItemStack_);
     }
     export class $ItemAttributeModifiers$Builder {
-        add(arg0: $Holder_<$Attribute>, arg1: $AttributeModifier_, arg2: $EquipmentSlotGroup_): $ItemAttributeModifiers$Builder;
+        add(attribute: $Holder_<$Attribute>, modifier: $AttributeModifier_, slot: $EquipmentSlotGroup_): $ItemAttributeModifiers$Builder;
         build(): $ItemAttributeModifiers;
         constructor();
     }
@@ -139,15 +139,15 @@ declare module "@package/net/minecraft/world/item/component" {
     }
     export class $ItemLore extends $Record implements $TooltipProvider {
         lines(): $List<$Component>;
+        withLineAdded(lines: $Component_): $ItemLore;
         styledLines(): $List<$Component>;
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
-        withLineAdded(arg0: $Component_): $ItemLore;
+        addToTooltip(context: $Item$TooltipContext, tooltipAdder: $Consumer_<$Component>, tooltipFlag: $TooltipFlag): void;
         static CODEC: $Codec<$ItemLore>;
         static MAX_LINES: number;
         static EMPTY: $ItemLore;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ItemLore>;
-        constructor(arg0: $List_<$Component_>);
-        constructor(arg0: $List_<$Component_>, arg1: $List_<$Component_>);
+        constructor(lines: $List_<$Component_>);
+        constructor(lines: $List_<$Component_>, styledLines: $List_<$Component_>);
     }
     export class $CustomModelData extends $Record {
         value(): number;
@@ -157,12 +157,12 @@ declare module "@package/net/minecraft/world/item/component" {
         constructor(arg0: number);
     }
     export class $BlockItemStateProperties extends $Record implements $BlockItemStatePropertiesExt {
-        get<T extends $Comparable<T>>(arg0: $Property<T>): T;
+        get<T extends $Comparable<T>>(property: $Property<T>): T;
         isEmpty(): boolean;
-        apply(arg0: $BlockState_): $BlockState;
+        apply(state: $BlockState_): $BlockState;
         properties(): $Map<string, string>;
-        "with"<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T): $BlockItemStateProperties;
-        "with"<T extends $Comparable<T>>(arg0: $Property<T>, arg1: $BlockState_): $BlockItemStateProperties;
+        "with"<T extends $Comparable<T>>(property: $Property<T>, value: T): $BlockItemStateProperties;
+        "with"<T extends $Comparable<T>>(property: $Property<T>, state: $BlockState_): $BlockItemStateProperties;
         axiom$addToTooltip(consumer: $Consumer_<any>, ignore: $Set_<any>): void;
         static CODEC: $Codec<$BlockItemStateProperties>;
         static EMPTY: $BlockItemStateProperties;
@@ -173,7 +173,7 @@ declare module "@package/net/minecraft/world/item/component" {
     export class $TooltipProvider {
     }
     export interface $TooltipProvider {
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
+        addToTooltip(context: $Item$TooltipContext, tooltipAdder: $Consumer_<$Component>, tooltipFlag: $TooltipFlag): void;
     }
     /**
      * Values that may be interpreted as {@link $TooltipProvider}.
@@ -194,9 +194,9 @@ declare module "@package/net/minecraft/world/item/component" {
     export type $MapPostProcessing_ = "lock" | "scale";
     export class $ChargedProjectiles {
         isEmpty(): boolean;
-        static of(arg0: $List_<$ItemStack_>): $ChargedProjectiles;
-        static of(arg0: $ItemStack_): $ChargedProjectiles;
-        contains(arg0: $Item_): boolean;
+        static of(stack: $List_<$ItemStack_>): $ChargedProjectiles;
+        static of(stack: $ItemStack_): $ChargedProjectiles;
+        contains(item: $Item_): boolean;
         getItems(): $List<$ItemStack>;
         static CODEC: $Codec<$ChargedProjectiles>;
         static EMPTY: $ChargedProjectiles;
@@ -205,17 +205,17 @@ declare module "@package/net/minecraft/world/item/component" {
         get items(): $List<$ItemStack>;
     }
     export class $WrittenBookContent extends $Record implements $BookContent<$Component, $WrittenBookContent> {
-        resolve(arg0: $CommandSourceStack, arg1: $Player): $WrittenBookContent;
+        resolve(source: $CommandSourceStack, player: $Player | null): $WrittenBookContent;
         resolved(): boolean;
+        title(): $Filterable<string>;
+        getPages(filtered: boolean): $List<$Component>;
+        static pagesCodec(codec: $Codec<$Component_>): $Codec<$List<$Filterable<$Component>>>;
         pages(): $List<$Filterable<$Component>>;
         author(): string;
         generation(): number;
-        title(): $Filterable<string>;
-        getPages(arg0: boolean): $List<$Component>;
-        static pagesCodec(arg0: $Codec<$Component_>): $Codec<$List<$Filterable<$Component>>>;
         markResolved(): $WrittenBookContent;
+        withReplacedPages(newPages: $List_<$Filterable_<$Component_>>): $WrittenBookContent;
         tryCraftCopy(): $WrittenBookContent;
-        withReplacedPages(arg0: $List_<$Filterable_<$Component_>>): $WrittenBookContent;
         static TITLE_LENGTH: number;
         static TITLE_MAX_LENGTH: number;
         static CODEC: $Codec<$WrittenBookContent>;
@@ -226,7 +226,7 @@ declare module "@package/net/minecraft/world/item/component" {
         static CONTENT_CODEC: $Codec<$Component>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $WrittenBookContent>;
         static MAX_GENERATION: number;
-        constructor(arg0: $Filterable_<string>, arg1: string, arg2: number, arg3: $List_<$Filterable_<$Component_>>, arg4: boolean);
+        constructor(title: $Filterable_<string>, author: string, generation: number, pages: $List_<$Filterable_<$Component_>>, resolved: boolean);
     }
     export class $FireworkExplosion$Shape extends $Enum<$FireworkExplosion$Shape> implements $StringRepresentable, $IExtensibleEnum {
         getName(): $MutableComponent;
@@ -235,7 +235,7 @@ declare module "@package/net/minecraft/world/item/component" {
         getId(): number;
         static getExtensionInfo(): $ExtensionInfo;
         getSerializedName(): string;
-        static byId(arg0: number): $FireworkExplosion$Shape;
+        static byId(id: number): $FireworkExplosion$Shape;
         getRemappedEnumConstantName(): string;
         static SMALL_BALL: $FireworkExplosion$Shape;
         static LARGE_BALL: $FireworkExplosion$Shape;
@@ -255,14 +255,14 @@ declare module "@package/net/minecraft/world/item/component" {
     export type $FireworkExplosion$Shape_ = "small_ball" | "large_ball" | "star" | "creeper" | "burst";
     export class $MapDecorations extends $Record {
         decorations(): $Map<string, $MapDecorations$Entry>;
-        withDecoration(arg0: string, arg1: $MapDecorations$Entry_): $MapDecorations;
+        withDecoration(type: string, entry: $MapDecorations$Entry_): $MapDecorations;
         static CODEC: $Codec<$MapDecorations>;
         static EMPTY: $MapDecorations;
         constructor(arg0: $Map_<string, $MapDecorations$Entry_>);
     }
     export class $SuspiciousStewEffects extends $Record {
         effects(): $List<$SuspiciousStewEffects$Entry>;
-        withEffectAdded(arg0: $SuspiciousStewEffects$Entry_): $SuspiciousStewEffects;
+        withEffectAdded(entry: $SuspiciousStewEffects$Entry_): $SuspiciousStewEffects;
         static CODEC: $Codec<$SuspiciousStewEffects>;
         static EMPTY: $SuspiciousStewEffects;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $SuspiciousStewEffects>;
@@ -270,22 +270,22 @@ declare module "@package/net/minecraft/world/item/component" {
     }
     export class $Tool extends $Record {
         rules(): $List<$Tool$Rule>;
-        getMiningSpeed(arg0: $BlockState_): number;
         damagePerBlock(): number;
-        isCorrectForDrops(arg0: $BlockState_): boolean;
+        isCorrectForDrops(state: $BlockState_): boolean;
+        getMiningSpeed(state: $BlockState_): number;
         defaultMiningSpeed(): number;
         static CODEC: $Codec<$Tool>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Tool>;
         constructor(arg0: $List_<$Tool$Rule_>, arg1: number, arg2: number);
     }
     export class $BundleContents$Mutable {
+        tryTransfer(slot: $Slot, player: $Player): number;
         weight(): $Fraction;
         toImmutable(): $BundleContents;
-        tryTransfer(arg0: $Slot, arg1: $Player): number;
         clearItems(): $BundleContents$Mutable;
         removeOne(): $ItemStack;
-        tryInsert(arg0: $ItemStack_): number;
-        constructor(arg0: $BundleContents);
+        tryInsert(stack: $ItemStack_): number;
+        constructor(contents: $BundleContents);
     }
     export class $ResolvableProfile extends $Record {
         name(): (string) | undefined;
@@ -297,22 +297,22 @@ declare module "@package/net/minecraft/world/item/component" {
         static CODEC: $Codec<$ResolvableProfile>;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $ResolvableProfile>;
         constructor(arg0: (string) | undefined, arg1: ($UUID_) | undefined, arg2: $PropertyMap, arg3: $GameProfile);
-        constructor(arg0: $GameProfile);
-        constructor(arg0: (string) | undefined, arg1: ($UUID_) | undefined, arg2: $PropertyMap);
+        constructor(profile: $GameProfile);
+        constructor(name: (string) | undefined, id: ($UUID_) | undefined, properties: $PropertyMap);
         get resolved(): boolean;
     }
     export class $ItemContainerContents implements $ContainerComponentAccessor {
         stream(): $Stream<$ItemStack>;
-        copyInto(arg0: $NonNullList<$ItemStack_>): void;
-        getSlots(): number;
+        copyInto(items: $NonNullList<$ItemStack_>): void;
         getStackInSlot(arg0: number): $ItemStack;
-        nonEmptyItems(): $Iterable<$ItemStack>;
+        getSlots(): number;
+        static fromSlots(items: $List_<$ItemContainerContents$Slot_>): $ItemContainerContents;
         asSlots(): $List<$ItemContainerContents$Slot>;
-        static fromSlots(arg0: $List_<$ItemContainerContents$Slot_>): $ItemContainerContents;
-        static fromItems(arg0: $List_<$ItemStack_>): $ItemContainerContents;
+        static fromItems(items: $List_<$ItemStack_>): $ItemContainerContents;
         copyOne(): $ItemStack;
         nonEmptyItemsCopy(): $Iterable<$ItemStack>;
         nonEmptyStream(): $Stream<$ItemStack>;
+        nonEmptyItems(): $Iterable<$ItemStack>;
         fabric_getStacks(): $NonNullList<$ItemStack>;
         static CODEC: $Codec<$ItemContainerContents>;
         static EMPTY: $ItemContainerContents;
@@ -322,11 +322,11 @@ declare module "@package/net/minecraft/world/item/component" {
     export class $Tool$Rule extends $Record {
         blocks(): $HolderSet<$Block>;
         speed(): (number) | undefined;
-        static deniesDrops(arg0: $TagKey_<$Block>): $Tool$Rule;
-        static minesAndDrops(arg0: $List_<$Block_>, arg1: number): $Tool$Rule;
-        static minesAndDrops(arg0: $TagKey_<$Block>, arg1: number): $Tool$Rule;
-        static overrideSpeed(arg0: $TagKey_<$Block>, arg1: number): $Tool$Rule;
-        static overrideSpeed(arg0: $List_<$Block_>, arg1: number): $Tool$Rule;
+        static minesAndDrops(blocks: $TagKey_<$Block>, speed: number): $Tool$Rule;
+        static minesAndDrops(blocks: $List_<$Block_>, speed: number): $Tool$Rule;
+        static overrideSpeed(blocks: $TagKey_<$Block>, speed: number): $Tool$Rule;
+        static overrideSpeed(blocks: $List_<$Block_>, speed: number): $Tool$Rule;
+        static deniesDrops(blocks: $TagKey_<$Block>): $Tool$Rule;
         correctForDrops(): (boolean) | undefined;
         static CODEC: $Codec<$Tool$Rule>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Tool$Rule>;
@@ -334,7 +334,7 @@ declare module "@package/net/minecraft/world/item/component" {
     }
     export class $DebugStickState extends $Record {
         properties(): $Map<$Holder<$Block>, $Property<never>>;
-        withProperty(arg0: $Holder_<$Block>, arg1: $Property<never>): $DebugStickState;
+        withProperty(block: $Holder_<$Block>, property: $Property<never>): $DebugStickState;
         static CODEC: $Codec<$DebugStickState>;
         static EMPTY: $DebugStickState;
         constructor(arg0: $Map_<$Holder_<$Block>, $Property<never>>);
@@ -342,12 +342,12 @@ declare module "@package/net/minecraft/world/item/component" {
     export class $ItemAttributeModifiers extends $Record {
         modifiers(): $List<$ItemAttributeModifiers$Entry>;
         static builder(): $ItemAttributeModifiers$Builder;
-        compute(arg0: number, arg1: $EquipmentSlot_): number;
-        forEach(arg0: $EquipmentSlotGroup_, arg1: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
-        forEach(arg0: $EquipmentSlot_, arg1: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
+        compute(baseValue: number, arg1: $EquipmentSlot_): number;
+        forEach(equipmentSlot: $EquipmentSlot_, action: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
+        forEach(slotGroup: $EquipmentSlotGroup_, action: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
+        withTooltip(showInTooltip: boolean): $ItemAttributeModifiers;
         showInTooltip(): boolean;
-        withModifierAdded(arg0: $Holder_<$Attribute>, arg1: $AttributeModifier_, arg2: $EquipmentSlotGroup_): $ItemAttributeModifiers;
-        withTooltip(arg0: boolean): $ItemAttributeModifiers;
+        withModifierAdded(attribute: $Holder_<$Attribute>, modifier: $AttributeModifier_, slot: $EquipmentSlotGroup_): $ItemAttributeModifiers;
         static CODEC: $Codec<$ItemAttributeModifiers>;
         static ATTRIBUTE_MODIFIER_FORMAT: $DecimalFormat;
         static EMPTY: $ItemAttributeModifiers;
@@ -356,14 +356,14 @@ declare module "@package/net/minecraft/world/item/component" {
     }
     export class $FireworkExplosion extends $Record implements $TooltipProvider {
         shape(): $FireworkExplosion$Shape;
-        colors(): $IntList;
-        hasTrail(): boolean;
         fadeColors(): $IntList;
         hasTwinkle(): boolean;
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
-        addShapeNameTooltip(arg0: $Consumer_<$Component>): void;
-        addAdditionalTooltip(arg0: $Consumer_<$Component>): void;
-        withFadeColors(arg0: $IntList): $FireworkExplosion;
+        hasTrail(): boolean;
+        addAdditionalTooltip(tooltipAdder: $Consumer_<$Component>): void;
+        addShapeNameTooltip(tooltipAdder: $Consumer_<$Component>): void;
+        colors(): $IntList;
+        withFadeColors(fadeColors: $IntList): $FireworkExplosion;
+        addToTooltip(context: $Item$TooltipContext, tooltipAdder: $Consumer_<$Component>, tooltipFlag: $TooltipFlag): void;
         static CODEC: $Codec<$FireworkExplosion>;
         static DEFAULT: $FireworkExplosion;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $FireworkExplosion>;
@@ -372,24 +372,24 @@ declare module "@package/net/minecraft/world/item/component" {
     }
     export class $CustomData {
         size(): number;
-        update(arg0: $Consumer_<$CompoundTag>): $CustomData;
-        static update(arg0: $DataComponentType_<$CustomData>, arg1: $ItemStack_, arg2: $Consumer_<$CompoundTag>): void;
-        update<T>(arg0: $DynamicOps<$Tag_>, arg1: $MapEncoder<T>, arg2: T): $DataResult<$CustomData>;
+        update<T>(ops: $DynamicOps<$Tag_>, encoder: $MapEncoder<T>, value: T): $DataResult<$CustomData>;
+        static update(componentType: $DataComponentType_<$CustomData>, stack: $ItemStack_, updater: $Consumer_<$CompoundTag>): void;
+        update(updater: $Consumer_<$CompoundTag>): $CustomData;
         isEmpty(): boolean;
-        static of(arg0: $CompoundTag_): $CustomData;
-        contains(arg0: string): boolean;
+        static of(tag: $CompoundTag_): $CustomData;
+        contains(key: string): boolean;
         /**
          * @deprecated
          */
         getUnsafe(): $CompoundTag;
-        static set(arg0: $DataComponentType_<$CustomData>, arg1: $ItemStack_, arg2: $CompoundTag_): void;
-        read<T>(arg0: $MapDecoder<T>): $DataResult<T>;
-        read<T>(arg0: $DynamicOps<$Tag_>, arg1: $MapDecoder<T>): $DataResult<T>;
-        matchedBy(arg0: $CompoundTag_): boolean;
+        static set(componentType: $DataComponentType_<$CustomData>, stack: $ItemStack_, tag: $CompoundTag_): void;
+        read<T>(ops: $DynamicOps<$Tag_>, decoder: $MapDecoder<T>): $DataResult<T>;
+        read<T>(decoder: $MapDecoder<T>): $DataResult<T>;
+        matchedBy(tag: $CompoundTag_): boolean;
+        loadInto(entity: $Entity): void;
+        loadInto(blockEntity: $BlockEntity, levelRegistry: $HolderLookup$Provider): boolean;
         copyTag(): $CompoundTag;
-        loadInto(arg0: $Entity): void;
-        loadInto(arg0: $BlockEntity, arg1: $HolderLookup$Provider): boolean;
-        static itemMatcher(arg0: $DataComponentType_<$CustomData>, arg1: $CompoundTag_): $Predicate<$ItemStack>;
+        static itemMatcher(componentType: $DataComponentType_<$CustomData>, tag: $CompoundTag_): $Predicate<$ItemStack>;
         static CODEC: $Codec<$CustomData>;
         static CODEC_WITH_ID: $Codec<$CustomData>;
         static EMPTY: $CustomData;
@@ -405,16 +405,16 @@ declare module "@package/net/minecraft/world/item/component" {
         isEmpty(): boolean;
         items(): $Iterable<$ItemStack>;
         weight(): $Fraction;
-        static getWeight(arg0: $ItemStack_): $Fraction;
-        static getOccupancy$fabric_transfer_api_v1_$md$9aa1a5$0(arg0: $ItemStack_): $Fraction;
+        static getWeight(stack: $ItemStack_): $Fraction;
+        static getOccupancy$fabric_transfer_api_v1_$md$dd6cb9$0(stack: $ItemStack_): $Fraction;
         itemsCopy(): $Iterable<$ItemStack>;
-        getItemUnsafe(arg0: number): $ItemStack;
+        getItemUnsafe(index: number): $ItemStack;
         itemCopyStream(): $Stream<$ItemStack>;
         static CODEC: $Codec<$BundleContents>;
         static EMPTY: $BundleContents;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $BundleContents>;
-        constructor(arg0: $List_<$ItemStack_>, arg1: $Fraction);
-        constructor(arg0: $List_<$ItemStack_>);
+        constructor(items: $List_<$ItemStack_>, weight: $Fraction);
+        constructor(items: $List_<$ItemStack_>);
         get empty(): boolean;
     }
     export class $MapItemColor extends $Record {

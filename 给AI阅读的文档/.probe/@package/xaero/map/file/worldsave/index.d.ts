@@ -16,24 +16,26 @@ export * as biome from "@package/xaero/map/file/worldsave/biome";
 
 declare module "@package/xaero/map/file/worldsave" {
     export class $WorldDataHandler {
-        prepareSingleplayer(arg0: $Level_, arg1: $MapProcessor): void;
-        getWorldDir(): $Path;
-        handleRenderExecutor(): void;
-        static onServerWorldUnload(arg0: $ServerLevel): void;
-        buildRegion(arg0: $MapRegion, arg1: $HolderLookup<$Block_>, arg2: $Registry<$Block_>, arg3: $Registry<$Fluid_>, arg4: boolean, arg5: number[]): $WorldDataHandler$Result;
         getWorldDataReader(): $WorldDataReader;
         getWorldServer(): $ServerLevel;
+        onResourceReload(): void;
+        static onServerWorldUnload(arg0: $ServerLevel): void;
+        handleRenderExecutor(): void;
+        getWorldDir(): $Path;
+        prepareSingleplayer(arg0: $Level_, arg1: $MapProcessor): void;
+        buildRegion(arg0: $MapRegion, arg1: $HolderLookup<$Block_>, arg2: $Registry<$Block_>, arg3: $Registry<$Fluid_>, arg4: boolean, arg5: number[]): $WorldDataHandler$Result;
         constructor(arg0: $WorldDataReader, arg1: $Executor);
-        get worldDir(): $Path;
         get worldDataReader(): $WorldDataReader;
         get worldServer(): $ServerLevel;
+        get worldDir(): $Path;
     }
     export class $WorldDataReader {
-        readChunk(arg0: $RegionFile, arg1: $ChunkPos): $CompoundTag;
+        onResourceReload(): void;
         setMapProcessor(arg0: $MapProcessor): void;
+        readChunk(arg0: $RegionFile, arg1: $ChunkPos): $CompoundTag;
         buildRegion(arg0: $MapRegion, arg1: $ServerLevel, arg2: $HolderLookup<$Block_>, arg3: $Registry<$Block_>, arg4: $Registry<$Fluid_>, arg5: boolean, arg6: number[], arg7: $Executor): boolean;
         taskCreationSync: $Object;
-        constructor(arg0: $OverlayManager, arg1: $BlockStateShortShapeCache, arg2: $WorldDataBiomeManager, arg3: number);
+        constructor(arg0: $OverlayManager, arg1: $BlockStateShortShapeCache, arg2: $WorldDataBiomeManager, arg3: number, arg4: $Executor);
         set mapProcessor(value: $MapProcessor);
     }
     export class $WorldDataHandler$Result extends $Enum<$WorldDataHandler$Result> {

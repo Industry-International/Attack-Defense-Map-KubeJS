@@ -34,15 +34,15 @@ declare module "@package/com/sighs/apricityui/instance/container/bind" {
         policy(arg0: $OpenBindPlan$ResizePolicy_): $OpenBindPlan$Builder$ContainerBindBuilder;
         minCapacity(arg0: number): $OpenBindPlan$Builder$ContainerBindBuilder;
         build(): $OpenBindPlan;
-        bind(arg0: string): $OpenBindPlan$Builder$ContainerBindBuilder;
         bind(): $OpenBindPlan$Builder;
+        bind(arg0: string): $OpenBindPlan$Builder$ContainerBindBuilder;
         entity(arg0: string): $OpenBindPlan$Builder$ContainerBindBuilder;
         entity(arg0: $UUID_): $OpenBindPlan$Builder$ContainerBindBuilder;
+        bindType(arg0: $ContainerBindType_): $OpenBindPlan$Builder$ContainerBindBuilder;
         player(): $OpenBindPlan$Builder$ContainerBindBuilder;
         blockEntity(arg0: number, arg1: number, arg2: number, arg3: string): $OpenBindPlan$Builder$ContainerBindBuilder;
-        savedData(arg0: string, arg1: string): $OpenBindPlan$Builder$ContainerBindBuilder;
         savedData(arg0: string, arg1: string, arg2: number): $OpenBindPlan$Builder$ContainerBindBuilder;
-        bindType(arg0: $ContainerBindType_): $OpenBindPlan$Builder$ContainerBindBuilder;
+        savedData(arg0: string, arg1: string): $OpenBindPlan$Builder$ContainerBindBuilder;
         exactCapacity(arg0: number): $OpenBindPlan$Builder$ContainerBindBuilder;
         primaryBind(arg0: string): $OpenBindPlan$Builder$ContainerBindBuilder;
     }
@@ -50,9 +50,9 @@ declare module "@package/com/sighs/apricityui/instance/container/bind" {
         static values(): $ContainerBindType[];
         static valueOf(arg0: string): $ContainerBindType;
         id(): string;
-        static isPlayer(arg0: $ContainerBindType_): boolean;
         static fromRaw(arg0: string): $ContainerBindType;
         static hasDataSource(arg0: $ContainerBindType_): boolean;
+        static isPlayer(arg0: $ContainerBindType_): boolean;
         static isVirtualUi(arg0: $ContainerBindType_): boolean;
         static PLAYER: $ContainerBindType;
         static ENTITY: $ContainerBindType;

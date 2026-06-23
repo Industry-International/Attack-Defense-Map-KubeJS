@@ -39,9 +39,9 @@ declare module "@package/net/fabricmc/fabric/impl/client/model/loading" {
     }
     export interface $ModelLoaderHooks {
         fabric_add(arg0: $ModelResourceLocation_, arg1: $UnbakedModel): void;
-        fabric_getDispatcher(): $ModelLoadingEventDispatcher;
-        fabric_getMissingModel(): $UnbakedModel;
         fabric_getOrLoadModel(arg0: $ResourceLocation_): $UnbakedModel;
+        fabric_getMissingModel(): $UnbakedModel;
+        fabric_getDispatcher(): $ModelLoadingEventDispatcher;
     }
     export class $BakerImplHooks {
     }

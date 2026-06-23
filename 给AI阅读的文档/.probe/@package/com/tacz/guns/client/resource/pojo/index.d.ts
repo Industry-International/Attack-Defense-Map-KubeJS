@@ -4,16 +4,16 @@ export * as model from "@package/com/tacz/guns/client/resource/pojo/model";
 
 declare module "@package/com/tacz/guns/client/resource/pojo" {
     export class $TransformScale {
-        getGround(): $Vector3f;
-        getFixed(): $Vector3f;
         getThirdPerson(): $Vector3f;
-        static getGunDefault(): $TransformScale;
+        getFixed(): $Vector3f;
+        getGround(): $Vector3f;
         static getAmmoDefault(): $TransformScale;
+        static getGunDefault(): $TransformScale;
         constructor();
-        get ground(): $Vector3f;
-        get fixed(): $Vector3f;
         get thirdPerson(): $Vector3f;
-        static get gunDefault(): $TransformScale;
+        get fixed(): $Vector3f;
+        get ground(): $Vector3f;
         static get ammoDefault(): $TransformScale;
+        static get gunDefault(): $TransformScale;
     }
 }

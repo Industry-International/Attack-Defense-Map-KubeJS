@@ -6,8 +6,8 @@ declare module "@package/xaero/map/pool/buffer" {
     export class $PoolTextureDirectBufferUnit implements $PoolUnit {
         reset(): void;
         create(...arg0: $Object[]): void;
-        static createBuffer(): $ByteBuffer;
         getDirectBuffer(): $ByteBuffer;
+        static createBuffer(): $ByteBuffer;
         constructor(...arg0: $Object[]);
         get directBuffer(): $ByteBuffer;
     }

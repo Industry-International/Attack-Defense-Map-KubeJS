@@ -5,11 +5,11 @@ declare module "@package/xaero/pac/common/player/config/group/custom/api" {
     }
     export interface $ICustomPlayerConfigGroupDataManagerAPI {
         dataExists(arg0: string): boolean;
-        getMaxGroups(): number;
-        getAllIdsSorted(): $List<string>;
         getGroupSpace(): number;
-        get maxGroups(): number;
-        get allIdsSorted(): $List<string>;
+        getAllIdsSorted(): $List<string>;
+        getMaxGroups(): number;
         get groupSpace(): number;
+        get allIdsSorted(): $List<string>;
+        get maxGroups(): number;
     }
 }

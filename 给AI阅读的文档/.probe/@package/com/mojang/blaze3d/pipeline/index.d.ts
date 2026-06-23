@@ -23,39 +23,39 @@ declare module "@package/com/mojang/blaze3d/pipeline" {
      */
     export type $RenderCall_ = (() => void);
     export class $RenderTarget implements $Blaze3dRenderTargetExt, $FramebufferRenderTargetAccessor, $PerformanceRenderTargetExtension, $RenderTargetExtension {
-        clear(arg0: boolean): void;
-        resize(arg0: number, arg1: number, arg2: boolean): void;
-        handler$bko000$veil$clear(arg0: boolean, arg1: $CallbackInfo): void;
-        iris$getDepthBufferVersion(): number;
+        clear(useDepth: boolean): void;
+        resize(width: number, height: number, disableBlend: boolean): void;
         iris$getColorBufferVersion(): number;
-        bindRead(): void;
-        unbindRead(): void;
-        veil$clearColorBuffer(arg0: boolean): void;
-        handler$bko000$veil$copyDepthFrom(arg0: $RenderTarget, arg1: $CallbackInfo): void;
-        handler$blh000$veil$bindWrite(arg0: boolean, arg1: $CallbackInfo): void;
-        handler$jio000$axiom$blitToScreen(ci: $CallbackInfo): void;
-        handler$blh000$veil$destroyBuffers(arg0: $CallbackInfo): void;
-        handler$blh000$veil$createBuffers(arg0: $CallbackInfo): void;
-        handler$blh000$veil$bindRead(arg0: $CallbackInfo): void;
-        setClearColor(arg0: number, arg1: number, arg2: number, arg3: number): void;
-        checkStatus(): void;
-        unbindWrite(): void;
-        blitToScreen(arg0: number, arg1: number): void;
-        blitToScreen(arg0: number, arg1: number, arg2: boolean): void;
-        bindWrite(arg0: boolean): void;
-        handler$dcj000$sodium$blitToScreen(arg0: number, arg1: number, arg2: boolean, arg3: $CallbackInfo): void;
-        handler$blh000$veil$getColorTextureId(arg0: $CallbackInfoReturnable<any>): void;
-        handler$blh000$veil$getDepthTextureId(arg0: $CallbackInfoReturnable<any>): void;
-        getColorTextureId(): number;
-        copyDepthFrom(arg0: $RenderTarget): void;
-        destroyBuffers(): void;
+        handler$bkl000$veil$clear(arg0: boolean, arg1: $CallbackInfo): void;
+        iris$getDepthBufferVersion(): number;
+        createBuffers(width: number, height: number, disableBlend: boolean): void;
+        setFilterMode(filterMode: number): void;
+        enableStencil(): void;
         veil$getTexture(arg0: number): number;
-        createBuffers(arg0: number, arg1: number, arg2: boolean): void;
         veil$setWrapper(arg0: $AdvancedFbo): void;
-        setFilterMode(arg0: number): void;
         isStencilEnabled(): boolean;
         getDepthTextureId(): number;
-        enableStencil(): void;
+        handler$ble000$veil$getColorTextureId(arg0: $CallbackInfoReturnable<any>): void;
+        handler$ble000$veil$getDepthTextureId(arg0: $CallbackInfoReturnable<any>): void;
+        destroyBuffers(): void;
+        bindWrite(useDepth: boolean): void;
+        getColorTextureId(): number;
+        copyDepthFrom(otherTarget: $RenderTarget): void;
+        handler$jfj000$axiom$blitToScreen(ci: $CallbackInfo): void;
+        handler$bkl000$veil$copyDepthFrom(arg0: $RenderTarget, arg1: $CallbackInfo): void;
+        handler$ble000$veil$destroyBuffers(arg0: $CallbackInfo): void;
+        handler$ble000$veil$bindRead(arg0: $CallbackInfo): void;
+        handler$ble000$veil$createBuffers(arg0: $CallbackInfo): void;
+        handler$ble000$veil$bindWrite(arg0: boolean, arg1: $CallbackInfo): void;
+        handler$cnj000$sodium$blitToScreen(arg0: number, arg1: number, arg2: boolean, arg3: $CallbackInfo): void;
+        bindRead(): void;
+        unbindRead(): void;
+        veil$clearColorBuffer(useDepth: boolean): void;
+        blitToScreen(width: number, height: number, disableBlend: boolean): void;
+        blitToScreen(width: number, height: number): void;
+        unbindWrite(): void;
+        checkStatus(): void;
+        setClearColor(red: number, green: number, blue: number, alpha: number): void;
         getClearChannels(): number[];
         useDepth: boolean;
         filterMode: number;
@@ -64,10 +64,10 @@ declare module "@package/com/mojang/blaze3d/pipeline" {
         width: number;
         viewHeight: number;
         height: number;
-        constructor(arg0: boolean);
-        get colorTextureId(): number;
+        constructor(useDepth: boolean);
         get stencilEnabled(): boolean;
         get depthTextureId(): number;
+        get colorTextureId(): number;
         get clearChannels(): number[];
     }
     export class $MainTarget extends $RenderTarget {
@@ -80,19 +80,19 @@ declare module "@package/com/mojang/blaze3d/pipeline" {
         viewHeight: number;
         static DEFAULT_WIDTH: number;
         height: number;
-        constructor(arg0: number, arg1: number);
+        constructor(width: number, height: number);
     }
     export class $RenderPipeline {
-        recordRenderCall(arg0: $RenderCall_): void;
-        beginRecording(): boolean;
-        endRecording(): void;
-        getProcessedQueue(): $ConcurrentLinkedQueue<$RenderCall>;
-        getRecordingQueue(): $ConcurrentLinkedQueue<$RenderCall>;
-        startRendering(): $ConcurrentLinkedQueue<$RenderCall>;
-        canBeginProcessing(): boolean;
         beginProcessing(): boolean;
         endProcessing(): void;
+        canBeginProcessing(): boolean;
         canBeginRecording(): boolean;
+        startRendering(): $ConcurrentLinkedQueue<$RenderCall>;
+        beginRecording(): boolean;
+        endRecording(): void;
+        recordRenderCall(renderCall: $RenderCall_): void;
+        getProcessedQueue(): $ConcurrentLinkedQueue<$RenderCall>;
+        getRecordingQueue(): $ConcurrentLinkedQueue<$RenderCall>;
         processRecordedQueue(): void;
         constructor();
         get processedQueue(): $ConcurrentLinkedQueue<$RenderCall>;
@@ -108,6 +108,6 @@ declare module "@package/com/mojang/blaze3d/pipeline" {
         width: number;
         viewHeight: number;
         height: number;
-        constructor(arg0: number, arg1: number, arg2: boolean, arg3: boolean);
+        constructor(width: number, height: number, useDepth: boolean, clearError: boolean);
     }
 }

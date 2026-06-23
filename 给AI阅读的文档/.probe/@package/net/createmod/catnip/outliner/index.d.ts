@@ -35,19 +35,19 @@ declare module "@package/net/createmod/catnip/outliner" {
         get params(): $Outline$OutlineParams;
     }
     export class $Outline$OutlineParams {
-        lightmap(arg0: number): $Outline$OutlineParams;
-        getLineWidth(): number;
         colored(arg0: $Color): $Outline$OutlineParams;
         colored(arg0: number): $Outline$OutlineParams;
-        lineWidth(arg0: number): $Outline$OutlineParams;
         disableCull(): $Outline$OutlineParams;
+        disableLineNormals(): $Outline$OutlineParams;
+        getLineWidth(): number;
+        lineWidth(arg0: number): $Outline$OutlineParams;
+        lightmap(arg0: number): $Outline$OutlineParams;
+        withFaceTextures(arg0: $BindableTexture_ | null, arg1: $BindableTexture_ | null): $Outline$OutlineParams;
+        highlightFace(arg0: $Direction_ | null): $Outline$OutlineParams;
+        withFaceTexture(arg0: $BindableTexture_ | null): $Outline$OutlineParams;
         getHighlightedFace(): $Direction;
         clearTextures(): $Outline$OutlineParams;
-        highlightFace(arg0: $Direction_): $Outline$OutlineParams;
-        withFaceTextures(arg0: $BindableTexture_, arg1: $BindableTexture_): $Outline$OutlineParams;
-        withFaceTexture(arg0: $BindableTexture_): $Outline$OutlineParams;
         loadColor(arg0: $Vector4f): void;
-        disableLineNormals(): $Outline$OutlineParams;
         constructor();
         get highlightedFace(): $Direction;
     }
@@ -55,18 +55,18 @@ declare module "@package/net/createmod/catnip/outliner" {
         remove(arg0: $Object): void;
         static getInstance(): $Outliner;
         keep(arg0: $Object): void;
+        showAABB(arg0: $Object, arg1: $AABB_): $Outline$OutlineParams;
+        showAABB(arg0: $Object, arg1: $AABB_, arg2: number): $Outline$OutlineParams;
         edit(arg0: $Object): ($Outline$OutlineParams) | undefined;
-        showCluster(arg0: $Object, arg1: $Iterable_<$BlockPos>): $Outline$OutlineParams;
-        getOutlines(): $Map<$Object, $Outliner$OutlineEntry>;
-        showOutline(arg0: $Object, arg1: $Outline): $Outline$OutlineParams;
+        tickOutlines(): void;
+        renderOutlines(arg0: $PoseStack, arg1: $SuperRenderTypeBuffer, arg2: $Vec3_, arg3: number): void;
         endChasingLine(arg0: $Object, arg1: $Vec3_, arg2: $Vec3_, arg3: number, arg4: boolean): $Outline$OutlineParams;
         showLine(arg0: $Object, arg1: $Vec3_, arg2: $Vec3_): $Outline$OutlineParams;
         showItem(arg0: $Object, arg1: $Vec3_, arg2: $ItemStack_): $Outline$OutlineParams;
-        showAABB(arg0: $Object, arg1: $AABB_): $Outline$OutlineParams;
-        showAABB(arg0: $Object, arg1: $AABB_, arg2: number): $Outline$OutlineParams;
         chaseAABB(arg0: $Object, arg1: $AABB_): $Outline$OutlineParams;
-        renderOutlines(arg0: $PoseStack, arg1: $SuperRenderTypeBuffer, arg2: $Vec3_, arg3: number): void;
-        tickOutlines(): void;
+        showCluster(arg0: $Object, arg1: $Iterable_<$BlockPos>): $Outline$OutlineParams;
+        getOutlines(): $Map<$Object, $Outliner$OutlineEntry>;
+        showOutline(arg0: $Object, arg1: $Outline): $Outline$OutlineParams;
         constructor();
         static get instance(): $Outliner;
         get outlines(): $Map<$Object, $Outliner$OutlineEntry>;

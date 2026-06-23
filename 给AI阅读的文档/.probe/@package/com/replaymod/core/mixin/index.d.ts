@@ -13,14 +13,14 @@ declare module "@package/com/replaymod/core/mixin" {
     export interface $MinecraftAccessor {
         getTimer(): $DeltaTracker$Timer;
         setTimer(arg0: $DeltaTracker$Timer): void;
-        getPendingReload(): $CompletableFuture<void>;
         setConnection(arg0: $Connection): void;
-        getCrashReporter(): $Supplier<$CrashReport>;
         setPendingReload(arg0: $CompletableFuture<void>): void;
         getProgressTasks(): $Queue<$Runnable>;
+        getCrashReporter(): $Supplier<$CrashReport>;
+        getPendingReload(): $CompletableFuture<void>;
         set connection(value: $Connection);
-        get crashReporter(): $Supplier<$CrashReport>;
         get progressTasks(): $Queue<$Runnable>;
+        get crashReporter(): $Supplier<$CrashReport>;
     }
     export class $AbstractButtonWidgetAccessor {
     }
@@ -41,8 +41,8 @@ declare module "@package/com/replaymod/core/mixin" {
     export class $TimerAccessor {
     }
     export interface $TimerAccessor {
-        setTickLength(arg0: number): void;
         getTickLength(): number;
+        setTickLength(arg0: number): void;
     }
     export class $GuiScreenAccessor {
     }

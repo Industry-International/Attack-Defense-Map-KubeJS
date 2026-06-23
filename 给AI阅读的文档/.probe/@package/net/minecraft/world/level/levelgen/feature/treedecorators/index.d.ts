@@ -19,15 +19,15 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/treedecorato
         exclusionRadiusY: number;
         blockProvider: $BlockStateProvider;
         exclusionRadiusXZ: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: $BlockStateProvider, arg4: number, arg5: $List_<$Direction_>);
+        constructor(probability: number, exclusionRadiusXZ: number, exclusionRadiusY: number, blockProvider: $BlockStateProvider, requiredEmptyBlocks: number, directions: $List_<$Direction_>);
     }
     export class $BeehiveDecorator extends $TreeDecorator {
         static CODEC: $MapCodec<$BeehiveDecorator>;
-        constructor(arg0: number);
+        constructor(probability: number);
     }
     export class $LeaveVineDecorator extends $TreeDecorator {
         static CODEC: $MapCodec<$LeaveVineDecorator>;
-        constructor(arg0: number);
+        constructor(probability: number);
     }
     export class $TreeDecoratorType<P extends $TreeDecorator> {
         codec(): $MapCodec<P>;
@@ -37,7 +37,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/treedecorato
         static ATTACHED_TO_LEAVES: $TreeDecoratorType<$AttachedToLeavesDecorator>;
         static COCOA: $TreeDecoratorType<$CocoaDecorator>;
         static ALTER_GROUND: $TreeDecoratorType<$AlterGroundDecorator>;
-        constructor(arg0: $MapCodec_<P>);
+        constructor(codec: $MapCodec_<P>);
     }
     /**
      * Values that may be interpreted as {@link $TreeDecoratorType}.
@@ -47,17 +47,17 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/treedecorato
         roots(): $ObjectArrayList<$BlockPos>;
         random(): $RandomSource;
         level(): $LevelSimulatedReader;
-        leaves(): $ObjectArrayList<$BlockPos>;
-        setBlock(arg0: $BlockPos_, arg1: $BlockState_): void;
-        placeVine(arg0: $BlockPos_, arg1: $BooleanProperty): void;
         logs(): $ObjectArrayList<$BlockPos>;
-        isAir(arg0: $BlockPos_): boolean;
-        constructor(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $Set_<$BlockPos_>, arg4: $Set_<$BlockPos_>, arg5: $Set_<$BlockPos_>);
+        isAir(pos: $BlockPos_): boolean;
+        placeVine(pos: $BlockPos_, sideProperty: $BooleanProperty): void;
+        setBlock(pos: $BlockPos_, state: $BlockState_): void;
+        leaves(): $ObjectArrayList<$BlockPos>;
+        constructor(level: $LevelSimulatedReader, decorationSetter: $BiConsumer_<$BlockPos, $BlockState>, random: $RandomSource, logs: $Set_<$BlockPos_>, leaves: $Set_<$BlockPos_>, roots: $Set_<$BlockPos_>);
     }
-    export interface $TreeDecoratorType extends RegistryMarked<RegistryTypes.WorldgenTreeDecoratorTypeTag, RegistryTypes.WorldgenTreeDecoratorType> {}
+    export interface $TreeDecoratorType<P> extends RegistryMarked<RegistryTypes.WorldgenTreeDecoratorTypeTag, RegistryTypes.WorldgenTreeDecoratorType> {}
     export class $CocoaDecorator extends $TreeDecorator {
         static CODEC: $MapCodec<$CocoaDecorator>;
-        constructor(arg0: number);
+        constructor(probability: number);
     }
     export class $TrunkVineDecorator extends $TreeDecorator {
         static CODEC: $MapCodec<$TrunkVineDecorator>;
@@ -66,11 +66,11 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/treedecorato
     }
     export class $AlterGroundDecorator extends $TreeDecorator {
         static CODEC: $MapCodec<$AlterGroundDecorator>;
-        constructor(arg0: $BlockStateProvider);
+        constructor(provider: $BlockStateProvider);
     }
     export class $TreeDecorator {
         type(): $TreeDecoratorType<never>;
-        place(arg0: $TreeDecorator$Context): void;
+        place(context: $TreeDecorator$Context): void;
         static CODEC: $Codec<$TreeDecorator>;
         constructor();
     }

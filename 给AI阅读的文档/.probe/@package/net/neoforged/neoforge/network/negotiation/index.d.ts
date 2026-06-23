@@ -27,9 +27,43 @@ declare module "@package/net/neoforged/neoforge/network/negotiation" {
         failureReasons(): $Map<$ResourceLocation, $Component>;
         constructor(components: $List_<$NegotiatedNetworkComponent_>, success: boolean, failureReasons: $Map_<$ResourceLocation_, $Component_>);
     }
+    /**
+     * Negotiates the network components between the server and client.
+     */
     export class $NetworkComponentNegotiator {
-        static negotiate(arg0: $List_<$NegotiableNetworkComponent_>, arg1: $List_<$NegotiableNetworkComponent_>): $NegotiationResult;
-        static validateComponent(arg0: $NegotiableNetworkComponent_, arg1: $NegotiableNetworkComponent_, arg2: string): ($NetworkComponentNegotiator$ComponentNegotiationResult) | undefined;
+        /**
+         * Checks if two components are compatible.
+         * 
+         * The following rules are followed:
+         * 
+         * - Check if packet flow directions are set, and if at least one is set match it to the other, by missing or wrong value fail the negotiation.
+         * - Check if both sides have the same version, or none set.
+         * 
+         * If negotiation succeeds then an empty `Optional` is returned.
+         * 
+         * If negotiation fails then a `NegotiationResult` is returned with the reason for failure.
+         */
+        static validateComponent(left: $NegotiableNetworkComponent_, right: $NegotiableNetworkComponent_, requestingSide: string): ($NetworkComponentNegotiator$ComponentNegotiationResult) | undefined;
+        /**
+         * Negotiates the network components between the server and client.
+         * 
+         * The following rules are followed:
+         * 
+         * - Any component that is optional on the client but is not present on the server is removed from the client's list.
+         * - Any component that is optional on the server but is not present on the client is removed from the server's list.
+         * - If the client has none optional components that are not present on the server, then negotiation fails
+         * - If the server has none optional components that are not present on the client, then negotiation fails
+         * - For each of the matching channels the following is executed:
+         * - Check if packet flow directions are set, and if at least one is set match it to the other, by missing or wrong value fail the negotiation.
+         * - Check if both sides have the same version, or none set.
+         * 
+         * At this point the channels are considered compatible, pick the servers version. It does not matter what side is picked since either both have the same version, or no version at all.
+         * 
+         * If negotiation succeeds then a list of agreed upon channels and their versions is returned.
+         * 
+         * If negotiation fails then a `Component` is returned with the reason for failure.
+         */
+        static negotiate(server: $List_<$NegotiableNetworkComponent_>, client: $List_<$NegotiableNetworkComponent_>): $NegotiationResult;
         constructor();
     }
     export class $NegotiatedNetworkComponent extends $Record {

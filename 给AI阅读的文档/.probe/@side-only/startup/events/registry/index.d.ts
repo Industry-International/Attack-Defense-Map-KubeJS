@@ -29,6 +29,9 @@ declare module "@side-only/startup/events/registry" {
         create(name: string, type: "kubejs:thin"): $ThinFluidBuilder;
         create(name: string, type: "kubejs:thick"): $ThickFluidBuilder;
     }
+    class Potion extends $RegistryKubeEvent<$Potion> {
+        create(name: string): $PotionBuilder;
+    }
     class Block extends $RegistryKubeEvent<$Block> {
         create(name: string): $BasicKubeBlock$Builder;
         create(name: string, type: "kubejs:detector"): $DetectorBlock$Builder;
@@ -46,9 +49,6 @@ declare module "@side-only/startup/events/registry" {
         create(name: string, type: "kubejs:door"): $DoorBlockBuilder;
         create(name: string, type: "kubejs:trapdoor"): $TrapdoorBlockBuilder;
         create(name: string, type: "kubejs:pillar"): $PillarBlockBuilder;
-    }
-    class Potion extends $RegistryKubeEvent<$Potion> {
-        create(name: string): $PotionBuilder;
     }
     class Item extends $RegistryKubeEvent<$Item> {
         create(name: string): $ItemBuilder;

@@ -11,13 +11,13 @@ declare module "@package/com/atsuishio/superbwarfare/entity/mixin" {
         static Companion: $DamageAccess$Companion;
     }
     export interface $DamageAccess {
+        superbWarfare$checkTotemDeathProtection(arg0: $DamageSource_): boolean;
+        superbWarfare$getDeathSound(): $SoundEvent;
         superbWarfare$actuallyHurt(arg0: $DamageSource_, arg1: number): void;
         superbWarfare$hurtHelmet(arg0: $DamageSource_, arg1: number): void;
         superbWarfare$getSoundVolume(): number;
-        superbWarfare$playHurtSound(arg0: $DamageSource_): void;
         superbwarfare$getDamageContainers(): $Stack<$DamageContainer>;
-        superbWarfare$getDeathSound(): $SoundEvent;
-        superbWarfare$checkTotemDeathProtection(arg0: $DamageSource_): boolean;
+        superbWarfare$playHurtSound(arg0: $DamageSource_): void;
     }
     export class $CupidLove$Companion {
         getInstance(arg0: $Villager): $CupidLove;
@@ -34,17 +34,17 @@ declare module "@package/com/atsuishio/superbwarfare/entity/mixin" {
         static Companion: $OBBHitter$Companion;
     }
     export interface $OBBHitter {
-        sbw$setCurrentHitPart(arg0: $OBB$Part_): void;
         sbw$getCurrentHitPart(): $OBB$Part;
+        sbw$setCurrentHitPart(arg0: $OBB$Part_): void;
     }
     export class $ICustomKnockback {
         static getInstance(arg0: $LivingEntity): $ICustomKnockback;
         static Companion: $ICustomKnockback$Companion;
     }
     export interface $ICustomKnockback {
-        superbWarfare$getKnockbackStrength(): number;
-        superbWarfare$setKnockbackStrength(arg0: number): void;
         superbWarfare$resetKnockbackStrength(): void;
+        superbWarfare$setKnockbackStrength(arg0: number): void;
+        superbWarfare$getKnockbackStrength(): number;
     }
     export class $BeastEntityKiller$Companion {
         getInstance(arg0: $LivingEntity): $BeastEntityKiller;

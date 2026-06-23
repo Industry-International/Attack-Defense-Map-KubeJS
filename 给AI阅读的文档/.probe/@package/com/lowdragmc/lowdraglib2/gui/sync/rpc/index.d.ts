@@ -1,5 +1,5 @@
 import { $Consumer_, $BiConsumer_, $Supplier_, $Function_, $BiFunction_, $Function, $Supplier } from "@package/java/util/function";
-import { $Function4_, $Function8_, $Function11_, $Function6_, $Function5_, $Function3_, $Function9_, $Function10_, $Function7_, $Function12_ } from "@package/com/mojang/datafixers/util";
+import { $Function4_, $Function8_, $Function6_, $Function11_, $Function5_, $Function3_, $Function9_, $Function10_, $Function7_, $Function12_ } from "@package/com/mojang/datafixers/util";
 import { $RegistryFriendlyByteBuf } from "@package/net/minecraft/network";
 import { $SyncValueHolder } from "@package/com/lowdragmc/lowdraglib2/syncdata";
 import { $Type } from "@package/java/lang/reflect";
@@ -11,12 +11,12 @@ import { $Runnable_, $Record, $Object, $Class } from "@package/java/lang";
 declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/rpc" {
     export class $RPCEvent extends $Record {
         executor(): $Function<$Object[], $Object>;
-        hasReturn(): boolean;
-        returnHolder(): $SyncValueHolder<any>;
+        writeReturnValueToBuffer(arg0: $RegistryFriendlyByteBuf, arg1: $Object): void;
+        readParametersFromBuffer(arg0: $RegistryFriendlyByteBuf): $Object[];
         readReturnValueFromBuffer(arg0: $RegistryFriendlyByteBuf): $Object;
         writeParametersToBuffer(arg0: $RegistryFriendlyByteBuf, arg1: $Object[]): void;
-        readParametersFromBuffer(arg0: $RegistryFriendlyByteBuf): $Object[];
-        writeReturnValueToBuffer(arg0: $RegistryFriendlyByteBuf, arg1: $Object): void;
+        hasReturn(): boolean;
+        returnHolder(): $SyncValueHolder<any>;
         argHolders(): $SyncValueHolder<any>[];
         constructor(argHolders: $SyncValueHolder<any>[], returnHolder: $SyncValueHolder<any>, executor: $Function_<$Object[], $Object>);
     }
@@ -35,7 +35,6 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/rpc" {
         static create(): $RPCEventBuilder;
         build(): $RPCEvent;
         executor(arg0: $Function_<$Object[], $Object>): $RPCEventBuilder;
-        static simple<A1, A2, A3, A4, A5, A6, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<A6>, arg6: $Class<R>, arg7: $Function6_<A1, A2, A3, A4, A5, A6, R>): $RPCEvent;
         static simple<A1, A2, A3, A4, A5, A6, A7, A8, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<A6>, arg6: $Class<A7>, arg7: $Class<A8>, arg8: $Class<R>, arg9: $Function8_<A1, A2, A3, A4, A5, A6, A7, A8, R>): $RPCEvent;
         static simple<A1, A2, A3, A4, A5, A6, A7, A8, A9>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<A6>, arg6: $Class<A7>, arg7: $Class<A8>, arg8: $Class<A9>, arg9: $Consumer9_<A1, A2, A3, A4, A5, A6, A7, A8, A9>): $RPCEvent;
         static simple<A1, A2, A3, A4, A5, A6, A7, A8, A9, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<A6>, arg6: $Class<A7>, arg7: $Class<A8>, arg8: $Class<A9>, arg9: $Class<R>, arg10: $Function9_<A1, A2, A3, A4, A5, A6, A7, A8, A9, R>): $RPCEvent;
@@ -55,9 +54,10 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/sync/rpc" {
         static simple<A1>(arg0: $Class<A1>, arg1: $Consumer_<A1>): $RPCEvent;
         static simple<R>(arg0: $Class<R>, arg1: $Supplier_<R>): $RPCEvent;
         static simple(arg0: $Runnable_): $RPCEvent;
-        static simple<A1, A2, A3, A4, A5, A6>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<A6>, arg6: $Consumer6_<A1, A2, A3, A4, A5, A6>): $RPCEvent;
-        static simple<A1, A2, A3, A4, A5, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<R>, arg6: $Function5_<A1, A2, A3, A4, A5, R>): $RPCEvent;
         static simple<A1, A2, A3, A4, A5>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Consumer5_<A1, A2, A3, A4, A5>): $RPCEvent;
+        static simple<A1, A2, A3, A4, A5, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<R>, arg6: $Function5_<A1, A2, A3, A4, A5, R>): $RPCEvent;
+        static simple<A1, A2, A3, A4, A5, A6>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<A6>, arg6: $Consumer6_<A1, A2, A3, A4, A5, A6>): $RPCEvent;
+        static simple<A1, A2, A3, A4, A5, A6, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<A5>, arg5: $Class<A6>, arg6: $Class<R>, arg7: $Function6_<A1, A2, A3, A4, A5, A6, R>): $RPCEvent;
         static simple<A1, A2, A3, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<R>, arg4: $Function3_<A1, A2, A3, R>): $RPCEvent;
         static simple<A1, A2, A3, A4>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Consumer4_<A1, A2, A3, A4>): $RPCEvent;
         static simple<A1, A2, A3, A4, R>(arg0: $Class<A1>, arg1: $Class<A2>, arg2: $Class<A3>, arg3: $Class<A4>, arg4: $Class<R>, arg5: $Function4_<A1, A2, A3, A4, R>): $RPCEvent;

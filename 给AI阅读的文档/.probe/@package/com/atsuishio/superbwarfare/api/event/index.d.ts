@@ -42,8 +42,8 @@ declare module "@package/com/atsuishio/superbwarfare/api/event" {
         getId(): string;
         getData(): T;
         setData(arg0: T): void;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: string, arg1: $Object, arg2: $DefaultConstructorMarker);
         get id(): string;
     }
@@ -67,38 +67,38 @@ declare module "@package/com/atsuishio/superbwarfare/api/event" {
     }
     export class $LoadingJsonEvent extends $Event implements $ICancellableEvent {
         getId(): string;
-        getAsGsonObject(): $JsonObject;
         getAsJsonObject(): $JsonObject$1;
         getJsonStr(): string;
         setJsonStr(arg0: string): void;
-        setCanceled(arg0: boolean): void;
+        getAsGsonObject(): $JsonObject;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: string, arg1: string);
         get id(): string;
-        get asGsonObject(): $JsonObject;
         get asJsonObject(): $JsonObject$1;
+        get asGsonObject(): $JsonObject;
     }
     export class $ShootEvent extends $Event {
         getParameters(): $ShootParameters;
         getLevel(): $ServerLevel;
         getData(): $GunData;
-        getShooter(): $Entity;
         getZoom(): boolean;
+        getShooter(): $Entity;
         getSpread(): number;
         constructor(arg0: $ShootParameters_, arg1: $DefaultConstructorMarker);
         get parameters(): $ShootParameters;
         get level(): $ServerLevel;
         get data(): $GunData;
-        get shooter(): $Entity;
         get zoom(): boolean;
+        get shooter(): $Entity;
         get spread(): number;
     }
     export class $ProjectileHitEvent extends $Event implements $ICancellableEvent {
         getOwner(): $Entity;
         getHitVec(): $Vec3;
         getProjectile(): $Projectile;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $Entity, arg1: $Projectile, arg2: $Vec3_, arg3: $DefaultConstructorMarker);
         get owner(): $Entity;
         get hitVec(): $Vec3;
@@ -111,8 +111,8 @@ declare module "@package/com/atsuishio/superbwarfare/api/event" {
         getTarget(): $LivingEntity;
         getSource(): $DamageSource;
         getEntity(): $LivingEntity;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $LivingEntity, arg1: $DamageSource_, arg2: $LivingEntity, arg3: $DefaultConstructorMarker);
         get target(): $LivingEntity;
         get source(): $DamageSource;
@@ -138,23 +138,23 @@ declare module "@package/com/atsuishio/superbwarfare/api/event" {
     }
     export class $RenderPlayerArmEvent extends $Event implements $ICancellableEvent {
         getStack(): $PoseStack;
-        getRenderType(): $RenderType;
-        getTransformType(): $ItemDisplayContext;
-        getLocalPlayer(): $LocalPlayer;
-        getArm(): $HumanoidArm;
         getBone(): $GeoBone;
+        getRenderType(): $RenderType;
+        getLocalPlayer(): $LocalPlayer;
+        getTransformType(): $ItemDisplayContext;
+        getArm(): $HumanoidArm;
         getCurrentBuffer(): $MultiBufferSource;
         getPackedLightIn(): number;
         isUseOldHandRender(): boolean;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $LocalPlayer, arg1: $ItemDisplayContext_, arg2: $PoseStack, arg3: $HumanoidArm_, arg4: $GeoBone, arg5: $MultiBufferSource_, arg6: $RenderType, arg7: number, arg8: boolean);
         get stack(): $PoseStack;
-        get renderType(): $RenderType;
-        get transformType(): $ItemDisplayContext;
-        get localPlayer(): $LocalPlayer;
-        get arm(): $HumanoidArm;
         get bone(): $GeoBone;
+        get renderType(): $RenderType;
+        get localPlayer(): $LocalPlayer;
+        get transformType(): $ItemDisplayContext;
+        get arm(): $HumanoidArm;
         get currentBuffer(): $MultiBufferSource;
         get packedLightIn(): number;
         get useOldHandRender(): boolean;

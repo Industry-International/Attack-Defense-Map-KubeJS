@@ -1,6 +1,6 @@
 export * as event from "@package/net/neoforged/neoforge/event";
-export * as common from "@package/net/neoforged/neoforge/common";
 export * as registries from "@package/net/neoforged/neoforge/registries";
+export * as common from "@package/net/neoforged/neoforge/common";
 export * as client from "@package/net/neoforged/neoforge/client";
 export * as server from "@package/net/neoforged/neoforge/server";
 export * as network from "@package/net/neoforged/neoforge/network";

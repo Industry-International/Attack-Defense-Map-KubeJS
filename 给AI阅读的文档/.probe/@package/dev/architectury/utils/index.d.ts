@@ -12,8 +12,8 @@ declare module "@package/dev/architectury/utils" {
         ifPresent(action: $Consumer_<T>): void;
         ifPresentOrElse(action: $Consumer_<T>, emptyAction: $Runnable_): void;
         orElseGet(supplier: $Supplier_<T>): T;
-        getOrNull(): T;
         toOptional(): (T) | undefined;
+        getOrNull(): T;
         get present(): boolean;
         get orNull(): T;
     }

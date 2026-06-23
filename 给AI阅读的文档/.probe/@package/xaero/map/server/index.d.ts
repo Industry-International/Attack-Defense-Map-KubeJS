@@ -10,11 +10,11 @@ declare module "@package/xaero/map/server" {
     export class $MinecraftServerData {
         static get(arg0: $MinecraftServer): $MinecraftServerData;
         getLevelProperties(arg0: $Path_): $LevelMapProperties;
-        getSyncedPlayerTracker(): $SyncedPlayerTracker;
         getSyncedPlayerTrackerSystemManager(): $SyncedPlayerTrackerSystemManager;
+        getSyncedPlayerTracker(): $SyncedPlayerTracker;
         constructor(arg0: $SyncedPlayerTrackerSystemManager, arg1: $SyncedPlayerTracker);
-        get syncedPlayerTracker(): $SyncedPlayerTracker;
         get syncedPlayerTrackerSystemManager(): $SyncedPlayerTrackerSystemManager;
+        get syncedPlayerTracker(): $SyncedPlayerTracker;
     }
     export class $IMinecraftServer {
     }

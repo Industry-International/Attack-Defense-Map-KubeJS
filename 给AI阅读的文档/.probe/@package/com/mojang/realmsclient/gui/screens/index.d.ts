@@ -52,7 +52,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmsConfigureWorldScreen, arg1: $RealmsServer);
+        constructor(configureWorldScreen: $RealmsConfigureWorldScreen, serverData: $RealmsServer);
     }
     export class $RealmsResetWorldScreen$FrameButton extends $Button {
         static SPRITES: $WidgetSprites;
@@ -101,7 +101,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmCreationTask, arg1: number, arg2: number, arg3: $RealmsResetWorldScreen);
+        constructor(realmCreationTask: $RealmCreationTask | null, realmId: number, arg2: number, slotId: $RealmsResetWorldScreen);
     }
     export class $RealmsPlayerScreen$Entry extends $ContainerObjectSelectionList$Entry<$RealmsPlayerScreen$Entry> {
         /**
@@ -111,8 +111,8 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
     }
     export class $UploadResult$Builder {
         build(): $UploadResult;
-        withErrorMessage(arg0: string): $UploadResult$Builder;
-        withStatusCode(arg0: number): $UploadResult$Builder;
+        withErrorMessage(errorMessage: string | null): $UploadResult$Builder;
+        withStatusCode(statusCode: number): $UploadResult$Builder;
         constructor();
     }
     export class $RealmsGenericErrorScreen$ErrorMessage extends $Record {
@@ -144,7 +144,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen);
+        constructor(nextScreen: $Screen);
     }
     export class $RealmsTermsScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -173,7 +173,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $RealmsServer);
+        constructor(lastScreen: $Screen, realmsServer: $RealmsServer);
     }
     export class $RealmsConfirmScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -202,7 +202,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $BooleanConsumer_, arg1: $Component_, arg2: $Component_);
+        constructor(callback: $BooleanConsumer_, title1: $Component_, title2: $Component_);
     }
     export class $RealmsNotificationsScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -262,7 +262,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmsConfigureWorldScreen, arg1: $RealmsWorldOptions, arg2: $RealmsServer$WorldType_, arg3: number);
+        constructor(parent: $RealmsConfigureWorldScreen, options: $RealmsWorldOptions, worldType: $RealmsServer$WorldType_, activeSlot: number);
     }
     export class $RealmsSelectWorldTemplateScreen$WorldTemplateList extends $RealmsObjectSelectionList<$RealmsSelectWorldTemplateScreen$Entry> {
         minecraft: $Minecraft;
@@ -285,9 +285,9 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         height: number;
     }
     export class $RealmsResetWorldScreen extends $RealmsScreen {
-        static forResetSlot(arg0: $Screen, arg1: $RealmsServer, arg2: $Runnable_): $RealmsResetWorldScreen;
-        static forEmptySlot(arg0: $Screen, arg1: number, arg2: $RealmsServer, arg3: $Runnable_): $RealmsResetWorldScreen;
-        static forNewRealm(arg0: $Screen, arg1: $RealmsServer, arg2: $RealmCreationTask, arg3: $Runnable_): $RealmsResetWorldScreen;
+        static forResetSlot(lastScreen: $Screen, serverData: $RealmsServer, resetWorldRunnable: $Runnable_): $RealmsResetWorldScreen;
+        static forEmptySlot(lastScreen: $Screen, slot: number, serverData: $RealmsServer, resetWorldRunnable: $Runnable_): $RealmsResetWorldScreen;
+        static forNewRealm(lastScreen: $Screen, serverData: $RealmsServer, realmCreationTask: $RealmCreationTask, resetWorldRunnable: $Runnable_): $RealmsResetWorldScreen;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -316,7 +316,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $RealmsServer, arg2: number, arg3: $Component_, arg4: $Component_, arg5: number, arg6: $Component_, arg7: $RealmCreationTask, arg8: $Runnable_);
+        constructor(lastScreen: $Screen, serverData: $RealmsServer, slot: number, title: $Component_, subtitle: $Component_, subtitleColor: number, resetTaskTitle: $Component_, realmCreationTask: $RealmCreationTask | null, resetWorldRunnable: $Runnable_);
     }
     export class $RealmsSubscriptionInfoScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -345,7 +345,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $RealmsServer, arg2: $Screen);
+        constructor(lastScreen: $Screen, serverData: $RealmsServer, mainScreen: $Screen);
     }
     export class $RealmsClientOutdatedScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -374,7 +374,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen);
+        constructor(lastScreen: $Screen);
     }
     export class $RealmsGenericErrorScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -403,12 +403,12 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $Component_, arg2: $Screen);
-        constructor(arg0: $Component_, arg1: $Screen);
-        constructor(arg0: $RealmsServiceException, arg1: $Screen);
+        constructor(title: $Component_, line2: $Component_, message: $Screen);
+        constructor(message: $Component_, nextScreen: $Screen);
+        constructor(serviceException: $RealmsServiceException, nextScreen: $Screen);
     }
     export class $RealmsLongRunningMcoTaskScreen extends $RealmsScreen {
-        setTitle(arg0: $Component_): void;
+        setTitle(title: $Component_): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -435,7 +435,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, ...arg1: $LongRunningTask[]);
+        constructor(lastScreen: $Screen, ...queuedTasks: $LongRunningTask[]);
     }
     export class $RealmsBackupInfoScreen$BackupInfoList extends $ObjectSelectionList<$RealmsBackupInfoScreen$BackupInfoListEntry> {
         minecraft: $Minecraft;
@@ -502,11 +502,11 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Backup);
+        constructor(lastScreen: $Screen, backup: $Backup);
     }
     export class $AddRealmPopupScreen extends $RealmsScreen {
-        static renderDiamond(arg0: $GuiGraphics, arg1: $Button): void;
-        static updateCarouselImages(arg0: $ResourceManager): void;
+        static renderDiamond(guiGraphics: $GuiGraphics, button: $Button): void;
+        static updateCarouselImages(resourceManager: $ResourceManager): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -533,7 +533,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: boolean);
+        constructor(backgroundScreen: $Screen, trialAvailable: boolean);
     }
     export class $RealmsSelectFileToUploadScreen$Entry extends $ObjectSelectionList$Entry<$RealmsSelectFileToUploadScreen$Entry> {
         /**
@@ -568,7 +568,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmsConfigureWorldScreen, arg1: $Screen, arg2: $RealmsServer);
+        constructor(configureScreen: $RealmsConfigureWorldScreen, lastScreen: $Screen, serverData: $RealmsServer);
     }
     export class $RealmsPlayerScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -597,7 +597,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmsConfigureWorldScreen, arg1: $RealmsServer);
+        constructor(lastScreen: $RealmsConfigureWorldScreen, serverData: $RealmsServer);
     }
     export class $RealmsBackupScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -626,7 +626,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmsConfigureWorldScreen, arg1: $RealmsServer, arg2: number);
+        constructor(lastScreen: $RealmsConfigureWorldScreen, serverData: $RealmsServer, slotId: number);
     }
     export class $RealmsDownloadLatestWorldScreen$DownloadStatus {
         bytesWritten: number;
@@ -660,7 +660,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $WorldDownload, arg2: string, arg3: $BooleanConsumer_);
+        constructor(lastScreen: $Screen, worldDownload: $WorldDownload, worldName: string, callback: $BooleanConsumer_);
     }
     export class $RealmsPendingInvitesScreen$Entry$AcceptRowButton extends $RowButton {
         yOffset: number;
@@ -689,9 +689,9 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         height: number;
     }
     export class $RealmsPopups {
-        static warningAcknowledgePopupScreen(arg0: $Screen, arg1: $Component_, arg2: $Consumer_<$PopupScreen>): $PopupScreen;
-        static infoPopupScreen(arg0: $Screen, arg1: $Component_, arg2: $Consumer_<$PopupScreen>): $PopupScreen;
-        static warningPopupScreen(arg0: $Screen, arg1: $Component_, arg2: $Consumer_<$PopupScreen>): $PopupScreen;
+        static infoPopupScreen(backgroundScreen: $Screen, message: $Component_, onContinue: $Consumer_<$PopupScreen>): $PopupScreen;
+        static warningAcknowledgePopupScreen(backgroundScreen: $Screen, message: $Component_, onContinue: $Consumer_<$PopupScreen>): $PopupScreen;
+        static warningPopupScreen(backgroundScreen: $Screen, message: $Component_, onContinue: $Consumer_<$PopupScreen>): $PopupScreen;
         constructor();
     }
     export class $UploadResult {
@@ -769,8 +769,8 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmsMainScreen, arg1: $RealmsServer);
-        constructor(arg0: $RealmsMainScreen, arg1: number);
+        constructor(lastScreen: $RealmsMainScreen, realmsServer: $RealmsServer);
+        constructor(lastScreen: $RealmsMainScreen, parentId: number);
     }
     export class $RealmsPendingInvitesScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -799,7 +799,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Component_);
+        constructor(lastScreen: $Screen, title: $Component_);
     }
     export class $RealmsLongRunningMcoTickTaskScreen extends $RealmsLongRunningMcoTaskScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -828,7 +828,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $LongRunningTask);
+        constructor(lastScreen: $Screen, task: $LongRunningTask);
     }
     export class $RealmsBrokenWorldScreen extends $RealmsScreen {
         doSwitchOrReset(): void;
@@ -858,7 +858,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: number, arg2: boolean);
+        constructor(lastScreen: $Screen, serverId: number, arg2: boolean);
     }
     export class $RealmsUploadScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -887,7 +887,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmCreationTask, arg1: number, arg2: number, arg3: $RealmsResetWorldScreen, arg4: $LevelSummary);
+        constructor(realmCreationTask: $RealmCreationTask | null, realmId: number, arg2: number, slotId: $RealmsResetWorldScreen, lastScreen: $LevelSummary);
     }
     export class $RealmsPendingInvitesScreen$PendingInvitationSelectionList extends $RealmsObjectSelectionList<$RealmsPendingInvitesScreen$Entry> {
         minecraft: $Minecraft;
@@ -914,12 +914,12 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
     export interface $RealmsNotificationsScreen$DataFetcherConfiguration {
     }
     export class $RealmsConfigureWorldScreen extends $RealmsScreen {
-        closeTheWorld(): void;
-        saveSlotSettings(arg0: $RealmsWorldOptions): void;
-        openTheWorld(arg0: boolean): void;
-        getNewScreen(): $RealmsConfigureWorldScreen;
+        saveSlotSettings(worldOptions: $RealmsWorldOptions): void;
+        openTheWorld(join: boolean): void;
+        saveSettings(key: string, value: string): void;
         stateChanged(): void;
-        saveSettings(arg0: string, arg1: string): void;
+        getNewScreen(): $RealmsConfigureWorldScreen;
+        closeTheWorld(): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -946,11 +946,11 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $RealmsMainScreen, arg1: number);
+        constructor(lastScreen: $RealmsMainScreen, serverId: number);
         get newScreen(): $RealmsConfigureWorldScreen;
     }
     export class $RealmsSelectWorldTemplateScreen extends $RealmsScreen {
-        setWarning(...arg0: $Component_[]): void;
+        setWarning(...warning: $Component_[]): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -977,8 +977,8 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $Consumer_<$WorldTemplate>, arg2: $RealmsServer$WorldType_);
-        constructor(arg0: $Component_, arg1: $Consumer_<$WorldTemplate>, arg2: $RealmsServer$WorldType_, arg3: $WorldTemplatePaginatedList);
+        constructor(title: $Component_, callback: $Consumer_<$WorldTemplate>, worldType: $RealmsServer$WorldType_);
+        constructor(title: $Component_, callback: $Consumer_<$WorldTemplate>, worldType: $RealmsServer$WorldType_, worldTemplatePaginatedList: $WorldTemplatePaginatedList | null);
         set warning(value: $Component_[]);
     }
     export class $RealmsResetNormalWorldScreen extends $RealmsScreen {
@@ -1009,7 +1009,7 @@ declare module "@package/com/mojang/realmsclient/gui/screens" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Consumer_<$WorldGenerationInfo>, arg1: $Component_);
+        constructor(callback: $Consumer_<$WorldGenerationInfo>, buttonTitle: $Component_);
     }
     export class $RealmsSelectFileToUploadScreen$WorldSelectionList extends $RealmsObjectSelectionList<$RealmsSelectFileToUploadScreen$Entry> {
         minecraft: $Minecraft;

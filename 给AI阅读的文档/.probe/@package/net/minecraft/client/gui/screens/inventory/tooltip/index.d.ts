@@ -16,13 +16,13 @@ declare module "@package/net/minecraft/client/gui/screens/inventory/tooltip" {
         constructor(arg0: $List_<$ProfileResult_>);
     }
     export class $DefaultTooltipPositioner implements $ClientTooltipPositioner {
-        positionTooltip(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): $Vector2ic;
+        positionTooltip(screenWidth: number, screenHeight: number, mouseX: number, mouseY: number, tooltipWidth: number, tooltipHeight: number): $Vector2ic;
         static INSTANCE: $ClientTooltipPositioner;
     }
     export class $ClientTooltipPositioner {
     }
     export interface $ClientTooltipPositioner {
-        positionTooltip(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): $Vector2ic;
+        positionTooltip(screenWidth: number, screenHeight: number, mouseX: number, mouseY: number, tooltipWidth: number, tooltipHeight: number): $Vector2ic;
     }
     /**
      * Values that may be interpreted as {@link $ClientTooltipPositioner}.
@@ -35,39 +35,39 @@ declare module "@package/net/minecraft/client/gui/screens/inventory/tooltip" {
      */
     export type $ClientBundleTooltip$Texture_ = "blocked_slot" | "slot";
     export class $ClientTooltipComponent {
-        static create(arg0: $FormattedCharSequence_): $ClientTooltipComponent;
-        static create(arg0: $TooltipComponent): $ClientTooltipComponent;
+        static create(text: $FormattedCharSequence_): $ClientTooltipComponent;
+        static create(visualTooltipComponent: $TooltipComponent): $ClientTooltipComponent;
     }
     export interface $ClientTooltipComponent {
-        getWidth(arg0: $Font): number;
-        renderText(arg0: $Font, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $MultiBufferSource$BufferSource): void;
+        getWidth(font: $Font): number;
+        renderText(font: $Font, mouseX: number, mouseY: number, matrix: $Matrix4f, bufferSource: $MultiBufferSource$BufferSource): void;
+        renderImage(font: $Font, x: number, y: number, guiGraphics: $GuiGraphics): void;
         getHeight(): number;
-        renderImage(arg0: $Font, arg1: number, arg2: number, arg3: $GuiGraphics): void;
         get height(): number;
     }
     export class $BelowOrAboveWidgetTooltipPositioner implements $ClientTooltipPositioner {
-        positionTooltip(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): $Vector2ic;
-        constructor(arg0: $ScreenRectangle_);
+        positionTooltip(screenWidth: number, screenHeight: number, mouseX: number, mouseY: number, tooltipWidth: number, tooltipHeight: number): $Vector2ic;
+        constructor(screenRectangle: $ScreenRectangle_);
     }
     export class $ClientBundleTooltip implements $ClientTooltipComponent {
-        getWidth(arg0: $Font): number;
+        getWidth(font: $Font): number;
+        renderImage(font: $Font, x: number, y: number, guiGraphics: $GuiGraphics): void;
         getHeight(): number;
-        renderImage(arg0: $Font, arg1: number, arg2: number, arg3: $GuiGraphics): void;
-        renderText(arg0: $Font, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $MultiBufferSource$BufferSource): void;
-        constructor(arg0: $BundleContents);
+        renderText(font: $Font, mouseX: number, mouseY: number, matrix: $Matrix4f, bufferSource: $MultiBufferSource$BufferSource): void;
+        constructor(contents: $BundleContents);
         get height(): number;
     }
     export class $ClientActivePlayersTooltip implements $ClientTooltipComponent {
-        getWidth(arg0: $Font): number;
+        getWidth(font: $Font): number;
+        renderImage(font: $Font, x: number, y: number, guiGraphics: $GuiGraphics): void;
         getHeight(): number;
-        renderImage(arg0: $Font, arg1: number, arg2: number, arg3: $GuiGraphics): void;
-        renderText(arg0: $Font, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $MultiBufferSource$BufferSource): void;
-        constructor(arg0: $ClientActivePlayersTooltip$ActivePlayersTooltip_);
+        renderText(font: $Font, mouseX: number, mouseY: number, matrix: $Matrix4f, bufferSource: $MultiBufferSource$BufferSource): void;
+        constructor(tooltip: $ClientActivePlayersTooltip$ActivePlayersTooltip_);
         get height(): number;
     }
     export class $TooltipRenderUtil {
         static renderTooltipBackground(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        static renderTooltipBackground(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): void;
+        static renderTooltipBackground(guiGraphics: $GuiGraphics, x: number, y: number, length: number, z: number, color: number): void;
         static MOUSE_OFFSET: number;
         static PADDING_LEFT: number;
         static PADDING_RIGHT: number;
@@ -76,18 +76,18 @@ declare module "@package/net/minecraft/client/gui/screens/inventory/tooltip" {
         constructor();
     }
     export class $MenuTooltipPositioner implements $ClientTooltipPositioner {
-        positionTooltip(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): $Vector2ic;
+        positionTooltip(screenWidth: number, screenHeight: number, mouseX: number, mouseY: number, tooltipWidth: number, tooltipHeight: number): $Vector2ic;
         static MAX_OVERLAP_WITH_WIDGET: number;
         static MAX_DISTANCE_TO_WIDGET: number;
-        constructor(arg0: $ScreenRectangle_);
+        constructor(screenRectangle: $ScreenRectangle_);
     }
     export class $ClientTextTooltip implements $ClientTooltipComponent, $AccessClientTextTooltip {
-        getWidth(arg0: $Font): number;
-        renderText(arg0: $Font, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $MultiBufferSource$BufferSource): void;
+        getWidth(font: $Font): number;
+        renderText(font: $Font, mouseX: number, mouseY: number, matrix: $Matrix4f, bufferSource: $MultiBufferSource$BufferSource): void;
         getHeight(): number;
-        renderImage(arg0: $Font, arg1: number, arg2: number, arg3: $GuiGraphics): void;
+        renderImage(font: $Font, x: number, y: number, guiGraphics: $GuiGraphics): void;
         getText(): $FormattedCharSequence;
-        constructor(arg0: $FormattedCharSequence_);
+        constructor(text: $FormattedCharSequence_);
         get height(): number;
         get text(): $FormattedCharSequence;
     }

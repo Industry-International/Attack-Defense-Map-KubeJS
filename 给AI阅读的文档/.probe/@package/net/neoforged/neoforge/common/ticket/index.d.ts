@@ -4,11 +4,11 @@ import { $AABB, $AABB_, $Vec3, $Vec3_ } from "@package/net/minecraft/world/phys"
 
 declare module "@package/net/neoforged/neoforge/common/ticket" {
     export class $ChunkTicketManager<T> implements $ITicketGetter<T> {
-        remove(arg0: $SimpleTicket<T>): void;
-        add(arg0: $SimpleTicket<T>): void;
+        remove(ticket: $SimpleTicket<T>): void;
+        add(ticket: $SimpleTicket<T>): void;
         getTickets(): $Collection<$SimpleTicket<T>>;
         pos: $ChunkPos;
-        constructor(arg0: $ChunkPos);
+        constructor(pos: $ChunkPos);
         get tickets(): $Collection<$SimpleTicket<T>>;
     }
     export class $ITicketGetter<T> {
@@ -17,25 +17,45 @@ declare module "@package/net/neoforged/neoforge/common/ticket" {
         getTickets(): $Collection<$SimpleTicket<T>>;
         get tickets(): $Collection<$SimpleTicket<T>>;
     }
+    /**
+     * Common class for a simple ticket based system.
+     */
     export class $SimpleTicket<T> {
-        matches(arg0: T): boolean;
-        validate(): void;
-        unload(arg0: $ITicketManager<T>): boolean;
-        isValid(): boolean;
+        /**
+         * Removes the ticket from the managing system.
+         * After this call, any calls to `#isValid()` should return false unless it is registered again using `#validate()`
+         */
         invalidate(): void;
+        matches(arg0: T): boolean;
+        /**
+         * Removes the ticket from the managing system.
+         * After this call, any calls to `#isValid()` should return false unless it is registered again using `#validate()`
+         */
+        validate(): void;
+        /**
+         * Called by the managing system when a ticket wishes to unload all of it's tickets, e.g. on chunk unload
+         * 
+         * The ticket must not remove itself from the manager that is calling the unload!
+         * The ticket must ensure that it removes itself from all of it's dummies when returning true
+         */
+        unload(unloadingManager: $ITicketManager<T>): boolean;
+        /**
+         * Checks if your ticket is still registered in the system.
+         */
+        isValid(): boolean;
         setManager(arg0: $ITicketManager<T>, ...arg1: $ITicketManager<T>[]): void;
         constructor();
         get valid(): boolean;
     }
     export class $AABBTicket extends $SimpleTicket<$Vec3> {
-        matches(arg0: $Vec3_): boolean;
+        matches(toMatch: $Vec3_): boolean;
         axisAlignedBB: $AABB;
-        constructor(arg0: $AABB_);
+        constructor(axisAlignedBB: $AABB_);
     }
     export class $ITicketManager<T> {
     }
     export interface $ITicketManager<T> {
-        remove(arg0: $SimpleTicket<T>): void;
-        add(arg0: $SimpleTicket<T>): void;
+        remove(ticket: $SimpleTicket<T>): void;
+        add(ticket: $SimpleTicket<T>): void;
     }
 }

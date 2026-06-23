@@ -32,20 +32,39 @@ declare module "@package/net/minecraft/world/entity/boss/wither" {
     export class $WitherBoss$WitherDoNothingGoal extends $Goal {
     }
     export class $WitherBoss extends $Monster implements $PowerableMob, $RangedAttackMob {
-        performRangedAttack(arg0: $LivingEntity, arg1: number): void;
+        setInvulnerableTicks(invulnerableTicks: number): void;
+        /**
+         * Updates the target entity ID
+         */
+        setAlternativeTarget(targetOffset: number, newId: number): void;
+        /**
+         * Returns the target entity ID if present, or -1 if not
+         */
+        getAlternativeTarget(head: number): number;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getInvulnerableTicks(): number;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isPowered(): boolean;
+        /**
+         * Attack the specified entity using a ranged attack.
+         */
+        performRangedAttack(target: $LivingEntity, distanceFactor: number): void;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         makeInvulnerable(): void;
         static createAttributes(): $AttributeSupplier$Builder;
-        isPowered(): boolean;
         /**
          * @deprecated
          */
-        static canDestroy(arg0: $BlockState_): boolean;
-        getInvulnerableTicks(): number;
-        setInvulnerableTicks(arg0: number): void;
-        setAlternativeTarget(arg0: number, arg1: number): void;
-        getAlternativeTarget(arg0: number): number;
-        getHeadYRot(arg0: number): number;
-        getHeadXRot(arg0: number): number;
+        static canDestroy(state: $BlockState_): boolean;
+        getHeadXRot(head: number): number;
+        getHeadYRot(head: number): number;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -213,7 +232,7 @@ declare module "@package/net/minecraft/world/entity/boss/wither" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$WitherBoss>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$WitherBoss>, level: $Level_);
         get powered(): boolean;
     }
 }

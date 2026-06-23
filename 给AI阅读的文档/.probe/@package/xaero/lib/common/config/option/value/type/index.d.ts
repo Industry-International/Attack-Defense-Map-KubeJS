@@ -4,9 +4,9 @@ import { $ConfigValueIOCodec } from "@package/xaero/lib/common/config/option/val
 
 declare module "@package/xaero/lib/common/config/option/value/type" {
     export class $ConfigValueType<T> {
-        getSyncCodec(): $ConfigValueSyncCodec<T, $Tag>;
         getIoCodec(): $ConfigValueIOCodec<T>;
-        get syncCodec(): $ConfigValueSyncCodec<T, $Tag>;
+        getSyncCodec(): $ConfigValueSyncCodec<T, $Tag>;
         get ioCodec(): $ConfigValueIOCodec<T>;
+        get syncCodec(): $ConfigValueSyncCodec<T, $Tag>;
     }
 }

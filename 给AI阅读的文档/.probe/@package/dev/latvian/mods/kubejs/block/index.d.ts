@@ -75,23 +75,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -99,17 +93,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(event: $BlockEvent$EntityPlaceEvent);
         get level(): $Level;
         get entity(): $Entity;
@@ -159,8 +159,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         apply(blockState: $BlockState_): $MapColor;
         id(): number;
         color(): $MapColor;
-        rgb(): $Vector3f;
         static findClosest(rgbi: number): $MapColorHelper;
+        rgb(): $Vector3f;
         compose<V>(arg0: $Function_<V, $BlockState>): $Function<V, $MapColor>;
         andThen<V>(arg0: $Function_<$MapColor, V>): $Function<$BlockState, V>;
         static ID_MAP: $Map<number, $MapColorHelper>;
@@ -173,12 +173,12 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
      */
     export type $MapColorHelper_ = string | number;
     export class $KubeJSBlockEventHandler {
-        static drops(event: $BlockDropsEvent): void;
-        static leftClick(event: $PlayerInteractEvent$LeftClickBlock): void;
         static rightClick(event: $PlayerInteractEvent$RightClickBlock): void;
-        static blockPlace(event: $BlockEvent$EntityPlaceEvent): void;
-        static farmlandTrample(event: $BlockEvent$FarmlandTrampleEvent): void;
         static blockBreak(event: $BlockEvent$BreakEvent): void;
+        static leftClick(event: $PlayerInteractEvent$LeftClickBlock): void;
+        static drops(event: $BlockDropsEvent): void;
+        static farmlandTrample(event: $BlockEvent$FarmlandTrampleEvent): void;
+        static blockPlace(event: $BlockEvent$EntityPlaceEvent): void;
         constructor();
     }
     export class $BlockLeftClickedKubeEvent implements $KubePlayerEvent {
@@ -199,23 +199,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -223,17 +217,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(event: $PlayerInteractEvent$LeftClickBlock);
         get item(): $ItemStack;
@@ -269,23 +269,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -293,17 +287,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(event: $BlockEvent$BreakEvent);
         get block(): $LevelBlock;
@@ -356,8 +356,8 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         static values(): $BlockRotationType[];
         static valueOf(name: string): $BlockRotationType;
         getSerializedName(): string;
-        generateBlockModelJsons(gen: $KubeAssetGenerator): void;
         generateBlockStateJson(bs: $VariantBlockStateGenerator, block: $BlockBuilder): void;
+        generateBlockModelJsons(gen: $KubeAssetGenerator): void;
         getRemappedEnumConstantName(): string;
         static VERTICAL: $BlockRotationType;
         static WALL_ATTACHED: $BlockRotationType;
@@ -377,23 +377,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -401,17 +395,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getLevel(): $Level;
         random: $RandomSource;
         constructor(level: $ServerLevel, pos: $BlockPos_, state: $BlockState_, random: $RandomSource);
@@ -434,23 +434,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -458,17 +452,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         fallSpeed: number;
         replacedBlock: $LevelBlock;
         block: $LevelBlock;
@@ -486,23 +486,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -510,17 +504,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         level: $Level;
         block: $LevelBlock;
@@ -539,23 +539,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         modify(predicate: $BlockStatePredicate_, c: $Consumer_<$BlockModificationKubeEvent$BlockModifications>): void;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -563,17 +557,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor();
     }
     export class $BlockRightClickedKubeEvent implements $KubePlayerEvent {
@@ -589,7 +589,6 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          * The block that was right clicked.
          */
         getBlock(): $LevelBlock;
-        getHitResult(): $BlockHitResult;
         /**
          * The face of the block being right clicked.
          */
@@ -598,16 +597,11 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          * The hand that was used to right click the block.
          */
         getHand(): $InteractionHand;
+        getHitResult(): $BlockHitResult;
         getPlayer(): $Player;
         getLevel(): $Level;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -615,11 +609,11 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -627,24 +621,30 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(item: $ItemStack_, player: $Player, hand: $InteractionHand_, pos: $BlockPos_, direction: $Direction_, hitResult: $BlockHitResult);
         get item(): $ItemStack;
         get entity(): $Player;
         get block(): $LevelBlock;
-        get hitResult(): $BlockHitResult;
         get facing(): $Direction;
         get hand(): $InteractionHand;
+        get hitResult(): $BlockHitResult;
         get player(): $Player;
         get level(): $Level;
         get registries(): $RegistryAccess;
@@ -670,23 +670,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -694,17 +688,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(level: $Level_, pos: $BlockPos_, state: $BlockState_, entity: $FallingBlockEntity);
         get level(): $Level;
         get entity(): $Entity;
@@ -715,31 +715,31 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
     }
     export class $BlockModificationKubeEvent$BlockModifications extends $Record {
         block(): $Block;
-        setNameKey(key: string): void;
         setIsRandomlyTicking(v: boolean): void;
+        setNameKey(key: string): void;
         setHasCollision(v: boolean): void;
-        setRandomTickCallback(callback: $Consumer_<$RandomTickCallback>): void;
-        setExplosionResistance(v: number): void;
-        setSoundType(v: $SoundType_): void;
-        setLightEmission(v: number): void;
-        setSpeedFactor(v: number): void;
-        setDestroySpeed(v: number): void;
-        setJumpFactor(v: number): void;
         setRequiresTool(v: boolean): void;
+        setLightEmission(v: number): void;
+        setJumpFactor(v: number): void;
+        setSpeedFactor(v: number): void;
+        setSoundType(v: $SoundType_): void;
         setFriction(v: number): void;
+        setDestroySpeed(v: number): void;
+        setExplosionResistance(v: number): void;
+        setRandomTickCallback(callback: $Consumer_<$RandomTickCallback>): void;
         constructor(block: $Block_);
-        set nameKey(value: string);
         set isRandomlyTicking(value: boolean);
+        set nameKey(value: string);
         set hasCollision(value: boolean);
-        set randomTickCallback(value: $Consumer_<$RandomTickCallback>);
-        set explosionResistance(value: number);
-        set soundType(value: $SoundType_);
-        set lightEmission(value: number);
-        set speedFactor(value: number);
-        set destroySpeed(value: number);
-        set jumpFactor(value: number);
         set requiresTool(value: boolean);
+        set lightEmission(value: number);
+        set jumpFactor(value: number);
+        set speedFactor(value: number);
+        set soundType(value: $SoundType_);
         set friction(value: number);
+        set destroySpeed(value: number);
+        set explosionResistance(value: number);
+        set randomTickCallback(value: $Consumer_<$RandomTickCallback>);
     }
     export class $FarmlandTrampledKubeEvent implements $KubeEntityEvent {
         /**
@@ -762,23 +762,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -786,17 +780,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(event: $BlockEvent$FarmlandTrampleEvent);
         get level(): $Level;
         get entity(): $Entity;
@@ -831,88 +831,48 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         color(index: number, color: $BlockTintFunction_): this;
         /**
-         * Tags both the block and the item with the given tag.
-         */
-        tag(tag: $ResourceLocation_[]): this;
-        /**
          * Modifies the block's item representation.
          */
         item(i: $Consumer_<$ItemBuilder>): this;
         /**
+         * Sets the hardness of the block. Defaults to 1.5.
+         * 
+         * Setting this to -1 will make the block unbreakable like bedrock.
+         */
+        hardness(h: number): this;
+        /**
+         * Set the callback used for right-clicking on the block
+         */
+        rightClick(callbackJS: $Consumer_<$BlockRightClickedKubeEvent>): this;
+        /**
          * Note block instrument.
          */
         instrument(i: $NoteBlockInstrument_): this;
-        noSoundType(): this;
-        woodSoundType(): this;
-        /**
-         * Makes the block view blocking.
-         */
-        viewBlocking(b: boolean): this;
-        stoneSoundType(): this;
-        /**
-         * Helper method for setting the render type of the block to `cutout` correctly.
-         */
-        defaultCutout(): this;
-        gravelSoundType(): this;
-        /**
-         * Makes the block require a tool to have drops when broken.
-         */
-        requiresTool(f: boolean): this;
-        /**
-         * Makes the block require a tool to have drops when broken.
-         */
-        requiresTool(): this;
-        /**
-         * Makes mobs not spawn on the block.
-         */
-        noValidSpawns(b: boolean): this;
-        copyPropertiesFrom(block: $Block_): this;
-        /**
-         * Set how slippery the block is.
-         */
-        slipperiness(f: number): this;
-        /**
-         * Makes the block a redstone conductor.
-         */
-        redstoneConductor(b: boolean): this;
-        generateLootTable(generator: $KubeDataGenerator): $LootTable;
-        /**
-         * @deprecated
-         */
-        generateLootTable(): $LootTable;
-        /**
-         * Checks if the block can be waterlogged.
-         */
-        canBeWaterlogged(): boolean;
-        /**
-         * Set how this block bounces/moves entities that land on top of this. Do not use this to modify the block, use fallOn instead!
-         * Use ctx.bounce(height) or ctx.setVelocity(x, y, z) to change the entities velocity.
-         */
-        afterFallenOn(callbackJS: $Consumer_<$AfterEntityFallenOnBlockCallback>): this;
         /**
          * Makes the block can be waterlogged.
          */
         waterlogged(): this;
         /**
-         * Sets the blast resistance of the block. Defaults to 3.
+         * Sets the block should be a full block or not, like cactus or doors.
          */
-        resistance(r: number): this;
+        fullBlock(f: boolean): this;
         /**
-         * Makes the block transparent.
+         * Bounces entities that land on this block by bounciness * their fall velocity.
+         * Do not make bounciness negative, as that is a recipe for a long and laggy trip to the void
          */
-        transparent(b: boolean): this;
+        bounciness(bounciness: number): this;
         /**
-         * Makes the block unbreakable.
+         * Sets the opacity of the block. Opaque blocks do not let light through.
          */
-        unbreakable(): this;
+        opaque(o: boolean): this;
         /**
-         * Sets random tick callback for this black.
+         * Makes the block not collide with entities.
          */
-        randomTick(randomTickCallback: $Consumer_<$RandomTickCallback>): this;
+        noCollision(): this;
         /**
-         * Sets the block's map color. Defaults to NONE.
+         * Set the default state of the block.
          */
-        mapColor(m: $MapColor): this;
+        defaultState(callbackJS: $Consumer_<$BlockStateModifyCallback>): this;
         /**
          * Set how fast you can walk on the block.
          * 
@@ -922,66 +882,73 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         speedFactor(f: number): this;
         /**
-         * Sets the render type of the block. Can be `cutout`, `cutout_mipped`, `translucent`, or `basic`.
+         * Set the callback for determining the blocks state when placed.
          */
-        renderType(l: $BlockRenderType_): this;
+        placementState(callbackJS: $Consumer_<$BlockStateModifyPlacementCallback>): this;
         /**
-         * Sets the light level of the block. Defaults to 0 (no light).
+         * Makes the block transparent.
          */
-        lightLevel(light: number): this;
-        /**
-         * Change drops of this block
-         */
-        drops(drops: $BlockDropSupplier_): this;
-        /**
-         * Bounces entities that land on this block by bounciness * their fall velocity.
-         * Do not make bounciness negative, as that is a recipe for a long and laggy trip to the void
-         */
-        bounciness(bounciness: number): this;
-        /**
-         * Sets the hardness of the block. Defaults to 1.5.
-         * 
-         * Setting this to -1 will make the block unbreakable like bedrock.
-         */
-        hardness(h: number): this;
-        /**
-         * Makes the block suffocating.
-         */
-        suffocating(b: boolean): this;
-        /**
-         * Set the default state of the block.
-         */
-        defaultState(callbackJS: $Consumer_<$BlockStateModifyCallback>): this;
-        /**
-         * Makes the block not collide with entities.
-         */
-        noCollision(): this;
-        /**
-         * Set what happens when an entity is inside the block
-         * This is called every tick for every entity inside the block, so be careful what you do here.
-         * This will only be called if the entity's bounding box overlaps with the block's collision.
-         */
-        entityInside(callbackJS: $Consumer_<$EntityBlockCallback>): this;
+        transparent(b: boolean): this;
         /**
          * Sets the block's map color dynamically per block state. If unset, defaults to NONE.
          */
         dynamicMapColor(m: $Function_<$BlockState, $Object>): this;
         static createShape(boxes: $List_<$AABB_>): $VoxelShape;
-        cropSoundType(): this;
+        grassSoundType(): this;
+        /**
+         * Makes the block view blocking.
+         */
+        viewBlocking(b: boolean): this;
         /**
          * @deprecated
          */
-        setWaterlogged(waterlogged: boolean): this;
+        generateLootTable(): $LootTable;
+        generateLootTable(generator: $KubeDataGenerator): $LootTable;
+        copyPropertiesFrom(block: $Block_): this;
+        /**
+         * Checks if the block can be waterlogged.
+         */
+        canBeWaterlogged(): boolean;
+        /**
+         * Set how this block bounces/moves entities that land on top of this. Do not use this to modify the block, use fallOn instead!
+         * Use ctx.bounce(height) or ctx.setVelocity(x, y, z) to change the entities velocity.
+         */
+        afterFallenOn(callbackJS: $Consumer_<$AfterEntityFallenOnBlockCallback>): this;
+        noSoundType(): this;
+        /**
+         * Makes mobs not spawn on the block.
+         */
+        noValidSpawns(b: boolean): this;
+        gravelSoundType(): this;
+        /**
+         * Set how slippery the block is.
+         */
+        slipperiness(f: number): this;
+        /**
+         * Makes the block require a tool to have drops when broken.
+         */
+        requiresTool(f: boolean): this;
+        /**
+         * Makes the block require a tool to have drops when broken.
+         */
+        requiresTool(): this;
+        /**
+         * Helper method for setting the render type of the block to `cutout` correctly.
+         */
+        defaultCutout(): this;
+        /**
+         * Makes the block a redstone conductor.
+         */
+        redstoneConductor(b: boolean): this;
+        stoneSoundType(): this;
+        woodSoundType(): this;
+        sandSoundType(): this;
+        cropSoundType(): this;
+        glassSoundType(): this;
         /**
          * Set the callback used for determining how the block rotates
          */
         rotateState(callbackJS: $Consumer_<$BlockStateRotateCallback>): this;
-        /**
-         * @deprecated
-         */
-        getWaterlogged(): boolean;
-        grassSoundType(): this;
-        sandSoundType(): this;
         /**
          * Helper method for setting the render type of the block to `translucent` correctly.
          */
@@ -990,19 +957,93 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          * Set the callback used for determining how the block is mirrored
          */
         mirrorState(callbackJS: $Consumer_<$BlockStateMirrorCallback>): this;
-        glassSoundType(): this;
         /**
-         * Set the callback for determining the blocks state when placed.
+         * @deprecated
          */
-        placementState(callbackJS: $Consumer_<$BlockStateModifyPlacementCallback>): this;
+        setWaterlogged(waterlogged: boolean): this;
+        /**
+         * @deprecated
+         */
+        getWaterlogged(): boolean;
+        /**
+         * Sets random tick callback for this black.
+         */
+        randomTick(randomTickCallback: $Consumer_<$RandomTickCallback>): this;
+        /**
+         * Sets the block's map color. Defaults to NONE.
+         */
+        mapColor(m: $MapColor): this;
+        /**
+         * Tags the item with the given tag.
+         */
+        tagItem(tag: $ResourceLocation_[]): this;
+        /**
+         * Set the block to have no corresponding item.
+         */
+        noItem(): this;
+        /**
+         * Tags the block with the given tag.
+         */
+        tagBlock(tag: $ResourceLocation_[]): this;
+        /**
+         * Clears all drops for the block.
+         */
+        noDrops(): this;
+        /**
+         * Makes the block not be solid.
+         */
+        notSolid(): this;
+        /**
+         * Set what happens when an entity steps on the block
+         * This is called every tick for every entity standing on the block, so be careful what you do here.
+         */
+        steppedOn(callbackJS: $Consumer_<$EntityBlockCallback>): this;
+        /**
+         * Tags both the block and the item with the given tag.
+         */
+        tagBoth(tag: $ResourceLocation_[]): this;
+        /**
+         * Set what happens when an entity falls on the block. Do not use this for moving them, use bounce instead!
+         */
+        fallenOn(callbackJS: $Consumer_<$EntityFallenOnBlockCallback>): this;
         /**
          * Set if the block can be replaced by something else.
          */
         canBeReplaced(callbackJS: $Predicate_<$CanBeReplacedCallback>): this;
         /**
-         * Sets the opacity of the block. Opaque blocks do not let light through.
+         * Makes the block unbreakable.
          */
-        opaque(o: boolean): this;
+        unbreakable(): this;
+        /**
+         * Change drops of this block
+         */
+        drops(drops: $BlockDropSupplier_): this;
+        /**
+         * Creates a Block Entity for this block
+         */
+        blockEntity(callback: $Consumer_<$BlockEntityInfo>): this;
+        /**
+         * Makes the block suffocating.
+         */
+        suffocating(b: boolean): this;
+        /**
+         * Set what happens when an entity is inside the block
+         * This is called every tick for every entity inside the block, so be careful what you do here.
+         * This will only be called if the entity's bounding box overlaps with the block's collision.
+         */
+        entityInside(callbackJS: $Consumer_<$EntityBlockCallback>): this;
+        /**
+         * Sets the blast resistance of the block. Defaults to 3.
+         */
+        resistance(r: number): this;
+        /**
+         * Sets the render type of the block. Can be `cutout`, `cutout_mipped`, `translucent`, or `basic`.
+         */
+        renderType(l: $BlockRenderType_): this;
+        /**
+         * Sets the light level of the block. Defaults to 0 (no light).
+         */
+        lightLevel(light: number): this;
         /**
          * Set how high you can jump on the block.
          */
@@ -1011,56 +1052,11 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          * Sets the block's sound type. Defaults to wood.
          */
         soundType(m: $SoundType_): this;
-        /**
-         * Creates a Block Entity for this block
-         */
-        blockEntity(callback: $Consumer_<$BlockEntityInfo>): this;
-        /**
-         * Set the callback used for right-clicking on the block
-         */
-        rightClick(callbackJS: $Consumer_<$BlockRightClickedKubeEvent>): this;
         transformObject(obj: $Block_): $Block;
-        /**
-         * Sets the block should be a full block or not, like cactus or doors.
-         */
-        fullBlock(f: boolean): this;
         /**
          * Set how this block reacts after an explosion. Note the block has already been destroyed at this point
          */
         exploded(callbackJS: $Consumer_<$BlockExplodedCallback>): this;
-        /**
-         * Tags the item with the given tag.
-         */
-        tagItem(tag: $ResourceLocation_[]): this;
-        /**
-         * Tags the block with the given tag.
-         */
-        tagBlock(tag: $ResourceLocation_[]): this;
-        /**
-         * Makes the block not be solid.
-         */
-        notSolid(): this;
-        /**
-         * Tags both the block and the item with the given tag.
-         */
-        tagBoth(tag: $ResourceLocation_[]): this;
-        /**
-         * Clears all drops for the block.
-         */
-        noDrops(): this;
-        /**
-         * Set what happens when an entity falls on the block. Do not use this for moving them, use bounce instead!
-         */
-        fallenOn(callbackJS: $Consumer_<$EntityFallenOnBlockCallback>): this;
-        /**
-         * Set the block to have no corresponding item.
-         */
-        noItem(): this;
-        /**
-         * Set what happens when an entity steps on the block
-         * This is called every tick for every entity standing on the block, so be careful what you do here.
-         */
-        steppedOn(callbackJS: $Consumer_<$EntityBlockCallback>): this;
         sourceLine: $SourceLine;
         id: $ResourceLocation;
         randomTickCallback: $Consumer<$RandomTickCallback>;
@@ -1087,23 +1083,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -1111,17 +1101,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(i: string, l: $Level_, p: $BlockPos_, pow: boolean);
         get level(): $Level;
         get block(): $LevelBlock;
@@ -1131,9 +1127,9 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         get server(): $MinecraftServer;
     }
     export class $BlockDropsKubeEvent implements $KubeEntityEvent {
+        addItem(item: $ItemStack_): $ItemEntity;
         getEntity(): $Entity;
         removeItem(item: $ItemPredicate_): void;
-        addItem(item: $ItemStack_): $ItemEntity;
         /**
          * The block that was broken.
          */
@@ -1143,13 +1139,13 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         getXp(): number;
         /**
-         * Sets the experience dropped by the block.
-         */
-        setXp(xp: number): void;
-        /**
          * The tool used when breaking this block. May be null.
          */
         getTool(): $ItemStack;
+        /**
+         * Sets the experience dropped by the block.
+         */
+        setXp(xp: number): void;
         /**
          * Dropped items. Immutable.
          */
@@ -1163,23 +1159,17 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -1187,17 +1177,23 @@ declare module "@package/dev/latvian/mods/kubejs/block" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getLevel(): $Level;
         constructor(event: $BlockDropsEvent);
         get entity(): $Entity;

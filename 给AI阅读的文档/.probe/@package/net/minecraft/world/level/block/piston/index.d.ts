@@ -17,8 +17,11 @@ import { $BlockEntity } from "@package/net/minecraft/world/level/block/entity";
 
 declare module "@package/net/minecraft/world/level/block/piston" {
     export class $PistonBaseBlock extends $DirectionalBlock {
-        static isPushable(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Direction_, arg4: boolean, arg5: $Direction_): boolean;
         handler$zdl000$openpartiesandclaims$onMoveBlocks(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: boolean, arg4: $CallbackInfoReturnable<any>, arg5: $BlockPos_, arg6: $PistonStructureResolver, arg7: $Map_<any, any>, arg8: $List_<any>): void;
+        /**
+         * Checks if the piston can push the given BlockState.
+         */
+        static isPushable(state: $BlockState_, level: $Level_, pos: $BlockPos_, movementDirection: $Direction_, allowDestroy: boolean, pistonFacing: $Direction_): boolean;
         static SOUTH_AABB: $VoxelShape;
         explosionResistance: number;
         static DOWN_AABB: $VoxelShape;
@@ -57,14 +60,14 @@ declare module "@package/net/minecraft/world/level/block/piston" {
         static UPDATE_CLIENTS: number;
         static FACING: $DirectionProperty;
         hasCollision: boolean;
-        constructor(arg0: boolean, arg1: $BlockBehaviour$Properties);
+        constructor(isSticky: boolean, properties: $BlockBehaviour$Properties);
     }
     export class $PistonMath {
-        static getMovementArea(arg0: $AABB_, arg1: $Direction_, arg2: number): $AABB;
+        static getMovementArea(bounds: $AABB_, dir: $Direction_, delta: number): $AABB;
         constructor();
     }
     export class $MovingPistonBlock extends $BaseEntityBlock {
-        static newMovingBlockEntity(arg0: $BlockPos_, arg1: $BlockState_, arg2: $BlockState_, arg3: $Direction_, arg4: boolean, arg5: boolean): $BlockEntity;
+        static newMovingBlockEntity(pos: $BlockPos_, blockState: $BlockState_, movedState: $BlockState_, direction: $Direction_, extending: boolean, isSourcePiston: boolean): $BlockEntity;
         explosionResistance: number;
         static UPDATE_SHAPE_ORDER: $Direction[];
         static UPDATE_NONE: number;
@@ -93,7 +96,7 @@ declare module "@package/net/minecraft/world/level/block/piston" {
         static UPDATE_CLIENTS: number;
         static FACING: $DirectionProperty;
         hasCollision: boolean;
-        constructor(arg0: $BlockBehaviour$Properties);
+        constructor(properties: $BlockBehaviour$Properties);
     }
     export class $PistonHeadBlock extends $DirectionalBlock {
         explosionResistance: number;
@@ -147,49 +150,64 @@ declare module "@package/net/minecraft/world/level/block/piston" {
         static UPDATE_CLIENTS: number;
         static FACING: $DirectionProperty;
         hasCollision: boolean;
-        constructor(arg0: $BlockBehaviour$Properties);
+        constructor(properties: $BlockBehaviour$Properties);
     }
     export class $PistonStructureResolver {
         resolve(): boolean;
-        getToDestroy(): $List<$BlockPos>;
-        getToPush(): $List<$BlockPos>;
         getPushDirection(): $Direction;
+        /**
+         * @return all block positions to be destroyed by the piston
+         */
+        getToPush(): $List<$BlockPos>;
+        /**
+         * @return all block positions to be destroyed by the piston
+         */
+        getToDestroy(): $List<$BlockPos>;
         static MAX_PUSH_DEPTH: number;
-        constructor(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: boolean);
-        get toDestroy(): $List<$BlockPos>;
-        get toPush(): $List<$BlockPos>;
+        constructor(level: $Level_, pistonPos: $BlockPos_, pistonDirection: $Direction_, extending: boolean);
         get pushDirection(): $Direction;
+        get toPush(): $List<$BlockPos>;
+        get toDestroy(): $List<$BlockPos>;
     }
     export class $PistonMovingBlockEntity extends $BlockEntity implements $IExtendedPistonTile, $IBlockHolder {
-        static tick(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $PistonMovingBlockEntity): void;
-        getMovementDirection(): $Direction;
-        getProgress(arg0: number): number;
-        getLastTicked(): number;
-        isExtending(): boolean;
-        getHeldBlock(): $BlockState;
-        isSourcePiston(): boolean;
-        tickMovedBlock(arg0: $Level_, arg1: $BlockPos_): void;
-        setHeldBlock(arg0: $BlockState_): boolean;
-        getCollisionShape(arg0: $BlockGetter, arg1: $BlockPos_): $VoxelShape;
-        getZOff(arg0: number): number;
-        getXOff(arg0: number): number;
-        getYOff(arg0: number): number;
+        static tick(level: $Level_, pos: $BlockPos_, state: $BlockState_, blockEntity: $PistonMovingBlockEntity): void;
         getDirection(): $Direction;
-        handler$gnl000$moonlight$onFinishedShortPulse(arg0: $CallbackInfo): void;
+        handler$gjd000$moonlight$onFinishedShortPulse(arg0: $CallbackInfo): void;
+        getMovementDirection(): $Direction;
         getMovedState(): $BlockState;
+        getZOff(progress: number): number;
+        getYOff(progress: number): number;
+        getXOff(progress: number): number;
+        getCollisionShape(level: $BlockGetter, pos: $BlockPos_): $VoxelShape;
+        /**
+         * Removes the piston's BlockEntity and stops any movement
+         */
         finalTick(): void;
+        /**
+         * @return whether this piston is extending
+         */
+        isExtending(): boolean;
+        getLastTicked(): number;
+        getProgress(progress: number): number;
+        /**
+         * @return whether this piston is extending
+         */
+        isSourcePiston(): boolean;
+        setHeldBlock(arg0: $BlockState_): boolean;
+        getHeldBlock(): $BlockState;
+        tickMovedBlock(arg0: $Level_, arg1: $BlockPos_): void;
         worldPosition: $BlockPos;
         static TICK_MOVEMENT: number;
         level: $Level;
         static ATTACHMENTS_NBT_KEY: string;
         remove: boolean;
-        constructor(arg0: $BlockPos_, arg1: $BlockState_);
-        constructor(arg0: $BlockPos_, arg1: $BlockState_, arg2: $BlockState_, arg3: $Direction_, arg4: boolean, arg5: boolean);
-        get movementDirection(): $Direction;
-        get lastTicked(): number;
-        get extending(): boolean;
-        get sourcePiston(): boolean;
+        constructor(pos: $BlockPos_, blockState: $BlockState_);
+        constructor(pos: $BlockPos_, blockState: $BlockState_, movedState: $BlockState_, direction: $Direction_, extending: boolean, isSourcePiston: boolean);
         get direction(): $Direction;
+        get movementDirection(): $Direction;
         get movedState(): $BlockState;
+        get extending(): boolean;
+        get lastTicked(): number;
+        get sourcePiston(): boolean;
     }
 }

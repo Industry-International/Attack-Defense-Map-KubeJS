@@ -14,9 +14,9 @@ declare module "@package/eu/ha3/presencefootsteps/sound/acoustics" {
     }
     export interface $AcousticLibrary {
         playStep(arg0: $Association_, arg1: $State_, arg2: $Options): void;
-        playAcoustic(arg0: $LivingEntity, arg1: $SoundsKey_, arg2: $State_, arg3: $Options): void;
-        addAcoustic(arg0: string, arg1: $Acoustic): void;
         think(): void;
+        addAcoustic(arg0: string, arg1: $Acoustic): void;
+        playAcoustic(arg0: $LivingEntity, arg1: $SoundsKey_, arg2: $State_, arg3: $Options): void;
     }
     export class $Acoustic {
         static read(arg0: $AcousticsFile_, arg1: $JsonElement_): $Acoustic;

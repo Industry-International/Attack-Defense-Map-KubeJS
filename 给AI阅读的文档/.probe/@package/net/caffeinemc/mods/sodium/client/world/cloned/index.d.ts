@@ -13,34 +13,34 @@ import { $SodiumAuxiliaryLightManager } from "@package/net/caffeinemc/mods/sodiu
 
 declare module "@package/net/caffeinemc/mods/sodium/client/world/cloned" {
     export class $ClonedChunkSection {
-        getAuxLightManager(): $SodiumAuxiliaryLightManager;
         getPosition(): $SectionPos;
-        getLightArray(arg0: $LightLayer_): $DataLayer;
-        getBlockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
-        getBiomeData(): $PalettedContainerRO<$Holder<$Biome>>;
-        getModelMap(): $SodiumModelDataContainer;
-        getBlockData(): $PalettedContainerRO<$BlockState>;
-        getLastUsedTimestamp(): number;
-        setLastUsedTimestamp(arg0: number): void;
+        getAuxLightManager(): $SodiumAuxiliaryLightManager;
         getBlockEntityRenderDataMap(): $Int2ReferenceMap<$Object>;
+        getBlockData(): $PalettedContainerRO<$BlockState>;
+        setLastUsedTimestamp(arg0: number): void;
+        getLastUsedTimestamp(): number;
+        getBiomeData(): $PalettedContainerRO<$Holder<$Biome>>;
+        getLightArray(arg0: $LightLayer_): $DataLayer;
+        getModelMap(): $SodiumModelDataContainer;
+        getBlockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
         constructor(arg0: $Level_, arg1: $LevelChunk, arg2: $LevelChunkSection, arg3: $SectionPos);
-        get auxLightManager(): $SodiumAuxiliaryLightManager;
         get position(): $SectionPos;
-        get blockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
+        get auxLightManager(): $SodiumAuxiliaryLightManager;
+        get blockEntityRenderDataMap(): $Int2ReferenceMap<$Object>;
+        get blockData(): $PalettedContainerRO<$BlockState>;
         get biomeData(): $PalettedContainerRO<$Holder<$Biome>>;
         get modelMap(): $SodiumModelDataContainer;
-        get blockData(): $PalettedContainerRO<$BlockState>;
-        get blockEntityRenderDataMap(): $Int2ReferenceMap<$Object>;
+        get blockEntityMap(): $Int2ReferenceMap<$BlockEntity>;
     }
     export class $ChunkRenderContext {
         getOrigin(): $SectionPos;
+        getRenderers(): $List<never>;
         getSections(): $ClonedChunkSection[];
         getVolume(): $BoundingBox;
-        getRenderers(): $List<never>;
         constructor(arg0: $SectionPos, arg1: $ClonedChunkSection[], arg2: $BoundingBox, arg3: $List_<never>);
         get origin(): $SectionPos;
+        get renderers(): $List<never>;
         get sections(): $ClonedChunkSection[];
         get volume(): $BoundingBox;
-        get renderers(): $List<never>;
     }
 }

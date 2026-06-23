@@ -6,18 +6,12 @@ import { $KubeEvent } from "@package/dev/latvian/mods/kubejs/event";
 
 declare module "@package/dev/aika/taczjs/neoforge/events/crafting/legacy" {
     export class $RecipeLoadBeginEvent implements $KubeEvent {
+        putRecipe(id: $ResourceLocation_, json: string): void;
         /**
          * @deprecated This is an alias for `event.putRecipe`. Please use `event.putRecipe` instead.
          */
         addRecipe(id: $ResourceLocation_, json: string): void;
         removeAllRecipes(): void;
-        putRecipe(id: $ResourceLocation_, json: string): void;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -25,11 +19,11 @@ declare module "@package/dev/aika/taczjs/neoforge/events/crafting/legacy" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -37,33 +31,39 @@ declare module "@package/dev/aika/taczjs/neoforge/events/crafting/legacy" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor();
     }
     export class $RecipeLoadEvent extends $AbstractRecipeEvent {
-        setJson(json: string): void;
         /**
          * @deprecated deprecated
          * Get the JSON data in standard format.
          */
         getStdJson(): string;
+        setJson(json: string): void;
         /**
          * @deprecated deprecated
          * The returned data may not conform to standard JSON format.
          */
         getJson(): string;
-        removeRecipe(): void;
         getTableRecipe(): $TableRecipe;
+        removeRecipe(): void;
         constructor(recipeId: $ResourceLocation_, json: string);
         get stdJson(): string;
         get tableRecipe(): $TableRecipe;

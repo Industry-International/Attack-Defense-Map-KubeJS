@@ -8,11 +8,20 @@ export * as maps from "@package/net/minecraft/world/level/saveddata/maps";
 
 declare module "@package/net/minecraft/world/level/saveddata" {
     export class $SavedData {
-        save(arg0: $File_, arg1: $HolderLookup$Provider): void;
-        save(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): $CompoundTag;
+        save(file: $File_, registries: $HolderLookup$Provider): void;
+        save(tag: $CompoundTag_, registries: $HolderLookup$Provider): $CompoundTag;
+        /**
+         * Whether this `SavedData` needs saving to disk.
+         */
         isDirty(): boolean;
+        /**
+         * Marks this `SavedData` dirty, to be saved to disk when the level next saves.
+         */
         setDirty(): void;
-        setDirty(arg0: boolean): void;
+        /**
+         * Sets the dirty state of this `SavedData`, whether it needs saving to disk.
+         */
+        setDirty(dirty: boolean): void;
         constructor();
     }
     export class $SavedData$Factory<T extends $SavedData> extends $Record {

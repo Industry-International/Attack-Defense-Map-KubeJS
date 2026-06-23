@@ -21,8 +21,8 @@ declare module "@package/net/minecraft/client/resources/metadata/gui" {
     export class $GuiSpriteScaling$NineSlice extends $Record implements $GuiSpriteScaling {
         type(): $GuiSpriteScaling$Type;
         width(): number;
-        border(): $GuiSpriteScaling$NineSlice$Border;
         height(): number;
+        border(): $GuiSpriteScaling$NineSlice$Border;
         static CODEC: $MapCodec<$GuiSpriteScaling$NineSlice>;
         constructor(arg0: number, arg1: number, arg2: $GuiSpriteScaling$NineSlice$Border_);
     }

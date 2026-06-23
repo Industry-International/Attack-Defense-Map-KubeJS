@@ -11,15 +11,15 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
 declare module "@package/dev/ryanhcode/sable/physics/floating_block" {
     export class $FloatingBlockMaterial extends $Record {
-        liftStrength(): number;
-        preventSelfLift(): boolean;
-        scaleWithPressure(): boolean;
-        transitionSpeed(): number;
-        scaleWithGravity(): boolean;
+        fastHorizontalFriction(): number;
         slowVerticalFriction(): number;
         fastVerticalFriction(): number;
         slowHorizontalFriction(): number;
-        fastHorizontalFriction(): number;
+        liftStrength(): number;
+        scaleWithGravity(): boolean;
+        transitionSpeed(): number;
+        preventSelfLift(): boolean;
+        scaleWithPressure(): boolean;
         static CODEC: $Codec<$FloatingBlockMaterial>;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $FloatingBlockMaterial>;
         constructor(preventSelfLift: boolean, scaleWithPressure: boolean, scaleWithGravity: boolean, liftStrength: number, transitionSpeed: number, slowVerticalFriction: number, fastVerticalFriction: number, slowHorizontalFriction: number, fastHorizontalFriction: number);
@@ -32,31 +32,31 @@ declare module "@package/dev/ryanhcode/sable/physics/floating_block" {
         get blockData(): $FloatingBlockData;
     }
     export class $FloatingBlockData {
-        translateOrigin(arg0: $Vector3dc): void;
         addFloatingBlock(arg0: $Vector3dc, arg1: number): void;
+        translateOrigin(arg0: $Vector3dc): void;
         removeFloatingBlock(arg0: $Vector3dc, arg1: number): void;
-        computePressureScale(arg0: $SubLevel): void;
         getPressureScale(): number;
+        computePressureScale(arg0: $SubLevel): void;
         constructor();
         get pressureScale(): number;
     }
     export class $FloatingBlockController {
+        queueAddFloatingBlock(arg0: $BlockState_, arg1: $BlockPos_): void;
+        addFloatingBlock(arg0: $BlockState_, arg1: $Vector3d): void;
         needsTicking(): boolean;
         physicsTick(arg0: number, arg1: number, arg2: $Vector3dc, arg3: $Vector3dc, arg4: $Vector3d, arg5: $Vector3d): void;
-        addFloatingBlock(arg0: $BlockState_, arg1: $Vector3d): void;
-        queueAddFloatingBlock(arg0: $BlockState_, arg1: $BlockPos_): void;
-        queueRemoveFloatingBlock(arg0: $BlockState_, arg1: $BlockPos_): void;
         removeFloatingBlock(arg0: $BlockState_, arg1: $Vector3d): void;
+        queueRemoveFloatingBlock(arg0: $BlockState_, arg1: $BlockPos_): void;
         constructor(arg0: $ServerSubLevel);
     }
     export class $FloatingClusterContainer implements $SubmergedFloaterContainerAccess {
-        needsTicking(): boolean;
-        addFloatingBlock(arg0: $BlockState_, arg1: $Vector3d): void;
+        taovReturned$getAdventureFloaters(): $List<any>;
         queueAddFloatingBlock(arg0: $BlockState_, arg1: $BlockPos_): void;
+        addFloatingBlock(arg0: $BlockState_, arg1: $Vector3d): void;
+        needsTicking(): boolean;
+        removeFloatingBlock(arg0: $BlockState_, arg1: $Vector3d): void;
         queueRemoveFloatingBlock(arg0: $BlockState_, arg1: $BlockPos_): void;
         processBlockChanges(arg0: $Vector3dc): void;
-        removeFloatingBlock(arg0: $BlockState_, arg1: $Vector3d): void;
-        taovReturned$getAdventureFloaters(): $List<any>;
         taovReturned$translateAdventureFloaters(arg0: $Vector3dc): void;
         positionOffset: $Vector3d;
         velocity: $Vector3d;

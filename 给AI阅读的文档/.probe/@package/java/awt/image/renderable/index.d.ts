@@ -7,8 +7,9 @@ import { $RenderedImage } from "@package/java/awt/image";
 declare module "@package/java/awt/image/renderable" {
     export class $RenderContext implements $Cloneable {
         clone(): $Object;
-        getTransform(): $AffineTransform;
         getRenderingHints(): $RenderingHints;
+        setRenderingHints(arg0: $RenderingHints): void;
+        getTransform(): $AffineTransform;
         setTransform(arg0: $AffineTransform): void;
         /**
          * @deprecated
@@ -22,7 +23,6 @@ declare module "@package/java/awt/image/renderable" {
         concatenateTransform(arg0: $AffineTransform): void;
         setAreaOfInterest(arg0: $Shape): void;
         getAreaOfInterest(): $Shape;
-        setRenderingHints(arg0: $RenderingHints): void;
         constructor(arg0: $AffineTransform, arg1: $Shape);
         constructor(arg0: $AffineTransform, arg1: $RenderingHints);
         constructor(arg0: $AffineTransform);
@@ -32,23 +32,23 @@ declare module "@package/java/awt/image/renderable" {
         static HINTS_OBSERVED: string;
     }
     export interface $RenderableImage {
-        getWidth(): number;
         getProperty(arg0: string): $Object;
         isDynamic(): boolean;
-        getPropertyNames(): string[];
-        getSources(): $Vector<$RenderableImage>;
-        getMinY(): number;
         getMinX(): number;
-        getHeight(): number;
+        getPropertyNames(): string[];
+        getWidth(): number;
+        getMinY(): number;
         createRendering(arg0: $RenderContext): $RenderedImage;
+        getSources(): $Vector<$RenderableImage>;
+        getHeight(): number;
         createScaledRendering(arg0: number, arg1: number, arg2: $RenderingHints): $RenderedImage;
         createDefaultRendering(): $RenderedImage;
-        get width(): number;
         get dynamic(): boolean;
-        get propertyNames(): string[];
-        get sources(): $Vector<$RenderableImage>;
-        get minY(): number;
         get minX(): number;
+        get propertyNames(): string[];
+        get width(): number;
+        get minY(): number;
+        get sources(): $Vector<$RenderableImage>;
         get height(): number;
     }
 }

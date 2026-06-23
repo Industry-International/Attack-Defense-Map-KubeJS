@@ -9,17 +9,17 @@ declare module "@package/com/tacz/guns/api/event/server" {
     export class $AmmoHitBlockEvent extends $Event implements $KubeJSGunEventPoster<$AmmoHitBlockEvent>, $ICancellableEvent {
         getState(): $BlockState;
         getLevel(): $Level;
-        getHitResult(): $BlockHitResult;
         getAmmo(): $EntityKineticBullet;
+        getHitResult(): $BlockHitResult;
+        postEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
         postClientEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
         postServerEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
-        postEventToKubeJS(arg0: $AmmoHitBlockEvent): void;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $Level_, arg1: $BlockHitResult, arg2: $BlockState_, arg3: $EntityKineticBullet);
         get state(): $BlockState;
         get level(): $Level;
-        get hitResult(): $BlockHitResult;
         get ammo(): $EntityKineticBullet;
+        get hitResult(): $BlockHitResult;
     }
 }

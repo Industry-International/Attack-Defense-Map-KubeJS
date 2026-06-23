@@ -14,8 +14,8 @@ declare module "@package/com/replaymod/replaystudio" {
         copy(): $PacketData;
         release(): boolean;
         getTime(): number;
-        getPacket(): $Packet;
         retain(): $PacketData;
+        getPacket(): $Packet;
         constructor(time: number, packet: $Packet);
         get time(): number;
         get packet(): $Packet;

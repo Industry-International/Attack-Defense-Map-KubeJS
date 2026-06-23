@@ -4,41 +4,41 @@ import { $GlslNode } from "@package/io/github/ocelot/glslprocessor/api/node";
 
 declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
     export class $GlslStructField {
+        setType(arg0: $GlslSpecifiedType): $GlslStructField;
         getName(): string;
         setName(arg0: string): $GlslStructField;
         getType(): $GlslSpecifiedType;
         copy(): $GlslStructField;
-        setType(arg0: $GlslSpecifiedType): $GlslStructField;
         constructor(arg0: $GlslType_, arg1: string);
     }
     export class $GlslParameterDeclaration {
+        setType(arg0: $GlslType_): $GlslParameterDeclaration;
         getName(): string;
         setName(arg0: string): $GlslParameterDeclaration;
         getType(): $GlslSpecifiedType;
         copy(): $GlslParameterDeclaration;
-        setType(arg0: $GlslType_): $GlslParameterDeclaration;
         setQualifiers(arg0: $Collection_<$GlslTypeQualifier>): $GlslParameterDeclaration;
         setQualifiers(...arg0: $GlslTypeQualifier[]): $GlslParameterDeclaration;
         constructor(arg0: $GlslType_, arg1: string);
     }
     export class $GlslTypeSpecifier$BuiltinType extends $Enum<$GlslTypeSpecifier$BuiltinType> implements $GlslTypeSpecifier {
+        isVector(): boolean;
+        isMatrix(): boolean;
         getName(): string;
         static values(): $GlslTypeSpecifier$BuiltinType[];
         isPrimitive(): boolean;
         static valueOf(arg0: string): $GlslTypeSpecifier$BuiltinType;
         isInteger(): boolean;
         isFloat(): boolean;
-        isBool(): boolean;
         getComponents(): number;
         isUnsignedInteger(): boolean;
         getConstant(arg0: number): string;
-        isMatrix(): boolean;
-        isVector(): boolean;
+        isBool(): boolean;
         isDouble(): boolean;
+        isStruct(): boolean;
         isNamed(): boolean;
         asSpecifiedType(): $GlslSpecifiedType;
         asStructSpecifier(): $GlslStructSpecifier;
-        isStruct(): boolean;
         static ISAMPLERCUBEARRAY: $GlslTypeSpecifier$BuiltinType;
         static USAMPLER2DRECT: $GlslTypeSpecifier$BuiltinType;
         static ISAMPLER2DARRAY: $GlslTypeSpecifier$BuiltinType;
@@ -158,14 +158,14 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
         static IMAGE2DARRAY: $GlslTypeSpecifier$BuiltinType;
         static BOOL: $GlslTypeSpecifier$BuiltinType;
         static ISAMPLER2DRECT: $GlslTypeSpecifier$BuiltinType;
+        get vector(): boolean;
+        get matrix(): boolean;
         get primitive(): boolean;
         get integer(): boolean;
         get float(): boolean;
-        get bool(): boolean;
         get components(): number;
         get unsignedInteger(): boolean;
-        get matrix(): boolean;
-        get vector(): boolean;
+        get bool(): boolean;
         get double(): boolean;
     }
     /**
@@ -185,12 +185,12 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
     export type $GlslTypeQualifier$Precision_ = "high_precision" | "medium_precision" | "low_precision";
     export class $GlslSpecifiedType implements $GlslType {
         copy(): $GlslSpecifiedType;
-        asSpecifiedType(): $GlslSpecifiedType;
-        getSpecifier(): $GlslTypeSpecifier;
+        setQualifiers(arg0: $Collection_<$GlslTypeQualifier>): $GlslSpecifiedType;
+        setQualifiers(...arg0: $GlslTypeQualifier[]): $GlslSpecifiedType;
         setSpecifier(arg0: $GlslTypeSpecifier_): $GlslSpecifiedType;
         addLayoutId(arg0: string, arg1: $GlslNode): $GlslSpecifiedType;
-        setQualifiers(...arg0: $GlslTypeQualifier[]): $GlslSpecifiedType;
-        setQualifiers(arg0: $Collection_<$GlslTypeQualifier>): $GlslSpecifiedType;
+        asSpecifiedType(): $GlslSpecifiedType;
+        getSpecifier(): $GlslTypeSpecifier;
         getQualifiers(): $List<$GlslTypeQualifier>;
         constructor(arg0: $GlslTypeSpecifier_, arg1: $Collection_<$GlslTypeQualifier>);
         constructor(arg0: $GlslTypeSpecifier_, ...arg1: $GlslTypeQualifier[]);
@@ -205,23 +205,23 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
     export interface $GlslTypeQualifier {
     }
     export class $GlslTypeQualifier$LayoutId extends $Record {
-        shared(): boolean;
         identifier(): string;
+        shared(): boolean;
         expression(): $GlslNode;
         static SHARED: $GlslTypeQualifier$LayoutId;
         constructor(identifier: string, expression: $GlslNode);
     }
     export class $GlslTypeSpecifier {
-        static array(arg0: $GlslTypeSpecifier_, arg1: $GlslNode): $GlslTypeSpecifier;
         static named(arg0: string): $GlslTypeSpecifier;
+        static array(arg0: $GlslTypeSpecifier_, arg1: $GlslNode): $GlslTypeSpecifier;
         static struct(arg0: string, arg1: $Collection_<$GlslStructField>): $GlslStructSpecifier;
     }
     export interface $GlslTypeSpecifier extends $GlslType {
+        isStruct(): boolean;
         getName(): string;
         isNamed(): boolean;
         asSpecifiedType(): $GlslSpecifiedType;
         asStructSpecifier(): $GlslStructSpecifier;
-        isStruct(): boolean;
         get name(): string;
     }
     /**
@@ -229,13 +229,13 @@ declare module "@package/io/github/ocelot/glslprocessor/api/grammar" {
      */
     export type $GlslTypeSpecifier_ = (() => string);
     export class $GlslStructSpecifier implements $GlslTypeSpecifier {
+        isStruct(): boolean;
         getName(): string;
         getFields(): $List<$GlslStructField>;
         setName(arg0: string): $GlslStructSpecifier;
         copy(): $GlslStructSpecifier;
         setFields(arg0: $Collection_<$GlslStructField>): $GlslStructSpecifier;
         setFields(...arg0: $GlslStructField[]): $GlslStructSpecifier;
-        isStruct(): boolean;
         isNamed(): boolean;
         asSpecifiedType(): $GlslSpecifiedType;
         asStructSpecifier(): $GlslStructSpecifier;

@@ -1,5 +1,5 @@
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
-import { $Set, $Set_ } from "@package/java/util";
+import { $Set_, $Set } from "@package/java/util";
 
 declare module "@package/com/simibubi/create/foundation/block/render" {
     export class $BlockDestructionProgressExtension {

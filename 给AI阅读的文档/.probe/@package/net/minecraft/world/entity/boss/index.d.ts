@@ -92,6 +92,6 @@ declare module "@package/net/minecraft/world/entity/boss" {
         static BASE_SAFE_FALL_DISTANCE: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $EnderDragon, arg1: string, arg2: number, arg3: number);
+        constructor(parentMob: $EnderDragon, name: string, width: number, height: number);
     }
 }

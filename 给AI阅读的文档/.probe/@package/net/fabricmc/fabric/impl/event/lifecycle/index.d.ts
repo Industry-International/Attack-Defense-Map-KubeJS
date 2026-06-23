@@ -6,14 +6,14 @@ declare module "@package/net/fabricmc/fabric/impl/event/lifecycle" {
     export class $LoadedChunksCache {
     }
     export interface $LoadedChunksCache {
-        fabric_getLoadedChunks(): $Set<$LevelChunk>;
         fabric_markUnloaded(arg0: $LevelChunk): void;
+        fabric_getLoadedChunks(): $Set<$LevelChunk>;
         fabric_markLoaded(arg0: $LevelChunk): void;
     }
     export class $ChunkLevelTypeEventTracker {
     }
     export interface $ChunkLevelTypeEventTracker {
-        fabric_getCurrentEventLevelType(): $FullChunkStatus;
         fabric_setCurrentEventLevelType(arg0: $FullChunkStatus_): void;
+        fabric_getCurrentEventLevelType(): $FullChunkStatus;
     }
 }

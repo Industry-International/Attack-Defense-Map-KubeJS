@@ -30,30 +30,30 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/map" {
         load(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
         save(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
         getType(): $CustomMapData$Type<P, never>;
-        onItemTooltip(arg0: $MapItemSavedData, arg1: $ItemStack_): $Component;
         setDirty(arg0: $MapItemSavedData, arg1: $Consumer_<C>): void;
         onItemUpdate(arg0: $MapItemSavedData, arg1: $Entity): boolean;
+        onItemTooltip(arg0: $MapItemSavedData, arg1: $ItemStack_): $Component;
+        persistOnCopyOrLock(): boolean;
         createDirtyCounter(): C;
         applyUpdatePatch(arg0: P): void;
         persistOnRescale(): boolean;
         createUpdatePatch(arg0: C): P;
-        persistOnCopyOrLock(): boolean;
         get type(): $CustomMapData$Type<P, never>;
     }
     export class $ExpandedMapData {
     }
     export interface $ExpandedMapData {
-        ml$getCustomData(): $Map<$CustomMapData$Type<never, never>, $CustomMapData<never, never>>;
-        ml$getCustomDecorations(): $Map<string, $MLMapDecoration>;
         ml$getVanillaDecorationSize(): number;
         ml$addCustomMarker<M extends $MLMapMarker<never>>(arg0: M): void;
-        ml$setCustomDataDirty<H extends $CustomMapData$DirtyCounter>(arg0: $CustomMapData$Type_<never, never>, arg1: $Consumer_<H>): void;
         ml$setCustomDecorationsDirty(): void;
+        ml$getCustomData(): $Map<$CustomMapData$Type<never, never>, $CustomMapData<never, never>>;
+        ml$getCustomDecorations(): $Map<string, $MLMapDecoration>;
+        ml$setCustomDataDirty<H extends $CustomMapData$DirtyCounter>(arg0: $CustomMapData$Type_<never, never>, arg1: $Consumer_<H>): void;
         ml$copy(): $MapItemSavedData;
-        ml$toggleCustomDecoration(arg0: $LevelAccessor, arg1: $BlockPos_): boolean;
+        ml$resetCustomDecoration(): void;
         ml$getCustomMarkers(): $Map<string, $MLMapMarker<never>>;
         ml$removeCustomMarker(arg0: string): boolean;
-        ml$resetCustomDecoration(): void;
+        ml$toggleCustomDecoration(arg0: $LevelAccessor, arg1: $BlockPos_): boolean;
     }
     export class $CustomMapData$DirtyDataPatch<P, D extends $CustomMapData<never, P>> extends $Record {
         type(): $CustomMapData$Type<P, D>;
@@ -75,5 +75,5 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/map" {
      * Values that may be interpreted as {@link $CustomMapData$Type}.
      */
     export type $CustomMapData$Type_<P, T> = RegistryTypes.MoonlightCustomMapDataTypes;
-    export interface $CustomMapData$Type extends RegistryMarked<RegistryTypes.MoonlightCustomMapDataTypesTag, RegistryTypes.MoonlightCustomMapDataTypes> {}
+    export interface $CustomMapData$Type<P, T> extends RegistryMarked<RegistryTypes.MoonlightCustomMapDataTypesTag, RegistryTypes.MoonlightCustomMapDataTypes> {}
 }

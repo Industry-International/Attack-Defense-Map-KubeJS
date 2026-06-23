@@ -8,7 +8,7 @@ declare module "@package/org/embeddedt/modernfix/world/gen" {
         static COMPUTED_POSSIBLE_BIOMES: $ThreadLocal<$Set<$ResourceKey<$Biome>>>;
     }
     export interface $ExtendedSurfaceContext {
-        mfix$getPossibleBiomes(): $Set<$ResourceKey<$Biome>>;
         mfix$applyPossibleBiomes(): void;
+        mfix$getPossibleBiomes(): $Set<$ResourceKey<$Biome>>;
     }
 }

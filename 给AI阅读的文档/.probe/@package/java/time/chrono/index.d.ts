@@ -2,7 +2,7 @@ import { $ZoneOffset, $Instant, $ZoneId, $Clock, $LocalTime } from "@package/jav
 import { $DateTimeFormatter, $ResolverStyle_, $TextStyle_ } from "@package/java/time/format";
 import { $Comparable, $Object } from "@package/java/lang";
 import { $Comparator, $List, $Map_, $Locale, $Set } from "@package/java/util";
-import { $TemporalAmount_, $TemporalField, $Temporal, $ChronoField_, $TemporalUnit, $ValueRange, $TemporalQuery_, $TemporalAccessor, $TemporalAdjuster, $TemporalAmount, $TemporalAdjuster_ } from "@package/java/time/temporal";
+import { $TemporalField, $TemporalAmount_, $Temporal, $ChronoField_, $TemporalUnit, $ValueRange, $TemporalQuery_, $TemporalAccessor, $TemporalAdjuster, $TemporalAmount, $TemporalAdjuster_ } from "@package/java/time/temporal";
 
 declare module "@package/java/time/chrono" {
     export class $ChronoZonedDateTime<D extends $ChronoLocalDate> {
@@ -17,8 +17,9 @@ declare module "@package/java/time/chrono" {
         compareTo(arg0: $ChronoZonedDateTime<never>): number;
         getLong(arg0: $TemporalField): number;
         format(arg0: $DateTimeFormatter): string;
-        isSupported(arg0: $TemporalUnit): boolean;
         isSupported(arg0: $TemporalField): boolean;
+        isSupported(arg0: $TemporalUnit): boolean;
+        "with"(arg0: $TemporalAdjuster_): $ChronoZonedDateTime<D>;
         query<R>(arg0: $TemporalQuery_<R>): R;
         getOffset(): $ZoneOffset;
         range(arg0: $TemporalField): $ValueRange;
@@ -32,16 +33,15 @@ declare module "@package/java/time/chrono" {
         toEpochSecond(): number;
         toLocalDateTime(): $ChronoLocalDateTime<D>;
         toLocalDate(): D;
+        withEarlierOffsetAtOverlap(): $ChronoZonedDateTime<D>;
         withZoneSameInstant(arg0: $ZoneId): $ChronoZonedDateTime<D>;
         withZoneSameLocal(arg0: $ZoneId): $ChronoZonedDateTime<D>;
         withLaterOffsetAtOverlap(): $ChronoZonedDateTime<D>;
-        withEarlierOffsetAtOverlap(): $ChronoZonedDateTime<D>;
         "with"(arg0: $TemporalField, arg1: number): $Temporal;
-        "with"(arg0: $TemporalAdjuster_): $Temporal;
         minus(arg0: number, arg1: $TemporalUnit): $Temporal;
         minus(arg0: $TemporalAmount_): $Temporal;
-        plus(arg0: number, arg1: $TemporalUnit): $Temporal;
         plus(arg0: $TemporalAmount_): $Temporal;
+        plus(arg0: number, arg1: $TemporalUnit): $Temporal;
         get offset(): $ZoneOffset;
         get zone(): $ZoneId;
         get chronology(): $Chronology;

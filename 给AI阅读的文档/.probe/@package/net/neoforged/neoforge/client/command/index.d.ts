@@ -6,7 +6,7 @@ declare module "@package/net/neoforged/neoforge/client/command" {
         constructor();
     }
     export class $ClientConfigCommand {
-        static register(arg0: $CommandDispatcher<$CommandSourceStack>): void;
+        static register(dispatcher: $CommandDispatcher<$CommandSourceStack>): void;
         constructor();
     }
 }

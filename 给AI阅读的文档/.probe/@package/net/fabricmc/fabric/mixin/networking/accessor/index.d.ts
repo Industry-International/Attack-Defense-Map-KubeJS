@@ -10,10 +10,10 @@ declare module "@package/net/fabricmc/fabric/mixin/networking/accessor" {
     export class $ServerCommonNetworkHandlerAccessor {
     }
     export interface $ServerCommonNetworkHandlerAccessor {
-        getServer(): $MinecraftServer;
         getConnection(): $Connection;
-        get server(): $MinecraftServer;
+        getServer(): $MinecraftServer;
         get connection(): $Connection;
+        get server(): $MinecraftServer;
     }
     export class $ServerChunkLoadingManagerAccessor {
     }
@@ -28,15 +28,15 @@ declare module "@package/net/fabricmc/fabric/mixin/networking/accessor" {
     export class $ServerLoginNetworkHandlerAccessor {
     }
     export interface $ServerLoginNetworkHandlerAccessor {
-        getServer(): $MinecraftServer;
         getConnection(): $Connection;
-        get server(): $MinecraftServer;
+        getServer(): $MinecraftServer;
         get connection(): $Connection;
+        get server(): $MinecraftServer;
     }
     export class $NetworkRegistryAccessor {
-        static getSetup(): boolean;
-        static setSetup(arg0: boolean): void;
         static getPayloadRegistrations(): $Map<$ConnectionProtocol, $Map<$ResourceLocation, $PayloadRegistration<never>>>;
+        static setSetup(arg0: boolean): void;
+        static getSetup(): boolean;
         static get payloadRegistrations(): $Map<$ConnectionProtocol, $Map<$ResourceLocation, $PayloadRegistration<never>>>;
     }
     export interface $NetworkRegistryAccessor {

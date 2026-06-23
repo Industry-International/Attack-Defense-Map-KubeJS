@@ -23,9 +23,15 @@ import { $Vector4f } from "@package/org/joml";
 declare module "@package/net/neoforged/neoforge/client/model/obj" {
     export class $ObjModel$ModelMesh {
     }
+    /**
+     * A model loaded from an OBJ file.
+     * 
+     * Supports positions, texture coordinates, normals and colors. The material library
+     * has support for numerous features, including support for `ResourceLocation` textures (non-standard).
+     */
     export class $ObjModel extends $SimpleUnbakedGeometry<$ObjModel> implements $ObjModelAccessor {
         static parse(arg0: $ObjTokenizer, arg1: $ObjModel$ModelSettings_): $ObjModel;
-        bakeRenderable(arg0: $IGeometryBakingContext): $CompositeRenderable;
+        bakeRenderable(configuration: $IGeometryBakingContext): $CompositeRenderable;
         getRootComponentNames(): $Set<string>;
         invokeMakeQuad(arg0: number[][], arg1: number, arg2: $Vector4f, arg3: $Vector4f, arg4: $TextureAtlasSprite, arg5: $Transformation): $Pair<$BakedQuad, $Direction>;
         emissiveAmbient: boolean;
@@ -36,29 +42,43 @@ declare module "@package/net/neoforged/neoforge/client/model/obj" {
         shadeQuads: boolean;
         get rootComponentNames(): $Set<string>;
     }
+    /**
+     * An OBJ material library (MTL), composed of named materials.
+     */
     export class $ObjMaterialLibrary {
         getMaterial(arg0: string): $ObjMaterialLibrary$Material;
         static EMPTY: $ObjMaterialLibrary;
-        constructor(arg0: $ObjTokenizer);
+        constructor(reader: $ObjTokenizer);
     }
+    /**
+     * A tokenizer for OBJ and MTL files.
+     * 
+     * Joins split lines and ignores comments.
+     */
     export class $ObjTokenizer implements $AutoCloseable {
         close(): void;
-        readAndSplitLine(arg0: boolean): string[];
-        constructor(arg0: $InputStream);
+        readAndSplitLine(ignoreEmptyLines: boolean): string[];
+        constructor(inputStream: $InputStream);
     }
     export class $ObjModel$ModelObject {
         name(): string;
-        bake(arg0: $CompositeRenderable$PartBuilder<never>, arg1: $IGeometryBakingContext): void;
-        getTextures(arg0: $IGeometryBakingContext, arg1: $Function_<$ResourceLocation, $UnbakedModel>, arg2: $Set_<$Pair$1<string, string>>): $Collection<$Material>;
-        addQuads(arg0: $IGeometryBakingContext, arg1: $IModelBuilder<never>, arg2: $ModelBaker, arg3: $Function_<$Material, $TextureAtlasSprite>, arg4: $ModelState): void;
+        getTextures(owner: $IGeometryBakingContext, modelGetter: $Function_<$ResourceLocation, $UnbakedModel>, missingTextureErrors: $Set_<$Pair$1<string, string>>): $Collection<$Material>;
+        bake(builder: $CompositeRenderable$PartBuilder<never>, configuration: $IGeometryBakingContext): void;
+        addQuads(owner: $IGeometryBakingContext, modelBuilder: $IModelBuilder<never>, baker: $ModelBaker, spriteGetter: $Function_<$Material, $TextureAtlasSprite>, modelTransform: $ModelState): void;
     }
     export class $ObjModel$ModelGroup extends $ObjModel$ModelObject {
     }
+    /**
+     * A loader for OBJ models.
+     * 
+     * Allows the user to enable automatic face culling, toggle quad shading, flip UVs, render emissively and specify a
+     * material library override.
+     */
     export class $ObjLoader implements $IGeometryLoader<$ObjModel>, $ResourceManagerReloadListener {
-        onResourceManagerReload(arg0: $ResourceManager): void;
-        loadModel(arg0: $ObjModel$ModelSettings_): $ObjModel;
-        loadMaterialLibrary(arg0: $ResourceLocation_): $ObjMaterialLibrary;
-        reload(arg0: $PreparableReloadListener$PreparationBarrier_, arg1: $ResourceManager, arg2: $ProfilerFiller, arg3: $ProfilerFiller, arg4: $Executor_, arg5: $Executor_): $CompletableFuture<void>;
+        onResourceManagerReload(resourceManager: $ResourceManager): void;
+        loadMaterialLibrary(materialLocation: $ResourceLocation_): $ObjMaterialLibrary;
+        loadModel(settings: $ObjModel$ModelSettings_): $ObjModel;
+        reload(preparationBarrier: $PreparableReloadListener$PreparationBarrier_, resourceManager: $ResourceManager, preparationsProfiler: $ProfilerFiller, reloadProfiler: $ProfilerFiller, backgroundExecutor: $Executor_, gameExecutor: $Executor_): $CompletableFuture<void>;
         getName(): string;
         read(arg0: $JsonObject_, arg1: $JsonDeserializationContext_): $ObjModel;
         static INSTANCE: $ObjLoader;
@@ -67,11 +87,11 @@ declare module "@package/net/neoforged/neoforge/client/model/obj" {
     }
     export class $ObjModel$ModelSettings extends $Record {
         shadeQuads(): boolean;
-        flipV(): boolean;
         modelLocation(): $ResourceLocation;
-        emissiveAmbient(): boolean;
-        automaticCulling(): boolean;
+        flipV(): boolean;
         mtlOverride(): string;
+        automaticCulling(): boolean;
+        emissiveAmbient(): boolean;
         constructor(modelLocation: $ResourceLocation_, automaticCulling: boolean, shadeQuads: boolean, flipV: boolean, emissiveAmbient: boolean, mtlOverride: string);
     }
     export class $ObjMaterialLibrary$Material {
@@ -86,6 +106,6 @@ declare module "@package/net/neoforged/neoforge/client/model/obj" {
         diffuseColor: $Vector4f;
         specularHighlight: number;
         diffuseTintIndex: number;
-        constructor(arg0: string);
+        constructor(name: string);
     }
 }

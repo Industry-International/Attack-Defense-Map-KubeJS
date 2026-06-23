@@ -104,13 +104,13 @@ declare module "@package/java/text" {
     export interface $AttributedCharacterIterator extends $CharacterIterator {
         getAttributes(): $Map<$AttributedCharacterIterator$Attribute, $Object>;
         getAttribute(arg0: $AttributedCharacterIterator$Attribute): $Object;
-        getAllAttributeKeys(): $Set<$AttributedCharacterIterator$Attribute>;
         getRunStart(): number;
         getRunStart(arg0: $Set_<$AttributedCharacterIterator$Attribute>): number;
         getRunStart(arg0: $AttributedCharacterIterator$Attribute): number;
+        getRunLimit(arg0: $Set_<$AttributedCharacterIterator$Attribute>): number;
         getRunLimit(arg0: $AttributedCharacterIterator$Attribute): number;
         getRunLimit(): number;
-        getRunLimit(arg0: $Set_<$AttributedCharacterIterator$Attribute>): number;
+        getAllAttributeKeys(): $Set<$AttributedCharacterIterator$Attribute>;
         get attributes(): $Map<$AttributedCharacterIterator$Attribute, $Object>;
         get allAttributeKeys(): $Set<$AttributedCharacterIterator$Attribute>;
     }
@@ -246,10 +246,10 @@ declare module "@package/java/text" {
         setLocale(arg0: $Locale): void;
         getFormats(): $Format[];
         setFormat(arg0: number, arg1: $Format): void;
+        getFormatsByArgumentIndex(): $Format[];
         setFormats(arg0: $Format[]): void;
         setFormatsByArgumentIndex(arg0: $Format[]): void;
         setFormatByArgumentIndex(arg0: number, arg1: $Format): void;
-        getFormatsByArgumentIndex(): $Format[];
         constructor(arg0: string);
         constructor(arg0: string, arg1: $Locale);
     }

@@ -6,13 +6,13 @@ import { $Class, $Cloneable } from "@package/java/lang";
 declare module "@package/com/google/gson/internal" {
     export class $Excluder implements $TypeAdapterFactory, $Cloneable {
         create<T>(arg0: $Gson, arg1: $TypeToken<T>): $TypeAdapter<T>;
-        withExclusionStrategy(arg0: $ExclusionStrategy, arg1: boolean, arg2: boolean): $Excluder;
-        withVersion(arg0: number): $Excluder;
-        withModifiers(...arg0: number[]): $Excluder;
-        excludeField(arg0: $Field, arg1: boolean): boolean;
-        excludeClass(arg0: $Class<never>, arg1: boolean): boolean;
-        disableInnerClassSerialization(): $Excluder;
         excludeFieldsWithoutExposeAnnotation(): $Excluder;
+        withExclusionStrategy(arg0: $ExclusionStrategy, arg1: boolean, arg2: boolean): $Excluder;
+        withModifiers(...arg0: number[]): $Excluder;
+        excludeClass(arg0: $Class<never>, arg1: boolean): boolean;
+        excludeField(arg0: $Field, arg1: boolean): boolean;
+        withVersion(arg0: number): $Excluder;
+        disableInnerClassSerialization(): $Excluder;
         static DEFAULT: $Excluder;
         constructor();
     }

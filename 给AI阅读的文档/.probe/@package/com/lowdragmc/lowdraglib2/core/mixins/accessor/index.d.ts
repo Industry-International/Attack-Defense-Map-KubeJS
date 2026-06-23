@@ -5,7 +5,7 @@ import { $UnbakedModel, $ModelResourceLocation } from "@package/net/minecraft/cl
 import { $ResourceProvider_ } from "@package/net/minecraft/server/packs/resources";
 import { $List, $Map } from "@package/java/util";
 import { $Direction_, $Direction } from "@package/net/minecraft/core";
-import { $ResourceLocation_ } from "@package/net/minecraft/resources";
+import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
 import { $ByteBufferBuilder$Result, $VertexFormatElement, $VertexFormatElement_ } from "@package/com/mojang/blaze3d/vertex";
 import { $TextureAtlasSprite } from "@package/net/minecraft/client/renderer/texture";
 import { $Uniform, $Program$Type, $Program, $Program$Type_ } from "@package/com/mojang/blaze3d/shaders";
@@ -27,9 +27,13 @@ declare module "@package/com/lowdragmc/lowdraglib2/core/mixins/accessor" {
     export class $ModelBakeryAccessor {
     }
     export interface $ModelBakeryAccessor {
-        invokeGetModel(arg0: $ResourceLocation_): $UnbakedModel;
+        getMissingModel(): $UnbakedModel;
         getTopLevelModels(): $Map<$ModelResourceLocation, $UnbakedModel>;
+        invokeGetModel(arg0: $ResourceLocation_): $UnbakedModel;
+        getUnbakedCache(): $Map<$ResourceLocation, $UnbakedModel>;
+        get missingModel(): $UnbakedModel;
         get topLevelModels(): $Map<$ModelResourceLocation, $UnbakedModel>;
+        get unbakedCache(): $Map<$ResourceLocation, $UnbakedModel>;
     }
     export class $ProgramTypeAccessor {
         static ldlib2$createProgramType(arg0: string, arg1: number, arg2: string, arg3: string, arg4: number): $Program$Type;
@@ -64,9 +68,9 @@ declare module "@package/com/lowdragmc/lowdraglib2/core/mixins/accessor" {
     }
     export interface $SlotAccessor {
         getY(): number;
-        getX(): number;
-        setX(arg0: number): void;
         setY(arg0: number): void;
+        setX(arg0: number): void;
+        getX(): number;
     }
     export class $DelegatingOpsAccessor<T> {
     }

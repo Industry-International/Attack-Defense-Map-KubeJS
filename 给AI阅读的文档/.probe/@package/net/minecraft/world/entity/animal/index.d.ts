@@ -15,7 +15,7 @@ import { $Object2DoubleMap } from "@package/it/unimi/dsi/fastutil/objects";
 import { $BootstrapContext } from "@package/net/minecraft/data/worldgen";
 import { $NodeEvaluator, $Path } from "@package/net/minecraft/world/level/pathfinder";
 import { $SoundEvent, $SoundSource_ } from "@package/net/minecraft/sounds";
-import { $BlockPos, $HolderSet_, $BlockPos_, $RegistryAccess, $Registry, $Vec3i, $HolderLookup$Provider, $Holder_, $HolderSet, $Holder } from "@package/net/minecraft/core";
+import { $BlockPos, $HolderSet_, $BlockPos_, $RegistryAccess, $Registry, $Vec3i, $HolderLookup$Provider, $Holder_, $HolderSet, $Holder, $Position } from "@package/net/minecraft/core";
 import { $OBB$Part } from "@package/com/atsuishio/superbwarfare/tools";
 import { $Brain } from "@package/net/minecraft/world/entity/ai";
 import { $BlockState } from "@package/net/minecraft/world/level/block/state";
@@ -55,20 +55,38 @@ export * as goat from "@package/net/minecraft/world/entity/animal/goat";
 
 declare module "@package/net/minecraft/world/entity/animal" {
     export class $Animal extends $AgeableMob {
-        static checkAnimalSpawnRules(arg0: $EntityType_<$Animal>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        static isBrightEnoughToSpawn(arg0: $BlockAndTintGetter, arg1: $BlockPos_): boolean;
-        getLoveCause(): $ServerPlayer;
-        setInLoveTime(arg0: number): void;
-        getInLoveTime(): number;
+        finalizeSpawnChildFromBreeding(level: $ServerLevel, animal: $Animal, baby: $AgeableMob | null): void;
+        spawnChildFromBreeding(level: $ServerLevel, mate: $Animal): void;
+        static checkAnimalSpawnRules(animal: $EntityType_<$Animal>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        static isBrightEnoughToSpawn(level: $BlockAndTintGetter, pos: $BlockPos_): boolean;
+        usePlayerItem(player: $Player, hand: $InteractionHand_, stack: $ItemStack_): void;
+        /**
+         * Returns if the entity is currently in 'love mode'.
+         */
         canFallInLove(): boolean;
-        usePlayerItem(arg0: $Player, arg1: $InteractionHand_, arg2: $ItemStack_): void;
-        spawnChildFromBreeding(arg0: $ServerLevel, arg1: $Animal): void;
-        isFood(arg0: $ItemStack_): boolean;
-        isInLove(): boolean;
-        canMate(arg0: $Animal): boolean;
-        setInLove(arg0: $Player): void;
+        /**
+         * Get number of ticks, at least during which the living entity will be silent.
+         */
+        getInLoveTime(): number;
+        getLoveCause(): $ServerPlayer;
+        setInLoveTime(inLove: number): void;
+        /**
+         * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on the animal type)
+         */
+        isFood(stack: $ItemStack_): boolean;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         resetLove(): void;
-        finalizeSpawnChildFromBreeding(arg0: $ServerLevel, arg1: $Animal, arg2: $AgeableMob): void;
+        setInLove(player: $Player | null): void;
+        /**
+         * Returns if the entity is currently in 'love mode'.
+         */
+        isInLove(): boolean;
+        /**
+         * Returns `true` if the mob is currently able to mate with the specified mob.
+         */
+        canMate(otherAnimal: $Animal): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -241,11 +259,17 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Animal>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Animal>, level: $Level_);
         get loveCause(): $ServerPlayer;
     }
     export class $Chicken extends $Animal {
-        setChickenJockey(arg0: boolean): void;
+        /**
+         * Sets whether this chicken is a jockey or not.
+         */
+        setChickenJockey(isChickenJockey: boolean): void;
+        /**
+         * Determines if this chicken is a jokey with a zombie riding it.
+         */
         isChickenJockey(): boolean;
         static createAttributes(): $AttributeSupplier$Builder;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
@@ -426,7 +450,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Chicken>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Chicken>, level: $Level_);
     }
     export class $Panda$PandaLookAtPlayerGoal extends $LookAtPlayerGoal {
         mob: $Mob;
@@ -444,14 +468,39 @@ declare module "@package/net/minecraft/world/entity/animal" {
     export class $Pufferfish$PufferfishPuffGoal extends $Goal {
     }
     export class $AbstractSchoolingFish extends $AbstractFish {
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isFollower(): boolean;
-        canBeFollowed(): boolean;
-        startFollowing(arg0: $AbstractSchoolingFish): $AbstractSchoolingFish;
-        hasFollowers(): boolean;
-        stopFollowing(): void;
-        pathToLeader(): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         inRangeOfLeader(): boolean;
-        addFollowers(arg0: $Stream<$AbstractSchoolingFish>): void;
+        addFollowers(followers: $Stream<$AbstractSchoolingFish>): void;
+        /**
+         * Called to update the entity's position/logic.
+         */
+        pathToLeader(): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        hasFollowers(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        canBeFollowed(): boolean;
+        startFollowing(leader: $AbstractSchoolingFish): $AbstractSchoolingFish;
+        /**
+         * Called to update the entity's position/logic.
+         */
+        stopFollowing(): void;
+        /**
+         * Will return how many at most can spawn in a chunk at once.
+         */
         getMaxSchoolSize(): number;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
@@ -620,7 +669,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$AbstractSchoolingFish>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$AbstractSchoolingFish>, level: $Level_);
         get follower(): boolean;
         get maxSchoolSize(): number;
     }
@@ -792,25 +841,39 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Cod>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Cod>, level: $Level_);
     }
     export class $Cat extends $TamableAnimal implements $VariantHolder<$Holder<$CatVariant>> {
-        setVariant(arg0: $Holder_<$CatVariant>): void;
-        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Cat;
-        isLying(): boolean;
-        setLying(arg0: boolean): void;
+        setVariant(variant: $Holder_<$CatVariant>): void;
+        /**
+         * Called to update the entity's position/logic.
+         */
         hiss(): void;
-        getCollarColor(): $DyeColor;
-        getNaturalVariant(): $Holder<any>;
-        isRelaxStateOne(): boolean;
-        setRelaxStateOne(arg0: boolean): void;
+        setLying(lying: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isLying(): boolean;
         getTextureId(): $ResourceLocation;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isRelaxStateOne(): boolean;
+        getCollarColor(): $DyeColor;
+        setRelaxStateOne(lying: boolean): void;
+        getLieDownAmount(partialTicks: number): number;
+        getNaturalVariant(): $Holder<any>;
+        /**
+         * Called to update the entity's position/logic.
+         */
         reassessTameGoals(): void;
-        getLieDownAmount(arg0: number): number;
-        setNaturalVariant(pVariant: $Holder_<any>): void;
+        setNaturalVariant(variant: $Holder_<any>): void;
         static createAttributes(): $AttributeSupplier$Builder;
-        getRelaxStateOneAmount(arg0: number): number;
-        getLieDownAmountTail(arg0: number): number;
+        getLieDownAmountTail(partialTicks: number): number;
+        getRelaxStateOneAmount(partialTicks: number): number;
+        getBreedOffspring(level: $ServerLevel, otherParent: $AgeableMob): $Cat;
         getVariant(): $Holder<$CatVariant>;
         serializeNBT(arg0: $HolderLookup$Provider): $Holder<$CatVariant>;
         static MAX_WEARING_ARMOR_CHANCE: number;
@@ -990,16 +1053,16 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Cat>, arg1: $Level_);
-        get collarColor(): $DyeColor;
+        constructor(entityType: $EntityType_<$Cat>, level: $Level_);
         get textureId(): $ResourceLocation;
+        get collarColor(): $DyeColor;
     }
     export class $WolfVariants {
-        static register(arg0: $BootstrapContext<$WolfVariant_>, arg1: $ResourceKey_<$WolfVariant>, arg2: string, arg3: $HolderSet_<$Biome>): void;
-        static register(arg0: $BootstrapContext<$WolfVariant_>, arg1: $ResourceKey_<$WolfVariant>, arg2: string, arg3: $TagKey_<$Biome>): void;
-        static register(arg0: $BootstrapContext<$WolfVariant_>, arg1: $ResourceKey_<$WolfVariant>, arg2: string, arg3: $ResourceKey_<$Biome>): void;
-        static bootstrap(arg0: $BootstrapContext<$WolfVariant_>): void;
-        static getSpawnVariant(arg0: $RegistryAccess, arg1: $Holder_<$Biome>): $Holder<$WolfVariant>;
+        static register(context: $BootstrapContext<$WolfVariant_>, key: $ResourceKey_<$WolfVariant>, name: string, spawnBiomes: $HolderSet_<$Biome>): void;
+        static register(context: $BootstrapContext<$WolfVariant_>, key: $ResourceKey_<$WolfVariant>, name: string, spawnBiomes: $TagKey_<$Biome>): void;
+        static register(context: $BootstrapContext<$WolfVariant_>, key: $ResourceKey_<$WolfVariant>, name: string, spawnBiome: $ResourceKey_<$Biome>): void;
+        static bootstrap(context: $BootstrapContext<$WolfVariant_>): void;
+        static getSpawnVariant(registryAccess: $RegistryAccess, biome: $Holder_<$Biome>): $Holder<$WolfVariant>;
         static SNOWY: $ResourceKey<$WolfVariant>;
         static ASHEN: $ResourceKey<$WolfVariant>;
         static STRIPED: $ResourceKey<$WolfVariant>;
@@ -1023,26 +1086,49 @@ declare module "@package/net/minecraft/world/entity/animal" {
         target: $LivingEntity;
     }
     export class $PolarBear extends $Animal implements $NeutralMob {
-        setPersistentAngerTarget(arg0: $UUID_): void;
-        getPersistentAngerTarget(): $UUID;
+        /**
+         * Called to update the entity's position/logic.
+         */
         startPersistentAngerTimer(): void;
+        setPersistentAngerTarget(target: $UUID_ | null): void;
+        getPersistentAngerTarget(): $UUID;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getRemainingPersistentAngerTime(): number;
+        setRemainingPersistentAngerTime(time: number): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isStanding(): boolean;
-        setStanding(arg0: boolean): void;
+        setStanding(standing: boolean): void;
+        /**
+         * Called to update the entity's position/logic.
+         */
         playWarningSound(): void;
         static createAttributes(): $AttributeSupplier$Builder;
-        static checkPolarBearSpawnRules(arg0: $EntityType_<$PolarBear>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        getStandingAnimationScale(arg0: number): number;
-        getRemainingPersistentAngerTime(): number;
-        setRemainingPersistentAngerTime(arg0: number): void;
-        addPersistentAngerSaveData(arg0: $CompoundTag_): void;
-        updatePersistentAnger(arg0: $ServerLevel, arg1: boolean): void;
-        stopBeingAngry(): void;
+        static checkPolarBearSpawnRules(polarBear: $EntityType_<$PolarBear>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        getStandingAnimationScale(partialTick: number): number;
+        /**
+         * Called to update the entity's position/logic.
+         */
         forgetCurrentTargetAndRefreshUniversalAnger(): void;
-        isAngryAtAllPlayers(arg0: $Level_): boolean;
-        playerDied(arg0: $Player): void;
-        readPersistentAngerSaveData(arg0: $Level_, arg1: $CompoundTag_): void;
-        isAngryAt(arg0: $LivingEntity): boolean;
+        updatePersistentAnger(serverLevel: $ServerLevel, updateAnger: boolean): void;
+        addPersistentAngerSaveData(compound: $CompoundTag_): void;
+        isAngryAtAllPlayers(level: $Level_): boolean;
+        readPersistentAngerSaveData(level: $Level_, tag: $CompoundTag_): void;
+        playerDied(player: $Player): void;
+        isAngryAt(target: $LivingEntity): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isAngry(): boolean;
+        /**
+         * Called to update the entity's position/logic.
+         */
+        stopBeingAngry(): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -1215,11 +1301,12 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$PolarBear>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$PolarBear>, level: $Level_);
         get angry(): boolean;
     }
     export class $Cow extends $Animal {
         static createAttributes(): $AttributeSupplier$Builder;
+        getBreedOffspring(level: $ServerLevel, otherParent: $AgeableMob): $Cow;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -1392,18 +1479,18 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Cow>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Cow>, level: $Level_);
     }
     export class $WolfVariant {
         biomes(): $HolderSet<$Biome>;
         wildTexture(): $ResourceLocation;
-        tameTexture(): $ResourceLocation;
         angryTexture(): $ResourceLocation;
+        tameTexture(): $ResourceLocation;
         static CODEC: $Codec<$Holder<$WolfVariant>>;
         static DIRECT_CODEC: $Codec<$WolfVariant>;
         static DIRECT_STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $WolfVariant>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$WolfVariant>>;
-        constructor(arg0: $ResourceLocation_, arg1: $ResourceLocation_, arg2: $ResourceLocation_, arg3: $HolderSet_<$Biome>);
+        constructor(wildTexture: $ResourceLocation_, tameTexture: $ResourceLocation_, angryTexture: $ResourceLocation_, biomes: $HolderSet_<$Biome>);
     }
     /**
      * Values that may be interpreted as {@link $WolfVariant}.
@@ -1411,35 +1498,63 @@ declare module "@package/net/minecraft/world/entity/animal" {
     export type $WolfVariant_ = RegistryTypes.WolfVariant;
     export class $Fox extends $Animal implements $VariantHolder<$Fox$Type> {
         getVariant(): $Fox$Type;
-        setVariant(arg0: $Fox$Type_): void;
+        setVariant(variant: $Fox$Type_): void;
+        setSitting(defending: boolean): void;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        wakeUp(): void;
+        /**
+         * Dead and sleeping entities cannot move
+         */
+        isPouncing(): boolean;
+        /**
+         * Dead and sleeping entities cannot move
+         */
+        canMove(): boolean;
+        trusts(uuid: $UUID_): boolean;
+        /**
+         * Dead and sleeping entities cannot move
+         */
+        isSitting(): boolean;
+        static access$100(arg0: $Fox): $RandomSource;
         static access$000(arg0: $Fox): $RandomSource;
         static access$200(arg0: $Fox): $RandomSource;
         static access$300(arg0: $Fox): boolean;
-        static access$100(arg0: $Fox): $RandomSource;
-        static createAttributes(): $AttributeSupplier$Builder;
-        static isPathClear(arg0: $Fox, arg1: $LivingEntity): boolean;
-        getTrustedUUIDs(): $List<$UUID>;
-        setSleeping(arg0: boolean): void;
-        isFullyCrouched(): boolean;
-        getHeadRollAngle(arg0: number): number;
-        addTrustedUUID(arg0: $UUID_): void;
+        setDefending(defending: boolean): void;
+        setIsPouncing(defending: boolean): void;
+        setIsInterested(defending: boolean): void;
+        addTrustedUUID(uuid: $UUID_ | null): void;
+        setIsCrouching(defending: boolean): void;
+        setSleeping(defending: boolean): void;
+        static checkFoxSpawnRules(fox: $EntityType_<$Fox>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        /**
+         * Dead and sleeping entities cannot move
+         */
         isInterested(): boolean;
-        setFaceplanted(arg0: boolean): void;
-        static checkFoxSpawnRules(arg0: $EntityType_<$Fox>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
+        /**
+         * Dead and sleeping entities cannot move
+         */
+        isFullyCrouched(): boolean;
+        /**
+         * Dead and sleeping entities cannot move
+         */
         isDefending(): boolean;
-        setIsPouncing(arg0: boolean): void;
-        setIsCrouching(arg0: boolean): void;
-        setIsInterested(arg0: boolean): void;
+        getTrustedUUIDs(): $List<$UUID>;
+        /**
+         * Dead and sleeping entities cannot move
+         */
         isFaceplanted(): boolean;
-        setDefending(arg0: boolean): void;
-        getCrouchAmount(arg0: number): number;
+        setFaceplanted(defending: boolean): void;
+        static isPathClear(fox: $Fox, livingEntity: $LivingEntity): boolean;
+        getCrouchAmount(partialTick: number): number;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         clearStates(): void;
-        isSitting(): boolean;
-        isPouncing(): boolean;
-        setSitting(arg0: boolean): void;
-        wakeUp(): void;
-        canMove(): boolean;
-        trusts(arg0: $UUID_): boolean;
+        getHeadRollAngle(partialTick: number): number;
+        static createAttributes(): $AttributeSupplier$Builder;
+        getBreedOffspring(level: $ServerLevel, otherParent: $AgeableMob): $Fox;
         serializeNBT(arg0: $HolderLookup$Provider): $Fox$Type;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -1619,12 +1734,12 @@ declare module "@package/net/minecraft/world/entity/animal" {
         static BASE_SAFE_FALL_DISTANCE: number;
         static FLAG_CROUCHING: number;
         age: number;
-        constructor(arg0: $EntityType_<$Fox>, arg1: $Level_);
-        get trustedUUIDs(): $List<$UUID>;
-        set sleeping(value: boolean);
-        get fullyCrouched(): boolean;
-        get interested(): boolean;
+        constructor(entityType: $EntityType_<$Fox>, level: $Level_);
         get pouncing(): boolean;
+        set sleeping(value: boolean);
+        get interested(): boolean;
+        get fullyCrouched(): boolean;
+        get trustedUUIDs(): $List<$UUID>;
     }
     export class $Fox$FoxFollowParentGoal extends $FollowParentGoal {
         static DONT_FOLLOW_IF_CLOSER_THAN: number;
@@ -1648,12 +1763,12 @@ declare module "@package/net/minecraft/world/entity/animal" {
     }
     export class $Fox$Type extends $Enum<$Fox$Type> implements $StringRepresentable {
         static values(): $Fox$Type[];
-        static valueOf(arg0: string): $Fox$Type;
+        static valueOf(name: string): $Fox$Type;
         getId(): number;
-        static byName(arg0: string): $Fox$Type;
+        static byBiome(biome: $Holder_<$Biome>): $Fox$Type;
+        static byName(name: string): $Fox$Type;
         getSerializedName(): string;
-        static byBiome(arg0: $Holder_<$Biome>): $Fox$Type;
-        static byId(arg0: number): $Fox$Type;
+        static byId(index: number): $Fox$Type;
         getRemappedEnumConstantName(): string;
         static RED: $Fox$Type;
         static CODEC: $StringRepresentable$EnumCodec<$Fox$Type>;
@@ -1667,17 +1782,28 @@ declare module "@package/net/minecraft/world/entity/animal" {
      */
     export type $Fox$Type_ = "red" | "snow";
     export class $Dolphin extends $WaterAnimal {
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        gotFish(): boolean;
+        setGotFish(gotFish: boolean): void;
+        static access$100(arg0: $Dolphin): $RandomSource;
         static access$000(arg0: $Dolphin): $RandomSource;
         static access$200(arg0: $Dolphin): $RandomSource;
-        static access$100(arg0: $Dolphin): $RandomSource;
-        setGotFish(arg0: boolean): void;
-        gotFish(): boolean;
         getTreasurePos(): $BlockPos;
-        getMoistnessLevel(): number;
-        setMoisntessLevel(arg0: number): void;
-        setTreasurePos(arg0: $BlockPos_): void;
-        static createAttributes(): $AttributeSupplier$Builder;
+        setTreasurePos(pos: $BlockPos_): void;
+        setMoisntessLevel(airSupply: number): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         closeToNextPos(): boolean;
+        /**
+         * The speed it takes to move the entity's rotationPitch through the faceEntity method. This is only currently use in wolves.
+         */
+        getMoistnessLevel(): number;
+        static createAttributes(): $AttributeSupplier$Builder;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -1847,17 +1973,20 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Dolphin>, arg1: $Level_);
-        get moistnessLevel(): number;
+        constructor(entityType: $EntityType_<$Dolphin>, level: $Level_);
         set moisntessLevel(value: number);
+        get moistnessLevel(): number;
     }
     export class $Cat$CatTemptGoal extends $TemptGoal {
         mob: $PathfinderMob;
         player: $Player;
     }
     export class $Pufferfish extends $AbstractFish {
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
         getPuffState(): number;
-        setPuffState(arg0: number): void;
+        setPuffState(puffState: number): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -2031,7 +2160,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Pufferfish>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Pufferfish>, level: $Level_);
     }
     export interface $CatVariant extends RegistryMarked<RegistryTypes.CatVariantTag, RegistryTypes.CatVariant> {}
     export class $Squid$SquidFleeGoal extends $Goal {
@@ -2081,10 +2210,13 @@ declare module "@package/net/minecraft/world/entity/animal" {
     }
     export class $MushroomCow$MushroomType extends $Enum<$MushroomCow$MushroomType> implements $StringRepresentable {
         static values(): $MushroomCow$MushroomType[];
-        static valueOf(arg0: string): $MushroomCow$MushroomType;
-        static byType(arg0: string): $MushroomCow$MushroomType;
+        static valueOf(name: string): $MushroomCow$MushroomType;
         getSerializedName(): string;
+        /**
+         * A block state that is rendered on the back of the mooshroom.
+         */
         getBlockState(): $BlockState;
+        static byType(name: string): $MushroomCow$MushroomType;
         getRemappedEnumConstantName(): string;
         static RED: $MushroomCow$MushroomType;
         blockState: $BlockState;
@@ -2099,76 +2231,134 @@ declare module "@package/net/minecraft/world/entity/animal" {
      */
     export type $MushroomCow$MushroomType_ = "red" | "brown";
     export class $Bee extends $Animal implements $NeutralMob, $FlyingAnimal {
-        static access$2000(arg0: $Bee): $RandomSource;
-        static access$2500(arg0: $Bee): $RandomSource;
-        static access$2400(arg0: $Bee): $PathNavigation;
-        static access$2800(arg0: $Bee): $PathNavigation;
-        static access$2300(arg0: $Bee): $RandomSource;
-        static access$2100(arg0: $Bee): $PathNavigation;
-        static access$2200(arg0: $Bee): $RandomSource;
-        static access$2600(arg0: $Bee): $PathNavigation;
-        static access$2700(arg0: $Bee): $PathNavigation;
+        static access$500(arg0: $Bee): $PathNavigation;
+        static access$700(arg0: $Bee): $PathNavigation;
+        static access$900(arg0: $Bee): $PathNavigation;
+        static access$400(arg0: $Bee): $PathNavigation;
+        static access$600(arg0: $Bee): $PathNavigation;
+        static access$800(arg0: $Bee): $PathNavigation;
+        setStayOutOfHiveCountdown(time: number): void;
+        static access$100(arg0: $Bee): $PathNavigation;
         static access$000(arg0: $Bee): $PathNavigation;
         static access$200(arg0: $Bee): $PathNavigation;
         static access$300(arg0: $Bee): $PathNavigation;
-        static access$100(arg0: $Bee): $PathNavigation;
-        static access$700(arg0: $Bee): $PathNavigation;
-        static access$800(arg0: $Bee): $PathNavigation;
-        static access$900(arg0: $Bee): $PathNavigation;
-        static access$500(arg0: $Bee): $PathNavigation;
-        static access$400(arg0: $Bee): $PathNavigation;
-        static access$600(arg0: $Bee): $PathNavigation;
         static access$1100(arg0: $Bee): $PathNavigation;
         static access$1000(arg0: $Bee): $PathNavigation;
-        static access$1700(arg0: $Bee): $RandomSource;
         static access$1200(arg0: $Bee): $PathNavigation;
         static access$1300(arg0: $Bee): $RandomSource;
         static access$1400(arg0: $Bee): $RandomSource;
         static access$1500(arg0: $Bee): $RandomSource;
-        static access$1900(arg0: $Bee): $PathNavigation;
         static access$1600(arg0: $Bee): $PathNavigation;
+        static access$1700(arg0: $Bee): $RandomSource;
+        static access$1900(arg0: $Bee): $PathNavigation;
         static access$1800(arg0: $Bee): $RandomSource;
-        closerThan(arg0: $BlockPos_, arg1: number): boolean;
-        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Bee;
-        setPersistentAngerTarget(arg0: $UUID_): void;
-        getPersistentAngerTarget(): $UUID;
+        static access$2400(arg0: $Bee): $PathNavigation;
+        static access$2300(arg0: $Bee): $RandomSource;
+        static access$2000(arg0: $Bee): $RandomSource;
+        static access$2600(arg0: $Bee): $PathNavigation;
+        static access$2500(arg0: $Bee): $RandomSource;
+        static access$2800(arg0: $Bee): $PathNavigation;
+        static access$2100(arg0: $Bee): $PathNavigation;
+        static access$2200(arg0: $Bee): $RandomSource;
+        static access$2700(arg0: $Bee): $PathNavigation;
+        setHivePos(pos: $BlockPos_): void;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getCropsGrownSincePollination(): number;
+        /**
+         * Called frequently, so the entity can update its state every tick as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         startPersistentAngerTimer(): void;
-        setHasNectar(arg0: boolean): void;
-        getTravellingTicks(): number;
-        wantsToEnterHive(): boolean;
-        isFlowerValid(arg0: $BlockPos_): boolean;
-        getGoalSelector(): $GoalSelector;
-        isTooFarAway(arg0: $BlockPos_): boolean;
-        isHiveValid(): boolean;
-        getRollAmount(arg0: number): number;
-        setHivePos(arg0: $BlockPos_): void;
+        setPersistentAngerTarget(target: $UUID_ | null): void;
+        getPersistentAngerTarget(): $UUID;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getRemainingPersistentAngerTime(): number;
+        setRemainingPersistentAngerTime(time: number): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        hasNectar(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         hasHive(): boolean;
-        isFlying(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         hasStung(): boolean;
         getHivePos(): $BlockPos;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isFlying(): boolean;
+        getGoalSelector(): $GoalSelector;
+        isTooFarAway(hivePos: $BlockPos_): boolean;
+        isFlowerValid(hivePos: $BlockPos_): boolean;
+        setHasNectar(hasNectar: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        wantsToEnterHive(): boolean;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getTravellingTicks(): number;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isHiveValid(): boolean;
+        getRollAmount(partialTick: number): number;
         static createAttributes(): $AttributeSupplier$Builder;
-        getCropsGrownSincePollination(): number;
-        pathfindRandomlyTowards(arg0: $BlockPos_): void;
-        getBlacklistedHives(): $List<$BlockPos>;
-        hasSavedFlowerPos(): boolean;
-        setSavedFlowerPos(arg0: $BlockPos_): void;
-        getSavedFlowerPos(): $BlockPos;
-        dropOffNectar(): void;
-        setStayOutOfHiveCountdown(arg0: number): void;
-        resetTicksWithoutNectarSinceExitingHive(): void;
+        closerThan(pos: $BlockPos_, distance: number): boolean;
+        /**
+         * Called frequently, so the entity can update its state every tick as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         incrementNumCropsGrownSincePollination(): void;
-        getRemainingPersistentAngerTime(): number;
-        setRemainingPersistentAngerTime(arg0: number): void;
-        hasNectar(): boolean;
-        addPersistentAngerSaveData(arg0: $CompoundTag_): void;
-        updatePersistentAnger(arg0: $ServerLevel, arg1: boolean): void;
-        stopBeingAngry(): void;
+        /**
+         * Called frequently, so the entity can update its state every tick as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        resetTicksWithoutNectarSinceExitingHive(): void;
+        pathfindRandomlyTowards(pos: $BlockPos_): void;
+        getBlacklistedHives(): $List<$BlockPos>;
+        setSavedFlowerPos(pos: $BlockPos_): void;
+        /**
+         * Called frequently, so the entity can update its state every tick as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        dropOffNectar(): void;
+        getSavedFlowerPos(): $BlockPos;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        hasSavedFlowerPos(): boolean;
+        /**
+         * Called frequently, so the entity can update its state every tick as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         forgetCurrentTargetAndRefreshUniversalAnger(): void;
-        isAngryAtAllPlayers(arg0: $Level_): boolean;
-        playerDied(arg0: $Player): void;
-        readPersistentAngerSaveData(arg0: $Level_, arg1: $CompoundTag_): void;
-        isAngryAt(arg0: $LivingEntity): boolean;
+        updatePersistentAnger(serverLevel: $ServerLevel, updateAnger: boolean): void;
+        addPersistentAngerSaveData(compound: $CompoundTag_): void;
+        isAngryAtAllPlayers(level: $Level_): boolean;
+        readPersistentAngerSaveData(level: $Level_, tag: $CompoundTag_): void;
+        playerDied(player: $Player): void;
+        isAngryAt(target: $LivingEntity): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isAngry(): boolean;
+        /**
+         * Called frequently, so the entity can update its state every tick as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        stopBeingAngry(): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -2357,13 +2547,13 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Bee>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Bee>, level: $Level_);
+        set stayOutOfHiveCountdown(value: number);
+        get cropsGrownSincePollination(): number;
+        get flying(): boolean;
         get travellingTicks(): number;
         get hiveValid(): boolean;
-        get flying(): boolean;
-        get cropsGrownSincePollination(): number;
         get blacklistedHives(): $List<$BlockPos>;
-        set stayOutOfHiveCountdown(value: number);
         get angry(): boolean;
     }
     export class $Fox$FoxLookAtPlayerGoal extends $LookAtPlayerGoal {
@@ -2390,13 +2580,21 @@ declare module "@package/net/minecraft/world/entity/animal" {
     }
     export class $AbstractFish extends $WaterAnimal implements $Bucketable {
         getPickupSound(): $SoundEvent;
-        static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         fromBucket(): boolean;
+        static createAttributes(): $AttributeSupplier$Builder;
+        saveToBucketTag(stack: $ItemStack_): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         canRandomSwim(): boolean;
+        setFromBucket(fromBucket: boolean): void;
+        loadFromBucketTag(compound: $CompoundTag_): void;
         getFlopSound(): $SoundEvent;
-        saveToBucketTag(arg0: $ItemStack_): void;
-        setFromBucket(arg0: boolean): void;
-        loadFromBucketTag(arg0: $CompoundTag_): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -2564,21 +2762,21 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$AbstractFish>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$AbstractFish>, level: $Level_);
         get pickupSound(): $SoundEvent;
         get flopSound(): $SoundEvent;
     }
     export class $AbstractSchoolingFish$SchoolSpawnGroupData implements $SpawnGroupData {
         leader: $AbstractSchoolingFish;
-        constructor(arg0: $AbstractSchoolingFish);
+        constructor(leader: $AbstractSchoolingFish);
     }
     export class $Turtle$TurtleGoHomeGoal extends $Goal {
     }
     export class $Turtle$TurtleTravelGoal extends $Goal {
     }
     export class $WaterAnimal extends $PathfinderMob {
-        static checkSurfaceWaterAnimalSpawnRules(arg0: $EntityType_<$WaterAnimal>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        handleAirSupply(arg0: number): void;
+        static checkSurfaceWaterAnimalSpawnRules(waterAnimal: $EntityType_<$WaterAnimal>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        handleAirSupply(airSupply: number): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -2746,7 +2944,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$WaterAnimal>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$WaterAnimal>, level: $Level_);
     }
     export class $Panda$PandaLieOnBackGoal extends $Goal {
     }
@@ -2787,50 +2985,110 @@ declare module "@package/net/minecraft/world/entity/animal" {
         animal: $Animal;
     }
     export class $Panda extends $Animal {
-        setAttributes(): void;
         getVariant(): $Panda$Gene;
-        roll(arg0: boolean): void;
+        roll(eating: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isSitting(): boolean;
+        static access$500(arg0: $Panda): $RandomSource;
+        static access$700(arg0: $Panda): $RandomSource;
+        static access$900(arg0: $Panda): $RandomSource;
+        static access$400(arg0: $Panda): $RandomSource;
+        static access$600(arg0: $Panda): $RandomSource;
+        static access$800(arg0: $Panda): $RandomSource;
+        /**
+         * Called to update the entity's position/logic.
+         */
+        setAttributes(): void;
+        static access$100(arg0: $Panda): $RandomSource;
         static access$000(arg0: $Panda): $RandomSource;
         static access$200(arg0: $Panda): $RandomSource;
         static access$300(arg0: $Panda): $RandomSource;
-        static access$100(arg0: $Panda): $RandomSource;
-        static access$700(arg0: $Panda): $RandomSource;
-        static access$800(arg0: $Panda): $RandomSource;
-        static access$900(arg0: $Panda): $RandomSource;
-        static access$500(arg0: $Panda): $RandomSource;
-        static access$400(arg0: $Panda): $RandomSource;
-        static access$600(arg0: $Panda): $RandomSource;
         static access$1000(arg0: $Panda): $RandomSource;
-        eat(arg0: boolean): void;
-        isLazy(): boolean;
-        isEating(): boolean;
-        getRollAmount(arg0: number): number;
-        isScared(): boolean;
-        isRolling(): boolean;
-        setUnhappyCounter(arg0: number): void;
-        setMainGene(arg0: $Panda$Gene_): void;
-        getSneezeCounter(): number;
-        setSneezeCounter(arg0: number): void;
-        getHiddenGene(): $Panda$Gene;
-        getSitAmount(arg0: number): number;
-        getLieOnBackAmount(arg0: number): number;
-        setGeneFromParents(arg0: $Panda, arg1: $Panda): void;
-        setHiddenGene(arg0: $Panda$Gene_): void;
-        getUnhappyCounter(): number;
-        getMainGene(): $Panda$Gene;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         canPerformAction(): boolean;
-        sneeze(arg0: boolean): void;
-        static createAttributes(): $AttributeSupplier$Builder;
-        isSneezing(): boolean;
-        setOnBack(arg0: boolean): void;
-        sit(arg0: boolean): void;
+        sneeze(eating: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isOnBack(): boolean;
-        isWeak(): boolean;
-        isPlayful(): boolean;
+        setOnBack(eating: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isSneezing(): boolean;
+        sit(eating: boolean): void;
+        /**
+         * Called to update the entity's position/logic.
+         */
         tryToSit(): void;
-        isBrown(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isWorried(): boolean;
-        isSitting(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isWeak(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isBrown(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isPlayful(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isLazy(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isScared(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isRolling(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isEating(): boolean;
+        getRollAmount(partialTick: number): number;
+        setGeneFromParents(father: $Panda, mother: $Panda | null): void;
+        getSitAmount(partialTick: number): number;
+        setUnhappyCounter(eatCounter: number): void;
+        setHiddenGene(pandaType: $Panda$Gene_): void;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getSneezeCounter(): number;
+        setSneezeCounter(eatCounter: number): void;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getUnhappyCounter(): number;
+        getHiddenGene(): $Panda$Gene;
+        getLieOnBackAmount(partialTick: number): number;
+        setMainGene(pandaType: $Panda$Gene_): void;
+        getMainGene(): $Panda$Gene;
+        static createAttributes(): $AttributeSupplier$Builder;
+        eat(eating: boolean): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -3010,18 +3268,18 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Panda>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Panda>, level: $Level_);
         get variant(): $Panda$Gene;
+        get sitting(): boolean;
+        get sneezing(): boolean;
+        get worried(): boolean;
+        get weak(): boolean;
+        get brown(): boolean;
+        get playful(): boolean;
         get lazy(): boolean;
-        get eating(): boolean;
         get scared(): boolean;
         get rolling(): boolean;
-        get sneezing(): boolean;
-        get weak(): boolean;
-        get playful(): boolean;
-        get brown(): boolean;
-        get worried(): boolean;
-        get sitting(): boolean;
+        get eating(): boolean;
     }
     export class $Fox$PerchAndSearchGoal extends $Fox$FoxBehaviorGoal {
     }
@@ -3037,11 +3295,18 @@ declare module "@package/net/minecraft/world/entity/animal" {
      */
     export type $TropicalFish$Base_ = "small" | "large";
     export class $Ocelot extends $Animal {
-        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Ocelot;
-        static createAttributes(): $AttributeSupplier$Builder;
-        reassessTrustingGoals(): void;
-        static checkOcelotSpawnRules(arg0: $EntityType_<$Ocelot>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isTrusting(): boolean;
+        static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * Dismounts this entity from the entity it is riding.
+         */
+        reassessTrustingGoals(): void;
+        static checkOcelotSpawnRules(ocelot: $EntityType_<$Ocelot>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        getBreedOffspring(level: $ServerLevel, otherParent: $AgeableMob): $Ocelot;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -3217,10 +3482,13 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Ocelot>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Ocelot>, level: $Level_);
         get trusting(): boolean;
     }
     export class $Fox$FoxEatBerriesGoal extends $MoveToBlockGoal {
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
         onReachedTarget(): void;
         speedModifier: number;
         mob: $PathfinderMob;
@@ -3229,7 +3497,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         ticksWaited: number;
         this$0: $Fox;
         verticalSearchStart: number;
-        constructor(arg0: $Fox, arg1: number, arg2: number, arg3: number);
+        constructor(speedModifier: $Fox, arg1: number, searchRange: number, verticalSearchRange: number);
     }
     export class $Panda$PandaSitGoal extends $Goal {
     }
@@ -3405,7 +3673,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Salmon>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Salmon>, level: $Level_);
     }
     export interface $FrogVariant extends RegistryMarked<RegistryTypes.FrogVariantTag, RegistryTypes.FrogVariant> {}
     export class $Ocelot$OcelotAvoidEntityGoal<T extends $LivingEntity> extends $AvoidEntityGoal<T> {
@@ -3431,22 +3699,38 @@ declare module "@package/net/minecraft/world/entity/animal" {
     export class $Cat$CatRelaxOnOwnerGoal extends $Goal {
     }
     export class $Turtle extends $Animal {
-        static access$000(arg0: $Turtle): $RandomSource;
+        static checkTurtleSpawnRules(turtle: $EntityType_<$Turtle>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
         static access$100(arg0: $Turtle): $RandomSource;
-        isTravelling(): boolean;
-        isGoingHome(): boolean;
-        setLayingEgg(arg0: boolean): void;
-        setTravelling(arg0: boolean): void;
-        setTravelPos(arg0: $BlockPos_): void;
-        isLayingEgg(): boolean;
-        setGoingHome(arg0: boolean): void;
-        getTravelPos(): $BlockPos;
-        static checkTurtleSpawnRules(arg0: $EntityType_<$Turtle>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
+        static access$000(arg0: $Turtle): $RandomSource;
+        setHomePos(homePos: $BlockPos_): void;
         static createAttributes(): $AttributeSupplier$Builder;
-        setHomePos(arg0: $BlockPos_): void;
-        setHasEgg(arg0: boolean): void;
+        setGoingHome(isGoingHome: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isTravelling(): boolean;
+        setTravelPos(homePos: $BlockPos_): void;
+        getTravelPos(): $BlockPos;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isGoingHome(): boolean;
+        setTravelling(isGoingHome: boolean): void;
+        setLayingEgg(isGoingHome: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isLayingEgg(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         hasEgg(): boolean;
         getHomePos(): $BlockPos;
+        setHasEgg(isGoingHome: boolean): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -3621,7 +3905,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Turtle>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Turtle>, level: $Level_);
     }
     export class $Bee$BeeEnterHiveGoal extends $Bee$BaseBeeGoal {
     }
@@ -3659,27 +3943,32 @@ declare module "@package/net/minecraft/world/entity/animal" {
     }
     export class $TropicalFish$Variant extends $Record {
         pattern(): $TropicalFish$Pattern;
+        patternColor(): $DyeColor;
         getPackedId(): number;
         baseColor(): $DyeColor;
-        patternColor(): $DyeColor;
         static CODEC: $Codec<$TropicalFish$Variant>;
-        constructor(arg0: number);
+        constructor(id: number);
         constructor(arg0: $TropicalFish$Pattern_, arg1: $DyeColor_, arg2: $DyeColor_);
         get packedId(): number;
     }
     export class $Rabbit extends $Animal implements $VariantHolder<$Rabbit$Variant> {
-        getVariant(): $Rabbit$Variant;
-        setVariant(arg0: $Rabbit$Variant_): void;
-        static access$000(arg0: $Rabbit): boolean;
+        setVariant(variant: $Rabbit$Variant_): void;
         static access$100(arg0: $Rabbit): $JumpControl;
-        setSpeedModifier(arg0: number): void;
-        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Rabbit;
-        startJumping(): void;
-        getJumpCompletion(arg0: number): number;
+        static access$000(arg0: $Rabbit): boolean;
+        setSpeedModifier(speedModifier: number): void;
+        /**
+         * Returns `true` if `#moreCarrotTicks` has reached zero
+         */
         wantsMoreFood(): boolean;
-        getJumpSound(): $SoundEvent;
+        getJumpCompletion(partialTick: number): number;
+        /**
+         * Called frequently, so the entity can update its state every tick as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        startJumping(): void;
         static createAttributes(): $AttributeSupplier$Builder;
-        static checkRabbitSpawnRules(arg0: $EntityType_<$Rabbit>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
+        static checkRabbitSpawnRules(rabbit: $EntityType_<$Rabbit>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        getJumpSound(): $SoundEvent;
+        getVariant(): $Rabbit$Variant;
         serializeNBT(arg0: $HolderLookup$Provider): $Rabbit$Variant;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -3858,7 +4147,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Rabbit>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Rabbit>, level: $Level_);
         set speedModifier(value: number);
         get jumpSound(): $SoundEvent;
     }
@@ -3876,7 +4165,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         mob: $PathfinderMob;
     }
     export class $CatVariant extends $Record {
-        static bootstrap(arg0: $Registry<$CatVariant_>): $CatVariant;
+        static bootstrap(registry: $Registry<$CatVariant_>): $CatVariant;
         texture(): $ResourceLocation;
         static RED: $ResourceKey<$CatVariant>;
         static RAGDOLL: $ResourceKey<$CatVariant>;
@@ -3938,15 +4227,27 @@ declare module "@package/net/minecraft/world/entity/animal" {
     }
     export class $Rabbit$RabbitGroupData extends $AgeableMob$AgeableMobGroupData {
         variant: $Rabbit$Variant;
-        constructor(arg0: $Rabbit$Variant_);
+        constructor(variant: $Rabbit$Variant_);
     }
     export class $Pig extends $Animal implements $ItemSteerable, $Saddleable {
-        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Pig;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isSaddled(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         boost(): boolean;
         static createAttributes(): $AttributeSupplier$Builder;
-        equipSaddle(arg0: $ItemStack_, arg1: $SoundSource_): void;
+        equipSaddle(stack: $ItemStack_, soundSource: $SoundSource_ | null): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isSaddleable(): boolean;
+        getBreedOffspring(level: $ServerLevel, otherParent: $AgeableMob): $Pig;
         getSaddleSoundEvent(): $SoundEvent;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
@@ -4120,27 +4421,60 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Pig>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Pig>, level: $Level_);
         get saddled(): boolean;
         get saddleable(): boolean;
         get saddleSoundEvent(): $SoundEvent;
     }
     export interface $WolfVariant extends RegistryMarked<RegistryTypes.WolfVariantTag, RegistryTypes.WolfVariant> {}
     export class $Sheep extends $Animal implements $Shearable {
-        setColor(arg0: $DyeColor_): void;
-        shear(arg0: $SoundSource_): void;
+        /**
+         * Sets the wool color of this sheep
+         */
+        setColor(dyeColor: $DyeColor_): void;
+        static getColor(dyeColor: $DyeColor_): number;
+        /**
+         * Gets the wool color of this sheep.
+         */
         getColor(): $DyeColor;
-        static getColor(arg0: $DyeColor_): number;
-        setSheared(arg0: boolean): void;
-        static createAttributes(): $AttributeSupplier$Builder;
-        getHeadEatAngleScale(arg0: number): number;
-        getHeadEatPositionScale(arg0: number): number;
-        static getRandomSheepColor(arg0: $RandomSource): $DyeColor;
+        /**
+         * Returns `true` if a sheep's wool has been sheared.
+         */
         readyForShearing(): boolean;
+        /**
+         * Returns `true` if a sheep's wool has been sheared.
+         */
         isSheared(): boolean;
-        onSheared(arg0: $Player, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_): $List<$ItemStack>;
-        spawnShearedDrop(arg0: $Level_, arg1: $BlockPos_, arg2: $ItemStack_): void;
-        isShearable(arg0: $Player, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_): boolean;
+        /**
+         * Makes a sheep sheared if set to `true`.
+         */
+        setSheared(sheared: boolean): void;
+        static createAttributes(): $AttributeSupplier$Builder;
+        shear(category: $SoundSource_): void;
+        getHeadEatPositionScale(partialTick: number): number;
+        static getRandomSheepColor(random: $RandomSource): $DyeColor;
+        getHeadEatAngleScale(partialTick: number): number;
+        getBreedOffspring(level: $ServerLevel, otherParent: $AgeableMob): $Sheep;
+        /**
+         * Checks if this object can be sheared.
+         * 
+         * For example, Sheep return false when they have no wool.
+         */
+        isShearable(player: $Player, item: $ItemStack_, level: $Level_, pos: $BlockPos_): boolean;
+        /**
+         * Performs the logic used to drop a shear result into the world at the correct position and with the proper movement.
+         * 
+         * Entities may respect their internal position values instead of relying on the `pos` parameter.
+         */
+        spawnShearedDrop(level: $Level_, pos: $BlockPos_, drop: $ItemStack_): void;
+        /**
+         * Shears this object. This function is called on both sides, and is responsible for performing any and all actions that happen when sheared, except spawning drops.
+         * 
+         * Drops that are spawned as a result of being sheared should be returned from this method, and will be spawned on the server using `#spawnShearedDrop`.
+         * 
+         * Entities may respect their internal position values instead of relying on the `pos` parameter.
+         */
+        onSheared(player: $Player, item: $ItemStack_, level: $Level_, pos: $BlockPos_): $List<$ItemStack>;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -4313,16 +4647,16 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Sheep>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Sheep>, level: $Level_);
     }
     export class $TropicalFish$Pattern extends $Enum<$TropicalFish$Pattern> implements $StringRepresentable {
         base(): $TropicalFish$Base;
         static values(): $TropicalFish$Pattern[];
         static valueOf(arg0: string): $TropicalFish$Pattern;
         displayName(): $Component;
-        getPackedId(): number;
         getSerializedName(): string;
-        static byId(arg0: number): $TropicalFish$Pattern;
+        static byId(packedId: number): $TropicalFish$Pattern;
+        getPackedId(): number;
         getRemappedEnumConstantName(): string;
         static CLAYFISH: $TropicalFish$Pattern;
         static CODEC: $Codec<$TropicalFish$Pattern>;
@@ -4337,8 +4671,8 @@ declare module "@package/net/minecraft/world/entity/animal" {
         static DASHER: $TropicalFish$Pattern;
         static KOB: $TropicalFish$Pattern;
         static SNOOPER: $TropicalFish$Pattern;
-        get packedId(): number;
         get serializedName(): string;
+        get packedId(): number;
         get remappedEnumConstantName(): string;
     }
     /**
@@ -4377,7 +4711,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         static valueOf(arg0: string): $Rabbit$Variant;
         id(): number;
         getSerializedName(): string;
-        static byId(arg0: number): $Rabbit$Variant;
+        static byId(id: number): $Rabbit$Variant;
         getRemappedEnumConstantName(): string;
         static SALT: $Rabbit$Variant;
         static WHITE_SPLOTCHED: $Rabbit$Variant;
@@ -4418,8 +4752,11 @@ declare module "@package/net/minecraft/world/entity/animal" {
         mob: $PathfinderMob;
     }
     export class $Bee$BeeGoToHiveGoal extends $Bee$BaseBeeGoal {
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
         clearBlacklist(): void;
-        isTargetBlacklisted(arg0: $BlockPos_): boolean;
+        isTargetBlacklisted(pos: $BlockPos_): boolean;
         static MAX_TRAVELLING_TICKS: number;
         this$0: $Bee;
         travellingTicks: number;
@@ -4427,36 +4764,62 @@ declare module "@package/net/minecraft/world/entity/animal" {
         constructor(arg0: $Bee);
     }
     export class $Wolf extends $TamableAnimal implements $NeutralMob, $VariantHolder<$Holder<$WolfVariant>> {
-        setVariant(arg0: $Holder_<$WolfVariant>): void;
+        getVariant(): $Holder<$WolfVariant>;
+        setVariant(variant: $Holder_<$WolfVariant>): void;
         static access$000(arg0: $Wolf): $RandomSource;
         getTexture(): $ResourceLocation;
-        getBreedOffspring(arg0: $ServerLevel, arg1: $AgeableMob): $Wolf;
-        setPersistentAngerTarget(arg0: $UUID_): void;
-        getPersistentAngerTarget(): $UUID;
-        startPersistentAngerTimer(): void;
-        getCollarColor(): $DyeColor;
-        getWetShade(arg0: number): number;
-        getTailAngle(): number;
-        getBodyRollAngle(arg0: number, arg1: number): number;
-        static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * True if the wolf is wet
+         */
         isWet(): boolean;
+        /**
+         * True if the wolf is wet
+         */
         hasArmor(): boolean;
-        static checkWolfSpawnRules(arg0: $EntityType_<$Wolf>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        getHeadRollAngle(arg0: number): number;
-        isInterested(): boolean;
-        setIsInterested(arg0: boolean): void;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        startPersistentAngerTimer(): void;
+        setPersistentAngerTarget(target: $UUID_ | null): void;
+        getPersistentAngerTarget(): $UUID;
+        /**
+         * The speed it takes to move the entity's rotationPitch through the faceEntity method. This is only currently use in wolves.
+         */
         getRemainingPersistentAngerTime(): number;
-        setRemainingPersistentAngerTime(arg0: number): void;
-        addPersistentAngerSaveData(arg0: $CompoundTag_): void;
-        updatePersistentAnger(arg0: $ServerLevel, arg1: boolean): void;
-        stopBeingAngry(): void;
+        setRemainingPersistentAngerTime(time: number): void;
+        getCollarColor(): $DyeColor;
+        setIsInterested(isInterested: boolean): void;
+        /**
+         * True if the wolf is wet
+         */
+        isInterested(): boolean;
+        getHeadRollAngle(partialTicks: number): number;
+        getWetShade(partialTicks: number): number;
+        /**
+         * Returns the volume for the sounds this mob makes.
+         */
+        getTailAngle(): number;
+        getBodyRollAngle(partialTicks: number, offset: number): number;
+        static createAttributes(): $AttributeSupplier$Builder;
+        static checkWolfSpawnRules(wolf: $EntityType_<$Wolf>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         forgetCurrentTargetAndRefreshUniversalAnger(): void;
-        isAngryAtAllPlayers(arg0: $Level_): boolean;
-        playerDied(arg0: $Player): void;
-        readPersistentAngerSaveData(arg0: $Level_, arg1: $CompoundTag_): void;
-        isAngryAt(arg0: $LivingEntity): boolean;
+        updatePersistentAnger(serverLevel: $ServerLevel, updateAnger: boolean): void;
+        addPersistentAngerSaveData(compound: $CompoundTag_): void;
+        isAngryAtAllPlayers(level: $Level_): boolean;
+        readPersistentAngerSaveData(level: $Level_, tag: $CompoundTag_): void;
+        playerDied(player: $Player): void;
+        isAngryAt(entity: $LivingEntity): boolean;
+        /**
+         * True if the wolf is wet
+         */
         isAngry(): boolean;
-        getVariant(): $Holder<$WolfVariant>;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        stopBeingAngry(): void;
         serializeNBT(arg0: $HolderLookup$Provider): $Holder<$WolfVariant>;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -4633,16 +4996,16 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Wolf>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Wolf>, level: $Level_);
         get texture(): $ResourceLocation;
-        get collarColor(): $DyeColor;
-        get tailAngle(): number;
         get wet(): boolean;
+        get collarColor(): $DyeColor;
         get interested(): boolean;
+        get tailAngle(): number;
         get angry(): boolean;
     }
     export class $Fox$FoxAlertableEntitiesSelector implements $Predicate<$LivingEntity> {
-        test(arg0: $LivingEntity): boolean;
+        test(entity: $LivingEntity): boolean;
         or(arg0: $Predicate_<$LivingEntity>): $Predicate<$LivingEntity>;
         negate(): $Predicate<$LivingEntity>;
         and(arg0: $Predicate_<$LivingEntity>): $Predicate<$LivingEntity>;
@@ -4664,14 +5027,14 @@ declare module "@package/net/minecraft/world/entity/animal" {
     }
     export class $Panda$Gene extends $Enum<$Panda$Gene> implements $StringRepresentable {
         static values(): $Panda$Gene[];
-        static valueOf(arg0: string): $Panda$Gene;
+        static valueOf(name: string): $Panda$Gene;
         getId(): number;
-        static byName(arg0: string): $Panda$Gene;
-        static getRandom(arg0: $RandomSource): $Panda$Gene;
+        static byName(name: string): $Panda$Gene;
         getSerializedName(): string;
+        static byId(index: number): $Panda$Gene;
+        static getRandom(random: $RandomSource): $Panda$Gene;
         isRecessive(): boolean;
-        static getVariantFromGenes(arg0: $Panda$Gene_, arg1: $Panda$Gene_): $Panda$Gene;
-        static byId(arg0: number): $Panda$Gene;
+        static getVariantFromGenes(mainGene: $Panda$Gene_, hiddenGene: $Panda$Gene_): $Panda$Gene;
         getRemappedEnumConstantName(): string;
         static WEAK: $Panda$Gene;
         static CODEC: $StringRepresentable$EnumCodec<$Panda$Gene>;
@@ -4860,16 +5223,37 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$AbstractGolem>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$AbstractGolem>, level: $Level_);
     }
     export class $MushroomCow extends $Cow implements $Shearable, $VariantHolder<$MushroomCow$MushroomType> {
-        setVariant(arg0: $MushroomCow$MushroomType_): void;
-        shear(arg0: $SoundSource_): void;
-        static checkMushroomSpawnRules(arg0: $EntityType_<$MushroomCow>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
+        setVariant(variant: $MushroomCow$MushroomType_): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         readyForShearing(): boolean;
-        onSheared(arg0: $Player, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_): $List<$ItemStack>;
-        spawnShearedDrop(arg0: $Level_, arg1: $BlockPos_, arg2: $ItemStack_): void;
-        isShearable(arg0: $Player, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_): boolean;
+        shear(category: $SoundSource_): void;
+        static checkMushroomSpawnRules(mushroomCow: $EntityType_<$MushroomCow>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, randomSource: $RandomSource): boolean;
+        /**
+         * Checks if this object can be sheared.
+         * 
+         * For example, Sheep return false when they have no wool.
+         */
+        isShearable(player: $Player, item: $ItemStack_, level: $Level_, pos: $BlockPos_): boolean;
+        /**
+         * Performs the logic used to drop a shear result into the world at the correct position and with the proper movement.
+         * 
+         * Entities may respect their internal position values instead of relying on the `pos` parameter.
+         */
+        spawnShearedDrop(level: $Level_, pos: $BlockPos_, drop: $ItemStack_): void;
+        /**
+         * Shears this object. This function is called on both sides, and is responsible for performing any and all actions that happen when sheared, except spawning drops.
+         * 
+         * Drops that are spawned as a result of being sheared should be returned from this method, and will be spawned on the server using `#spawnShearedDrop`.
+         * 
+         * Entities may respect their internal position values instead of relying on the `pos` parameter.
+         */
+        onSheared(player: $Player, item: $ItemStack_, level: $Level_, pos: $BlockPos_): $List<$ItemStack>;
         getVariant(): $MushroomCow$MushroomType;
         serializeNBT(arg0: $HolderLookup$Provider): $MushroomCow$MushroomType;
         static MAX_WEARING_ARMOR_CHANCE: number;
@@ -5043,11 +5427,11 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$MushroomCow>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$MushroomCow>, level: $Level_);
     }
     export class $Wolf$WolfPackData extends $AgeableMob$AgeableMobGroupData {
         type: $Holder<$WolfVariant>;
-        constructor(arg0: $Holder_<$WolfVariant>);
+        constructor(type: $Holder_<$WolfVariant>);
     }
     export class $Panda$PandaAttackGoal extends $MeleeAttackGoal {
         mob: $PathfinderMob;
@@ -5060,10 +5444,10 @@ declare module "@package/net/minecraft/world/entity/animal" {
         verticalSearchStart: number;
     }
     export class $Rabbit$RabbitJumpControl extends $JumpControl {
-        canJump(): boolean;
+        setCanJump(canJump: boolean): void;
         wantJump(): boolean;
-        setCanJump(arg0: boolean): void;
-        constructor(arg0: $Rabbit);
+        canJump(): boolean;
+        constructor(rabbit: $Rabbit);
     }
     export class $Panda$PandaBreedGoal extends $BreedGoal {
         partner: $Animal;
@@ -5075,16 +5459,16 @@ declare module "@package/net/minecraft/world/entity/animal" {
     export class $Panda$PandaRollGoal extends $Goal {
     }
     export class $TropicalFish extends $AbstractSchoolingFish implements $VariantHolder<$TropicalFish$Pattern> {
-        setVariant(arg0: $TropicalFish$Pattern_): void;
-        getBaseColor(): $DyeColor;
-        static getBaseColor(arg0: number): $DyeColor;
-        static packVariant(arg0: $TropicalFish$Pattern_, arg1: $DyeColor_, arg2: $DyeColor_): number;
-        static getPatternColor(arg0: number): $DyeColor;
-        getPatternColor(): $DyeColor;
-        static getPattern(arg0: number): $TropicalFish$Pattern;
-        static checkTropicalFishSpawnRules(arg0: $EntityType_<$TropicalFish>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        static getPredefinedName(arg0: number): string;
+        static getPattern(variantId: number): $TropicalFish$Pattern;
         getVariant(): $TropicalFish$Pattern;
+        setVariant(variant: $TropicalFish$Pattern_): void;
+        static checkTropicalFishSpawnRules(tropicalFish: $EntityType_<$TropicalFish>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        getPatternColor(): $DyeColor;
+        static getPatternColor(variantId: number): $DyeColor;
+        static packVariant(pattern: $TropicalFish$Pattern_, baseColor: $DyeColor_, patternColor: $DyeColor_): number;
+        static getPredefinedName(variantId: number): string;
+        getBaseColor(): $DyeColor;
+        static getBaseColor(variantId: number): $DyeColor;
         serializeNBT(arg0: $HolderLookup$Provider): $TropicalFish$Pattern;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -5254,14 +5638,14 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$TropicalFish>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$TropicalFish>, level: $Level_);
     }
     export class $Parrot$Variant extends $Enum<$Parrot$Variant> implements $StringRepresentable {
         static values(): $Parrot$Variant[];
         static valueOf(arg0: string): $Parrot$Variant;
         getId(): number;
         getSerializedName(): string;
-        static byId(arg0: number): $Parrot$Variant;
+        static byId(id: number): $Parrot$Variant;
         getRemappedEnumConstantName(): string;
         static GRAY: $Parrot$Variant;
         static CODEC: $Codec<$Parrot$Variant>;
@@ -5278,15 +5662,43 @@ declare module "@package/net/minecraft/world/entity/animal" {
      */
     export type $Parrot$Variant_ = "red_blue" | "blue" | "green" | "yellow_blue" | "gray";
     export class $SnowGolem extends $AbstractGolem implements $Shearable, $RangedAttackMob {
-        shear(arg0: $SoundSource_): void;
-        performRangedAttack(arg0: $LivingEntity, arg1: number): void;
-        static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * Attack the specified entity using a ranged attack.
+         */
+        performRangedAttack(target: $LivingEntity, distanceFactor: number): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         readyForShearing(): boolean;
-        setPumpkin(arg0: boolean): void;
+        static createAttributes(): $AttributeSupplier$Builder;
+        shear(category: $SoundSource_): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         hasPumpkin(): boolean;
-        onSheared(arg0: $Player, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_): $List<$ItemStack>;
-        spawnShearedDrop(arg0: $Level_, arg1: $BlockPos_, arg2: $ItemStack_): void;
-        isShearable(arg0: $Player, arg1: $ItemStack_, arg2: $Level_, arg3: $BlockPos_): boolean;
+        setPumpkin(pumpkinEquipped: boolean): void;
+        /**
+         * Checks if this object can be sheared.
+         * 
+         * For example, Sheep return false when they have no wool.
+         */
+        isShearable(player: $Player, item: $ItemStack_, level: $Level_, pos: $BlockPos_): boolean;
+        /**
+         * Performs the logic used to drop a shear result into the world at the correct position and with the proper movement.
+         * 
+         * Entities may respect their internal position values instead of relying on the `pos` parameter.
+         */
+        spawnShearedDrop(level: $Level_, pos: $BlockPos_, drop: $ItemStack_): void;
+        /**
+         * Shears this object. This function is called on both sides, and is responsible for performing any and all actions that happen when sheared, except spawning drops.
+         * 
+         * Drops that are spawned as a result of being sheared should be returned from this method, and will be spawned on the server using `#spawnShearedDrop`.
+         * 
+         * Entities may respect their internal position values instead of relying on the `pos` parameter.
+         */
+        onSheared(player: $Player, item: $ItemStack_, level: $Level_, pos: $BlockPos_): $List<$ItemStack>;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -5454,7 +5866,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$SnowGolem>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$SnowGolem>, level: $Level_);
         set pumpkin(value: boolean);
     }
     export class $Panda$PandaAvoidGoal<T extends $LivingEntity> extends $AvoidEntityGoal<T> {
@@ -5468,7 +5880,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         pathNav: $PathNavigation;
     }
     export class $FrogVariant extends $Record {
-        static bootstrap(arg0: $Registry<$FrogVariant_>): $FrogVariant;
+        static bootstrap(registry: $Registry<$FrogVariant_>): $FrogVariant;
         texture(): $ResourceLocation;
         static TEMPERATE: $ResourceKey<$FrogVariant>;
         static COLD: $ResourceKey<$FrogVariant>;
@@ -5482,11 +5894,15 @@ declare module "@package/net/minecraft/world/entity/animal" {
     export type $FrogVariant_ = RegistryTypes.FrogVariant;
     export class $Squid extends $WaterAnimal {
         static access$000(arg0: $Squid): boolean;
-        static createAttributes(): $AttributeSupplier$Builder;
         getSquirtSound(): $SoundEvent;
         getInkParticle(): $ParticleOptions;
-        setMovementVector(arg0: number, arg1: number, arg2: number): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         hasMovementVector(): boolean;
+        setMovementVector(tx: number, ty: number, tz: number): void;
+        static createAttributes(): $AttributeSupplier$Builder;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -5662,20 +6078,27 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Squid>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Squid>, level: $Level_);
         get squirtSound(): $SoundEvent;
         get inkParticle(): $ParticleOptions;
     }
     export class $Parrot extends $ShoulderRidingEntity implements $VariantHolder<$Parrot$Variant>, $FlyingAnimal {
         getVariant(): $Parrot$Variant;
-        setVariant(arg0: $Parrot$Variant_): void;
-        static getPitch(arg0: $RandomSource): number;
+        setVariant(variant: $Parrot$Variant_): void;
+        static getAmbient(level: $Level_, random: $RandomSource): $SoundEvent;
+        /**
+         * If Animal, checks if the age timer is negative
+         */
         isFlying(): boolean;
+        static getPitch(random: $RandomSource): number;
+        /**
+         * If Animal, checks if the age timer is negative
+         */
         isPartyParrot(): boolean;
         static createAttributes(): $AttributeSupplier$Builder;
-        static imitateNearbyMobs(arg0: $Level_, arg1: $Entity): boolean;
-        static checkParrotSpawnRules(arg0: $EntityType_<$Parrot>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        static getAmbient(arg0: $Level_, arg1: $RandomSource): $SoundEvent;
+        redirect$hcn000$sable$closerToCenterThan(arg0: $BlockPos_, arg1: $Position, arg2: number): boolean;
+        static checkParrotSpawnRules(parrot: $EntityType_<$Parrot>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
+        static imitateNearbyMobs(level: $Level_, parrot: $Entity): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $Parrot$Variant;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -5859,13 +6282,13 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Parrot>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Parrot>, level: $Level_);
         get flying(): boolean;
         get partyParrot(): boolean;
     }
     export class $Fox$FoxGroupData extends $AgeableMob$AgeableMobGroupData {
         type: $Fox$Type;
-        constructor(arg0: $Fox$Type_);
+        constructor(type: $Fox$Type_);
     }
     export class $Panda$PandaHurtByTargetGoal extends $HurtByTargetGoal {
         mob: $Mob;
@@ -5879,26 +6302,30 @@ declare module "@package/net/minecraft/world/entity/animal" {
         /**
          * @deprecated
          */
-        static saveDefaultDataToBucketTag(arg0: $Mob, arg1: $ItemStack_): void;
+        static loadDefaultDataFromBucketTag(mob: $Mob, tag: $CompoundTag_): void;
         /**
          * @deprecated
          */
-        static loadDefaultDataFromBucketTag(arg0: $Mob, arg1: $CompoundTag_): void;
-        static bucketMobPickup<T extends $LivingEntity>(arg0: $Player, arg1: $InteractionHand_, arg2: T): ($InteractionResult) | undefined;
+        static saveDefaultDataToBucketTag(mob: $Mob, bucket: $ItemStack_): void;
+        static bucketMobPickup<T extends $LivingEntity>(player: $Player, hand: $InteractionHand_, entity: T): ($InteractionResult) | undefined;
     }
     export interface $Bucketable {
         getPickupSound(): $SoundEvent;
         fromBucket(): boolean;
-        saveToBucketTag(arg0: $ItemStack_): void;
-        setFromBucket(arg0: boolean): void;
-        loadFromBucketTag(arg0: $CompoundTag_): void;
+        saveToBucketTag(stack: $ItemStack_): void;
+        setFromBucket(fromBucket: boolean): void;
+        loadFromBucketTag(tag: $CompoundTag_): void;
         getBucketItemStack(): $ItemStack;
         get pickupSound(): $SoundEvent;
         get bucketItemStack(): $ItemStack;
     }
     export class $ShoulderRidingEntity extends $TamableAnimal {
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         canSitOnShoulder(): boolean;
-        setEntityOnShoulder(arg0: $ServerPlayer): boolean;
+        setEntityOnShoulder(player: $ServerPlayer): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -6074,7 +6501,7 @@ declare module "@package/net/minecraft/world/entity/animal" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$ShoulderRidingEntity>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$ShoulderRidingEntity>, level: $Level_);
         set entityOnShoulder(value: $ServerPlayer);
     }
     export class $Fox$FoxLookControl extends $LookControl {
@@ -6122,27 +6549,53 @@ declare module "@package/net/minecraft/world/entity/animal" {
         posZ: number;
     }
     export class $IronGolem extends $AbstractGolem implements $NeutralMob {
-        setPersistentAngerTarget(arg0: $UUID_): void;
-        getPersistentAngerTarget(): $UUID;
-        getAttackAnimationTick(): number;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         startPersistentAngerTimer(): void;
-        setPlayerCreated(arg0: boolean): void;
-        getCrackiness(): $Crackiness$Level;
-        offerFlower(arg0: boolean): void;
-        isPlayerCreated(): boolean;
-        getOfferFlowerTick(): number;
-        static createAttributes(): $AttributeSupplier$Builder;
+        setPersistentAngerTarget(target: $UUID_ | null): void;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getAttackAnimationTick(): number;
+        getPersistentAngerTarget(): $UUID;
+        setPlayerCreated(offeringFlower: boolean): void;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
         getRemainingPersistentAngerTime(): number;
-        setRemainingPersistentAngerTime(arg0: number): void;
-        addPersistentAngerSaveData(arg0: $CompoundTag_): void;
-        updatePersistentAnger(arg0: $ServerLevel, arg1: boolean): void;
-        stopBeingAngry(): void;
+        setRemainingPersistentAngerTime(time: number): void;
+        static createAttributes(): $AttributeSupplier$Builder;
+        offerFlower(offeringFlower: boolean): void;
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
+        getOfferFlowerTick(): number;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isPlayerCreated(): boolean;
+        getCrackiness(): $Crackiness$Level;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         forgetCurrentTargetAndRefreshUniversalAnger(): void;
-        isAngryAtAllPlayers(arg0: $Level_): boolean;
-        playerDied(arg0: $Player): void;
-        readPersistentAngerSaveData(arg0: $Level_, arg1: $CompoundTag_): void;
-        isAngryAt(arg0: $LivingEntity): boolean;
+        updatePersistentAnger(serverLevel: $ServerLevel, updateAnger: boolean): void;
+        addPersistentAngerSaveData(compound: $CompoundTag_): void;
+        isAngryAtAllPlayers(level: $Level_): boolean;
+        readPersistentAngerSaveData(level: $Level_, tag: $CompoundTag_): void;
+        playerDied(player: $Player): void;
+        isAngryAt(entity: $LivingEntity): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         isAngry(): boolean;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        stopBeingAngry(): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -6311,10 +6764,10 @@ declare module "@package/net/minecraft/world/entity/animal" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$IronGolem>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$IronGolem>, level: $Level_);
         get attackAnimationTick(): number;
-        get crackiness(): $Crackiness$Level;
         get offerFlowerTick(): number;
+        get crackiness(): $Crackiness$Level;
         get angry(): boolean;
     }
 }

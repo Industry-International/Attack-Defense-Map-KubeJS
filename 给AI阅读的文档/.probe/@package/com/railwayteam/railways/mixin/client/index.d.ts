@@ -12,35 +12,32 @@ declare module "@package/com/railwayteam/railways/mixin/client" {
     export class $AccessorLevelRenderer {
     }
     export interface $AccessorLevelRenderer {
-        railways$getRenderBuffers(): $RenderBuffers;
         callAddParticleInternal(arg0: $ParticleOptions_, arg1: boolean, arg2: boolean, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number): $Particle;
+        railways$getRenderBuffers(): $RenderBuffers;
     }
     export class $AccessorPartialModel {
         static railways$getALL(): $ConcurrentMap<$ResourceLocation, $PartialModel>;
-        static railways$getPopulateOnInit(): boolean;
         static railways$setPopulateOnInit(arg0: boolean): void;
+        static railways$getPopulateOnInit(): boolean;
     }
     export interface $AccessorPartialModel {
+        railways$getBakedModel(): $BakedModel;
         railways$setBakedModel(arg0: $BakedModel): void;
     }
-    /**
-     * Values that may be interpreted as {@link $AccessorPartialModel}.
-     */
-    export type $AccessorPartialModel_ = ((arg0: $BakedModel) => void);
     export class $AccessorEntity {
     }
     export interface $AccessorEntity {
-        getYRot(): number;
-        setYRot(arg0: number): void;
         setXRot(arg0: number): void;
+        getYRot(): number;
         getXRot(): number;
+        setYRot(arg0: number): void;
     }
     export class $AccessorWalkAnimationState {
     }
     export interface $AccessorWalkAnimationState {
         setPosition(arg0: number): void;
-        getSpeedOld(): number;
         setSpeedOld(arg0: number): void;
+        getSpeedOld(): number;
         set position(value: number);
     }
     export class $AccessorLivingEntityRenderer<T extends $LivingEntity> {

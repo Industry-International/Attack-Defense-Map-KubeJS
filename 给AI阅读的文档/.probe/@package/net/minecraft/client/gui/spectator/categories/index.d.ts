@@ -6,39 +6,39 @@ import { $List_, $Collection_, $List } from "@package/java/util";
 
 declare module "@package/net/minecraft/client/gui/spectator/categories" {
     export class $SpectatorPage {
-        getItem(arg0: number): $SpectatorMenuItem;
+        getItem(index: number): $SpectatorMenuItem;
         getSelectedSlot(): number;
         static NO_SELECTION: number;
-        constructor(arg0: $List_<$SpectatorMenuItem>, arg1: number);
+        constructor(items: $List_<$SpectatorMenuItem>, selection: number);
         get selectedSlot(): number;
     }
     export class $TeleportToPlayerMenuCategory implements $SpectatorMenuCategory, $SpectatorMenuItem {
         getName(): $Component;
         isEnabled(): boolean;
-        getPrompt(): $Component;
-        selectItem(arg0: $SpectatorMenu): void;
         getItems(): $List<$SpectatorMenuItem>;
-        renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        getPrompt(): $Component;
+        renderIcon(guiGraphics: $GuiGraphics, shadeColor: number, alpha: number): void;
+        selectItem(menu: $SpectatorMenu): void;
+        constructor(players: $Collection_<$PlayerInfo>);
         constructor();
-        constructor(arg0: $Collection_<$PlayerInfo>);
         get name(): $Component;
         get enabled(): boolean;
-        get prompt(): $Component;
         get items(): $List<$SpectatorMenuItem>;
+        get prompt(): $Component;
     }
     export class $TeleportToTeamMenuCategory$TeamSelectionItem implements $SpectatorMenuItem {
     }
     export class $TeleportToTeamMenuCategory implements $SpectatorMenuCategory, $SpectatorMenuItem {
         getName(): $Component;
         isEnabled(): boolean;
-        getPrompt(): $Component;
-        selectItem(arg0: $SpectatorMenu): void;
         getItems(): $List<$SpectatorMenuItem>;
-        renderIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        getPrompt(): $Component;
+        renderIcon(guiGraphics: $GuiGraphics, shadeColor: number, alpha: number): void;
+        selectItem(menu: $SpectatorMenu): void;
         constructor();
         get name(): $Component;
         get enabled(): boolean;
-        get prompt(): $Component;
         get items(): $List<$SpectatorMenuItem>;
+        get prompt(): $Component;
     }
 }

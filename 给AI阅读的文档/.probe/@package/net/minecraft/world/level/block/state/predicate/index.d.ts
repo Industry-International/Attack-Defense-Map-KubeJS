@@ -6,18 +6,18 @@ import { $Comparable, $Object } from "@package/java/lang";
 
 declare module "@package/net/minecraft/world/level/block/state/predicate" {
     export class $BlockPredicate implements $Predicate<$BlockState> {
-        test(arg0: $BlockState_): boolean;
-        static forBlock(arg0: $Block_): $BlockPredicate;
+        test(state: $BlockState_ | null): boolean;
+        static forBlock(block: $Block_): $BlockPredicate;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
-        constructor(arg0: $Block_);
+        constructor(block: $Block_);
     }
     export class $BlockStatePredicate implements $Predicate<$BlockState> {
-        test(arg0: $BlockState_): boolean;
-        where<V extends $Comparable<V>>(arg0: $Property<V>, arg1: $Predicate_<$Object>): $BlockStatePredicate;
-        applies<T extends $Comparable<T>>(arg0: $BlockState_, arg1: $Property<T>, arg2: $Predicate_<$Object>): boolean;
-        static forBlock(arg0: $Block_): $BlockStatePredicate;
+        where<V extends $Comparable<V>>(property: $Property<V>, valuePredicate: $Predicate_<$Object>): $BlockStatePredicate;
+        test(state: $BlockState_ | null): boolean;
+        applies<T extends $Comparable<T>>(state: $BlockState_, property: $Property<T>, valuePredicate: $Predicate_<$Object>): boolean;
+        static forBlock(block: $Block_): $BlockStatePredicate;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
         and(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;

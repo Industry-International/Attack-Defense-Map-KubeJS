@@ -8,31 +8,31 @@ export * as render from "@package/xaero/hud/minimap/info/render";
 declare module "@package/xaero/hud/minimap/info" {
     export class $InfoDisplays {
         getManager(): $InfoDisplayManager;
+        getIo(): $InfoDisplayIO;
         getRenderer(): $InfoDisplayRenderer;
         clearStateCache(): void;
-        getIo(): $InfoDisplayIO;
         constructor(arg0: $InfoDisplayIO);
         get manager(): $InfoDisplayManager;
-        get renderer(): $InfoDisplayRenderer;
         get io(): $InfoDisplayIO;
+        get renderer(): $InfoDisplayRenderer;
     }
     export class $InfoDisplayManager {
         get(arg0: string): $InfoDisplay<never>;
         add(arg0: $InfoDisplay<never>): void;
         getCount(): number;
+        getLocalConfig(): $InfoDisplayManagerConfigData;
         getStream(): $Stream<$InfoDisplay<never>>;
+        clearStateCache(): void;
+        applyLocalConfig(): void;
         adaptOrder(arg0: $Stream<string>): $List<string>;
         getEnforcedConfig(): $InfoDisplayManagerConfigData;
-        getLocalConfig(): $InfoDisplayManagerConfigData;
-        applyLocalConfig(): void;
-        clearStateCache(): void;
         getOrderedStream(): $Stream<$InfoDisplay<never>>;
         getDefaultOrder(): $List<string>;
         constructor(arg0: $Map_<string, $InfoDisplay<never>>, arg1: $List_<string>, arg2: $List_<string>, arg3: $Supplier_<$InfoDisplayManagerConfigData>, arg4: $Consumer_<$InfoDisplayManagerConfigData>, arg5: $Supplier_<$InfoDisplayManagerConfigData>);
         get count(): number;
+        get localConfig(): $InfoDisplayManagerConfigData;
         get stream(): $Stream<$InfoDisplay<never>>;
         get enforcedConfig(): $InfoDisplayManagerConfigData;
-        get localConfig(): $InfoDisplayManagerConfigData;
         get orderedStream(): $Stream<$InfoDisplay<never>>;
         get defaultOrder(): $List<string>;
     }

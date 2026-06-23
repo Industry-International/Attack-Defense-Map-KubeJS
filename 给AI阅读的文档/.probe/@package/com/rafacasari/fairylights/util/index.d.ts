@@ -9,16 +9,16 @@ declare module "@package/com/rafacasari/fairylights/util" {
         getLength(): number;
         getIndex(): number;
         getY(arg0: number): number;
-        getX(arg0: number): number;
-        getZ(arg0: number): number;
-        getPitch(): number;
         getPos(): $Vec3;
         getYaw(): number;
+        getPitch(): number;
+        getZ(arg0: number): number;
+        getX(arg0: number): number;
         get length(): number;
         get index(): number;
-        get pitch(): number;
         get pos(): $Vec3;
         get yaw(): number;
+        get pitch(): number;
     }
     export class $Curve {
     }
@@ -28,19 +28,19 @@ declare module "@package/com/rafacasari/fairylights/util" {
         iterator(): $Curve$SegmentIterator;
         getCount(): number;
         getY(arg0: number, arg1: number): number;
-        getY(arg0: number): number;
         getY(): number;
-        getX(): number;
-        getX(arg0: number, arg1: number): number;
-        getX(arg0: number): number;
-        getDz(arg0: number): number;
+        getY(arg0: number): number;
+        visitPoints(arg0: number, arg1: boolean, arg2: $Curve$PointVisitor_): void;
+        lerp(arg0: $Curve, arg1: number): $Curve;
         getDy(arg0: number): number;
+        getDz(arg0: number): number;
         getDx(arg0: number): number;
-        getZ(arg0: number, arg1: number): number;
         getZ(arg0: number): number;
         getZ(): number;
-        lerp(arg0: $Curve, arg1: number): $Curve;
-        visitPoints(arg0: number, arg1: boolean, arg2: $Curve$PointVisitor_): void;
+        getZ(arg0: number, arg1: number): number;
+        getX(arg0: number): number;
+        getX(arg0: number, arg1: number): number;
+        getX(): number;
         get length(): number;
         get count(): number;
     }
@@ -53,8 +53,8 @@ declare module "@package/com/rafacasari/fairylights/util" {
     export class $NBTSerializable {
     }
     export interface $NBTSerializable {
-        deserialize(arg0: $CompoundTag_): void;
         serialize(): $CompoundTag;
+        deserialize(arg0: $CompoundTag_): void;
     }
     export class $Curve$PointVisitor {
     }

@@ -14,15 +14,15 @@ export * as widget from "@package/com/simibubi/create/foundation/gui/widget";
 
 declare module "@package/com/simibubi/create/foundation/gui" {
     export class $AllGuiTextures extends $Enum<$AllGuiTextures> implements $ScreenElement, $TextureSheetSegment {
-        getWidth(): number;
         static values(): $AllGuiTextures[];
         static valueOf(arg0: string): $AllGuiTextures;
         getLocation(): $ResourceLocation;
-        render(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        getWidth(): number;
         render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: $Color): void;
+        render(arg0: $GuiGraphics, arg1: number, arg2: number): void;
         getHeight(): number;
-        getStartX(): number;
         getStartY(): number;
+        getStartX(): number;
         bind(): void;
         static FROGPORT_HEADER: $AllGuiTextures;
         static CURSEFORGE_LOGO: $AllGuiTextures;
@@ -239,8 +239,8 @@ declare module "@package/com/simibubi/create/foundation/gui" {
         static TOOLBELT_HOTBAR_OFF: $AllGuiTextures;
         get width(): number;
         get height(): number;
-        get startX(): number;
         get startY(): number;
+        get startX(): number;
     }
     /**
      * Values that may be interpreted as {@link $AllGuiTextures}.
@@ -250,18 +250,18 @@ declare module "@package/com/simibubi/create/foundation/gui" {
         clear(): void;
         add(arg0: $Pair<$AbstractWidget, string>): void;
         forEach(arg0: $Consumer_<$GuiEventListener>): void;
-        renderWidgetBG(arg0: number, arg1: $GuiGraphics): void;
-        loadValues<T extends $GuiEventListener>(arg0: $CompoundTag_, arg1: $Consumer_<T>, arg2: $Consumer_<T>): void;
         saveValues(arg0: $CompoundTag_): void;
+        loadValues<T extends $GuiEventListener>(arg0: $CompoundTag_, arg1: $Consumer_<T>, arg2: $Consumer_<T>): void;
+        renderWidgetBG(arg0: number, arg1: $GuiGraphics): void;
         constructor();
     }
     export class $ModularGuiLineBuilder {
-        addScrollInput(arg0: number, arg1: number, arg2: $BiConsumer_<$ScrollInput, $Label>, arg3: string): $ModularGuiLineBuilder;
+        customArea(arg0: number, arg1: number): $ModularGuiLineBuilder;
+        addIntegerTextInput(arg0: number, arg1: number, arg2: $BiConsumer_<$EditBox, $TooltipArea>, arg3: string): $ModularGuiLineBuilder;
         addSelectionScrollInput(arg0: number, arg1: number, arg2: $BiConsumer_<$SelectionScrollInput, $Label>, arg3: string): $ModularGuiLineBuilder;
         addTextInput(arg0: number, arg1: number, arg2: $BiConsumer_<$EditBox, $TooltipArea>, arg3: string): $ModularGuiLineBuilder;
+        addScrollInput(arg0: number, arg1: number, arg2: $BiConsumer_<$ScrollInput, $Label>, arg3: string): $ModularGuiLineBuilder;
         speechBubble(): $ModularGuiLineBuilder;
-        addIntegerTextInput(arg0: number, arg1: number, arg2: $BiConsumer_<$EditBox, $TooltipArea>, arg3: string): $ModularGuiLineBuilder;
-        customArea(arg0: number, arg1: number): $ModularGuiLineBuilder;
         constructor(arg0: $Font, arg1: $ModularGuiLine, arg2: number, arg3: number);
     }
 }

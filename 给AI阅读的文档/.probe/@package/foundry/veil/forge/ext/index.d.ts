@@ -1,6 +1,6 @@
 import { $DeferredHolder } from "@package/net/neoforged/neoforge/registries";
 import { $Supplier_, $Function_, $Function } from "@package/java/util/function";
-import { $ChunkUpdateType, $RenderSection, $ChunkUpdateType_ } from "@package/net/caffeinemc/mods/sodium/client/render/chunk";
+import { $RenderSection, $TaskQueueType, $TaskQueueType_ } from "@package/net/caffeinemc/mods/sodium/client/render/chunk";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
 import { $ChunkRenderList, $SortedRenderLists } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/lists";
 import { $ArrayDeque, $Map_, $Map } from "@package/java/util";
@@ -9,10 +9,10 @@ declare module "@package/foundry/veil/forge/ext" {
     export class $SodiumWorldRendererExtension {
     }
     export interface $SodiumWorldRendererExtension {
-        veil$getTaskLists(): $Map<$ChunkUpdateType, $ArrayDeque<$RenderSection>>;
-        veil$setTaskLists(arg0: $Map_<$ChunkUpdateType_, $ArrayDeque<$RenderSection>>): void;
-        veil$setSortedRenderLists(arg0: $SortedRenderLists): void;
         veil$getSortedRenderLists(): $SortedRenderLists;
+        veil$setSortedRenderLists(arg0: $SortedRenderLists): void;
+        veil$getTaskLists(): $Map<$TaskQueueType, $ArrayDeque<$RenderSection>>;
+        veil$setTaskLists(arg0: $Map_<$TaskQueueType_, $ArrayDeque<$RenderSection>>): void;
     }
     export class $DeferredRegisterExtensions<T> {
     }
@@ -27,8 +27,8 @@ declare module "@package/foundry/veil/forge/ext" {
     export class $RenderSectionExtension {
     }
     export interface $RenderSectionExtension {
-        veil$hasNotRendered(): boolean;
         veil$markRendered(): void;
+        veil$hasNotRendered(): boolean;
         veil$addIncomingDirections(arg0: number): void;
     }
     export class $RenderRegionExtension {

@@ -11,19 +11,19 @@ declare module "@package/dev/propulsionteam/propulsionsimulated/content/thruster
     export class $FluidThrusterProperties extends $Record {
         static decode(arg0: $FriendlyByteBuf): $FluidThrusterProperties;
         encode(arg0: $FriendlyByteBuf): void;
+        consumptionMultiplier(): number;
         particleType(): $ThrusterParticleType;
-        overrideColor(): number;
+        thrustMultiplier(): number;
         useFluidColor(): boolean;
         overrideTextures(): $List<$ResourceLocation>;
-        thrustMultiplier(): number;
-        consumptionMultiplier(): number;
+        overrideColor(): number;
         static DEFAULT: $FluidThrusterProperties;
         constructor(thrustMultiplier: number, consumptionMultiplier: number, particleType: $ThrusterParticleType_, overrideTextures: $List_<$ResourceLocation_>, overrideColor: number, useFluidColor: boolean);
     }
     export class $ThrusterParticleType extends $Enum<$ThrusterParticleType> {
+        static fromString(arg0: string): $ThrusterParticleType;
         static values(): $ThrusterParticleType[];
         static valueOf(arg0: string): $ThrusterParticleType;
-        static fromString(arg0: string): $ThrusterParticleType;
         serializedName(): string;
         createParticleOptions(): $ParticleOptions;
         createParticleOptions(arg0: $FluidThrusterProperties_): $ParticleOptions;
@@ -38,18 +38,18 @@ declare module "@package/dev/propulsionteam/propulsionsimulated/content/thruster
     export type $ThrusterParticleType_ = "none" | "plume" | "plasma";
     export class $ThrusterFuelManager extends $SimpleJsonResourceReloadListener {
         static getProperties(arg0: $Fluid_): $FluidThrusterProperties;
+        static registerScriptedFuel(arg0: string, arg1: $Map_<string, $Object>): boolean;
+        static getFuelPropertiesMap(): $Map<$Fluid, $FluidThrusterProperties>;
         static getEfficiency(arg0: $Fluid_): number;
         static getRemovedFuelIds(): $Set<$ResourceLocation>;
         static updateClient(arg0: $Map_<$ResourceLocation_, $FluidThrusterProperties_>, arg1: $Set_<$ResourceLocation_>): void;
         static clearScriptedFuels(): void;
         static overrideFuel(arg0: string, arg1: $Map_<string, $Object>): boolean;
-        static removeFuel(arg0: string): boolean;
         static rebuildThrusterFuelsAfterCommonConfigReload(): void;
-        static getFuelPropertiesMap(): $Map<$Fluid, $FluidThrusterProperties>;
-        static registerScriptedFuel(arg0: string, arg1: $Map_<string, $Object>): boolean;
+        static removeFuel(arg0: string): boolean;
         static DIRECTORY: string;
         constructor();
-        static get removedFuelIds(): $Set<$ResourceLocation>;
         static get fuelPropertiesMap(): $Map<$Fluid, $FluidThrusterProperties>;
+        static get removedFuelIds(): $Set<$ResourceLocation>;
     }
 }

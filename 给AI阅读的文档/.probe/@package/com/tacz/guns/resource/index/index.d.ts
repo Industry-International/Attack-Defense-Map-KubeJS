@@ -33,8 +33,8 @@ declare module "@package/com/tacz/guns/resource/index" {
         getScript(): $LuaTable;
         getGunData(): $GunData;
         getBulletData(): $BulletData;
-        getScriptParam(): $LuaTable;
         getPojo(): $GunIndexPOJO;
+        getScriptParam(): $LuaTable;
         setScript(arg0: $LuaTable): void;
         setScriptParam(arg0: $LuaTable): void;
         get type(): string;

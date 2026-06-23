@@ -15,8 +15,8 @@ declare module "@package/com/ishland/c2me/opts/scheduling/common" {
     export class $DuckChunkHolder {
     }
     export interface $DuckChunkHolder {
-        c2me$undirtyLight(): void;
         c2me$queueLightSectionDirty(arg0: $LightLayer_, arg1: number): void;
+        c2me$undirtyLight(): boolean;
         c2me$shouldScheduleUndirty(): boolean;
     }
     export class $ServerMidTickTask {

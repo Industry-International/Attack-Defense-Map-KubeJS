@@ -11,26 +11,26 @@ declare module "@package/com/moulberry/axiom/custom_blocks" {
     export class $CustomBlock {
     }
     export interface $CustomBlock {
-        axiom$asItemStack(): $ItemStack;
         axiom$getProperties(): $Collection<$Property<never>>;
         preventShapeUpdates(): boolean;
         preventRightClickInteraction(): boolean;
-        axiom$getPossibleCustomStates(): $List<$CustomBlockState>;
-        sendServerPickBlockIfPossible(): boolean;
-        axiom$defaultCustomState(): $CustomBlockState;
-        axiom$translationKey(): string;
-        getCustomStateForPlacement(blockPlaceContext: $BlockPlaceContext, force: boolean): $CustomBlockState;
+        axiom$asItemStack(): $ItemStack;
         axiom$getIdentifier(): $ResourceLocation;
+        axiom$translationKey(): string;
+        axiom$defaultCustomState(): $CustomBlockState;
+        sendServerPickBlockIfPossible(): boolean;
+        axiom$getPossibleCustomStates(): $List<$CustomBlockState>;
         axiom$customPickBlockStack(): $ItemStack;
+        getCustomStateForPlacement(blockPlaceContext: $BlockPlaceContext, force: boolean): $CustomBlockState;
     }
     export class $CustomBlockState {
     }
     export interface $CustomBlockState extends $CustomBlockStateOrTombstone {
         getProperty<T extends $Comparable<T>>(arg0: $Property<T>): T;
         getProperties(): $Collection<$Property<never>>;
-        getVanillaState(): $BlockState;
         setPropertyUnsafe<T extends $Comparable<T>>(arg0: $Property<T>, arg1: $Comparable_<never>): $CustomBlockState;
         axiomHasProperty<T extends $Comparable<T>>(arg0: $Property<T>): boolean;
+        getVanillaState(): $BlockState;
         getCustomBlock(): $CustomBlock;
         get properties(): $Collection<$Property<never>>;
         get vanillaState(): $BlockState;

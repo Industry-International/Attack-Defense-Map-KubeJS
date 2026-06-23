@@ -28,9 +28,9 @@ declare module "@package/xaero/pac/common/server/core/accessor" {
     }
     export interface $ICreateContraption {
         getBlocks(): $Map<$BlockPos, $StructureTemplate$StructureBlockInfo>;
-        setXaero_OPAC_placementPos(arg0: $BlockPos_): void;
-        getXaero_OPAC_anchor(): $BlockPos;
         getXaero_OPAC_placementPos(): $BlockPos;
+        getXaero_OPAC_anchor(): $BlockPos;
+        setXaero_OPAC_placementPos(arg0: $BlockPos_): void;
         get blocks(): $Map<$BlockPos, $StructureTemplate$StructureBlockInfo>;
         get xaero_OPAC_anchor(): $BlockPos;
     }

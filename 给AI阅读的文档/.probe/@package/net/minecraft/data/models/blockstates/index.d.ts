@@ -11,31 +11,31 @@ declare module "@package/net/minecraft/data/models/blockstates" {
     export class $MultiPartGenerator$Entry implements $Supplier<$JsonElement> {
     }
     export class $PropertyDispatch {
-        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>>(arg0: $Property<T1>, arg1: $Property<T2>): $PropertyDispatch$C2<T1, T2>;
-        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>>(arg0: $Property<T1>, arg1: $Property<T2>, arg2: $Property<T3>): $PropertyDispatch$C3<T1, T2, T3>;
-        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>, T4 extends $Comparable<T4>>(arg0: $Property<T1>, arg1: $Property<T2>, arg2: $Property<T3>, arg3: $Property<T4>): $PropertyDispatch$C4<T1, T2, T3, T4>;
-        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>, T4 extends $Comparable<T4>, T5 extends $Comparable<T5>>(arg0: $Property<T1>, arg1: $Property<T2>, arg2: $Property<T3>, arg3: $Property<T4>, arg4: $Property<T5>): $PropertyDispatch$C5<T1, T2, T3, T4, T5>;
-        static property<T1 extends $Comparable<T1>>(arg0: $Property<T1>): $PropertyDispatch$C1<T1>;
+        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>>(property1: $Property<T1>, property2: $Property<T2>): $PropertyDispatch$C2<T1, T2>;
+        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>>(property1: $Property<T1>, property2: $Property<T2>, property3: $Property<T3>): $PropertyDispatch$C3<T1, T2, T3>;
+        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>, T4 extends $Comparable<T4>>(property1: $Property<T1>, property2: $Property<T2>, property3: $Property<T3>, property4: $Property<T4>): $PropertyDispatch$C4<T1, T2, T3, T4>;
+        static properties<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>, T4 extends $Comparable<T4>, T5 extends $Comparable<T5>>(property1: $Property<T1>, property2: $Property<T2>, property3: $Property<T3>, property4: $Property<T4>, property5: $Property<T5>): $PropertyDispatch$C5<T1, T2, T3, T4, T5>;
+        static property<T1 extends $Comparable<T1>>(property1: $Property<T1>): $PropertyDispatch$C1<T1>;
         getEntries(): $Map<$Selector, $List<$Variant>>;
-        putValue(arg0: $Selector, arg1: $List_<$Variant>): void;
+        putValue(selector: $Selector, values: $List_<$Variant>): void;
         getDefinedProperties(): $List<$Property<never>>;
         constructor();
         get entries(): $Map<$Selector, $List<$Variant>>;
         get definedProperties(): $List<$Property<never>>;
     }
     export class $Condition$TerminalCondition implements $Condition {
+        term<T extends $Comparable<T>>(property: $Property<T>, value: T): $Condition$TerminalCondition;
+        term<T extends $Comparable<T>>(property: $Property<T>, firstValue: T, ...additionalValues: T[]): $Condition$TerminalCondition;
+        validate(stateDefinition: $StateDefinition<never, never>): void;
+        negatedTerm<T extends $Comparable<T>>(property: $Property<T>, firstValue: T, ...additionalValues: T[]): $Condition$TerminalCondition;
+        negatedTerm<T extends $Comparable<T>>(property: $Property<T>, value: T): $Condition$TerminalCondition;
         get(): $JsonElement;
-        validate(arg0: $StateDefinition<never, never>): void;
-        term<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T): $Condition$TerminalCondition;
-        term<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T, ...arg2: T[]): $Condition$TerminalCondition;
-        negatedTerm<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T, ...arg2: T[]): $Condition$TerminalCondition;
-        negatedTerm<T extends $Comparable<T>>(arg0: $Property<T>, arg1: T): $Condition$TerminalCondition;
         constructor();
     }
     export class $PropertyDispatch$PentaFunction<P1, P2, P3, P4, P5, R> {
     }
     export interface $PropertyDispatch$PentaFunction<P1, P2, P3, P4, P5, R> {
-        apply(arg0: P1, arg1: P2, arg2: P3, arg3: P4, arg4: P5): R;
+        apply(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): R;
     }
     /**
      * Values that may be interpreted as {@link $PropertyDispatch$PentaFunction}.
@@ -55,10 +55,10 @@ declare module "@package/net/minecraft/data/models/blockstates" {
      */
     export type $VariantProperties$Rotation_ = "r0" | "r90" | "r180" | "r270";
     export class $Variant implements $Supplier<$JsonElement> {
-        static merge(arg0: $Variant, arg1: $Variant): $Variant;
-        "with"<T>(arg0: $VariantProperty<T>, arg1: T): $Variant;
+        static merge(definition1: $Variant, definition2: $Variant): $Variant;
+        "with"<T>(property: $VariantProperty<T>, value: T): $Variant;
         static variant(): $Variant;
-        static convertList(arg0: $List_<$Variant>): $JsonElement;
+        static convertList(definitions: $List_<$Variant>): $JsonElement;
         get(): $JsonElement;
         constructor();
     }
@@ -71,36 +71,36 @@ declare module "@package/net/minecraft/data/models/blockstates" {
         constructor();
     }
     export class $Selector {
-        static of(...arg0: $Property$Value_<never>[]): $Selector;
+        static of(...values: $Property$Value_<never>[]): $Selector;
         getKey(): string;
         static empty(): $Selector;
-        extend(arg0: $Selector): $Selector;
-        extend(arg0: $Property$Value_<never>): $Selector;
+        extend(selector: $Selector): $Selector;
+        extend(value: $Property$Value_<never>): $Selector;
         get key(): string;
     }
     export class $Condition$CompositeCondition implements $Condition {
-        validate(arg0: $StateDefinition<never, never>): void;
+        validate(stateDefinition: $StateDefinition<never, never>): void;
         get(): $JsonElement;
-        constructor(arg0: $Condition$Operation_, arg1: $List_<$Condition>);
+        constructor(operation: $Condition$Operation_, subconditions: $List_<$Condition>);
     }
     export class $VariantProperty<T> {
-        withValue(arg0: T): $VariantProperty$Value;
+        withValue(value: T): $VariantProperty$Value;
         serializer: $Function<T, $JsonElement>;
         key: string;
-        constructor(arg0: string, arg1: $Function_<T, $JsonElement>);
+        constructor(key: string, serializer: $Function_<T, $JsonElement>);
     }
     export class $Condition {
         static condition(): $Condition$TerminalCondition;
-        static or(...arg0: $Condition[]): $Condition;
-        static and(...arg0: $Condition[]): $Condition;
+        static or(...conditions: $Condition[]): $Condition;
+        static and(...conditions: $Condition[]): $Condition;
     }
     export interface $Condition extends $Supplier<$JsonElement> {
-        validate(arg0: $StateDefinition<never, never>): void;
+        validate(stateDefinition: $StateDefinition<never, never>): void;
     }
     export class $PropertyDispatch$QuadFunction<P1, P2, P3, P4, R> {
     }
     export interface $PropertyDispatch$QuadFunction<P1, P2, P3, P4, R> {
-        apply(arg0: P1, arg1: P2, arg2: P3, arg3: P4): R;
+        apply(p1: P1, p2: P2, p3: P3, p4: P4): R;
     }
     /**
      * Values that may be interpreted as {@link $PropertyDispatch$QuadFunction}.
@@ -109,7 +109,7 @@ declare module "@package/net/minecraft/data/models/blockstates" {
     export class $PropertyDispatch$TriFunction<P1, P2, P3, R> {
     }
     export interface $PropertyDispatch$TriFunction<P1, P2, P3, R> {
-        apply(arg0: P1, arg1: P2, arg2: P3): R;
+        apply(p1: P1, p2: P2, p3: P3): R;
     }
     /**
      * Values that may be interpreted as {@link $PropertyDispatch$TriFunction}.
@@ -123,7 +123,7 @@ declare module "@package/net/minecraft/data/models/blockstates" {
     }
     export class $VariantProperty$Value {
         getKey(): $VariantProperty<T>;
-        addToVariant(arg0: $JsonObject_): void;
+        addToVariant(jsonObject: $JsonObject_): void;
         this$0: $VariantProperty<any>;
         get key(): $VariantProperty<T>;
     }
@@ -141,58 +141,58 @@ declare module "@package/net/minecraft/data/models/blockstates" {
     export class $MultiPartGenerator$ConditionalEntry extends $MultiPartGenerator$Entry {
     }
     export class $MultiVariantGenerator implements $BlockStateGenerator {
-        "with"(arg0: $PropertyDispatch): $MultiVariantGenerator;
+        "with"(propertyDispatch: $PropertyDispatch): $MultiVariantGenerator;
         getBlock(): $Block;
-        static multiVariant(arg0: $Block_): $MultiVariantGenerator;
-        static multiVariant(arg0: $Block_, ...arg1: $Variant[]): $MultiVariantGenerator;
-        static multiVariant(arg0: $Block_, arg1: $Variant): $MultiVariantGenerator;
+        static multiVariant(block: $Block_, ...variants: $Variant[]): $MultiVariantGenerator;
+        static multiVariant(block: $Block_, variant: $Variant): $MultiVariantGenerator;
+        static multiVariant(block: $Block_): $MultiVariantGenerator;
         get(): $JsonElement;
         get block(): $Block;
     }
     export class $PropertyDispatch$C4<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>, T4 extends $Comparable<T4>> extends $PropertyDispatch {
-        generate(arg0: $PropertyDispatch$QuadFunction_<T1, T2, T3, T4, $Variant>): $PropertyDispatch;
-        select(arg0: T1, arg1: T2, arg2: T3, arg3: T4, arg4: $List_<$Variant>): $PropertyDispatch$C4<T1, T2, T3, T4>;
-        select(arg0: T1, arg1: T2, arg2: T3, arg3: T4, arg4: $Variant): $PropertyDispatch$C4<T1, T2, T3, T4>;
-        generateList(arg0: $PropertyDispatch$QuadFunction_<T1, T2, T3, T4, $List<$Variant>>): $PropertyDispatch;
-        constructor(arg0: $Property<T1>, arg1: $Property<T2>, arg2: $Property<T3>, arg3: $Property<T4>);
+        generate(propertyValuesToVariantMapper: $PropertyDispatch$QuadFunction_<T1, T2, T3, T4, $Variant>): $PropertyDispatch;
+        select(property1Value: T1, property2Value: T2, property3Value: T3, property4Value: T4, variants: $List_<$Variant>): $PropertyDispatch$C4<T1, T2, T3, T4>;
+        select(property1Value: T1, property2Value: T2, property3Value: T3, property4Value: T4, variant: $Variant): $PropertyDispatch$C4<T1, T2, T3, T4>;
+        generateList(propertyValuesToVariantMapper: $PropertyDispatch$QuadFunction_<T1, T2, T3, T4, $List<$Variant>>): $PropertyDispatch;
+        constructor(property1: $Property<T1>, property2: $Property<T2>, property3: $Property<T3>, property4: $Property<T4>);
     }
     export class $PropertyDispatch$C3<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>> extends $PropertyDispatch {
-        generate(arg0: $PropertyDispatch$TriFunction_<T1, T2, T3, $Variant>): $PropertyDispatch;
-        select(arg0: T1, arg1: T2, arg2: T3, arg3: $Variant): $PropertyDispatch$C3<T1, T2, T3>;
-        select(arg0: T1, arg1: T2, arg2: T3, arg3: $List_<$Variant>): $PropertyDispatch$C3<T1, T2, T3>;
-        generateList(arg0: $PropertyDispatch$TriFunction_<T1, T2, T3, $List<$Variant>>): $PropertyDispatch;
-        constructor(arg0: $Property<T1>, arg1: $Property<T2>, arg2: $Property<T3>);
+        generate(propertyValuesToVariantMapper: $PropertyDispatch$TriFunction_<T1, T2, T3, $Variant>): $PropertyDispatch;
+        select(property1Value: T1, property2Value: T2, property3Value: T3, variant: $Variant): $PropertyDispatch$C3<T1, T2, T3>;
+        select(property1Value: T1, property2Value: T2, property3Value: T3, variants: $List_<$Variant>): $PropertyDispatch$C3<T1, T2, T3>;
+        generateList(propertyValuesToVariantMapper: $PropertyDispatch$TriFunction_<T1, T2, T3, $List<$Variant>>): $PropertyDispatch;
+        constructor(property1: $Property<T1>, property2: $Property<T2>, property3: $Property<T3>);
     }
     export class $PropertyDispatch$C2<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>> extends $PropertyDispatch {
-        generate(arg0: $BiFunction_<T1, T2, $Variant>): $PropertyDispatch;
-        select(arg0: T1, arg1: T2, arg2: $Variant): $PropertyDispatch$C2<T1, T2>;
-        select(arg0: T1, arg1: T2, arg2: $List_<$Variant>): $PropertyDispatch$C2<T1, T2>;
-        generateList(arg0: $BiFunction_<T1, T2, $List<$Variant>>): $PropertyDispatch;
-        constructor(arg0: $Property<T1>, arg1: $Property<T2>);
+        generate(propertyValuesToVariantMapper: $BiFunction_<T1, T2, $Variant>): $PropertyDispatch;
+        select(property1Value: T1, property2Value: T2, variant: $Variant): $PropertyDispatch$C2<T1, T2>;
+        select(property1Value: T1, property2Value: T2, variants: $List_<$Variant>): $PropertyDispatch$C2<T1, T2>;
+        generateList(propertyValuesToVariantMapper: $BiFunction_<T1, T2, $List<$Variant>>): $PropertyDispatch;
+        constructor(property1: $Property<T1>, property2: $Property<T2>);
     }
     export class $PropertyDispatch$C1<T1 extends $Comparable<T1>> extends $PropertyDispatch {
-        generate(arg0: $Function_<T1, $Variant>): $PropertyDispatch;
-        select(arg0: T1, arg1: $List_<$Variant>): $PropertyDispatch$C1<T1>;
-        select(arg0: T1, arg1: $Variant): $PropertyDispatch$C1<T1>;
-        generateList(arg0: $Function_<T1, $List<$Variant>>): $PropertyDispatch;
-        constructor(arg0: $Property<T1>);
+        generate(propertyValueToVariantMapper: $Function_<T1, $Variant>): $PropertyDispatch;
+        select(propertyValue: T1, variants: $List_<$Variant>): $PropertyDispatch$C1<T1>;
+        select(propertyValue: T1, variant: $Variant): $PropertyDispatch$C1<T1>;
+        generateList(propertyValueToVariantMapper: $Function_<T1, $List<$Variant>>): $PropertyDispatch;
+        constructor(property1: $Property<T1>);
     }
     export class $PropertyDispatch$C5<T1 extends $Comparable<T1>, T2 extends $Comparable<T2>, T3 extends $Comparable<T3>, T4 extends $Comparable<T4>, T5 extends $Comparable<T5>> extends $PropertyDispatch {
-        generate(arg0: $PropertyDispatch$PentaFunction_<T1, T2, T3, T4, T5, $Variant>): $PropertyDispatch;
-        select(arg0: T1, arg1: T2, arg2: T3, arg3: T4, arg4: T5, arg5: $List_<$Variant>): $PropertyDispatch$C5<T1, T2, T3, T4, T5>;
-        select(arg0: T1, arg1: T2, arg2: T3, arg3: T4, arg4: T5, arg5: $Variant): $PropertyDispatch$C5<T1, T2, T3, T4, T5>;
-        generateList(arg0: $PropertyDispatch$PentaFunction_<T1, T2, T3, T4, T5, $List<$Variant>>): $PropertyDispatch;
-        constructor(arg0: $Property<T1>, arg1: $Property<T2>, arg2: $Property<T3>, arg3: $Property<T4>, arg4: $Property<T5>);
+        generate(propertyValuesToVariantMapper: $PropertyDispatch$PentaFunction_<T1, T2, T3, T4, T5, $Variant>): $PropertyDispatch;
+        select(property1Value: T1, property2Value: T2, property3Value: T3, property4Value: T4, property5Value: T5, variants: $List_<$Variant>): $PropertyDispatch$C5<T1, T2, T3, T4, T5>;
+        select(property1Value: T1, property2Value: T2, property3Value: T3, property4Value: T4, property5Value: T5, variant: $Variant): $PropertyDispatch$C5<T1, T2, T3, T4, T5>;
+        generateList(propertyValuesToVariantMapper: $PropertyDispatch$PentaFunction_<T1, T2, T3, T4, T5, $List<$Variant>>): $PropertyDispatch;
+        constructor(property1: $Property<T1>, property2: $Property<T2>, property3: $Property<T3>, property4: $Property<T4>, property5: $Property<T5>);
     }
     export class $MultiPartGenerator implements $BlockStateGenerator {
         get(): $JsonElement;
-        "with"(arg0: $Condition, arg1: $List_<$Variant>): $MultiPartGenerator;
-        "with"(arg0: $Condition, ...arg1: $Variant[]): $MultiPartGenerator;
-        "with"(arg0: $Condition, arg1: $Variant): $MultiPartGenerator;
-        "with"(arg0: $Variant): $MultiPartGenerator;
-        "with"(arg0: $List_<$Variant>): $MultiPartGenerator;
+        "with"(condition: $Condition, variants: $List_<$Variant>): $MultiPartGenerator;
+        "with"(condition: $Condition, ...variants: $Variant[]): $MultiPartGenerator;
+        "with"(condition: $Condition, variant: $Variant): $MultiPartGenerator;
+        "with"(variant: $Variant): $MultiPartGenerator;
+        "with"(variants: $List_<$Variant>): $MultiPartGenerator;
         getBlock(): $Block;
-        static multiPart(arg0: $Block_): $MultiPartGenerator;
+        static multiPart(block: $Block_): $MultiPartGenerator;
         get block(): $Block;
     }
 }

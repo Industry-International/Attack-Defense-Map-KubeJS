@@ -4,51 +4,51 @@ import { $Set_, $List, $List_ } from "@package/java/util";
 
 declare module "@package/net/minecraft/client/model/geom/builders" {
     export class $CubeDefinition {
-        bake(arg0: number, arg1: number): $ModelPart$Cube;
-        constructor(arg0: string, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: $CubeDeformation, arg10: boolean, arg11: number, arg12: number, arg13: $Set_<$Direction_>);
+        bake(texWidth: number, texHeight: number): $ModelPart$Cube;
+        constructor(comment: string | null, texCoordU: number, texCoordV: number, originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, grow: $CubeDeformation, mirror: boolean, texScaleU: number, texScaleV: number, visibleFaces: $Set_<$Direction_>);
     }
     export class $CubeDeformation {
-        extend(arg0: number, arg1: number, arg2: number): $CubeDeformation;
-        extend(arg0: number): $CubeDeformation;
+        extend(growX: number, growY: number, growZ: number): $CubeDeformation;
+        extend(grow: number): $CubeDeformation;
         growX: number;
         growY: number;
         growZ: number;
         static NONE: $CubeDeformation;
-        constructor(arg0: number, arg1: number, arg2: number);
-        constructor(arg0: number);
+        constructor(growX: number, growY: number, growZ: number);
+        constructor(grow: number);
     }
     export class $PartDefinition {
-        getChild(arg0: string): $PartDefinition;
-        bake(arg0: number, arg1: number): $ModelPart;
-        addOrReplaceChild(arg0: string, arg1: $CubeListBuilder, arg2: $PartPose): $PartDefinition;
-        constructor(arg0: $List_<$CubeDefinition>, arg1: $PartPose);
+        getChild(name: string): $PartDefinition;
+        addOrReplaceChild(name: string, cubes: $CubeListBuilder, partPose: $PartPose): $PartDefinition;
+        bake(texWidth: number, texHeight: number): $ModelPart;
+        constructor(cubes: $List_<$CubeDefinition>, partPose: $PartPose);
     }
     export class $LayerDefinition {
-        static create(arg0: $MeshDefinition, arg1: number, arg2: number): $LayerDefinition;
+        static create(mesh: $MeshDefinition, texWidth: number, texHeight: number): $LayerDefinition;
         bakeRoot(): $ModelPart;
     }
     export class $CubeListBuilder {
         static create(): $CubeListBuilder;
-        mirror(): $CubeListBuilder;
-        mirror(arg0: boolean): $CubeListBuilder;
-        addBox(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: $CubeDeformation, arg7: number, arg8: number): $CubeListBuilder;
-        addBox(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean): $CubeListBuilder;
-        addBox(arg0: string, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: $CubeDeformation): $CubeListBuilder;
-        addBox(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: $CubeDeformation): $CubeListBuilder;
-        addBox(arg0: string, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $CubeListBuilder;
-        addBox(arg0: string, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number): $CubeListBuilder;
-        addBox(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): $CubeListBuilder;
-        addBox(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: $Set_<$Direction_>): $CubeListBuilder;
-        addBox(arg0: string, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: $CubeDeformation, arg8: number, arg9: number): $CubeListBuilder;
-        texOffs(arg0: number, arg1: number): $CubeListBuilder;
         getCubes(): $List<$CubeDefinition>;
+        mirror(): $CubeListBuilder;
+        mirror(mirror: boolean): $CubeListBuilder;
+        texOffs(xTexOffs: number, yTexOffs: number): $CubeListBuilder;
+        addBox(originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, cubeDeformation: $CubeDeformation, texScaleU: number, texScaleV: number): $CubeListBuilder;
+        addBox(originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, mirror: boolean): $CubeListBuilder;
+        addBox(comment: string, originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number): $CubeListBuilder;
+        addBox(originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, cubeDeformation: $CubeDeformation): $CubeListBuilder;
+        addBox(comment: string, originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, cubeDeformation: $CubeDeformation, xTexOffs: number, yTexOffs: number): $CubeListBuilder;
+        addBox(comment: string, originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, xTexOffs: number, yTexOffs: number): $CubeListBuilder;
+        addBox(originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number): $CubeListBuilder;
+        addBox(originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, visibleFaces: $Set_<$Direction_>): $CubeListBuilder;
+        addBox(comment: string, originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, cubeDeformation: $CubeDeformation): $CubeListBuilder;
         constructor();
         get cubes(): $List<$CubeDefinition>;
     }
     export class $MaterialDefinition {
         xTexSize: number;
         yTexSize: number;
-        constructor(arg0: number, arg1: number);
+        constructor(xTexSize: number, yTexSize: number);
     }
     export class $MeshDefinition {
         getRoot(): $PartDefinition;
@@ -58,6 +58,6 @@ declare module "@package/net/minecraft/client/model/geom/builders" {
     export class $UVPair {
         v(): number;
         u(): number;
-        constructor(arg0: number, arg1: number);
+        constructor(u: number, v: number);
     }
 }

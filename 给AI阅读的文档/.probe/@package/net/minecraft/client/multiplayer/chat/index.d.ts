@@ -15,12 +15,12 @@ declare module "@package/net/minecraft/client/multiplayer/chat" {
         type(): $LoggedChatEvent$Type;
         profile(): $GameProfile;
         message(): $PlayerChatMessage;
+        canReport(uuid: $UUID_): boolean;
         profileId(): $UUID;
-        canReport(arg0: $UUID_): boolean;
         trustLevel(): $ChatTrustLevel;
-        toNarrationComponent(): $Component;
         toHeadingComponent(): $Component;
         toContentComponent(): $Component;
+        toNarrationComponent(): $Component;
         static CODEC: $MapCodec<$LoggedChatMessage$Player>;
         constructor(arg0: $GameProfile, arg1: $PlayerChatMessage_, arg2: $ChatTrustLevel_);
     }
@@ -41,8 +41,8 @@ declare module "@package/net/minecraft/client/multiplayer/chat" {
     export class $ChatTrustLevel extends $Enum<$ChatTrustLevel> implements $StringRepresentable {
         static values(): $ChatTrustLevel[];
         static valueOf(arg0: string): $ChatTrustLevel;
-        static evaluate(arg0: $PlayerChatMessage_, arg1: $Component_, arg2: $Instant): $ChatTrustLevel;
-        createTag(arg0: $PlayerChatMessage_): $GuiMessageTag;
+        static evaluate(chatMessage: $PlayerChatMessage_, decoratedServerContent: $Component_, timestamp: $Instant): $ChatTrustLevel;
+        createTag(chatMessage: $PlayerChatMessage_): $GuiMessageTag;
         getSerializedName(): string;
         isNotSecure(): boolean;
         getRemappedEnumConstantName(): string;
@@ -61,33 +61,33 @@ declare module "@package/net/minecraft/client/multiplayer/chat" {
     export class $ChatListener {
         tick(): void;
         queueSize(): number;
-        removeFromDelayedMessageQueue(arg0: $MessageSignature_): boolean;
-        handleSystemMessage(arg0: $Component_, arg1: boolean): void;
-        setMessageDelay(arg0: number): void;
-        handler$dkb000$xaerominimap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
-        handler$ebp001$xaeroworldmap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
-        clearQueue(): void;
-        handleChatMessageError(arg0: $UUID_, arg1: $ChatType$Bound_): void;
-        handlePlayerChatMessage(arg0: $PlayerChatMessage_, arg1: $GameProfile, arg2: $ChatType$Bound_): void;
-        handleDisguisedChatMessage(arg0: $Component_, arg1: $ChatType$Bound_): void;
-        acceptNextDelayedMessage(): void;
-        handler$dkb000$xaerominimap$onHandleDisguisedChatMessag(arg0: $Component_, arg1: $ChatType$Bound_, arg2: $CallbackInfo): void;
-        handler$ebp001$xaeroworldmap$onHandleDisguisedChatMessag(arg0: $Component_, arg1: $ChatType$Bound_, arg2: $CallbackInfo): void;
+        handler$boh000$chat_heads$chatheads$handleAddedPlayerMessage(bound: $ChatType$Bound_, playerChatMessage: $PlayerChatMessage_, message: $Component_, gameProfile: $GameProfile, bl: boolean, instant: $Instant, cir: $CallbackInfoReturnable<any>): void;
         handler$boh000$chat_heads$chatheads$handleAddedSystemMessage(message: $Component_, bl: boolean, ci: $CallbackInfo): void;
         modify$bpa000$chat_heads$chatheads$handleAddedDisguisedMessage(original: $BooleanSupplier_, undecoratedMessage: $Component_, bound: $ChatType$Bound_): $BooleanSupplier;
-        handler$boh000$chat_heads$chatheads$handleAddedPlayerMessage(bound: $ChatType$Bound_, playerChatMessage: $PlayerChatMessage_, message: $Component_, gameProfile: $GameProfile, bl: boolean, instant: $Instant, cir: $CallbackInfoReturnable<any>): void;
+        handleSystemMessage(message: $Component_, isOverlay: boolean): void;
+        acceptNextDelayedMessage(): void;
+        removeFromDelayedMessageQueue(signature: $MessageSignature_): boolean;
+        handleChatMessageError(sender: $UUID_, boundChatType: $ChatType$Bound_): void;
+        handleDisguisedChatMessage(message: $Component_, boundChatType: $ChatType$Bound_): void;
+        handlePlayerChatMessage(chatMessage: $PlayerChatMessage_, gameProfile: $GameProfile, boundChatType: $ChatType$Bound_): void;
+        setMessageDelay(delaySeconds: number): void;
+        clearQueue(): void;
+        handler$dna001$xaeroworldmap$onHandleDisguisedChatMessag(arg0: $Component_, arg1: $ChatType$Bound_, arg2: $CallbackInfo): void;
+        handler$dff000$xaerominimap$onHandleDisguisedChatMessag(arg0: $Component_, arg1: $ChatType$Bound_, arg2: $CallbackInfo): void;
+        handler$dff000$xaerominimap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
+        handler$dna001$xaeroworldmap$onHandleSystemChat(arg0: $Component_, arg1: boolean, arg2: $CallbackInfo): void;
         static $assertionsDisabled: boolean;
-        constructor(arg0: $Minecraft);
+        constructor(minecraft: $Minecraft);
         set messageDelay(value: number);
     }
     export class $LoggedChatMessage {
-        static system(arg0: $Component_, arg1: $Instant): $LoggedChatMessage$System;
-        static player(arg0: $GameProfile, arg1: $PlayerChatMessage_, arg2: $ChatTrustLevel_): $LoggedChatMessage$Player;
+        static system(message: $Component_, timestamp: $Instant): $LoggedChatMessage$System;
+        static player(profile: $GameProfile, message: $PlayerChatMessage_, trustLevel: $ChatTrustLevel_): $LoggedChatMessage$Player;
     }
     export interface $LoggedChatMessage extends $LoggedChatEvent {
-        canReport(arg0: $UUID_): boolean;
-        toNarrationComponent(): $Component;
+        canReport(uuid: $UUID_): boolean;
         toContentComponent(): $Component;
+        toNarrationComponent(): $Component;
     }
     export class $ChatListener$Message extends $Record {
     }
@@ -95,7 +95,7 @@ declare module "@package/net/minecraft/client/multiplayer/chat" {
         type(): $LoggedChatEvent$Type;
         message(): $Component;
         timeStamp(): $Instant;
-        canReport(arg0: $UUID_): boolean;
+        canReport(uuid: $UUID_): boolean;
         toContentComponent(): $Component;
         toNarrationComponent(): $Component;
         static CODEC: $MapCodec<$LoggedChatMessage$System>;
@@ -113,10 +113,10 @@ declare module "@package/net/minecraft/client/multiplayer/chat" {
     export type $LoggedChatEvent_ = (() => $LoggedChatEvent$Type_);
     export class $ChatLog {
         end(): number;
-        lookup(arg0: number): $LoggedChatEvent;
+        lookup(id: number): $LoggedChatEvent;
         start(): number;
-        push(arg0: $LoggedChatEvent_): void;
-        static codec(arg0: number): $Codec<$ChatLog>;
-        constructor(arg0: number);
+        push(event: $LoggedChatEvent_): void;
+        static codec(size: number): $Codec<$ChatLog>;
+        constructor(size: number);
     }
 }

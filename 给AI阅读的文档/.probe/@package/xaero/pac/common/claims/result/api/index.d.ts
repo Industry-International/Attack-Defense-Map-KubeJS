@@ -6,20 +6,20 @@ import { $IPlayerChunkClaimAPI } from "@package/xaero/pac/common/claims/player/a
 
 declare module "@package/xaero/pac/common/claims/result/api" {
     export class $AreaClaimResult {
-        getSize(): number;
         getLeft(): number;
+        getSize(): number;
         getRight(): number;
+        getResultTypesIterable(): $Iterable<$ClaimResult$Type>;
         getBottom(): number;
         getTop(): number;
-        getResultTypesIterable(): $Iterable<$ClaimResult$Type>;
         getResultTypesStream(): $Stream<$ClaimResult$Type>;
         constructor(arg0: $Set_<$ClaimResult$Type_>, arg1: number, arg2: number, arg3: number, arg4: number);
-        get size(): number;
         get left(): number;
+        get size(): number;
         get right(): number;
+        get resultTypesIterable(): $Iterable<$ClaimResult$Type>;
         get bottom(): number;
         get top(): number;
-        get resultTypesIterable(): $Iterable<$ClaimResult$Type>;
         get resultTypesStream(): $Stream<$ClaimResult$Type>;
     }
     export class $ClaimResult$Type extends $Enum<$ClaimResult$Type> {
@@ -29,6 +29,7 @@ declare module "@package/xaero/pac/common/claims/result/api" {
         static UNCLAIMABLE_DIMENSION: $ClaimResult$Type;
         static SUCCESSFUL_CLAIM: $ClaimResult$Type;
         static REPLACEMENT_IN_PROGRESS: $ClaimResult$Type;
+        static NOT_IN_PARTY: $ClaimResult$Type;
         static ALREADY_CLAIMED: $ClaimResult$Type;
         message: $Component;
         static SUCCESSFUL_UNCLAIM: $ClaimResult$Type;
@@ -43,17 +44,18 @@ declare module "@package/xaero/pac/common/claims/result/api" {
         static NO_SERVER_PERMISSION: $ClaimResult$Type;
         success: boolean;
         static ALREADY_FORCELOADABLE: $ClaimResult$Type;
+        static NO_PARTY_PERMISSION: $ClaimResult$Type;
         static TOO_MANY_CHUNKS: $ClaimResult$Type;
         static SUCCESSFUL_FORCELOAD: $ClaimResult$Type;
     }
     /**
      * Values that may be interpreted as {@link $ClaimResult$Type}.
      */
-    export type $ClaimResult$Type_ = "already_forceloadable" | "already_unforceloaded" | "claims_are_disabled" | "too_many_chunks" | "unclaimable_dimension" | "not_claimed_by_user_forceload" | "not_claimed_by_user" | "already_claimed" | "forceload_limit_reached" | "claim_limit_reached" | "too_far" | "replacement_in_progress" | "no_server_permission" | "successful_unforceload" | "successful_unclaim" | "successful_forceload" | "successful_claim";
+    export type $ClaimResult$Type_ = "already_forceloadable" | "already_unforceloaded" | "claims_are_disabled" | "too_many_chunks" | "unclaimable_dimension" | "not_claimed_by_user_forceload" | "not_claimed_by_user" | "already_claimed" | "forceload_limit_reached" | "claim_limit_reached" | "too_far" | "replacement_in_progress" | "no_server_permission" | "no_party_permission" | "not_in_party" | "successful_unforceload" | "successful_unclaim" | "successful_forceload" | "successful_claim";
     export class $ClaimResult<C extends $IPlayerChunkClaimAPI> {
         getResultType(): $ClaimResult$Type;
         getClaimResult(): C;
-        constructor(arg0: C, arg1: $ClaimResult$Type_);
+        constructor(arg0: C | null, arg1: $ClaimResult$Type_);
         get resultType(): $ClaimResult$Type;
         get claimResult(): C;
     }

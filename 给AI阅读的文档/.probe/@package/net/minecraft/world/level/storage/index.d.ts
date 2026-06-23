@@ -37,23 +37,23 @@ export * as loot from "@package/net/minecraft/world/level/storage/loot";
 
 declare module "@package/net/minecraft/world/level/storage" {
     export class $CommandStorage {
-        get(arg0: $ResourceLocation_): $CompoundTag;
-        set(arg0: $ResourceLocation_, arg1: $CompoundTag_): void;
+        get(id: $ResourceLocation_): $CompoundTag;
+        set(id: $ResourceLocation_, nbt: $CompoundTag_): void;
         keys(): $Stream<$ResourceLocation>;
-        constructor(arg0: $DimensionDataStorage);
+        constructor(storage: $DimensionDataStorage);
     }
     export class $CommandStorage$Container extends $SavedData {
     }
     export class $LevelStorageSource$LevelDirectory extends $Record {
         path(): $Path;
-        resourcePath(arg0: $LevelResource): $Path;
+        resourcePath(resource: $LevelResource): $Path;
         directoryName(): string;
         oldDataFile(): $Path;
         dataFile(): $Path;
         iconFile(): $Path;
-        corruptedDataFile(arg0: $LocalDateTime): $Path;
-        rawDataFile(arg0: $LocalDateTime): $Path;
         lockFile(): $Path;
+        corruptedDataFile(dateTime: $LocalDateTime): $Path;
+        rawDataFile(dateTime: $LocalDateTime): $Path;
         constructor(path: $Path_);
     }
     export class $LevelDataAndDimensions extends $Record {
@@ -67,174 +67,288 @@ declare module "@package/net/minecraft/world/level/storage" {
     }
     export interface $WorldData {
         getVersion(): number;
+        /**
+         * Get current world name
+         */
         getLevelName(): string;
-        createTag(arg0: $RegistryAccess, arg1: $CompoundTag_): $CompoundTag;
-        isDifficultyLocked(): boolean;
-        getGameType(): $GameType;
-        getDataConfiguration(): $WorldDataConfiguration;
-        setDifficultyLocked(arg0: boolean): void;
-        getKnownServerBrands(): $Set<string>;
-        getStorageVersionName(arg0: number): string;
-        getCustomBossEvents(): $CompoundTag;
+        setCustomBossEvents(nbt: $CompoundTag_ | null): void;
         worldGenSettingsLifecycle(): $Lifecycle;
-        setCustomBossEvents(arg0: $CompoundTag_): void;
         getRemovedFeatureFlags(): $Set<string>;
-        setDataConfiguration(arg0: $WorldDataConfiguration_): void;
-        setEndDragonFightData(arg0: $EndDragonFight$Data_): void;
-        enabledFeatures(): $FeatureFlagSet;
-        getGameRules(): $GameRules;
-        getDifficulty(): $Difficulty;
-        isHardcore(): boolean;
-        setDifficulty(arg0: $Difficulty_): void;
-        getLoadedPlayerTag(): $CompoundTag;
-        isAllowCommands(): boolean;
-        setModdedInfo(arg0: string, arg1: boolean): void;
-        isDebugWorld(): boolean;
+        getCustomBossEvents(): $CompoundTag;
+        setDifficultyLocked(locked: boolean): void;
+        getKnownServerBrands(): $Set<string>;
+        setDataConfiguration(dataConfiguration: $WorldDataConfiguration_): void;
+        getDataConfiguration(): $WorldDataConfiguration;
+        getStorageVersionName(storageVersionId: number): string;
+        createTag(registries: $RegistryAccess, hostPlayerNBT: $CompoundTag_ | null): $CompoundTag;
+        setEndDragonFightData(endDragonFightData: $EndDragonFight$Data_): void;
         overworldData(): $ServerLevelData;
         getLevelSettings(): $LevelSettings;
-        setGameType(arg0: $GameType_): void;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isAllowCommands(): boolean;
+        setDifficulty(difficulty: $Difficulty_): void;
+        getLoadedPlayerTag(): $CompoundTag;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isDebugWorld(): boolean;
+        setModdedInfo(name: string, isModded: boolean): void;
+        /**
+         * Gets the GameType.
+         */
+        getGameType(): $GameType;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isDifficultyLocked(): boolean;
         endDragonFightData(): $EndDragonFight$Data;
+        setGameType(type: $GameType_): void;
         worldGenOptions(): $WorldOptions;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isHardcore(): boolean;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
         isFlatWorld(): boolean;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
         wasModded(): boolean;
-        fillCrashReportCategory(arg0: $CrashReportCategory): void;
+        getDifficulty(): $Difficulty;
+        /**
+         * Gets the GameRules class Instance.
+         */
+        getGameRules(): $GameRules;
+        enabledFeatures(): $FeatureFlagSet;
+        fillCrashReportCategory(category: $CrashReportCategory): void;
         get version(): number;
         get levelName(): string;
-        get knownServerBrands(): $Set<string>;
         get removedFeatureFlags(): $Set<string>;
-        get gameRules(): $GameRules;
-        get hardcore(): boolean;
-        get loadedPlayerTag(): $CompoundTag;
-        get allowCommands(): boolean;
-        get debugWorld(): boolean;
+        get knownServerBrands(): $Set<string>;
         get levelSettings(): $LevelSettings;
+        get allowCommands(): boolean;
+        get loadedPlayerTag(): $CompoundTag;
+        get debugWorld(): boolean;
+        get hardcore(): boolean;
         get flatWorld(): boolean;
+        get gameRules(): $GameRules;
     }
     export class $LevelSummary$CorruptedLevelSummary extends $LevelSummary {
         static PLAY_WORLD: $Component;
-        constructor(arg0: string, arg1: $Path_, arg2: number);
+        constructor(levelId: string, icon: $Path_, lastPlayed: number);
     }
     export class $LevelSummary$SymlinkLevelSummary extends $LevelSummary {
         static PLAY_WORLD: $Component;
-        constructor(arg0: string, arg1: $Path_);
+        constructor(levelId: string, icon: $Path_);
     }
     export class $DataVersion {
         getVersion(): number;
-        isSideSeries(): boolean;
-        isCompatible(arg0: $DataVersion): boolean;
         getSeries(): string;
+        isSideSeries(): boolean;
+        isCompatible(dataVersion: $DataVersion): boolean;
         static MAIN_SERIES: string;
-        constructor(arg0: number);
-        constructor(arg0: number, arg1: string);
+        constructor(version: number);
+        constructor(version: number, series: string);
         get version(): number;
-        get sideSeries(): boolean;
         get series(): string;
+        get sideSeries(): boolean;
     }
     export class $DerivedLevelData implements $ServerLevelData {
+        /**
+         * Get current world name
+         */
         getLevelName(): string;
-        setInitialized(arg0: boolean): void;
-        isDifficultyLocked(): boolean;
-        getGameType(): $GameType;
+        /**
+         * Sets the initialization status of the World.
+         */
+        setRaining(initialized: boolean): void;
+        /**
+         * Set current world time
+         */
+        setDayTime(time: number): void;
+        setSpawn(spawnPoint: $BlockPos_, angle: number): void;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
         isInitialized(): boolean;
-        getWanderingTraderId(): $UUID;
-        isRaining(): boolean;
-        setGameTime(arg0: number): void;
-        setWorldBorder(arg0: $WorldBorder$Settings): void;
-        setClearWeatherTime(arg0: number): void;
+        /**
+         * Sets the initialization status of the World.
+         */
+        setInitialized(initialized: boolean): void;
+        setClearWeatherTime(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
         getClearWeatherTime(): number;
-        getWorldBorder(): $WorldBorder$Settings;
+        /**
+         * Set current world time
+         */
+        setGameTime(time: number): void;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isAllowCommands(): boolean;
+        setWorldBorder(serializer: $WorldBorder$Settings): void;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isRaining(): boolean;
+        /**
+         * Get current world time
+         */
+        getDayTime(): number;
+        /**
+         * Gets the GameType.
+         */
+        getGameType(): $GameType;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isDifficultyLocked(): boolean;
+        setGameType(type: $GameType_): void;
+        setRainTime(time: number): void;
+        /**
+         * Sets the initialization status of the World.
+         */
+        setThundering(initialized: boolean): void;
+        setThunderTime(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getThunderTime(): number;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getRainTime(): number;
+        getScheduledEvents(): $TimerQueue<$MinecraftServer>;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isHardcore(): boolean;
+        getDifficulty(): $Difficulty;
+        /**
+         * Gets the GameRules class Instance.
+         */
+        getGameRules(): $GameRules;
+        /**
+         * Get current world time
+         */
+        getGameTime(): number;
+        setWanderingTraderSpawnChance(time: number): void;
+        setWanderingTraderSpawnDelay(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getWanderingTraderSpawnDelay(): number;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getWanderingTraderSpawnChance(): number;
         getDayTimeFraction(): number;
+        getWorldBorder(): $WorldBorder$Settings;
+        fillCrashReportCategory(crashReportCategory: $CrashReportCategory, level: $LevelHeightAccessor): void;
         getSpawnPos(): $BlockPos;
-        getSpawnAngle(): number;
-        getDayTimePerTick(): number;
-        isThundering(): boolean;
         setDayTimeFraction(arg0: number): void;
         setDayTimePerTick(arg0: number): void;
-        getGameRules(): $GameRules;
-        getDifficulty(): $Difficulty;
-        isHardcore(): boolean;
-        isAllowCommands(): boolean;
-        setGameType(arg0: $GameType_): void;
-        getScheduledEvents(): $TimerQueue<$MinecraftServer>;
-        setThunderTime(arg0: number): void;
-        getThunderTime(): number;
-        setThundering(arg0: boolean): void;
-        getRainTime(): number;
-        setRainTime(arg0: number): void;
-        getGameTime(): number;
-        getDayTime(): number;
-        setDayTime(arg0: number): void;
-        setRaining(arg0: boolean): void;
-        setSpawn(arg0: $BlockPos_, arg1: number): void;
-        fillCrashReportCategory(arg0: $CrashReportCategory, arg1: $LevelHeightAccessor): void;
-        setWanderingTraderId(arg0: $UUID_): void;
-        getWanderingTraderSpawnChance(): number;
-        getWanderingTraderSpawnDelay(): number;
-        setWanderingTraderSpawnChance(arg0: number): void;
-        setWanderingTraderSpawnDelay(arg0: number): void;
-        constructor(arg0: $WorldData, arg1: $ServerLevelData);
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isThundering(): boolean;
+        getDayTimePerTick(): number;
+        getSpawnAngle(): number;
+        setWanderingTraderId(id: $UUID_): void;
+        getWanderingTraderId(): $UUID;
+        constructor(worldData: $WorldData, wrapped: $ServerLevelData);
         get levelName(): string;
+        get allowCommands(): boolean;
         get difficultyLocked(): boolean;
+        get scheduledEvents(): $TimerQueue<$MinecraftServer>;
+        get hardcore(): boolean;
+        get difficulty(): $Difficulty;
+        get gameRules(): $GameRules;
         get spawnPos(): $BlockPos;
         get spawnAngle(): number;
-        get gameRules(): $GameRules;
-        get difficulty(): $Difficulty;
-        get hardcore(): boolean;
-        get allowCommands(): boolean;
-        get scheduledEvents(): $TimerQueue<$MinecraftServer>;
     }
     export class $LevelStorageException extends $RuntimeException {
         getMessageComponent(): $Component;
-        constructor(arg0: $Component_);
+        constructor(messageComponent: $Component_);
         get messageComponent(): $Component;
     }
     export class $WritableLevelData {
     }
     export interface $WritableLevelData extends $LevelData {
-        setSpawn(arg0: $BlockPos_, arg1: number): void;
+        setSpawn(spawnPoint: $BlockPos_, spawnAngle: number): void;
     }
     export class $LevelData {
     }
     export interface $LevelData {
-        isDifficultyLocked(): boolean;
+        /**
+         * Sets whether it is raining or not.
+         */
+        setRaining(raining: boolean): void;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
         isRaining(): boolean;
-        getSpawnPos(): $BlockPos;
-        getSpawnAngle(): number;
-        isThundering(): boolean;
-        getGameRules(): $GameRules;
-        getDifficulty(): $Difficulty;
-        isHardcore(): boolean;
-        getGameTime(): number;
+        /**
+         * Get current world time
+         */
         getDayTime(): number;
-        setRaining(arg0: boolean): void;
-        fillCrashReportCategory(arg0: $CrashReportCategory, arg1: $LevelHeightAccessor): void;
-        get difficultyLocked(): boolean;
-        get spawnPos(): $BlockPos;
-        get spawnAngle(): number;
-        get thundering(): boolean;
-        get gameRules(): $GameRules;
-        get difficulty(): $Difficulty;
-        get hardcore(): boolean;
-        get gameTime(): number;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isDifficultyLocked(): boolean;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isHardcore(): boolean;
+        getDifficulty(): $Difficulty;
+        /**
+         * Gets the GameRules class Instance.
+         */
+        getGameRules(): $GameRules;
+        /**
+         * Get current world time
+         */
+        getGameTime(): number;
+        fillCrashReportCategory(crashReportCategory: $CrashReportCategory, level: $LevelHeightAccessor): void;
+        getSpawnPos(): $BlockPos;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isThundering(): boolean;
+        getSpawnAngle(): number;
         get dayTime(): number;
+        get difficultyLocked(): boolean;
+        get hardcore(): boolean;
+        get difficulty(): $Difficulty;
+        get gameRules(): $GameRules;
+        get gameTime(): number;
+        get spawnPos(): $BlockPos;
+        get thundering(): boolean;
+        get spawnAngle(): number;
     }
     export class $DimensionDataStorage implements $DataStorageAccess {
-        get<T extends $SavedData>(arg0: $SavedData$Factory_<T>, arg1: string): T;
-        set(arg0: string, arg1: $SavedData): void;
-        computeIfAbsent<T extends $SavedData>(arg0: $SavedData$Factory_<T>, arg1: string): T;
+        get<T extends $SavedData>(factory: $SavedData$Factory_<T>, name: string): T;
+        set(name: string, savedData: $SavedData): void;
+        computeIfAbsent<T extends $SavedData>(factory: $SavedData$Factory_<T>, name: string): T;
         save(): void;
-        readTagFromDisk(arg0: string, arg1: $DataFixTypes_, arg2: number): $CompoundTag;
+        readTagFromDisk(filename: string, dataFixType: $DataFixTypes_ | null, version: number): $CompoundTag;
         getCache(): $Map<string, $SavedData>;
-        invokeGetDataFile(arg0: string): $File;
+        invokeGetDataFile(name: string): $File;
         dataFolder: $File;
-        constructor(arg0: $File_, arg1: $DataFixer, arg2: $HolderLookup$Provider);
+        constructor(dataFolder: $File_, fixerUpper: $DataFixer, registries: $HolderLookup$Provider);
         get cache(): $Map<string, $SavedData>;
     }
     export class $LevelSummary$BackupStatus extends $Enum<$LevelSummary$BackupStatus> {
         static values(): $LevelSummary$BackupStatus[];
         static valueOf(arg0: string): $LevelSummary$BackupStatus;
-        getTranslationKey(): string;
         shouldBackup(): boolean;
+        getTranslationKey(): string;
         isSevere(): boolean;
         static UPGRADE_TO_SNAPSHOT: $LevelSummary$BackupStatus;
         static DOWNGRADE: $LevelSummary$BackupStatus;
@@ -249,91 +363,130 @@ declare module "@package/net/minecraft/world/level/storage" {
     export class $LevelStorageSource$LevelStorageAccess implements $AutoCloseable {
         parent(): $LevelStorageSource;
         close(): void;
-        handler$ecb001$xaeroworldmap$onDeleteLevel(arg0: $CallbackInfo): void;
-        handler$dkg000$xaerominimap$onDeleteLevel(arg0: $CallbackInfo): void;
-        readAdditionalLevelSaveData(arg0: boolean): void;
-        getIconFile(): ($Path) | undefined;
-        getFileModificationTime(arg0: boolean): $Instant;
-        createPlayerStorage(): $PlayerDataStorage;
-        saveDataTag(arg0: $RegistryAccess, arg1: $WorldData): void;
-        saveDataTag(arg0: $RegistryAccess, arg1: $WorldData, arg2: $CompoundTag_): void;
-        getLevelId(): string;
-        getLevelPath(arg0: $LevelResource): $Path;
-        getDimensionPath(arg0: $ResourceKey_<$Level>): $Path;
+        getFileModificationTime(useFallback: boolean): $Instant;
         hasWorldData(): boolean;
         deleteLevel(): void;
-        getSummary(arg0: $Dynamic<never>): $LevelSummary;
-        getLevelDirectory(): $LevelStorageSource$LevelDirectory;
-        checkForLowDiskSpace(): boolean;
-        restoreLevelDataFromOld(): boolean;
-        renameAndDropPlayer(arg0: string): void;
+        getLevelPath(folderName: $LevelResource): $Path;
         safeClose(): void;
-        estimateDiskSpace(): number;
+        getIconFile(): ($Path) | undefined;
+        saveDataTag(registries: $RegistryAccess, serverConfiguration: $WorldData, hostPlayerNBT: $CompoundTag_ | null): void;
+        saveDataTag(registries: $RegistryAccess, serverConfiguration: $WorldData): void;
+        getLevelId(): string;
+        getSummary(dynamic: $Dynamic<never>): $LevelSummary;
+        readAdditionalLevelSaveData(arg0: boolean): void;
+        getDimensionPath(dimensionPath: $ResourceKey_<$Level>): $Path;
+        renameAndDropPlayer(saveName: string): void;
+        restoreLevelDataFromOld(): boolean;
+        checkForLowDiskSpace(): boolean;
+        createPlayerStorage(): $PlayerDataStorage;
+        getLevelDirectory(): $LevelStorageSource$LevelDirectory;
+        getDataTag(): $Dynamic<never>;
         getDataTagFallback(): $Dynamic<never>;
+        renameLevel(saveName: string): void;
         getWorldDir(): $Path;
         makeWorldBackup(): number;
-        renameLevel(arg0: string): void;
-        getDataTag(): $Dynamic<never>;
+        estimateDiskSpace(): number;
+        handler$dnc001$xaeroworldmap$onDeleteLevel(arg0: $CallbackInfo): void;
+        handler$dfk000$xaerominimap$onDeleteLevel(arg0: $CallbackInfo): void;
         levelDirectory: $LevelStorageSource$LevelDirectory;
         this$0: $LevelStorageSource;
         lock: $DirectoryLock;
-        constructor(arg0: $LevelStorageSource, arg1: string, arg2: $Path_);
+        constructor(levelId: $LevelStorageSource, levelDir: string, arg2: $Path_);
         get iconFile(): ($Path) | undefined;
         get levelId(): string;
+        get dataTag(): $Dynamic<never>;
         get dataTagFallback(): $Dynamic<never>;
         get worldDir(): $Path;
-        get dataTag(): $Dynamic<never>;
     }
     export class $PlayerDataStorage {
-        load(arg0: $Player): ($CompoundTag) | undefined;
-        save(arg0: $Player): void;
+        load(player: $Player): ($CompoundTag) | undefined;
+        save(player: $Player): void;
         getPlayerDir(): $File;
         fixerUpper: $DataFixer;
-        constructor(arg0: $LevelStorageSource$LevelStorageAccess, arg1: $DataFixer);
+        constructor(levelStorageAccess: $LevelStorageSource$LevelStorageAccess, fixerUpper: $DataFixer);
         get playerDir(): $File;
     }
     export class $ServerLevelData {
     }
     export interface $ServerLevelData extends $WritableLevelData {
+        /**
+         * Get current world name
+         */
         getLevelName(): string;
-        setInitialized(arg0: boolean): void;
-        getGameType(): $GameType;
+        /**
+         * Set current world time
+         */
+        setDayTime(time: number): void;
+        /**
+         * Returns `true` if the World is initialized.
+         */
         isInitialized(): boolean;
-        getWanderingTraderId(): $UUID;
-        setGameTime(arg0: number): void;
-        setWorldBorder(arg0: $WorldBorder$Settings): void;
-        setClearWeatherTime(arg0: number): void;
+        /**
+         * Sets the initialization status of the World.
+         */
+        setInitialized(initialized: boolean): void;
+        setClearWeatherTime(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
         getClearWeatherTime(): number;
-        getWorldBorder(): $WorldBorder$Settings;
+        /**
+         * Set current world time
+         */
+        setGameTime(time: number): void;
+        /**
+         * Returns `true` if the World is initialized.
+         */
+        isAllowCommands(): boolean;
+        setWorldBorder(serializer: $WorldBorder$Settings): void;
+        /**
+         * Gets the GameType.
+         */
+        getGameType(): $GameType;
+        setGameType(type: $GameType_): void;
+        setRainTime(time: number): void;
+        /**
+         * Sets the initialization status of the World.
+         */
+        setThundering(initialized: boolean): void;
+        setThunderTime(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getThunderTime(): number;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getRainTime(): number;
+        getScheduledEvents(): $TimerQueue<$MinecraftServer>;
+        setWanderingTraderSpawnChance(time: number): void;
+        setWanderingTraderSpawnDelay(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getWanderingTraderSpawnDelay(): number;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getWanderingTraderSpawnChance(): number;
         getDayTimeFraction(): number;
-        getDayTimePerTick(): number;
+        getWorldBorder(): $WorldBorder$Settings;
+        fillCrashReportCategory(crashReportCategory: $CrashReportCategory, level: $LevelHeightAccessor): void;
         setDayTimeFraction(arg0: number): void;
         setDayTimePerTick(arg0: number): void;
-        isAllowCommands(): boolean;
-        setGameType(arg0: $GameType_): void;
-        getScheduledEvents(): $TimerQueue<$MinecraftServer>;
-        setThunderTime(arg0: number): void;
-        getThunderTime(): number;
-        setThundering(arg0: boolean): void;
-        getRainTime(): number;
-        setRainTime(arg0: number): void;
-        setDayTime(arg0: number): void;
-        fillCrashReportCategory(arg0: $CrashReportCategory, arg1: $LevelHeightAccessor): void;
-        setWanderingTraderId(arg0: $UUID_): void;
-        getWanderingTraderSpawnChance(): number;
-        getWanderingTraderSpawnDelay(): number;
-        setWanderingTraderSpawnChance(arg0: number): void;
-        setWanderingTraderSpawnDelay(arg0: number): void;
+        getDayTimePerTick(): number;
+        setWanderingTraderId(id: $UUID_): void;
+        getWanderingTraderId(): $UUID;
         get levelName(): string;
+        set dayTime(value: number);
         set gameTime(value: number);
         get allowCommands(): boolean;
-        get scheduledEvents(): $TimerQueue<$MinecraftServer>;
         set thundering(value: boolean);
-        set dayTime(value: number);
+        get scheduledEvents(): $TimerQueue<$MinecraftServer>;
     }
     export class $LevelVersion {
         snapshot(): boolean;
-        static parse(arg0: $Dynamic<never>): $LevelVersion;
+        static parse(nbt: $Dynamic<never>): $LevelVersion;
         minecraftVersionName(): string;
         levelDataVersion(): number;
         minecraftVersion(): $DataVersion;
@@ -341,172 +494,256 @@ declare module "@package/net/minecraft/world/level/storage" {
     }
     export class $LevelStorageSource {
         getName(): string;
-        isNewLevelIdAcceptable(arg0: string): boolean;
-        static getFileModificationTime(arg0: $Path_): $Instant;
-        static readLevelDataTagRaw(arg0: $Path_): $CompoundTag;
+        isNewLevelIdAcceptable(saveName: string): boolean;
+        static getLevelDataAndDimensions(dynamic: $Dynamic<never>, dataConfiguration: $WorldDataConfiguration_, levelStemRegistry: $Registry<$LevelStem_>, registry: $RegistryAccess$Frozen): $LevelDataAndDimensions;
+        validateAndCreateAccess(saveName: string): $LevelStorageSource$LevelStorageAccess;
         getWorldDirValidator(): $DirectoryValidator;
-        validateAndCreateAccess(arg0: string): $LevelStorageSource$LevelStorageAccess;
+        static readLevelDataTagFixed(levelPath: $Path_, dataFixer: $DataFixer): $Dynamic<never>;
+        static readLevelDataTagRaw(levelPath: $Path_): $CompoundTag;
         findLevelCandidates(): $LevelStorageSource$LevelCandidates;
-        static getLevelDataAndDimensions(arg0: $Dynamic<never>, arg1: $WorldDataConfiguration_, arg2: $Registry<$LevelStem_>, arg3: $RegistryAccess$Frozen): $LevelDataAndDimensions;
-        static readLevelDataTagFixed(arg0: $Path_, arg1: $DataFixer): $Dynamic<never>;
-        static parseValidator(arg0: $Path_): $DirectoryValidator;
-        static createDefault(arg0: $Path_): $LevelStorageSource;
-        static readDataConfig(arg0: $Dynamic<never>): $WorldDataConfiguration;
-        loadLevelSummaries(arg0: $LevelStorageSource$LevelCandidates_): $CompletableFuture<$List<$LevelSummary>>;
-        static getPackConfig(arg0: $Dynamic<never>, arg1: $PackRepository, arg2: boolean): $WorldLoader$PackConfig;
-        makeLevelSummary(arg0: $Dynamic<never>, arg1: $LevelStorageSource$LevelDirectory_, arg2: boolean): $LevelSummary;
+        static getFileModificationTime(dataFilePath: $Path_): $Instant;
+        createAccess(saveName: string): $LevelStorageSource$LevelStorageAccess;
+        static getPackConfig(dynamic: $Dynamic<never>, packRepository: $PackRepository, safeMode: boolean): $WorldLoader$PackConfig;
+        loadLevelSummaries(candidates: $LevelStorageSource$LevelCandidates_): $CompletableFuture<$List<$LevelSummary>>;
+        makeLevelSummary(dynamic: $Dynamic<never>, levelDirectory: $LevelStorageSource$LevelDirectory_, locked: boolean): $LevelSummary;
+        /**
+         * Gets the folder where backups are stored
+         */
         getBackupPath(): $Path;
-        levelExists(arg0: string): boolean;
-        getLevelPath(arg0: string): $Path;
+        static readDataConfig(dynamic: $Dynamic<never>): $WorldDataConfiguration;
+        levelExists(saveName: string): boolean;
+        getLevelPath(saveName: string): $Path;
+        /**
+         * Gets the folder where backups are stored
+         */
         getBaseDir(): $Path;
-        createAccess(arg0: string): $LevelStorageSource$LevelStorageAccess;
+        static parseValidator(validator: $Path_): $DirectoryValidator;
+        static createDefault(savesDir: $Path_): $LevelStorageSource;
         fixerUpper: $DataFixer;
         static ALLOWED_SYMLINKS_CONFIG_NAME: string;
         static FORMATTER: $DateTimeFormatter;
         static LOGGER: $Logger;
-        constructor(arg0: $Path_, arg1: $Path_, arg2: $DirectoryValidator, arg3: $DataFixer);
+        constructor(baseDir: $Path_, backupDir: $Path_, worldDirValidator: $DirectoryValidator, fixerUpper: $DataFixer);
         get name(): string;
         get worldDirValidator(): $DirectoryValidator;
         get backupPath(): $Path;
         get baseDir(): $Path;
     }
     export class $PrimaryLevelData implements $ServerLevelData, $WorldData, $PrimaryLevelDataExtension {
-        static parse<T>(arg0: $Dynamic<T>, arg1: $LevelSettings, arg2: $PrimaryLevelData$SpecialWorldProperty_, arg3: $WorldOptions, arg4: $Lifecycle): $PrimaryLevelData;
+        static parse<T>(tag: $Dynamic<T>, levelSettings: $LevelSettings, specialWorldProperty: $PrimaryLevelData$SpecialWorldProperty_, worldOptions: $WorldOptions, worldGenSettingsLifecycle: $Lifecycle): $PrimaryLevelData;
+        /**
+         * Return the number of ticks until rain.
+         */
         getVersion(): number;
+        /**
+         * Get current world name
+         */
         getLevelName(): string;
-        setInitialized(arg0: boolean): void;
-        createTag(arg0: $RegistryAccess, arg1: $CompoundTag_): $CompoundTag;
-        isDifficultyLocked(): boolean;
-        getGameType(): $GameType;
-        isInitialized(): boolean;
-        getWanderingTraderId(): $UUID;
-        isRaining(): boolean;
-        setGameTime(arg0: number): void;
-        setWorldBorder(arg0: $WorldBorder$Settings): void;
-        getDataConfiguration(): $WorldDataConfiguration;
-        setDifficultyLocked(arg0: boolean): void;
-        getKnownServerBrands(): $Set<string>;
-        getCustomBossEvents(): $CompoundTag;
+        setRaining(locked: boolean): void;
+        /**
+         * Set current world time
+         */
+        setDayTime(time: number): void;
+        setSpawn(spawnPoint: $BlockPos_, angle: number): void;
+        setCustomBossEvents(nbt: $CompoundTag_ | null): void;
         worldGenSettingsLifecycle(): $Lifecycle;
-        setCustomBossEvents(arg0: $CompoundTag_): void;
         getRemovedFeatureFlags(): $Set<string>;
-        setDataConfiguration(arg0: $WorldDataConfiguration_): void;
-        setEndDragonFight(arg0: $EndDragonFight$Data_): void;
-        setClearWeatherTime(arg0: number): void;
-        setEndDragonFightData(arg0: $EndDragonFight$Data_): void;
+        getCustomBossEvents(): $CompoundTag;
+        setDifficultyLocked(locked: boolean): void;
+        getKnownServerBrands(): $Set<string>;
+        setDataConfiguration(dataConfiguration: $WorldDataConfiguration_): void;
+        getDataConfiguration(): $WorldDataConfiguration;
+        createTag(registries: $RegistryAccess, hostPlayerNBT: $CompoundTag_ | null): $CompoundTag;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isInitialized(): boolean;
+        setInitialized(locked: boolean): void;
+        setClearWeatherTime(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
         getClearWeatherTime(): number;
-        getWorldBorder(): $WorldBorder$Settings;
-        getDayTimeFraction(): number;
-        getSpawnPos(): $BlockPos;
-        getSpawnAngle(): number;
-        getDayTimePerTick(): number;
-        isThundering(): boolean;
-        setDayTimeFraction(arg0: number): void;
-        setDayTimePerTick(arg0: number): void;
-        getGameRules(): $GameRules;
-        getDifficulty(): $Difficulty;
-        isHardcore(): boolean;
-        setDifficulty(arg0: $Difficulty_): void;
-        getLoadedPlayerTag(): $CompoundTag;
-        isAllowCommands(): boolean;
-        setModdedInfo(arg0: string, arg1: boolean): void;
-        isDebugWorld(): boolean;
+        setEndDragonFightData(endDragonFightData: $EndDragonFight$Data_): void;
+        /**
+         * Set current world time
+         */
+        setGameTime(time: number): void;
         overworldData(): $ServerLevelData;
         getLevelSettings(): $LevelSettings;
-        setGameType(arg0: $GameType_): void;
-        endDragonFightData(): $EndDragonFight$Data;
-        worldGenOptions(): $WorldOptions;
-        getScheduledEvents(): $TimerQueue<$MinecraftServer>;
-        setThunderTime(arg0: number): void;
-        getThunderTime(): number;
-        setThundering(arg0: boolean): void;
-        getRainTime(): number;
-        setRainTime(arg0: number): void;
-        isFlatWorld(): boolean;
-        wasModded(): boolean;
-        setPreset(arg0: $ResourceLocation_): void;
-        getGameTime(): number;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isAllowCommands(): boolean;
+        setDifficulty(difficulty: $Difficulty_): void;
+        getLoadedPlayerTag(): $CompoundTag;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isDebugWorld(): boolean;
+        setModdedInfo(name: string, isModded: boolean): void;
+        setWorldBorder(serializer: $WorldBorder$Settings): void;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isRaining(): boolean;
+        /**
+         * Get current world time
+         */
         getDayTime(): number;
-        setDayTime(arg0: number): void;
-        setRaining(arg0: boolean): void;
-        setSpawn(arg0: $BlockPos_, arg1: number): void;
-        fillCrashReportCategory(arg0: $CrashReportCategory, arg1: $LevelHeightAccessor): void;
-        withConfirmedWarning(arg0: boolean): $PrimaryLevelData;
-        getPreset(): $ResourceLocation;
-        setWanderingTraderId(arg0: $UUID_): void;
-        getWanderingTraderSpawnChance(): number;
+        /**
+         * Gets the GameType.
+         */
+        getGameType(): $GameType;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isDifficultyLocked(): boolean;
+        endDragonFightData(): $EndDragonFight$Data;
+        setGameType(type: $GameType_): void;
+        worldGenOptions(): $WorldOptions;
+        setRainTime(time: number): void;
+        setThundering(locked: boolean): void;
+        setThunderTime(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getThunderTime(): number;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getRainTime(): number;
+        getScheduledEvents(): $TimerQueue<$MinecraftServer>;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isHardcore(): boolean;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isFlatWorld(): boolean;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        wasModded(): boolean;
+        getDifficulty(): $Difficulty;
+        /**
+         * Gets the GameRules class Instance.
+         */
+        getGameRules(): $GameRules;
+        /**
+         * Get current world time
+         */
+        getGameTime(): number;
+        setWanderingTraderSpawnChance(time: number): void;
+        setWanderingTraderSpawnDelay(time: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
         getWanderingTraderSpawnDelay(): number;
-        setWanderingTraderSpawnChance(arg0: number): void;
-        setWanderingTraderSpawnDelay(arg0: number): void;
+        /**
+         * Return the number of ticks until rain.
+         */
+        getWanderingTraderSpawnChance(): number;
+        getDayTimeFraction(): number;
+        getWorldBorder(): $WorldBorder$Settings;
+        fillCrashReportCategory(crashReportCategory: $CrashReportCategory, level: $LevelHeightAccessor): void;
+        getSpawnPos(): $BlockPos;
+        setDayTimeFraction(arg0: number): void;
+        setDayTimePerTick(arg0: number): void;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
+        isThundering(): boolean;
+        getDayTimePerTick(): number;
+        getSpawnAngle(): number;
+        setPreset(arg0: $ResourceLocation_): void;
+        getPreset(): $ResourceLocation;
+        /**
+         * Returns `true` if hardcore mode is enabled, otherwise `false`.
+         */
         hasConfirmedExperimentalWarning(): boolean;
-        getStorageVersionName(arg0: number): string;
+        setEndDragonFight(endDragonFightData: $EndDragonFight$Data_): void;
+        withConfirmedWarning(arg0: boolean): $PrimaryLevelData;
+        setWanderingTraderId(id: $UUID_): void;
+        getWanderingTraderId(): $UUID;
+        getStorageVersionName(storageVersionId: number): string;
         enabledFeatures(): $FeatureFlagSet;
-        fillCrashReportCategory(arg0: $CrashReportCategory): void;
+        fillCrashReportCategory(category: $CrashReportCategory): void;
         static PLAYER: string;
         settings: $LevelSettings;
         static WORLD_GEN_SETTINGS: string;
         static LEVEL_NAME: string;
         worldOptions: $WorldOptions;
-        constructor(arg0: $LevelSettings, arg1: $WorldOptions, arg2: $PrimaryLevelData$SpecialWorldProperty_, arg3: $Lifecycle);
+        constructor(settings: $LevelSettings, worldOptions: $WorldOptions, specialWorldProperty: $PrimaryLevelData$SpecialWorldProperty_, worldGenSettingsLifecycle: $Lifecycle);
         get version(): number;
         get levelName(): string;
-        get knownServerBrands(): $Set<string>;
         get removedFeatureFlags(): $Set<string>;
-        set endDragonFight(value: $EndDragonFight$Data_);
+        get knownServerBrands(): $Set<string>;
+        get levelSettings(): $LevelSettings;
+        get allowCommands(): boolean;
+        get loadedPlayerTag(): $CompoundTag;
+        get debugWorld(): boolean;
+        get scheduledEvents(): $TimerQueue<$MinecraftServer>;
+        get hardcore(): boolean;
+        get flatWorld(): boolean;
+        get gameRules(): $GameRules;
         get spawnPos(): $BlockPos;
         get spawnAngle(): number;
-        get gameRules(): $GameRules;
-        get hardcore(): boolean;
-        get loadedPlayerTag(): $CompoundTag;
-        get allowCommands(): boolean;
-        get debugWorld(): boolean;
-        get levelSettings(): $LevelSettings;
-        get scheduledEvents(): $TimerQueue<$MinecraftServer>;
-        get flatWorld(): boolean;
+        set endDragonFight(value: $EndDragonFight$Data_);
     }
     export class $LevelSummary implements $Comparable<$LevelSummary> {
-        compareTo(arg0: $LevelSummary): number;
+        compareTo(other: $LevelSummary): number;
         isLocked(): boolean;
+        /**
+         * Returns the file name.
+         */
         getLevelName(): string;
         getInfo(): $Component;
         getSettings(): $LevelSettings;
-        isCompatible(): boolean;
-        getIcon(): $Path;
-        canDelete(): boolean;
-        primaryActionMessage(): $Component;
-        getWorldVersionName(): $MutableComponent;
         requiresManualConversion(): boolean;
+        getWorldVersionName(): $MutableComponent;
+        primaryActionMessage(): $Component;
         primaryActionActive(): boolean;
-        isExperimental(): boolean;
-        isHardcore(): boolean;
-        getLevelId(): string;
-        hasCommands(): boolean;
-        backupStatus(): $LevelSummary$BackupStatus;
-        canRecreate(): boolean;
-        getLastPlayed(): number;
+        getIcon(): $Path;
         isDowngrade(): boolean;
-        shouldBackup(): boolean;
+        backupStatus(): $LevelSummary$BackupStatus;
         levelVersion(): $LevelVersion;
+        shouldBackup(): boolean;
+        getLastPlayed(): number;
+        hasCommands(): boolean;
+        canRecreate(): boolean;
+        canDelete(): boolean;
+        /**
+         * Returns the file name.
+         */
+        getLevelId(): string;
+        isHardcore(): boolean;
+        isCompatible(): boolean;
         canUpload(): boolean;
         canEdit(): boolean;
         isDisabled(): boolean;
+        /**
+         * Gets the EnumGameType.
+         */
         getGameMode(): $GameType;
+        isExperimental(): boolean;
         static PLAY_WORLD: $Component;
-        constructor(arg0: $LevelSettings, arg1: $LevelVersion, arg2: string, arg3: boolean, arg4: boolean, arg5: boolean, arg6: $Path_);
+        constructor(settings: $LevelSettings, levelVersion: $LevelVersion, levelId: string, requiresManualConversion: boolean, locked: boolean, experimental: boolean, icon: $Path_);
         get locked(): boolean;
         get levelName(): string;
         get info(): $Component;
         get settings(): $LevelSettings;
-        get compatible(): boolean;
-        get icon(): $Path;
         get worldVersionName(): $MutableComponent;
-        get experimental(): boolean;
-        get hardcore(): boolean;
-        get levelId(): string;
-        get lastPlayed(): number;
+        get icon(): $Path;
         get downgrade(): boolean;
+        get lastPlayed(): number;
+        get levelId(): string;
+        get hardcore(): boolean;
+        get compatible(): boolean;
         get disabled(): boolean;
         get gameMode(): $GameType;
+        get experimental(): boolean;
     }
     export class $FileNameDateFormatter {
         static create(): $DateTimeFormatter;
@@ -526,7 +763,7 @@ declare module "@package/net/minecraft/world/level/storage" {
         static PLAYER_STATS_DIR: $LevelResource;
         static PLAYER_DATA_DIR: $LevelResource;
         static DATAPACK_DIR: $LevelResource;
-        constructor(arg0: string);
+        constructor(id: string);
         get id(): string;
     }
     /**

@@ -10,27 +10,27 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/sha
         static of(arg0: $ItemStack_): $List<$HitParticleData>;
         static of(arg0: $GunInfo_): $List<$HitParticleData>;
         getCount(): number;
-        isActivated(arg0: boolean): boolean;
         isExplosiveParticleAlternate(): boolean;
-        getParticle(arg0: $HolderLookup$Provider): $ParticleOptions;
+        isActivated(arg0: boolean): boolean;
+        getDZ(): number;
+        getDY(): number;
+        getDX(): number;
         getSpeed(): number;
+        getParticle(arg0: $HolderLookup$Provider): $ParticleOptions;
+        isAdaptiveBlockParticle(): boolean;
         isAaaParticle(): boolean;
         getParticleId(): $ResourceLocation;
         getAaaParticleData(): $AAAParticleData;
-        getDX(): number;
-        getDY(): number;
-        getDZ(): number;
-        isAdaptiveBlockParticle(): boolean;
         constructor();
         get count(): number;
         get explosiveParticleAlternate(): boolean;
+        get DZ(): number;
+        get DY(): number;
+        get DX(): number;
         get speed(): number;
+        get adaptiveBlockParticle(): boolean;
         get aaaParticle(): boolean;
         get particleId(): $ResourceLocation;
         get aaaParticleData(): $AAAParticleData;
-        get DX(): number;
-        get DY(): number;
-        get DZ(): number;
-        get adaptiveBlockParticle(): boolean;
     }
 }

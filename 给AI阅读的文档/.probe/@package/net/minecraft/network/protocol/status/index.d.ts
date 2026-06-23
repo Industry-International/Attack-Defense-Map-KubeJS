@@ -12,11 +12,14 @@ import { $ClientPongPacketListener, $ServerPingPacketListener } from "@package/n
 import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
 declare module "@package/net/minecraft/network/protocol/status" {
+    /**
+     * PacketListener for the server side of the STATUS protocol.
+     */
     export class $ServerStatusPacketListener {
     }
     export interface $ServerStatusPacketListener extends $ServerPacketListener, $ServerPingPacketListener {
         protocol(): $ConnectionProtocol;
-        handleStatusRequest(arg0: $ServerboundStatusRequestPacket): void;
+        handleStatusRequest(packet: $ServerboundStatusRequestPacket): void;
     }
     export class $ServerStatus$Players extends $Record {
         max(): number;
@@ -25,11 +28,14 @@ declare module "@package/net/minecraft/network/protocol/status" {
         static CODEC: $Codec<$ServerStatus$Players>;
         constructor(max: number, online: number, sample: $List_<$GameProfile>);
     }
+    /**
+     * PacketListener for the client side of the STATUS protocol.
+     */
     export class $ClientStatusPacketListener {
     }
     export interface $ClientStatusPacketListener extends $ClientPongPacketListener, $ClientboundPacketListener {
         protocol(): $ConnectionProtocol;
-        handleStatusResponse(arg0: $ClientboundStatusResponsePacket_): void;
+        handleStatusResponse(packet: $ClientboundStatusResponsePacket_): void;
     }
     export class $ServerStatus$Version extends $Record {
         name(): string;
@@ -41,20 +47,38 @@ declare module "@package/net/minecraft/network/protocol/status" {
     export class $ClientboundStatusResponsePacket extends $Record implements $Packet<$ClientStatusPacketListener> {
         type(): $PacketType<$ClientboundStatusResponsePacket>;
         status(): $ServerStatus;
-        handle(arg0: $ClientStatusPacketListener): void;
+        /**
+         * Passes this Packet on to the NetHandler for processing.
+         */
+        handle(handler: $ClientStatusPacketListener): void;
         cachedStatus(): string;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientboundStatusResponsePacket>;
         constructor(status: $ServerStatus_, cachedStatus: string);
-        constructor(arg0: $ServerStatus_);
+        constructor(status: $ServerStatus_);
         get skippable(): boolean;
         get terminal(): boolean;
     }
     export class $ServerboundStatusRequestPacket implements $Packet<$ServerStatusPacketListener> {
         type(): $PacketType<$ServerboundStatusRequestPacket>;
-        handle(arg0: $ServerStatusPacketListener): void;
+        /**
+         * Passes this Packet on to the NetHandler for processing.
+         */
+        handle(handler: $ServerStatusPacketListener): void;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         static INSTANCE: $ServerboundStatusRequestPacket;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $ServerboundStatusRequestPacket>;
@@ -75,9 +99,9 @@ declare module "@package/net/minecraft/network/protocol/status" {
         version(): ($ServerStatus$Version) | undefined;
         description(): $Component;
         players(): ($ServerStatus$Players) | undefined;
-        favicon(): ($ServerStatus$Favicon) | undefined;
-        preventsChatReports(): boolean;
         setPreventsChatReports(arg0: boolean): void;
+        preventsChatReports(): boolean;
+        favicon(): ($ServerStatus$Favicon) | undefined;
         isModded(): boolean;
         enforcesSecureChat(): boolean;
         static CODEC: $Codec<$ServerStatus>;

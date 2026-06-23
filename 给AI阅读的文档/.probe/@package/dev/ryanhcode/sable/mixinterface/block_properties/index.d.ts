@@ -6,7 +6,7 @@ declare module "@package/dev/ryanhcode/sable/mixinterface/block_properties" {
     export class $BlockStateExtension {
     }
     export interface $BlockStateExtension {
-        sable$loadProperties(arg0: $StateDefinition<$Block_, $BlockState_>, arg1: $PhysicsBlockPropertiesDefinition_): void;
         sable$getProperty<T>(arg0: $PhysicsBlockPropertyTypes$PhysicsBlockPropertyType_<T>): T;
+        sable$loadProperties(arg0: $StateDefinition<$Block_, $BlockState_>, arg1: $PhysicsBlockPropertiesDefinition_): void;
     }
 }

@@ -12,8 +12,8 @@ declare module "@package/com/simibubi/create/api/equipment/goggles" {
     export class $IHaveGoggleInformation {
     }
     export interface $IHaveGoggleInformation extends $IHaveCustomOverlayIcon {
-        containedFluidTooltip(arg0: $List_<$Component_>, arg1: boolean, arg2: $IFluidHandler): boolean;
         addToGoggleTooltip(arg0: $List_<$Component_>, arg1: boolean): boolean;
+        containedFluidTooltip(arg0: $List_<$Component_>, arg1: boolean, arg2: $IFluidHandler): boolean;
     }
     export class $IHaveCustomOverlayIcon {
     }

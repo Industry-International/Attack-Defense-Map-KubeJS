@@ -19,26 +19,26 @@ declare module "@package/xaero/map/gui" {
     export class $MapTileSelection {
         getLeft(): number;
         getRight(): number;
+        getEndX(): number;
         getBottom(): number;
         getTop(): number;
-        getEndX(): number;
+        getStartX(): number;
+        setEnd(arg0: number, arg1: number): void;
         getEndZ(): number;
         getStartZ(): number;
-        setEnd(arg0: number, arg1: number): void;
-        getStartX(): number;
         constructor(arg0: number, arg1: number);
         get left(): number;
         get right(): number;
+        get endX(): number;
         get bottom(): number;
         get top(): number;
-        get endX(): number;
+        get startX(): number;
         get endZ(): number;
         get startZ(): number;
-        get startX(): number;
     }
     export class $ExportScreen extends $GuiSettings {
-        primaryOptionEntry<T>(arg0: $ConfigOption<T>): $ConfigOptionScreenEntry<T>;
         getSelection(): $MapTileSelection;
+        primaryOptionEntry<T>(arg0: $ConfigOption<T>): $ConfigOptionScreenEntry<T>;
         onExportDone(arg0: $PNGExportResult): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;

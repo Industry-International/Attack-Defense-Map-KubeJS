@@ -10,8 +10,8 @@ declare module "@package/dev/ryanhcode/sable/sound" {
     export class $SoundInstanceDelegated {
     }
     export interface $SoundInstanceDelegated {
-        setDelegate(arg0: $MovingSoundInstanceDelegate): void;
         getDelegate(): $MovingSoundInstanceDelegate;
+        setDelegate(arg0: $MovingSoundInstanceDelegate): void;
     }
     export class $MovingSoundInstanceDelegate implements $SoundInstance, $TickableSoundInstance {
         getLocation(): $ResourceLocation;
@@ -20,19 +20,19 @@ declare module "@package/dev/ryanhcode/sable/sound" {
         unload(arg0: $Channel): void;
         tick(): void;
         getSource(): $SoundSource;
-        getDelay(): number;
         getY(): number;
-        getX(): number;
+        getDelay(): number;
         isStopped(): boolean;
         getStream(arg0: $SoundBufferLibrary, arg1: $Sound, arg2: boolean): $CompletableFuture<any>;
-        getZ(): number;
-        getVolume(): number;
-        getPitch(): number;
-        getSound(): $Sound;
         isLooping(): boolean;
-        canStartSilent(): boolean;
         getAttenuation(): $SoundInstance$Attenuation;
+        canStartSilent(): boolean;
         canPlaySound(): boolean;
+        getPitch(): number;
+        getVolume(): number;
+        getZ(): number;
+        getX(): number;
+        getSound(): $Sound;
         tickWithChannel(arg0: $Channel): void;
         getAudioStream(arg0: $SoundBufferLibrary, arg1: $ResourceLocation_, arg2: boolean): $CompletableFuture<$AudioStream>;
         instance: $SoundInstance;
@@ -40,15 +40,15 @@ declare module "@package/dev/ryanhcode/sable/sound" {
         get location(): $ResourceLocation;
         get relative(): boolean;
         get source(): $SoundSource;
-        get delay(): number;
         get y(): number;
-        get x(): number;
+        get delay(): number;
         get stopped(): boolean;
-        get z(): number;
-        get volume(): number;
-        get pitch(): number;
-        get sound(): $Sound;
         get looping(): boolean;
         get attenuation(): $SoundInstance$Attenuation;
+        get pitch(): number;
+        get volume(): number;
+        get z(): number;
+        get x(): number;
+        get sound(): $Sound;
     }
 }

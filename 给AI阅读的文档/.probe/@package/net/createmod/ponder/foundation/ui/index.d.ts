@@ -22,16 +22,16 @@ declare module "@package/net/createmod/ponder/foundation/ui" {
         static of(arg0: $ItemStack_, arg1: $PonderTag): $PonderUI;
         static of(arg0: $ItemStack_): $PonderUI;
         getSubject(): $ItemStack;
-        getFontRenderer(): $Font;
         static getPartialTicks(): number;
-        seekToTime(arg0: number): void;
+        static renderSpeechBox(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean, arg6: $Pointing_, arg7: boolean): void;
         coolDownAfterSkip(): void;
         getActiveScene(): $PonderScene;
-        static renderSpeechBox(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean, arg6: $Pointing_, arg7: boolean): void;
-        getHoveredTooltipItem(): $ItemStack;
         setComfyReadingEnabled(arg0: boolean): void;
-        updateIdentifiedItem(arg0: $PonderScene): void;
+        getFontRenderer(): $Font;
         isComfyReadingEnabled(): boolean;
+        updateIdentifiedItem(arg0: $PonderScene): void;
+        getHoveredTooltipItem(): $ItemStack;
+        seekToTime(arg0: number): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static IDENTIFY: string;
@@ -80,9 +80,9 @@ declare module "@package/net/createmod/ponder/foundation/ui" {
         static EXIT: string;
         font: $Font;
         get subject(): $ItemStack;
-        get fontRenderer(): $Font;
         static get partialTicks(): number;
         get activeScene(): $PonderScene;
+        get fontRenderer(): $Font;
         get hoveredTooltipItem(): $ItemStack;
     }
     export class $AbstractPonderScreen extends $NavigatableSimiScreen {

@@ -27,23 +27,17 @@ declare module "@package/com/lowdragmc/lowdraglib2/integration/kjs/ui" {
     export class $UIEventJS implements $KubeEvent, $MenuProvider, $IContainerUIHolder {
         getMenuType(): $MenuType<$ModularUIContainerMenu>;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -51,17 +45,23 @@ declare module "@package/com/lowdragmc/lowdraglib2/integration/kjs/ui" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         shouldTriggerClientSideContainerClosingOnOpen(): boolean;
         shouldCloseCurrentScreen(): boolean;
         level: $Level;
@@ -97,10 +97,10 @@ declare module "@package/com/lowdragmc/lowdraglib2/integration/kjs/ui" {
     }
     export class $LDKJSMenuTypes {
         static init(): void;
+        static onRegisterMenuScreensEvent(arg0: $RegisterMenuScreensEvent): void;
+        static openPlayerUI(arg0: $Player, arg1: string): boolean;
         static openHeldItemUI(arg0: $Player, arg1: $InteractionHand_, arg2: string): boolean;
         static openBlockUI(arg0: $Player, arg1: $BlockPos_, arg2: string): boolean;
-        static openPlayerUI(arg0: $Player, arg1: string): boolean;
-        static onRegisterMenuScreensEvent(arg0: $RegisterMenuScreensEvent): void;
         static PLAYER_UI: $Supplier<$MenuType<$ModularUIContainerMenu>>;
         static HELD_ITEM_UI: $Supplier<$MenuType<$ModularUIContainerMenu>>;
         static BLOCK_UI: $Supplier<$MenuType<$ModularUIContainerMenu>>;

@@ -4,26 +4,26 @@ import { $Object } from "@package/java/lang";
 
 declare module "@package/javax/management/openmbean" {
     export class $OpenType<T> implements $Serializable {
+        getDescription(): string;
         isArray(): boolean;
         getTypeName(): string;
         getClassName(): string;
         isValue(arg0: $Object): boolean;
-        getDescription(): string;
         static ALLOWED_CLASSNAMES_LIST: $List<string>;
         /**
          * @deprecated
          */
         static ALLOWED_CLASSNAMES: string[];
+        get description(): string;
         get array(): boolean;
         get typeName(): string;
         get className(): string;
-        get description(): string;
     }
     export class $CompositeType extends $OpenType<$CompositeData> {
+        getDescription(arg0: string): string;
         containsKey(arg0: string): boolean;
         keySet(): $Set<string>;
         getType(arg0: string): $OpenType<never>;
-        getDescription(arg0: string): string;
         static ALLOWED_CLASSNAMES_LIST: $List<string>;
         /**
          * @deprecated

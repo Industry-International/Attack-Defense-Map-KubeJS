@@ -24,11 +24,12 @@ import { $SableToastableServer } from "@package/dev/ryanhcode/sable/mixinterface
 
 declare module "@package/net/minecraft/client/server" {
     export class $LanServerDetection$LanServerList {
+        addServer(pingResponse: string, ipAddress: $InetAddress): void;
         takeDirtyServers(): $List<$LanServer>;
-        addServer(arg0: string, arg1: $InetAddress): void;
         constructor();
     }
     export class $IntegratedPlayerList extends $PlayerList {
+        getServer(): $IntegratedServer;
         static WHITELIST_FILE: $File;
         maxPlayers: number;
         static USERBANLIST_FILE: $File;
@@ -36,7 +37,8 @@ declare module "@package/net/minecraft/client/server" {
         static OPLIST_FILE: $File;
         static CHAT_FILTERED_FULL: $Component;
         static DUPLICATE_LOGIN_DISCONNECT_MESSAGE: $Component;
-        constructor(arg0: $IntegratedServer, arg1: $LayeredRegistryAccess<$RegistryLayer_>, arg2: $PlayerDataStorage);
+        constructor(server: $IntegratedServer, registries: $LayeredRegistryAccess<$RegistryLayer_>, playerIo: $PlayerDataStorage);
+        get server(): $IntegratedServer;
     }
     export class $LanServerDetection {
         static UNIQUE_THREAD_ID: $AtomicInteger;
@@ -44,12 +46,18 @@ declare module "@package/net/minecraft/client/server" {
         constructor();
     }
     export class $IntegratedServer extends $MinecraftServer implements $IDeferrableIntegratedServer, $IntegratedServerAccessor, $SableToastableServer {
-        setUUID(arg0: $UUID_): void;
+        setUUID(uuid: $UUID_): void;
+        /**
+         * Saves all necessary data as preparation for stopping the server.
+         */
         mfix$markClientLoadFinished(): void;
         sable$reportSubLevelPhysicsFailure(arg0: $ServerSubLevel): void;
         sable$reportSubLevelLoadFailure(arg0: $GlobalSavedSubLevelPointer_): void;
         sable$reportSubLevelSaveFailure(arg0: $SubLevelData): void;
         handler$zei000$openpartiesandclaims$onTickPaused(arg0: $CallbackInfo): void;
+        /**
+         * Initialises the server and starts it.
+         */
         isGamePaused(): boolean;
         static VANILLA_BRAND: string;
         proxy: $Proxy;
@@ -62,33 +70,36 @@ declare module "@package/net/minecraft/client/server" {
         static ABSOLUTE_MAX_WORLD_SIZE: number;
         static DEMO_SETTINGS: $LevelSettings;
         playerDataStorage: $PlayerDataStorage;
-        constructor(arg0: $Thread, arg1: $Minecraft, arg2: $LevelStorageSource$LevelStorageAccess, arg3: $PackRepository, arg4: $WorldStem_, arg5: $Services_, arg6: $ChunkProgressListenerFactory_);
+        constructor(serverThread: $Thread, minecraft: $Minecraft, storageSource: $LevelStorageSource$LevelStorageAccess, packRepository: $PackRepository, worldStem: $WorldStem_, services: $Services_, progressListenerFactory: $ChunkProgressListenerFactory_);
         set UUID(value: $UUID_);
         get gamePaused(): boolean;
     }
     export class $LanServer {
         getAddress(): string;
-        getMotd(): string;
+        /**
+         * Updates the time this LanServer was last seen.
+         */
         updatePingTime(): void;
-        constructor(arg0: string, arg1: string);
+        getMotd(): string;
+        constructor(motd: string, address: string);
         get address(): string;
         get motd(): string;
     }
     export class $LanServerPinger extends $Thread {
-        static createPingString(arg0: string, arg1: string): string;
-        static parseAddress(arg0: string): string;
-        static parseMotd(arg0: string): string;
+        static parseMotd(pingResponse: string): string;
+        static parseAddress(pingResponse: string): string;
+        static createPingString(motdMessage: string, adMessage: string): string;
         static MULTICAST_GROUP: string;
         static PING_PORT: number;
         static MIN_PRIORITY: number;
         static MAX_PRIORITY: number;
         static NORM_PRIORITY: number;
-        constructor(arg0: string, arg1: string);
+        constructor(motd: string, serverAddress: string);
     }
     export class $LanServerDetection$LanServerDetector extends $Thread {
         static MIN_PRIORITY: number;
         static MAX_PRIORITY: number;
         static NORM_PRIORITY: number;
-        constructor(arg0: $LanServerDetection$LanServerList);
+        constructor(serverList: $LanServerDetection$LanServerList);
     }
 }

@@ -24,8 +24,8 @@ declare module "@package/xaero/lib/client/gui" {
     }
     export class $GuiSettings extends $ScreenBase implements $WidgetScreen {
         getScreen<S extends $Screen>(): S;
-        getEntriesCopy(): $ISettingEntry[];
         addButtonVisible(arg0: $AbstractWidget): void;
+        getEntriesCopy(): $ISettingEntry[];
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         parent: $Screen;
@@ -51,19 +51,19 @@ declare module "@package/xaero/lib/client/gui" {
         get entriesCopy(): $ISettingEntry[];
     }
     export class $ScreenBase extends $Screen implements $IScreenBase {
+        refresh(): void;
         onExit(arg0: $Screen): void;
         getIndex(arg0: $GuiEventListener): number;
-        canSkipWorldRender(): boolean;
-        renderEscapeScreen(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        refresh(): void;
-        replaceRenderableWidget(arg0: $AbstractWidget, arg1: $AbstractWidget): void;
         goBack(): void;
-        shouldSkipWorldRender(): boolean;
         static tryToGetEscape(arg0: $Screen): $Screen;
+        shouldSkipWorldRender(): boolean;
         getEscape(): $Screen;
-        onDropdownClosed(arg0: $DropDownWidget): void;
-        replaceWidget(arg0: $AbstractWidget, arg1: $AbstractWidget): void;
+        replaceRenderableWidget(arg0: $AbstractWidget, arg1: $AbstractWidget): void;
+        canSkipWorldRender(): boolean;
         onDropdownOpen(arg0: $DropDownWidget): void;
+        replaceWidget(arg0: $AbstractWidget, arg1: $AbstractWidget): void;
+        onDropdownClosed(arg0: $DropDownWidget): void;
+        renderEscapeScreen(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
         restoreFocus(arg0: number): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -88,8 +88,8 @@ declare module "@package/xaero/lib/client/gui" {
     export class $ISettingEntry {
     }
     export interface $ISettingEntry {
-        getStringForSearch(): string;
         createWidget(arg0: number, arg1: number, arg2: number): $AbstractWidget;
+        getStringForSearch(): string;
         get stringForSearch(): string;
     }
 }

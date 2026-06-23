@@ -14,13 +14,13 @@ declare module "@package/io/reactivex/rxjava3/disposables" {
     export class $Disposable {
         static empty(): $Disposable;
         static disposed(): $Disposable;
+        static toAutoCloseable(disposable: $Disposable): $AutoCloseable;
+        static fromSubscription(subscription: $Subscription): $Disposable;
+        static fromAutoCloseable(autoCloseable: $AutoCloseable_): $Disposable;
+        static fromRunnable(run: $Runnable_): $Disposable;
         static fromFuture(future: $Future<never>, allowInterrupt: boolean): $Disposable;
         static fromFuture(future: $Future<never>): $Disposable;
         static fromAction(action: $Action_): $Disposable;
-        static fromSubscription(subscription: $Subscription): $Disposable;
-        static toAutoCloseable(disposable: $Disposable): $AutoCloseable;
-        static fromAutoCloseable(autoCloseable: $AutoCloseable_): $Disposable;
-        static fromRunnable(run: $Runnable_): $Disposable;
     }
     export interface $Disposable {
         dispose(): void;

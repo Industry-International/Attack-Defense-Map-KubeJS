@@ -27,19 +27,22 @@ import { $DamageType } from "@package/net/minecraft/world/damagesource";
 
 declare module "@package/net/minecraft/data/tags" {
     export class $ItemTagsProvider extends $IntrinsicHolderTagsProvider<$Item> {
-        copy(arg0: $TagKey_<$Block>, arg1: $TagKey_<$Item>): void;
+        /**
+         * Copies the entries from a block tag into an item tag.
+         */
+        copy(blockTag: $TagKey_<$Block>, itemTag: $TagKey_<$Item>): void;
         registryKey: $ResourceKey<$Registry<$Item>>;
         builders: $Map<$ResourceLocation, $TagBuilder>;
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, blockTags: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $CompletableFuture<$TagsProvider$TagLookup_<$Item>>, arg3: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>, arg4: string, arg5: $ExistingFileHelper);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>, arg3: string, arg4: $ExistingFileHelper);
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $CompletableFuture<$TagsProvider$TagLookup_<$Item>>, arg3: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>);
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, parentProvider: $CompletableFuture<$TagsProvider$TagLookup_<$Item>>, blockTags: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>);
     }
     export class $GameEventTagsProvider extends $TagsProvider<$GameEvent> {
         registryKey: $ResourceKey<$Registry<$GameEvent>>;
@@ -51,7 +54,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $FlatLevelGeneratorPresetTagsProvider extends $TagsProvider<$FlatLevelGeneratorPreset> {
@@ -63,7 +66,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $DamageTypeTagsProvider extends $TagsProvider<$DamageType> {
@@ -75,7 +78,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $EntityTypeTagsProvider extends $IntrinsicHolderTagsProvider<$EntityType<never>> {
@@ -87,7 +90,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $PoiTypeTagsProvider extends $TagsProvider<$PoiType> {
@@ -99,7 +102,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $StructureTagsProvider extends $TagsProvider<$Structure> {
@@ -111,7 +114,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $BiomeTagsProvider extends $TagsProvider<$Biome> {
@@ -123,7 +126,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $TradeRebalanceEnchantmentTagsProvider extends $TagsProvider<$Enchantment> {
@@ -132,7 +135,7 @@ declare module "@package/net/minecraft/data/tags" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(packOutput: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
     }
     export class $IntrinsicHolderTagsProvider<T> extends $TagsProvider<T> {
         registryKey: $ResourceKey<$Registry<T>>;
@@ -145,20 +148,20 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $ResourceKey_<$Registry<T>>, arg2: $CompletableFuture<$HolderLookup$Provider>, arg3: $CompletableFuture<$TagsProvider$TagLookup_<T>>, arg4: $Function_<T, $ResourceKey<T>>);
+        constructor(output: $PackOutput, registryKey: $ResourceKey_<$Registry<T>>, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, parentProvider: $CompletableFuture<$TagsProvider$TagLookup_<T>>, keyExtractor: $Function_<T, $ResourceKey<T>>);
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $ResourceKey_<$Registry<T>>, arg2: $CompletableFuture<$HolderLookup$Provider>, arg3: $Function_<T, $ResourceKey<T>>);
+        constructor(output: $PackOutput, registryKey: $ResourceKey_<$Registry<T>>, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, keyExtractor: $Function_<T, $ResourceKey<T>>);
     }
     export class $EnchantmentTagsProvider extends $TagsProvider<$Enchantment> {
-        tooltipOrder(arg0: $HolderLookup$Provider, ...arg1: $ResourceKey_<$Enchantment>[]): void;
+        tooltipOrder(provider: $HolderLookup$Provider, ...values: $ResourceKey_<$Enchantment>[]): void;
         registryKey: $ResourceKey<$Registry<$Enchantment>>;
         builders: $Map<$ResourceLocation, $TagBuilder>;
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $PaintingVariantTagsProvider extends $TagsProvider<$PaintingVariant> {
@@ -170,7 +173,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $FluidTagsProvider extends $IntrinsicHolderTagsProvider<$Fluid> {
@@ -182,41 +185,41 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $TagsProvider$TagAppender<T> implements $ITagAppenderExtension<T> {
-        add(...arg0: $ResourceKey_<T>[]): $TagsProvider$TagAppender<T>;
+        add(...keys: $ResourceKey_<T>[]): $TagsProvider$TagAppender<T>;
         add(arg0: $TagEntry): $TagsProvider$TagAppender<T>;
-        add(arg0: $ResourceKey_<T>): $TagsProvider$TagAppender<T>;
-        addAll(arg0: $List_<$ResourceKey_<T>>): $TagsProvider$TagAppender<T>;
-        addTag(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
-        addOptional(arg0: $ResourceLocation_): $TagsProvider$TagAppender<T>;
+        add(key: $ResourceKey_<T>): $TagsProvider$TagAppender<T>;
+        addAll(keys: $List_<$ResourceKey_<T>>): $TagsProvider$TagAppender<T>;
+        getInternalBuilder(): $TagBuilder;
         /**
          * @deprecated
          */
         getModID(): string;
-        getInternalBuilder(): $TagBuilder;
-        addOptionalTag(arg0: $ResourceLocation_): $TagsProvider$TagAppender<T>;
+        addOptional(location: $ResourceLocation_): $TagsProvider$TagAppender<T>;
+        addOptionalTag(location: $ResourceLocation_): $TagsProvider$TagAppender<T>;
+        addTag(tag: $TagKey_<T>): $TagsProvider$TagAppender<T>;
         remove(arg0: $TagKey_<T>, ...arg1: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
         remove(arg0: $ResourceLocation_, ...arg1: $ResourceLocation_[]): $TagsProvider$TagAppender<T>;
-        remove(arg0: $ResourceKey_<T>): $TagsProvider$TagAppender<T>;
+        remove(key: $ResourceKey_<T>): $TagsProvider$TagAppender<T>;
         remove(arg0: $ResourceKey_<T>, ...arg1: $ResourceKey_<T>[]): $TagsProvider$TagAppender<T>;
-        remove(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
-        remove(arg0: $ResourceLocation_): $TagsProvider$TagAppender<T>;
-        replace(arg0: boolean): $TagsProvider$TagAppender<T>;
+        remove(tag: $TagKey_<T>): $TagsProvider$TagAppender<T>;
+        remove(location: $ResourceLocation_): $TagsProvider$TagAppender<T>;
+        replace(value: boolean): $TagsProvider$TagAppender<T>;
         replace(): $TagsProvider$TagAppender<T>;
-        addTags(...arg0: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
         addOptionalTags(...arg0: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
-        addOptionalTag(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
+        addOptionalTag(tag: $TagKey_<T>): $TagsProvider$TagAppender<T>;
+        addTags(...arg0: $TagKey_<T>[]): $TagsProvider$TagAppender<T>;
         builder: $TagBuilder;
-        constructor(arg0: $TagBuilder);
+        constructor(builder: $TagBuilder);
         /**
          * @deprecated
          */
         constructor(arg0: $TagBuilder, arg1: string);
-        get modID(): string;
         get internalBuilder(): $TagBuilder;
+        get modID(): string;
     }
     export class $BannerPatternTagsProvider extends $TagsProvider<$BannerPattern> {
         registryKey: $ResourceKey<$Registry<$BannerPattern>>;
@@ -227,7 +230,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $VanillaEnchantmentTagsProvider extends $EnchantmentTagsProvider {
@@ -236,7 +239,7 @@ declare module "@package/net/minecraft/data/tags" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>);
     }
     export class $CatVariantTagsProvider extends $TagsProvider<$CatVariant> {
         registryKey: $ResourceKey<$Registry<$CatVariant>>;
@@ -247,14 +250,14 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $TagsProvider$TagLookup<T> {
         static empty<T>(): $TagsProvider$TagLookup<T>;
     }
     export interface $TagsProvider$TagLookup<T> extends $Function<$TagKey<T>, ($TagBuilder) | undefined> {
-        contains(arg0: $TagKey_<$TagKey<T>>): boolean;
+        contains(key: $TagKey_<$TagKey<T>>): boolean;
     }
     /**
      * Values that may be interpreted as {@link $TagsProvider$TagLookup}.
@@ -269,19 +272,19 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
     export class $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T> extends $TagsProvider$TagAppender<T> implements $IIntrinsicHolderTagAppenderExtension<T> {
-        add(...arg0: T[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
-        add(arg0: T): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        add(...values: T[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        add(value: T): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
         getKey(arg0: T): $ResourceKey<T>;
-        addTag(arg0: $TagKey_<T>): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        addTag(tag: $TagKey_<T>): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
         remove(arg0: $ResourceKey_<T>, ...arg1: $ResourceKey_<T>[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
-        remove(arg0: $ResourceKey_<T>): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
-        remove(arg0: T): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        remove(resourceKey: $ResourceKey_<T>): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        remove(value: T): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
         remove(arg0: T, ...arg1: T[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
-        replace(arg0: boolean): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
+        replace(value: boolean): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
         addTags(...arg0: $TagKey_<T>[]): $IntrinsicHolderTagsProvider$IntrinsicTagAppender<T>;
         builder: $TagBuilder;
         constructor(arg0: $TagBuilder, arg1: $Function_<T, $ResourceKey<T>>, arg2: string);
@@ -300,7 +303,7 @@ declare module "@package/net/minecraft/data/tags" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>);
     }
     export class $VanillaBlockTagsProvider extends $IntrinsicHolderTagsProvider<$Block> {
         registryKey: $ResourceKey<$Registry<$Block>>;
@@ -308,31 +311,34 @@ declare module "@package/net/minecraft/data/tags" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>);
     }
     export class $TagsProvider$1CombinedData<T> extends $Record {
     }
     export class $TagsProvider<T> implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
+        run(output: $CachedOutput_): $CompletableFuture<never>;
         getPath(arg0: $ResourceLocation_): $Path;
-        tag(arg0: $TagKey_<T>): $TagsProvider$TagAppender<T>;
+        tag(tag: $TagKey_<T>): $TagsProvider$TagAppender<T>;
         contentsGetter(): $CompletableFuture<$TagsProvider$TagLookup<T>>;
-        getOrCreateRawBuilder(arg0: $TagKey_<T>): $TagBuilder;
+        addTags(provider: $HolderLookup$Provider): void;
+        getOrCreateRawBuilder(tag: $TagKey_<T>): $TagBuilder;
         createContentsProvider(): $CompletableFuture<$HolderLookup$Provider>;
-        addTags(arg0: $HolderLookup$Provider): void;
         registryKey: $ResourceKey<$Registry<T>>;
         builders: $Map<$ResourceLocation, $TagBuilder>;
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $ResourceKey_<$Registry<T>>, arg2: $CompletableFuture<$HolderLookup$Provider>);
-        constructor(arg0: $PackOutput, arg1: $ResourceKey_<$Registry<T>>, arg2: $CompletableFuture<$HolderLookup$Provider>, arg3: $CompletableFuture<$TagsProvider$TagLookup_<T>>, arg4: string, arg5: $ExistingFileHelper);
+        constructor(output: $PackOutput, registryKey: $ResourceKey_<$Registry<T>>, lookupProvider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $ResourceKey_<$Registry<T>>, arg2: $CompletableFuture<$HolderLookup$Provider>, arg3: string, arg4: $ExistingFileHelper);
+        constructor(arg0: $PackOutput, arg1: $ResourceKey_<$Registry<T>>, arg2: $CompletableFuture<$HolderLookup$Provider>, arg3: $CompletableFuture<$TagsProvider$TagLookup_<T>>, arg4: string, arg5: $ExistingFileHelper);
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $ResourceKey_<$Registry<T>>, arg2: $CompletableFuture<$HolderLookup$Provider>, arg3: $CompletableFuture<$TagsProvider$TagLookup_<T>>);
+        constructor(output: $PackOutput, registryKey: $ResourceKey_<$Registry<T>>, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, parentProvider: $CompletableFuture<$TagsProvider$TagLookup_<T>>);
         get name(): string;
     }
     export class $InstrumentTagsProvider extends $TagsProvider<$Instrument> {
@@ -344,7 +350,7 @@ declare module "@package/net/minecraft/data/tags" {
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(output: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: string, arg3: $ExistingFileHelper);
     }
 }

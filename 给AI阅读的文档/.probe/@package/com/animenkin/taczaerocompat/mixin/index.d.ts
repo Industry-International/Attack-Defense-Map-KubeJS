@@ -4,15 +4,15 @@ declare module "@package/com/animenkin/taczaerocompat/mixin" {
     export class $ParticleAccessor {
     }
     export interface $ParticleAccessor {
-        taczAero$getYo(): number;
+        taczAero$getXo(): number;
         taczAero$getX(): number;
-        taczAero$getLevel(): $ClientLevel;
         taczAero$getY(): number;
         taczAero$getZo(): number;
-        taczAero$getXo(): number;
-        taczAero$setZ(arg0: number): void;
         taczAero$setX(arg0: number): void;
+        taczAero$setZ(arg0: number): void;
+        taczAero$getYo(): number;
         taczAero$setY(arg0: number): void;
+        taczAero$getLevel(): $ClientLevel;
         taczAero$getZ(): number;
     }
 }

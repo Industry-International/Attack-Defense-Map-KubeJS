@@ -31,8 +31,8 @@ declare module "@package/com/moulberry/axiom/world_properties" {
         get localizedName(): string;
     }
     export class $WorldPropertyDataType<T> {
-        deserialize(arg0: number[]): T;
         serialize(arg0: T): number[];
+        deserialize(arg0: number[]): T;
         getTypeId(): number;
         static ITEM: $WorldPropertyDataType<$Item>;
         static BLOCK: $WorldPropertyDataType<$Block>;

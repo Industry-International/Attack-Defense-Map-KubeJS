@@ -17,10 +17,10 @@ import { $ArgumentType } from "@package/com/mojang/brigadier/arguments";
 
 declare module "@package/dev/latvian/mods/kubejs/command" {
     export class $StageCommands {
-        static removeStage(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>, stage: string): number;
-        static clearStages(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>): number;
         static listStages(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>): number;
         static addStage(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>, stage: string): number;
+        static clearStages(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>): number;
+        static removeStage(source: $CommandSourceStack, players: $Collection_<$ServerPlayer>, stage: string): number;
         constructor();
     }
     export class $ArgumentTypeWrappers extends $Enum<$ArgumentTypeWrappers> implements $ArgumentTypeWrapper {
@@ -106,17 +106,11 @@ declare module "@package/dev/latvian/mods/kubejs/command" {
     export class $CommandRegistryKubeEvent implements $KubeEvent {
         register(command: $LiteralArgumentBuilder<$CommandSourceStack>): $LiteralCommandNode<$CommandSourceStack>;
         getArguments(): typeof $ArgumentTypeWrappers;
-        getRegistry(): $CommandBuildContext;
         getCommands(): typeof $Commands;
+        getRegistry(): $CommandBuildContext;
+        getBuiltinSuggestions(): typeof $SharedSuggestionProvider;
         isForSinglePlayer(): boolean;
         isForMultiPlayer(): boolean;
-        getBuiltinSuggestions(): typeof $SharedSuggestionProvider;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -124,11 +118,11 @@ declare module "@package/dev/latvian/mods/kubejs/command" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -136,33 +130,39 @@ declare module "@package/dev/latvian/mods/kubejs/command" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         selection: $Commands$CommandSelection;
         context: $CommandBuildContext;
         dispatcher: $CommandDispatcher<$CommandSourceStack>;
         constructor(dispatcher: $CommandDispatcher<$CommandSourceStack>, context: $CommandBuildContext, selection: $Commands$CommandSelection_);
         get arguments(): typeof $ArgumentTypeWrappers;
-        get registry(): $CommandBuildContext;
         get commands(): typeof $Commands;
+        get registry(): $CommandBuildContext;
+        get builtinSuggestions(): typeof $SharedSuggestionProvider;
         get forSinglePlayer(): boolean;
         get forMultiPlayer(): boolean;
-        get builtinSuggestions(): typeof $SharedSuggestionProvider;
     }
     export class $InformationCommands {
         static dump(stacks: $List_<$ItemStack_>, player: $ServerPlayer, name: string): number;
-        static hotbar(player: $ServerPlayer): number;
         static inventory(player: $ServerPlayer): number;
         static hand(player: $ServerPlayer, hand: $InteractionHand_): number;
+        static hotbar(player: $ServerPlayer): number;
         constructor();
     }
     export class $ArgumentFunction<U> {

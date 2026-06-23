@@ -14,8 +14,8 @@ declare module "@package/de/johni0702/minecraft/gui/utils/lwjgl" {
     export class $ReadableDimension {
     }
     export interface $ReadableDimension {
-        getWidth(): number;
         getSize(arg0: $WritableDimension): void;
+        getWidth(): number;
         getHeight(): number;
         get width(): number;
         get height(): number;
@@ -35,27 +35,27 @@ declare module "@package/de/johni0702/minecraft/gui/utils/lwjgl" {
         static ORANGE: $ReadableColor;
     }
     export interface $ReadableColor {
-        getAlpha(): number;
+        getRed(): number;
         getGreen(): number;
         getBlue(): number;
-        getRed(): number;
-        writeRGB(arg0: $ByteBuffer): void;
-        writeABGR(arg0: $ByteBuffer): void;
-        writeBGR(arg0: $ByteBuffer): void;
-        getRedByte(): number;
-        writeBGRA(arg0: $ByteBuffer): void;
-        writeARGB(arg0: $ByteBuffer): void;
-        writeRGBA(arg0: $ByteBuffer): void;
+        getAlpha(): number;
+        getAlphaByte(): number;
         getBlueByte(): number;
         getGreenByte(): number;
-        getAlphaByte(): number;
-        get alpha(): number;
+        writeARGB(arg0: $ByteBuffer): void;
+        writeBGRA(arg0: $ByteBuffer): void;
+        writeRGBA(arg0: $ByteBuffer): void;
+        writeABGR(arg0: $ByteBuffer): void;
+        getRedByte(): number;
+        writeRGB(arg0: $ByteBuffer): void;
+        writeBGR(arg0: $ByteBuffer): void;
+        get red(): number;
         get green(): number;
         get blue(): number;
-        get red(): number;
-        get redByte(): number;
+        get alpha(): number;
+        get alphaByte(): number;
         get blueByte(): number;
         get greenByte(): number;
-        get alphaByte(): number;
+        get redByte(): number;
     }
 }

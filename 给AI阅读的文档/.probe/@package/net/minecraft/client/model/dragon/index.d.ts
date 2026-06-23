@@ -5,6 +5,6 @@ import { $ModelPart } from "@package/net/minecraft/client/model/geom";
 declare module "@package/net/minecraft/client/model/dragon" {
     export class $DragonHeadModel extends $SkullModelBase {
         static createHeadLayer(): $LayerDefinition;
-        constructor(arg0: $ModelPart);
+        constructor(root: $ModelPart);
     }
 }

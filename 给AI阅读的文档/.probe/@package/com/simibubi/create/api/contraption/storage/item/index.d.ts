@@ -30,36 +30,36 @@ declare module "@package/com/simibubi/create/api/contraption/storage/item" {
         storages: $ImmutableMap<$BlockPos, $MountedItemStorage>;
         constructor(arg0: $ImmutableMap<$BlockPos_, $MountedItemStorage>);
     }
-    export interface $MountedItemStorageType extends RegistryMarked<RegistryTypes.CreateMountedItemStorageTypeTag, RegistryTypes.CreateMountedItemStorageType> {}
+    export interface $MountedItemStorageType<T> extends RegistryMarked<RegistryTypes.CreateMountedItemStorageTypeTag, RegistryTypes.CreateMountedItemStorageType> {}
     export class $MountedItemStorage implements $IItemHandlerModifiable {
         unmount(arg0: $Level_, arg1: $BlockState_, arg2: $BlockPos_, arg3: $BlockEntity): void;
+        wrapMethod$dal000$offroad$wrapHandler(arg0: $StructureTemplate$StructureBlockInfo_, arg1: $Contraption, arg2: $Operation_<any>): $IItemHandlerModifiable;
         handleInteraction(arg0: $ServerPlayer, arg1: $Contraption, arg2: $StructureTemplate$StructureBlockInfo_): boolean;
-        wrapMethod$dfg000$offroad$wrapHandler(arg0: $StructureTemplate$StructureBlockInfo_, arg1: $Contraption, arg2: $Operation_<any>): $IItemHandlerModifiable;
-        kjs$getBlock(level: $Level_): $LevelBlock;
-        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
-        kjs$isMutable(): boolean;
         kjs$self(): $IItemHandler;
-        isEmpty(): boolean;
-        getHeight(): number;
-        setChanged(): void;
-        getWidth(): number;
-        asContainer(): $Container;
-        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        countNonEmpty(): number;
-        countNonEmpty(match: $ItemPredicate_): number;
-        getAllItems(): $List<$ItemStack>;
-        count(match: $ItemPredicate_): number;
-        count(): number;
+        kjs$getBlock(level: $Level_): $LevelBlock;
+        kjs$isMutable(): boolean;
+        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
         find(): number;
         find(match: $ItemPredicate_): number;
         clear(): void;
         clear(match: $ItemPredicate_): void;
-        getSlotLimit(slot: number): number;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        count(): number;
+        count(match: $ItemPredicate_): number;
+        isEmpty(): boolean;
+        countNonEmpty(match: $ItemPredicate_): number;
+        countNonEmpty(): number;
+        getHeight(): number;
+        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getWidth(): number;
+        setChanged(): void;
+        asContainer(): $Container;
+        getAllItems(): $List<$ItemStack>;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        getSlotLimit(slot: number): number;
         static CODEC: $Codec<$MountedItemStorage>;
         type: $MountedItemStorageType<$MountedItemStorage>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $MountedItemStorage>;

@@ -69,8 +69,8 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     }
     export interface $PotionBrewingAccessor {
         create$isContainer(arg0: $ItemStack_): boolean;
-        create$getPotionMixes(): $List<$PotionBrewing$Mix<$Potion>>;
         create$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
+        create$getPotionMixes(): $List<$PotionBrewing$Mix<$Potion>>;
     }
     export class $DispenserBlockAccessor {
     }
@@ -93,15 +93,15 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     export class $GuiAccessor {
     }
     export interface $GuiAccessor {
+        create$getSubtitleOverlay(): $SubtitleOverlay;
         create$getToolHighlightTimer(): number;
         create$renderTextureOverlay(arg0: $GuiGraphics, arg1: $ResourceLocation_, arg2: number): void;
-        create$getSubtitleOverlay(): $SubtitleOverlay;
     }
     export class $ProjectileDispenseBehaviorAccessor {
     }
     export interface $ProjectileDispenseBehaviorAccessor {
-        create$getProjectileItem(): $ProjectileItem;
         create$getDispenseConfig(): $ProjectileItem$DispenseConfig;
+        create$getProjectileItem(): $ProjectileItem;
     }
     export class $MinecartFurnaceAccessor {
     }
@@ -152,8 +152,8 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     export class $LevelRendererAccessor {
     }
     export interface $LevelRendererAccessor {
-        create$getCapturedFrustum(): $Frustum;
         create$getCullingFrustum(): $Frustum;
+        create$getCapturedFrustum(): $Frustum;
     }
     export class $CropBlockAccessor {
     }
@@ -177,8 +177,8 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
         static create$getArmorLocationCache(): $Map<string, $ResourceLocation>;
     }
     export interface $HumanoidArmorLayerAccessor {
-        create$getOuterModel(): $HumanoidModel<never>;
         create$getInnerModel(): $HumanoidModel<never>;
+        create$getOuterModel(): $HumanoidModel<never>;
         create$callSetPartVisibility(arg0: $HumanoidModel<never>, arg1: $EquipmentSlot_): void;
     }
     export class $UseOnContextAccessor {
@@ -232,8 +232,8 @@ declare module "@package/com/simibubi/create/foundation/mixin/accessor" {
     }
     export interface $GameTestHelperAccessor {
         getTestInfo(): $GameTestInfo;
-        getFinalCheckAdded(): boolean;
         setFinalCheckAdded(arg0: boolean): void;
+        getFinalCheckAdded(): boolean;
         get testInfo(): $GameTestInfo;
     }
     export class $ServerLevelAccessor {

@@ -9,6 +9,12 @@ import { $VillagerProfession, $VillagerTrades$ItemListing_, $VillagerTrades$Item
 import { $Vec3_, $Vec3 } from "@package/net/minecraft/world/phys";
 
 declare module "@package/net/neoforged/neoforge/event/village" {
+    /**
+     * WandererTradesEvent is fired during reload by `TagsUpdatedEvent`. It is used to gather the trade lists for the wandering merchant.
+     * It is fired on the `NeoForge#EVENT_BUS`.
+     * The wandering merchant picks a few trades from `generic` and a single trade from `rare`.
+     * To add trades to the merchant, simply add new trades to the list. `BasicItemListing` provides a default implementation.
+     */
     export class $WandererTradesEvent extends $Event {
         getRegistryAccess(): $RegistryAccess;
         getRareTrades(): $List<$VillagerTrades$ItemListing>;
@@ -16,33 +22,53 @@ declare module "@package/net/neoforged/neoforge/event/village" {
         /**
          * @deprecated
          */
-        constructor(arg0: $List_<$VillagerTrades$ItemListing_>, arg1: $List_<$VillagerTrades$ItemListing_>);
-        constructor(arg0: $List_<$VillagerTrades$ItemListing_>, arg1: $List_<$VillagerTrades$ItemListing_>, arg2: $RegistryAccess);
+        constructor(generic: $List_<$VillagerTrades$ItemListing_>, rare: $List_<$VillagerTrades$ItemListing_>);
+        constructor(generic: $List_<$VillagerTrades$ItemListing_>, rare: $List_<$VillagerTrades$ItemListing_>, registryAccess: $RegistryAccess);
         get registryAccess(): $RegistryAccess;
         get rareTrades(): $List<$VillagerTrades$ItemListing>;
         get genericTrades(): $List<$VillagerTrades$ItemListing>;
     }
+    /**
+     * VillagerTradesEvent is fired during reload by `TagsUpdatedEvent`. It is used to gather the trade lists for each profession.
+     * It is fired on the `NeoForge#EVENT_BUS`.
+     * It is fired once for each registered villager profession.
+     * Villagers pick two trades from their trade map, based on their level.
+     * Villager level is increased by successful trades.
+     * The map is populated for levels 1-5 (inclusive), so Map#get will never return null for those keys.
+     * Levels outside of this range do nothing, as specified by `VillagerData#canLevelUp(int)` which is called before attempting to level up.
+     * To add trades to the merchant, simply add new trades to the list. `BasicItemListing` provides a default implementation.
+     */
     export class $VillagerTradesEvent extends $Event {
-        getType(): $VillagerProfession;
         getRegistryAccess(): $RegistryAccess;
+        getType(): $VillagerProfession;
         getTrades(): $Int2ObjectMap<$List<$VillagerTrades$ItemListing>>;
         /**
          * @deprecated
          */
-        constructor(arg0: $Int2ObjectMap<$List_<$VillagerTrades$ItemListing_>>, arg1: $VillagerProfession_);
-        constructor(arg0: $Int2ObjectMap<$List_<$VillagerTrades$ItemListing_>>, arg1: $VillagerProfession_, arg2: $RegistryAccess);
-        get type(): $VillagerProfession;
+        constructor(trades: $Int2ObjectMap<$List_<$VillagerTrades$ItemListing_>>, type: $VillagerProfession_);
+        constructor(trades: $Int2ObjectMap<$List_<$VillagerTrades$ItemListing_>>, type: $VillagerProfession_, registryAccess: $RegistryAccess);
         get registryAccess(): $RegistryAccess;
+        get type(): $VillagerProfession;
         get trades(): $Int2ObjectMap<$List<$VillagerTrades$ItemListing>>;
     }
+    /**
+     * VillageSiegeEvent is fired just before a zombie siege finds a successful location in
+     * `VillageSiege#tryToSetupSiege(ServerLevel)`, to give mods the chance to stop the siege.
+     * 
+     * This event is `ICancellableEvent`; canceling stops the siege.
+     * 
+     * This event does not have a result. `HasResult`
+     * 
+     * This event is fired on the `NeoForge#EVENT_BUS`.
+     */
     export class $VillageSiegeEvent extends $Event implements $ICancellableEvent {
         getLevel(): $Level;
         getPlayer(): $Player;
         getSiege(): $VillageSiege;
         getAttemptedSpawnPos(): $Vec3;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
-        constructor(arg0: $VillageSiege, arg1: $Level_, arg2: $Player, arg3: $Vec3_);
+        setCanceled(arg0: boolean): void;
+        constructor(siege: $VillageSiege, level: $Level_, player: $Player, attemptedSpawnPos: $Vec3_);
         get level(): $Level;
         get player(): $Player;
         get siege(): $VillageSiege;

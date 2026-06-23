@@ -14,24 +14,24 @@ declare module "@package/mezz/jei/api" {
     export class $IModPlugin {
     }
     export interface $IModPlugin {
-        registerVanillaCategoryExtensions(arg0: $IVanillaCategoryExtensionRegistration): void;
-        registerRecipeTransferHandlers(arg0: $IRecipeTransferRegistration): void;
-        registerAdvanced(arg0: $IAdvancedRegistration): void;
-        registerCategories(arg0: $IRecipeCategoryRegistration): void;
-        getPluginUid(): $ResourceLocation;
-        registerRuntime(arg0: $IRuntimeRegistration): void;
-        registerModInfo(arg0: $IModInfoRegistration_): void;
-        registerRecipes(arg0: $IRecipeRegistration): void;
-        onRuntimeAvailable(arg0: $IJeiRuntime): void;
-        registerItemSubtypes(arg0: $ISubtypeRegistration): void;
-        registerFluidSubtypes<T>(arg0: $ISubtypeRegistration, arg1: $IPlatformFluidHelper<T>): void;
         registerIngredients(arg0: $IModIngredientRegistration): void;
         registerExtraIngredients(arg0: $IExtraIngredientRegistration_): void;
-        registerIngredientAliases(arg0: $IIngredientAliasRegistration): void;
+        registerFluidSubtypes<T>(arg0: $ISubtypeRegistration, arg1: $IPlatformFluidHelper<T>): void;
         registerRecipeCatalysts(arg0: $IRecipeCatalystRegistration): void;
+        onRuntimeUnavailable(): void;
+        registerItemSubtypes(arg0: $ISubtypeRegistration): void;
         registerGuiHandlers(arg0: $IGuiHandlerRegistration): void;
         onConfigManagerAvailable(arg0: $IJeiConfigManager_): void;
-        onRuntimeUnavailable(): void;
+        registerIngredientAliases(arg0: $IIngredientAliasRegistration): void;
+        registerRecipes(arg0: $IRecipeRegistration): void;
+        registerVanillaCategoryExtensions(arg0: $IVanillaCategoryExtensionRegistration): void;
+        registerRecipeTransferHandlers(arg0: $IRecipeTransferRegistration): void;
+        registerRuntime(arg0: $IRuntimeRegistration): void;
+        getPluginUid(): $ResourceLocation;
+        registerCategories(arg0: $IRecipeCategoryRegistration): void;
+        registerModInfo(arg0: $IModInfoRegistration_): void;
+        registerAdvanced(arg0: $IAdvancedRegistration): void;
+        onRuntimeAvailable(arg0: $IJeiRuntime): void;
         get pluginUid(): $ResourceLocation;
     }
     /**

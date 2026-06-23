@@ -4,7 +4,11 @@ declare module "@package/net/blay09/mods/balm/api/entity" {
     export class $BalmEntity {
     }
     export interface $BalmEntity {
-        getFabricBalmData(): $CompoundTag;
         setFabricBalmData(arg0: $CompoundTag_): void;
+        setForgeBalmData(arg0: $CompoundTag_): void;
+        getFabricBalmData(): $CompoundTag;
+        getForgeBalmData(): $CompoundTag;
+        getNeoForgeBalmData(): $CompoundTag;
+        setNeoForgeBalmData(arg0: $CompoundTag_): void;
     }
 }

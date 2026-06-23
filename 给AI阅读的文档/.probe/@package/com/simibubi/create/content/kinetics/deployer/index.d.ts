@@ -50,21 +50,21 @@ import { $RegisterCapabilitiesEvent } from "@package/net/neoforged/neoforge/capa
 declare module "@package/com/simibubi/create/content/kinetics/deployer" {
     export class $DeployerBlockEntity extends $KineticBlockEntity implements $Clearable, $DeployerWorldMode {
         write(arg0: $CompoundTag_, arg1: $HolderLookup$Provider, arg2: boolean): void;
-        handler$zfg000$openpartiesandclaims$onActivate(arg0: $CallbackInfo): void;
-        clearContent(): void;
-        discardPlayer(): void;
-        redstoneUpdate(): void;
-        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
-        getRecipe(arg0: $ItemStack_): $RecipeHolder<$Recipe<$RecipeInput>>;
-        getPlayer(): $DeployerFakePlayer;
-        getHandPose(): $PartialModel;
-        changeMode(): void;
-        aero_addition$isWorldMode(): boolean;
-        aero_addition$setWorldMode(arg0: boolean): void;
         setAnimatedOffset(arg0: number): void;
         getHandOffset(arg0: number): number;
+        static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
+        discardPlayer(): void;
+        redstoneUpdate(): void;
+        clearContent(): void;
         triggerFistBump(): void;
         startFistBump(arg0: $Direction_): boolean;
+        getRecipe(arg0: $ItemStack_): $RecipeHolder<$Recipe<$RecipeInput>>;
+        getHandPose(): $PartialModel;
+        getPlayer(): $DeployerFakePlayer;
+        changeMode(): void;
+        handler$zfg000$openpartiesandclaims$onActivate(arg0: $CallbackInfo): void;
+        aero_addition$isWorldMode(): boolean;
+        aero_addition$setWorldMode(arg0: boolean): void;
         sequenceContext: $SequencedGearshiftBlockEntity$SequenceContext;
         networkDirty: boolean;
         worldPosition: $BlockPos;
@@ -76,9 +76,9 @@ declare module "@package/com/simibubi/create/content/kinetics/deployer" {
         preventSpeedUpdate: number;
         network: number;
         constructor(arg0: $BlockEntityType_<never>, arg1: $BlockPos_, arg2: $BlockState_);
-        get player(): $DeployerFakePlayer;
-        get handPose(): $PartialModel;
         set animatedOffset(value: number);
+        get handPose(): $PartialModel;
+        get player(): $DeployerFakePlayer;
     }
     export class $DeployerRecipeSearchEvent extends $Event implements $ICancellableEvent {
         getInventory(): $RecipeWrapper;
@@ -86,20 +86,20 @@ declare module "@package/com/simibubi/create/content/kinetics/deployer" {
         getRecipe(): $RecipeHolder<$Recipe<$RecipeInput>>;
         addRecipe(arg0: $Supplier_<($RecipeHolder<$Recipe<$RecipeInput>>) | undefined>, arg1: number): void;
         shouldAddRecipeWithPriority(arg0: number): boolean;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $DeployerBlockEntity, arg1: $RecipeWrapper);
         get inventory(): $RecipeWrapper;
         get blockEntity(): $DeployerBlockEntity;
         get recipe(): $RecipeHolder<$Recipe<$RecipeInput>>;
     }
     export class $DeployerFakePlayer extends $FakePlayer implements $MixinAccessorDeployerFakePlayer, $DeployerWorldPlacementContext {
-        aero_addition$setPlacementFaceOverride(arg0: $Direction_): void;
-        aero_addition$getPlacementFaceOverride(): $Direction;
+        static deployerKillsDoNotSpawnXP(arg0: $LivingExperienceDropEvent): void;
         static deployerHasEyesOnHisFeet(arg0: $EntityEvent$Size): void;
         static entitiesDontRetaliate(arg0: $LivingChangeTargetEvent): void;
-        static deployerKillsDoNotSpawnXP(arg0: $LivingExperienceDropEvent): void;
+        aero_addition$setPlacementFaceOverride(arg0: $Direction_): void;
         static deployerCollectsDropsFromKilledEntities(arg0: $LivingDropsEvent): void;
+        aero_addition$getPlacementFaceOverride(): $Direction;
         getBlockBreakingProgress(): $Pair<$BlockPos, number>;
         serializeNBT(arg0: $HolderLookup$Provider): $Player;
         lerpYRot: number;

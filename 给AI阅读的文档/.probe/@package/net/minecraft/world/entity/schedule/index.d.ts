@@ -31,7 +31,7 @@ declare module "@package/net/minecraft/world/entity/schedule" {
         static PRE_RAID: $Activity;
         static LAY_SPAWN: $Activity;
         static RAM: $Activity;
-        constructor(arg0: string);
+        constructor(name: string);
         get name(): string;
     }
     /**
@@ -42,32 +42,32 @@ declare module "@package/net/minecraft/world/entity/schedule" {
     }
     export class $ScheduleBuilder {
         build(): $Schedule;
-        changeActivityAt(arg0: number, arg1: $Activity_): $ScheduleBuilder;
-        constructor(arg0: $Schedule_);
+        changeActivityAt(duration: number, activity: $Activity_): $ScheduleBuilder;
+        constructor(schedule: $Schedule_);
     }
     export interface $Activity extends RegistryMarked<RegistryTypes.ActivityTag, RegistryTypes.Activity> {}
     export class $Keyframe {
         getValue(): number;
         getTimeStamp(): number;
-        constructor(arg0: number, arg1: number);
+        constructor(timestamp: number, value: number);
         get value(): number;
         get timeStamp(): number;
     }
     export interface $Schedule extends RegistryMarked<RegistryTypes.ScheduleTag, RegistryTypes.Schedule> {}
     export class $Timeline {
-        getValueAt(arg0: number): number;
+        getValueAt(dayTime: number): number;
+        addKeyframes(frames: $Collection_<$Keyframe>): $Timeline;
+        addKeyframe(duration: number, active: number): $Timeline;
         getKeyframes(): $ImmutableList<$Keyframe>;
-        addKeyframes(arg0: $Collection_<$Keyframe>): $Timeline;
-        addKeyframe(arg0: number, arg1: number): $Timeline;
         constructor();
         get keyframes(): $ImmutableList<$Keyframe>;
     }
     export class $Schedule {
-        static register(arg0: string): $ScheduleBuilder;
-        ensureTimelineExistsFor(arg0: $Activity_): void;
-        getAllTimelinesExceptFor(arg0: $Activity_): $List<$Timeline>;
-        getTimelineFor(arg0: $Activity_): $Timeline;
-        getActivityAt(arg0: number): $Activity;
+        ensureTimelineExistsFor(activity: $Activity_): void;
+        getAllTimelinesExceptFor(activity: $Activity_): $List<$Timeline>;
+        static register(key: string): $ScheduleBuilder;
+        getTimelineFor(activity: $Activity_): $Timeline;
+        getActivityAt(dayTime: number): $Activity;
         static WORK_START_TIME: number;
         static VILLAGER_DEFAULT: $Schedule;
         static VILLAGER_BABY: $Schedule;

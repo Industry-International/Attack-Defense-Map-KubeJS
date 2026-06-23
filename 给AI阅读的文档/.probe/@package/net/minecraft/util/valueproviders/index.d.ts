@@ -5,18 +5,18 @@ import { $RandomSource } from "@package/net/minecraft/util";
 
 declare module "@package/net/minecraft/util/valueproviders" {
     export class $ClampedNormalFloat extends $FloatProvider {
-        static of(arg0: number, arg1: number, arg2: number, arg3: number): $ClampedNormalFloat;
-        static sample(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number): number;
+        static of(mean: number, deviation: number, min: number, max: number): $ClampedNormalFloat;
+        static sample(random: $RandomSource, mean: number, deviation: number, min: number, max: number): number;
         static CODEC: $MapCodec<$ClampedNormalFloat>;
     }
     export class $TrapezoidFloat extends $FloatProvider {
-        static of(arg0: number, arg1: number, arg2: number): $TrapezoidFloat;
+        static of(min: number, max: number, plateau: number): $TrapezoidFloat;
         static CODEC: $MapCodec<$TrapezoidFloat>;
     }
-    export interface $FloatProviderType extends RegistryMarked<RegistryTypes.FloatProviderTypeTag, RegistryTypes.FloatProviderType> {}
-    export interface $IntProviderType extends RegistryMarked<RegistryTypes.IntProviderTypeTag, RegistryTypes.IntProviderType> {}
+    export interface $FloatProviderType<P> extends RegistryMarked<RegistryTypes.FloatProviderTypeTag, RegistryTypes.FloatProviderType> {}
+    export interface $IntProviderType<P> extends RegistryMarked<RegistryTypes.IntProviderTypeTag, RegistryTypes.IntProviderType> {}
     export class $FloatProviderType<P extends $FloatProvider> {
-        static register<P extends $FloatProvider>(arg0: string, arg1: $MapCodec_<P>): $FloatProviderType<P>;
+        static register<P extends $FloatProvider>(name: string, codec: $MapCodec_<P>): $FloatProviderType<P>;
         static UNIFORM: $FloatProviderType<$UniformFloat>;
         static CONSTANT: $FloatProviderType<$ConstantFloat>;
         static CLAMPED_NORMAL: $FloatProviderType<$ClampedNormalFloat>;
@@ -30,7 +30,7 @@ declare module "@package/net/minecraft/util/valueproviders" {
      */
     export type $FloatProviderType_<P> = RegistryTypes.FloatProviderType | (() => $MapCodec_<P>);
     export class $IntProviderType<P extends $IntProvider> {
-        static register<P extends $IntProvider>(arg0: string, arg1: $MapCodec_<P>): $IntProviderType<P>;
+        static register<P extends $IntProvider>(name: string, codec: $MapCodec_<P>): $IntProviderType<P>;
         static BIASED_TO_BOTTOM: $IntProviderType<$BiasedToBottomInt>;
         static CLAMPED: $IntProviderType<$ClampedInt>;
         static WEIGHTED_LIST: $IntProviderType<$WeightedListInt>;
@@ -49,22 +49,25 @@ declare module "@package/net/minecraft/util/valueproviders" {
         static CODEC: $MapCodec<$WeightedListInt>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;
         static POSITIVE_CODEC: $Codec<$IntProvider>;
-        constructor(arg0: $SimpleWeightedRandomList<$IntProvider_>);
+        constructor(distribution: $SimpleWeightedRandomList<$IntProvider_>);
     }
     export class $ClampedInt extends $IntProvider {
-        static of(arg0: $IntProvider_, arg1: number, arg2: number): $ClampedInt;
+        static of(source: $IntProvider_, minInclusive: number, maxInclusive: number): $ClampedInt;
         static CODEC: $MapCodec<$ClampedInt>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;
         static POSITIVE_CODEC: $Codec<$IntProvider>;
-        constructor(arg0: $IntProvider_, arg1: number, arg2: number);
+        constructor(source: $IntProvider_, minInclusive: number, maxInclusive: number);
     }
     export class $IntProvider {
         getType(): $IntProviderType<never>;
         getMinValue(): number;
         getMaxValue(): number;
-        static codec(arg0: number, arg1: number): $Codec<$IntProvider>;
-        static validateCodec<T extends $IntProvider>(arg0: number, arg1: number, arg2: $Codec<T>): $Codec<T>;
-        sample(arg0: $RandomSource): number;
+        /**
+         * Creates a codec for an IntProvider that only accepts numbers in the given range.
+         */
+        static codec(minInclusive: number, maxInclusive: number): $Codec<$IntProvider>;
+        static validateCodec<T extends $IntProvider>(min: number, max: number, codec: $Codec<T>): $Codec<T>;
+        sample(random: $RandomSource): number;
         static CODEC: $Codec<$IntProvider>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;
         static POSITIVE_CODEC: $Codec<$IntProvider>;
@@ -78,51 +81,51 @@ declare module "@package/net/minecraft/util/valueproviders" {
      */
     export type $IntProvider_ = number | [min: number, max: number, ] | { bounds: [min: number, max: number, ],  } | { min: number, max: number,  } | { min_inclusive: number, max_inclusive: number,  } | { value: number,  } | { clamped: $IntProvider,  } | { clamped_normal: $IntProvider,  };
     export class $UniformInt extends $IntProvider {
-        static of(arg0: number, arg1: number): $UniformInt;
+        static of(minInclusive: number, maxInclusive: number): $UniformInt;
         static CODEC: $MapCodec<$UniformInt>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;
         static POSITIVE_CODEC: $Codec<$IntProvider>;
     }
     export class $BiasedToBottomInt extends $IntProvider {
-        static of(arg0: number, arg1: number): $BiasedToBottomInt;
+        static of(minInclusive: number, maxInclusive: number): $BiasedToBottomInt;
         static CODEC: $MapCodec<$BiasedToBottomInt>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;
         static POSITIVE_CODEC: $Codec<$IntProvider>;
     }
     export class $MultipliedFloats implements $SampledFloat {
-        sample(arg0: $RandomSource): number;
-        constructor(...arg0: $SampledFloat_[]);
+        sample(random: $RandomSource): number;
+        constructor(...values: $SampledFloat_[]);
     }
     export class $SampledFloat {
     }
     export interface $SampledFloat {
-        sample(arg0: $RandomSource): number;
+        sample(random: $RandomSource): number;
     }
     /**
      * Values that may be interpreted as {@link $SampledFloat}.
      */
     export type $SampledFloat_ = ((arg0: $RandomSource) => number);
     export class $ClampedNormalInt extends $IntProvider {
-        static of(arg0: number, arg1: number, arg2: number, arg3: number): $ClampedNormalInt;
-        static sample(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number): number;
+        static of(mean: number, deviation: number, minInclusive: number, maxInclusive: number): $ClampedNormalInt;
+        static sample(random: $RandomSource, mean: number, deviation: number, minInclusive: number, maxInclusive: number): number;
         static CODEC: $MapCodec<$ClampedNormalInt>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;
         static POSITIVE_CODEC: $Codec<$IntProvider>;
     }
     export class $UniformFloat extends $FloatProvider {
-        static of(arg0: number, arg1: number): $UniformFloat;
+        static of(minInclusive: number, maxExclusive: number): $UniformFloat;
         static CODEC: $MapCodec<$UniformFloat>;
     }
     export class $ConstantFloat extends $FloatProvider {
         getValue(): number;
-        static of(arg0: number): $ConstantFloat;
+        static of(value: number): $ConstantFloat;
         static ZERO: $ConstantFloat;
         static CODEC: $MapCodec<$ConstantFloat>;
         get value(): number;
     }
     export class $ConstantInt extends $IntProvider {
         getValue(): number;
-        static of(arg0: number): $ConstantInt;
+        static of(value: number): $ConstantInt;
         static ZERO: $ConstantInt;
         static CODEC: $MapCodec<$ConstantInt>;
         static NON_NEGATIVE_CODEC: $Codec<$IntProvider>;
@@ -133,7 +136,10 @@ declare module "@package/net/minecraft/util/valueproviders" {
         getType(): $FloatProviderType<never>;
         getMinValue(): number;
         getMaxValue(): number;
-        static codec(arg0: number, arg1: number): $Codec<$FloatProvider>;
+        /**
+         * Creates a codec for a FloatProvider that only accepts numbers in the given range.
+         */
+        static codec(minInclusive: number, maxInclusive: number): $Codec<$FloatProvider>;
         static CODEC: $Codec<$FloatProvider>;
         constructor();
         get type(): $FloatProviderType<never>;

@@ -10,11 +10,11 @@ import { $BalmEvent } from "@package/net/blay09/mods/balm/api/event";
 
 declare module "@package/net/blay09/mods/waystones/api/event" {
     export class $WaystonesListReceivedEvent extends $BalmEvent {
-        getWaystones(): $List<$Waystone>;
         getWaystoneType(): $ResourceLocation;
+        getWaystones(): $List<$Waystone>;
         constructor(arg0: $ResourceLocation_, arg1: $List_<$Waystone>);
-        get waystones(): $List<$Waystone>;
         get waystoneType(): $ResourceLocation;
+        get waystones(): $List<$Waystone>;
     }
     export class $WaystoneInitializedEvent extends $BalmEvent {
         getWaystone(): $Waystone;
@@ -23,9 +23,9 @@ declare module "@package/net/blay09/mods/waystones/api/event" {
     }
     export class $WaystoneTeleportEvent$Pre extends $WaystoneTeleportEvent {
         getContext(): $WaystoneTeleportContext;
-        addAdditionalEntity(arg0: $Entity): void;
         getRequirements(): $WarpRequirement;
         setRequirements(arg0: $WarpRequirement): void;
+        addAdditionalEntity(arg0: $Entity): void;
         constructor(arg0: $WaystoneTeleportContext);
         get context(): $WaystoneTeleportContext;
     }

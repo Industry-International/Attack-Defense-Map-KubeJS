@@ -25,8 +25,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/utils" {
         static iconText<T>(arg0: $Function_<T, $IGuiTexture>, arg1: $Function_<T, $Component>): $UIElementProvider<T>;
     }
     export interface $UIElementProvider<T> extends $Function<T, $UIElement> {
-        apply(arg0: T): $UIElement;
         createUI(arg0: T): $UIElement;
+        apply(arg0: T): $UIElement;
     }
     /**
      * Values that may be interpreted as {@link $UIElementProvider}.
@@ -36,12 +36,12 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/utils" {
     }
     export interface $IHistoryStack {
         undo(): void;
-        redo(): void;
-        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: boolean): void;
-        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: $Object, arg3: boolean): void;
-        pushHistory(arg0: $Component_, arg1: $EditAction): void;
-        recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T): $SerializableRecordAction<T>;
         recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T, arg2: $Object): $SerializableRecordAction<T>;
+        recordSerializableObject<T extends $INBTSerializable<never>>(arg0: $Component_, arg1: T): $SerializableRecordAction<T>;
+        redo(): void;
+        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: $Object, arg3: boolean): void;
+        pushHistory(arg0: $Component_, arg1: $EditAction, arg2: boolean): void;
+        pushHistory(arg0: $Component_, arg1: $EditAction): void;
         jumpToHistory(arg0: $IHistoryStack$HistoryItem_): void;
     }
 }

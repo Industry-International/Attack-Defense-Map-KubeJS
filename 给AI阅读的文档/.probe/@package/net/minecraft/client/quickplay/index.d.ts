@@ -10,15 +10,15 @@ declare module "@package/net/minecraft/client/quickplay" {
     export class $QuickPlayLog$QuickPlayWorld extends $Record {
     }
     export class $QuickPlay {
-        static connect(arg0: $Minecraft, arg1: $GameConfig$QuickPlayData_, arg2: $RealmsClient): void;
+        static connect(minecraft: $Minecraft, quickPlayData: $GameConfig$QuickPlayData_, realmsClient: $RealmsClient): void;
         static ERROR_TITLE: $Component;
         constructor();
     }
     export class $QuickPlayLog {
-        log(arg0: $Minecraft): void;
-        static of(arg0: string): $QuickPlayLog;
-        setWorldData(arg0: $QuickPlayLog$Type_, arg1: string, arg2: string): void;
-        constructor(arg0: string);
+        log(minecraft: $Minecraft): void;
+        static of(path: string | null): $QuickPlayLog;
+        setWorldData(type: $QuickPlayLog$Type_, id: string, name: string): void;
+        constructor(path: string);
     }
     export class $QuickPlayLog$QuickPlayEntry extends $Record {
     }

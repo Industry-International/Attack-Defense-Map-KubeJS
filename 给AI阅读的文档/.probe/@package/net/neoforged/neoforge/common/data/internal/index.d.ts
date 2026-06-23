@@ -28,10 +28,13 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
+    /**
+     * Currently used only for replacing shears item to shears_dig item ability
+     */
     export class $NeoForgeLootTableProvider extends $LootTableProvider {
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(packOutput: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
     }
     export class $NeoForgeAdvancementProvider$NeoForgeAdvancementGenerator extends $Record implements $AdvancementProvider$AdvancementGenerator {
         toSubProvider(arg0: $ExistingFileHelper): $AdvancementSubProvider;
@@ -42,7 +45,7 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeBiomeTagsProvider extends $BiomeTagsProvider {
         registryKey: $ResourceKey<$Registry<$Biome>>;
@@ -50,12 +53,12 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeRegistryOrderReportProvider implements $DataProvider {
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput);
         get name(): string;
     }
     export class $NeoForgeStructureTagsProvider extends $StructureTagsProvider {
@@ -64,10 +67,10 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeAdvancementProvider extends $AdvancementProvider {
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeDamageTypeTagsProvider extends $DamageTypeTagsProvider {
         registryKey: $ResourceKey<$Registry<$DamageType>>;
@@ -75,10 +78,10 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
     export class $VanillaSoundDefinitionsProvider extends $SoundDefinitionsProvider {
-        constructor(arg0: $PackOutput, arg1: $ExistingFileHelper);
+        constructor(output: $PackOutput, helper: $ExistingFileHelper);
     }
     export class $NeoForgeDataMapsProvider$StrippablesAccess extends $AxeItem {
         static BASE_ATTACK_DAMAGE_ID: $ResourceLocation;
@@ -101,10 +104,10 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>, arg3: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, blockTagProvider: $CompletableFuture<$TagsProvider$TagLookup_<$Block>>, existingFileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeSpriteSourceProvider extends $SpriteSourceProvider {
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, fileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeBlockTagsProvider extends $BlockTagsProvider {
         registryKey: $ResourceKey<$Registry<$Block>>;
@@ -112,7 +115,7 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeEntityTypeTagsProvider extends $EntityTypeTagsProvider {
         registryKey: $ResourceKey<$Registry<$EntityType<never>>>;
@@ -120,7 +123,7 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         pathProvider: $PackOutput$PathProvider;
         existingFileHelper: $ExistingFileHelper;
         modId: string;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $ExistingFileHelper);
+        constructor(output: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>, existingFileHelper: $ExistingFileHelper);
     }
     export class $NeoForgeRecipeProvider extends $VanillaRecipeProvider {
         static LAPIS_SMELTABLES: $ImmutableList<$ItemLike>;
@@ -133,12 +136,12 @@ declare module "@package/net/neoforged/neoforge/common/data/internal" {
         static IRON_SMELTABLES: $ImmutableList<$ItemLike>;
         recipePathProvider: $PackOutput$PathProvider;
         static DIAMOND_SMELTABLES: $ImmutableList<$ItemLike>;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(packOutput: $PackOutput, provider: $CompletableFuture<$HolderLookup$Provider>);
     }
     export class $NeoForgeLanguageProvider extends $LanguageProvider {
-        constructor(arg0: $PackOutput);
+        constructor(gen: $PackOutput);
     }
     export class $NeoForgeDataMapsProvider extends $DataMapProvider {
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        constructor(packOutput: $PackOutput, lookupProvider: $CompletableFuture<$HolderLookup$Provider>);
     }
 }

@@ -5,22 +5,22 @@ declare module "@package/org/apache/http" {
     export class $HttpEntity {
     }
     export interface $HttpEntity {
+        getContentType(): $Header;
+        getContentEncoding(): $Header;
         getContent(): $InputStream;
         writeTo(arg0: $OutputStream): void;
         getContentLength(): number;
-        getContentType(): $Header;
-        getContentEncoding(): $Header;
+        isStreaming(): boolean;
+        isRepeatable(): boolean;
         /**
          * @deprecated
          */
         consumeContent(): void;
-        isStreaming(): boolean;
-        isRepeatable(): boolean;
         isChunked(): boolean;
-        get content(): $InputStream;
-        get contentLength(): number;
         get contentType(): $Header;
         get contentEncoding(): $Header;
+        get content(): $InputStream;
+        get contentLength(): number;
         get streaming(): boolean;
         get repeatable(): boolean;
         get chunked(): boolean;

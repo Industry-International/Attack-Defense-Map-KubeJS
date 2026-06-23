@@ -12,19 +12,19 @@ declare module "@package/xaero/lib/common/config/option" {
         getDefaultValue(): T;
         getDisplayName(): $Component;
         isValidValue(arg0: T): boolean;
-        isOverridable(): boolean;
-        getValueType(): $ConfigValueType<T>;
-        getTooltip(): $Component;
-        shouldSaveDefaultValue(): boolean;
         skipConfigReset(): boolean;
         getDisplayGetter(): $BiFunction<$ConfigOption<T>, T, $Component>;
+        getValueType(): $ConfigValueType<T>;
+        getTooltip(): $Component;
+        isOverridable(): boolean;
+        shouldSaveDefaultValue(): boolean;
         get id(): string;
         get defaultValue(): T;
         get displayName(): $Component;
-        get overridable(): boolean;
+        get displayGetter(): $BiFunction<$ConfigOption<T>, T, $Component>;
         get valueType(): $ConfigValueType<T>;
         get tooltip(): $Component;
-        get displayGetter(): $BiFunction<$ConfigOption<T>, T, $Component>;
+        get overridable(): boolean;
     }
     export class $ConfigOptionManager implements $Iterable<$ConfigOption<never>> {
         get(arg0: string): $ConfigOption<never>;

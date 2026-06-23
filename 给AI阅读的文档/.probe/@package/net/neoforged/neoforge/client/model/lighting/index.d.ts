@@ -12,28 +12,69 @@ import { $ModelBlockRenderer, $ModelBlockRenderer$Cache } from "@package/net/min
 import { $RandomSource } from "@package/net/minecraft/util";
 
 declare module "@package/net/neoforged/neoforge/client/model/lighting" {
+    /**
+     * Implementation of `QuadLighter` that lights quads with flat lighting.
+     */
     export class $FlatQuadLighter extends $QuadLighter {
-        constructor(arg0: $BlockColors);
+        constructor(colors: $BlockColors);
     }
+    /**
+     * Wrapper around `ModelBlockRenderer` to allow rendering blocks via Forge's lighting pipeline.
+     */
     export class $LightPipelineAwareModelBlockRenderer extends $ModelBlockRenderer {
-        static render(arg0: $VertexConsumer, arg1: $QuadLighter, arg2: $BlockAndTintGetter, arg3: $BakedModel, arg4: $BlockState_, arg5: $BlockPos_, arg6: $PoseStack, arg7: boolean, arg8: $RandomSource, arg9: number, arg10: number, arg11: $ModelData, arg12: $RenderType): boolean;
-        getQuadLighter(arg0: boolean): $QuadLighter;
+        static render(vertexConsumer: $VertexConsumer, lighter: $QuadLighter, level: $BlockAndTintGetter, model: $BakedModel, state: $BlockState_, pos: $BlockPos_, poseStack: $PoseStack, checkSides: boolean, rand: $RandomSource, seed: number, packedOverlay: number, modelData: $ModelData, renderType: $RenderType): boolean;
+        getQuadLighter(smooth: boolean): $QuadLighter;
         static CACHE: $ThreadLocal<$ModelBlockRenderer$Cache>;
         static DIRECTIONS: $Direction[];
-        constructor(arg0: $BlockColors);
+        constructor(colors: $BlockColors);
     }
+    /**
+     * Implementation of `QuadLighter` that lights baked quads using ambient occlusion and
+     * light interpolation.
+     */
     export class $SmoothQuadLighter extends $QuadLighter {
-        constructor(arg0: $BlockColors);
+        constructor(colors: $BlockColors);
     }
+    /**
+     * Base class for all quad lighting providers.
+     * 
+     * Contains all the shared elements needed for `BakedQuad` processing and defers lighting logic to inheritors.
+     */
     export class $QuadLighter {
+        /**
+         * Invalidate and reset any cached state of this lighter.
+         */
         reset(): void;
-        setup(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $BlockState_): void;
-        process(arg0: $VertexConsumer, arg1: $PoseStack$Pose, arg2: $BakedQuad, arg3: number): void;
-        static calculateShade(arg0: number, arg1: number, arg2: number, arg3: boolean): number;
+        /**
+         * Set up this lighter to light quads of the given block.
+         */
+        setup(level: $BlockAndTintGetter, pos: $BlockPos_, state: $BlockState_): void;
+        process(consumer: $VertexConsumer, pose: $PoseStack$Pose, quad: $BakedQuad, overlay: number): void;
+        static calculateShade(normalX: number, normalY: number, normalZ: number, constantAmbientLight: boolean): number;
+        /**
+         * Returns the computed lightmap for each vertex of this quad.
+         * 
+         * The returned array is only valid until this lighter is asked to light another quad.
+         */
         getComputedLightmap(): number[];
-        computeLightingForQuad(arg0: $BakedQuad): void;
-        computeLightingForQuad(arg0: number[], arg1: boolean): void;
+        /**
+         * Returns the computed brightness for each vertex of this quad.
+         * 
+         * The returned array is only valid until this lighter is asked to light another quad.
+         */
         getComputedBrightness(): number[];
+        /**
+         * Compute the brightness and lightmap values for each vertex of this quad. After a call to this method, the
+         * values may be accessed using `QuadLighter#getComputedBrightness()` and `QuadLighter#getComputedLightmap()`.
+         * 
+         * This overload allows cleanly reusing the same vertex data array many times.
+         */
+        computeLightingForQuad(vertices: number[], isShade: boolean): void;
+        /**
+         * Compute the brightness and lightmap values for each vertex of this quad. After a call to this method, the
+         * values may be accessed using `QuadLighter#getComputedBrightness()` and `QuadLighter#getComputedLightmap()`.
+         */
+        computeLightingForQuad(quad: $BakedQuad): void;
         get computedLightmap(): number[];
         get computedBrightness(): number[];
     }

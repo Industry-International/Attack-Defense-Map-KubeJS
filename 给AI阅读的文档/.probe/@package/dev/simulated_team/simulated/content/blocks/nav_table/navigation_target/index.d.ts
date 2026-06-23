@@ -12,14 +12,15 @@ declare module "@package/dev/simulated_team/simulated/content/blocks/nav_table/n
     }
     export interface $NavigationTarget {
         getTarget(arg0: $NavTableBlockEntity, arg1: $ItemStack_): $Vec3;
-        onInsert(arg0: $ItemStack_, arg1: $NavTableBlockEntity, arg2: $Player): void;
-        getRedstoneStrength(arg0: $NavTableBlockEntity, arg1: $Direction_, arg2: $ItemStack_): number;
-        calculateModulatingStrength(arg0: $NavTableBlockEntity, arg1: $ItemStack_): number;
-        calculateSideStrength(arg0: $NavTableBlockEntity, arg1: $Direction_, arg2: $ItemStack_): number;
-        distanceToTarget(arg0: $NavTableBlockEntity): number;
         getModulatingRange(): number;
         getDeadzone(): number;
+        getRedstoneStrength(arg0: $NavTableBlockEntity, arg1: $Direction_, arg2: $ItemStack_): number;
+        distanceToTarget(arg0: $NavTableBlockEntity): number;
         getMaxRange(): number;
+        onInsert(arg0: $ItemStack_, arg1: $NavTableBlockEntity, arg2: $Player): void;
+        onExtract(arg0: $ItemStack_, arg1: $NavTableBlockEntity, arg2: $Player): void;
+        calculateSideStrength(arg0: $NavTableBlockEntity, arg1: $Direction_, arg2: $ItemStack_): number;
+        calculateModulatingStrength(arg0: $NavTableBlockEntity, arg1: $ItemStack_): number;
         get modulatingRange(): number;
         get deadzone(): number;
         get maxRange(): number;

@@ -16,44 +16,44 @@ export * as expression from "@package/io/github/ocelot/glslprocessor/api/node/ex
 
 declare module "@package/io/github/ocelot/glslprocessor/api/node" {
     export class $GlslNode {
-        static intConstant(arg0: number): $GlslIntConstantNode;
-        static floatConstant(arg0: number): $GlslFloatConstantNode;
         static doubleConstant(arg0: number): $GlslDoubleConstantNode;
+        static intConstant(arg0: number): $GlslIntConstantNode;
         static booleanConstant(arg0: boolean): $GlslBoolConstantNode;
-        static unsignedIntConstant(arg0: number): $GlslIntConstantNode;
+        static floatConstant(arg0: number): $GlslFloatConstantNode;
         static compound(arg0: $Collection_<$GlslNode>): $GlslNode;
         static compound(...arg0: $GlslNode[]): $GlslNode;
+        static unsignedIntConstant(arg0: number): $GlslIntConstantNode;
     }
     export interface $GlslNode {
+        getNodeType(): $GlslNodeType;
         toList(): $List<$GlslNode>;
         stream(): $Stream<$GlslNode>;
         getType(): $GlslSpecifiedType;
         visit(arg0: $GlslNodeVisitor): void;
-        getNodeType(): $GlslNodeType;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
-        get type(): $GlslSpecifiedType;
+        getBody(): $GlslNodeList;
         get nodeType(): $GlslNodeType;
+        get type(): $GlslSpecifiedType;
     }
     export class $GlslRootNode {
     }
     export interface $GlslRootNode extends $GlslNode {
+        isStruct(): boolean;
         getName(): string;
         setName(arg0: string): $GlslRootNode;
         isField(): boolean;
-        isDeclaration(): boolean;
         isFunction(): boolean;
+        isDeclaration(): boolean;
         asField(): $GlslNewFieldNode;
-        isStruct(): boolean;
         asFunction(): $GlslFunctionNode;
-        asDeclaration(): $GlslVariableDeclarationNode;
         asStruct(): $GlslStructDeclarationNode;
-        get field(): boolean;
-        get declaration(): boolean;
-        get function(): boolean;
+        asDeclaration(): $GlslVariableDeclarationNode;
         get struct(): boolean;
+        get field(): boolean;
+        get function(): boolean;
+        get declaration(): boolean;
     }
     export class $GlslNodeList implements $List<$GlslNode> {
         remove(arg0: $Object): boolean;
@@ -108,15 +108,15 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node" {
         visit(arg0: $GlslTreeVisitor): void;
         functions(): $Stream<$GlslFunctionNode>;
         toSourceString(): string;
-        getMarkers(): $Map<string, $GlslNode>;
-        getBody(): $GlslNodeList;
-        searchField(arg0: string): $Stream<$GlslNewFieldNode>;
         static stripGLMacros(arg0: $Map_<string, string>): void;
+        getMarkers(): $Map<string, $GlslNode>;
+        searchField(arg0: string): $Stream<$GlslNewFieldNode>;
+        getBody(): $GlslNodeList;
         getMacros(): $Map<string, string>;
-        markOutputs(): void;
-        mainFunction(): ($GlslFunctionNode) | undefined;
-        containingBlock(arg0: $GlslNode): ($GlslTree$GlslBlock) | undefined;
         getVersionStatement(): $GlslVersionStatement;
+        containingBlock(arg0: $GlslNode): ($GlslTree$GlslBlock) | undefined;
+        mainFunction(): ($GlslFunctionNode) | undefined;
+        markOutputs(): void;
         getDirectives(): $List<string>;
         constructor();
         constructor(arg0: $GlslVersionStatement, arg1: $Collection_<$GlslNode>, arg2: $Collection_<string>, arg3: $Map_<string, $GlslNode>);

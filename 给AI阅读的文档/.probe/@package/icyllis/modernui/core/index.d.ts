@@ -3,14 +3,14 @@ import { $CharSequence, $Object, $Class, $ClassLoader } from "@package/java/lang
 
 declare module "@package/icyllis/modernui/core" {
     export class $UndoOperation<DATA> implements $Parcelable {
+        undo(): void;
         commit(): void;
         getOwner(): $UndoOwner;
-        undo(): void;
         redo(): void;
         hasData(): boolean;
         getOwnerData(): DATA;
-        allowMerge(): boolean;
         matchOwner(owner: $UndoOwner): boolean;
+        allowMerge(): boolean;
         constructor(owner: $UndoOwner);
         get owner(): $UndoOwner;
         get ownerData(): DATA;
@@ -22,32 +22,32 @@ declare module "@package/icyllis/modernui/core" {
         get data(): $Object;
     }
     export class $UndoManager {
+        undo(owners: $UndoOwner[], count: number): number;
         getOwner(tag: string, data: $Object): $UndoOwner;
-        endUpdate(): void;
+        isInUndo(): boolean;
         countUndos(owners: $UndoOwner[]): number;
         countRedos(owners: $UndoOwner[]): number;
-        undo(owners: $UndoOwner[], count: number): number;
+        endUpdate(): void;
+        redo(owners: $UndoOwner[], count: number): number;
+        hasOperation(owner: $UndoOwner): boolean;
+        commitState(owner: $UndoOwner): number;
         beginUpdate(label: $CharSequence): void;
         addOperation(op: $UndoOperation<never>, mergeMode: number): void;
+        getLastOperation(mergeMode: number): $UndoOperation<never>;
         getLastOperation(owner: $UndoOwner, mergeMode: number): $UndoOperation<never>;
         getLastOperation<T extends $UndoOperation<never>>(clazz: $Class<T>, owner: $UndoOwner, mergeMode: number): T;
-        getLastOperation(mergeMode: number): $UndoOperation<never>;
-        commitState(owner: $UndoOwner): number;
-        forgetRedos(owners: $UndoOwner[], count: number): number;
         forgetUndos(owners: $UndoOwner[], count: number): number;
-        redo(owners: $UndoOwner[], count: number): number;
-        isInUndo(): boolean;
-        hasOperation(owner: $UndoOwner): boolean;
-        saveInstanceState(p: $Parcel): void;
-        setHistorySize(size: number): void;
+        forgetRedos(owners: $UndoOwner[], count: number): number;
         suggestUndoLabel(label: $CharSequence): void;
-        getRedoLabel(owners: $UndoOwner[]): $CharSequence;
+        setHistorySize(size: number): void;
         getUndoLabel(owners: $UndoOwner[]): $CharSequence;
         uncommitState(commitId: number, owner: $UndoOwner): boolean;
-        setUndoLabel(label: $CharSequence): void;
+        getRedoLabel(owners: $UndoOwner[]): $CharSequence;
         getHistorySize(): number;
-        restoreInstanceState(p: $Parcel, loader: $ClassLoader): void;
+        saveInstanceState(p: $Parcel): void;
+        setUndoLabel(label: $CharSequence): void;
         getUpdateNestingLevel(): number;
+        restoreInstanceState(p: $Parcel, loader: $ClassLoader): void;
         isInUpdate(): boolean;
         static MERGE_MODE_ANY: number;
         static MERGE_MODE_UNIQUE: number;

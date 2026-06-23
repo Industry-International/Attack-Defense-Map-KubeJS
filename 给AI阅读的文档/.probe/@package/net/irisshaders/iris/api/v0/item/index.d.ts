@@ -7,7 +7,7 @@ declare module "@package/net/irisshaders/iris/api/v0/item" {
         static DEFAULT_LIGHT_COLOR: $Vector3f;
     }
     export interface $IrisItemLightProvider {
-        getLightColor(arg0: $Player, arg1: $ItemStack_): $Vector3f;
         getLightEmission(arg0: $Player, arg1: $ItemStack_): number;
+        getLightColor(arg0: $Player, arg1: $ItemStack_): $Vector3f;
     }
 }

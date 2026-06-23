@@ -35,8 +35,8 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/ingredientaction" {
     }
     export class $IngredientActionType<T extends $IngredientAction> extends $Record {
         id(): $ResourceLocation;
-        codec(): $MapCodec<T>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        codec(): $MapCodec<T>;
         static TYPES: $Lazy<$Map<$ResourceLocation, $IngredientActionType<never>>>;
         static CODEC: $Codec<$IngredientActionType<never>>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $IngredientActionType<never>>;

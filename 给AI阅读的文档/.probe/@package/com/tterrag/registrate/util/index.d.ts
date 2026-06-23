@@ -1,7 +1,7 @@
 import { $IntList } from "@package/it/unimi/dsi/fastutil/ints";
 import { $ItemLike, $ItemLike_ } from "@package/net/minecraft/world/level";
 import { $TagKey_ } from "@package/net/minecraft/tags";
-import { $Ingredient, $Ingredient_ } from "@package/net/minecraft/world/item/crafting";
+import { $Ingredient_, $Ingredient } from "@package/net/minecraft/world/item/crafting";
 import { $CreativeModeTab$TabVisibility_, $Item, $ItemStack_, $ItemStack, $CreativeModeTab$Output, $CreativeModeTab$ItemDisplayParameters, $CreativeModeTab$TabVisibility } from "@package/net/minecraft/world/item";
 import { $FeatureFlagSet } from "@package/net/minecraft/world/flag";
 import { $Collection_ } from "@package/java/util";
@@ -33,6 +33,7 @@ declare module "@package/com/tterrag/registrate/util" {
         get flags(): $FeatureFlagSet;
     }
     export class $DataIngredient {
+        isSimple(): boolean;
         test(arg0: $ItemStack_): boolean;
         isEmpty(): boolean;
         getId(): $ResourceLocation;
@@ -40,24 +41,23 @@ declare module "@package/com/tterrag/registrate/util" {
         negate(): $Predicate<$ItemStack>;
         and(arg0: $Predicate_<$ItemStack>): $Predicate<$ItemStack>;
         static tag(arg0: $TagKey_<$Item>): $DataIngredient;
-        isSimple(): boolean;
-        static items<T extends $ItemLike>(arg0: T, ...arg1: T[]): $DataIngredient;
         static items<T extends $ItemLike>(arg0: $NonNullSupplier_<T>, ...arg1: $NonNullSupplier_<T>[]): $DataIngredient;
+        static items<T extends $ItemLike>(arg0: T, ...arg1: T[]): $DataIngredient;
+        getCustomIngredient(): $ICustomIngredient;
         getCriterion(arg0: $RegistrateRecipeProvider): $Criterion<$InventoryChangeTrigger$TriggerInstance>;
-        toVanilla(): $Ingredient;
         isCustom(): boolean;
         hasNoItems(): boolean;
-        getStackingIds(): $IntList;
         static stacks(arg0: $ItemStack_, ...arg1: $ItemStack_[]): $DataIngredient;
-        static ingredient(arg0: $Ingredient_, arg1: $TagKey_<$Item>): $DataIngredient;
+        toVanilla(): $Ingredient;
+        getStackingIds(): $IntList;
         static ingredient(arg0: $Ingredient_, arg1: $ResourceLocation_, ...arg2: $ItemPredicate_[]): $DataIngredient;
+        static ingredient(arg0: $Ingredient_, arg1: $TagKey_<$Item>): $DataIngredient;
         static ingredient(arg0: $Ingredient_, arg1: $ItemLike_): $DataIngredient;
-        getCustomIngredient(): $ICustomIngredient;
+        get simple(): boolean;
         get empty(): boolean;
         get id(): $ResourceLocation;
-        get simple(): boolean;
+        get customIngredient(): $ICustomIngredient;
         get custom(): boolean;
         get stackingIds(): $IntList;
-        get customIngredient(): $ICustomIngredient;
     }
 }

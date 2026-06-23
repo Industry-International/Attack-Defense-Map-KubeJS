@@ -26,11 +26,11 @@ declare module "@package/com/github/steveice10/netty/util" {
     export class $ReferenceCounted {
     }
     export interface $ReferenceCounted {
-        release(arg0: number): boolean;
         release(): boolean;
-        refCnt(): number;
+        release(arg0: number): boolean;
         retain(): $ReferenceCounted;
         retain(arg0: number): $ReferenceCounted;
+        refCnt(): number;
         touch(arg0: $Object): $ReferenceCounted;
         touch(): $ReferenceCounted;
     }

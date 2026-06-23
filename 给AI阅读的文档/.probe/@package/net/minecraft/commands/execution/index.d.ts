@@ -12,25 +12,25 @@ export * as tasks from "@package/net/minecraft/commands/execution/tasks";
 declare module "@package/net/minecraft/commands/execution" {
     export class $ExecutionContext<T> implements $AutoCloseable {
         close(): void;
-        profiler(): $ProfilerFiller;
         tracer(): $TraceCallbacks;
-        tracer(arg0: $TraceCallbacks): void;
-        runCommandQueue(): void;
-        static queueInitialCommandExecution<T extends $ExecutionCommandSource<T>>(arg0: $ExecutionContext<T>, arg1: string, arg2: $ContextChain<T>, arg3: T, arg4: $CommandResultCallback_): void;
-        incrementCost(): void;
-        discardAtDepthOrHigher(arg0: number): void;
-        frameControlForDepth(arg0: number): $Frame$FrameControl;
-        static queueInitialFunctionCall<T extends $ExecutionCommandSource<T>>(arg0: $ExecutionContext<T>, arg1: $InstantiatedFunction<T>, arg2: T, arg3: $CommandResultCallback_): void;
-        queueNext(arg0: $CommandQueueEntry_<T>): void;
+        tracer(tracer: $TraceCallbacks | null): void;
+        profiler(): $ProfilerFiller;
         forkLimit(): number;
-        constructor(arg0: number, arg1: number, arg2: $ProfilerFiller);
+        static queueInitialCommandExecution<T extends $ExecutionCommandSource<T>>(executionContext: $ExecutionContext<T>, commandInput: string, command: $ContextChain<T>, source: T, returnValueConsumer: $CommandResultCallback_): void;
+        runCommandQueue(): void;
+        frameControlForDepth(depth: number): $Frame$FrameControl;
+        discardAtDepthOrHigher(depth: number): void;
+        static queueInitialFunctionCall<T extends $ExecutionCommandSource<T>>(executionContext: $ExecutionContext<T>, _function: $InstantiatedFunction<T>, source: T, returnValueConsumer: $CommandResultCallback_): void;
+        incrementCost(): void;
+        queueNext(entry: $CommandQueueEntry_<T>): void;
+        constructor(commandLimit: number, forkLimit: number, profiler: $ProfilerFiller);
     }
     export class $ChainModifiers extends $Record {
         flags(): number;
-        isReturn(): boolean;
-        setReturn(): $ChainModifiers;
         isForked(): boolean;
+        setReturn(): $ChainModifiers;
         setForked(): $ChainModifiers;
+        isReturn(): boolean;
         static DEFAULT: $ChainModifiers;
         constructor(arg0: number);
     }
@@ -47,16 +47,16 @@ declare module "@package/net/minecraft/commands/execution" {
     }
     export interface $TraceCallbacks extends $AutoCloseable {
         close(): void;
-        onError(arg0: string): void;
-        onCall(arg0: number, arg1: $ResourceLocation_, arg2: number): void;
-        onReturn(arg0: number, arg1: string, arg2: number): void;
-        onCommand(arg0: number, arg1: string): void;
+        onCall(depth: number, _function: $ResourceLocation_, commands: number): void;
+        onReturn(depth: number, command: string, returnValue: number): void;
+        onCommand(depth: number, command: string): void;
+        onError(errorMessage: string): void;
     }
     export class $UnboundEntryAction<T> {
     }
     export interface $UnboundEntryAction<T> {
-        execute(arg0: T, arg1: $ExecutionContext<T>, arg2: $Frame_): void;
-        bind(arg0: T): $EntryAction<T>;
+        execute(source: T, executionContext: $ExecutionContext<T>, frame: $Frame_): void;
+        bind(source: T): $EntryAction<T>;
     }
     /**
      * Values that may be interpreted as {@link $UnboundEntryAction}.
@@ -65,32 +65,32 @@ declare module "@package/net/minecraft/commands/execution" {
     export class $CustomCommandExecutor<T> {
     }
     export interface $CustomCommandExecutor<T> {
-        run(arg0: T, arg1: $ContextChain<T>, arg2: $ChainModifiers_, arg3: $ExecutionControl<T>): void;
+        run(source: T, contextChain: $ContextChain<T>, chainModifiers: $ChainModifiers_, executionControl: $ExecutionControl<T>): void;
     }
     /**
      * Values that may be interpreted as {@link $CustomCommandExecutor}.
      */
     export type $CustomCommandExecutor_<T> = ((arg0: T, arg1: $ContextChain<T>, arg2: $ChainModifiers, arg3: $ExecutionControl<T>) => void);
     export class $ExecutionControl<T> {
-        static create<T extends $ExecutionCommandSource<T>>(arg0: $ExecutionContext<T>, arg1: $Frame_): $ExecutionControl<T>;
+        static create<T extends $ExecutionCommandSource<T>>(executionContext: $ExecutionContext<T>, frame: $Frame_): $ExecutionControl<T>;
     }
     export interface $ExecutionControl<T> {
         currentFrame(): $Frame;
         tracer(): $TraceCallbacks;
-        tracer(arg0: $TraceCallbacks): void;
-        queueNext(arg0: $EntryAction_<T>): void;
+        tracer(tracer: $TraceCallbacks | null): void;
+        queueNext(entry: $EntryAction_<T>): void;
     }
     export class $CustomCommandExecutor$CommandAdapter<T> {
     }
     export interface $CustomCommandExecutor$CommandAdapter<T> extends $Command<T>, $CustomCommandExecutor<T> {
-        run(arg0: $CommandContext<T>): number;
+        run(context: $CommandContext<T>): number;
     }
     /**
      * Values that may be interpreted as {@link $CustomCommandExecutor$CommandAdapter}.
      */
     export type $CustomCommandExecutor$CommandAdapter_<T> = (() => void);
     export class $CommandQueueEntry<T> extends $Record {
-        execute(arg0: $ExecutionContext<T>): void;
+        execute(context: $ExecutionContext<T>): void;
         action(): $EntryAction<T>;
         frame(): $Frame;
         constructor(arg0: $Frame_, arg1: $EntryAction_<T>);
@@ -98,7 +98,7 @@ declare module "@package/net/minecraft/commands/execution" {
     export class $CustomModifierExecutor<T> {
     }
     export interface $CustomModifierExecutor<T> {
-        apply(arg0: T, arg1: $List_<T>, arg2: $ContextChain<T>, arg3: $ChainModifiers_, arg4: $ExecutionControl<T>): void;
+        apply(originalSource: T, soruces: $List_<T>, contextChain: $ContextChain<T>, chainModifiers: $ChainModifiers_, executionControl: $ExecutionControl<T>): void;
     }
     /**
      * Values that may be interpreted as {@link $CustomModifierExecutor}.
@@ -107,7 +107,7 @@ declare module "@package/net/minecraft/commands/execution" {
     export class $CustomModifierExecutor$ModifierAdapter<T> {
     }
     export interface $CustomModifierExecutor$ModifierAdapter<T> extends $RedirectModifier<T>, $CustomModifierExecutor<T> {
-        apply(arg0: $CommandContext<T>): $Collection<T>;
+        apply(context: $CommandContext<T>): $Collection<T>;
     }
     /**
      * Values that may be interpreted as {@link $CustomModifierExecutor$ModifierAdapter}.
@@ -116,7 +116,7 @@ declare module "@package/net/minecraft/commands/execution" {
     export class $EntryAction<T> {
     }
     export interface $EntryAction<T> {
-        execute(arg0: $ExecutionContext<T>, arg1: $Frame_): void;
+        execute(context: $ExecutionContext<T>, frame: $Frame_): void;
     }
     /**
      * Values that may be interpreted as {@link $EntryAction}.
@@ -125,16 +125,16 @@ declare module "@package/net/minecraft/commands/execution" {
     export class $Frame extends $Record {
         depth(): number;
         discard(): void;
-        frameControl(): $Frame$FrameControl;
-        returnFailure(): void;
-        returnSuccess(arg0: number): void;
         returnValueConsumer(): $CommandResultCallback;
+        returnSuccess(result: number): void;
+        returnFailure(): void;
+        frameControl(): $Frame$FrameControl;
         constructor(arg0: number, arg1: $CommandResultCallback_, arg2: $Frame$FrameControl_);
     }
     export class $CustomCommandExecutor$WithErrorHandling<T extends $ExecutionCommandSource<T>> implements $CustomCommandExecutor<T> {
-        run(arg0: T, arg1: $ContextChain<T>, arg2: $ChainModifiers_, arg3: $ExecutionControl<T>): void;
-        onError(arg0: $CommandSyntaxException, arg1: T, arg2: $ChainModifiers_, arg3: $TraceCallbacks): void;
-        runGuarded(arg0: T, arg1: $ContextChain<T>, arg2: $ChainModifiers_, arg3: $ExecutionControl<T>): void;
+        run(source: T, contextChain: $ContextChain<T>, chainModifiers: $ChainModifiers_, executionControl: $ExecutionControl<T>): void;
+        onError(error: $CommandSyntaxException, source: T, chainModifiers: $ChainModifiers_, traceCallbacks: $TraceCallbacks | null): void;
+        runGuarded(source: T, contextChain: $ContextChain<T>, chainModifiers: $ChainModifiers_, executionControl: $ExecutionControl<T>): void;
         constructor();
     }
 }

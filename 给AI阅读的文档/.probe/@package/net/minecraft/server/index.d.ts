@@ -9,7 +9,7 @@ import { $Entity } from "@package/net/minecraft/world/entity";
 import { $CallbackInfo, $CallbackInfoReturnable } from "@package/org/spongepowered/asm/mixin/injection/callback";
 import { $FeatureFlagSet } from "@package/net/minecraft/world/flag";
 import { $CustomPacketPayload_ } from "@package/net/minecraft/network/protocol/common/custom";
-import { $CloseableResourceManager, $ResourceManager, $PreparableReloadListener$PreparationBarrier_, $PreparableReloadListener, $SimpleJsonResourceReloadListener } from "@package/net/minecraft/server/packs/resources";
+import { $CloseableResourceManager, $ResourceManager, $PreparableReloadListener, $PreparableReloadListener$PreparationBarrier_, $SimpleJsonResourceReloadListener } from "@package/net/minecraft/server/packs/resources";
 import { $DataFixer } from "@package/com/mojang/datafixers";
 import { $ModCheck, $SignatureValidator } from "@package/net/minecraft/util";
 import { $WeakReference } from "@package/java/lang/ref";
@@ -91,25 +91,25 @@ export * as gui from "@package/net/minecraft/server/gui";
 
 declare module "@package/net/minecraft/server" {
     export class $LoggedPrintStream extends $PrintStream {
-        logLine(arg0: string): void;
+        logLine(string: string | null): void;
         name: string;
-        constructor(arg0: string, arg1: $OutputStream);
+        constructor(name: string, out: $OutputStream);
     }
     export class $PlayerAdvancements implements $PlayerAdvancementsAccessor {
         save(): void;
-        reload(arg0: $ServerAdvancementManager): void;
-        award(arg0: $AdvancementHolder_, arg1: string): boolean;
-        handler$jeg000$fabric_events_interaction_v0$preventOwnerOverride(arg0: $ServerPlayer, arg1: $CallbackInfo): void;
-        handler$jeg000$fabric_events_interaction_v0$preventGrantCriterion(arg0: $AdvancementHolder_, arg1: string, arg2: $CallbackInfoReturnable<any>): void;
+        reload(manager: $ServerAdvancementManager): void;
+        setSelectedTab(advancement: $AdvancementHolder_ | null): void;
         stopListening(): void;
-        getOrStartProgress(arg0: $AdvancementHolder_): $AdvancementProgress;
-        setSelectedTab(arg0: $AdvancementHolder_): void;
-        flushDirty(arg0: $ServerPlayer): void;
-        revoke(arg0: $AdvancementHolder_, arg1: string): boolean;
-        setPlayer(arg0: $ServerPlayer): void;
+        getOrStartProgress(advancement: $AdvancementHolder_): $AdvancementProgress;
+        award(advancement: $AdvancementHolder_, criterionKey: string): boolean;
+        flushDirty(serverPlayer: $ServerPlayer): void;
+        revoke(advancement: $AdvancementHolder_, criterionKey: string): boolean;
+        setPlayer(serverPlayer: $ServerPlayer): void;
+        handler$jbb000$fabric_events_interaction_v0$preventOwnerOverride(arg0: $ServerPlayer, arg1: $CallbackInfo): void;
+        handler$jbb000$fabric_events_interaction_v0$preventGrantCriterion(arg0: $AdvancementHolder_, arg1: string, arg2: $CallbackInfoReturnable<any>): void;
         getPlayer(): $ServerPlayer;
-        constructor(arg0: $DataFixer, arg1: $PlayerList, arg2: $ServerAdvancementManager, arg3: $Path_, arg4: $ServerPlayer);
-        set selectedTab(value: $AdvancementHolder_);
+        constructor(dataFixer: $DataFixer, playerList: $PlayerList, manager: $ServerAdvancementManager, playerSavePath: $Path_, player: $ServerPlayer);
+        set selectedTab(value: $AdvancementHolder_ | null);
     }
     export class $WorldLoader$DataLoadOutput<D> extends $Record {
         cookie(): D;
@@ -119,7 +119,7 @@ declare module "@package/net/minecraft/server" {
     export class $ConsoleInput {
         msg: string;
         source: $CommandSourceStack;
-        constructor(arg0: string, arg1: $CommandSourceStack);
+        constructor(msg: string, source: $CommandSourceStack);
     }
     export class $MinecraftServer$ReloadableResources extends $Record implements $AutoCloseable {
         close(): void;
@@ -128,33 +128,33 @@ declare module "@package/net/minecraft/server" {
         constructor(resourceManager: $CloseableResourceManager, managers: $ReloadableServerResources);
     }
     export class $ServerAdvancementManager extends $SimpleJsonResourceReloadListener implements $IdentifiableResourceReloadListener {
-        get(arg0: $ResourceLocation_): $AdvancementHolder;
-        apply(arg0: $Map_<$ResourceLocation_, $JsonElement_>, arg1: $ResourceManager, arg2: $ProfilerFiller): void;
+        get(location: $ResourceLocation_): $AdvancementHolder;
+        apply(object: $Map_<$ResourceLocation_, $JsonElement_>, resourceManager: $ResourceManager, profiler: $ProfilerFiller): void;
         tree(): $AdvancementTree;
         getFabricDependencies(): $Collection<any>;
-        getAllAdvancements(): $Collection<$AdvancementHolder>;
         getFabricId(): $ResourceLocation;
-        constructor(arg0: $HolderLookup$Provider);
+        getAllAdvancements(): $Collection<$AdvancementHolder>;
+        constructor(registries: $HolderLookup$Provider);
         get fabricDependencies(): $Collection<any>;
-        get allAdvancements(): $Collection<$AdvancementHolder>;
         get fabricId(): $ResourceLocation;
+        get allAdvancements(): $Collection<$AdvancementHolder>;
     }
     export class $ServerInfo {
     }
     export interface $ServerInfo {
+        getMaxPlayers(): number;
         getPlayerCount(): number;
         getServerVersion(): string;
-        getMaxPlayers(): number;
         getMotd(): string;
+        get maxPlayers(): number;
         get playerCount(): number;
         get serverVersion(): string;
-        get maxPlayers(): number;
         get motd(): string;
     }
     export class $ServerLinks$KnownLinkType extends $Enum<$ServerLinks$KnownLinkType> {
         static values(): $ServerLinks$KnownLinkType[];
         static valueOf(arg0: string): $ServerLinks$KnownLinkType;
-        create(arg0: $URI): $ServerLinks$Entry;
+        create(uri: $URI): $ServerLinks$Entry;
         static SUPPORT: $ServerLinks$KnownLinkType;
         static FORUMS: $ServerLinks$KnownLinkType;
         static STATUS: $ServerLinks$KnownLinkType;
@@ -179,16 +179,16 @@ declare module "@package/net/minecraft/server" {
     export type $ReloadableServerResources$MissingTagAccessPolicy_ = "create_new" | "fail";
     export class $ServerTickRateManager extends $TickRateManager {
         endTickWork(): void;
+        updateJoiningPlayer(player: $ServerPlayer): void;
         checkShouldSprintThisTick(): boolean;
         isSprinting(): boolean;
-        updateJoiningPlayer(arg0: $ServerPlayer): void;
-        requestGameToSprint(arg0: number): boolean;
         stopSprinting(): boolean;
         stopStepping(): boolean;
-        stepGameIfPaused(arg0: number): boolean;
+        stepGameIfPaused(sprintTime: number): boolean;
+        requestGameToSprint(sprintTime: number): boolean;
         static MIN_TICKRATE: number;
         runGameElements: boolean;
-        constructor(arg0: $MinecraftServer);
+        constructor(server: $MinecraftServer);
         get sprinting(): boolean;
     }
     export class $PlayerAdvancements$Data extends $Record {
@@ -196,8 +196,8 @@ declare module "@package/net/minecraft/server" {
     export class $ServerLinks extends $Record {
         isEmpty(): boolean;
         entries(): $List<$ServerLinks$Entry>;
-        findKnownType(arg0: $ServerLinks$KnownLinkType_): ($ServerLinks$Entry) | undefined;
         untrust(): $List<$ServerLinks$UntrustedEntry>;
+        findKnownType(type: $ServerLinks$KnownLinkType_): ($ServerLinks$Entry) | undefined;
         static UNTRUSTED_LINKS_STREAM_CODEC: $StreamCodec<$ByteBuf, $List<$ServerLinks$UntrustedEntry>>;
         static TYPE_STREAM_CODEC: $StreamCodec<$ByteBuf, $Either<$ServerLinks$KnownLinkType, $Component>>;
         static EMPTY: $ServerLinks;
@@ -206,7 +206,7 @@ declare module "@package/net/minecraft/server" {
     }
     export class $DebugLoggedPrintStream extends $LoggedPrintStream {
         name: string;
-        constructor(arg0: string, arg1: $OutputStream);
+        constructor(name: string, out: $OutputStream);
     }
     export class $WorldLoader$PackConfig extends $Record {
         packRepository(): $PackRepository;
@@ -217,9 +217,9 @@ declare module "@package/net/minecraft/server" {
         constructor(packRepository: $PackRepository, initialDataConfig: $WorldDataConfiguration_, safeMode: boolean, initMode: boolean);
     }
     export class $ChainedJsonException$Entry {
-        addJsonKey(arg0: string): void;
         getFilename(): string;
         getJsonKeys(): string;
+        addJsonKey(key: string): void;
         filename: string;
         constructor();
         get jsonKeys(): string;
@@ -238,51 +238,60 @@ declare module "@package/net/minecraft/server" {
      */
     export type $ServerScoreboard$Method_ = "change" | "remove";
     export class $ReloadableServerRegistries {
-        static reload(arg0: $LayeredRegistryAccess<$RegistryLayer_>, arg1: $ResourceManager, arg2: $Executor_): $CompletableFuture<$LayeredRegistryAccess<$RegistryLayer>>;
+        static reload(registries: $LayeredRegistryAccess<$RegistryLayer_>, resourceManager: $ResourceManager, backgroundExecutor: $Executor_): $CompletableFuture<$LayeredRegistryAccess<$RegistryLayer>>;
         constructor();
     }
     export class $ReloadableServerRegistries$EmptyTagLookupWrapper implements $HolderLookup$Provider {
-        lookup<T>(arg0: $ResourceKey_<$Registry<T>>): ($HolderLookup$RegistryLookup<T>) | undefined;
+        lookup<T>(registryKey: $ResourceKey_<$Registry<T>>): ($HolderLookup$RegistryLookup<T>) | undefined;
         listRegistries(): $Stream<$ResourceKey<$Registry<never>>>;
-        createSerializationContext<V>(arg0: $DynamicOps<V>): $RegistryOps<V>;
-        lookupOrThrow<T>(arg0: $ResourceKey_<$Registry<T>>): $HolderLookup$RegistryLookup<T>;
+        createSerializationContext<V>(ops: $DynamicOps<V>): $RegistryOps<V>;
         asGetterLookup(): $HolderGetter$Provider;
-        holder<T>(arg0: $ResourceKey_<T>): ($Holder$Reference<T>) | undefined;
-        holderOrThrow<T>(arg0: $ResourceKey_<T>): $Holder<T>;
-        constructor(arg0: $RegistryAccess);
+        lookupOrThrow<T>(registryKey: $ResourceKey_<$Registry<T>>): $HolderLookup$RegistryLookup<T>;
+        holder<T>(registryKey: $ResourceKey_<T>): ($Holder$Reference<T>) | undefined;
+        /**
+         * Shortcut method to get a holder from a ResourceKey.
+         */
+        holderOrThrow<T>(key: $ResourceKey_<T>): $Holder<T>;
+        constructor(registryAccess: $RegistryAccess);
     }
     export class $WorldLoader$WorldDataSupplier<D> {
     }
     export interface $WorldLoader$WorldDataSupplier<D> {
-        get(arg0: $WorldLoader$DataLoadContext_): $WorldLoader$DataLoadOutput<D>;
+        get(context: $WorldLoader$DataLoadContext_): $WorldLoader$DataLoadOutput<D>;
     }
     /**
      * Values that may be interpreted as {@link $WorldLoader$WorldDataSupplier}.
      */
     export type $WorldLoader$WorldDataSupplier_<D> = ((arg0: $WorldLoader$DataLoadContext) => $WorldLoader$DataLoadOutput_<D>);
     export class $Bootstrap {
+        /**
+         * Registers blocks, items, stats, etc.
+         */
         static validate(): void;
-        static realStdoutPrintln(arg0: string): void;
-        static bootStrap(): void;
-        static checkBootstrapCalled(arg0: $Supplier_<string>): void;
+        static checkBootstrapCalled(callSite: $Supplier_<string>): void;
         static getMissingTranslations(): $Set<string>;
+        /**
+         * Registers blocks, items, stats, etc.
+         */
+        static bootStrap(): void;
+        static realStdoutPrintln(message: string): void;
         static STDOUT: $PrintStream;
         static bootstrapDuration: $AtomicLong;
         constructor();
         static get missingTranslations(): $Set<string>;
     }
     export class $ChainedJsonException extends $IOException {
-        setFilenameAndFlush(arg0: string): void;
-        static forException(arg0: $Exception): $ChainedJsonException;
-        prependJsonKey(arg0: string): void;
-        constructor(arg0: string);
-        constructor(arg0: string, arg1: $Throwable);
+        static forException(exception: $Exception): $ChainedJsonException;
+        prependJsonKey(message: string): void;
+        setFilenameAndFlush(message: string): void;
+        constructor(message: string);
+        constructor(message: string, cause: $Throwable);
         set filenameAndFlush(value: string);
     }
     export class $WorldLoader$ResultFactory<D, R> {
     }
     export interface $WorldLoader$ResultFactory<D, R> {
-        create(arg0: $CloseableResourceManager, arg1: $ReloadableServerResources, arg2: $LayeredRegistryAccess<$RegistryLayer_>, arg3: D): R;
+        create(manager: $CloseableResourceManager, resources: $ReloadableServerResources, registryAccess: $LayeredRegistryAccess<$RegistryLayer_>, cookie: D): R;
     }
     /**
      * Values that may be interpreted as {@link $WorldLoader$ResultFactory}.
@@ -304,64 +313,88 @@ declare module "@package/net/minecraft/server" {
      */
     export type $RegistryLayer_ = "static" | "worldgen" | "dimensions" | "reloadable";
     export class $ReloadableServerResources$ConfigurableRegistryLookup implements $HolderLookup$Provider {
-        createSerializationContext<V>(arg0: $DynamicOps<V>): $RegistryOps<V>;
-        lookupOrThrow<T>(arg0: $ResourceKey_<$Registry<T>>): $HolderLookup$RegistryLookup<T>;
+        createSerializationContext<V>(ops: $DynamicOps<V>): $RegistryOps<V>;
         asGetterLookup(): $HolderGetter$Provider;
-        holder<T>(arg0: $ResourceKey_<T>): ($Holder$Reference<T>) | undefined;
-        holderOrThrow<T>(arg0: $ResourceKey_<T>): $Holder<T>;
+        lookupOrThrow<T>(registryKey: $ResourceKey_<$Registry<T>>): $HolderLookup$RegistryLookup<T>;
+        holder<T>(registryKey: $ResourceKey_<T>): ($Holder$Reference<T>) | undefined;
+        /**
+         * Shortcut method to get a holder from a ResourceKey.
+         */
+        holderOrThrow<T>(key: $ResourceKey_<T>): $Holder<T>;
     }
     export class $Eula {
         hasAgreedToEULA(): boolean;
-        constructor(arg0: $Path_);
+        constructor(file: $Path_);
     }
     export class $WorldLoader {
-        static load<D, R>(arg0: $WorldLoader$InitConfig_, arg1: $WorldLoader$WorldDataSupplier_<D>, arg2: $WorldLoader$ResultFactory_<D, R>, arg3: $Executor_, arg4: $Executor_): $CompletableFuture<R>;
+        static load<D, R>(initConfig: $WorldLoader$InitConfig_, worldDataSupplier: $WorldLoader$WorldDataSupplier_<D>, resultFactory: $WorldLoader$ResultFactory_<D, R>, backgroundExecutor: $Executor_, gameExecutor: $Executor_): $CompletableFuture<R>;
         constructor();
     }
     export class $ReloadableServerRegistries$Holder {
         get(): $RegistryAccess$Frozen;
         lookup(): $HolderGetter$Provider;
-        getKeys(arg0: $ResourceKey_<$Registry<never>>): $Collection<$ResourceLocation>;
-        getLootTable(arg0: $ResourceKey_<$LootTable>): $LootTable;
-        constructor(arg0: $RegistryAccess$Frozen);
+        getKeys(registryKey: $ResourceKey_<$Registry<never>>): $Collection<$ResourceLocation>;
+        getLootTable(lootTableKey: $ResourceKey_<$LootTable>): $LootTable;
+        constructor(registries: $RegistryAccess$Frozen);
     }
     export class $WorldLoader$DataLoadContext extends $Record {
         resources(): $ResourceManager;
-        datapackDimensions(): $RegistryAccess$Frozen;
-        datapackWorldgen(): $RegistryAccess$Frozen;
         dataConfiguration(): $WorldDataConfiguration;
+        datapackWorldgen(): $RegistryAccess$Frozen;
+        datapackDimensions(): $RegistryAccess$Frozen;
         constructor(resources: $ResourceManager, dataConfiguration: $WorldDataConfiguration_, datapackWorldgen: $RegistryAccess$Frozen, datapackDimensions: $RegistryAccess$Frozen);
     }
     export class $ServerInterface {
     }
     export interface $ServerInterface extends $ServerInfo {
         getProperties(): $DedicatedServerProperties;
-        runCommand(arg0: string): string;
-        getPlayerNames(): string[];
+        /**
+         * Used by RCon's Query in the form of "MajorServerMod 1.2.3: MyPlugin 1.3" AnotherPlugin 2.1" AndSoForth 1.0".
+         */
         getServerName(): string;
+        /**
+         * Returns an array of the usernames of all the connected players.
+         */
+        getPlayerNames(): string[];
+        /**
+         * Used by RCon's Query in the form of "MajorServerMod 1.2.3: MyPlugin 1.3" AnotherPlugin 2.1" AndSoForth 1.0".
+         */
         getServerIp(): string;
-        getLevelIdName(): string;
+        /**
+         * Handle a command received by an RCon instance
+         */
+        runCommand(command: string): string;
+        /**
+         * Never used, but "getServerPort" is already taken.
+         */
         getServerPort(): number;
+        /**
+         * Used by RCon's Query in the form of "MajorServerMod 1.2.3: MyPlugin 1.3" AnotherPlugin 2.1" AndSoForth 1.0".
+         */
+        getLevelIdName(): string;
+        /**
+         * Used by RCon's Query in the form of "MajorServerMod 1.2.3: MyPlugin 1.3" AnotherPlugin 2.1" AndSoForth 1.0".
+         */
         getPluginNames(): string;
         get properties(): $DedicatedServerProperties;
-        get playerNames(): string[];
         get serverName(): string;
+        get playerNames(): string[];
         get serverIp(): string;
-        get levelIdName(): string;
         get serverPort(): number;
+        get levelIdName(): string;
         get pluginNames(): string;
     }
     export class $ServerFunctionLibrary implements $PreparableReloadListener, $IdentifiableResourceReloadListener {
-        getFunction(arg0: $ResourceLocation_): ($CommandFunction<$CommandSourceStack>) | undefined;
-        reload(arg0: $PreparableReloadListener$PreparationBarrier_, arg1: $ResourceManager, arg2: $ProfilerFiller, arg3: $ProfilerFiller, arg4: $Executor_, arg5: $Executor_): $CompletableFuture<void>;
-        getTag(arg0: $ResourceLocation_): $Collection<$CommandFunction<$CommandSourceStack>>;
+        getFunction(location: $ResourceLocation_): ($CommandFunction<$CommandSourceStack>) | undefined;
+        reload(stage: $PreparableReloadListener$PreparationBarrier_, resourceManager: $ResourceManager, preparationsProfiler: $ProfilerFiller, reloadProfiler: $ProfilerFiller, backgroundExecutor: $Executor_, gameExecutor: $Executor_): $CompletableFuture<void>;
+        getTag(location: $ResourceLocation_): $Collection<$CommandFunction<$CommandSourceStack>>;
         getFunctions(): $Map<$ResourceLocation, $CommandFunction<$CommandSourceStack>>;
         getFabricDependencies(): $Collection<any>;
         getFabricId(): $ResourceLocation;
         getAvailableTags(): $Iterable<$ResourceLocation>;
         getName(): string;
         static TYPE_KEY: $ResourceKey<$Registry<$CommandFunction<$CommandSourceStack>>>;
-        constructor(arg0: number, arg1: $CommandDispatcher<$CommandSourceStack>);
+        constructor(functionCompilationLevel: number, dispatcher: $CommandDispatcher<$CommandSourceStack>);
         get functions(): $Map<$ResourceLocation, $CommandFunction<$CommandSourceStack>>;
         get fabricDependencies(): $Collection<any>;
         get fabricId(): $ResourceLocation;
@@ -369,244 +402,509 @@ declare module "@package/net/minecraft/server" {
         get name(): string;
     }
     export class $MinecraftServer extends $ReentrantBlockableEventLoop<$TickTask> implements $ServerInfo, $ChunkIOErrorReporter, $CommandSource, $AutoCloseable, $IOpenPACMinecraftServer, $ITimeTrackingServer, $VeilPacketManager$PacketSink, $MinecraftServerExtension, $Trackable, $MinecraftServerAccessor, $IMinecraftServer$1, $IMinecraftServer, $MinecraftServerKJS, $FabricOriginalKnownPacksGetter, $ServerMidTickTask {
+        getConnection(): $ServerConnectionListener;
+        getProxy(): $Proxy;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
         getPort(): number;
-        getFile(arg0: string): $Path;
+        getFile(path: string): $Path;
+        /**
+         * Initialises the server and starts it.
+         */
         isShutdown(): boolean;
-        halt(arg0: boolean): void;
-        getLevel(arg0: $ResourceKey_<$Level>): $ServerLevel;
-        isDedicated(): boolean;
-        getSpawnRadius(arg0: $ServerLevel): number;
-        isPvpAllowed(): boolean;
-        getPlayerList(): $PlayerList;
-        isStopped(): boolean;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        halt(waitForServer: boolean): void;
+        /**
+         * Gets the worldServer by the given dimension.
+         */
+        getLevel(dimension: $ResourceKey_<$Level>): $ServerLevel;
+        /**
+         * Initialises the server and starts it.
+         */
         isRunning(): boolean;
         getStatus(): $ServerStatus;
-        setPort(arg0: number): void;
-        setId(arg0: string): void;
-        getKeyPair(): $KeyPair;
-        getProfiler(): $ProfilerFiller;
-        getResourceManager(): $ResourceManager;
-        sendPacket(arg0: $Packet<any>): void;
-        setUsesAuthentication(arg0: boolean): void;
-        finishRecordingMetrics(): void;
-        cancelRecordingMetrics(): void;
-        startRecordingMetrics(arg0: $Consumer_<$ProfileResults>, arg1: $Consumer_<$Path>): void;
-        getScheduledEvents(): $ScheduledEvents;
-        tickServer(arg0: $BooleanSupplier_): void;
-        getFunctions(): $ServerFunctionManager;
+        getServerResources(): $MinecraftServer$ReloadableResources;
+        getCustomBossEvents(): $CustomBossEvents;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        setDifficultyLocked(waitForServer: boolean): void;
+        /**
+         * Initialises the server and starts it.
+         */
+        isStopped(): boolean;
+        setPort(idleTimeout: number): void;
+        setId(serverId: string): void;
         overworld(): $ServerLevel;
-        createTextFilterForPlayer(arg0: $ServerPlayer): $TextFilter;
-        createGameModeForPlayer(arg0: $ServerPlayer): $ServerPlayerGameMode;
-        saveEverything(arg0: boolean, arg1: boolean, arg2: boolean): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        isDedicated(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        forceSynchronousWrites(): boolean;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getAbsoluteMaxWorldSize(): number;
+        getStructureManager(): $StructureTemplateManager;
+        isUnderSpawnProtection(level: $ServerLevel, pos: $BlockPos_, player: $Player): boolean;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        forceTimeSynchronization(): void;
+        serverLinks(): $ServerLinks;
+        setDifficulty(difficulty: $Difficulty_, forced: boolean): void;
+        getProfiler(): $ProfilerFiller;
+        /**
+         * Drive the executor until the given BooleanSupplier returns true
+         */
+        tickServer(isDone: $BooleanSupplier_): void;
+        /**
+         * "getHostname" is already taken, but both return the hostname.
+         */
         getServerModName(): string;
+        createLevels(listener: $ChunkProgressListener): void;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
         forceDifficulty(): void;
-        waitUntilNextTick(): void;
-        saveAllChunks(arg0: boolean, arg1: boolean, arg2: boolean): boolean;
+        saveAllChunks(suppressLog: boolean, flush: boolean, forced: boolean): boolean;
+        saveEverything(suppressLog: boolean, flush: boolean, forced: boolean): boolean;
         getModdedStatus(): $ModCheck;
-        createLevels(arg0: $ChunkProgressListener): void;
-        isEpollEnabled(): boolean;
-        static setFatalException(arg0: $RuntimeException): void;
-        tickChildren(arg0: $BooleanSupplier_): void;
-        getStatusJson(): string;
-        getTickTimeLogger(): $SampleLogger;
-        addTickable(arg0: $Runnable_): void;
-        getPlayerNames(): string[];
-        getPlayerCount(): number;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
         onServerExit(): void;
-        initializeKeyPair(): void;
-        getServerVersion(): string;
-        isSpawningMonsters(): boolean;
-        onServerCrash(arg0: $CrashReport): void;
         getServerDirectory(): $Path;
-        usesAuthentication(): boolean;
-        onTickRateChanged(): void;
+        /**
+         * Called on exit from the main run() loop.
+         */
+        onServerCrash(report: $CrashReport): void;
+        getTickTimeLogger(): $SampleLogger;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        waitUntilNextTick(): void;
+        setPlayerList(list: $PlayerList): void;
+        /**
+         * Initialises the server and starts it.
+         */
         hidesOnlinePlayers(): boolean;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        setPvpAllowed(waitForServer: boolean): void;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
         getMaxPlayers(): number;
-        setPvpAllowed(arg0: boolean): void;
+        /**
+         * "getHostname" is already taken, but both return the hostname.
+         */
+        getStatusJson(): string;
+        getSessionService(): $MinecraftSessionService;
+        /**
+         * Returns an array of the usernames of all the connected players.
+         */
+        getPlayerNames(): string[];
+        /**
+         * Drive the executor until the given BooleanSupplier returns true
+         */
+        tickChildren(isDone: $BooleanSupplier_): void;
+        static setFatalException(fatalException: $RuntimeException): void;
+        addTickable(tickable: $Runnable_): void;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getPlayerCount(): number;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        initializeKeyPair(): void;
+        /**
+         * Initialises the server and starts it.
+         */
+        usesAuthentication(): boolean;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        setFlightAllowed(waitForServer: boolean): void;
+        /**
+         * Initialises the server and starts it.
+         */
+        repliesToStatus(): boolean;
+        /**
+         * Sets the game type for all worlds.
+         */
+        setDefaultGameType(gameMode: $GameType_): void;
+        /**
+         * Initialises the server and starts it.
+         */
+        isSpawningMonsters(): boolean;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        onTickRateChanged(): void;
+        publishServer(gameMode: $GameType_ | null, commands: boolean, port: number): boolean;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        invalidateStatus(): void;
+        getNextTickTime(): number;
+        /**
+         * Replaces currently selected list of datapacks, reloads them, and sends new data to players.
+         */
+        reloadResources(selectedIds: $Collection_<string>): $CompletableFuture<void>;
+        /**
+         * "getHostname" is already taken, but both return the hostname.
+         */
+        getServerVersion(): string;
+        /**
+         * Initialises the server and starts it.
+         */
+        isEpollEnabled(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        isFlightAllowed(): boolean;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        startTimeProfiler(): void;
+        getTickTimesNanos(): number[];
+        stopTimeProfiler(): $ProfileResults;
+        /**
+         * Initialises the server and starts it.
+         */
+        isEnforceWhitelist(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        acceptsTransfers(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        isCurrentlySaving(): boolean;
+        getOverworld(): $ServerLevel;
+        /**
+         * Initialises the server and starts it.
+         */
         isRecordingMetrics(): boolean;
-        getWorldPath(arg0: $LevelResource): $Path;
+        getWorldPath(levelResource: $LevelResource): $Path;
         /**
          * @deprecated
+         * Directly calls System.exit(0), instantly killing the program.
          */
         markWorldsDirty(): void;
-        reloadResources(arg0: $Collection_<string>): $CompletableFuture<void>;
-        startTimeProfiler(): void;
-        stopTimeProfiler(): $ProfileResults;
-        setFlightAllowed(arg0: boolean): void;
-        repliesToStatus(): boolean;
-        publishServer(arg0: $GameType_, arg1: boolean, arg2: number): boolean;
-        isEnforceWhitelist(): boolean;
-        isCurrentlySaving(): boolean;
-        acceptsTransfers(): boolean;
-        getSessionService(): $MinecraftSessionService;
         veil$getScheduler(): $TickTaskSchedulerImpl;
-        setDefaultGameType(arg0: $GameType_): void;
-        getNextTickTime(): number;
-        getTickTimesNanos(): number[];
+        logChatMessage(content: $Component_, boundChatType: $ChatType$Bound_, header: string | null): void;
         /**
          * @deprecated
          */
         forgeGetWorldMap(): $Map<$ResourceKey<$Level>, $ServerLevel>;
         getPackRepository(): $PackRepository;
-        invalidateStatus(): void;
-        isFlightAllowed(): boolean;
-        setPlayerList(arg0: $PlayerList): void;
-        logChatMessage(arg0: $Component_, arg1: $ChatType$Bound_, arg2: string): void;
-        getOverworld(): $ServerLevel;
-        reloadableRegistries(): $ReloadableServerRegistries$Holder;
-        setDifficultyLocked(arg0: boolean): void;
-        getCustomBossEvents(): $CustomBossEvents;
-        enforceSecureProfile(): boolean;
-        endMetricsRecordingTick(): void;
-        getSingleplayerProfile(): $GameProfile;
-        getScaledTrackingDistance(arg0: number): number;
-        shouldRconBroadcast(): boolean;
-        getServerResourcePack(): ($MinecraftServer$ServerResourcePackInfo) | undefined;
-        static throwIfFatalException(): boolean;
-        getAverageTickTimeNanos(): number;
-        isTickTimeLoggingEnabled(): boolean;
-        fillServerSystemReport(arg0: $SystemReport): $SystemReport;
-        isResourcePackRequired(): boolean;
-        setSingleplayerProfile(arg0: $GameProfile): void;
-        getPlayerIdleTimeout(): number;
-        getXaero_OPAC_ServerData(): $IServerDataAPI;
-        kickUnlistedPlayers(arg0: $CommandSourceStack): void;
-        reportChunkSaveFailure(arg0: $Throwable, arg1: $RegionStorageInfo_, arg2: $ChunkPos): void;
-        getCurrentSmoothedTickTime(): number;
-        getXaeroMinimapServerData(): $MinecraftServerData;
-        subscribeToDebugSample(arg0: $ServerPlayer, arg1: $RemoteDebugSampleType_): void;
-        setPlayerIdleTimeout(arg0: number): void;
-        static configurePackRepository(arg0: $PackRepository, arg1: $WorldDataConfiguration_, arg2: boolean, arg3: boolean): $WorldDataConfiguration;
-        reportChunkLoadFailure(arg0: $Throwable, arg1: $RegionStorageInfo_, arg2: $ChunkPos): void;
-        mfix$getLastTickStartTime(): number;
-        veil$getOrCreateScheduler(): $TickTaskSchedulerImpl;
-        isSingleplayerOwner(arg0: $GameProfile): boolean;
-        getCompressionThreshold(): number;
-        setXaeroMinimapServerData(arg0: $MinecraftServerData): void;
-        stopRecordingMetrics(): void;
-        getPreventProxyConnections(): boolean;
-        getProfileRepository(): $GameProfileRepository;
-        setEnforceWhitelist(arg0: boolean): void;
-        dumpServerProperties(arg0: $Path_): void;
-        getXaeroWorldMapServerData(): $MinecraftServerData$1;
-        setPreventProxyConnections(arg0: boolean): void;
-        setXaeroWorldMapServerData(arg0: $MinecraftServerData$1): void;
-        getSpawnProtectionRadius(): number;
-        setXaero_OPAC_ServerData(arg0: $IServerDataAPI): void;
-        isTimeProfilerRunning(): boolean;
-        getTickCount(): number;
-        getConnection(): $ServerConnectionListener;
-        executeTasksMidTick(world: $ServerLevel): void;
-        isLevelEnabled(arg0: $Level_): boolean;
-        shouldInformAdmins(): boolean;
-        acceptsSuccess(): boolean;
-        acceptsFailure(): boolean;
-        runServer(): void;
-        getLocalIp(): string;
-        setLocalIp(arg0: string): void;
-        initServer(): boolean;
-        loadLevel(): void;
-        stop(): void;
-        setMotd(arg0: string): void;
-        hasGui(): boolean;
-        setDemo(arg0: boolean): void;
-        levelKeys(): $Set<$ResourceKey<$Level>>;
-        logIPs(): boolean;
-        getProfilePermissions(arg0: $GameProfile): number;
-        restoreInventories(): $Map<any, any>;
-        getAbsoluteMaxWorldSize(): number;
-        getStructureManager(): $StructureTemplateManager;
-        isUnderSpawnProtection(arg0: $ServerLevel, arg1: $BlockPos_, arg2: $Player): boolean;
-        forceSynchronousWrites(): boolean;
-        forceTimeSynchronization(): void;
-        getOperatorUserPermissionLevel(): number;
-        handler$bma000$veil$stopServer(arg0: $CallbackInfo): void;
-        getRateLimitPacketsPerSecond(): number;
-        getFunctionCompilationLevel(): number;
-        fabric_getOriginalKnownPacks(): $List<any>;
-        getMaxChainedNeighborUpdates(): number;
-        getProxy(): $Proxy;
-        sendSystemMessage(arg0: $Component_): void;
-        getCommands(): $Commands;
-        fillSystemReport(arg0: $SystemReport): $SystemReport;
-        tickRateManager(): $ServerTickRateManager;
-        getWorldData(): $WorldData;
-        getAdvancements(): $ServerAdvancementManager;
-        registryAccess(): $RegistryAccess$Frozen;
-        isSingleplayer(): boolean;
-        isPublished(): boolean;
-        atl$getBaseClass(): $Class<any>;
-        getData(): $AttachedData<any>;
-        getRecipeManager(): $RecipeManager;
-        potionBrewing(): $PotionBrewing;
-        getGameRules(): $GameRules;
-        getScoreboard(): $ServerScoreboard;
-        isHardcore(): boolean;
-        static spin<S extends $MinecraftServer>(arg0: $Function_<$Thread, S>): S;
-        registries(): $LayeredRegistryAccess<$RegistryLayer>;
-        isReady(): boolean;
-        isPaused(): boolean;
-        isDemo(): boolean;
-        shouldRun(arg0: $TickTask): boolean;
-        doRunTask(arg0: $TickTask): void;
-        setDifficulty(arg0: $Difficulty_, arg1: boolean): void;
-        getServerResources(): $MinecraftServer$ReloadableResources;
-        isCommandBlockEnabled(): boolean;
-        getForcedGameType(): $GameType;
-        getDefaultGameType(): $GameType;
-        getTickTime(arg0: $ResourceKey_<$Level>): number[];
-        isSpawningAnimals(): boolean;
-        areNpcsEnabled(): boolean;
-        getWorldScreenshotFile(): ($Path) | undefined;
-        getProfileCache(): $GameProfileCache;
-        getChatDecorator(): $ChatDecorator;
-        getAllLevels(): $Iterable<$ServerLevel>;
-        getCommandStorage(): $CommandStorage;
-        getMotd(): string;
-        getFixerUpper(): $DataFixer;
-        wrapRunnable(arg0: $Runnable_): $TickTask;
-        serverLinks(): $ServerLinks;
         getProfileKeySignatureValidator(): $SignatureValidator;
-        getPersistentData(): $CompoundTag;
+        startRecordingMetrics(output: $Consumer_<$ProfileResults>, onMetricsRecordingFinished: $Consumer_<$Path>): void;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        cancelRecordingMetrics(): void;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        finishRecordingMetrics(): void;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        setUsesAuthentication(waitForServer: boolean): void;
+        getScheduledEvents(): $ScheduledEvents;
+        getAdvancements(): $ServerAdvancementManager;
+        tickRateManager(): $ServerTickRateManager;
+        registryAccess(): $RegistryAccess$Frozen;
+        wrapRunnable(runnable: $Runnable_): $TickTask;
+        /**
+         * Initialises the server and starts it.
+         */
+        isSingleplayer(): boolean;
+        getFixerUpper(): $DataFixer;
+        executeTasksMidTick(level: $ServerLevel): void;
+        registries(): $LayeredRegistryAccess<$RegistryLayer>;
+        static spin<S extends $MinecraftServer>(threadFunction: $Function_<$Thread, S>): S;
+        /**
+         * Initialises the server and starts it.
+         */
+        isReady(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        isDemo(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        isPaused(): boolean;
+        shouldRun(runnable: $TickTask): boolean;
+        doRunTask(task: $TickTask): void;
+        sendSystemMessage(component: $Component_): void;
+        getCommands(): $Commands;
+        getPlayerList(): $PlayerList;
+        getSpawnRadius(level: $ServerLevel | null): number;
+        /**
+         * Initialises the server and starts it.
+         */
+        isPvpAllowed(): boolean;
+        getDefaultGameType(): $GameType;
+        getForcedGameType(): $GameType;
+        getTickTime(arg0: $ResourceKey_<$Level>): number[];
+        /**
+         * Initialises the server and starts it.
+         */
+        isSpawningAnimals(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        areNpcsEnabled(): boolean;
+        getResourceManager(): $ResourceManager;
         createCommandSourceStack(): $CommandSourceStack;
-        reportMisplacedChunk(arg0: $ChunkPos, arg1: $ChunkPos, arg2: $RegionStorageInfo_): void;
+        getPersistentData(): $CompoundTag;
+        /**
+         * Initialises the server and starts it.
+         */
+        isHardcore(): boolean;
+        createTextFilterForPlayer(player: $ServerPlayer): $TextFilter;
+        createGameModeForPlayer(player: $ServerPlayer): $ServerPlayerGameMode;
+        restoreInventories(): $Map<any, any>;
+        getProfilePermissions(profile: $GameProfile): number;
+        /**
+         * Initialises the server and starts it.
+         */
+        initServer(): boolean;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        loadLevel(): void;
+        setLocalIp(serverId: string): void;
+        /**
+         * Initialises the server and starts it.
+         */
+        hasGui(): boolean;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        stop(): void;
+        /**
+         * "getHostname" is already taken, but both return the hostname.
+         */
+        getLocalIp(): string;
+        levelKeys(): $Set<$ResourceKey<$Level>>;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        runServer(): void;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        setDemo(waitForServer: boolean): void;
+        setMotd(serverId: string): void;
+        /**
+         * Initialises the server and starts it.
+         */
+        logIPs(): boolean;
+        getFunctions(): $ServerFunctionManager;
+        handler$bln000$veil$stopServer(arg0: $CallbackInfo): void;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getFunctionCompilationLevel(): number;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getRateLimitPacketsPerSecond(): number;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getOperatorUserPermissionLevel(): number;
+        fabric_getOriginalKnownPacks(): $List<any>;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getMaxChainedNeighborUpdates(): number;
+        getProfileCache(): $GameProfileCache;
+        getAllLevels(): $Iterable<$ServerLevel>;
+        getChatDecorator(): $ChatDecorator;
+        getCommandStorage(): $CommandStorage;
+        /**
+         * "getHostname" is already taken, but both return the hostname.
+         */
+        getMotd(): string;
+        /**
+         * Gets KeyPair instanced in MinecraftServer.
+         */
+        getKeyPair(): $KeyPair;
+        getGameRules(): $GameRules;
+        sendPacket(arg0: $Packet<any>): void;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getTickCount(): number;
+        fillSystemReport(report: $SystemReport): $SystemReport;
+        getWorldData(): $WorldData;
+        /**
+         * Initialises the server and starts it.
+         */
+        isPublished(): boolean;
+        getScoreboard(): $ServerScoreboard;
+        isLevelEnabled(level: $Level_): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        shouldInformAdmins(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        acceptsSuccess(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        acceptsFailure(): boolean;
+        potionBrewing(): $PotionBrewing;
+        getRecipeManager(): $RecipeManager;
+        /**
+         * Initialises the server and starts it.
+         */
+        shouldRconBroadcast(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        isTickTimeLoggingEnabled(): boolean;
+        /**
+         * Initialises the server and starts it.
+         */
+        static throwIfFatalException(): boolean;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        endMetricsRecordingTick(): void;
+        getServerResourcePack(): ($MinecraftServer$ServerResourcePackInfo) | undefined;
+        static configurePackRepository(packRepository: $PackRepository, initialDataConfig: $WorldDataConfiguration_, initMode: boolean, safeMode: boolean): $WorldDataConfiguration;
+        getSingleplayerProfile(): $GameProfile;
+        /**
+         * Initialises the server and starts it.
+         */
+        isResourcePackRequired(): boolean;
+        getAverageTickTimeNanos(): number;
+        /**
+         * Initialises the server and starts it.
+         */
+        getPreventProxyConnections(): boolean;
+        isSingleplayerOwner(profile: $GameProfile): boolean;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        setPreventProxyConnections(waitForServer: boolean): void;
+        getProfileRepository(): $GameProfileRepository;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getCompressionThreshold(): number;
+        dumpServerProperties(path: $Path_): void;
+        /**
+         * Initialises the server and starts it.
+         */
+        isTimeProfilerRunning(): boolean;
+        getCurrentSmoothedTickTime(): number;
+        reportChunkLoadFailure(throwable: $Throwable, regionStorageInfo: $RegionStorageInfo_, chunkPos: $ChunkPos): void;
+        reportChunkSaveFailure(throwable: $Throwable, regionStorageInfo: $RegionStorageInfo_, chunkPos: $ChunkPos): void;
+        kickUnlistedPlayers(commandSource: $CommandSourceStack): void;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getSpawnProtectionRadius(): number;
+        getScaledTrackingDistance(trackingDistance: number): number;
+        /**
+         * Sets the serverRunning variable to false, in order to get the server to shut down.
+         */
+        setEnforceWhitelist(waitForServer: boolean): void;
+        /**
+         * The compression threshold. If the packet is larger than the specified amount of bytes, it will be compressed
+         */
+        getPlayerIdleTimeout(): number;
+        setSingleplayerProfile(singleplayerProfile: $GameProfile | null): void;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
+        stopRecordingMetrics(): void;
+        subscribeToDebugSample(player: $ServerPlayer, sampleType: $RemoteDebugSampleType_): void;
+        fillServerSystemReport(report: $SystemReport): $SystemReport;
+        /**
+         * Initialises the server and starts it.
+         */
+        enforceSecureProfile(): boolean;
+        setPlayerIdleTimeout(idleTimeout: number): void;
+        getXaeroWorldMapServerData(): $MinecraftServerData$1;
+        getXaeroMinimapServerData(): $MinecraftServerData;
+        setXaero_OPAC_ServerData(arg0: $IServerDataAPI): void;
+        setXaeroWorldMapServerData(arg0: $MinecraftServerData$1): void;
+        veil$getOrCreateScheduler(): $TickTaskSchedulerImpl;
+        getXaero_OPAC_ServerData(): $IServerDataAPI;
+        mfix$getLastTickStartTime(): number;
+        setXaeroMinimapServerData(arg0: $MinecraftServerData): void;
+        getWorldScreenshotFile(): ($Path) | undefined;
+        reloadableRegistries(): $ReloadableServerRegistries$Holder;
+        /**
+         * Initialises the server and starts it.
+         */
+        isCommandBlockEnabled(): boolean;
+        getData(): $AttachedData<any>;
+        atl$getBaseClass(): $Class<any>;
+        reportMisplacedChunk(pos: $ChunkPos, expectedPos: $ChunkPos, regionStorageInfo: $RegionStorageInfo_): void;
+        /**
+         * Initialises the server and starts it.
+         */
         alwaysAccepts(): boolean;
         sendPacket(...arg0: $CustomPacketPayload_[]): void;
         wrap(): $WeakReference<$Trackable>;
+        /**
+         * Directly calls System.exit(0), instantly killing the program.
+         */
         startTracking(): void;
-        setStatusMessage(message: $Component_): void;
-        setActivePostShader(id: $ResourceLocation_): void;
+        getPlayer(selector: $PlayerSelector_): $ServerPlayer;
         /**
          * Runs the specified console command. The command won't output any logs in chat nor console.
          * 
          * @param command The console command. Slash at the beginning is optional.
          */
-        runCommandSilent(command: string): void;
-        getEntityByUUID(id: $UUID_): $Entity;
+        runCommandSilent(serverId: string): void;
+        setStatusMessage(component: $Component_): void;
+        setActivePostShader(id: $ResourceLocation_): void;
         getEntityByNetworkID(id: number): $Entity;
+        getEntityByUUID(id: $UUID_): $Entity;
+        self(): $MinecraftServer;
+        tell(component: $Component_): void;
         getLevel(dimension: $ResourceLocation_): $ServerLevel;
-        sendData(channel: string, data: $CompoundTag_): void;
+        getAdvancement(id: $ResourceLocation_): $AdvancementNode;
         getMcPlayers(): $List<$Player>;
         getPlayers(): $EntityArrayList;
-        getMcEntities(): $Iterable<$Entity>;
-        self(): $MinecraftServer;
-        tell(message: $Component_): void;
-        getPlayer(selector: $PlayerSelector_): $ServerPlayer;
-        getAdvancement(id: $ResourceLocation_): $AdvancementNode;
         /**
          * Runs the specified console command.
          * 
          * @param command The console command. Slash at the beginning is optional.
          */
-        runCommand(command: string): void;
+        runCommand(serverId: string): void;
         getName(): $Component;
-        sendData(channel: string): void;
+        getMcEntities(): $Iterable<$Entity>;
+        sendData(channel: string, data: $CompoundTag_): void;
+        sendData(serverId: string): void;
         scheduleInTicks(ticks: $TickDuration_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
         scheduleRepeating(timer: $TemporalAmount_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
-        schedule(timer: $TemporalAmount_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
         scheduleRepeatingInTicks(ticks: $TickDuration_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
-        getEntities(): $EntityArrayList;
+        schedule(timer: $TemporalAmount_, callback: $ScheduledEvents$Callback_): $ScheduledEvents$ScheduledEvent;
         getEntitiesWithin(aabb: $AABB_): $EntityArrayList;
+        getEntities(): $EntityArrayList;
         getDisplayName(): $Component;
         catnip$getStorageSource(): $LevelStorageSource$LevelStorageAccess;
         static VANILLA_BRAND: string;
@@ -620,78 +918,78 @@ declare module "@package/net/minecraft/server" {
         static ABSOLUTE_MAX_WORLD_SIZE: number;
         static DEMO_SETTINGS: $LevelSettings;
         playerDataStorage: $PlayerDataStorage;
-        constructor(arg0: $Thread, arg1: $LevelStorageSource$LevelStorageAccess, arg2: $PackRepository, arg3: $WorldStem_, arg4: $Proxy, arg5: $DataFixer, arg6: $Services_, arg7: $ChunkProgressListenerFactory_);
+        constructor(serverThread: $Thread, storageSource: $LevelStorageSource$LevelStorageAccess, packRepository: $PackRepository, worldStem: $WorldStem_, proxy: $Proxy, fixerUpper: $DataFixer, services: $Services_, progressListenerFactory: $ChunkProgressListenerFactory_);
+        get connection(): $ServerConnectionListener;
         get shutdown(): boolean;
-        get dedicated(): boolean;
-        get stopped(): boolean;
         get running(): boolean;
         get status(): $ServerStatus;
-        set id(value: string);
-        get keyPair(): $KeyPair;
-        get profiler(): $ProfilerFiller;
-        get resourceManager(): $ResourceManager;
-        get scheduledEvents(): $ScheduledEvents;
-        get functions(): $ServerFunctionManager;
-        get serverModName(): string;
-        get moddedStatus(): $ModCheck;
-        get epollEnabled(): boolean;
-        static set fatalException(value: $RuntimeException);
-        get statusJson(): string;
-        get tickTimeLogger(): $SampleLogger;
-        get playerNames(): string[];
-        get playerCount(): number;
-        get serverVersion(): string;
-        get spawningMonsters(): boolean;
-        get serverDirectory(): $Path;
-        get maxPlayers(): number;
-        get recordingMetrics(): boolean;
-        get currentlySaving(): boolean;
-        get sessionService(): $MinecraftSessionService;
-        get nextTickTime(): number;
-        get tickTimesNanos(): number[];
-        get packRepository(): $PackRepository;
-        set difficultyLocked(value: boolean);
+        get serverResources(): $MinecraftServer$ReloadableResources;
         get customBossEvents(): $CustomBossEvents;
-        get serverResourcePack(): ($MinecraftServer$ServerResourcePackInfo) | undefined;
-        get averageTickTimeNanos(): number;
-        get tickTimeLoggingEnabled(): boolean;
-        get resourcePackRequired(): boolean;
-        get currentSmoothedTickTime(): number;
-        get compressionThreshold(): number;
-        get profileRepository(): $GameProfileRepository;
-        get spawnProtectionRadius(): number;
-        get timeProfilerRunning(): boolean;
-        get tickCount(): number;
-        get connection(): $ServerConnectionListener;
+        set difficultyLocked(value: boolean);
+        get stopped(): boolean;
+        set id(value: string);
+        get dedicated(): boolean;
         get absoluteMaxWorldSize(): number;
         get structureManager(): $StructureTemplateManager;
-        get operatorUserPermissionLevel(): number;
-        get rateLimitPacketsPerSecond(): number;
-        get functionCompilationLevel(): number;
-        get maxChainedNeighborUpdates(): number;
-        get commands(): $Commands;
+        get profiler(): $ProfilerFiller;
+        get serverModName(): string;
+        get moddedStatus(): $ModCheck;
+        get serverDirectory(): $Path;
+        get tickTimeLogger(): $SampleLogger;
+        get maxPlayers(): number;
+        get statusJson(): string;
+        get sessionService(): $MinecraftSessionService;
+        get playerNames(): string[];
+        static set fatalException(value: $RuntimeException);
+        get playerCount(): number;
+        get spawningMonsters(): boolean;
+        get nextTickTime(): number;
+        get serverVersion(): string;
+        get epollEnabled(): boolean;
+        get tickTimesNanos(): number[];
+        get currentlySaving(): boolean;
+        get recordingMetrics(): boolean;
+        get packRepository(): $PackRepository;
+        get profileKeySignatureValidator(): $SignatureValidator;
+        get scheduledEvents(): $ScheduledEvents;
         get advancements(): $ServerAdvancementManager;
         get singleplayer(): boolean;
-        get published(): boolean;
-        get data(): $AttachedData<any>;
-        get recipeManager(): $RecipeManager;
-        get gameRules(): $GameRules;
-        get scoreboard(): $ServerScoreboard;
-        get hardcore(): boolean;
+        get fixerUpper(): $DataFixer;
         get ready(): boolean;
         get paused(): boolean;
-        get serverResources(): $MinecraftServer$ReloadableResources;
-        get commandBlockEnabled(): boolean;
+        get commands(): $Commands;
         get forcedGameType(): $GameType;
         get spawningAnimals(): boolean;
-        get worldScreenshotFile(): ($Path) | undefined;
-        get profileCache(): $GameProfileCache;
-        get chatDecorator(): $ChatDecorator;
-        get allLevels(): $Iterable<$ServerLevel>;
-        get commandStorage(): $CommandStorage;
-        get fixerUpper(): $DataFixer;
-        get profileKeySignatureValidator(): $SignatureValidator;
+        get resourceManager(): $ResourceManager;
         get persistentData(): $CompoundTag;
+        get hardcore(): boolean;
+        get functions(): $ServerFunctionManager;
+        get functionCompilationLevel(): number;
+        get rateLimitPacketsPerSecond(): number;
+        get operatorUserPermissionLevel(): number;
+        get maxChainedNeighborUpdates(): number;
+        get profileCache(): $GameProfileCache;
+        get allLevels(): $Iterable<$ServerLevel>;
+        get chatDecorator(): $ChatDecorator;
+        get commandStorage(): $CommandStorage;
+        get keyPair(): $KeyPair;
+        get gameRules(): $GameRules;
+        get tickCount(): number;
+        get published(): boolean;
+        get scoreboard(): $ServerScoreboard;
+        get recipeManager(): $RecipeManager;
+        get tickTimeLoggingEnabled(): boolean;
+        get serverResourcePack(): ($MinecraftServer$ServerResourcePackInfo) | undefined;
+        get resourcePackRequired(): boolean;
+        get averageTickTimeNanos(): number;
+        get profileRepository(): $GameProfileRepository;
+        get compressionThreshold(): number;
+        get timeProfilerRunning(): boolean;
+        get currentSmoothedTickTime(): number;
+        get spawnProtectionRadius(): number;
+        get worldScreenshotFile(): ($Path) | undefined;
+        get commandBlockEnabled(): boolean;
+        get data(): $AttachedData<any>;
         set statusMessage(value: $Component_);
         set activePostShader(value: $ResourceLocation_);
         get mcPlayers(): $List<$Player>;
@@ -704,41 +1002,41 @@ declare module "@package/net/minecraft/server" {
         close(): void;
         dataPackResources(): $ReloadableServerResources;
         resourceManager(): $CloseableResourceManager;
-        worldData(): $WorldData;
         registries(): $LayeredRegistryAccess<$RegistryLayer>;
+        worldData(): $WorldData;
         constructor(arg0: $CloseableResourceManager, arg1: $ReloadableServerResources, arg2: $LayeredRegistryAccess<$RegistryLayer_>, arg3: $WorldData);
     }
     export class $ServerScoreboard extends $Scoreboard {
-        stopTrackingObjective(arg0: $Objective): void;
-        startTrackingObjective(arg0: $Objective): void;
-        getStartTrackingPackets(arg0: $Objective): $List<$Packet<never>>;
-        getStopTrackingPackets(arg0: $Objective): $List<$Packet<never>>;
+        getObjectiveDisplaySlotCount(objective: $Objective): number;
+        addDirtyListener(runnable: $Runnable_): void;
         dataFactory(): $SavedData$Factory<$ScoreboardSaveData>;
-        addDirtyListener(arg0: $Runnable_): void;
-        getObjectiveDisplaySlotCount(arg0: $Objective): number;
         setDirty(): void;
+        startTrackingObjective(objective: $Objective): void;
+        getStopTrackingPackets(objective: $Objective): $List<$Packet<never>>;
+        getStartTrackingPackets(objective: $Objective): $List<$Packet<never>>;
+        stopTrackingObjective(objective: $Objective): void;
         static HIDDEN_SCORE_PREFIX: string;
-        constructor(arg0: $MinecraftServer);
+        constructor(server: $MinecraftServer);
     }
     export class $ReloadableServerResources implements $ReloadableServerResourcesKJS {
         listeners(): $List<$PreparableReloadListener>;
-        fullRegistries(): $ReloadableServerRegistries$Holder;
+        getRegistryLookup(): $HolderLookup$Provider;
         getFunctionLibrary(): $ServerFunctionLibrary;
         updateRegistryTags(): void;
-        static loadResources(arg0: $ResourceManager, arg1: $LayeredRegistryAccess<$RegistryLayer_>, arg2: $FeatureFlagSet, arg3: $Commands$CommandSelection_, arg4: number, arg5: $Executor_, arg6: $Executor_): $CompletableFuture<$ReloadableServerResources>;
-        getConditionContext(): $ICondition$IContext;
-        getCommands(): $Commands;
+        static loadResources(resourceManager: $ResourceManager, registries: $LayeredRegistryAccess<$RegistryLayer_>, enabledFeatures: $FeatureFlagSet, commandSelection: $Commands$CommandSelection_, functionCompilationLevel: number, backgroundExecutor: $Executor_, gameExecutor: $Executor_): $CompletableFuture<$ReloadableServerResources>;
         getAdvancements(): $ServerAdvancementManager;
-        getRecipeManager(): $RecipeManager;
-        getRegistryLookup(): $HolderLookup$Provider;
+        getCommands(): $Commands;
+        getConditionContext(): $ICondition$IContext;
+        fullRegistries(): $ReloadableServerRegistries$Holder;
         kjs$getServerScriptManager(): $ServerScriptManager;
+        getRecipeManager(): $RecipeManager;
         kjs$getTagManager(): $TagManager;
-        get functionLibrary(): $ServerFunctionLibrary;
-        get conditionContext(): $ICondition$IContext;
-        get commands(): $Commands;
-        get advancements(): $ServerAdvancementManager;
-        get recipeManager(): $RecipeManager;
         get registryLookup(): $HolderLookup$Provider;
+        get functionLibrary(): $ServerFunctionLibrary;
+        get advancements(): $ServerAdvancementManager;
+        get commands(): $Commands;
+        get conditionContext(): $ICondition$IContext;
+        get recipeManager(): $RecipeManager;
     }
     export class $WorldLoader$InitConfig extends $Record {
         commandSelection(): $Commands$CommandSelection;
@@ -748,16 +1046,19 @@ declare module "@package/net/minecraft/server" {
     }
     export class $TickTask implements $Runnable {
         run(): void;
+        /**
+         * Get the server time when this task was scheduled
+         */
         getTick(): number;
-        constructor(arg0: number, arg1: $Runnable_);
+        constructor(tick: number, runnable: $Runnable_);
         get tick(): number;
     }
     export class $ServerLinks$Entry extends $Record {
         type(): $Either<$ServerLinks$KnownLinkType, $Component>;
         displayName(): $Component;
         link(): $URI;
-        static custom(arg0: $Component_, arg1: $URI): $ServerLinks$Entry;
-        static knownType(arg0: $ServerLinks$KnownLinkType_, arg1: $URI): $ServerLinks$Entry;
+        static custom(type: $Component_, link: $URI): $ServerLinks$Entry;
+        static knownType(type: $ServerLinks$KnownLinkType_, link: $URI): $ServerLinks$Entry;
         constructor(arg0: $Either<$ServerLinks$KnownLinkType_, $Component_>, arg1: $URI);
     }
     export class $MinecraftServer$ServerResourcePackInfo extends $Record {
@@ -766,11 +1067,11 @@ declare module "@package/net/minecraft/server" {
         id(): $UUID;
         isRequired(): boolean;
         prompt(): $Component;
-        constructor(id: $UUID_, url: string, hash: string, isRequired: boolean, prompt: $Component_);
+        constructor(id: $UUID_, url: string, hash: string, isRequired: boolean, prompt: $Component_ | null);
         get required(): boolean;
     }
     export class $Main {
-        static main(arg0: string[]): void;
+        static main(args: string[]): void;
         constructor();
     }
     export class $ServerLinks$UntrustedEntry extends $Record {
@@ -780,29 +1081,29 @@ declare module "@package/net/minecraft/server" {
         constructor(arg0: $Either<$ServerLinks$KnownLinkType_, $Component_>, arg1: string);
     }
     export class $Services extends $Record {
-        static create(arg0: $YggdrasilAuthenticationService, arg1: $File_): $Services;
-        canValidateProfileKeys(): boolean;
-        profileRepository(): $GameProfileRepository;
-        profileKeySignatureValidator(): $SignatureValidator;
-        profileCache(): $GameProfileCache;
+        static create(authenticationService: $YggdrasilAuthenticationService, profileRepository: $File_): $Services;
         servicesKeySet(): $ServicesKeySet;
+        profileRepository(): $GameProfileRepository;
+        canValidateProfileKeys(): boolean;
+        profileCache(): $GameProfileCache;
+        profileKeySignatureValidator(): $SignatureValidator;
         sessionService(): $MinecraftSessionService;
         constructor(arg0: $MinecraftSessionService, arg1: $ServicesKeySet_, arg2: $GameProfileRepository_, arg3: $GameProfileCache);
     }
     export class $ServerFunctionManager implements $IProfilingServerFunctionManager {
-        get(arg0: $ResourceLocation_): ($CommandFunction<$CommandSourceStack>) | undefined;
-        execute(arg0: $CommandFunction<$CommandSourceStack>, arg1: $CommandSourceStack): void;
+        get(functionIdentifier: $ResourceLocation_): ($CommandFunction<$CommandSourceStack>) | undefined;
+        execute(_function: $CommandFunction<$CommandSourceStack>, source: $CommandSourceStack): void;
         tick(): void;
-        getTag(arg0: $ResourceLocation_): $Collection<$CommandFunction<$CommandSourceStack>>;
-        getDispatcher(): $CommandDispatcher<$CommandSourceStack>;
-        getTagNames(): $Iterable<$ResourceLocation>;
-        replaceLibrary(arg0: $ServerFunctionLibrary): void;
-        getFunctionNames(): $Iterable<$ResourceLocation>;
+        getTag(functionTagIdentifier: $ResourceLocation_): $Collection<$CommandFunction<$CommandSourceStack>>;
         mfix$getProfilingResults(): string;
+        getTagNames(): $Iterable<$ResourceLocation>;
+        replaceLibrary(reloader: $ServerFunctionLibrary): void;
+        getDispatcher(): $CommandDispatcher<$CommandSourceStack>;
+        getFunctionNames(): $Iterable<$ResourceLocation>;
         getGameLoopSender(): $CommandSourceStack;
-        constructor(arg0: $MinecraftServer, arg1: $ServerFunctionLibrary);
-        get dispatcher(): $CommandDispatcher<$CommandSourceStack>;
+        constructor(server: $MinecraftServer, library: $ServerFunctionLibrary);
         get tagNames(): $Iterable<$ResourceLocation>;
+        get dispatcher(): $CommandDispatcher<$CommandSourceStack>;
         get functionNames(): $Iterable<$ResourceLocation>;
         get gameLoopSender(): $CommandSourceStack;
     }

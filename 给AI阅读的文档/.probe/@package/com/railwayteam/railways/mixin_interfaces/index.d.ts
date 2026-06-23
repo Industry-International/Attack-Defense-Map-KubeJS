@@ -3,9 +3,10 @@ import { $TrackEdge, $TrackNode } from "@package/com/simibubi/create/content/tra
 import { $MountedFluidStorageWrapper } from "@package/com/simibubi/create/api/contraption/storage/fluid";
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
 import { $TrackSwitchBlock$SwitchState, $TrackSwitch } from "@package/com/railwayteam/railways/content/switches";
+import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
 import { $PoseStack$Pose } from "@package/com/mojang/blaze3d/vertex";
 import { $TrackEdgePoint } from "@package/com/simibubi/create/content/trains/signal";
-import { $SlabBlock } from "@package/net/minecraft/world/level/block";
+import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
 import { $UUID, $List, $Map_, $Map, $Set, $UUID_, $Set_, $List_ } from "@package/java/util";
 import { $Train } from "@package/com/simibubi/create/content/trains/entity";
 import { $Pair, $Couple } from "@package/net/createmod/catnip/data";
@@ -23,10 +24,10 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export class $ICarriageBufferDistanceTracker {
     }
     export interface $ICarriageBufferDistanceTracker {
-        railways$getTrailingDistance(): number;
-        railways$getLeadingDistance(): number;
-        railways$setLeadingDistance(arg0: number): void;
         railways$setTrailingDistance(arg0: number): void;
+        railways$getTrailingDistance(): number;
+        railways$setLeadingDistance(arg0: number): void;
+        railways$getLeadingDistance(): number;
     }
     export class $IWaypointableNavigation {
     }
@@ -63,16 +64,16 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
         railways$uploadFrame(arg0: boolean): void;
     }
     export class $IHasTrackCasing {
-        static getTrackCasing(arg0: $Level_, arg1: $BlockPos_): $SlabBlock;
         static isAlternate(arg0: $Level_, arg1: $BlockPos_): boolean;
+        static getTrackCasing(arg0: $Level_, arg1: $BlockPos_): $Block;
+        static setTrackCasing(arg0: $Level_, arg1: $BlockPos_, arg2: $Block_): void;
         static setAlternateModel(arg0: $Level_, arg1: $BlockPos_, arg2: boolean): boolean;
-        static setTrackCasing(arg0: $Level_, arg1: $BlockPos_, arg2: $SlabBlock): void;
     }
     export interface $IHasTrackCasing {
-        getTrackCasing(): $SlabBlock;
         isAlternate(): boolean;
-        setTrackCasing(arg0: $SlabBlock): void;
+        getTrackCasing(): $Block;
         setAlternate(arg0: boolean): void;
+        setTrackCasing(arg0: $Block_): void;
     }
     export class $IPreAssembleCallback {
     }
@@ -92,11 +93,11 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export interface $ISwitchDisabledEdge {
         isEnabled(): boolean;
         isAutomatic(): boolean;
-        setEnabled(arg0: boolean): void;
         setAutomatic(arg0: boolean): void;
-        getAutomaticallySelectedPriority(): number;
-        ackAutomaticSelection(): void;
+        setEnabled(arg0: boolean): void;
         isAutomaticallySelected(): boolean;
+        ackAutomaticSelection(): void;
+        getAutomaticallySelectedPriority(): number;
         setAutomaticallySelected(): void;
         get automaticallySelectedPriority(): number;
     }
@@ -115,8 +116,8 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export class $IIndexedSchedule {
     }
     export interface $IIndexedSchedule {
-        railways$getIndex(): number;
         railways$setIndex(arg0: number): void;
+        railways$getIndex(): number;
     }
     export class $IMonorailBezier {
     }
@@ -132,15 +133,15 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
         static outOfSync(arg0: $IUpdateCount, arg1: $IUpdateCount): boolean;
     }
     export interface $IUpdateCount {
+        railways$fromParent(arg0: $IUpdateCount): void;
         railways$markUpdate(): void;
         railways$getUpdateCount(): number;
-        railways$fromParent(arg0: $IUpdateCount): void;
     }
     export class $IBufferBlockedTrain {
     }
     export interface $IBufferBlockedTrain {
-        railways$isControlBlocked(): boolean;
         railways$getBlockedSign(): number;
+        railways$isControlBlocked(): boolean;
         railways$setControlBlocked(arg0: boolean, arg1: boolean): void;
     }
     export class $IGenerallySearchableNavigation {
@@ -213,11 +214,19 @@ declare module "@package/com/railwayteam/railways/mixin_interfaces" {
     export class $ILimitedGlobalStation {
     }
     export interface $ILimitedGlobalStation extends $ILimited {
-        orDisablingTrain(arg0: $Train, arg1: $Train): $Train;
         getDisablingTrain(): $Train;
         isStationEnabled(): boolean;
+        orDisablingTrain(arg0: $Train, arg1: $Train): $Train;
         get disablingTrain(): $Train;
         get stationEnabled(): boolean;
+    }
+    export class $IShadowTrain {
+    }
+    export interface $IShadowTrain {
+        railways$isShadow(): boolean;
+        railways$getShadowKey(): $ResourceLocation;
+        railways$setShadow(arg0: $ResourceLocation_): void;
+        railways$clearShadow(): void;
     }
     export class $ICarriageConductors {
     }

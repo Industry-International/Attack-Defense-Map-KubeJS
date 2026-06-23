@@ -14,11 +14,11 @@ export * as sources from "@package/net/minecraft/client/renderer/texture/atlas/s
 
 declare module "@package/net/minecraft/client/renderer/texture/atlas" {
     export class $SpriteResourceLoader {
-        static create(arg0: $Collection_<$MetadataSectionSerializer<never>>): $SpriteResourceLoader;
+        static create(sectionSerializers: $Collection_<$MetadataSectionSerializer<never>>): $SpriteResourceLoader;
         static LOGGER: $Logger;
     }
     export interface $SpriteResourceLoader {
-        loadSprite(arg0: $ResourceLocation_, arg1: $Resource): $SpriteContents;
+        loadSprite(location: $ResourceLocation_, resource: $Resource): $SpriteContents;
         loadSprite(arg0: $ResourceLocation_, arg1: $Resource, arg2: $SpriteContentsConstructor_): $SpriteContents;
     }
     /**
@@ -41,12 +41,12 @@ declare module "@package/net/minecraft/client/renderer/texture/atlas" {
     export class $SpriteSource$Output {
     }
     export interface $SpriteSource$Output {
-        add(arg0: $ResourceLocation_, arg1: $Resource): void;
-        add(arg0: $ResourceLocation_, arg1: $SpriteSource$SpriteSupplier_): void;
-        removeAll(arg0: $Predicate_<$ResourceLocation>): void;
+        add(location: $ResourceLocation_, resource: $Resource): void;
+        add(location: $ResourceLocation_, sprite: $SpriteSource$SpriteSupplier_): void;
+        removeAll(predicate: $Predicate_<$ResourceLocation>): void;
     }
     export class $SpriteSources implements $AtlasSourceManagerAccessor {
-        static getSourceTypeById$fabric_rendering_v1_$md$9aa1a5$0(): $BiMap<any, any>;
+        static getSourceTypeById$fabric_rendering_v1_$md$dd6cb9$0(): $BiMap<any, any>;
         static TYPE_CODEC: $Codec<$SpriteSourceType>;
         static PALETTED_PERMUTATIONS: $SpriteSourceType;
         static FILE_CODEC: $Codec<$List<$SpriteSource>>;
@@ -56,17 +56,17 @@ declare module "@package/net/minecraft/client/renderer/texture/atlas" {
         static SINGLE_FILE: $SpriteSourceType;
         static UNSTITCHER: $SpriteSourceType;
         constructor();
-        static get sourceTypeById$fabric_rendering_v1_$md$9aa1a5$0(): $BiMap<any, any>;
+        static get sourceTypeById$fabric_rendering_v1_$md$dd6cb9$0(): $BiMap<any, any>;
     }
     export class $SpriteSourceList {
-        static load(arg0: $ResourceManager, arg1: $ResourceLocation_): $SpriteSourceList;
-        list(arg0: $ResourceManager): $List<$Function<$SpriteResourceLoader, $SpriteContents>>;
+        static load(resourceManager: $ResourceManager, sprite: $ResourceLocation_): $SpriteSourceList;
+        list(resourceManager: $ResourceManager): $List<$Function<$SpriteResourceLoader, $SpriteContents>>;
     }
     export class $SpriteSource {
         static TEXTURE_ID_CONVERTER: $FileToIdConverter;
     }
     export interface $SpriteSource {
-        run(arg0: $ResourceManager, arg1: $SpriteSource$Output): void;
+        run(resourceManager: $ResourceManager, output: $SpriteSource$Output): void;
         type(): $SpriteSourceType;
     }
 }

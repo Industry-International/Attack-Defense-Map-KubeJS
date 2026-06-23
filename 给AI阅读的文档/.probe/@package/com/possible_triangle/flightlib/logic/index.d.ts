@@ -14,11 +14,11 @@ declare module "@package/com/possible_triangle/flightlib/logic" {
     }
     export class $ISettingsStorage$Companion {
         getDEFAULT(): $Map<$FlightKey, boolean>;
-        getKEYS_STREAM_CODEC(): $StreamCodec<$FriendlyByteBuf, $Map<$FlightKey, boolean>>;
-        static access$filter(arg0: $ISettingsStorage$Companion, arg1: $Map_<any, any>): $Map<any, any>;
         getKEYS_CODEC(): $Codec<$Map<$FlightKey, boolean>>;
+        static access$filter(arg0: $ISettingsStorage$Companion, arg1: $Map_<any, any>): $Map<any, any>;
+        getKEYS_STREAM_CODEC(): $StreamCodec<$FriendlyByteBuf, $Map<$FlightKey, boolean>>;
         get DEFAULT(): $Map<$FlightKey, boolean>;
-        get KEYS_STREAM_CODEC(): $StreamCodec<$FriendlyByteBuf, $Map<$FlightKey, boolean>>;
         get KEYS_CODEC(): $Codec<$Map<$FlightKey, boolean>>;
+        get KEYS_STREAM_CODEC(): $StreamCodec<$FriendlyByteBuf, $Map<$FlightKey, boolean>>;
     }
 }

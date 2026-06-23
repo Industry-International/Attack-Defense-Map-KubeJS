@@ -19,11 +19,11 @@ declare module "@package/me/muksc/tacztweaks/feature/datapack" {
         get CODEC(): $Codec<$BulletInteraction$Pierce$EPierceType>;
     }
     export class $BulletInteraction$Companion {
-        getREGISTRY_KEY(): $ResourceKey<$Registry<$BulletInteraction>>;
         getCODEC(): $Codec<$BulletInteraction>;
+        getREGISTRY_KEY(): $ResourceKey<$Registry<$BulletInteraction>>;
         constructor(arg0: $DefaultConstructorMarker);
-        get REGISTRY_KEY(): $ResourceKey<$Registry<$BulletInteraction>>;
         get CODEC(): $Codec<$BulletInteraction>;
+        get REGISTRY_KEY(): $ResourceKey<$Registry<$BulletInteraction>>;
     }
     export class $BulletInteraction$Pierce$Companion {
         getCODEC(): $Codec<$BulletInteraction$Pierce>;
@@ -36,8 +36,8 @@ declare module "@package/me/muksc/tacztweaks/feature/datapack" {
         getType(): $BulletInteraction$EBulletInteractionType;
         getConditions(): $List<$LootItemCondition>;
         getPierce(): $BulletInteraction$Pierce;
-        static access$getCODEC$cp(): $Codec<any>;
         static access$getREGISTRY_KEY$cp(): $ResourceKey<any>;
+        static access$getCODEC$cp(): $Codec<any>;
         static Companion: $BulletInteraction$Companion;
         constructor(arg0: $BulletInteraction$EBulletInteractionType_, arg1: $List_<any>, arg2: $BulletInteraction$Pierce, arg3: number, arg4: $DefaultConstructorMarker);
         get priority(): number;
@@ -55,8 +55,8 @@ declare module "@package/me/muksc/tacztweaks/feature/datapack" {
         getKey(): string;
         static getEntries(): $EnumEntries<$BulletInteraction$Pierce$EPierceType>;
         codec(): $MapCodec<$BulletInteraction$Pierce>;
-        static access$getCODEC$cp(): $Codec<any>;
         getCodecProvider(): $Function0<$MapCodec<$BulletInteraction$Pierce>>;
+        static access$getCODEC$cp(): $Codec<any>;
         static Companion: $BulletInteraction$Pierce$EPierceType$Companion;
         static NEVER: $BulletInteraction$Pierce$EPierceType;
         static COUNT: $BulletInteraction$Pierce$EPierceType;
@@ -82,8 +82,8 @@ declare module "@package/me/muksc/tacztweaks/feature/datapack" {
         getKey(): string;
         static getEntries(): $EnumEntries<$BulletInteraction$EBulletInteractionType>;
         codec(): $MapCodec<$BulletInteraction>;
-        static access$getCODEC$cp(): $Codec<any>;
         getCodecProvider(): $Function0<$MapCodec<$BulletInteraction>>;
+        static access$getCODEC$cp(): $Codec<any>;
         static Companion: $BulletInteraction$EBulletInteractionType$Companion;
         static ENTITY: $BulletInteraction$EBulletInteractionType;
         static BLOCK: $BulletInteraction$EBulletInteractionType;

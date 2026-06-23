@@ -15,33 +15,33 @@ import { $Quaternionf, $Vector3f } from "@package/org/joml";
 
 declare module "@package/net/minecraft/network/codec" {
     export class $StreamCodec<B, V> {
-        static of<B, V>(arg0: $StreamEncoder_<B, V>, arg1: $StreamDecoder_<B, V>): $StreamCodec<B, V>;
-        static unit<B, V>(arg0: V): $StreamCodec<B, V>;
-        static recursive<B, T>(arg0: $UnaryOperator_<$StreamCodec<B, T>>): $StreamCodec<B, T>;
-        static composite<B, C, T1, T2, T3, T4, T5>(arg0: $StreamCodec<B, T1>, arg1: $Function_<C, T1>, arg2: $StreamCodec<B, T2>, arg3: $Function_<C, T2>, arg4: $StreamCodec<B, T3>, arg5: $Function_<C, T3>, arg6: $StreamCodec<B, T4>, arg7: $Function_<C, T4>, arg8: $StreamCodec<B, T5>, arg9: $Function_<C, T5>, arg10: $Function5_<T1, T2, T3, T4, T5, C>): $StreamCodec<B, C>;
-        static composite<B, C, T1>(arg0: $StreamCodec<B, T1>, arg1: $Function_<C, T1>, arg2: $Function_<T1, C>): $StreamCodec<B, C>;
-        static composite<B, C, T1, T2, T3, T4, T5, T6>(arg0: $StreamCodec<B, T1>, arg1: $Function_<C, T1>, arg2: $StreamCodec<B, T2>, arg3: $Function_<C, T2>, arg4: $StreamCodec<B, T3>, arg5: $Function_<C, T3>, arg6: $StreamCodec<B, T4>, arg7: $Function_<C, T4>, arg8: $StreamCodec<B, T5>, arg9: $Function_<C, T5>, arg10: $StreamCodec<B, T6>, arg11: $Function_<C, T6>, arg12: $Function6_<T1, T2, T3, T4, T5, T6, C>): $StreamCodec<B, C>;
-        static composite<B, C, T1, T2, T3>(arg0: $StreamCodec<B, T1>, arg1: $Function_<C, T1>, arg2: $StreamCodec<B, T2>, arg3: $Function_<C, T2>, arg4: $StreamCodec<B, T3>, arg5: $Function_<C, T3>, arg6: $Function3_<T1, T2, T3, C>): $StreamCodec<B, C>;
-        static composite<B, C, T1, T2>(arg0: $StreamCodec<B, T1>, arg1: $Function_<C, T1>, arg2: $StreamCodec<B, T2>, arg3: $Function_<C, T2>, arg4: $BiFunction_<T1, T2, C>): $StreamCodec<B, C>;
-        static composite<B, C, T1, T2, T3, T4>(arg0: $StreamCodec<B, T1>, arg1: $Function_<C, T1>, arg2: $StreamCodec<B, T2>, arg3: $Function_<C, T2>, arg4: $StreamCodec<B, T3>, arg5: $Function_<C, T3>, arg6: $StreamCodec<B, T4>, arg7: $Function_<C, T4>, arg8: $Function4_<T1, T2, T3, T4, C>): $StreamCodec<B, C>;
-        static ofMember<B, V>(arg0: $StreamMemberEncoder_<B, V>, arg1: $StreamDecoder_<B, V>): $StreamCodec<B, V>;
+        static of<B, V>(encoder: $StreamEncoder_<B, V>, decoder: $StreamDecoder_<B, V>): $StreamCodec<B, V>;
+        static unit<B, V>(expectedValue: V): $StreamCodec<B, V>;
+        static recursive<B, T>(modifier: $UnaryOperator_<$StreamCodec<B, T>>): $StreamCodec<B, T>;
+        static composite<B, C, T1, T2, T3, T4, T5>(codec1: $StreamCodec<B, T1>, getter1: $Function_<C, T1>, codec2: $StreamCodec<B, T2>, getter2: $Function_<C, T2>, codec3: $StreamCodec<B, T3>, getter3: $Function_<C, T3>, codec4: $StreamCodec<B, T4>, getter4: $Function_<C, T4>, codec5: $StreamCodec<B, T5>, getter5: $Function_<C, T5>, factory: $Function5_<T1, T2, T3, T4, T5, C>): $StreamCodec<B, C>;
+        static composite<B, C, T1>(codec: $StreamCodec<B, T1>, getter: $Function_<C, T1>, factory: $Function_<T1, C>): $StreamCodec<B, C>;
+        static composite<B, C, T1, T2, T3, T4, T5, T6>(codec1: $StreamCodec<B, T1>, getter1: $Function_<C, T1>, codec2: $StreamCodec<B, T2>, getter2: $Function_<C, T2>, codec3: $StreamCodec<B, T3>, getter3: $Function_<C, T3>, codec4: $StreamCodec<B, T4>, getter4: $Function_<C, T4>, codec5: $StreamCodec<B, T5>, getter5: $Function_<C, T5>, codec6: $StreamCodec<B, T6>, getter6: $Function_<C, T6>, factory: $Function6_<T1, T2, T3, T4, T5, T6, C>): $StreamCodec<B, C>;
+        static composite<B, C, T1, T2, T3>(codec1: $StreamCodec<B, T1>, getter1: $Function_<C, T1>, codec2: $StreamCodec<B, T2>, getter2: $Function_<C, T2>, codec3: $StreamCodec<B, T3>, getter3: $Function_<C, T3>, factory: $Function3_<T1, T2, T3, C>): $StreamCodec<B, C>;
+        static composite<B, C, T1, T2>(codec1: $StreamCodec<B, T1>, getter1: $Function_<C, T1>, codec2: $StreamCodec<B, T2>, getter2: $Function_<C, T2>, factory: $BiFunction_<T1, T2, C>): $StreamCodec<B, C>;
+        static composite<B, C, T1, T2, T3, T4>(codec1: $StreamCodec<B, T1>, getter1: $Function_<C, T1>, codec2: $StreamCodec<B, T2>, getter2: $Function_<C, T2>, codec3: $StreamCodec<B, T3>, getter3: $Function_<C, T3>, codec4: $StreamCodec<B, T4>, getter4: $Function_<C, T4>, factory: $Function4_<T1, T2, T3, T4, C>): $StreamCodec<B, C>;
+        static ofMember<B, V>(encoder: $StreamMemberEncoder_<B, V>, decoder: $StreamDecoder_<B, V>): $StreamCodec<B, V>;
     }
     export interface $StreamCodec<B, V> extends $StreamDecoder<B, V>, $StreamEncoder<B, V> {
-        dispatch<U>(arg0: $Function_<U, V>, arg1: $Function_<V, $StreamCodec<B, U>>): $StreamCodec<B, U>;
+        dispatch<U>(keyGetter: $Function_<U, V>, codecGetter: $Function_<V, $StreamCodec<B, U>>): $StreamCodec<B, U>;
         cast<S extends B>(): $StreamCodec<S, V>;
-        apply<O>(arg0: $StreamCodec$CodecOperation_<B, V, O>): $StreamCodec<B, O>;
-        map<O>(arg0: $Function_<V, O>, arg1: $Function_<O, V>): $StreamCodec<B, O>;
-        mapStream<O extends $ByteBuf>(arg0: $Function_<O, B>): $StreamCodec<O, V>;
+        apply<O>(operation: $StreamCodec$CodecOperation_<B, V, O>): $StreamCodec<B, O>;
+        map<O>(keyGetter: $Function_<V, O>, codecGetter: $Function_<O, V>): $StreamCodec<B, O>;
+        mapStream<O extends $ByteBuf>(bufferFactory: $Function_<O, B>): $StreamCodec<O, V>;
     }
     export class $IdDispatchCodec$Builder<B extends $ByteBuf, V, T> {
-        add(arg0: T, arg1: $StreamCodec<B, V>): $IdDispatchCodec$Builder<B, V, T>;
+        add(type: T, serializer: $StreamCodec<B, V>): $IdDispatchCodec$Builder<B, V, T>;
         build(): $IdDispatchCodec<B, V, T>;
-        constructor(arg0: $Function_<V, T>);
+        constructor(typeGetter: $Function_<V, T>);
     }
     export class $StreamMemberEncoder<O, T> {
     }
     export interface $StreamMemberEncoder<O, T> {
-        encode(arg0: T, arg1: O): void;
+        encode(value: T, output: O): void;
     }
     /**
      * Values that may be interpreted as {@link $StreamMemberEncoder}.
@@ -50,7 +50,7 @@ declare module "@package/net/minecraft/network/codec" {
     export class $StreamEncoder<O, T> {
     }
     export interface $StreamEncoder<O, T> {
-        encode(arg0: O, arg1: T): void;
+        encode(buffer: O, value: T): void;
     }
     /**
      * Values that may be interpreted as {@link $StreamEncoder}.
@@ -62,21 +62,21 @@ declare module "@package/net/minecraft/network/codec" {
         constructor(arg0: $StreamCodec<B, V>, arg1: T);
     }
     export class $IdDispatchCodec<B extends $ByteBuf, V, T> implements $StreamCodec<B, V> {
-        decode(arg0: B): V;
-        encode(arg0: B, arg1: V): void;
-        static builder<B extends $ByteBuf, V, T>(arg0: $Function_<V, T>): $IdDispatchCodec$Builder<B, V, T>;
-        dispatch<U>(arg0: $Function_<U, V>, arg1: $Function_<V, $StreamCodec<B, U>>): $StreamCodec<B, U>;
+        decode(buffer: B): V;
+        encode(buffer: B, value: V): void;
+        static builder<B extends $ByteBuf, V, T>(typeGetter: $Function_<V, T>): $IdDispatchCodec$Builder<B, V, T>;
+        dispatch<U>(factory: $Function_<U, V>, getter: $Function_<V, $StreamCodec<B, U>>): $StreamCodec<B, U>;
         cast<S extends B>(): $StreamCodec<S, V>;
-        apply<O>(arg0: $StreamCodec$CodecOperation_<B, V, O>): $StreamCodec<B, O>;
-        map<O>(arg0: $Function_<V, O>, arg1: $Function_<O, V>): $StreamCodec<B, O>;
-        mapStream<O extends $ByteBuf>(arg0: $Function_<O, B>): $StreamCodec<O, V>;
+        apply<O>(operation: $StreamCodec$CodecOperation_<B, V, O>): $StreamCodec<B, O>;
+        map<O>(factory: $Function_<V, O>, getter: $Function_<O, V>): $StreamCodec<B, O>;
+        mapStream<O extends $ByteBuf>(bufferFactory: $Function_<O, B>): $StreamCodec<O, V>;
         byId: $List<$IdDispatchCodec$Entry<B, V, V>>;
-        constructor(arg0: $Function_<V, V>, arg1: $List_<$IdDispatchCodec$Entry_<B, V, V>>, arg2: $Object2IntMap<V>);
+        constructor(typeGetter: $Function_<V, V>, byId: $List_<$IdDispatchCodec$Entry_<B, V, V>>, toId: $Object2IntMap<V>);
     }
     export class $StreamDecoder<I, T> {
     }
     export interface $StreamDecoder<I, T> {
-        decode(arg0: I): T;
+        decode(buffer: I): T;
     }
     /**
      * Values that may be interpreted as {@link $StreamDecoder}.
@@ -85,40 +85,40 @@ declare module "@package/net/minecraft/network/codec" {
     export class $StreamCodec$CodecOperation<B, S, T> {
     }
     export interface $StreamCodec$CodecOperation<B, S, T> {
-        apply(arg0: $StreamCodec<B, S>): $StreamCodec<B, T>;
+        apply(codec: $StreamCodec<B, S>): $StreamCodec<B, T>;
     }
     /**
      * Values that may be interpreted as {@link $StreamCodec$CodecOperation}.
      */
     export type $StreamCodec$CodecOperation_<B, S, T> = ((arg0: $StreamCodec<B, S>) => $StreamCodec<B, T>);
     export class $ByteBufCodecs {
-        static map<B extends $ByteBuf, K, V, M extends $Map<K, V>>(arg0: $IntFunction_<M>, arg1: $StreamCodec<B, K>, arg2: $StreamCodec<B, V>): $StreamCodec<B, M>;
-        static map<B extends $ByteBuf, K, V, M extends $Map<K, V>>(arg0: $IntFunction_<M>, arg1: $StreamCodec<B, K>, arg2: $StreamCodec<B, V>, arg3: number): $StreamCodec<B, M>;
-        static list<B extends $ByteBuf, V>(arg0: number): $StreamCodec$CodecOperation<B, V, $List<V>>;
+        static readCount(buffer: $ByteBuf, maxSize: number): number;
+        static map<B extends $ByteBuf, K, V, M extends $Map<K, V>>(factory: $IntFunction_<M>, keyCodec: $StreamCodec<B, K>, valueCodec: $StreamCodec<B, V>, maxSize: number): $StreamCodec<B, M>;
+        static map<B extends $ByteBuf, K, V, M extends $Map<K, V>>(factory: $IntFunction_<M>, keyCodec: $StreamCodec<B, K>, valueCodec: $StreamCodec<B, V>): $StreamCodec<B, M>;
         static list<B extends $ByteBuf, V>(): $StreamCodec$CodecOperation<B, V, $List<V>>;
-        static holder<T>(arg0: $ResourceKey_<$Registry<T>>, arg1: $StreamCodec<$RegistryFriendlyByteBuf, T>): $StreamCodec<$RegistryFriendlyByteBuf, $Holder<T>>;
-        static optional<B extends $ByteBuf, V>(arg0: $StreamCodec<B, V>): $StreamCodec<B, (V) | undefined>;
-        static byteArray(arg0: number): $StreamCodec<$ByteBuf, number[]>;
-        static collection<B extends $ByteBuf, V, C extends $Collection<V>>(arg0: $IntFunction_<C>, arg1: $StreamCodec<B, V>, arg2: number): $StreamCodec<B, C>;
-        static collection<B extends $ByteBuf, V, C extends $Collection<V>>(arg0: $IntFunction_<C>, arg1: $StreamCodec<B, V>): $StreamCodec<B, C>;
-        static collection<B extends $ByteBuf, V, C extends $Collection<V>>(arg0: $IntFunction_<C>): $StreamCodec$CodecOperation<B, V, C>;
-        static readCount(arg0: $ByteBuf, arg1: number): number;
-        static registry<T>(arg0: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
-        static compoundTagCodec(arg0: $Supplier_<$NbtAccounter>): $StreamCodec<$ByteBuf, $CompoundTag>;
-        static fromCodecTrusted<T>(arg0: $Codec<T>): $StreamCodec<$ByteBuf, T>;
-        static holderRegistry<T>(arg0: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, $Holder<T>>;
-        static fromCodecWithRegistries<T>(arg0: $Codec<T>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
-        static fromCodecWithRegistries<T>(arg0: $Codec<T>, arg1: $Supplier_<$NbtAccounter>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
-        static either<B extends $ByteBuf, L, R>(arg0: $StreamCodec<B, L>, arg1: $StreamCodec<B, R>): $StreamCodec<B, $Either<L, R>>;
-        static fromCodecWithRegistriesTrusted<T>(arg0: $Codec<T>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
-        static tagCodec(arg0: $Supplier_<$NbtAccounter>): $StreamCodec<$ByteBuf, $Tag>;
-        static fromCodec<T>(arg0: $Codec<T>, arg1: $Supplier_<$NbtAccounter>): $StreamCodec<$ByteBuf, T>;
-        static fromCodec<T>(arg0: $Codec<T>): $StreamCodec<$ByteBuf, T>;
-        static stringUtf8(arg0: number): $StreamCodec<$ByteBuf, string>;
-        static writeCount(arg0: $ByteBuf, arg1: number, arg2: number): void;
-        static idMapper<T>(arg0: $IntFunction_<T>, arg1: $ToIntFunction_<T>): $StreamCodec<$ByteBuf, T>;
-        static idMapper<T>(arg0: $IdMap<T>): $StreamCodec<$ByteBuf, T>;
-        static holderSet<T>(arg0: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, $HolderSet<T>>;
+        static list<B extends $ByteBuf, V>(maxSize: number): $StreamCodec$CodecOperation<B, V, $List<V>>;
+        static holder<T>(registryKey: $ResourceKey_<$Registry<T>>, codec: $StreamCodec<$RegistryFriendlyByteBuf, T>): $StreamCodec<$RegistryFriendlyByteBuf, $Holder<T>>;
+        static optional<B extends $ByteBuf, V>(codec: $StreamCodec<B, V>): $StreamCodec<B, (V) | undefined>;
+        static byteArray(maxSize: number): $StreamCodec<$ByteBuf, number[]>;
+        static collection<B extends $ByteBuf, V, C extends $Collection<V>>(factory: $IntFunction_<C>, codec: $StreamCodec<B, V>, maxSize: number): $StreamCodec<B, C>;
+        static collection<B extends $ByteBuf, V, C extends $Collection<V>>(factory: $IntFunction_<C>, codec: $StreamCodec<B, V>): $StreamCodec<B, C>;
+        static collection<B extends $ByteBuf, V, C extends $Collection<V>>(factory: $IntFunction_<C>): $StreamCodec$CodecOperation<B, V, C>;
+        static registry<T>(registryKey: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        static fromCodecWithRegistriesTrusted<T>(codec: $Codec<T>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        static either<B extends $ByteBuf, L, R>(leftCodec: $StreamCodec<B, L>, rightCodec: $StreamCodec<B, R>): $StreamCodec<B, $Either<L, R>>;
+        static fromCodecWithRegistries<T>(codec: $Codec<T>, accounterSupplier: $Supplier_<$NbtAccounter>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        static fromCodecWithRegistries<T>(codec: $Codec<T>): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        static writeCount(buffer: $ByteBuf, count: number, maxSize: number): void;
+        static stringUtf8(maxSize: number): $StreamCodec<$ByteBuf, string>;
+        static tagCodec(accounterSupplier: $Supplier_<$NbtAccounter>): $StreamCodec<$ByteBuf, $Tag>;
+        static fromCodec<T>(codec: $Codec<T>, accounterSupplier: $Supplier_<$NbtAccounter>): $StreamCodec<$ByteBuf, T>;
+        static fromCodec<T>(codec: $Codec<T>): $StreamCodec<$ByteBuf, T>;
+        static holderSet<T>(registryKey: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, $HolderSet<T>>;
+        static idMapper<T>(idMap: $IdMap<T>): $StreamCodec<$ByteBuf, T>;
+        static idMapper<T>(idLookup: $IntFunction_<T>, idGetter: $ToIntFunction_<T>): $StreamCodec<$ByteBuf, T>;
+        static fromCodecTrusted<T>(codec: $Codec<T>): $StreamCodec<$ByteBuf, T>;
+        static compoundTagCodec(accounterSupplier: $Supplier_<$NbtAccounter>): $StreamCodec<$ByteBuf, $CompoundTag>;
+        static holderRegistry<T>(registryKey: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, $Holder<T>>;
         static FLOAT: $StreamCodec<$ByteBuf, number>;
         static QUATERNIONF: $StreamCodec<$ByteBuf, $Quaternionf>;
         static BYTE_ARRAY: $StreamCodec<$ByteBuf, number[]>;

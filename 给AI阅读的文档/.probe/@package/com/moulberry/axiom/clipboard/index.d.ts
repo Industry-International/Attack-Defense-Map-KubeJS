@@ -15,9 +15,9 @@ declare module "@package/com/moulberry/axiom/clipboard" {
         entities(): $List<$CompoundTag>;
         blockEntities(): $Long2ObjectMap<$CompressedBlockEntity>;
         blockRegion(): $ChunkedBlockRegion;
-        containsAir(): boolean;
-        preferredYaw(): number;
-        thumbnailTextureId(): number;
         placementDescription(): string;
+        containsAir(): boolean;
+        thumbnailTextureId(): number;
+        preferredYaw(): number;
     }
 }

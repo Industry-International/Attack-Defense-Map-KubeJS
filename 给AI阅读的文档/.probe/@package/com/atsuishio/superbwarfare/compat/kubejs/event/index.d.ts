@@ -8,23 +8,17 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
     export class $LoadingJsonEventJS implements $KubeEvent {
         getEvent(): $LoadingJsonEvent;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -32,17 +26,23 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(arg0: $LoadingJsonEvent);
         get event(): $LoadingJsonEvent;
     }
@@ -50,8 +50,8 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
         getId(): string;
         getData(): $DefaultGunData;
         getEvent(): $LoadingDataEvent$Gun;
-        setData(arg0: $DefaultGunData): void;
         setId(arg0: string): void;
+        setData(arg0: $DefaultGunData): void;
         constructor(arg0: $LoadingDataEvent$Gun);
         get event(): $LoadingDataEvent$Gun;
     }
@@ -59,18 +59,12 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
         getId(): string;
         getData(): $DefaultVehicleData;
         getEvent(): $LoadingDataEvent$Vehicle;
-        setData(arg0: $DefaultVehicleData): void;
         setId(arg0: string): void;
+        setData(arg0: $DefaultVehicleData): void;
         constructor(arg0: $LoadingDataEvent$Vehicle);
         get event(): $LoadingDataEvent$Vehicle;
     }
     export class $LoadingDataEventJS implements $KubeEvent {
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -78,11 +72,11 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -90,17 +84,23 @@ declare module "@package/com/atsuishio/superbwarfare/compat/kubejs/event" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor();
     }
 }

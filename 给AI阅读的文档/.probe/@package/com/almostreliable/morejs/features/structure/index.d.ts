@@ -21,11 +21,11 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
     }
     export interface $StructureTemplateAccess {
         getEntities(): $List<$StructureTemplate$StructureEntityInfo>;
-        getBorderSize(): $Vec3i;
         getPalettes(): $List<$StructureTemplate$Palette>;
+        getBorderSize(): $Vec3i;
         get entities(): $List<$StructureTemplate$StructureEntityInfo>;
-        get borderSize(): $Vec3i;
         get palettes(): $List<$StructureTemplate$Palette>;
+        get borderSize(): $Vec3i;
     }
     export class $EntityInfoWrapper {
         add(arg0: $CompoundTag_): void;
@@ -36,28 +36,22 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
     export class $StructureAfterPlaceEventJS implements $KubeLevelEvent {
         getId(): $ResourceLocation;
         getType(): $ResourceLocation;
-        getStructureManager(): $StructureManager;
-        getRandomSource(): $RandomSource;
         getChunkPos(): $ChunkPos;
+        getRandomSource(): $RandomSource;
+        getStructureManager(): $StructureManager;
         getStructure(): $Structure;
         getStructureBoundingBox(): $BoundingBox;
-        getChunkGenerator(): $ChunkGenerator;
-        getPiecesContainer(): $PiecesContainer;
-        getWorldGenLevel(): $WorldGenLevel;
-        getIntersectionMap(): $Map<$StructurePiece, $BoundingBox>;
-        getPieceType(arg0: $StructurePieceType_): $ResourceLocation;
         getGenStep(): string;
-        getChunkBoundingBox(): $BoundingBox;
         getIntersectionBoxes(): $Collection<$BoundingBox>;
+        getChunkBoundingBox(): $BoundingBox;
         getIntersectionPieces(): $Collection<$StructurePiece>;
+        getChunkGenerator(): $ChunkGenerator;
+        getIntersectionMap(): $Map<$StructurePiece, $BoundingBox>;
+        getWorldGenLevel(): $WorldGenLevel;
+        getPiecesContainer(): $PiecesContainer;
+        getPieceType(arg0: $StructurePieceType_): $ResourceLocation;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -65,11 +59,11 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -77,34 +71,40 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getLevel(): $Level;
         constructor(arg0: $Structure_, arg1: $WorldGenLevel, arg2: $StructureManager, arg3: $ChunkGenerator, arg4: $RandomSource, arg5: $BoundingBox, arg6: $ChunkPos, arg7: $PiecesContainer_);
         get id(): $ResourceLocation;
         get type(): $ResourceLocation;
-        get structureManager(): $StructureManager;
-        get randomSource(): $RandomSource;
         get chunkPos(): $ChunkPos;
+        get randomSource(): $RandomSource;
+        get structureManager(): $StructureManager;
         get structure(): $Structure;
         get structureBoundingBox(): $BoundingBox;
-        get chunkGenerator(): $ChunkGenerator;
-        get piecesContainer(): $PiecesContainer;
-        get worldGenLevel(): $WorldGenLevel;
-        get intersectionMap(): $Map<$StructurePiece, $BoundingBox>;
         get genStep(): string;
-        get chunkBoundingBox(): $BoundingBox;
         get intersectionBoxes(): $Collection<$BoundingBox>;
+        get chunkBoundingBox(): $BoundingBox;
         get intersectionPieces(): $Collection<$StructurePiece>;
+        get chunkGenerator(): $ChunkGenerator;
+        get intersectionMap(): $Map<$StructurePiece, $BoundingBox>;
+        get worldGenLevel(): $WorldGenLevel;
+        get piecesContainer(): $PiecesContainer;
         get registries(): $RegistryAccess;
         get server(): $MinecraftServer;
         get level(): $Level;
@@ -112,37 +112,31 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
     export class $StructureBlockInfoModification {
     }
     export interface $StructureBlockInfoModification {
+        getPosition(): $BlockPos;
         getProperties(): $Map<string, $Object>;
         getId(): string;
         getBlock(): $Block;
+        getNbt(): $CompoundTag;
+        setNbt(arg0: $CompoundTag_ | null): void;
+        hasNbt(): boolean;
         setBlock(arg0: $ResourceLocation_): void;
         setBlock(arg0: $ResourceLocation_, arg1: $Map_<string, $Object>): void;
-        getNbt(): $CompoundTag;
-        getPosition(): $BlockPos;
-        setNbt(arg0: $CompoundTag_): void;
-        hasNbt(): boolean;
         setVanillaBlockState(arg0: $BlockState_): void;
+        get position(): $BlockPos;
         get properties(): $Map<string, $Object>;
         get id(): string;
-        get position(): $BlockPos;
         set vanillaBlockState(value: $BlockState_);
     }
     export class $StructureLoadEventJS implements $KubeEvent {
+        getEntities(): $EntityInfoWrapper;
         static invoke(arg0: $StructureTemplate, arg1: $ResourceLocation_): void;
         getId(): string;
-        getEntities(): $EntityInfoWrapper;
-        removePalette(arg0: number): void;
-        getPalettesSize(): number;
-        getEntitiesSize(): number;
-        forEachPalettes(arg0: $Consumer_<$PaletteWrapper>): void;
         getPalette(arg0: number): $PaletteWrapper;
         getStructureSize(): $Vec3i;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
+        getEntitiesSize(): number;
+        getPalettesSize(): number;
+        removePalette(arg0: number): void;
+        forEachPalettes(arg0: $Consumer_<$PaletteWrapper>): void;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -150,11 +144,11 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -162,28 +156,34 @@ declare module "@package/com/almostreliable/morejs/features/structure" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(arg0: $StructureTemplateAccess, arg1: $ResourceLocation_);
-        get id(): string;
         get entities(): $EntityInfoWrapper;
-        get palettesSize(): number;
-        get entitiesSize(): number;
+        get id(): string;
         get structureSize(): $Vec3i;
+        get entitiesSize(): number;
+        get palettesSize(): number;
     }
     export class $PaletteWrapper {
         get(arg0: $BlockPos_): $StructureTemplate$StructureBlockInfo;
         clear(): void;
-        add(arg0: $BlockPos_, arg1: $BlockState_, arg2: $CompoundTag_): void;
+        add(arg0: $BlockPos_, arg1: $BlockState_, arg2: $CompoundTag_ | null): void;
         add(arg0: $BlockPos_, arg1: $BlockState_): void;
         forEach(arg0: $Consumer_<$StructureTemplate$StructureBlockInfo>): void;
         removeIf(arg0: $Predicate_<$StructureTemplate$StructureBlockInfo>): void;

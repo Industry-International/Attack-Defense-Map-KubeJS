@@ -107,13 +107,12 @@ declare module "@package/net/fabricmc/loader/api/metadata" {
     export class $ModMetadata {
     }
     export interface $ModMetadata {
+        getDescription(): string;
         getName(): string;
         getId(): string;
         getType(): string;
         getVersion(): $Version;
         getEnvironment(): $ModEnvironment;
-        getDependencies(): $Collection<$ModDependency>;
-        getLicense(): $Collection<string>;
         /**
          * @deprecated
          */
@@ -124,12 +123,22 @@ declare module "@package/net/fabricmc/loader/api/metadata" {
          * @deprecated
          */
         getBreaks(): $Collection<$ModDependency>;
+        containsCustomValue(arg0: string): boolean;
+        /**
+         * @deprecated
+         */
+        containsCustomElement(arg0: string): boolean;
+        getLicense(): $Collection<string>;
+        getDependencies(): $Collection<$ModDependency>;
+        getCustomValues(): $Map<string, $CustomValue>;
+        getIconPath(arg0: number): (string) | undefined;
+        getCustomValue(arg0: string): $CustomValue;
+        getContributors(): $Collection<$Person>;
+        getProvides(): $Collection<string>;
         /**
          * @deprecated
          */
         getRecommends(): $Collection<$ModDependency>;
-        getIconPath(arg0: number): (string) | undefined;
-        getCustomValue(arg0: string): $CustomValue;
         /**
          * @deprecated
          */
@@ -138,33 +147,24 @@ declare module "@package/net/fabricmc/loader/api/metadata" {
          * @deprecated
          */
         getConflicts(): $Collection<$ModDependency>;
-        getCustomValues(): $Map<string, $CustomValue>;
-        getProvides(): $Collection<string>;
-        getContributors(): $Collection<$Person>;
-        /**
-         * @deprecated
-         */
-        containsCustomElement(arg0: string): boolean;
-        containsCustomValue(arg0: string): boolean;
-        getDescription(): string;
+        get description(): string;
         get name(): string;
         get id(): string;
         get type(): string;
         get version(): $Version;
         get environment(): $ModEnvironment;
-        get dependencies(): $Collection<$ModDependency>;
-        get license(): $Collection<string>;
         get depends(): $Collection<$ModDependency>;
         get authors(): $Collection<$Person>;
         get contact(): $ContactInformation;
         get breaks(): $Collection<$ModDependency>;
+        get license(): $Collection<string>;
+        get dependencies(): $Collection<$ModDependency>;
+        get customValues(): $Map<string, $CustomValue>;
+        get contributors(): $Collection<$Person>;
+        get provides(): $Collection<string>;
         get recommends(): $Collection<$ModDependency>;
         get suggests(): $Collection<$ModDependency>;
         get conflicts(): $Collection<$ModDependency>;
-        get customValues(): $Map<string, $CustomValue>;
-        get provides(): $Collection<string>;
-        get contributors(): $Collection<$Person>;
-        get description(): string;
     }
     export class $CustomValue {
     }
@@ -172,27 +172,27 @@ declare module "@package/net/fabricmc/loader/api/metadata" {
         getType(): $CustomValue$CvType;
         getAsBoolean(): boolean;
         getAsString(): string;
-        getAsArray(): $CustomValue$CvArray;
         getAsNumber(): $Number;
         getAsObject(): $CustomValue$CvObject;
+        getAsArray(): $CustomValue$CvArray;
         get type(): $CustomValue$CvType;
         get asBoolean(): boolean;
         get asString(): string;
-        get asArray(): $CustomValue$CvArray;
         get asNumber(): $Number;
         get asObject(): $CustomValue$CvObject;
+        get asArray(): $CustomValue$CvArray;
     }
     export class $ModDependency {
     }
     export interface $ModDependency {
         matches(arg0: $Version): boolean;
-        getModId(): string;
-        getKind(): $ModDependency$Kind;
         getVersionRequirements(): $Collection<$VersionPredicate>;
         getVersionIntervals(): $List<$VersionInterval>;
-        get modId(): string;
-        get kind(): $ModDependency$Kind;
+        getKind(): $ModDependency$Kind;
+        getModId(): string;
         get versionRequirements(): $Collection<$VersionPredicate>;
         get versionIntervals(): $List<$VersionInterval>;
+        get kind(): $ModDependency$Kind;
+        get modId(): string;
     }
 }

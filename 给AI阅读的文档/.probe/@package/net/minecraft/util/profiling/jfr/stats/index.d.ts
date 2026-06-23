@@ -12,8 +12,8 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
         bytes(): number;
         duration(): $Duration;
         path(): string;
-        static summary(arg0: $Duration_, arg1: $List_<$FileIOStat_>): $FileIOStat$Summary;
-        constructor(arg0: $Duration_, arg1: string, arg2: number);
+        static summary(duration: $Duration_, stats: $List_<$FileIOStat_>): $FileIOStat$Summary;
+        constructor(arg0: $Duration_, arg1: string | null, arg2: number);
     }
     export class $TimedStat {
     }
@@ -26,18 +26,18 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
     export type $TimedStat_ = (() => $Duration_);
     export class $IoSummary<T> {
         getTotalCount(): number;
-        getCountsPerSecond(): number;
         getTotalSize(): number;
         getSizePerSecond(): number;
+        getCountsPerSecond(): number;
         largestSizeContributors(): $List<$Pair<T, $IoSummary$CountAndSize>>;
-        constructor(arg0: $Duration_, arg1: $List_<$Pair<T, $IoSummary$CountAndSize_>>);
+        constructor(recordingDuration: $Duration_, entries: $List_<$Pair<T, $IoSummary$CountAndSize_>>);
         get totalCount(): number;
-        get countsPerSecond(): number;
         get totalSize(): number;
         get sizePerSecond(): number;
+        get countsPerSecond(): number;
     }
     export class $ChunkGenStat extends $Record implements $TimedStat {
-        static from(arg0: $RecordedEvent): $ChunkGenStat;
+        static from(event: $RecordedEvent): $ChunkGenStat;
         status(): $ChunkStatus;
         duration(): $Duration;
         level(): string;
@@ -52,7 +52,7 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
      */
     export type $GcHeapStat$Timing_ = "before_gc" | "after_gc";
     export class $IoSummary$CountAndSize extends $Record {
-        add(arg0: $IoSummary$CountAndSize_): $IoSummary$CountAndSize;
+        add(countAndSize: $IoSummary$CountAndSize_): $IoSummary$CountAndSize;
         totalSize(): number;
         totalCount(): number;
         averageSize(): number;
@@ -61,70 +61,70 @@ declare module "@package/net/minecraft/util/profiling/jfr/stats" {
     }
     export class $FileIOStat$Summary extends $Record {
         counts(): number;
-        bytesPerSecond(): number;
         totalBytes(): number;
-        topTenContributorsByTotalBytes(): $List<$Pair<string, number>>;
+        bytesPerSecond(): number;
         countsPerSecond(): number;
+        topTenContributorsByTotalBytes(): $List<$Pair<string, number>>;
         timeSpentInIO(): $Duration;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: $Duration_, arg5: $List_<$Pair<string, number>>);
     }
     export class $TimedStatSummary<T extends $TimedStat> extends $Record {
         count(): number;
+        static summary<T extends $TimedStat>(stats: $List_<T>): $TimedStatSummary<T>;
         fastest(): T;
-        static summary<T extends $TimedStat>(arg0: $List_<T>): $TimedStatSummary<T>;
         slowest(): T;
         totalDuration(): $Duration;
-        percentilesNanos(): $Map<number, number>;
         secondSlowest(): T;
-        constructor(arg0: T, arg1: T, arg2: T, arg3: number, arg4: $Map_<number, number>, arg5: $Duration_);
+        percentilesNanos(): $Map<number, number>;
+        constructor(arg0: T, arg1: T, arg2: T | null, arg3: number, arg4: $Map_<number, number>, arg5: $Duration_);
     }
     export class $ThreadAllocationStat extends $Record {
-        static from(arg0: $RecordedEvent): $ThreadAllocationStat;
+        static from(event: $RecordedEvent): $ThreadAllocationStat;
         timestamp(): $Instant;
         threadName(): string;
+        static summary(stats: $List_<$ThreadAllocationStat_>): $ThreadAllocationStat$Summary;
         totalBytes(): number;
-        static summary(arg0: $List_<$ThreadAllocationStat_>): $ThreadAllocationStat$Summary;
         constructor(arg0: $Instant, arg1: string, arg2: number);
     }
     export class $TickTimeStat extends $Record {
-        static from(arg0: $RecordedEvent): $TickTimeStat;
+        static from(event: $RecordedEvent): $TickTimeStat;
         timestamp(): $Instant;
         currentAverage(): $Duration;
         constructor(arg0: $Instant, arg1: $Duration_);
     }
     export class $GcHeapStat$Summary extends $Record {
         duration(): $Duration;
-        allocationRateBytesPerSecond(): number;
-        totalGCs(): number;
         gcOverHead(): number;
+        totalGCs(): number;
         gcTotalDuration(): $Duration;
+        allocationRateBytesPerSecond(): number;
         constructor(arg0: $Duration_, arg1: $Duration_, arg2: number, arg3: number);
     }
     export class $GcHeapStat extends $Record {
-        static from(arg0: $RecordedEvent): $GcHeapStat;
+        static from(event: $RecordedEvent): $GcHeapStat;
         timestamp(): $Instant;
         timing(): $GcHeapStat$Timing;
-        static summary(arg0: $Duration_, arg1: $List_<$GcHeapStat_>, arg2: $Duration_, arg3: number): $GcHeapStat$Summary;
         heapUsed(): number;
+        static summary(duration: $Duration_, stats: $List_<$GcHeapStat_>, gcTotalDuration: $Duration_, totalGCs: number): $GcHeapStat$Summary;
         constructor(arg0: $Instant, arg1: number, arg2: $GcHeapStat$Timing_);
     }
     export class $ChunkIdentification extends $Record {
         x(): number;
-        static from(arg0: $RecordedEvent): $ChunkIdentification;
+        static from(event: $RecordedEvent): $ChunkIdentification;
         z(): number;
         level(): string;
         dimension(): string;
         constructor(arg0: string, arg1: string, arg2: number, arg3: number);
     }
     export class $CpuLoadStat extends $Record {
-        jvm(): number;
-        static from(arg0: $RecordedEvent): $CpuLoadStat;
+        static from(event: $RecordedEvent): $CpuLoadStat;
         system(): number;
+        jvm(): number;
         userJvm(): number;
         constructor(arg0: number, arg1: number, arg2: number);
     }
     export class $PacketIdentification extends $Record {
-        static from(arg0: $RecordedEvent): $PacketIdentification;
+        static from(event: $RecordedEvent): $PacketIdentification;
         direction(): string;
         protocolId(): string;
         packetId(): string;

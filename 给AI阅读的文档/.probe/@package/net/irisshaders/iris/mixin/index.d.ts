@@ -3,7 +3,7 @@ import { $EntityRenderDispatcher } from "@package/net/minecraft/client/renderer/
 import { $RenderType, $RenderBuffers, $MultiBufferSource_, $PostChain } from "@package/net/minecraft/client/renderer";
 import { $Entity } from "@package/net/minecraft/world/entity";
 import { $Camera } from "@package/net/minecraft/client";
-import { $GlStateManager$DepthState, $GlStateManager$BlendState, $GlStateManager$ColorMask, $GlStateManager$TextureState } from "@package/com/mojang/blaze3d/platform";
+import { $GlStateManager$BlendState, $GlStateManager$DepthState, $GlStateManager$ColorMask, $GlStateManager$TextureState } from "@package/com/mojang/blaze3d/platform";
 import { $SortedSet, $OptionalLong } from "@package/java/util";
 import { $Frustum } from "@package/net/minecraft/client/renderer/culling";
 import { $ClientLevel } from "@package/net/minecraft/client/multiplayer";
@@ -21,31 +21,31 @@ declare module "@package/net/irisshaders/iris/mixin" {
     }
     export interface $LevelRendererAccessor {
         getLevel(): $ClientLevel;
-        invokeDoesMobEffectBlockSky(arg0: $Camera): boolean;
         getEntityRenderDispatcher(): $EntityRenderDispatcher;
-        invokeRenderSectionLayer(arg0: $RenderType, arg1: number, arg2: number, arg3: number, arg4: $Matrix4f, arg5: $Matrix4f): void;
-        shouldRegenerateClouds(): boolean;
-        setShouldRegenerateClouds(arg0: boolean): void;
-        getDestructionProgress(): $Long2ObjectMap<$SortedSet<$BlockDestructionProgress>>;
-        invokeRenderEntity(arg0: $Entity, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $PoseStack, arg6: $MultiBufferSource_): void;
         invokeSetupRender(arg0: $Camera, arg1: $Frustum, arg2: boolean, arg3: boolean): void;
+        invokeRenderEntity(arg0: $Entity, arg1: number, arg2: number, arg3: number, arg4: number, arg5: $PoseStack, arg6: $MultiBufferSource_): void;
         getRenderBuffers(): $RenderBuffers;
         setRenderBuffers(arg0: $RenderBuffers): void;
+        invokeDoesMobEffectBlockSky(arg0: $Camera): boolean;
+        invokeRenderSectionLayer(arg0: $RenderType, arg1: number, arg2: number, arg3: number, arg4: $Matrix4f, arg5: $Matrix4f): void;
+        setShouldRegenerateClouds(arg0: boolean): void;
+        getDestructionProgress(): $Long2ObjectMap<$SortedSet<$BlockDestructionProgress>>;
+        shouldRegenerateClouds(): boolean;
         get level(): $ClientLevel;
         get entityRenderDispatcher(): $EntityRenderDispatcher;
         get destructionProgress(): $Long2ObjectMap<$SortedSet<$BlockDestructionProgress>>;
     }
     export class $GlStateManagerAccessor {
+        static getActiveTexture(): number;
+        static getTEXTURES(): $GlStateManager$TextureState[];
+        static getCOLOR_MASK(): $GlStateManager$ColorMask;
         static getDEPTH(): $GlStateManager$DepthState;
         static getBLEND(): $GlStateManager$BlendState;
-        static getTEXTURES(): $GlStateManager$TextureState[];
-        static getActiveTexture(): number;
-        static getCOLOR_MASK(): $GlStateManager$ColorMask;
+        static get activeTexture(): number;
+        static get TEXTURES(): $GlStateManager$TextureState[];
+        static get COLOR_MASK(): $GlStateManager$ColorMask;
         static get DEPTH(): $GlStateManager$DepthState;
         static get BLEND(): $GlStateManager$BlendState;
-        static get TEXTURES(): $GlStateManager$TextureState[];
-        static get activeTexture(): number;
-        static get COLOR_MASK(): $GlStateManager$ColorMask;
     }
     export interface $GlStateManagerAccessor {
     }
@@ -76,12 +76,12 @@ declare module "@package/net/irisshaders/iris/mixin" {
     }
     export interface $GameRendererAccessor {
         getBlurEffect(): $PostChain;
-        shouldRenderBlockOutlineA(): boolean;
         getPanoramicMode(): boolean;
-        invokeBobView(arg0: $PoseStack, arg1: number): void;
-        invokeBobHurt(arg0: $PoseStack, arg1: number): void;
         invokeGetFov(arg0: $Camera, arg1: number, arg2: boolean): number;
         getRenderHand(): boolean;
+        invokeBobView(arg0: $PoseStack, arg1: number): void;
+        invokeBobHurt(arg0: $PoseStack, arg1: number): void;
+        shouldRenderBlockOutlineA(): boolean;
         get blurEffect(): $PostChain;
         get panoramicMode(): boolean;
         get renderHand(): boolean;

@@ -39,146 +39,152 @@ export * as effects from "@package/net/minecraft/world/item/enchantment/effects"
 
 declare module "@package/net/minecraft/world/item/enchantment" {
     export class $EnchantmentHelper {
-        static getComponentType(arg0: $ItemStack_): $DataComponentType<$ItemEnchantments>;
-        static has(arg0: $ItemStack_, arg1: $DataComponentType_<never>): boolean;
-        static getRandomItemWith(arg0: $DataComponentType_<never>, arg1: $LivingEntity, arg2: $Predicate_<$ItemStack>): ($EnchantedItemInUse) | undefined;
-        static hasAnyEnchantments(arg0: $ItemStack_): boolean;
         /**
          * @deprecated
          */
-        static getItemEnchantmentLevel(arg0: $Holder_<$Enchantment>, arg1: $ItemStack_): number;
-        static enchantItemFromProvider(arg0: $ItemStack_, arg1: $RegistryAccess, arg2: $ResourceKey_<$EnchantmentProvider>, arg3: $DifficultyInstance, arg4: $RandomSource): void;
-        static processEquipmentDropChance(arg0: $ServerLevel, arg1: $LivingEntity, arg2: $DamageSource_, arg3: number): number;
-        static onProjectileSpawned(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $AbstractArrow, arg3: $Consumer_<$Item>): void;
-        static processBlockExperience(arg0: $ServerLevel, arg1: $ItemStack_, arg2: number): number;
-        static getEnchantmentLevel(arg0: $Holder_<$Enchantment>, arg1: $LivingEntity): number;
-        static getAvailableEnchantmentResults(arg0: number, arg1: $ItemStack_, arg2: $Stream<$Holder_<$Enchantment>>): $List<$EnchantmentInstance>;
-        static filterCompatibleEnchantments(arg0: $List_<$EnchantmentInstance>, arg1: $EnchantmentInstance): void;
-        static processMobExperience(arg0: $ServerLevel, arg1: $Entity, arg2: $Entity, arg3: number): number;
-        static runLocationChangedEffects(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $LivingEntity, arg3: $EquipmentSlot_): void;
-        static runLocationChangedEffects(arg0: $ServerLevel, arg1: $LivingEntity): void;
-        static getDamageProtection(arg0: $ServerLevel, arg1: $LivingEntity, arg2: $DamageSource_): number;
-        static stopLocationBasedEffects(arg0: $LivingEntity): void;
-        static stopLocationBasedEffects(arg0: $ItemStack_, arg1: $LivingEntity, arg2: $EquipmentSlot_): void;
-        static selectEnchantment(arg0: $RandomSource, arg1: $ItemStack_, arg2: number, arg3: $Stream<$Holder_<$Enchantment>>): $List<$EnchantmentInstance>;
-        static getEnchantmentCost(arg0: $RandomSource, arg1: number, arg2: number, arg3: $ItemStack_): number;
-        static setEnchantments(arg0: $ItemStack_, arg1: $ItemEnchantments_): void;
-        static getPiercingCount(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $ItemStack_): number;
-        static isImmuneToDamage(arg0: $ServerLevel, arg1: $LivingEntity, arg2: $DamageSource_): boolean;
-        static forEachModifier(arg0: $ItemStack_, arg1: $EquipmentSlotGroup_, arg2: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
-        static forEachModifier(arg0: $ItemStack_, arg1: $EquipmentSlot_, arg2: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
-        static modifyKnockback(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity, arg3: $DamageSource_, arg4: number): number;
-        static tickEffects(arg0: $ServerLevel, arg1: $LivingEntity): void;
-        static getTridentSpinAttackStrength(arg0: $ItemStack_, arg1: $LivingEntity): number;
-        static modifyCrossbowChargingTime(arg0: $ItemStack_, arg1: $LivingEntity, arg2: number): number;
-        static processProjectileSpread(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity, arg3: number): number;
-        static processProjectileCount(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity, arg3: number): number;
-        static getFishingLuckBonus(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity): number;
-        static getFishingTimeReduction(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity): number;
-        static modifyFallBasedDamage(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity, arg3: $DamageSource_, arg4: number): number;
-        static modifyDurabilityToRepairFromXp(arg0: $ServerLevel, arg1: $ItemStack_, arg2: number): number;
-        static modifyDamage(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity, arg3: $DamageSource_, arg4: number): number;
-        static processDurabilityChange(arg0: $ServerLevel, arg1: $ItemStack_, arg2: number): number;
-        static getEnchantmentsForCrafting(arg0: $ItemStack_): $ItemEnchantments;
-        static canStoreEnchantments(arg0: $ItemStack_): boolean;
-        static enchantItem(arg0: $RandomSource, arg1: $ItemStack_, arg2: number, arg3: $Stream<$Holder_<$Enchantment>>): $ItemStack;
-        static enchantItem(arg0: $RandomSource, arg1: $ItemStack_, arg2: number, arg3: $RegistryAccess, arg4: ($HolderSet_<$Enchantment>) | undefined): $ItemStack;
-        static updateEnchantments(arg0: $ItemStack_, arg1: $Consumer_<$ItemEnchantments$Mutable>): $ItemEnchantments;
-        static getTridentReturnToOwnerAcceleration(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity): number;
-        static doPostAttackEffectsWithItemSource(arg0: $ServerLevel, arg1: $Entity, arg2: $DamageSource_, arg3: $ItemStack_): void;
-        static doPostAttackEffects(arg0: $ServerLevel, arg1: $Entity, arg2: $DamageSource_): void;
-        static pickHighestLevel<T>(arg0: $ItemStack_, arg1: $DataComponentType_<$List_<T>>): (T) | undefined;
-        static processAmmoUse(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $ItemStack_, arg3: number): number;
-        static onHitBlock(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $LivingEntity, arg3: $Entity, arg4: $EquipmentSlot_, arg5: $Vec3_, arg6: $BlockState_, arg7: $Consumer_<$Item>): void;
-        static hasTag(arg0: $ItemStack_, arg1: $TagKey_<$Enchantment>): boolean;
-        static runIterationOnItem(arg0: $ItemStack_, arg1: $EnchantmentHelper$EnchantmentVisitor_): void;
-        static runIterationOnItem(arg0: $ItemStack_, arg1: $EquipmentSlot_, arg2: $LivingEntity, arg3: $EnchantmentHelper$EnchantmentInSlotVisitor_): void;
-        static getHighestLevel<T>(arg0: $ItemStack_, arg1: $DataComponentType_<T>): $Pair<T, number>;
-        static runIterationOnEquipment(arg0: $LivingEntity, arg1: $EnchantmentHelper$EnchantmentInSlotVisitor_): void;
-        static modifyArmorEffectiveness(arg0: $ServerLevel, arg1: $ItemStack_, arg2: $Entity, arg3: $DamageSource_, arg4: number): number;
-        static getTagEnchantmentLevel(arg0: $Holder_<$Enchantment>, arg1: $ItemStack_): number;
-        static isEnchantmentCompatible(arg0: $Collection_<$Holder_<$Enchantment>>, arg1: $Holder_<$Enchantment>): boolean;
+        static getItemEnchantmentLevel(enchantment: $Holder_<$Enchantment>, stack: $ItemStack_): number;
+        static getTridentSpinAttackStrength(stack: $ItemStack_, entity: $LivingEntity): number;
+        static modifyDurabilityToRepairFromXp(level: $ServerLevel, stack: $ItemStack_, duabilityToRepairFromXp: number): number;
+        static getComponentType(stack: $ItemStack_): $DataComponentType<$ItemEnchantments>;
+        static has(stack: $ItemStack_, componentType: $DataComponentType_<never>): boolean;
+        static processDurabilityChange(level: $ServerLevel, stack: $ItemStack_, duabilityToRepairFromXp: number): number;
+        static getEnchantmentsForCrafting(stack: $ItemStack_): $ItemEnchantments;
+        static canStoreEnchantments(stack: $ItemStack_): boolean;
+        static processProjectileSpread(level: $ServerLevel, tool: $ItemStack_, entity: $Entity, projectileSpread: number): number;
+        static processProjectileCount(level: $ServerLevel, tool: $ItemStack_, entity: $Entity, projectileCount: number): number;
+        static getFishingTimeReduction(level: $ServerLevel, stack: $ItemStack_, entity: $Entity): number;
+        static getFishingLuckBonus(level: $ServerLevel, stack: $ItemStack_, entity: $Entity): number;
+        static modifyFallBasedDamage(level: $ServerLevel, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: number): number;
+        static modifyCrossbowChargingTime(stack: $ItemStack_, entity: $LivingEntity, crossbowChargingTime: number): number;
+        static getHighestLevel<T>(stack: $ItemStack_, componentType: $DataComponentType_<T>): $Pair<T, number>;
+        static runIterationOnItem(stack: $ItemStack_, slot: $EquipmentSlot_, entity: $LivingEntity, visitor: $EnchantmentHelper$EnchantmentInSlotVisitor_): void;
+        static runIterationOnItem(stack: $ItemStack_, visitor: $EnchantmentHelper$EnchantmentVisitor_): void;
+        static hasTag(stack: $ItemStack_, tag: $TagKey_<$Enchantment>): boolean;
+        static processEquipmentDropChance(level: $ServerLevel, entity: $LivingEntity, damageSource: $DamageSource_, equipmentDropChance: number): number;
+        static enchantItemFromProvider(stack: $ItemStack_, registries: $RegistryAccess, key: $ResourceKey_<$EnchantmentProvider>, difficulty: $DifficultyInstance, random: $RandomSource): void;
+        static onProjectileSpawned(level: $ServerLevel, firedFromWeapon: $ItemStack_, arrow: $AbstractArrow, onBreak: $Consumer_<$Item>): void;
+        static isImmuneToDamage(level: $ServerLevel, entity: $LivingEntity, damageSource: $DamageSource_): boolean;
+        static modifyDamage(level: $ServerLevel, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: number): number;
+        static stopLocationBasedEffects(stack: $ItemStack_, entity: $LivingEntity, slot: $EquipmentSlot_): void;
+        static stopLocationBasedEffects(entity: $LivingEntity): void;
+        static doPostAttackEffectsWithItemSource(level: $ServerLevel, entity: $Entity, damageSource: $DamageSource_, itemSource: $ItemStack_ | null): void;
+        static getEnchantmentLevel(enchantment: $Holder_<$Enchantment>, entity: $LivingEntity): number;
+        static processMobExperience(level: $ServerLevel, killer: $Entity | null, mob: $Entity, experience: number): number;
+        static runLocationChangedEffects(level: $ServerLevel, stack: $ItemStack_, entity: $LivingEntity, slot: $EquipmentSlot_): void;
+        static runLocationChangedEffects(level: $ServerLevel, entity: $LivingEntity): void;
+        static processBlockExperience(level: $ServerLevel, stack: $ItemStack_, duabilityToRepairFromXp: number): number;
+        static enchantItem(random: $RandomSource, stack: $ItemStack_, level: number, possibleEnchantments: $Stream<$Holder_<$Enchantment>>): $ItemStack;
+        static enchantItem(random: $RandomSource, stack: $ItemStack_, level: number, registryAccess: $RegistryAccess, possibleEnchantments: ($HolderSet_<$Enchantment>) | undefined): $ItemStack;
+        static modifyKnockback(level: $ServerLevel, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: number): number;
+        static getRandomItemWith(componentType: $DataComponentType_<never>, entity: $LivingEntity, filter: $Predicate_<$ItemStack>): ($EnchantedItemInUse) | undefined;
+        static tickEffects(level: $ServerLevel, entity: $LivingEntity): void;
+        static getTridentReturnToOwnerAcceleration(level: $ServerLevel, stack: $ItemStack_, entity: $Entity): number;
+        static forEachModifier(stack: $ItemStack_, slotGroup: $EquipmentSlotGroup_, action: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
+        static forEachModifier(stack: $ItemStack_, slot: $EquipmentSlot_, action: $BiConsumer_<$Holder<$Attribute>, $AttributeModifier>): void;
+        static getDamageProtection(level: $ServerLevel, entity: $LivingEntity, damageSource: $DamageSource_): number;
+        static processAmmoUse(level: $ServerLevel, weapon: $ItemStack_, ammo: $ItemStack_, count: number): number;
+        static pickHighestLevel<T>(stack: $ItemStack_, componentType: $DataComponentType_<$List_<T>>): (T) | undefined;
+        static onHitBlock(level: $ServerLevel, stack: $ItemStack_, owner: $LivingEntity | null, entity: $Entity, slot: $EquipmentSlot_ | null, pos: $Vec3_, state: $BlockState_, onBreak: $Consumer_<$Item>): void;
+        static getPiercingCount(level: $ServerLevel, firedFromWeapon: $ItemStack_, pickupItemStack: $ItemStack_): number;
+        static selectEnchantment(random: $RandomSource, stack: $ItemStack_, level: number, possibleEnchantments: $Stream<$Holder_<$Enchantment>>): $List<$EnchantmentInstance>;
+        /**
+         * Returns the enchantability of itemstack, using a separate calculation for each enchantNum (0, 1 or 2), cutting to the max enchantability power of the table, which is locked to a max of 15.
+         */
+        static getEnchantmentCost(random: $RandomSource, enchantNum: number, power: number, stack: $ItemStack_): number;
+        static setEnchantments(stack: $ItemStack_, enchantments: $ItemEnchantments_): void;
+        static updateEnchantments(stack: $ItemStack_, updater: $Consumer_<$ItemEnchantments$Mutable>): $ItemEnchantments;
+        static hasAnyEnchantments(stack: $ItemStack_): boolean;
+        static doPostAttackEffects(level: $ServerLevel, entity: $Entity, damageSource: $DamageSource_): void;
+        static getTagEnchantmentLevel(enchantment: $Holder_<$Enchantment>, stack: $ItemStack_): number;
+        static runIterationOnEquipment(entity: $LivingEntity, visitor: $EnchantmentHelper$EnchantmentInSlotVisitor_): void;
+        static modifyArmorEffectiveness(level: $ServerLevel, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: number): number;
+        static isEnchantmentCompatible(currentEnchantments: $Collection_<$Holder_<$Enchantment>>, newEnchantment: $Holder_<$Enchantment>): boolean;
+        static filterCompatibleEnchantments(dataList: $List_<$EnchantmentInstance>, data: $EnchantmentInstance): void;
+        static getAvailableEnchantmentResults(level: number, stack: $ItemStack_, possibleEnchantments: $Stream<$Holder_<$Enchantment>>): $List<$EnchantmentInstance>;
         constructor();
     }
     export class $LevelBasedValue$LevelsSquared extends $Record implements $LevelBasedValue {
         added(): number;
         codec(): $MapCodec<$LevelBasedValue$LevelsSquared>;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
         static CODEC: $MapCodec<$LevelBasedValue$LevelsSquared>;
         constructor(arg0: number);
     }
     export class $Enchantment$Builder implements $EnchantmentBuilderAccessor {
-        build(arg0: $ResourceLocation_): $Enchantment;
-        exclusiveWith(arg0: $HolderSet_<$Enchantment>): $Enchantment$Builder;
-        withSpecialEffect<E>(arg0: $DataComponentType_<E>, arg1: E): $Enchantment$Builder;
+        build(location: $ResourceLocation_): $Enchantment;
+        withEffect<E>(componentType: $DataComponentType_<$List_<$TargetedConditionalEffect_<E>>>, enchanted: $EnchantmentTarget_, affected: $EnchantmentTarget_, effect: E): $Enchantment$Builder;
+        withEffect(componentType: $DataComponentType_<$List_<$EnchantmentAttributeEffect_>>, effect: $EnchantmentAttributeEffect_): $Enchantment$Builder;
+        withEffect(componentType: $DataComponentType_<$Unit_>): $Enchantment$Builder;
+        withEffect<E>(componentType: $DataComponentType_<$List_<$ConditionalEffect_<E>>>, effect: E, requirements: $LootItemCondition$Builder_): $Enchantment$Builder;
+        withEffect<E>(componentType: $DataComponentType_<$List_<$ConditionalEffect_<E>>>, effect: E): $Enchantment$Builder;
+        withEffect<E>(componentType: $DataComponentType_<$List_<$TargetedConditionalEffect_<E>>>, enchanted: $EnchantmentTarget_, affected: $EnchantmentTarget_, effect: E, requirements: $LootItemCondition$Builder_): $Enchantment$Builder;
+        exclusiveWith(exclusiveSet: $HolderSet_<$Enchantment>): $Enchantment$Builder;
+        withSpecialEffect<E>(componentType: $DataComponentType_<E>, effect: E): $Enchantment$Builder;
         withCustomName(arg0: $UnaryOperator_<$MutableComponent>): $Enchantment$Builder;
-        withEffect<E>(arg0: $DataComponentType_<$List_<$ConditionalEffect_<E>>>, arg1: E): $Enchantment$Builder;
-        withEffect<E>(arg0: $DataComponentType_<$List_<$ConditionalEffect_<E>>>, arg1: E, arg2: $LootItemCondition$Builder_): $Enchantment$Builder;
-        withEffect(arg0: $DataComponentType_<$Unit_>): $Enchantment$Builder;
-        withEffect<E>(arg0: $DataComponentType_<$List_<$TargetedConditionalEffect_<E>>>, arg1: $EnchantmentTarget_, arg2: $EnchantmentTarget_, arg3: E, arg4: $LootItemCondition$Builder_): $Enchantment$Builder;
-        withEffect<E>(arg0: $DataComponentType_<$List_<$TargetedConditionalEffect_<E>>>, arg1: $EnchantmentTarget_, arg2: $EnchantmentTarget_, arg3: E): $Enchantment$Builder;
-        withEffect(arg0: $DataComponentType_<$List_<$EnchantmentAttributeEffect_>>, arg1: $EnchantmentAttributeEffect_): $Enchantment$Builder;
         getDefinition(): $Enchantment$EnchantmentDefinition;
-        getEffectMap(): $DataComponentMap$Builder;
+        invokeGetEffectsList<E>(componentType: $DataComponentType_<$List_<E>>): $List<E>;
         getExclusiveSet(): $HolderSet<$Enchantment>;
-        invokeGetEffectsList<E>(arg0: $DataComponentType_<$List_<E>>): $List<E>;
+        getEffectMap(): $DataComponentMap$Builder;
         nameFactory: $UnaryOperator<$MutableComponent>;
-        constructor(arg0: $Enchantment$EnchantmentDefinition_);
+        constructor(definition: $Enchantment$EnchantmentDefinition_);
         get definition(): $Enchantment$EnchantmentDefinition;
-        get effectMap(): $DataComponentMap$Builder;
         get exclusiveSet(): $HolderSet<$Enchantment>;
+        get effectMap(): $DataComponentMap$Builder;
     }
     export class $EnchantedItemInUse extends $Record {
         owner(): $LivingEntity;
-        inSlot(): $EquipmentSlot;
-        itemStack(): $ItemStack;
         onBreak(): $Consumer<$Item>;
-        constructor(arg0: $ItemStack_, arg1: $EquipmentSlot_, arg2: $LivingEntity);
-        constructor(arg0: $ItemStack_, arg1: $EquipmentSlot_, arg2: $LivingEntity, arg3: $Consumer_<$Item>);
+        itemStack(): $ItemStack;
+        inSlot(): $EquipmentSlot;
+        constructor(itemStack: $ItemStack_, inSlot: $EquipmentSlot_, owner: $LivingEntity);
+        constructor(arg0: $ItemStack_, arg1: $EquipmentSlot_ | null, arg2: $LivingEntity | null, arg3: $Consumer_<$Item>);
     }
+    /**
+     * Defines an immutable instance of an enchantment and its level.
+     */
     export class $EnchantmentInstance extends $WeightedEntry$IntrusiveBase {
         level: number;
         enchantment: $Holder<$Enchantment>;
-        constructor(arg0: $Holder_<$Enchantment>, arg1: number);
+        constructor(enchantment: $Holder_<$Enchantment>, level: number);
     }
     export class $LevelBasedValue$Constant extends $Record implements $LevelBasedValue {
         value(): number;
         codec(): $MapCodec<$LevelBasedValue$Constant>;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
         static CODEC: $Codec<$LevelBasedValue$Constant>;
         static TYPED_CODEC: $MapCodec<$LevelBasedValue$Constant>;
         constructor(arg0: number);
     }
     export class $LevelBasedValue$Fraction extends $Record implements $LevelBasedValue {
-        denominator(): $LevelBasedValue;
         numerator(): $LevelBasedValue;
+        denominator(): $LevelBasedValue;
         codec(): $MapCodec<$LevelBasedValue$Fraction>;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
         static CODEC: $MapCodec<$LevelBasedValue$Fraction>;
         constructor(arg0: $LevelBasedValue, arg1: $LevelBasedValue);
     }
     export class $LevelBasedValue$Linear extends $Record implements $LevelBasedValue {
         base(): number;
         codec(): $MapCodec<$LevelBasedValue$Linear>;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
         perLevelAboveFirst(): number;
         static CODEC: $MapCodec<$LevelBasedValue$Linear>;
         constructor(arg0: number, arg1: number);
     }
     export class $Enchantment$Cost extends $Record {
         base(): number;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
         perLevelAboveFirst(): number;
         static CODEC: $Codec<$Enchantment$Cost>;
         constructor(base: number, perLevelAboveFirst: number);
     }
     export class $Enchantment$EnchantmentDefinition extends $Record {
         slots(): $List<$EquipmentSlotGroup>;
-        primaryItems(): ($HolderSet<$Item>) | undefined;
-        maxLevel(): number;
         weight(): number;
-        maxCost(): $Enchantment$Cost;
+        maxLevel(): number;
+        primaryItems(): ($HolderSet<$Item>) | undefined;
         anvilCost(): number;
+        maxCost(): $Enchantment$Cost;
         minCost(): $Enchantment$Cost;
         supportedItems(): $HolderSet<$Item>;
         static CODEC: $MapCodec<$Enchantment$EnchantmentDefinition>;
@@ -187,7 +193,7 @@ declare module "@package/net/minecraft/world/item/enchantment" {
     export class $EnchantmentHelper$EnchantmentVisitor {
     }
     export interface $EnchantmentHelper$EnchantmentVisitor {
-        accept(arg0: $Holder_<$Enchantment>, arg1: number): void;
+        accept(enchantment: $Holder_<$Enchantment>, level: number): void;
     }
     /**
      * Values that may be interpreted as {@link $EnchantmentHelper$EnchantmentVisitor}.
@@ -197,18 +203,18 @@ declare module "@package/net/minecraft/world/item/enchantment" {
         values(): $List<number>;
         fallback(): $LevelBasedValue;
         codec(): $MapCodec<$LevelBasedValue$Lookup>;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
         static CODEC: $MapCodec<$LevelBasedValue$Lookup>;
         constructor(arg0: $List_<number>, arg1: $LevelBasedValue);
     }
     export class $ItemEnchantments$Mutable {
-        set(arg0: $Holder_<$Enchantment>, arg1: number): void;
+        set(enchantment: $Holder_<$Enchantment>, level: number): void;
         keySet(): $Set<$Holder<$Enchantment>>;
-        removeIf(arg0: $Predicate_<$Holder<$Enchantment>>): void;
-        getLevel(arg0: $Holder_<$Enchantment>): number;
+        removeIf(predicate: $Predicate_<$Holder<$Enchantment>>): void;
+        getLevel(enchantment: $Holder_<$Enchantment>): number;
         toImmutable(): $ItemEnchantments;
-        upgrade(arg0: $Holder_<$Enchantment>, arg1: number): void;
-        constructor(arg0: $ItemEnchantments_);
+        upgrade(enchantment: $Holder_<$Enchantment>, level: number): void;
+        constructor(enchantments: $ItemEnchantments_);
     }
     export class $EnchantmentTarget extends $Enum<$EnchantmentTarget> implements $StringRepresentable {
         static values(): $EnchantmentTarget[];
@@ -227,34 +233,34 @@ declare module "@package/net/minecraft/world/item/enchantment" {
      */
     export type $EnchantmentTarget_ = "attacker" | "damaging_entity" | "victim";
     export class $LevelBasedValue {
-        static lookup(arg0: $List_<number>, arg1: $LevelBasedValue): $LevelBasedValue$Lookup;
-        static constant(arg0: number): $LevelBasedValue$Constant;
-        static bootstrap(arg0: $Registry<$MapCodec_<$LevelBasedValue>>): $MapCodec<$LevelBasedValue>;
-        static perLevel(arg0: number): $LevelBasedValue$Linear;
-        static perLevel(arg0: number, arg1: number): $LevelBasedValue$Linear;
+        static lookup(values: $List_<number>, fallback: $LevelBasedValue): $LevelBasedValue$Lookup;
+        static constant(value: number): $LevelBasedValue$Constant;
+        static bootstrap(registry: $Registry<$MapCodec_<$LevelBasedValue>>): $MapCodec<$LevelBasedValue>;
+        static perLevel(perLevel: number): $LevelBasedValue$Linear;
+        static perLevel(base: number, perLevelAfterFirst: number): $LevelBasedValue$Linear;
         static DISPATCH_CODEC: $Codec<$LevelBasedValue>;
         static CODEC: $Codec<$LevelBasedValue>;
     }
     export interface $LevelBasedValue {
         codec(): $MapCodec<$LevelBasedValue>;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
     }
     export class $TargetedConditionalEffect<T> extends $Record {
-        matches(arg0: $LootContext): boolean;
-        static equipmentDropsCodec<S>(arg0: $Codec<S>, arg1: $LootContextParamSet): $Codec<$TargetedConditionalEffect<S>>;
-        static codec<S>(arg0: $Codec<S>, arg1: $LootContextParamSet): $Codec<$TargetedConditionalEffect<S>>;
+        matches(context: $LootContext): boolean;
+        static codec<S>(codec: $Codec<S>, params: $LootContextParamSet): $Codec<$TargetedConditionalEffect<S>>;
         enchanted(): $EnchantmentTarget;
         affected(): $EnchantmentTarget;
         effect(): T;
+        static equipmentDropsCodec<S>(codec: $Codec<S>, params: $LootContextParamSet): $Codec<$TargetedConditionalEffect<S>>;
         requirements(): ($LootItemCondition) | undefined;
         constructor(arg0: $EnchantmentTarget_, arg1: $EnchantmentTarget_, arg2: T, arg3: ($LootItemCondition) | undefined);
     }
     export class $ConditionalEffect<T> extends $Record {
-        matches(arg0: $LootContext): boolean;
-        static codec<T>(arg0: $Codec<T>, arg1: $LootContextParamSet): $Codec<$ConditionalEffect<T>>;
+        matches(context: $LootContext): boolean;
+        static codec<T>(codec: $Codec<T>, params: $LootContextParamSet): $Codec<$ConditionalEffect<T>>;
         effect(): T;
+        static conditionCodec(params: $LootContextParamSet): $Codec<$LootItemCondition>;
         requirements(): ($LootItemCondition) | undefined;
-        static conditionCodec(arg0: $LootContextParamSet): $Codec<$LootItemCondition>;
         constructor(arg0: T, arg1: ($LootItemCondition) | undefined);
     }
     export class $LevelBasedValue$Clamped extends $Record implements $LevelBasedValue {
@@ -262,14 +268,14 @@ declare module "@package/net/minecraft/world/item/enchantment" {
         min(): number;
         max(): number;
         codec(): $MapCodec<$LevelBasedValue$Clamped>;
-        calculate(arg0: number): number;
+        calculate(level: number): number;
         static CODEC: $MapCodec<$LevelBasedValue$Clamped>;
         constructor(arg0: $LevelBasedValue, arg1: number, arg2: number);
     }
     export class $EnchantmentHelper$EnchantmentInSlotVisitor {
     }
     export interface $EnchantmentHelper$EnchantmentInSlotVisitor {
-        accept(arg0: $Holder_<$Enchantment>, arg1: number, arg2: $EnchantedItemInUse_): void;
+        accept(enchantment: $Holder_<$Enchantment>, level: number, item: $EnchantedItemInUse_): void;
     }
     /**
      * Values that may be interpreted as {@link $EnchantmentHelper$EnchantmentInSlotVisitor}.
@@ -281,15 +287,15 @@ declare module "@package/net/minecraft/world/item/enchantment" {
         isEmpty(): boolean;
         entrySet(): $Set<$Object2IntMap$Entry<$Holder<$Enchantment>>>;
         keySet(): $Set<$Holder<$Enchantment>>;
-        getLevel(arg0: $Holder_<$Enchantment>): number;
-        addToTooltip(arg0: $Item$TooltipContext, arg1: $Consumer_<$Component>, arg2: $TooltipFlag): void;
-        withTooltip(arg0: boolean): $ItemEnchantments;
+        getLevel(enchantment: $Holder_<$Enchantment>): number;
+        withTooltip(showInTooltip: boolean): $ItemEnchantments;
+        addToTooltip(context: $Item$TooltipContext, tooltipAdder: $Consumer_<$Component>, tooltipFlag: $TooltipFlag): void;
         static CODEC: $Codec<$ItemEnchantments>;
         enchantments: $Object2IntOpenHashMap<$Holder<$Enchantment>>;
         showInTooltip: boolean;
         static EMPTY: $ItemEnchantments;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $ItemEnchantments>;
-        constructor(arg0: $Object2IntOpenHashMap<$Holder_<$Enchantment>>, arg1: boolean);
+        constructor(enchantments: $Object2IntOpenHashMap<$Holder_<$Enchantment>>, showInTooltip: boolean);
         get empty(): boolean;
     }
     /**
@@ -297,78 +303,96 @@ declare module "@package/net/minecraft/world/item/enchantment" {
      */
     export type $ItemEnchantments_ = {[key in RegistryTypes.Enchantment]?: number};
     export class $Enchantment extends $Record {
-        tick(arg0: $ServerLevel, arg1: number, arg2: $EnchantedItemInUse_, arg3: $Entity): void;
+        modifyTridentSpinAttackStrength(random: $RandomSource, enchantmentLevel: number, value: $MutableFloat): void;
+        modifyDurabilityToRepairFromXp(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, ammoCount: $MutableFloat): void;
+        tick(level: $ServerLevel, enchantmentLevel: number, item: $EnchantedItemInUse_, entity: $Entity): void;
         description(): $Component;
         effects(): $DataComponentMap;
+        modifyProjectileSpread(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, fishingLuckBonus: $MutableFloat): void;
+        modifyArmorEffectivness(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: $MutableFloat): void;
+        modifyFishingLuckBonus(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, fishingLuckBonus: $MutableFloat): void;
+        modifyProjectileCount(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, fishingLuckBonus: $MutableFloat): void;
+        modifyUnfilteredValue(componentType: $DataComponentType_<$EnchantmentValueEffect>, random: $RandomSource, enchantmentLevel: number, value: $MutableFloat): void;
+        modifyItemFilteredCount(componentType: $DataComponentType_<$List_<$ConditionalEffect_<$EnchantmentValueEffect>>>, level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, value: $MutableFloat): void;
+        modifyPiercingCount(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, ammoCount: $MutableFloat): void;
+        modifyBlockExperience(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, ammoCount: $MutableFloat): void;
+        modifyMobExperience(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, fishingLuckBonus: $MutableFloat): void;
+        modifyDurabilityChange(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, ammoCount: $MutableFloat): void;
+        modifyDamageProtection(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: $MutableFloat): void;
+        modifyEntityFilteredValue(componentType: $DataComponentType_<$List_<$ConditionalEffect_<$EnchantmentValueEffect>>>, level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, value: $MutableFloat): void;
+        modifyFishingTimeReduction(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, fishingLuckBonus: $MutableFloat): void;
+        modifyDamageFilteredValue(componentType: $DataComponentType_<$List_<$ConditionalEffect_<$EnchantmentValueEffect>>>, level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, value: $MutableFloat): void;
+        modifyCrossbowChargeTime(random: $RandomSource, enchantmentLevel: number, value: $MutableFloat): void;
+        modifyFallBasedDamage(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: $MutableFloat): void;
+        /**
+         * Gets the maximum level of the enchantment under normal circumstances such as the enchanting table. This limit is not strictly enforced and may be ignored through custom item NBT or other customizations.
+         */
+        getMaxLevel(): number;
+        /**
+         * Gets the maximum level of the enchantment under normal circumstances such as the enchanting table. This limit is not strictly enforced and may be ignored through custom item NBT or other customizations.
+         */
+        getMinLevel(): number;
+        static enchantment(definition: $Enchantment$EnchantmentDefinition_): $Enchantment$Builder;
+        /**
+         * Gets the maximum level of the enchantment under normal circumstances such as the enchanting table. This limit is not strictly enforced and may be ignored through custom item NBT or other customizations.
+         */
+        getWeight(): number;
+        onProjectileSpawned(level: $ServerLevel, enchantmentLevel: number, item: $EnchantedItemInUse_, entity: $Entity): void;
+        isImmuneToDamage(level: $ServerLevel, enchantmentLevel: number, entity: $Entity, damageSource: $DamageSource_): boolean;
         /**
          * @deprecated
+         * Checks if the enchantment can be applied to a given ItemStack.
          */
-        isSupportedItem(arg0: $ItemStack_): boolean;
-        getMaxLevel(): number;
-        getMinLevel(): number;
-        getWeight(): number;
-        static enchantment(arg0: $Enchantment$EnchantmentDefinition_): $Enchantment$Builder;
-        onProjectileSpawned(arg0: $ServerLevel, arg1: number, arg2: $EnchantedItemInUse_, arg3: $Entity): void;
-        static definition(arg0: $HolderSet_<$Item>, arg1: number, arg2: number, arg3: $Enchantment$Cost_, arg4: $Enchantment$Cost_, arg5: number, ...arg6: $EquipmentSlotGroup_[]): $Enchantment$EnchantmentDefinition;
-        static definition(arg0: $HolderSet_<$Item>, arg1: $HolderSet_<$Item>, arg2: number, arg3: number, arg4: $Enchantment$Cost_, arg5: $Enchantment$Cost_, arg6: number, ...arg7: $EquipmentSlotGroup_[]): $Enchantment$EnchantmentDefinition;
+        isSupportedItem(stack: $ItemStack_): boolean;
+        modifyDamage(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: $MutableFloat): void;
+        stopLocationBasedEffects(enchantmentLevel: number, item: $EnchantedItemInUse_, entity: $LivingEntity): void;
+        runLocationChangedEffects(level: $ServerLevel, enchantmentLevel: number, item: $EnchantedItemInUse_, entity: $LivingEntity): void;
+        static definition(supportedItems: $HolderSet_<$Item>, primaryItems: $HolderSet_<$Item>, weight: number, maxLevel: number, minCost: $Enchantment$Cost_, maxCost: $Enchantment$Cost_, anvilCost: number, ...slots: $EquipmentSlotGroup_[]): $Enchantment$EnchantmentDefinition;
         definition(): $Enchantment$EnchantmentDefinition;
-        getMaxCost(arg0: number): number;
-        getMinCost(arg0: number): number;
-        getEffects<T>(arg0: $DataComponentType_<$List_<T>>): $List<T>;
-        runLocationChangedEffects(arg0: $ServerLevel, arg1: number, arg2: $EnchantedItemInUse_, arg3: $LivingEntity): void;
-        stopLocationBasedEffects(arg0: number, arg1: $EnchantedItemInUse_, arg2: $LivingEntity): void;
-        static getFullname(arg0: $Holder_<$Enchantment>, arg1: number): $Component;
-        exclusiveSet(): $HolderSet<$Enchantment>;
-        static constantCost(arg0: number): $Enchantment$Cost;
-        static dynamicCost(arg0: number, arg1: number): $Enchantment$Cost;
-        getSlotItems(arg0: $LivingEntity): $Map<$EquipmentSlot, $ItemStack>;
-        matchingSlot(arg0: $EquipmentSlot_): boolean;
+        static definition(supportedItems: $HolderSet_<$Item>, weight: number, maxLevel: number, minCost: $Enchantment$Cost_, maxCost: $Enchantment$Cost_, anvilCost: number, ...slots: $EquipmentSlotGroup_[]): $Enchantment$EnchantmentDefinition;
+        getMaxCost(level: number): number;
+        getEffects<T>(component: $DataComponentType_<$List_<T>>): $List<T>;
+        getMinCost(level: number): number;
+        modifyKnockback(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, damageSource: $DamageSource_, armorEffectiveness: $MutableFloat): void;
+        modifyTridentReturnToOwnerAcceleration(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, entity: $Entity, fishingLuckBonus: $MutableFloat): void;
+        /**
+         * @deprecated
+         * Checks if the enchantment can be applied to a given ItemStack.
+         */
+        canEnchant(stack: $ItemStack_): boolean;
+        static getFullname(enchantment: $Holder_<$Enchantment>, level: number): $Component;
+        matchingSlot(slot: $EquipmentSlot_): boolean;
         /**
          * @deprecated
          */
         getSupportedItems(): $HolderSet<$Item>;
         /**
-         * @deprecated
+         * Creates a new map containing all items equipped by an entity in slots that the enchantment cares about. These items are not tested for having the enchantment.
          */
-        isPrimaryItem(arg0: $ItemStack_): boolean;
-        static locationContext(arg0: $ServerLevel, arg1: number, arg2: $Entity, arg3: boolean): $LootContext;
-        static damageContext(arg0: $ServerLevel, arg1: number, arg2: $Entity, arg3: $DamageSource_): $LootContext;
-        static doPostAttack(arg0: $TargetedConditionalEffect_<$EnchantmentEntityEffect>, arg1: $ServerLevel, arg2: number, arg3: $EnchantedItemInUse_, arg4: $Entity, arg5: $DamageSource_): void;
-        doPostAttack(arg0: $ServerLevel, arg1: number, arg2: $EnchantedItemInUse_, arg3: $EnchantmentTarget_, arg4: $Entity, arg5: $DamageSource_): void;
-        modifyAmmoCount(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $MutableFloat): void;
-        static entityContext(arg0: $ServerLevel, arg1: number, arg2: $Entity, arg3: $Vec3_): $LootContext;
-        static itemContext(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_): $LootContext;
-        static blockHitContext(arg0: $ServerLevel, arg1: number, arg2: $Entity, arg3: $Vec3_, arg4: $BlockState_): $LootContext;
-        modifyTridentReturnToOwnerAcceleration(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $MutableFloat): void;
-        isImmuneToDamage(arg0: $ServerLevel, arg1: number, arg2: $Entity, arg3: $DamageSource_): boolean;
-        modifyKnockback(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $DamageSource_, arg5: $MutableFloat): void;
-        modifyFallBasedDamage(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $DamageSource_, arg5: $MutableFloat): void;
-        modifyTridentSpinAttackStrength(arg0: $RandomSource, arg1: number, arg2: $MutableFloat): void;
-        modifyDurabilityToRepairFromXp(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $MutableFloat): void;
-        modifyDamage(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $DamageSource_, arg5: $MutableFloat): void;
-        static applyEffects<T>(arg0: $List_<$ConditionalEffect_<T>>, arg1: $LootContext, arg2: $Consumer_<T>): void;
-        static areCompatible(arg0: $Holder_<$Enchantment>, arg1: $Holder_<$Enchantment>): boolean;
-        getAnvilCost(): number;
+        getSlotItems(entity: $LivingEntity): $Map<$EquipmentSlot, $ItemStack>;
+        static dynamicCost(base: number, perLevel: number): $Enchantment$Cost;
+        static constantCost(cost: number): $Enchantment$Cost;
+        exclusiveSet(): $HolderSet<$Enchantment>;
+        static damageContext(level: $ServerLevel, enchantmentLevel: number, entity: $Entity, damageSource: $DamageSource_): $LootContext;
+        static itemContext(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_): $LootContext;
+        modifyAmmoCount(level: $ServerLevel, enchantmentLevel: number, tool: $ItemStack_, ammoCount: $MutableFloat): void;
+        static doPostAttack(effect: $TargetedConditionalEffect_<$EnchantmentEntityEffect>, level: $ServerLevel, enchantmentLevel: number, item: $EnchantedItemInUse_, entity: $Entity, damageSource: $DamageSource_): void;
+        doPostAttack(level: $ServerLevel, enchantmentLevel: number, item: $EnchantedItemInUse_, target: $EnchantmentTarget_, entity: $Entity, damageSource: $DamageSource_): void;
+        static blockHitContext(level: $ServerLevel, enchantmentLevel: number, entity: $Entity, origin: $Vec3_, state: $BlockState_): $LootContext;
         /**
          * @deprecated
+         * Checks if the enchantment can be applied to a given ItemStack.
          */
-        canEnchant(arg0: $ItemStack_): boolean;
-        onHitBlock(arg0: $ServerLevel, arg1: number, arg2: $EnchantedItemInUse_, arg3: $Entity, arg4: $Vec3_, arg5: $BlockState_): void;
-        modifyArmorEffectivness(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $DamageSource_, arg5: $MutableFloat): void;
-        modifyPiercingCount(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $MutableFloat): void;
-        modifyFishingTimeReduction(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $MutableFloat): void;
-        modifyCrossbowChargeTime(arg0: $RandomSource, arg1: number, arg2: $MutableFloat): void;
-        modifyMobExperience(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $MutableFloat): void;
-        modifyItemFilteredCount(arg0: $DataComponentType_<$List_<$ConditionalEffect_<$EnchantmentValueEffect>>>, arg1: $ServerLevel, arg2: number, arg3: $ItemStack_, arg4: $MutableFloat): void;
-        modifyDamageProtection(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $DamageSource_, arg5: $MutableFloat): void;
-        modifyDurabilityChange(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $MutableFloat): void;
-        modifyEntityFilteredValue(arg0: $DataComponentType_<$List_<$ConditionalEffect_<$EnchantmentValueEffect>>>, arg1: $ServerLevel, arg2: number, arg3: $ItemStack_, arg4: $Entity, arg5: $MutableFloat): void;
-        modifyBlockExperience(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $MutableFloat): void;
-        modifyFishingLuckBonus(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $MutableFloat): void;
-        modifyDamageFilteredValue(arg0: $DataComponentType_<$List_<$ConditionalEffect_<$EnchantmentValueEffect>>>, arg1: $ServerLevel, arg2: number, arg3: $ItemStack_, arg4: $Entity, arg5: $DamageSource_, arg6: $MutableFloat): void;
-        modifyProjectileCount(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $MutableFloat): void;
-        modifyUnfilteredValue(arg0: $DataComponentType_<$EnchantmentValueEffect>, arg1: $RandomSource, arg2: number, arg3: $MutableFloat): void;
-        modifyProjectileSpread(arg0: $ServerLevel, arg1: number, arg2: $ItemStack_, arg3: $Entity, arg4: $MutableFloat): void;
+        isPrimaryItem(stack: $ItemStack_): boolean;
+        static entityContext(level: $ServerLevel, enchantmentLevel: number, entity: $Entity, origin: $Vec3_): $LootContext;
+        static locationContext(level: $ServerLevel, enchantmentLevel: number, entity: $Entity, enchantmentActive: boolean): $LootContext;
+        onHitBlock(level: $ServerLevel, enchantmentLevel: number, item: $EnchantedItemInUse_, entity: $Entity, pos: $Vec3_, state: $BlockState_): void;
+        static applyEffects<T>(effects: $List_<$ConditionalEffect_<T>>, context: $LootContext, applier: $Consumer_<T>): void;
+        /**
+         * Gets the maximum level of the enchantment under normal circumstances such as the enchanting table. This limit is not strictly enforced and may be ignored through custom item NBT or other customizations.
+         */
+        getAnvilCost(): number;
+        static areCompatible(first: $Holder_<$Enchantment>, second: $Holder_<$Enchantment>): boolean;
         static CODEC: $Codec<$Holder<$Enchantment>>;
         static DIRECT_CODEC: $Codec<$Enchantment>;
         static MAX_LEVEL: number;
@@ -385,7 +409,7 @@ declare module "@package/net/minecraft/world/item/enchantment" {
      */
     export type $Enchantment_ = RegistryTypes.Enchantment;
     export class $EnchantmentEffectComponents {
-        static bootstrap(arg0: $Registry<$DataComponentType_<never>>): $DataComponentType<never>;
+        static bootstrap(registry: $Registry<$DataComponentType_<never>>): $DataComponentType<never>;
         static ATTRIBUTES: $DataComponentType<$List<$EnchantmentAttributeEffect>>;
         static HIT_BLOCK: $DataComponentType<$List<$ConditionalEffect<$EnchantmentEntityEffect>>>;
         static PROJECTILE_SPREAD: $DataComponentType<$List<$ConditionalEffect<$EnchantmentValueEffect>>>;
@@ -422,7 +446,7 @@ declare module "@package/net/minecraft/world/item/enchantment" {
     export interface $EnchantmentEffectComponents {
     }
     export class $Enchantments {
-        static bootstrap(arg0: $BootstrapContext<$Enchantment_>): void;
+        static bootstrap(context: $BootstrapContext<$Enchantment_>): void;
         static PUNCH: $ResourceKey<$Enchantment>;
         static SOUL_SPEED: $ResourceKey<$Enchantment>;
         static FEATHER_FALLING: $ResourceKey<$Enchantment>;

@@ -24,11 +24,11 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
 declare module "@package/net/minecraft/stats" {
     export class $ServerRecipeBook extends $RecipeBook {
-        removeRecipes(arg0: $Collection_<$RecipeHolder_<never>>, arg1: $ServerPlayer): number;
-        sendInitialRecipeBook(arg0: $ServerPlayer): void;
-        fromNbt(arg0: $CompoundTag_, arg1: $RecipeManager): void;
+        sendInitialRecipeBook(player: $ServerPlayer): void;
+        removeRecipes(recipes: $Collection_<$RecipeHolder_<never>>, player: $ServerPlayer): number;
+        fromNbt(tag: $CompoundTag_, recipeManager: $RecipeManager): void;
         toNbt(): $CompoundTag;
-        addRecipes(arg0: $Collection_<$RecipeHolder_<never>>, arg1: $ServerPlayer): number;
+        addRecipes(recipes: $Collection_<$RecipeHolder_<never>>, player: $ServerPlayer): number;
         highlight: $Set<$ResourceLocation>;
         known: $Set<$ResourceLocation>;
         static RECIPE_BOOK_TAG: string;
@@ -124,55 +124,74 @@ declare module "@package/net/minecraft/stats" {
         constructor();
     }
     export class $RecipeBookSettings {
-        isOpen(arg0: $RecipeBookType_): boolean;
-        write(arg0: $FriendlyByteBuf): void;
-        write(arg0: $CompoundTag_): void;
-        static read(arg0: $FriendlyByteBuf): $RecipeBookSettings;
-        static read(arg0: $CompoundTag_): $RecipeBookSettings;
+        isOpen(bookType: $RecipeBookType_): boolean;
+        write(buffer: $FriendlyByteBuf): void;
+        write(tag: $CompoundTag_): void;
+        static read(buffer: $FriendlyByteBuf): $RecipeBookSettings;
+        static read(tag: $CompoundTag_): $RecipeBookSettings;
         copy(): $RecipeBookSettings;
-        replaceFrom(arg0: $RecipeBookSettings): void;
-        setFiltering(arg0: $RecipeBookType_, arg1: boolean): void;
-        isFiltering(arg0: $RecipeBookType_): boolean;
-        setOpen(arg0: $RecipeBookType_, arg1: boolean): void;
+        setFiltering(bookType: $RecipeBookType_, filtering: boolean): void;
+        isFiltering(bookType: $RecipeBookType_): boolean;
+        setOpen(bookType: $RecipeBookType_, filtering: boolean): void;
+        replaceFrom(other: $RecipeBookSettings): void;
         constructor();
     }
     export class $RecipeBook {
-        remove(arg0: $ResourceLocation_): void;
-        remove(arg0: $RecipeHolder_<never>): void;
-        add(arg0: $ResourceLocation_): void;
-        add(arg0: $RecipeHolder_<never>): void;
-        contains(arg0: $ResourceLocation_): boolean;
-        contains(arg0: $RecipeHolder_<never>): boolean;
-        isOpen(arg0: $RecipeBookType_): boolean;
-        copyOverData(arg0: $RecipeBook): void;
-        setFiltering(arg0: $RecipeBookType_, arg1: boolean): void;
-        setBookSettings(arg0: $RecipeBookSettings): void;
+        remove(recipe: $RecipeHolder_<never>): void;
+        remove(recipeId: $ResourceLocation_): void;
+        add(recipeId: $ResourceLocation_): void;
+        add(recipe: $RecipeHolder_<never>): void;
+        contains(recipeId: $ResourceLocation_): boolean;
+        contains(recipe: $RecipeHolder_<never> | null): boolean;
+        isOpen(bookType: $RecipeBookType_): boolean;
+        setBookSetting(bookType: $RecipeBookType_, open: boolean, filtering: boolean): void;
+        setFiltering(bookType: $RecipeBookType_, filtering: boolean): void;
+        isFiltering(bookType: $RecipeBookType_): boolean;
+        isFiltering(bookMenu: $RecipeBookMenu<never, never>): boolean;
+        setBookSettings(settings: $RecipeBookSettings): void;
+        addHighlight(recipe: $RecipeHolder_<never>): void;
+        addHighlight(recipeId: $ResourceLocation_): void;
         getBookSettings(): $RecipeBookSettings;
-        setBookSetting(arg0: $RecipeBookType_, arg1: boolean, arg2: boolean): void;
-        addHighlight(arg0: $RecipeHolder_<never>): void;
-        addHighlight(arg0: $ResourceLocation_): void;
-        isFiltering(arg0: $RecipeBookType_): boolean;
-        isFiltering(arg0: $RecipeBookMenu<never, never>): boolean;
-        setOpen(arg0: $RecipeBookType_, arg1: boolean): void;
-        willHighlight(arg0: $RecipeHolder_<never>): boolean;
-        removeHighlight(arg0: $RecipeHolder_<never>): void;
+        setOpen(bookType: $RecipeBookType_, filtering: boolean): void;
+        copyOverData(other: $RecipeBook): void;
+        willHighlight(recipe: $RecipeHolder_<never>): boolean;
+        removeHighlight(recipe: $RecipeHolder_<never>): void;
         highlight: $Set<$ResourceLocation>;
         known: $Set<$ResourceLocation>;
         constructor();
     }
+    /**
+     * Manages counting a set of `Stat` objects, stored by a map of statistics to their count.
+     * 
+     * This base `StatsCounter` is only used client-side for keeping track of and reading counts sent from the server.
+     * 
+     * @see net.minecraft.stats.ServerStatsCounter
+     */
     export class $StatsCounter {
-        getValue<T>(arg0: $StatType_<T>, arg1: T): number;
-        getValue(arg0: $Stat_<never>): number;
-        increment(arg0: $Player, arg1: $Stat_<never>, arg2: number): void;
-        setValue(arg0: $Player, arg1: $Stat_<never>, arg2: number): void;
+        getValue<T>(type: $StatType_<T>, value: T): number;
+        getValue(stat: $Stat_<never>): number;
+        increment(player: $Player, stat: $Stat_<never>, amount: number): void;
+        setValue(player: $Player, stat: $Stat_<never>, amount: number): void;
         stats: $Object2IntMap<$Stat<never>>;
         constructor();
     }
+    /**
+     * An immutable statistic to be counted for a particular entry in the #type's registry. This is used as a key in a `StatsCounter` for a corresponding count.
+     * 
+     * By default, the statistic's name is formatted `.:.`, as created by `#buildName(StatType, Object)`.
+     * 
+     * @param  the type of the registry entry for this statistic
+     * @see net.minecraft.stats.StatType
+     * @see net.minecraft.stats.Stats
+     */
     export class $Stat<T> extends $ObjectiveCriteria {
         getValue(): T;
-        format(arg0: number): string;
+        format(value: number): string;
         getType(): $StatType<T>;
-        static buildName<T>(arg0: $StatType_<T>, arg1: T): string;
+        /**
+         * @return the name for the specified `type` and `value` in the form `.:.`
+         */
+        static buildName<T>(type: $StatType_<T>, value: T): string;
         static DEATH_COUNT: $ObjectiveCriteria;
         static ARMOR: $ObjectiveCriteria;
         static TRIGGER: $ObjectiveCriteria;
@@ -187,7 +206,7 @@ declare module "@package/net/minecraft/stats" {
         static TEAM_KILL: $ObjectiveCriteria[];
         static KILLED_BY_TEAM: $ObjectiveCriteria[];
         static FOOD: $ObjectiveCriteria;
-        constructor(arg0: $StatType_<T>, arg1: T, arg2: $StatFormatter_);
+        constructor(type: $StatType_<T>, value: T, formatter: $StatFormatter_);
         get value(): T;
         get type(): $StatType<T>;
     }
@@ -195,16 +214,22 @@ declare module "@package/net/minecraft/stats" {
      * Values that may be interpreted as {@link $Stat}.
      */
     export type $Stat_<T> = string;
-    export interface $StatType extends RegistryMarked<RegistryTypes.StatTypeTag, RegistryTypes.StatType> {}
+    export interface $StatType<T> extends RegistryMarked<RegistryTypes.StatTypeTag, RegistryTypes.StatType> {}
+    /**
+     * Server-side implementation of `StatsCounter`; handles counting, serialising, and de-serialising statistics, as well as sending them to connected clients via the award stats packet.
+     */
     export class $ServerStatsCounter extends $StatsCounter {
         save(): void;
-        toJson(): string;
-        sendStats(arg0: $ServerPlayer): void;
-        parseLocal(arg0: $DataFixer, arg1: string): void;
         markAllDirty(): void;
+        toJson(): string;
+        parseLocal(fixerUpper: $DataFixer, json: string): void;
+        sendStats(player: $ServerPlayer): void;
         stats: $Object2IntMap<$Stat<never>>;
-        constructor(arg0: $MinecraftServer, arg1: $File_);
+        constructor(server: $MinecraftServer, file: $File_);
     }
+    /**
+     * A formatter for a statistic's corresponding count.
+     */
     export class $StatFormatter {
         static DISTANCE: $StatFormatter;
         static DECIMAL_FORMAT: $DecimalFormat;
@@ -213,23 +238,39 @@ declare module "@package/net/minecraft/stats" {
         static DEFAULT: $StatFormatter;
     }
     export interface $StatFormatter {
-        format(arg0: number): string;
+        /**
+         * Formats the specified `value` of a statistic.
+         * 
+         * @return the formatted `value`
+         */
+        format(value: number): string;
     }
     /**
      * Values that may be interpreted as {@link $StatFormatter}.
      */
     export type $StatFormatter_ = ((arg0: number) => string);
+    /**
+     * Holds a map of statistics with type `T` for a corresponding `#registry`.
+     * 
+     * A single type usually defines a particular thing to be counted, such as the number of items used or the number of blocks mined. However, there is also a custom type which uses entries from the custom stat registry. This is keyed by a `ResourceLocation` and can be used to count any statistic that doesn't require an associated `Registry` entry.
+     * 
+     * @param  the type of the associated registry's entry values
+     * @see net.minecraft.stats.Stat
+     * @see net.minecraft.stats.Stats
+     * @see net.minecraft.core.Registry#STAT_TYPE
+     * @see net.minecraft.core.Registry#CUSTOM_STAT
+     */
     export class $StatType<T> implements $Iterable<$Stat<T>> {
-        get(arg0: $Stat_<T>): $Stat<$Stat<T>>;
-        get(arg0: $Stat_<T>, arg1: $StatFormatter_): $Stat<$Stat<T>>;
+        get(value: $Stat_<T>): $Stat<$Stat<T>>;
+        get(value: $Stat_<T>, formatter: $StatFormatter_): $Stat<$Stat<T>>;
         iterator(): $Iterator<$Stat<$Stat<T>>>;
-        contains(arg0: $Stat_<T>): boolean;
+        contains(value: $Stat_<T>): boolean;
         getDisplayName(): $Component;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, $Stat<$Stat<T>>>;
         getRegistry(): $Registry<$Stat<T>>;
         spliterator(): $Spliterator<$Stat<T>>;
         forEach(arg0: $Consumer_<$Stat<T>>): void;
-        constructor(arg0: $Registry<$Stat_<T>>, arg1: $Component_);
+        constructor(registry: $Registry<$Stat_<T>>, displayName: $Component_);
         [Symbol.iterator](): Iterator<$Stat<$Stat<T>>>
         get displayName(): $Component;
         get registry(): $Registry<$Stat<T>>;

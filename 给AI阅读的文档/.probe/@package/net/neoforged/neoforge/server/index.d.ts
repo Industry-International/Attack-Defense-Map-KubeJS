@@ -8,20 +8,24 @@ export * as loading from "@package/net/neoforged/neoforge/server/loading";
 export * as console from "@package/net/neoforged/neoforge/server/console";
 
 declare module "@package/net/neoforged/neoforge/server" {
+    /**
+     * Loads the built-in language files, and handles loading the default language ({@value Language#DEFAULT}) on the
+     * dedicated server.
+     */
     export class $LanguageHook {
-        static captureLanguageMap(arg0: $Map_<string, string>, arg1: $Map_<string, $Component_>): void;
         static loadBuiltinLanguages(): void;
+        static captureLanguageMap(table: $Map_<string, string>, componentTable: $Map_<string, $Component_>): void;
         constructor();
     }
     export class $ServerLifecycleHooks {
+        static handleServerStarting(server: $MinecraftServer): void;
+        static handleServerAboutToStart(server: $MinecraftServer): void;
         static getCurrentServer(): $MinecraftServer;
-        static handleServerStarted(arg0: $MinecraftServer): void;
-        static handleServerStopped(arg0: $MinecraftServer): void;
+        static handleExit(retVal: number): void;
         static expectServerStopped(): void;
-        static handleServerStopping(arg0: $MinecraftServer): void;
-        static handleExit(arg0: number): void;
-        static handleServerAboutToStart(arg0: $MinecraftServer): void;
-        static handleServerStarting(arg0: $MinecraftServer): void;
+        static handleServerStarted(server: $MinecraftServer): void;
+        static handleServerStopping(server: $MinecraftServer): void;
+        static handleServerStopped(server: $MinecraftServer): void;
         constructor();
         static get currentServer(): $MinecraftServer;
     }

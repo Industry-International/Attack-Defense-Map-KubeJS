@@ -1,5 +1,5 @@
 import { $MinimapProcessor } from "@package/xaero/common/minimap";
-import { $RadarRenderContext, $RadarElementReader, $RadarRenderer as $RadarRenderer$1, $RadarRenderProvider } from "@package/xaero/hud/minimap/radar/render/element";
+import { $RadarRenderContext, $RadarRenderer as $RadarRenderer$1, $RadarElementReader, $RadarRenderProvider } from "@package/xaero/hud/minimap/radar/render/element";
 import { $MinimapElementRenderLocation } from "@package/xaero/hud/minimap/element/render";
 import { $MultiBufferSource$BufferSource, $RenderType } from "@package/net/minecraft/client/renderer";
 import { $EntityRadarCategory } from "@package/xaero/hud/minimap/radar/category";

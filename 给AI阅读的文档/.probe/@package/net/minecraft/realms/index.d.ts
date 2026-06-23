@@ -17,9 +17,9 @@ import { $Font, $GuiGraphics } from "@package/net/minecraft/client/gui";
 declare module "@package/net/minecraft/realms" {
     export class $RealmsObjectSelectionList<E extends $ObjectSelectionList$Entry<E>> extends $ObjectSelectionList<E> {
         clear(): void;
-        addEntry(arg0: E): number;
-        selectItem(arg0: number): void;
-        setSelectedItem(arg0: number): void;
+        addEntry(entry: E): number;
+        setSelectedItem(index: number): void;
+        selectItem(index: number): void;
         minecraft: $Minecraft;
         static SCROLLER_BACKGROUND_SPRITE: $ResourceLocation;
         visible: boolean;
@@ -38,15 +38,15 @@ declare module "@package/net/minecraft/realms" {
         headerHeight: number;
         hovered: E;
         height: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number);
+        constructor(width: number, height: number, y: number, itemHeight: number);
         set selectedItem(value: number);
     }
     export class $RepeatedNarrator$Params {
     }
     export class $RealmsScreen extends $Screen {
-        static row(arg0: number): number;
+        addLabel(label: $RealmsLabel): $RealmsLabel;
+        static row(position: number): number;
         createLabelNarration(): $Component;
-        addLabel(arg0: $RealmsLabel): $RealmsLabel;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -73,11 +73,11 @@ declare module "@package/net/minecraft/realms" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Component_);
+        constructor(title: $Component_);
     }
     export class $RepeatedNarrator {
-        narrate(arg0: $GameNarrator, arg1: $Component_): void;
-        constructor(arg0: $Duration_);
+        narrate(narrator: $GameNarrator, narration: $Component_): void;
+        constructor(duration: $Duration_);
     }
     export class $DisconnectedRealmsScreen extends $RealmsScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -106,22 +106,25 @@ declare module "@package/net/minecraft/realms" {
         screenExecutor: $Executor;
         static COLOR_LINK: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Component_, arg2: $Component_);
+        constructor(parent: $Screen, title: $Component_, reason: $Component_);
     }
     export class $RealmsLabel implements $Renderable {
         getText(): $Component;
-        render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        constructor(arg0: $Component_, arg1: number, arg2: number, arg3: number);
+        /**
+         * Renders the graphical user interface (GUI) element.
+         */
+        render(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number): void;
+        constructor(text: $Component_, x: number, y: number, color: number);
         get text(): $Component;
     }
     export class $RealmsConnect {
-        connect(arg0: $RealmsServer, arg1: $ServerAddress): void;
+        connect(server: $RealmsServer, address: $ServerAddress): void;
         tick(): void;
         abort(): void;
         onlineScreen: $Screen;
         aborted: boolean;
         static LOGGER: $Logger;
         connection: $Connection;
-        constructor(arg0: $Screen);
+        constructor(onlineScreen: $Screen);
     }
 }

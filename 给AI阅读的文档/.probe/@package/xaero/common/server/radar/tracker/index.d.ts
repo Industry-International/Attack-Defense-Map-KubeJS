@@ -15,19 +15,19 @@ declare module "@package/xaero/common/server/radar/tracker" {
         getId(): $UUID;
         copyFrom(arg0: $SyncedTrackedPlayer): void;
         getY(): number;
-        getX(): number;
-        getZ(): number;
         setPos(arg0: number, arg1: number, arg2: number): $SyncedTrackedPlayer;
-        setDimension(arg0: $ResourceKey_<$Level>): $SyncedTrackedPlayer;
-        getDimensionKey(): $ResourceKey<$Level>;
         matchesEnough(arg0: $Player, arg1: number): boolean;
+        getZ(): number;
+        getX(): number;
+        getDimensionKey(): $ResourceKey<$Level>;
+        setDimension(arg0: $ResourceKey_<$Level>): $SyncedTrackedPlayer;
         constructor(arg0: $UUID_, arg1: number, arg2: number, arg3: number, arg4: $ResourceKey_<$Level>);
         get id(): $UUID;
         get y(): number;
-        get x(): number;
         get z(): number;
-        set dimension(value: $ResourceKey_<$Level>);
+        get x(): number;
         get dimensionKey(): $ResourceKey<$Level>;
+        set dimension(value: $ResourceKey_<$Level>);
     }
     export class $SyncedPlayerTrackerSystemManager {
         register(arg0: string, arg1: $ISyncedPlayerTrackerSystem): void;
@@ -42,8 +42,8 @@ declare module "@package/xaero/common/server/radar/tracker" {
     export class $ISyncedPlayerTrackerSystem {
     }
     export interface $ISyncedPlayerTrackerSystem {
-        isPartySystem(): boolean;
         getTrackingLevel(arg0: $Player, arg1: $Player): number;
+        isPartySystem(): boolean;
         get partySystem(): boolean;
     }
 }

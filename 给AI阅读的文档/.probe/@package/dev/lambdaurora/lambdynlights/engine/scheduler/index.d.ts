@@ -3,11 +3,11 @@ import { $Enum } from "@package/java/lang";
 
 declare module "@package/dev/lambdaurora/lambdynlights/engine/scheduler" {
     export class $ChunkRebuildStatus extends $Enum<$ChunkRebuildStatus> {
+        needsRebuild(): boolean;
+        needsCleanup(): boolean;
         static values(): $ChunkRebuildStatus[];
         static valueOf(name: string): $ChunkRebuildStatus;
         color(): number;
-        needsCleanup(): boolean;
-        needsRebuild(): boolean;
         static REQUESTED: $ChunkRebuildStatus;
         static VALUES: $List<$ChunkRebuildStatus>;
         static AFFECTED: $ChunkRebuildStatus;

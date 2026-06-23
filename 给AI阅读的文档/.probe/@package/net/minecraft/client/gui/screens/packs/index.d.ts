@@ -22,21 +22,21 @@ declare module "@package/net/minecraft/client/gui/screens/packs" {
         commit(): void;
         getSelected(): $Stream<$PackSelectionModel$Entry>;
         updateRepoSelectedList(): void;
-        findNewPacks(): void;
         getUnselected(): $Stream<$PackSelectionModel$Entry>;
+        findNewPacks(): void;
         iconGetter: $Function<$Pack, $ResourceLocation>;
         onListChanged: $Runnable;
         unselected: $List<$Pack>;
         selected: $List<$Pack>;
-        constructor(arg0: $Runnable_, arg1: $Function_<$Pack, $ResourceLocation>, arg2: $PackRepository, arg3: $Consumer_<$PackRepository>);
+        constructor(onListChanged: $Runnable_, iconGetter: $Function_<$Pack, $ResourceLocation>, repository: $PackRepository, output: $Consumer_<$PackRepository>);
     }
     export class $PackSelectionModel$SelectedPackEntry extends $PackSelectionModel$EntryBase {
     }
     export class $PackSelectionModel$UnselectedPackEntry extends $PackSelectionModel$EntryBase {
     }
     export class $TransferableSelectionList extends $ObjectSelectionList<$TransferableSelectionList$PackEntry> {
-        static access$000(arg0: $TransferableSelectionList): boolean;
         static access$100(arg0: $TransferableSelectionList, arg1: number): number;
+        static access$000(arg0: $TransferableSelectionList): boolean;
         minecraft: $Minecraft;
         itemHeight: number;
         tooltip: $WidgetTooltipHolder;
@@ -66,18 +66,18 @@ declare module "@package/net/minecraft/client/gui/screens/packs" {
         headerHeight: number;
         hovered: $TransferableSelectionList$PackEntry;
         static MOVE_DOWN_HIGHLIGHTED_SPRITE: $ResourceLocation;
-        constructor(arg0: $Minecraft, arg1: $PackSelectionScreen, arg2: number, arg3: number, arg4: $Component_);
+        constructor(minecraft: $Minecraft, screen: $PackSelectionScreen, width: number, height: number, title: $Component_);
     }
     export class $PackSelectionModel$EntryBase implements $PackSelectionModel$Entry {
-        getExtendedDescription(): $Component;
         canUnselect(): boolean;
         canSelect(): boolean;
+        getExtendedDescription(): $Component;
         get extendedDescription(): $Component;
     }
     export class $PackSelectionScreen extends $Screen {
-        updateFocus(arg0: $TransferableSelectionList): void;
+        updateFocus(selection: $TransferableSelectionList): void;
         clearSelected(): void;
-        static copyPacks(arg0: $Minecraft, arg1: $List_<$Path_>, arg2: $Path_): void;
+        static copyPacks(minecraft: $Minecraft, packs: $List_<$Path_>, outDir: $Path_): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -96,7 +96,7 @@ declare module "@package/net/minecraft/client/gui/screens/packs" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $PackRepository, arg1: $Consumer_<$PackRepository>, arg2: $Path_, arg3: $Component_);
+        constructor(repository: $PackRepository, output: $Consumer_<$PackRepository>, packDir: $Path_, title: $Component_);
     }
     export class $TransferableSelectionList$PackEntry extends $ObjectSelectionList$Entry<$TransferableSelectionList$PackEntry> {
         keyboardSelection(): void;
@@ -108,39 +108,39 @@ declare module "@package/net/minecraft/client/gui/screens/packs" {
          * @deprecated
          */
         list: $AbstractSelectionList<$TransferableSelectionList$PackEntry>;
-        constructor(arg0: $Minecraft, arg1: $TransferableSelectionList, arg2: $PackSelectionModel$Entry);
+        constructor(minecraft: $Minecraft, parent: $TransferableSelectionList, pack: $PackSelectionModel$Entry);
         get packId(): string;
     }
     export class $PackSelectionModel$Entry {
     }
     export interface $PackSelectionModel$Entry {
-        getId(): string;
-        select(): void;
-        isSelected(): boolean;
-        getTitle(): $Component;
-        isRequired(): boolean;
-        getCompatibility(): $PackCompatibility;
-        getPackSource(): $PackSource;
-        moveDown(): void;
-        moveUp(): void;
         getDescription(): $Component;
-        getExtendedDescription(): $Component;
-        isFixedPosition(): boolean;
+        getId(): string;
+        getTitle(): $Component;
+        isSelected(): boolean;
+        select(): void;
+        isRequired(): boolean;
+        canUnselect(): boolean;
         canMoveDown(): boolean;
         getIconTexture(): $ResourceLocation;
-        canUnselect(): boolean;
+        getPackSource(): $PackSource;
         canSelect(): boolean;
+        getCompatibility(): $PackCompatibility;
+        isFixedPosition(): boolean;
+        moveUp(): void;
+        moveDown(): void;
+        getExtendedDescription(): $Component;
         canMoveUp(): boolean;
         unselect(): void;
-        get id(): string;
-        get selected(): boolean;
-        get title(): $Component;
-        get required(): boolean;
-        get compatibility(): $PackCompatibility;
-        get packSource(): $PackSource;
         get description(): $Component;
-        get extendedDescription(): $Component;
-        get fixedPosition(): boolean;
+        get id(): string;
+        get title(): $Component;
+        get selected(): boolean;
+        get required(): boolean;
         get iconTexture(): $ResourceLocation;
+        get packSource(): $PackSource;
+        get compatibility(): $PackCompatibility;
+        get fixedPosition(): boolean;
+        get extendedDescription(): $Component;
     }
 }

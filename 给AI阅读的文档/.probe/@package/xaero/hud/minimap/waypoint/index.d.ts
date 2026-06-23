@@ -18,24 +18,24 @@ declare module "@package/xaero/hud/minimap/waypoint" {
     export class $WaypointPurpose extends $Enum<$WaypointPurpose> {
         static values(): $WaypointPurpose[];
         static valueOf(arg0: string): $WaypointPurpose;
-        isDeath(): boolean;
         isDestination(): boolean;
+        isDeath(): boolean;
         static OLD_DEATH: $WaypointPurpose;
         static DESTINATION: $WaypointPurpose;
         static DEATH: $WaypointPurpose;
         static NORMAL: $WaypointPurpose;
-        get death(): boolean;
         get destination(): boolean;
+        get death(): boolean;
     }
     /**
      * Values that may be interpreted as {@link $WaypointPurpose}.
      */
     export type $WaypointPurpose_ = "normal" | "death" | "old_death" | "destination";
     export class $WaypointTeleport {
-        canTeleport(arg0: boolean, arg1: $MinimapWorld): boolean;
-        teleportToWaypoint(arg0: $Waypoint, arg1: $MinimapWorld, arg2: $Screen): void;
-        teleportToWaypoint(arg0: $Waypoint, arg1: $MinimapWorld, arg2: $Screen, arg3: boolean): void;
         teleportAnyway(): void;
+        canTeleport(arg0: boolean, arg1: $MinimapWorld): boolean;
+        teleportToWaypoint(arg0: $Waypoint, arg1: $MinimapWorld, arg2: $Screen, arg3: boolean): void;
+        teleportToWaypoint(arg0: $Waypoint, arg1: $MinimapWorld, arg2: $Screen): void;
         isWorldTeleportable(arg0: $MinimapWorld): boolean;
         isTeleportationSafe(arg0: $MinimapWorld): boolean;
         static SLASH_TELEPORT_ANYWAY_COMMAND: string;
@@ -43,27 +43,27 @@ declare module "@package/xaero/hud/minimap/waypoint" {
         constructor(arg0: $HudMod, arg1: $WaypointSession, arg2: $MinimapSession);
     }
     export class $WaypointSession {
-        getSession(): $MinimapSession;
-        setSetChangedTime(arg0: number): void;
-        getMc(): $Minecraft;
         getSharing(): $WaypointSharingHandler;
-        getCollector(): $WaypointCollector;
+        getMc(): $Minecraft;
+        getSession(): $MinimapSession;
         getTeleport(): $WaypointTeleport;
+        getCollector(): $WaypointCollector;
+        setSetChangedTime(arg0: number): void;
         getSetChangedTime(): number;
         getTemporaryHandler(): $TemporaryWaypointHandler;
-        getDeleter(): $WaypointDeleter;
         getDeathpointHandler(): $DeathpointHandler;
         getDestinationHandler(): $DestinationHandler;
+        getDeleter(): $WaypointDeleter;
         constructor(arg0: $HudMod, arg1: $MinimapSession);
-        get session(): $MinimapSession;
-        get mc(): $Minecraft;
         get sharing(): $WaypointSharingHandler;
-        get collector(): $WaypointCollector;
+        get mc(): $Minecraft;
+        get session(): $MinimapSession;
         get teleport(): $WaypointTeleport;
+        get collector(): $WaypointCollector;
         get temporaryHandler(): $TemporaryWaypointHandler;
-        get deleter(): $WaypointDeleter;
         get deathpointHandler(): $DeathpointHandler;
         get destinationHandler(): $DestinationHandler;
+        get deleter(): $WaypointDeleter;
     }
     export class $WaypointColor extends $Enum<$WaypointColor> {
         getName(): $Component;
@@ -103,9 +103,9 @@ declare module "@package/xaero/hud/minimap/waypoint" {
         constructor(arg0: $HudMod, arg1: $MinimapSession);
     }
     export class $WaypointSharingHandler {
-        shareWaypoint(arg0: $Screen, arg1: $Waypoint, arg2: $MinimapWorld): void;
         onWaypointAdd(arg0: string[]): void;
         onWaypointReceived(arg0: string, arg1: string): void;
+        shareWaypoint(arg0: $Screen, arg1: $Waypoint, arg2: $MinimapWorld): void;
         onShareConfirmationResult(arg0: boolean): void;
         static WAYPOINT_OLD_SHARE_PREFIX: string;
         static WAYPOINT_ADD_PREFIX: string;

@@ -7,38 +7,47 @@ import { $DataProvider, $CachedOutput_, $PackOutput } from "@package/net/minecra
 
 declare module "@package/net/minecraft/data/structures" {
     export class $SnbtDatafixer {
-        static main(arg0: string[]): void;
+        static main(args: string[]): void;
         constructor();
     }
     export class $NbtToSnbt implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        static writeSnbt(arg0: $CachedOutput_, arg1: $Path_, arg2: string): void;
-        static convertStructure(arg0: $CachedOutput_, arg1: $Path_, arg2: string, arg3: $Path_): $Path;
-        constructor(arg0: $PackOutput, arg1: $Collection_<$Path_>);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        static writeSnbt(output: $CachedOutput_, path: $Path_, contents: string): void;
+        static convertStructure(output: $CachedOutput_, nbtPath: $Path_, name: string, directoryPath: $Path_): $Path;
+        constructor(output: $PackOutput, inputFolders: $Collection_<$Path_>);
         get name(): string;
     }
+    /**
+     * Wraps exceptions thrown while reading structures to include the path of the structure in the exception message.
+     */
     export class $SnbtToNbt$StructureConversionException extends $RuntimeException {
     }
     export class $StructureUpdater implements $SnbtToNbt$Filter {
-        static update(arg0: string, arg1: $CompoundTag_): $CompoundTag;
-        apply(arg0: string, arg1: $CompoundTag_): $CompoundTag;
+        static update(structureLocationPath: string, tag: $CompoundTag_): $CompoundTag;
+        apply(structureLocationPath: string, tag: $CompoundTag_): $CompoundTag;
         constructor();
     }
     export class $SnbtToNbt$Filter {
     }
     export interface $SnbtToNbt$Filter {
-        apply(arg0: string, arg1: $CompoundTag_): $CompoundTag;
+        apply(structureLocationPath: string, tag: $CompoundTag_): $CompoundTag;
     }
     /**
      * Values that may be interpreted as {@link $SnbtToNbt$Filter}.
      */
     export type $SnbtToNbt$Filter_ = ((arg0: string, arg1: $CompoundTag) => $CompoundTag_);
     export class $SnbtToNbt implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        addFilter(arg0: $SnbtToNbt$Filter_): $SnbtToNbt;
-        constructor(arg0: $PackOutput, arg1: $Iterable_<$Path>);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        addFilter(filter: $SnbtToNbt$Filter_): $SnbtToNbt;
+        constructor(output: $PackOutput, inputFolders: $Iterable_<$Path>);
         get name(): string;
     }
     export class $SnbtToNbt$TaskResult extends $Record {

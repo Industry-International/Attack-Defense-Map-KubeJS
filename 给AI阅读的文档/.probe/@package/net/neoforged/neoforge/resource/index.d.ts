@@ -15,29 +15,36 @@ import { $ContextAwareReloadListenerAccessor } from "@package/rbasamoyai/createb
 
 declare module "@package/net/neoforged/neoforge/resource" {
     export class $EmptyPackResources$EmptyResourcesSupplier implements $Pack$ResourcesSupplier {
-        openFull(arg0: $PackLocationInfo_, arg1: $Pack$Metadata_): $PackResources;
-        openPrimary(arg0: $PackLocationInfo_): $PackResources;
-        constructor(arg0: $PackMetadataSection_);
+        openPrimary(id: $PackLocationInfo_): $PackResources;
+        openFull(id: $PackLocationInfo_, info: $Pack$Metadata_): $PackResources;
+        constructor(packMeta: $PackMetadataSection_);
     }
     export class $EmptyPackResources extends $AbstractPackResources {
-        constructor(arg0: $PackLocationInfo_, arg1: $PackMetadataSection_);
+        constructor(packId: $PackLocationInfo_, packMeta: $PackMetadataSection_);
     }
     export class $ResourcePackLoader {
-        static getPackFor(arg0: string): ($Pack$ResourcesSupplier) | undefined;
-        static reorderNewlyDiscoveredPacks(arg0: $Collection_<string>, arg1: $Collection_<string>, arg2: $PackRepository): void;
-        static expandAndRemoveRootChildren(arg0: $Stream<$Pack>, arg1: $Collection_<$Pack>): $List<$Pack>;
-        static populatePackRepository(arg0: $PackRepository, arg1: $PackType_, arg2: boolean): void;
-        static getPackNames(arg0: $PackType_): $List<string>;
-        static buildPackFinder(arg0: $Map_<$IModFile, $Pack$ResourcesSupplier>, arg1: $PackType_): $RepositorySource;
-        static createPackForMod(arg0: $IModFileInfo): $Pack$ResourcesSupplier;
-        static readWithOptionalMeta(arg0: $PackLocationInfo_, arg1: $Pack$ResourcesSupplier, arg2: $PackType_, arg3: $PackSelectionConfig_): $Pack;
+        static populatePackRepository(resourcePacks: $PackRepository, packType: $PackType_, trusted: boolean): void;
+        static expandAndRemoveRootChildren(packs: $Stream<$Pack>, availablePacks: $Collection_<$Pack>): $List<$Pack>;
+        static reorderNewlyDiscoveredPacks(set: $Collection_<string>, old: $Collection_<string>, packRepository: $PackRepository): void;
+        static buildPackFinder(modResourcePacks: $Map_<$IModFile, $Pack$ResourcesSupplier>, packType: $PackType_): $RepositorySource;
+        static createPackForMod(mf: $IModFileInfo): $Pack$ResourcesSupplier;
+        static getPackNames(packType: $PackType_): $List<string>;
+        static getPackFor(modId: string): ($Pack$ResourcesSupplier) | undefined;
+        static readWithOptionalMeta(location: $PackLocationInfo_, resources: $Pack$ResourcesSupplier, type: $PackType_, selectionConfig: $PackSelectionConfig_): $Pack;
         static MOD_RESOURCES_ID: string;
         static MOD_DATA_ID: string;
         static OPTIONAL_FORMAT: $MetadataSectionType<$PackMetadataSection>;
         constructor();
     }
+    /**
+     * Reload listeners that descend from this class will have the reload context automatically populated when it is available.
+     * 
+     * The context is guaranteed to be available for the duration of `PreparableReloadListener#reload`.
+     * 
+     * For children of `SimplePreparableReloadListener`, it will be available during both `SimplePreparableReloadListener#prepare` prepare()} and apply().
+     */
     export class $ContextAwareReloadListener implements $PreparableReloadListener, $ContextAwareReloadListenerAccessor, $ContextAwareReloadListenerAccessor$1 {
-        injectContext(arg0: $ICondition$IContext_, arg1: $HolderLookup$Provider): void;
+        injectContext(context: $ICondition$IContext_, registryLookup: $HolderLookup$Provider): void;
         getName(): string;
         callMakeConditionalOps(): $ConditionalOps<$JsonElement>;
         invokeGetContext(): $ICondition$IContext;

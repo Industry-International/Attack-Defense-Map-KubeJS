@@ -13,11 +13,10 @@ declare module "@package/org/w3c/dom/ls" {
     export class $LSInput {
     }
     export interface $LSInput {
-        getEncoding(): string;
-        setEncoding(arg0: string): void;
         setBaseURI(arg0: string): void;
         getBaseURI(): string;
-        setSystemId(arg0: string): void;
+        getEncoding(): string;
+        setEncoding(arg0: string): void;
         getSystemId(): string;
         setByteStream(arg0: $InputStream): void;
         setCharacterStream(arg0: $Reader): void;
@@ -25,6 +24,7 @@ declare module "@package/org/w3c/dom/ls" {
         getPublicId(): string;
         getByteStream(): $InputStream;
         getCharacterStream(): $Reader;
+        setSystemId(arg0: string): void;
         getStringData(): string;
         setStringData(arg0: string): void;
         getCertifiedText(): boolean;

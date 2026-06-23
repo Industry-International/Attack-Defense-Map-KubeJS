@@ -16,23 +16,23 @@ import { $Heightmap$Types_, $WorldGenerationContext, $VerticalAnchor_, $Generati
 
 declare module "@package/net/minecraft/world/level/levelgen/placement" {
     export class $BlockPredicateFilter extends $PlacementFilter {
-        static forPredicate(arg0: $BlockPredicate): $BlockPredicateFilter;
+        static forPredicate(predicate: $BlockPredicate): $BlockPredicateFilter;
         static CODEC: $MapCodec<$BlockPredicateFilter>;
     }
     export class $RarityFilter extends $PlacementFilter {
-        static onAverageOnceEvery(arg0: number): $RarityFilter;
+        static onAverageOnceEvery(chance: number): $RarityFilter;
         static CODEC: $MapCodec<$RarityFilter>;
     }
     export class $PlacementFilter extends $PlacementModifier {
-        shouldPlace(arg0: $PlacementContext, arg1: $RandomSource, arg2: $BlockPos_): boolean;
+        shouldPlace(context: $PlacementContext, random: $RandomSource, pos: $BlockPos_): boolean;
         static CODEC: $Codec<$PlacementModifier>;
         constructor();
     }
     export class $PlacedFeature extends $Record {
         feature(): $Holder<$ConfiguredFeature<never, never>>;
-        place(arg0: $WorldGenLevel, arg1: $ChunkGenerator, arg2: $RandomSource, arg3: $BlockPos_): boolean;
-        placeWithBiomeCheck(arg0: $WorldGenLevel, arg1: $ChunkGenerator, arg2: $RandomSource, arg3: $BlockPos_): boolean;
+        place(level: $WorldGenLevel, generator: $ChunkGenerator, random: $RandomSource, pos: $BlockPos_): boolean;
         placement(): $List<$PlacementModifier>;
+        placeWithBiomeCheck(level: $WorldGenLevel, generator: $ChunkGenerator, random: $RandomSource, pos: $BlockPos_): boolean;
         getFeatures(): $Stream<$ConfiguredFeature<never, never>>;
         static CODEC: $Codec<$Holder<$PlacedFeature>>;
         static DIRECT_CODEC: $Codec<$PlacedFeature>;
@@ -46,22 +46,22 @@ declare module "@package/net/minecraft/world/level/levelgen/placement" {
      */
     export type $PlacedFeature_ = RegistryTypes.WorldgenPlacedFeature;
     export class $NoiseBasedCountPlacement extends $RepeatingPlacement {
-        static of(arg0: number, arg1: number, arg2: number): $NoiseBasedCountPlacement;
+        static of(noiseToCountRatio: number, noiseFactor: number, arg2: number): $NoiseBasedCountPlacement;
         static CODEC: $MapCodec<$NoiseBasedCountPlacement>;
     }
     export class $CaveSurface extends $Enum<$CaveSurface> implements $StringRepresentable {
         static values(): $CaveSurface[];
         static valueOf(arg0: string): $CaveSurface;
         getY(): number;
-        getSerializedName(): string;
         getDirection(): $Direction;
+        getSerializedName(): string;
         getRemappedEnumConstantName(): string;
         static FLOOR: $CaveSurface;
         static CODEC: $Codec<$CaveSurface>;
         static CEILING: $CaveSurface;
         get y(): number;
-        get serializedName(): string;
         get direction(): $Direction;
+        get serializedName(): string;
         get remappedEnumConstantName(): string;
     }
     /**
@@ -77,60 +77,60 @@ declare module "@package/net/minecraft/world/level/levelgen/placement" {
      */
     export type $BiomeFilter_ = RegistryTypes.WorldgenBiome | RegExp | $BiomeFilter_[] | { or?: $BiomeFilter_, not?: $BiomeFilter_, id?: RegistryTypes.WorldgenBiome, type?: RegistryTypes.WorldgenBiome, tag?: RegistryTypes.WorldgenBiomeTag,  };
     export class $CountPlacement extends $RepeatingPlacement {
-        static of(arg0: number): $CountPlacement;
-        static of(arg0: $IntProvider_): $CountPlacement;
+        static of(count: number): $CountPlacement;
+        static of(count: $IntProvider_): $CountPlacement;
         static CODEC: $MapCodec<$CountPlacement>;
     }
     export class $RandomOffsetPlacement extends $PlacementModifier {
-        static of(arg0: $IntProvider_, arg1: $IntProvider_): $RandomOffsetPlacement;
-        static horizontal(arg0: $IntProvider_): $RandomOffsetPlacement;
-        static vertical(arg0: $IntProvider_): $RandomOffsetPlacement;
+        static of(xzSpread: $IntProvider_, ySpread: $IntProvider_): $RandomOffsetPlacement;
+        static vertical(xzSpread: $IntProvider_): $RandomOffsetPlacement;
+        static horizontal(xzSpread: $IntProvider_): $RandomOffsetPlacement;
         static CODEC: $MapCodec<$RandomOffsetPlacement>;
     }
     export class $FixedPlacement extends $PlacementModifier {
-        static of(...arg0: $BlockPos_[]): $FixedPlacement;
+        static of(...positions: $BlockPos_[]): $FixedPlacement;
         static CODEC: $MapCodec<$FixedPlacement>;
     }
     export interface $PlacedFeature extends RegistryMarked<RegistryTypes.WorldgenPlacedFeatureTag, RegistryTypes.WorldgenPlacedFeature> {}
     export class $CarvingMaskPlacement extends $PlacementModifier {
-        static forStep(arg0: $GenerationStep$Carving_): $CarvingMaskPlacement;
+        static forStep(step: $GenerationStep$Carving_): $CarvingMaskPlacement;
         static CODEC: $MapCodec<$CarvingMaskPlacement>;
     }
     export class $SurfaceRelativeThresholdFilter extends $PlacementFilter {
-        static of(arg0: $Heightmap$Types_, arg1: number, arg2: number): $SurfaceRelativeThresholdFilter;
+        static of(heightmap: $Heightmap$Types_, minInclusive: number, maxInclusive: number): $SurfaceRelativeThresholdFilter;
         static CODEC: $MapCodec<$SurfaceRelativeThresholdFilter>;
     }
     export class $SurfaceWaterDepthFilter extends $PlacementFilter {
-        static forMaxDepth(arg0: number): $SurfaceWaterDepthFilter;
+        static forMaxDepth(maxWaterDepth: number): $SurfaceWaterDepthFilter;
         static CODEC: $MapCodec<$SurfaceWaterDepthFilter>;
     }
     export class $EnvironmentScanPlacement extends $PlacementModifier {
-        static scanningFor(arg0: $Direction_, arg1: $BlockPredicate, arg2: $BlockPredicate, arg3: number): $EnvironmentScanPlacement;
-        static scanningFor(arg0: $Direction_, arg1: $BlockPredicate, arg2: number): $EnvironmentScanPlacement;
+        static scanningFor(directionOfSearch: $Direction_, targetCondition: $BlockPredicate, maxSteps: number): $EnvironmentScanPlacement;
+        static scanningFor(directionOfSearch: $Direction_, targetCondition: $BlockPredicate, allowedSearchCondition: $BlockPredicate, maxSteps: number): $EnvironmentScanPlacement;
         static CODEC: $MapCodec<$EnvironmentScanPlacement>;
     }
     export class $NoiseThresholdCountPlacement extends $RepeatingPlacement {
-        static of(arg0: number, arg1: number, arg2: number): $NoiseThresholdCountPlacement;
+        static of(noiseLevel: number, arg1: number, belowNoise: number): $NoiseThresholdCountPlacement;
         static CODEC: $MapCodec<$NoiseThresholdCountPlacement>;
     }
     export class $RepeatingPlacement extends $PlacementModifier {
-        count(arg0: $RandomSource, arg1: $BlockPos_): number;
+        count(random: $RandomSource, pos: $BlockPos_): number;
         static CODEC: $Codec<$PlacementModifier>;
         constructor();
     }
     export class $HeightRangePlacement extends $PlacementModifier {
-        static of(arg0: $HeightProvider): $HeightRangePlacement;
-        static triangle(arg0: $VerticalAnchor_, arg1: $VerticalAnchor_): $HeightRangePlacement;
-        static uniform(arg0: $VerticalAnchor_, arg1: $VerticalAnchor_): $HeightRangePlacement;
+        static of(height: $HeightProvider): $HeightRangePlacement;
+        static triangle(minInclusive: $VerticalAnchor_, maxInclusive: $VerticalAnchor_): $HeightRangePlacement;
+        static uniform(minInclusive: $VerticalAnchor_, maxInclusive: $VerticalAnchor_): $HeightRangePlacement;
         static CODEC: $MapCodec<$HeightRangePlacement>;
     }
-    export interface $PlacementModifierType extends RegistryMarked<RegistryTypes.WorldgenPlacementModifierTypeTag, RegistryTypes.WorldgenPlacementModifierType> {}
+    export interface $PlacementModifierType<P> extends RegistryMarked<RegistryTypes.WorldgenPlacementModifierTypeTag, RegistryTypes.WorldgenPlacementModifierType> {}
     /**
      * @deprecated
      */
     export class $CountOnEveryLayerPlacement extends $PlacementModifier {
-        static of(arg0: number): $CountOnEveryLayerPlacement;
-        static of(arg0: $IntProvider_): $CountOnEveryLayerPlacement;
+        static of(count: number): $CountOnEveryLayerPlacement;
+        static of(count: $IntProvider_): $CountOnEveryLayerPlacement;
         static CODEC: $MapCodec<$CountOnEveryLayerPlacement>;
     }
     export class $PlacementModifierType<P extends $PlacementModifier> {
@@ -165,24 +165,24 @@ declare module "@package/net/minecraft/world/level/levelgen/placement" {
     }
     export class $PlacementModifier {
         type(): $PlacementModifierType<never>;
-        getPositions(arg0: $PlacementContext, arg1: $RandomSource, arg2: $BlockPos_): $Stream<$BlockPos>;
+        getPositions(context: $PlacementContext, random: $RandomSource, pos: $BlockPos_): $Stream<$BlockPos>;
         static CODEC: $Codec<$PlacementModifier>;
         constructor();
     }
     export class $PlacementContext extends $WorldGenerationContext {
         generator(): $ChunkGenerator;
         getLevel(): $WorldGenLevel;
+        getCarvingMask(chunkPos: $ChunkPos, step: $GenerationStep$Carving_): $CarvingMask;
         topFeature(): ($PlacedFeature) | undefined;
-        getBlockState(arg0: $BlockPos_): $BlockState;
+        getBlockState(pos: $BlockPos_): $BlockState;
+        getHeight(heightmapType: $Heightmap$Types_, x: number, z: number): number;
         getMinBuildHeight(): number;
-        getHeight(arg0: $Heightmap$Types_, arg1: number, arg2: number): number;
-        getCarvingMask(arg0: $ChunkPos, arg1: $GenerationStep$Carving_): $CarvingMask;
-        constructor(arg0: $WorldGenLevel, arg1: $ChunkGenerator, arg2: ($PlacedFeature_) | undefined);
+        constructor(level: $WorldGenLevel, generator: $ChunkGenerator, topFeature: ($PlacedFeature_) | undefined);
         get level(): $WorldGenLevel;
         get minBuildHeight(): number;
     }
     export class $HeightmapPlacement extends $PlacementModifier {
-        static onHeightmap(arg0: $Heightmap$Types_): $HeightmapPlacement;
+        static onHeightmap(heightmap: $Heightmap$Types_): $HeightmapPlacement;
         static CODEC: $MapCodec<$HeightmapPlacement>;
     }
 }

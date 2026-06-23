@@ -19,32 +19,32 @@ declare module "@package/mezz/jei/api/gui" {
     }
     export interface $IRecipeLayoutDrawable<R> {
         tick(): void;
-        getRect(): $Rect2i;
-        getRecipeBookmarkButtonArea(): $Rect2i;
-        setPosition(arg0: number, arg1: number): void;
-        getRecipeSlotsView(): $IRecipeSlotsView;
-        isMouseOver(arg0: number, arg1: number): boolean;
-        getRecipe(): R;
-        drawRecipe(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        getSlotUnderMouse(arg0: number, arg1: number): ($RecipeSlotUnderMouse) | undefined;
-        getRecipeCategory(): $IRecipeCategory<R>;
-        getIngredientUnderMouse<T>(arg0: number, arg1: number, arg2: $IIngredientType_<T>): (T) | undefined;
-        getRecipeTransferButtonArea(): $Rect2i;
-        getSideButtonArea(arg0: number): $Rect2i;
-        drawOverlays(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        getRectWithBorder(): $Rect2i;
-        getInputHandler(): $IJeiInputHandler;
-        getItemStackUnderMouse(arg0: number, arg1: number): ($ItemStack) | undefined;
         /**
          * @deprecated
          */
         getRecipeSlotUnderMouse(arg0: number, arg1: number): ($IRecipeSlotDrawable) | undefined;
+        getSlotUnderMouse(arg0: number, arg1: number): ($RecipeSlotUnderMouse) | undefined;
+        getRect(): $Rect2i;
+        setPosition(arg0: number, arg1: number): void;
+        getIngredientUnderMouse<T>(arg0: number, arg1: number, arg2: $IIngredientType_<T>): (T) | undefined;
+        getRecipeCategory(): $IRecipeCategory<R>;
+        getItemStackUnderMouse(arg0: number, arg1: number): ($ItemStack) | undefined;
+        getRecipe(): R;
+        isMouseOver(arg0: number, arg1: number): boolean;
+        getRecipeSlotsView(): $IRecipeSlotsView;
+        drawRecipe(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        getRecipeTransferButtonArea(): $Rect2i;
+        getRecipeBookmarkButtonArea(): $Rect2i;
+        getSideButtonArea(arg0: number): $Rect2i;
+        drawOverlays(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        getRectWithBorder(): $Rect2i;
+        getInputHandler(): $IJeiInputHandler;
         get rect(): $Rect2i;
-        get recipeBookmarkButtonArea(): $Rect2i;
-        get recipeSlotsView(): $IRecipeSlotsView;
-        get recipe(): R;
         get recipeCategory(): $IRecipeCategory<R>;
+        get recipe(): R;
+        get recipeSlotsView(): $IRecipeSlotsView;
         get recipeTransferButtonArea(): $Rect2i;
+        get recipeBookmarkButtonArea(): $Rect2i;
         get rectWithBorder(): $Rect2i;
         get inputHandler(): $IJeiInputHandler;
     }

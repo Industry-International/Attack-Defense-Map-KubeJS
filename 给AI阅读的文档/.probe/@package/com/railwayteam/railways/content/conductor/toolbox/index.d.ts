@@ -15,11 +15,11 @@ declare module "@package/com/railwayteam/railways/content/conductor/toolbox" {
         write(arg0: $CompoundTag_, arg1: $HolderLookup$Provider, arg2: boolean): void;
         static read(arg0: $ConductorEntity, arg1: $CompoundTag_): $MountedToolbox;
         read(arg0: $CompoundTag_, arg1: $HolderLookup$Provider, arg2: boolean): void;
+        getDisplayStack(): $ItemStack;
+        getConnectedPlayers(): $List<$Player>;
         getCloneItemStack(): $ItemStack;
         static openMenu(arg0: $ServerPlayer, arg1: $MountedToolbox): void;
-        getConnectedPlayers(): $List<$Player>;
         readFromItem(arg0: $ItemStack_): void;
-        getDisplayStack(): $ItemStack;
         worldPosition: $BlockPos;
         drawers: $LerpedFloat;
         level: $Level;
@@ -27,8 +27,8 @@ declare module "@package/com/railwayteam/railways/content/conductor/toolbox" {
         static ATTACHMENTS_NBT_KEY: string;
         constructor(arg0: $ConductorEntity, arg1: $DyeColor_);
         get parent(): $ConductorEntity;
-        get cloneItemStack(): $ItemStack;
-        get connectedPlayers(): $List<$Player>;
         get displayStack(): $ItemStack;
+        get connectedPlayers(): $List<$Player>;
+        get cloneItemStack(): $ItemStack;
     }
 }

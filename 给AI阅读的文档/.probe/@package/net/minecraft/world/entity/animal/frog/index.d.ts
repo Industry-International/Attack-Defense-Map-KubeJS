@@ -38,10 +38,10 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 
 declare module "@package/net/minecraft/world/entity/animal/frog" {
     export class $FrogAi {
-        static updateActivity(arg0: $Frog): void;
-        static makeBrain(arg0: $Brain<$Frog>): $Brain<never>;
-        static initMemories(arg0: $Frog, arg1: $RandomSource): void;
+        static updateActivity(frog: $Frog): void;
+        static makeBrain(brain: $Brain<$Frog>): $Brain<never>;
         static getTemptations(): $Predicate<$ItemStack>;
+        static initMemories(frog: $Frog, random: $RandomSource): void;
         constructor();
         static get temptations(): $Predicate<$ItemStack>;
     }
@@ -55,16 +55,16 @@ declare module "@package/net/minecraft/world/entity/animal/frog" {
         entityWidth: number;
     }
     export class $TadpoleAi {
-        static updateActivity(arg0: $Tadpole): void;
-        static makeBrain(arg0: $Brain<$Tadpole>): $Brain<never>;
+        static updateActivity(tadpole: $Tadpole): void;
+        static makeBrain(brain: $Brain<$Tadpole>): $Brain<never>;
         constructor();
     }
     export class $ShootTongue extends $Behavior<$Frog> {
-        start(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
-        tick(arg0: $ServerLevel, arg1: $Frog, arg2: number): void;
-        canStillUse(arg0: $ServerLevel, arg1: $Frog, arg2: number): boolean;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Frog): boolean;
+        start(level: $ServerLevel, entity: $Frog, gameTime: number): void;
+        stop(level: $ServerLevel, entity: $Frog, gameTime: number): void;
+        tick(level: $ServerLevel, entity: $Frog, gameTime: number): void;
+        canStillUse(level: $ServerLevel, entity: $Frog, gameTime: number): boolean;
+        checkExtraStartConditions(level: $ServerLevel, owner: $Frog): boolean;
         static MAX_UNREACHBLE_TONGUE_TARGETS_IN_MEMORY: number;
         static TIME_OUT_DURATION: number;
         static UNREACHABLE_TONGUE_TARGETS_COOLDOWN_DURATION: number;
@@ -72,17 +72,20 @@ declare module "@package/net/minecraft/world/entity/animal/frog" {
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         static TONGUE_ANIMATION_DURATION: number;
-        constructor(arg0: $SoundEvent_, arg1: $SoundEvent_);
+        constructor(tongueSound: $SoundEvent_, eatSound: $SoundEvent_);
     }
     export class $Frog extends $Animal implements $VariantHolder<$Holder<$FrogVariant>> {
-        setVariant(arg0: $Holder_<$FrogVariant>): void;
-        static createAttributes(): $AttributeSupplier$Builder;
-        static checkFrogSpawnRules(arg0: $EntityType_<$Animal>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        eraseTongueTarget(): void;
-        getTongueTarget(): ($Entity) | undefined;
-        setTongueTarget(arg0: $Entity): void;
-        static canEat(arg0: $LivingEntity): boolean;
         getVariant(): $Holder<$FrogVariant>;
+        setVariant(variant: $Holder_<$FrogVariant>): void;
+        static canEat(entity: $LivingEntity): boolean;
+        getTongueTarget(): ($Entity) | undefined;
+        /**
+         * Called to update the entity's position/logic.
+         */
+        eraseTongueTarget(): void;
+        setTongueTarget(tongueTarget: $Entity): void;
+        static createAttributes(): $AttributeSupplier$Builder;
+        static checkFrogSpawnRules(animal: $EntityType_<$Animal>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $Holder<$FrogVariant>;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -262,7 +265,7 @@ declare module "@package/net/minecraft/world/entity/animal/frog" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Animal>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Animal>, level: $Level_);
     }
     export class $Frog$FrogPathNavigation extends $AmphibiousPathNavigation {
         mob: $Mob;
@@ -287,6 +290,9 @@ declare module "@package/net/minecraft/world/entity/animal/frog" {
      */
     export type $ShootTongue$State_ = "move_to_target" | "catch_animation" | "eat_animation" | "done";
     export class $Tadpole extends $AbstractFish {
+        /**
+         * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+         */
         getTicksLeftUntilAdult(): number;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
@@ -460,7 +466,7 @@ declare module "@package/net/minecraft/world/entity/animal/frog" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$AbstractFish>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$AbstractFish>, level: $Level_);
         get ticksLeftUntilAdult(): number;
     }
     export class $Frog$FrogLookControl extends $LookControl {

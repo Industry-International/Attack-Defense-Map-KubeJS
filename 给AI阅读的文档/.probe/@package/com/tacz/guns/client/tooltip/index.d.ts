@@ -8,8 +8,8 @@ declare module "@package/com/tacz/guns/client/tooltip" {
     export class $ClientGunTooltip implements $ClientTooltipComponent {
         getWidth(arg0: $Font): number;
         renderText(arg0: $Font, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $MultiBufferSource$BufferSource): void;
-        getHeight(): number;
         renderImage(arg0: $Font, arg1: number, arg2: number, arg3: $GuiGraphics): void;
+        getHeight(): number;
         constructor(arg0: $GunTooltip);
         get height(): number;
     }

@@ -45,16 +45,16 @@ declare module "@package/org/spongepowered/asm/util" {
         hr(): $PrettyPrinter;
         hr(arg0: string): $PrettyPrinter;
         spacing(arg0: number): $PrettyPrinter;
+        centre(): $PrettyPrinter;
         kv(arg0: string, arg1: string, ...arg2: $Object[]): $PrettyPrinter;
         kv(arg0: string, arg1: $Object): $PrettyPrinter;
-        centre(): $PrettyPrinter;
         addWrapped(arg0: number, arg1: string, ...arg2: $Object[]): $PrettyPrinter;
         addWrapped(arg0: string, ...arg1: $Object[]): $PrettyPrinter;
         kvWidth(arg0: number): $PrettyPrinter;
         wrapTo(): number;
         wrapTo(arg0: number): $PrettyPrinter;
-        addWithIndices(arg0: $Collection_<never>): $PrettyPrinter;
         addIndexed(arg0: $Object[]): $PrettyPrinter;
+        addWithIndices(arg0: $Collection_<never>): $PrettyPrinter;
         constructor();
         constructor(arg0: number);
     }

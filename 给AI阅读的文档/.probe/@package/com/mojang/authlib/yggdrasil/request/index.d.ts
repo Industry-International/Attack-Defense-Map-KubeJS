@@ -16,7 +16,7 @@ declare module "@package/com/mojang/authlib/yggdrasil/request" {
         clientInfo(): $AbuseReportRequest$ClientInfo;
         realmInfo(): $AbuseReportRequest$RealmInfo;
         reportType(): string;
-        constructor(version: number, id: $UUID_, report: $AbuseReport_, clientInfo: $AbuseReportRequest$ClientInfo_, thirdPartyServerInfo: $AbuseReportRequest$ThirdPartyServerInfo_, realmInfo: $AbuseReportRequest$RealmInfo_, reportType: string);
+        constructor(version: number, id: $UUID_, report: $AbuseReport_, clientInfo: $AbuseReportRequest$ClientInfo_, thirdPartyServerInfo: $AbuseReportRequest$ThirdPartyServerInfo_ | null, realmInfo: $AbuseReportRequest$RealmInfo_ | null, reportType: string);
     }
     export class $AbuseReportRequest$ClientInfo extends $Record {
         locale(): string;

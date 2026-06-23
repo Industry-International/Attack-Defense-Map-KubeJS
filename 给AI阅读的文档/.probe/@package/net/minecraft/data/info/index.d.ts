@@ -4,39 +4,57 @@ import { $DataProvider, $CachedOutput_, $PackOutput } from "@package/net/minecra
 
 declare module "@package/net/minecraft/data/info" {
     export class $RegistryDumpReport implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput);
         get name(): string;
     }
     export class $BlockListReport implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>);
         get name(): string;
     }
     export class $ItemListReport implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>);
         get name(): string;
     }
     export class $PacketReport implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput);
         get name(): string;
     }
     export class $CommandsReport implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>);
         get name(): string;
     }
     export class $BiomeParametersDumpReport implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>);
         get name(): string;
     }
 }

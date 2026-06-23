@@ -3,8 +3,8 @@ declare module "@package/xaero/pac/common/capability" {
     export class $ICapableObject {
     }
     export interface $ICapableObject {
-        getXaero_OPAC_CapabilityProvider(): $ICapabilityProvider;
         setXaero_OPAC_CapabilityProvider(arg0: $ICapabilityProvider_): void;
+        getXaero_OPAC_CapabilityProvider(): $ICapabilityProvider;
     }
     export class $ICapabilityProvider {
     }

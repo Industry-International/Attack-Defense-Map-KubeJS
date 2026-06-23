@@ -9,14 +9,14 @@ declare module "@package/xaero/hud/minimap/waypoint/server" {
         clear(): void;
         isEmpty(): boolean;
         add(arg0: number, arg1: $Waypoint): void;
-        getWaypoints(): $Iterable<$Waypoint>;
         getById(arg0: number): $Waypoint;
         getIds(): $IntIterable;
+        getWaypoints(): $Iterable<$Waypoint>;
         addDisabled(arg0: number): void;
         getBySlot(arg0: number): $Waypoint;
         constructor();
         get empty(): boolean;
-        get waypoints(): $Iterable<$Waypoint>;
         get ids(): $IntIterable;
+        get waypoints(): $Iterable<$Waypoint>;
     }
 }

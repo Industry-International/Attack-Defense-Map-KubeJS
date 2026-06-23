@@ -13,5 +13,5 @@ declare module "@package/com/mumu17/cavwb" {
      * Values that may be interpreted as {@link $ModBlockPropertyTypes$ModBlockPropertyType}.
      */
     export type $ModBlockPropertyTypes$ModBlockPropertyType_<T> = RegistryTypes.CavwbVariableBlockProperties;
-    export interface $ModBlockPropertyTypes$ModBlockPropertyType extends RegistryMarked<RegistryTypes.CavwbVariableBlockPropertiesTag, RegistryTypes.CavwbVariableBlockProperties> {}
+    export interface $ModBlockPropertyTypes$ModBlockPropertyType<T> extends RegistryMarked<RegistryTypes.CavwbVariableBlockPropertiesTag, RegistryTypes.CavwbVariableBlockProperties> {}
 }

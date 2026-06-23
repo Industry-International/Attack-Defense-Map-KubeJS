@@ -19,12 +19,12 @@ declare module "@package/com/tacz/guns/resource/pojo/data/recipe" {
         get materials(): $List<$GunSmithTableIngredient>;
     }
     export class $GunResult {
-        getAttachments(): $EnumMap<$AttachmentType, $ResourceLocation>;
         getAmmoCount(): number;
+        getAttachments(): $EnumMap<$AttachmentType, $ResourceLocation>;
         static CODEC: $Codec<$GunResult>;
         constructor();
         constructor(arg0: number, arg1: $EnumMap<$AttachmentType_, $ResourceLocation_>);
-        get attachments(): $EnumMap<$AttachmentType, $ResourceLocation>;
         get ammoCount(): number;
+        get attachments(): $EnumMap<$AttachmentType, $ResourceLocation>;
     }
 }

@@ -15,14 +15,14 @@ declare module "@package/xaero/common/core" {
     export class $IBufferSource {
     }
     export interface $IBufferSource {
-        setXaero_lastRenderType(arg0: $RenderType): void;
         getXaero_lastRenderType(): $RenderType;
+        setXaero_lastRenderType(arg0: $RenderType): void;
     }
     export class $IXaeroMinimapClientPlayNetHandler {
     }
     export interface $IXaeroMinimapClientPlayNetHandler {
-        setXaero_minimapSession(arg0: $XaeroMinimapSession): void;
         getXaero_minimapSession(): $XaeroMinimapSession;
+        setXaero_minimapSession(arg0: $XaeroMinimapSession): void;
     }
     export class $IXaeroMinimapMinecraftClient {
     }

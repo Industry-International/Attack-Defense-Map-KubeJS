@@ -13,7 +13,7 @@ declare module "@package/net/minecraft/util/parsing/packrat/commands" {
         static INSTANCE: $Rule<$StringReader, $Tag>;
     }
     export class $StringReaderParserState extends $ParseState<$StringReader> {
-        constructor(arg0: $Dictionary<$StringReader>, arg1: $ErrorCollector<$StringReader>, arg2: $StringReader);
+        constructor(dictionary: $Dictionary<$StringReader>, errorCollector: $ErrorCollector<$StringReader>, input: $StringReader);
     }
     export class $StringReaderTerms$TerminalCharacter extends $Record implements $Term<$StringReader> {
         value(): string;
@@ -25,8 +25,8 @@ declare module "@package/net/minecraft/util/parsing/packrat/commands" {
         static INSTANCE: $Rule<$StringReader, $ResourceLocation>;
     }
     export class $StringReaderTerms {
-        static word(arg0: string): $Term<$StringReader>;
-        static character(arg0: string): $Term<$StringReader>;
+        static word(value: string): $Term<$StringReader>;
+        static character(value: string): $Term<$StringReader>;
     }
     export interface $StringReaderTerms {
     }
@@ -41,11 +41,11 @@ declare module "@package/net/minecraft/util/parsing/packrat/commands" {
      */
     export type $ResourceSuggestion_ = (() => $Stream<$ResourceLocation_>);
     export class $Grammar<T> extends $Record {
-        parse(arg0: $ParseState<$StringReader>): (T) | undefined;
+        parseForSuggestions(builder: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
+        parse(parseState: $ParseState<$StringReader>): (T) | undefined;
         top(): $Atom<T>;
         rules(): $Dictionary<$StringReader>;
-        parseForSuggestions(arg0: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
-        parseForCommands(arg0: $StringReader): T;
+        parseForCommands(reader: $StringReader): T;
         constructor(arg0: $Dictionary<$StringReader>, arg1: $Atom_<T>);
     }
     export class $StringReaderTerms$TerminalWord extends $Record implements $Term<$StringReader> {
@@ -54,10 +54,10 @@ declare module "@package/net/minecraft/util/parsing/packrat/commands" {
         constructor(arg0: string);
     }
     export class $ResourceLookupRule<C, V> implements $Rule<$StringReader, V>, $ResourceSuggestion {
-        parse(arg0: $ParseState<$StringReader>): (V) | undefined;
-        validateElement(arg0: $ImmutableStringReader, arg1: $ResourceLocation_): V;
-        possibleValues(arg0: $ParseState<$StringReader>): $Stream<string>;
+        parse(parseState: $ParseState<$StringReader>): (V) | undefined;
+        validateElement(reader: $ImmutableStringReader, elementType: $ResourceLocation_): V;
+        possibleValues(parseState: $ParseState<$StringReader>): $Stream<string>;
         context: C;
-        constructor(arg0: $Atom_<$ResourceLocation_>, arg1: C);
+        constructor(idParser: $Atom_<$ResourceLocation_>, context: C);
     }
 }

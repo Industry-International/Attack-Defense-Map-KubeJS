@@ -9,27 +9,27 @@ declare module "@package/net/minecraft/client/gui/components/debugchart" {
         sampleStorage: $SampleStorage;
         static COLOR_GREY: number;
         font: $Font;
-        constructor(arg0: $Font, arg1: $SampleStorage);
+        constructor(font: $Font, sampleStorage: $SampleStorage);
     }
     export class $AbstractDebugChart {
-        getWidth(arg0: number): number;
-        drawAdditionalDimensions(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        getValueForAggregation(arg0: number): number;
-        drawStringWithShade(arg0: $GuiGraphics, arg1: string, arg2: number, arg3: number): void;
-        drawChart(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        renderAdditionalLinesAndLabels(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        getSampleHeight(arg0: number): number;
-        toDisplayString(arg0: number): string;
-        getSampleColor(arg0: number): number;
-        getSampleColor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): number;
-        drawMainDimension(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        drawDimensions(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
+        getWidth(maxWidth: number): number;
+        renderAdditionalLinesAndLabels(guiGraphics: $GuiGraphics, height: number, x: number, index: number): void;
+        drawChart(guiGraphics: $GuiGraphics, x: number, width: number): void;
+        getValueForAggregation(index: number): number;
+        drawStringWithShade(guiGraphics: $GuiGraphics, text: string, x: number, y: number): void;
+        drawAdditionalDimensions(guiGraphics: $GuiGraphics, height: number, x: number, index: number): void;
+        drawMainDimension(guiGraphics: $GuiGraphics, height: number, x: number, index: number): void;
+        getSampleColor(value: number, arg1: number, minPosition: number, arg3: number, minColor: number, midPosition: number, arg6: number): number;
+        getSampleColor(value: number): number;
+        toDisplayString(value: number): string;
+        getSampleHeight(value: number): number;
+        drawDimensions(guiGraphics: $GuiGraphics, height: number, x: number, index: number): void;
         static CHART_HEIGHT: number;
         static LINE_WIDTH: number;
         sampleStorage: $SampleStorage;
         static COLOR_GREY: number;
         font: $Font;
-        constructor(arg0: $Font, arg1: $SampleStorage);
+        constructor(font: $Font, sampleStorage: $SampleStorage);
     }
     export class $FpsDebugChart extends $AbstractDebugChart {
         static CHART_HEIGHT: number;
@@ -37,7 +37,7 @@ declare module "@package/net/minecraft/client/gui/components/debugchart" {
         sampleStorage: $SampleStorage;
         static COLOR_GREY: number;
         font: $Font;
-        constructor(arg0: $Font, arg1: $SampleStorage);
+        constructor(font: $Font, sampleStorage: $SampleStorage);
     }
     export class $TpsDebugChart extends $AbstractDebugChart {
         static CHART_HEIGHT: number;
@@ -45,7 +45,7 @@ declare module "@package/net/minecraft/client/gui/components/debugchart" {
         sampleStorage: $SampleStorage;
         static COLOR_GREY: number;
         font: $Font;
-        constructor(arg0: $Font, arg1: $SampleStorage, arg2: $Supplier_<number>);
+        constructor(font: $Font, sampleStorage: $SampleStorage, msptSupplier: $Supplier_<number>);
     }
     export class $PingDebugChart extends $AbstractDebugChart {
         static CHART_HEIGHT: number;

@@ -9,33 +9,36 @@ import { $DataProvider, $CachedOutput_, $PackOutput } from "@package/net/minecra
 
 declare module "@package/net/minecraft/data/registries" {
     export class $VanillaRegistries {
-        static validateThatAllBiomeFeaturesHaveBiomeFilter(arg0: $HolderGetter<$PlacedFeature_>, arg1: $HolderLookup<$Biome_>): void;
-        static validateThatAllBiomeFeaturesHaveBiomeFilter(arg0: $HolderLookup$Provider): void;
         static createLookup(): $HolderLookup$Provider;
+        static validateThatAllBiomeFeaturesHaveBiomeFilter(provider: $HolderLookup$Provider): void;
+        static validateThatAllBiomeFeaturesHaveBiomeFilter(features: $HolderGetter<$PlacedFeature_>, biomes: $HolderLookup<$Biome_>): void;
         static DATAPACK_REGISTRY_KEYS: $List<$ResourceKey<$Registry<never>>>;
         static BUILDER: $RegistrySetBuilder;
         constructor();
     }
     export class $TradeRebalanceRegistries {
-        static createLookup(arg0: $CompletableFuture<$HolderLookup$Provider>): $CompletableFuture<$RegistrySetBuilder$PatchedRegistries>;
+        static createLookup(provider: $CompletableFuture<$HolderLookup$Provider>): $CompletableFuture<$RegistrySetBuilder$PatchedRegistries>;
         constructor();
     }
     /**
      * @deprecated
      */
     export class $RegistriesDatapackGenerator implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
+        run(output: $CachedOutput_): $CompletableFuture<never>;
         /**
          * @deprecated
          */
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>);
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $Set_<string>, arg3: $Map_<$ResourceKey_<never>, $List_<$ICondition>>);
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>);
         constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $Set_<string>);
+        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $Set_<string>, arg3: $Map_<$ResourceKey_<never>, $List_<$ICondition>>);
         get name(): string;
     }
     export class $RegistryPatchGenerator {
-        static createLookup(arg0: $CompletableFuture<$HolderLookup$Provider>, arg1: $RegistrySetBuilder): $CompletableFuture<$RegistrySetBuilder$PatchedRegistries>;
+        static createLookup(lookup: $CompletableFuture<$HolderLookup$Provider>, registrySetBuilder: $RegistrySetBuilder): $CompletableFuture<$RegistrySetBuilder$PatchedRegistries>;
         constructor();
     }
 }

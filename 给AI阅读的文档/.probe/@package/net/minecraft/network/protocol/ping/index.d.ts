@@ -8,8 +8,17 @@ declare module "@package/net/minecraft/network/protocol/ping" {
     export class $ClientboundPongResponsePacket extends $Record implements $Packet<$ClientPongPacketListener> {
         type(): $PacketType<$ClientboundPongResponsePacket>;
         time(): number;
-        handle(arg0: $ClientPongPacketListener): void;
+        /**
+         * Passes this Packet on to the PacketListener for processing.
+         */
+        handle(handler: $ClientPongPacketListener): void;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientboundPongResponsePacket>;
         constructor(arg0: number);
@@ -24,21 +33,30 @@ declare module "@package/net/minecraft/network/protocol/ping" {
     export class $ClientPongPacketListener {
     }
     export interface $ClientPongPacketListener extends $PacketListener {
-        handlePongResponse(arg0: $ClientboundPongResponsePacket_): void;
+        handlePongResponse(packet: $ClientboundPongResponsePacket_): void;
     }
     export class $ServerPingPacketListener {
     }
     export interface $ServerPingPacketListener extends $PacketListener {
-        handlePingRequest(arg0: $ServerboundPingRequestPacket): void;
+        handlePingRequest(packet: $ServerboundPingRequestPacket): void;
     }
     export class $ServerboundPingRequestPacket implements $Packet<$ServerPingPacketListener> {
         type(): $PacketType<$ServerboundPingRequestPacket>;
-        handle(arg0: $ServerPingPacketListener): void;
+        /**
+         * Passes this Packet on to the PacketListener for processing.
+         */
+        handle(handler: $ServerPingPacketListener): void;
         getTime(): number;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $ServerboundPingRequestPacket>;
-        constructor(arg0: number);
+        constructor(time: number);
         get time(): number;
         get skippable(): boolean;
         get terminal(): boolean;

@@ -13,24 +13,24 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/internal" {
     export class $EnhancedKineticBullet {
     }
     export interface $EnhancedKineticBullet extends $TraceableEntity {
+        isExplosion(): boolean;
+        getExplosionRadius(): number;
+        gunsmithlib$getHitPos(): $Vec3;
         gunsmithlib$getPotionCloudMinSizeRate(): number;
         gunsmithlib$setPotionCloudMinSizeRate(arg0: number): void;
-        getExplosionRadius(): number;
-        isExplosion(): boolean;
         gunsmithlib$setPotionCloudDuration(arg0: number): void;
         gunsmithlib$getPotionEffects(): $List<$PotionEffectData>;
         gunsmithlib$setPotionEffects(arg0: $List_<$PotionEffectData>): void;
         gunsmithlib$getPotionCloudDuration(): number;
-        gunsmithlib$getHitPos(): $Vec3;
-        get explosionRadius(): number;
         get explosion(): boolean;
+        get explosionRadius(): number;
     }
     export class $InternalEvent$AmmoHitAnything<E extends $AmmoHitAnythingEvent> extends $InternalEvent<E> {
     }
     export class $MobEffectForceApplicable {
     }
     export interface $MobEffectForceApplicable {
-        gunsmith$forceAddEffectPrime(arg0: $MobEffectInstance, arg1: $Entity): void;
+        gunsmith$forceAddEffectPrime(arg0: $MobEffectInstance, arg1: $Entity | null): void;
     }
     /**
      * Values that may be interpreted as {@link $MobEffectForceApplicable}.
@@ -38,8 +38,8 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/internal" {
     export type $MobEffectForceApplicable_ = ((arg0: $MobEffectInstance, arg1: $Entity) => void);
     export class $InternalEvent<E extends $Event> extends $Event implements $ICancellableEvent {
         getImpl(): E;
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: E);
         get impl(): E;
     }
@@ -53,13 +53,13 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/internal" {
         gunsmith$setInGunMode(arg0: boolean): void;
     }
     export class $BulletReadyToTraceEvent extends $EntityEvent {
-        getEndPos(): $Vec3;
-        static onBulletTick(arg0: $Projectile, arg1: number): void;
         getSide(): $LogicalSide;
+        static onBulletTick(arg0: $Projectile, arg1: number): void;
+        getEndPos(): $Vec3;
         getStartPos(): $Vec3;
         constructor(arg0: $Projectile, arg1: $Vec3_, arg2: $Vec3_, arg3: $LogicalSide_);
-        get endPos(): $Vec3;
         get side(): $LogicalSide;
+        get endPos(): $Vec3;
         get startPos(): $Vec3;
     }
     export class $InternalEvent$RicochetBounciness extends $InternalEvent<$RicochetEvent> {

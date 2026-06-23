@@ -7,12 +7,12 @@ declare module "@package/io/reactivex/rxjava3/observers" {
         static create<T>(): $TestObserver<T>;
         static create<T>(delegate: $Observer<T>): $TestObserver<T>;
         dispose(): void;
-        onSuccess(value: T): void;
+        onSubscribe(d: $Disposable): void;
         onError(t: $Throwable): void;
         onComplete(): void;
         onNext(t: T): void;
+        onSuccess(value: T): void;
         isDisposed(): boolean;
-        onSubscribe(d: $Disposable): void;
         hasSubscription(): boolean;
         constructor();
         constructor(downstream: $Observer<T>);

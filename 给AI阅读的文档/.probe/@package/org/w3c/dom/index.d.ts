@@ -31,11 +31,6 @@ declare module "@package/org/w3c/dom" {
         static DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC: number;
     }
     export interface $Node {
-        setUserData(arg0: string, arg1: $Object, arg2: $UserDataHandler_): $Object;
-        isSupported(arg0: string, arg1: string): boolean;
-        getAttributes(): $NamedNodeMap;
-        normalize(): void;
-        getPrefix(): string;
         getNodeType(): number;
         appendChild(arg0: $Node): $Node;
         getLastChild(): $Node;
@@ -50,8 +45,12 @@ declare module "@package/org/w3c/dom" {
         getNodeValue(): string;
         insertBefore(arg0: $Node, arg1: $Node): $Node;
         getBaseURI(): string;
-        getLocalName(): string;
+        getPrefix(): string;
+        isSupported(arg0: string, arg1: string): boolean;
+        getAttributes(): $NamedNodeMap;
+        normalize(): void;
         hasAttributes(): boolean;
+        setUserData(arg0: string, arg1: $Object, arg2: $UserDataHandler_): $Object;
         getOwnerDocument(): $Document;
         replaceChild(arg0: $Node, arg1: $Node): $Node;
         hasChildNodes(): boolean;
@@ -66,9 +65,9 @@ declare module "@package/org/w3c/dom" {
         lookupNamespaceURI(arg0: string): string;
         isEqualNode(arg0: $Node): boolean;
         getUserData(arg0: string): $Object;
-        getChildNodes(): $NodeList;
+        getLocalName(): string;
         getFeature(arg0: string, arg1: string): $Object;
-        get attributes(): $NamedNodeMap;
+        getChildNodes(): $NodeList;
         get nodeType(): number;
         get lastChild(): $Node;
         get nodeName(): string;
@@ -77,9 +76,10 @@ declare module "@package/org/w3c/dom" {
         get nextSibling(): $Node;
         get previousSibling(): $Node;
         get baseURI(): string;
-        get localName(): string;
+        get attributes(): $NamedNodeMap;
         get ownerDocument(): $Document;
         get namespaceURI(): string;
+        get localName(): string;
         get childNodes(): $NodeList;
     }
     export class $DocumentFragment {
@@ -89,26 +89,26 @@ declare module "@package/org/w3c/dom" {
     export class $NamedNodeMap {
     }
     export interface $NamedNodeMap {
+        getNamedItem(arg0: string): $Node;
+        setNamedItem(arg0: $Node): $Node;
+        setNamedItemNS(arg0: $Node): $Node;
         getLength(): number;
         item(arg0: number): $Node;
         getNamedItemNS(arg0: string, arg1: string): $Node;
         removeNamedItemNS(arg0: string, arg1: string): $Node;
-        getNamedItem(arg0: string): $Node;
-        setNamedItem(arg0: $Node): $Node;
-        setNamedItemNS(arg0: $Node): $Node;
         removeNamedItem(arg0: string): $Node;
         get length(): number;
     }
     export class $CharacterData {
     }
     export interface $CharacterData extends $Node {
+        appendData(arg0: string): void;
         getLength(): number;
         getData(): string;
         substringData(arg0: number, arg1: number): string;
         insertData(arg0: number, arg1: string): void;
         deleteData(arg0: number, arg1: number): void;
         replaceData(arg0: number, arg1: number, arg2: string): void;
-        appendData(arg0: string): void;
         setData(arg0: string): void;
         get length(): number;
     }
@@ -166,6 +166,13 @@ declare module "@package/org/w3c/dom" {
     export class $Element {
     }
     export interface $Element extends $Node {
+        setAttributeNodeNS(arg0: $Attr): $Attr;
+        setAttributeNode(arg0: $Attr): $Attr;
+        setIdAttributeNode(arg0: $Attr, arg1: boolean): void;
+        getAttributeNodeNS(arg0: string, arg1: string): $Attr;
+        getAttributeNode(arg0: string): $Attr;
+        setAttributeNS(arg0: string, arg1: string, arg2: string): void;
+        setIdAttribute(arg0: string, arg1: boolean): void;
         setAttribute(arg0: string, arg1: string): void;
         getAttribute(arg0: string): string;
         removeAttribute(arg0: string): void;
@@ -176,13 +183,6 @@ declare module "@package/org/w3c/dom" {
         hasAttributeNS(arg0: string, arg1: string): boolean;
         setIdAttributeNS(arg0: string, arg1: string, arg2: boolean): void;
         getSchemaTypeInfo(): $TypeInfo;
-        setAttributeNodeNS(arg0: $Attr): $Attr;
-        setAttributeNode(arg0: $Attr): $Attr;
-        setIdAttributeNode(arg0: $Attr, arg1: boolean): void;
-        getAttributeNodeNS(arg0: string, arg1: string): $Attr;
-        getAttributeNode(arg0: string): $Attr;
-        setAttributeNS(arg0: string, arg1: string, arg2: string): void;
-        setIdAttribute(arg0: string, arg1: boolean): void;
         removeAttributeNode(arg0: $Attr): $Attr;
         getElementsByTagName(arg0: string): $NodeList;
         getTagName(): string;
@@ -208,8 +208,8 @@ declare module "@package/org/w3c/dom" {
     export class $DOMConfiguration {
     }
     export interface $DOMConfiguration {
-        setParameter(arg0: string, arg1: $Object): void;
         getParameter(arg0: string): $Object;
+        setParameter(arg0: string, arg1: $Object): void;
         canSetParameter(arg0: string, arg1: $Object): boolean;
         getParameterNames(): $DOMStringList;
         get parameterNames(): $DOMStringList;
@@ -221,16 +221,16 @@ declare module "@package/org/w3c/dom" {
     export class $DocumentType {
     }
     export interface $DocumentType extends $Node {
-        getName(): string;
-        getInternalSubset(): string;
         getEntities(): $NamedNodeMap;
         getNotations(): $NamedNodeMap;
+        getName(): string;
+        getInternalSubset(): string;
         getSystemId(): string;
         getPublicId(): string;
-        get name(): string;
-        get internalSubset(): string;
         get entities(): $NamedNodeMap;
         get notations(): $NamedNodeMap;
+        get name(): string;
+        get internalSubset(): string;
         get systemId(): string;
         get publicId(): string;
     }
@@ -254,10 +254,6 @@ declare module "@package/org/w3c/dom" {
     export class $Document {
     }
     export interface $Document extends $Node {
-        getImplementation(): $DOMImplementation;
-        adoptNode(arg0: $Node): $Node;
-        getElementById(arg0: string): $Element;
-        getElementsByTagNameNS(arg0: string, arg1: string): $NodeList;
         createEntityReference(arg0: string): $EntityReference;
         setXmlVersion(arg0: string): void;
         createComment(arg0: string): $Comment;
@@ -272,6 +268,9 @@ declare module "@package/org/w3c/dom" {
         createAttribute(arg0: string): $Attr;
         createElementNS(arg0: string, arg1: string): $Element;
         createElement(arg0: string): $Element;
+        adoptNode(arg0: $Node): $Node;
+        getElementById(arg0: string): $Element;
+        getElementsByTagNameNS(arg0: string, arg1: string): $NodeList;
         importNode(arg0: $Node, arg1: boolean): $Node;
         getXmlEncoding(): string;
         getXmlVersion(): string;
@@ -285,11 +284,12 @@ declare module "@package/org/w3c/dom" {
         renameNode(arg0: $Node, arg1: string, arg2: string): $Node;
         getDomConfig(): $DOMConfiguration;
         getDocumentElement(): $Element;
-        get implementation(): $DOMImplementation;
+        getImplementation(): $DOMImplementation;
         get xmlEncoding(): string;
         get doctype(): $DocumentType;
         get inputEncoding(): string;
         get domConfig(): $DOMConfiguration;
         get documentElement(): $Element;
+        get implementation(): $DOMImplementation;
     }
 }

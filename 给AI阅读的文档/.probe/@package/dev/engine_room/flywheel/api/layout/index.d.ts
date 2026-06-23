@@ -5,9 +5,9 @@ declare module "@package/dev/engine_room/flywheel/api/layout" {
         static MAX_ELEMENT_NAME_LENGTH: number;
     }
     export interface $Layout {
-        elements(): $List<$Layout$Element>;
-        asMap(): $Map<string, $Layout$Element>;
         byteSize(): number;
         byteAlignment(): number;
+        elements(): $List<$Layout$Element>;
+        asMap(): $Map<string, $Layout$Element>;
     }
 }

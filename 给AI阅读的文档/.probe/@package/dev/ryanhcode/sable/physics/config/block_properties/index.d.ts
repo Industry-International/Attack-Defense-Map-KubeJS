@@ -43,5 +43,5 @@ declare module "@package/dev/ryanhcode/sable/physics/config/block_properties" {
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $PhysicsBlockPropertiesDefinition>;
         constructor(selector: $ExtraCodecs$TagOrElementLocation_, priority: number, properties: $Map_<$ResourceLocation_, $Object>, overrides: ($Map_<$BlockStateConditionSet_, $Map_<$ResourceLocation_, $Object>>) | undefined);
     }
-    export interface $PhysicsBlockPropertyTypes$PhysicsBlockPropertyType extends RegistryMarked<RegistryTypes.SablePhysicsBlockPropertiesTag, RegistryTypes.SablePhysicsBlockProperties> {}
+    export interface $PhysicsBlockPropertyTypes$PhysicsBlockPropertyType<T> extends RegistryMarked<RegistryTypes.SablePhysicsBlockPropertiesTag, RegistryTypes.SablePhysicsBlockProperties> {}
 }

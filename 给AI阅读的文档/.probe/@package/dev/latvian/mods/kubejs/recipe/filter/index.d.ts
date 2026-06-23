@@ -38,9 +38,9 @@ declare module "@package/dev/latvian/mods/kubejs/recipe/filter" {
         constructor(t: $ResourceLocation_);
     }
     export class $RecipeMatchContext$Impl extends $Record implements $RecipeMatchContext {
+        ops(): $RegistryOpsContainer;
         recipe(): $RecipeLikeKJS;
         cx(): $Context;
-        ops(): $RegistryOpsContainer;
         registries(): $RegistryAccessContainer;
         constructor(recipe: $KubeRecipe);
         constructor(registries: $RegistryAccessContainer, ops: $RegistryOpsContainer, recipe: $RecipeLikeKJS);

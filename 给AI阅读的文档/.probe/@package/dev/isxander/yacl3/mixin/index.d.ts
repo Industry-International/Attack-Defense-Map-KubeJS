@@ -7,9 +7,9 @@ declare module "@package/dev/isxander/yacl3/mixin" {
     export class $TabNavigationBarAccessor {
     }
     export interface $TabNavigationBarAccessor {
-        yacl$getTabManager(): $TabManager;
         yacl$getLayout(): $LinearLayout;
         yacl$getWidth(): number;
+        yacl$getTabManager(): $TabManager;
         yacl$getTabButtons(): $ImmutableList<$TabButton>;
         yacl$getTabs(): $ImmutableList<$Tab>;
     }

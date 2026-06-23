@@ -20,11 +20,11 @@ declare module "@package/foundry/veil/api/client/render/light/renderer" {
     export class $LightRenderer implements $NativeResource {
         free(): void;
         render(arg0: $CullFrustum, arg1: $AdvancedFbo): boolean;
-        addDebugInfo(arg0: $Consumer_<string>): void;
         getRenderers(): $Map<$LightTypeRegistry$LightType<never>, $LightTypeRenderer<never>>;
+        addDebugInfo(arg0: $Consumer_<string>): void;
+        getLights<T extends $LightData>(arg0: $LightTypeRegistry$LightType_<T>): $Collection<$LightRenderHandle<T>>;
         addLight<T extends $LightData>(arg0: T): $LightRenderHandle<T>;
         addLight<T extends $LightData>(arg0: $LightRenderHandle<T>): $LightRenderHandle<T>;
-        getLights<T extends $LightData>(arg0: $LightTypeRegistry$LightType_<T>): $Collection<$LightRenderHandle<T>>;
         close(): void;
         constructor();
         get renderers(): $Map<$LightTypeRegistry$LightType<never>, $LightTypeRenderer<never>>;
@@ -34,12 +34,12 @@ declare module "@package/foundry/veil/api/client/render/light/renderer" {
         static createQuad(arg0: $VertexConsumer): void;
     }
     export interface $LightTypeRenderer<T extends $LightData> extends $NativeResource {
-        prepareLights(arg0: $LightRenderer, arg1: $CullFrustum): void;
         renderLights(arg0: $LightRenderer): void;
+        prepareLights(arg0: $LightRenderer, arg1: $CullFrustum): void;
         getVisibleLights(): number;
-        addLight(arg0: T): $LightRenderHandle<T>;
         steal(arg0: $LightRenderHandle<T>): $LightRenderHandle<T>;
         getLights(): $Collection<$LightRenderHandle<T>>;
+        addLight(arg0: T): $LightRenderHandle<T>;
         get visibleLights(): number;
         get lights(): $Collection<$LightRenderHandle<T>>;
     }

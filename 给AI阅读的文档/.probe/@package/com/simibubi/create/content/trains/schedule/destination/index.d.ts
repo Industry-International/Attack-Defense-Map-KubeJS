@@ -1,6 +1,6 @@
 import { $Level_ } from "@package/net/minecraft/world/level";
-import { $DiscoveredPath } from "@package/com/simibubi/create/content/trains/graph";
 import { $HolderLookup$Provider } from "@package/net/minecraft/core";
+import { $DiscoveredPath } from "@package/com/simibubi/create/content/trains/graph";
 import { $CompoundTag_, $CompoundTag } from "@package/net/minecraft/nbt";
 import { $RegistryFriendlyByteBuf } from "@package/net/minecraft/network";
 import { $ScheduleDataEntry, $ScheduleRuntime } from "@package/com/simibubi/create/content/trains/schedule";

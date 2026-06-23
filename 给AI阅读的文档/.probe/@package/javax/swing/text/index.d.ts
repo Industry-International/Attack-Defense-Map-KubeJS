@@ -17,17 +17,17 @@ declare module "@package/javax/swing/text" {
     export class $Highlighter$Highlight {
     }
     export interface $Highlighter$Highlight {
+        getPainter(): $Highlighter$HighlightPainter;
         getStartOffset(): number;
         getEndOffset(): number;
-        getPainter(): $Highlighter$HighlightPainter;
+        get painter(): $Highlighter$HighlightPainter;
         get startOffset(): number;
         get endOffset(): number;
-        get painter(): $Highlighter$HighlightPainter;
     }
     export class $NavigationFilter {
-        getNextVisualPositionFrom(arg0: $JTextComponent, arg1: number, arg2: $Position$Bias, arg3: number, arg4: $Position$Bias[]): number;
         setDot(arg0: $NavigationFilter$FilterBypass, arg1: number, arg2: $Position$Bias): void;
         moveDot(arg0: $NavigationFilter$FilterBypass, arg1: number, arg2: $Position$Bias): void;
+        getNextVisualPositionFrom(arg0: $JTextComponent, arg1: number, arg2: $Position$Bias, arg3: number, arg4: $Position$Bias[]): number;
         constructor();
     }
     export class $Element {
@@ -38,19 +38,19 @@ declare module "@package/javax/swing/text" {
         isLeaf(): boolean;
         getElement(arg0: number): $Element;
         getDocument(): $Document;
-        getElementCount(): number;
+        getParentElement(): $Element;
         getElementIndex(arg0: number): number;
+        getElementCount(): number;
         getStartOffset(): number;
         getEndOffset(): number;
-        getParentElement(): $Element;
         get name(): string;
         get attributes(): $AttributeSet;
         get leaf(): boolean;
         get document(): $Document;
+        get parentElement(): $Element;
         get elementCount(): number;
         get startOffset(): number;
         get endOffset(): number;
-        get parentElement(): $Element;
     }
     export class $Position {
     }
@@ -67,6 +67,9 @@ declare module "@package/javax/swing/text" {
     export interface $Keymap {
         getName(): string;
         getAction(arg0: $KeyStroke): $Action;
+        setDefaultAction(arg0: $Action): void;
+        addActionForKeyStroke(arg0: $KeyStroke, arg1: $Action): void;
+        getDefaultAction(): $Action;
         getBoundKeyStrokes(): $KeyStroke[];
         getBoundActions(): $Action[];
         getKeyStrokesForAction(arg0: $Action): $KeyStroke[];
@@ -75,9 +78,6 @@ declare module "@package/javax/swing/text" {
         removeBindings(): void;
         getResolveParent(): $Keymap;
         setResolveParent(arg0: $Keymap): void;
-        setDefaultAction(arg0: $Action): void;
-        addActionForKeyStroke(arg0: $KeyStroke, arg1: $Action): void;
-        getDefaultAction(): $Action;
         get name(): string;
         get boundKeyStrokes(): $KeyStroke[];
         get boundActions(): $Action[];
@@ -85,14 +85,10 @@ declare module "@package/javax/swing/text" {
     export class $Caret {
     }
     export interface $Caret {
-        setVisible(arg0: boolean): void;
-        install(arg0: $JTextComponent): void;
-        paint(arg0: $Graphics): void;
         addChangeListener(arg0: $ChangeListener_): void;
-        isSelectionVisible(): boolean;
-        setSelectionVisible(arg0: boolean): void;
-        setMagicCaretPosition(arg0: $Point): void;
-        getMagicCaretPosition(): $Point;
+        install(arg0: $JTextComponent): void;
+        setVisible(arg0: boolean): void;
+        paint(arg0: $Graphics): void;
         isVisible(): boolean;
         removeChangeListener(arg0: $ChangeListener_): void;
         deinstall(arg0: $JTextComponent): void;
@@ -102,43 +98,47 @@ declare module "@package/javax/swing/text" {
         getDot(): number;
         getBlinkRate(): number;
         setBlinkRate(arg0: number): void;
+        isSelectionVisible(): boolean;
+        setSelectionVisible(arg0: boolean): void;
+        setMagicCaretPosition(arg0: $Point): void;
+        getMagicCaretPosition(): $Point;
         get mark(): number;
     }
     export class $Highlighter {
     }
     export interface $Highlighter {
+        addHighlight(arg0: number, arg1: number, arg2: $Highlighter$HighlightPainter_): $Object;
         install(arg0: $JTextComponent): void;
         paint(arg0: $Graphics): void;
+        getHighlights(): $Highlighter$Highlight[];
+        removeHighlight(arg0: $Object): void;
+        deinstall(arg0: $JTextComponent): void;
         removeAllHighlights(): void;
         changeHighlight(arg0: $Object, arg1: number, arg2: number): void;
-        deinstall(arg0: $JTextComponent): void;
-        addHighlight(arg0: number, arg1: number, arg2: $Highlighter$HighlightPainter_): $Object;
-        removeHighlight(arg0: $Object): void;
-        getHighlights(): $Highlighter$Highlight[];
         get highlights(): $Highlighter$Highlight[];
     }
     export class $NavigationFilter$FilterBypass {
+        getCaret(): $Caret;
         setDot(arg0: number, arg1: $Position$Bias): void;
         moveDot(arg0: number, arg1: $Position$Bias): void;
-        getCaret(): $Caret;
         get caret(): $Caret;
     }
     export class $EditorKit implements $Cloneable, $Serializable {
+        getContentType(): string;
         clone(): $Object;
         write(arg0: $Writer, arg1: $Document, arg2: number, arg3: number): void;
         write(arg0: $OutputStream, arg1: $Document, arg2: number, arg3: number): void;
-        read(arg0: $Reader, arg1: $Document, arg2: number): void;
         read(arg0: $InputStream, arg1: $Document, arg2: number): void;
+        read(arg0: $Reader, arg1: $Document, arg2: number): void;
         getActions(): $Action[];
-        install(arg0: $JEditorPane): void;
-        getContentType(): string;
-        deinstall(arg0: $JEditorPane): void;
-        createDefaultDocument(): $Document;
         getViewFactory(): $ViewFactory;
         createCaret(): $Caret;
+        install(arg0: $JEditorPane): void;
+        deinstall(arg0: $JEditorPane): void;
+        createDefaultDocument(): $Document;
         constructor();
-        get actions(): $Action[];
         get contentType(): string;
+        get actions(): $Action[];
         get viewFactory(): $ViewFactory;
     }
     export class $Segment implements $Cloneable, $CharacterIterator, $CharSequence {
@@ -174,25 +174,41 @@ declare module "@package/javax/swing/text" {
         read(arg0: $Reader, arg1: $Object): void;
         getActions(): $Action[];
         print(arg0: $MessageFormat, arg1: $MessageFormat): boolean;
-        print(): boolean;
         print(arg0: $MessageFormat, arg1: $MessageFormat, arg2: boolean, arg3: $PrintService, arg4: $PrintRequestAttributeSet, arg5: boolean): boolean;
+        print(): boolean;
         copy(): void;
-        getText(): string;
         getText(arg0: number, arg1: number): string;
+        getText(): string;
         setText(arg0: string): void;
         getDocument(): $Document;
         select(arg0: number, arg1: number): void;
-        getSelectionColor(): $Color;
         isEditable(): boolean;
-        getHighlighter(): $Highlighter;
-        setEditable(arg0: boolean): void;
+        paste(): void;
+        selectAll(): void;
+        getUI(): $TextUI;
+        setUI(arg0: $TextUI): void;
+        getSelectionColor(): $Color;
+        replaceSelection(arg0: string): void;
+        getSelectedText(): string;
         setMargin(arg0: $Insets): void;
-        cut(): void;
+        getHighlighter(): $Highlighter;
         getSelectionStart(): number;
         getSelectionEnd(): number;
-        getSelectedText(): string;
-        replaceSelection(arg0: string): void;
+        cut(): void;
+        setEditable(arg0: boolean): void;
+        getCaret(): $Caret;
         setDocument(arg0: $Document): void;
+        setDragEnabled(arg0: boolean): void;
+        getDragEnabled(): boolean;
+        setDropMode(arg0: $DropMode_): void;
+        getDropMode(): $DropMode;
+        getDropLocation(): $JTextComponent$DropLocation;
+        getPreferredScrollableViewportSize(): $Dimension;
+        getScrollableUnitIncrement(arg0: $Rectangle, arg1: number, arg2: number): number;
+        getScrollableBlockIncrement(arg0: $Rectangle, arg1: number, arg2: number): number;
+        getScrollableTracksViewportWidth(): boolean;
+        getScrollableTracksViewportHeight(): boolean;
+        getMargin(): $Insets;
         /**
          * @deprecated
          */
@@ -207,8 +223,8 @@ declare module "@package/javax/swing/text" {
         setCaretPosition(arg0: number): void;
         moveCaretPosition(arg0: number): void;
         getPrintable(arg0: $MessageFormat, arg1: $MessageFormat): $Printable;
-        static getKeymap(arg0: string): $Keymap;
         getKeymap(): $Keymap;
+        static getKeymap(arg0: string): $Keymap;
         setCaret(arg0: $Caret): void;
         addCaretListener(arg0: $CaretListener_): void;
         removeCaretListener(arg0: $CaretListener_): void;
@@ -231,21 +247,6 @@ declare module "@package/javax/swing/text" {
         getCaretPosition(): number;
         setSelectionStart(arg0: number): void;
         setSelectionEnd(arg0: number): void;
-        paste(): void;
-        selectAll(): void;
-        setDragEnabled(arg0: boolean): void;
-        getDragEnabled(): boolean;
-        setDropMode(arg0: $DropMode_): void;
-        getDropMode(): $DropMode;
-        getDropLocation(): $JTextComponent$DropLocation;
-        getCaret(): $Caret;
-        setUI(arg0: $TextUI): void;
-        getPreferredScrollableViewportSize(): $Dimension;
-        getScrollableUnitIncrement(arg0: $Rectangle, arg1: number, arg2: number): number;
-        getScrollableBlockIncrement(arg0: $Rectangle, arg1: number, arg2: number): number;
-        getScrollableTracksViewportWidth(): boolean;
-        getScrollableTracksViewportHeight(): boolean;
-        getMargin(): $Insets;
         static WHEN_FOCUSED: number;
         static WHEN_ANCESTOR_OF_FOCUSED_COMPONENT: number;
         static FOCUS_ACCELERATOR_KEY: string;
@@ -261,12 +262,11 @@ declare module "@package/javax/swing/text" {
         constructor();
         get actions(): $Action[];
         get selectedText(): string;
-        get caretListeners(): $CaretListener[];
         get dropLocation(): $JTextComponent$DropLocation;
-        set UI(value: $TextUI);
         get preferredScrollableViewportSize(): $Dimension;
         get scrollableTracksViewportWidth(): boolean;
         get scrollableTracksViewportHeight(): boolean;
+        get caretListeners(): $CaretListener[];
     }
     export class $JTextComponent$DropLocation extends $TransferHandler$DropLocation {
         getIndex(): number;
@@ -305,24 +305,12 @@ declare module "@package/javax/swing/text" {
         getElement(): $Element;
         getContainer(): $Container;
         getDocument(): $Document;
-        getAlignment(arg0: number): number;
-        paint(arg0: $Graphics, arg1: $Shape): void;
-        getNextVisualPositionFrom(arg0: number, arg1: $Position$Bias, arg2: $Shape, arg3: number, arg4: $Position$Bias[]): number;
-        isVisible(): boolean;
-        /**
-         * @deprecated
-         */
-        viewToModel(arg0: number, arg1: number, arg2: $Shape): number;
-        viewToModel(arg0: number, arg1: number, arg2: $Shape, arg3: $Position$Bias[]): number;
-        modelToView(arg0: number, arg1: $Shape, arg2: $Position$Bias): $Shape;
-        /**
-         * @deprecated
-         */
-        modelToView(arg0: number, arg1: $Shape): $Shape;
-        modelToView(arg0: number, arg1: $Position$Bias, arg2: number, arg3: $Position$Bias, arg4: $Shape): $Shape;
-        getView(arg0: number): $View;
-        getStartOffset(): number;
-        getEndOffset(): number;
+        getGraphics(): $Graphics;
+        createFragment(arg0: number, arg1: number): $View;
+        getResizeWeight(arg0: number): number;
+        getPreferredSpan(arg0: number): number;
+        preferenceChanged(arg0: $View, arg1: boolean, arg2: boolean): void;
+        getViewCount(): number;
         getViewFactory(): $ViewFactory;
         getViewIndex(arg0: number, arg1: $Position$Bias): number;
         getViewIndex(arg0: number, arg1: number, arg2: $Shape): number;
@@ -331,16 +319,28 @@ declare module "@package/javax/swing/text" {
         getMaximumSpan(arg0: number): number;
         breakView(arg0: number, arg1: number, arg2: number, arg3: number): $View;
         getBreakWeight(arg0: number, arg1: number, arg2: number): number;
-        getGraphics(): $Graphics;
-        createFragment(arg0: number, arg1: number): $View;
-        getResizeWeight(arg0: number): number;
-        getPreferredSpan(arg0: number): number;
-        preferenceChanged(arg0: $View, arg1: boolean, arg2: boolean): void;
-        getViewCount(): number;
+        getAlignment(arg0: number): number;
         insertUpdate(arg0: $DocumentEvent, arg1: $Shape, arg2: $ViewFactory_): void;
         removeUpdate(arg0: $DocumentEvent, arg1: $Shape, arg2: $ViewFactory_): void;
         changedUpdate(arg0: $DocumentEvent, arg1: $Shape, arg2: $ViewFactory_): void;
         getToolTipText(arg0: number, arg1: number, arg2: $Shape): string;
+        paint(arg0: $Graphics, arg1: $Shape): void;
+        isVisible(): boolean;
+        getView(arg0: number): $View;
+        getStartOffset(): number;
+        getEndOffset(): number;
+        /**
+         * @deprecated
+         */
+        viewToModel(arg0: number, arg1: number, arg2: $Shape): number;
+        viewToModel(arg0: number, arg1: number, arg2: $Shape, arg3: $Position$Bias[]): number;
+        modelToView(arg0: number, arg1: $Shape, arg2: $Position$Bias): $Shape;
+        modelToView(arg0: number, arg1: $Position$Bias, arg2: number, arg3: $Position$Bias, arg4: $Shape): $Shape;
+        /**
+         * @deprecated
+         */
+        modelToView(arg0: number, arg1: $Shape): $Shape;
+        getNextVisualPositionFrom(arg0: number, arg1: $Position$Bias, arg2: $Shape, arg3: number, arg4: $Position$Bias[]): number;
         static ForcedBreakWeight: number;
         static BadBreakWeight: number;
         static GoodBreakWeight: number;
@@ -352,12 +352,12 @@ declare module "@package/javax/swing/text" {
         get element(): $Element;
         get container(): $Container;
         get document(): $Document;
+        get graphics(): $Graphics;
+        get viewCount(): number;
+        get viewFactory(): $ViewFactory;
         get visible(): boolean;
         get startOffset(): number;
         get endOffset(): number;
-        get viewFactory(): $ViewFactory;
-        get graphics(): $Graphics;
-        get viewCount(): number;
     }
     export class $Document {
         static TitleProperty: string;
@@ -367,25 +367,25 @@ declare module "@package/javax/swing/text" {
         remove(arg0: number, arg1: number): void;
         getProperty(arg0: $Object): $Object;
         getLength(): number;
-        getText(arg0: number, arg1: number): string;
         getText(arg0: number, arg1: number, arg2: $Segment): void;
-        render(arg0: $Runnable_): void;
-        addUndoableEditListener(arg0: $UndoableEditListener_): void;
-        removeUndoableEditListener(arg0: $UndoableEditListener_): void;
-        getRootElements(): $Element[];
+        getText(arg0: number, arg1: number): string;
         putProperty(arg0: $Object, arg1: $Object): void;
+        render(arg0: $Runnable_): void;
         getDefaultRootElement(): $Element;
         removeDocumentListener(arg0: $DocumentListener): void;
         addDocumentListener(arg0: $DocumentListener): void;
-        createPosition(arg0: number): $Position;
-        getStartPosition(): $Position;
         getEndPosition(): $Position;
+        getStartPosition(): $Position;
         insertString(arg0: number, arg1: string, arg2: $AttributeSet): void;
+        createPosition(arg0: number): $Position;
+        addUndoableEditListener(arg0: $UndoableEditListener_): void;
+        removeUndoableEditListener(arg0: $UndoableEditListener_): void;
+        getRootElements(): $Element[];
         get length(): number;
-        get rootElements(): $Element[];
         get defaultRootElement(): $Element;
-        get startPosition(): $Position;
         get endPosition(): $Position;
+        get startPosition(): $Position;
+        get rootElements(): $Element[];
     }
     export class $ViewFactory {
     }
@@ -405,11 +405,11 @@ declare module "@package/javax/swing/text" {
         getAttribute(arg0: $Object): $Object;
         isEqual(arg0: $AttributeSet): boolean;
         getAttributeCount(): number;
-        getAttributeNames(): $Enumeration<never>;
         copyAttributes(): $AttributeSet;
+        containsAttribute(arg0: $Object, arg1: $Object): boolean;
+        getAttributeNames(): $Enumeration<never>;
         getResolveParent(): $AttributeSet;
         containsAttributes(arg0: $AttributeSet): boolean;
-        containsAttribute(arg0: $Object, arg1: $Object): boolean;
         get attributeCount(): number;
         get attributeNames(): $Enumeration<never>;
         get resolveParent(): $AttributeSet;

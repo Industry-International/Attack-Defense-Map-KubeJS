@@ -8,32 +8,38 @@ import { $UUID_, $Collection_, $Collection } from "@package/java/util";
 
 declare module "@package/net/minecraft/server/bossevents" {
     export class $CustomBossEvents {
-        remove(arg0: $CustomBossEvent): void;
-        get(arg0: $ResourceLocation_): $CustomBossEvent;
-        load(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
-        save(arg0: $HolderLookup$Provider): $CompoundTag;
-        create(arg0: $ResourceLocation_, arg1: $Component_): $CustomBossEvent;
+        remove(bossbar: $CustomBossEvent): void;
+        get(id: $ResourceLocation_): $CustomBossEvent;
+        load(tag: $CompoundTag_, levelRegistry: $HolderLookup$Provider): void;
+        save(levelRegistry: $HolderLookup$Provider): $CompoundTag;
+        create(id: $ResourceLocation_, name: $Component_): $CustomBossEvent;
         getEvents(): $Collection<$CustomBossEvent>;
-        onPlayerConnect(arg0: $ServerPlayer): void;
+        onPlayerDisconnect(player: $ServerPlayer): void;
         getIds(): $Collection<$ResourceLocation>;
-        onPlayerDisconnect(arg0: $ServerPlayer): void;
+        onPlayerConnect(player: $ServerPlayer): void;
         constructor();
         get events(): $Collection<$CustomBossEvent>;
         get ids(): $Collection<$ResourceLocation>;
     }
     export class $CustomBossEvent extends $ServerBossEvent {
-        static load(arg0: $CompoundTag_, arg1: $ResourceLocation_, arg2: $HolderLookup$Provider): $CustomBossEvent;
+        static load(tag: $CompoundTag_, id: $ResourceLocation_, levelRegistry: $HolderLookup$Provider): $CustomBossEvent;
         getValue(): number;
-        save(arg0: $HolderLookup$Provider): $CompoundTag;
-        setValue(arg0: number): void;
+        save(levelRegistry: $HolderLookup$Provider): $CompoundTag;
+        setValue(max: number): void;
         getDisplayName(): $Component;
         getMax(): number;
-        onPlayerConnect(arg0: $ServerPlayer): void;
-        setMax(arg0: number): void;
-        onPlayerDisconnect(arg0: $ServerPlayer): void;
-        addOfflinePlayer(arg0: $UUID_): void;
-        setPlayers(arg0: $Collection_<$ServerPlayer>): boolean;
+        setMax(max: number): void;
+        /**
+         * Makes the boss visible to the given player.
+         */
+        onPlayerDisconnect(player: $ServerPlayer): void;
+        setPlayers(serverPlayerList: $Collection_<$ServerPlayer>): boolean;
         getTextId(): $ResourceLocation;
+        /**
+         * Makes the boss visible to the given player.
+         */
+        onPlayerConnect(player: $ServerPlayer): void;
+        addOfflinePlayer(player: $UUID_): void;
         darkenScreen: boolean;
         playBossMusic: boolean;
         color: $BossEvent$BossBarColor;
@@ -41,7 +47,7 @@ declare module "@package/net/minecraft/server/bossevents" {
         name: $Component;
         progress: number;
         createWorldFog: boolean;
-        constructor(arg0: $ResourceLocation_, arg1: $Component_);
+        constructor(id: $ResourceLocation_, name: $Component_);
         get displayName(): $Component;
         set players(value: $Collection_<$ServerPlayer>);
         get textId(): $ResourceLocation;

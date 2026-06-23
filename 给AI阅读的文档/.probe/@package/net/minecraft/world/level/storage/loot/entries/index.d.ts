@@ -17,19 +17,29 @@ import { $Iterable_, $Record } from "@package/java/lang";
 import { $ValidationContext, $LootContext, $LootTable } from "@package/net/minecraft/world/level/storage/loot";
 
 declare module "@package/net/minecraft/world/level/storage/loot/entries" {
+    /**
+     * Base class for loot pool entry containers. This class just stores a list of conditions that are checked before the entry generates loot.
+     */
     export class $LootPoolEntryContainer implements $ComposableEntryContainer {
-        validate(arg0: $ValidationContext): void;
+        validate(validationContext: $ValidationContext): void;
         getType(): $LootPoolEntryType;
-        canRun(arg0: $LootContext): boolean;
-        static commonFields<T extends $LootPoolEntryContainer>(arg0: $RecordCodecBuilder$Instance<T>): $Products$P1<$RecordCodecBuilder$Mu<T>, $List<$LootItemCondition>>;
+        canRun(lootContext: $LootContext): boolean;
+        static commonFields<T extends $LootPoolEntryContainer>(instance: $RecordCodecBuilder$Instance<T>): $Products$P1<$RecordCodecBuilder$Mu<T>, $List<$LootItemCondition>>;
         conditions: $List<$LootItemCondition>;
-        constructor(arg0: $List_<$LootItemCondition>);
+        constructor(conditions: $List_<$LootItemCondition>);
         get type(): $LootPoolEntryType;
     }
+    /**
+     * A LootPoolEntryContainer that expands into a single LootPoolEntry.
+     */
     export class $LootPoolSingletonContainer extends $LootPoolEntryContainer {
-        createItemStack(arg0: $Consumer_<$ItemStack>, arg1: $LootContext): void;
-        static simpleBuilder(arg0: $LootPoolSingletonContainer$EntryConstructor_): $LootPoolSingletonContainer$Builder<never>;
-        static singletonFields<T extends $LootPoolSingletonContainer>(arg0: $RecordCodecBuilder$Instance<T>): $Products$P4<$RecordCodecBuilder$Mu<T>, number, number, $List<$LootItemCondition>, $List<$LootItemFunction>>;
+        /**
+         * Generate the loot stacks of this entry.
+         * Contrary to the method name this method does not always generate one stack, it can also generate zero or multiple stacks.
+         */
+        createItemStack(stackConsumer: $Consumer_<$ItemStack>, lootContext: $LootContext): void;
+        static simpleBuilder(entryBuilder: $LootPoolSingletonContainer$EntryConstructor_): $LootPoolSingletonContainer$Builder<never>;
+        static singletonFields<T extends $LootPoolSingletonContainer>(instance: $RecordCodecBuilder$Instance<T>): $Products$P4<$RecordCodecBuilder$Mu<T>, number, number, $List<$LootItemCondition>, $List<$LootItemFunction>>;
         compositeFunction: $BiFunction<$ItemStack, $LootContext, $ItemStack>;
         functions: $List<$LootItemFunction>;
         weight: number;
@@ -37,16 +47,16 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         conditions: $List<$LootItemCondition>;
         static DEFAULT_WEIGHT: number;
         quality: number;
-        constructor(arg0: number, arg1: number, arg2: $List_<$LootItemCondition>, arg3: $List_<$LootItemFunction>);
+        constructor(weight: number, quality: number, conditions: $List_<$LootItemCondition>, functions: $List_<$LootItemFunction>);
     }
     export class $EntryGroup$Builder extends $LootPoolEntryContainer$Builder<$EntryGroup$Builder> {
         getThis(): $EntryGroup$Builder;
-        constructor(...arg0: $LootPoolEntryContainer$Builder<never>[]);
+        constructor(...children: $LootPoolEntryContainer$Builder<never>[]);
         get this(): $EntryGroup$Builder;
     }
     export class $NestedLootTable extends $LootPoolSingletonContainer {
-        static lootTableReference(arg0: $ResourceKey_<$LootTable>): $LootPoolSingletonContainer$Builder<never>;
-        static inlineLootTable(arg0: $LootTable): $LootPoolSingletonContainer$Builder<never>;
+        static lootTableReference(lootTable: $ResourceKey_<$LootTable>): $LootPoolSingletonContainer$Builder<never>;
+        static inlineLootTable(lootTable: $LootTable): $LootPoolSingletonContainer$Builder<never>;
         compositeFunction: $BiFunction<$ItemStack, $LootContext, $ItemStack>;
         static CODEC: $MapCodec<$NestedLootTable>;
         functions: $List<$LootItemFunction>;
@@ -57,6 +67,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         static DEFAULT_WEIGHT: number;
         quality: number;
     }
+    /**
+     * A loot pool entry that does not generate any items.
+     */
     export class $EmptyLootItem extends $LootPoolSingletonContainer {
         static emptyItem(): $LootPoolSingletonContainer$Builder<never>;
         compositeFunction: $BiFunction<$ItemStack, $LootContext, $ItemStack>;
@@ -77,12 +90,15 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
      */
     export type $LootPoolSingletonContainer$EntryConstructor_ = (() => void);
     export class $AlternativesEntry$Builder extends $LootPoolEntryContainer$Builder<$AlternativesEntry$Builder> {
-        getThis(): $AlternativesEntry$Builder;
-        constructor(...arg0: $LootPoolEntryContainer$Builder<never>[]);
-        get this(): $AlternativesEntry$Builder;
+        constructor(...children: $LootPoolEntryContainer$Builder<never>[]);
     }
+    /**
+     * A loot pool entry container that will generate the dynamic drops with a given name.
+     * 
+     * @see LootContext.DynamicDrops
+     */
     export class $DynamicLoot extends $LootPoolSingletonContainer {
-        static dynamicEntry(arg0: $ResourceLocation_): $LootPoolSingletonContainer$Builder<never>;
+        static dynamicEntry(dynamicDropsName: $ResourceLocation_): $LootPoolSingletonContainer$Builder<never>;
         compositeFunction: $BiFunction<$ItemStack, $LootContext, $ItemStack>;
         static CODEC: $MapCodec<$DynamicLoot>;
         functions: $List<$LootItemFunction>;
@@ -92,24 +108,36 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         static DEFAULT_WEIGHT: number;
         quality: number;
     }
+    /**
+     * Base class for loot pool entry containers that delegate to one or more children.
+     * The actual functionality is provided by composing the children into one composed container (see `#compose`).
+     */
     export class $CompositeEntryBase extends $LootPoolEntryContainer {
-        compose(arg0: $List_<$ComposableEntryContainer_>): $ComposableEntryContainer;
-        static createCodec<T extends $CompositeEntryBase>(arg0: $CompositeEntryBase$CompositeEntryConstructor_<T>): $MapCodec<T>;
+        compose(children: $List_<$ComposableEntryContainer_>): $ComposableEntryContainer;
+        static createCodec<T extends $CompositeEntryBase>(factory: $CompositeEntryBase$CompositeEntryConstructor_<T>): $MapCodec<T>;
         children: $List<$LootPoolEntryContainer>;
         conditions: $List<$LootItemCondition>;
-        constructor(arg0: $List_<$LootPoolEntryContainer>, arg1: $List_<$LootItemCondition>);
+        constructor(children: $List_<$LootPoolEntryContainer>, conditions: $List_<$LootItemCondition>);
     }
+    /**
+     * A composite loot pool entry container that expands all its children in order until one of them succeeds.
+     * This container succeeds if one of its children succeeds.
+     */
     export class $AlternativesEntry extends $CompositeEntryBase {
-        static alternatives(...arg0: $LootPoolEntryContainer$Builder<never>[]): $AlternativesEntry$Builder;
-        static alternatives<E>(arg0: $Collection_<E>, arg1: $Function_<E, $LootPoolEntryContainer$Builder<never>>): $AlternativesEntry$Builder;
+        static alternatives(...children: $LootPoolEntryContainer$Builder<never>[]): $AlternativesEntry$Builder;
+        static alternatives<E>(childrenSources: $Collection_<E>, toChildrenFunction: $Function_<E, $LootPoolEntryContainer$Builder<never>>): $AlternativesEntry$Builder;
         static CODEC: $MapCodec<$AlternativesEntry>;
         children: $List<$LootPoolEntryContainer>;
         conditions: $List<$LootItemCondition>;
-        constructor(arg0: $List_<$LootPoolEntryContainer>, arg1: $List_<$LootItemCondition>);
+        constructor(children: $List_<$LootPoolEntryContainer>, conditions: $List_<$LootItemCondition>);
     }
+    /**
+     * A loot pool entry container that generates based on an item tag.
+     * If `expand` is set to true, it will expand into separate LootPoolEntries for every item in the tag, otherwise it will simply generate all items in the tag.
+     */
     export class $TagEntry extends $LootPoolSingletonContainer {
-        static expandTag(arg0: $TagKey_<$Item>): $LootPoolSingletonContainer$Builder<never>;
-        static tagContents(arg0: $TagKey_<$Item>): $LootPoolSingletonContainer$Builder<never>;
+        static expandTag(tag: $TagKey_<$Item>): $LootPoolSingletonContainer$Builder<never>;
+        static tagContents(tag: $TagKey_<$Item>): $LootPoolSingletonContainer$Builder<never>;
         compositeFunction: $BiFunction<$ItemStack, $LootContext, $ItemStack>;
         static CODEC: $MapCodec<$TagEntry>;
         functions: $List<$LootItemFunction>;
@@ -119,8 +147,11 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         static DEFAULT_WEIGHT: number;
         quality: number;
     }
+    /**
+     * A loot pool entry that always generates a given item.
+     */
     export class $LootItem extends $LootPoolSingletonContainer implements $LootItemAccessor {
-        static lootTableItem(arg0: $ItemLike_): $LootPoolSingletonContainer$Builder<never>;
+        static lootTableItem(item: $ItemLike_): $LootPoolSingletonContainer$Builder<never>;
         getItem(): $Holder<$Item>;
         compositeFunction: $BiFunction<$ItemStack, $LootContext, $ItemStack>;
         static CODEC: $MapCodec<$LootItem>;
@@ -132,19 +163,30 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         quality: number;
         get item(): $Holder<$Item>;
     }
+    /**
+     * A loot pool entry generates zero or more stacks of items based on the LootContext.
+     * Each loot pool entry has a weight that determines how likely it is to be generated within a given loot pool.
+     */
     export class $LootPoolEntry {
     }
     export interface $LootPoolEntry {
-        createItemStack(arg0: $Consumer_<$ItemStack>, arg1: $LootContext): void;
-        getWeight(arg0: number): number;
+        /**
+         * Generate the loot stacks of this entry.
+         * Contrary to the method name this method does not always generate one stack, it can also generate zero or multiple stacks.
+         */
+        createItemStack(stackConsumer: $Consumer_<$ItemStack>, lootContext: $LootContext): void;
+        /**
+         * Gets the effective weight based on the loot entry's weight and quality multiplied by looter's luck.
+         */
+        getWeight(luck: number): number;
     }
     export class $LootPoolSingletonContainer$Builder<T extends $LootPoolSingletonContainer$Builder<T>> extends $LootPoolEntryContainer$Builder<T> implements $FunctionUserBuilder<T> {
         getFunctions(): $List<$LootItemFunction>;
-        setWeight(arg0: number): T;
-        setQuality(arg0: number): T;
-        apply<E>(arg0: E[], arg1: $Function_<E, $LootItemFunction$Builder>): T;
-        apply<E>(arg0: $Iterable_<E>, arg1: $Function_<E, $LootItemFunction$Builder>): T;
-        apply(arg0: $LootItemFunction$Builder_): T;
+        setQuality(quality: number): T;
+        setWeight(quality: number): T;
+        apply<E>(builderSources: E[], toBuilderFunction: $Function_<E, $LootItemFunction$Builder>): T;
+        apply<E>(builderSources: $Iterable_<E>, toBuilderFunction: $Function_<E, $LootItemFunction$Builder>): T;
+        apply(functionBuilder: $LootItemFunction$Builder_): T;
         unwrap(): T;
         weight: number;
         quality: number;
@@ -155,6 +197,9 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
         weight: number;
         quality: number;
     }
+    /**
+     * Registration for `LootPoolEntryType`.
+     */
     export class $LootPoolEntries {
         static ITEM: $LootPoolEntryType;
         static GROUP: $LootPoolEntryType;
@@ -172,9 +217,12 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
     export interface $LootPoolEntryType extends RegistryMarked<RegistryTypes.LootPoolEntryTypeTag, RegistryTypes.LootPoolEntryType> {}
     export class $SequentialEntry$Builder extends $LootPoolEntryContainer$Builder<$SequentialEntry$Builder> {
         getThis(): $SequentialEntry$Builder;
-        constructor(...arg0: $LootPoolEntryContainer$Builder<never>[]);
+        constructor(...children: $LootPoolEntryContainer$Builder<never>[]);
         get this(): $SequentialEntry$Builder;
     }
+    /**
+     * The SerializerType for `LootPoolEntryContainer`.
+     */
     export class $LootPoolEntryType extends $Record {
         codec(): $MapCodec<$LootPoolEntryContainer>;
         constructor(arg0: $MapCodec_<$LootPoolEntryContainer>);
@@ -186,19 +234,28 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
     export class $CompositeEntryBase$CompositeEntryConstructor<T extends $CompositeEntryBase> {
     }
     export interface $CompositeEntryBase$CompositeEntryConstructor<T extends $CompositeEntryBase> {
-        create(arg0: $List_<$LootPoolEntryContainer>, arg1: $List_<$LootItemCondition>): T;
+        create(children: $List_<$LootPoolEntryContainer>, conditions: $List_<$LootItemCondition>): T;
     }
     /**
      * Values that may be interpreted as {@link $CompositeEntryBase$CompositeEntryConstructor}.
      */
     export type $CompositeEntryBase$CompositeEntryConstructor_<T> = ((arg0: $List<$LootPoolEntryContainer>, arg1: $List<$LootItemCondition>) => T);
+    /**
+     * A composite loot pool entry container that expands all its children in order until one of them fails.
+     * This container succeeds if all children succeed.
+     */
     export class $SequentialEntry extends $CompositeEntryBase {
-        static sequential(...arg0: $LootPoolEntryContainer$Builder<never>[]): $SequentialEntry$Builder;
+        static sequential(...children: $LootPoolEntryContainer$Builder<never>[]): $SequentialEntry$Builder;
         static CODEC: $MapCodec<$SequentialEntry>;
         children: $List<$LootPoolEntryContainer>;
         conditions: $List<$LootItemCondition>;
-        constructor(arg0: $List_<$LootPoolEntryContainer>, arg1: $List_<$LootItemCondition>);
+        constructor(children: $List_<$LootPoolEntryContainer>, conditions: $List_<$LootItemCondition>);
     }
+    /**
+     * Base interface for loot pool entry containers.
+     * A loot pool entry container holds one or more loot pools and will expand into those.
+     * Additionally, the container can either succeed or fail, based on its conditions.
+     */
     export class $ComposableEntryContainer {
     }
     export interface $ComposableEntryContainer {
@@ -208,24 +265,28 @@ declare module "@package/net/minecraft/world/level/storage/loot/entries" {
      */
     export type $ComposableEntryContainer_ = (() => void);
     export class $LootPoolEntryContainer$Builder<T extends $LootPoolEntryContainer$Builder<T>> implements $ConditionUserBuilder<T> {
-        append(arg0: $LootPoolEntryContainer$Builder<never>): $EntryGroup$Builder;
+        append(childBuilder: $LootPoolEntryContainer$Builder<never>): $EntryGroup$Builder;
         unwrap(): T;
         build(): $LootPoolEntryContainer;
         getConditions(): $List<$LootItemCondition>;
-        then(arg0: $LootPoolEntryContainer$Builder<never>): $SequentialEntry$Builder;
-        otherwise(arg0: $LootPoolEntryContainer$Builder<never>): $AlternativesEntry$Builder;
+        then(childBuilder: $LootPoolEntryContainer$Builder<never>): $SequentialEntry$Builder;
         getThis(): T;
-        when<E>(arg0: $Iterable_<E>, arg1: $Function_<E, $LootItemCondition$Builder>): T;
-        when(arg0: $LootItemCondition$Builder_): T;
+        otherwise(childBuilder: $LootPoolEntryContainer$Builder<never>): $AlternativesEntry$Builder;
+        when<E>(builderSources: $Iterable_<E>, toBuilderFunction: $Function_<E, $LootItemCondition$Builder>): T;
+        when(conditionBuilder: $LootItemCondition$Builder_): T;
         constructor();
         get conditions(): $List<$LootItemCondition>;
         get this(): T;
     }
+    /**
+     * A composite loot pool entry container that expands all its children in order.
+     * This container always succeeds.
+     */
     export class $EntryGroup extends $CompositeEntryBase {
-        static list(...arg0: $LootPoolEntryContainer$Builder<never>[]): $EntryGroup$Builder;
+        static list(...children: $LootPoolEntryContainer$Builder<never>[]): $EntryGroup$Builder;
         static CODEC: $MapCodec<$EntryGroup>;
         children: $List<$LootPoolEntryContainer>;
         conditions: $List<$LootItemCondition>;
-        constructor(arg0: $List_<$LootPoolEntryContainer>, arg1: $List_<$LootItemCondition>);
+        constructor(children: $List_<$LootPoolEntryContainer>, conditions: $List_<$LootItemCondition>);
     }
 }

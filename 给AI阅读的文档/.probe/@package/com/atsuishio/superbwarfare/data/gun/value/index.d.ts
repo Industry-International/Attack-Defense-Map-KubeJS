@@ -87,8 +87,8 @@ declare module "@package/com/atsuishio/superbwarfare/data/gun/value" {
     export class $Starter {
         start(): boolean;
         finish(): void;
-        markStart(): void;
         shouldStart(): boolean;
+        markStart(): void;
         constructor(arg0: $CompoundTag_, arg1: string);
     }
     export class $StringValue implements $TagValue<string> {

@@ -12,56 +12,56 @@ import { $ResourceLocationPattern } from "@package/net/minecraft/util";
 
 declare module "@package/net/minecraft/client/renderer/texture/atlas/sources" {
     export class $SingleFile implements $SpriteSource {
-        run(arg0: $ResourceManager, arg1: $SpriteSource$Output): void;
+        run(resourceManager: $ResourceManager, output: $SpriteSource$Output): void;
         type(): $SpriteSourceType;
         static CODEC: $MapCodec<$SingleFile>;
-        constructor(arg0: $ResourceLocation_, arg1: ($ResourceLocation_) | undefined);
+        constructor(resourceId: $ResourceLocation_, spriteId: ($ResourceLocation_) | undefined);
     }
     export class $PalettedPermutations implements $SpriteSource {
-        run(arg0: $ResourceManager, arg1: $SpriteSource$Output): void;
+        run(resourceManager: $ResourceManager, output: $SpriteSource$Output): void;
         type(): $SpriteSourceType;
-        static loadPaletteEntryFromImage(arg0: $ResourceManager, arg1: $ResourceLocation_): number[];
+        static loadPaletteEntryFromImage(resourceMananger: $ResourceManager, palette: $ResourceLocation_): number[];
         static CODEC: $MapCodec<$PalettedPermutations>;
         static LOGGER: $Logger;
-        constructor(arg0: $List_<$ResourceLocation_>, arg1: $ResourceLocation_, arg2: $Map_<string, $ResourceLocation_>);
+        constructor(textures: $List_<$ResourceLocation_>, paletteKey: $ResourceLocation_, permutations: $Map_<string, $ResourceLocation_>);
     }
     export class $LazyLoadedImage {
         get(): $NativeImage;
         release(): void;
-        constructor(arg0: $ResourceLocation_, arg1: $Resource, arg2: number);
+        constructor(id: $ResourceLocation_, resource: $Resource, referenceCount: number);
     }
     export class $Unstitcher$RegionInstance implements $SpriteSource$SpriteSupplier {
         apply(arg0: $SpriteResourceLoader_): $SpriteContents;
         discard(): void;
         compose<V>(arg0: $Function_<V, $SpriteResourceLoader>): $Function<V, $SpriteContents>;
         andThen<V>(arg0: $Function_<$SpriteContents, V>): $Function<$SpriteResourceLoader, V>;
-        constructor(arg0: $LazyLoadedImage, arg1: $Unstitcher$Region_, arg2: number, arg3: number);
+        constructor(image: $LazyLoadedImage, region: $Unstitcher$Region_, xDivisor: number, arg3: number);
     }
     export class $Unstitcher implements $SpriteSource {
-        run(arg0: $ResourceManager, arg1: $SpriteSource$Output): void;
+        run(resourceManager: $ResourceManager, output: $SpriteSource$Output): void;
         type(): $SpriteSourceType;
         static CODEC: $MapCodec<$Unstitcher>;
         static LOGGER: $Logger;
-        constructor(arg0: $ResourceLocation_, arg1: $List_<$Unstitcher$Region_>, arg2: number, arg3: number);
+        constructor(resource: $ResourceLocation_, regions: $List_<$Unstitcher$Region_>, xDivisor: number, arg3: number);
     }
     export class $DirectoryLister implements $SpriteSource {
-        run(arg0: $ResourceManager, arg1: $SpriteSource$Output): void;
+        run(resourceManager: $ResourceManager, output: $SpriteSource$Output): void;
         type(): $SpriteSourceType;
         static CODEC: $MapCodec<$DirectoryLister>;
-        constructor(arg0: string, arg1: string);
+        constructor(sourcePath: string, idPrefix: string);
     }
     export class $SourceFilter implements $SpriteSource {
-        run(arg0: $ResourceManager, arg1: $SpriteSource$Output): void;
+        run(resourceManager: $ResourceManager, output: $SpriteSource$Output): void;
         type(): $SpriteSourceType;
         static CODEC: $MapCodec<$SourceFilter>;
-        constructor(arg0: $ResourceLocationPattern);
+        constructor(filter: $ResourceLocationPattern);
     }
     export class $PalettedPermutations$PalettedSpriteSupplier extends $Record implements $SpriteSource$SpriteSupplier {
         apply(arg0: $SpriteResourceLoader_): $SpriteContents;
         palette(): $Supplier<$IntUnaryOperator>;
         discard(): void;
-        permutationLocation(): $ResourceLocation;
         baseImage(): $LazyLoadedImage;
+        permutationLocation(): $ResourceLocation;
         compose<V>(arg0: $Function_<V, $SpriteResourceLoader>): $Function<V, $SpriteContents>;
         andThen<V>(arg0: $Function_<$SpriteContents, V>): $Function<$SpriteResourceLoader, V>;
         constructor(arg0: $LazyLoadedImage, arg1: $Supplier_<$IntUnaryOperator>, arg2: $ResourceLocation_);

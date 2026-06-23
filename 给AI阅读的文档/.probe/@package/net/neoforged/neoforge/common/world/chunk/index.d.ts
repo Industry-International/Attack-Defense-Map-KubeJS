@@ -14,10 +14,10 @@ declare module "@package/net/neoforged/neoforge/common/world/chunk" {
     export class $ForcedChunkManager$TicketOwner<T extends $Comparable<T>> implements $Comparable<$ForcedChunkManager$TicketOwner<T>> {
     }
     export class $TicketController extends $Record {
-        id(): $ResourceLocation;
         callback(): $LoadingValidationCallback;
-        forceChunk(arg0: $ServerLevel, arg1: $UUID_, arg2: number, arg3: number, arg4: boolean, arg5: boolean): boolean;
+        id(): $ResourceLocation;
         forceChunk(arg0: $ServerLevel, arg1: $BlockPos_, arg2: number, arg3: number, arg4: boolean, arg5: boolean): boolean;
+        forceChunk(arg0: $ServerLevel, arg1: $UUID_, arg2: number, arg3: number, arg4: boolean, arg5: boolean): boolean;
         forceChunk(arg0: $ServerLevel, arg1: $Entity, arg2: number, arg3: number, arg4: boolean, arg5: boolean): boolean;
         constructor(id: $ResourceLocation_, callback: $LoadingValidationCallback_);
         constructor(arg0: $ResourceLocation_);
@@ -25,34 +25,77 @@ declare module "@package/net/neoforged/neoforge/common/world/chunk" {
     export class $LoadingValidationCallback {
     }
     export interface $LoadingValidationCallback {
-        validateTickets(arg0: $ServerLevel, arg1: $TicketHelper): void;
+        /**
+         * Called back when tickets are about to be loaded and reinstated to allow mods to invalidate and remove specific tickets that may no longer be valid.
+         */
+        validateTickets(level: $ServerLevel, ticketHelper: $TicketHelper): void;
     }
     /**
      * Values that may be interpreted as {@link $LoadingValidationCallback}.
      */
     export type $LoadingValidationCallback_ = ((arg0: $ServerLevel, arg1: $TicketHelper) => void);
+    /**
+     * Fired in order to register chunk ticket controllers.
+     * This event is fired on the mod-specific event bus.
+     */
     export class $RegisterTicketControllersEvent extends $Event implements $IModBusEvent {
-        register(arg0: $TicketController_): void;
+        /**
+         * Registers a controller.
+         */
+        register(controller: $TicketController_): void;
     }
     export class $TicketSet extends $Record {
-        nonTicking(): $LongSet;
         ticking(): $LongSet;
+        nonTicking(): $LongSet;
         constructor(nonTicking: $LongSet, ticking: $LongSet);
     }
+    /**
+     * Class to help mods remove no longer valid tickets.
+     */
     export class $TicketHelper {
+        /**
+         * Removes all tickets that a given block was responsible for; both ticking and not ticking.
+         */
+        removeAllTickets(owner: $BlockPos_): void;
+        /**
+         * Removes all tickets that a given entity (UUID) was responsible for; both ticking and not ticking.
+         */
+        removeAllTickets(owner: $UUID_): void;
+        /**
+         * @return all "BLOCK" tickets this controller had registered and which block positions are forcing which chunks
+         */
         getBlockTickets(): $Map<$BlockPos, $TicketSet>;
+        /**
+         * @return all "BLOCK" tickets this controller had registered and which block positions are forcing which chunks
+         */
         getEntityTickets(): $Map<$UUID, $TicketSet>;
-        removeAllTickets(arg0: $UUID_): void;
-        removeAllTickets(arg0: $BlockPos_): void;
-        removeTicket(arg0: $UUID_, arg1: number, arg2: boolean): void;
-        removeTicket(arg0: $BlockPos_, arg1: number, arg2: boolean): void;
+        /**
+         * Removes the ticket for the given chunk that a given entity (UUID) was responsible for.
+         */
+        removeTicket(owner: $UUID_, chunk: number, ticking: boolean): void;
+        /**
+         * Removes the ticket for the given chunk that a given block was responsible for.
+         */
+        removeTicket(owner: $BlockPos_, chunk: number, ticking: boolean): void;
         get blockTickets(): $Map<$BlockPos, $TicketSet>;
         get entityTickets(): $Map<$UUID, $TicketSet>;
     }
+    /**
+     * Helper class to manage tracking and handling loaded tickets.
+     */
     export class $ForcedChunkManager$TicketTracker<T extends $Comparable<T>> {
         remove(arg0: $ForcedChunkManager$TicketOwner<T>, arg1: number, arg2: boolean): boolean;
+        /**
+         * Checks if this tracker is empty.
+         */
         isEmpty(): boolean;
+        /**
+         * Gets an unmodifiable view of the tracked chunks.
+         */
         getChunks(): $Map<$ForcedChunkManager$TicketOwner<T>, $LongSet>;
+        /**
+         * Gets an unmodifiable view of the tracked chunks.
+         */
         getTickingChunks(): $Map<$ForcedChunkManager$TicketOwner<T>, $LongSet>;
         constructor();
         get empty(): boolean;
@@ -61,11 +104,18 @@ declare module "@package/net/neoforged/neoforge/common/world/chunk" {
     }
     export class $ForcedChunkManager {
         static init(): void;
-        static reinstatePersistentChunks(arg0: $ServerLevel, arg1: $ForcedChunksSavedData): void;
-        static writeBlockPos(arg0: $BlockPos_): $CompoundTag;
-        static hasForcedChunks(arg0: $ServerLevel): boolean;
-        static writeModForcedChunks(arg0: $CompoundTag_, arg1: $ForcedChunkManager$TicketTracker<$BlockPos_>, arg2: $ForcedChunkManager$TicketTracker<$UUID_>): void;
+        /**
+         * Checks if a level has any forced chunks. Mainly used for seeing if a level should continue ticking with no players in it.
+         */
+        static hasForcedChunks(level: $ServerLevel): boolean;
+        static writeBlockPos(blockpos: $BlockPos_): $CompoundTag;
+        /**
+         * Reinstates NeoForge's forced chunks when vanilla initially loads a level and reinstates their forced chunks. This method also will validate all the forced
+         * chunks with the registered `LoadingValidationCallback`s.
+         */
+        static reinstatePersistentChunks(level: $ServerLevel, saveData: $ForcedChunksSavedData): void;
         static readModForcedChunks(arg0: $CompoundTag_, arg1: $ForcedChunkManager$TicketTracker<$BlockPos_>, arg2: $ForcedChunkManager$TicketTracker<$UUID_>): void;
+        static writeModForcedChunks(arg0: $CompoundTag_, arg1: $ForcedChunkManager$TicketTracker<$BlockPos_>, arg2: $ForcedChunkManager$TicketTracker<$UUID_>): void;
         constructor();
     }
 }

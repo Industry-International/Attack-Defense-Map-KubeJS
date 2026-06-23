@@ -4,28 +4,47 @@ import { $Record } from "@package/java/lang";
 import { $List_, $List } from "@package/java/util";
 
 declare module "@package/net/neoforged/neoforge/common/brewing" {
+    /**
+     * Interface for more flexible brewing recipes.
+     * 
+     * Register using `RegisterBrewingRecipesEvent` and `Builder#addRecipe(IBrewingRecipe)`.
+     */
     export class $IBrewingRecipe {
     }
     export interface $IBrewingRecipe {
-        getOutput(arg0: $ItemStack_, arg1: $ItemStack_): $ItemStack;
-        isIngredient(arg0: $ItemStack_): boolean;
-        isInput(arg0: $ItemStack_): boolean;
+        /**
+         * Returns the output when the passed input is brewed with the passed
+         * ingredient. Empty if invalid input or ingredient.
+         */
+        getOutput(input: $ItemStack_, ingredient: $ItemStack_): $ItemStack;
+        /**
+         * Returns true is the passed ItemStack is an input for this recipe. "Input"
+         * being the item that goes in one of the three bottom slots of the brewing
+         * stand (e.g: water bottle)
+         */
+        isInput(input: $ItemStack_): boolean;
+        /**
+         * Returns true is the passed ItemStack is an input for this recipe. "Input"
+         * being the item that goes in one of the three bottom slots of the brewing
+         * stand (e.g: water bottle)
+         */
+        isIngredient(input: $ItemStack_): boolean;
     }
     export class $BrewingRecipeRegistry extends $Record {
         getOutput(arg0: $ItemStack_, arg1: $ItemStack_): $ItemStack;
-        hasOutput(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
         isValidIngredient(arg0: $ItemStack_): boolean;
+        hasOutput(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
         isValidInput(arg0: $ItemStack_): boolean;
         recipes(): $List<$IBrewingRecipe>;
         constructor(recipes: $List_<$IBrewingRecipe>);
     }
     export class $BrewingRecipe implements $IBrewingRecipe {
-        getOutput(arg0: $ItemStack_, arg1: $ItemStack_): $ItemStack;
+        getInput(): $Ingredient;
+        getOutput(input: $ItemStack_, ingredient: $ItemStack_): $ItemStack;
         getOutput(): $ItemStack;
         getIngredient(): $Ingredient;
-        getInput(): $Ingredient;
-        isIngredient(arg0: $ItemStack_): boolean;
-        isInput(arg0: $ItemStack_): boolean;
-        constructor(arg0: $Ingredient_, arg1: $Ingredient_, arg2: $ItemStack_);
+        isInput(stack: $ItemStack_): boolean;
+        isIngredient(stack: $ItemStack_): boolean;
+        constructor(input: $Ingredient_, ingredient: $Ingredient_, output: $ItemStack_);
     }
 }

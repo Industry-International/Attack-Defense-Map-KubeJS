@@ -19,7 +19,7 @@ import { $AbstractContainerScreenAccessor as $AbstractContainerScreenAccessor$2 
 import { $HorseInventoryMenu, $ChestMenu, $FurnaceMenu, $MenuType, $LecternMenu, $ClickType_, $BeaconMenu, $CartographyTableMenu, $StonecutterMenu, $AnvilMenu, $Slot, $ShulkerBoxMenu, $ItemCombinerMenu, $EnchantmentMenu, $CrafterMenu, $CraftingMenu, $SmokerMenu, $ContainerSynchronizer, $BlastFurnaceMenu, $MerchantMenu, $SmithingMenu, $HopperMenu, $GrindstoneMenu, $DispenserMenu, $AbstractContainerMenu, $BrewingStandMenu, $AbstractFurnaceMenu, $InventoryMenu, $LoomMenu, $ContainerListener } from "@package/net/minecraft/world/inventory";
 import { $Record } from "@package/java/lang";
 import { $FabricCreativeInventoryScreen } from "@package/net/fabricmc/fabric/api/client/itemgroup/v1";
-import { $MerchantOffers, $MerchantOffer } from "@package/net/minecraft/world/item/trading";
+import { $MerchantOffer, $MerchantOffers } from "@package/net/minecraft/world/item/trading";
 import { $BaseCommandBlock } from "@package/net/minecraft/world/level";
 import { $CreativeModeTab, $CreativeModeTab_, $ItemStack_, $ItemStack } from "@package/net/minecraft/world/item";
 import { $NarratableEntry } from "@package/net/minecraft/client/gui/narration";
@@ -87,7 +87,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $SmithingMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $SmithingMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $EnchantmentScreen extends $AbstractContainerScreen<$EnchantmentMenu> {
         tickBook(): void;
@@ -138,13 +138,16 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         topPos: number;
         open: number;
         font: $Font;
-        constructor(arg0: $EnchantmentMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $EnchantmentMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $BookViewScreen$BookAccess extends $Record {
         pages(): $List<$Component>;
+        /**
+         * Returns the size of the book
+         */
         getPageCount(): number;
-        getPage(arg0: number): $FormattedText;
-        static fromItem(arg0: $ItemStack_): $BookViewScreen$BookAccess;
+        static fromItem(stack: $ItemStack_): $BookViewScreen$BookAccess;
+        getPage(page: number): $FormattedText;
         constructor(arg0: $List_<$Component_>);
         get pageCount(): number;
     }
@@ -161,9 +164,9 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         height: number;
     }
     export class $CyclingSlotBackground {
-        tick(arg0: $List_<$ResourceLocation_>): void;
-        render(arg0: $AbstractContainerMenu, arg1: $GuiGraphics, arg2: number, arg3: number, arg4: number): void;
-        constructor(arg0: number);
+        tick(icons: $List_<$ResourceLocation_>): void;
+        render(containerMenu: $AbstractContainerMenu, guiGraphics: $GuiGraphics, partialTick: number, x: number, y: number): void;
+        constructor(slotIndex: number);
     }
     export class $ShulkerBoxScreen extends $AbstractContainerScreen<$ShulkerBoxMenu> {
         leftPos: number;
@@ -206,7 +209,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $ShulkerBoxMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $ShulkerBoxMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $CreativeModeInventoryScreen$SlotWrapper extends $Slot {
         container: $Container;
@@ -239,7 +242,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $CommandBlockEntity);
+        constructor(autoCommandBlock: $CommandBlockEntity);
     }
     export class $BrewingStandScreen extends $AbstractContainerScreen<$BrewingStandMenu> {
         leftPos: number;
@@ -282,34 +285,61 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $BrewingStandMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $BrewingStandMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $CreativeModeInventoryScreen extends $EffectRenderingInventoryScreen<$CreativeModeInventoryScreen$ItemPickerMenu> implements $FabricCreativeInventoryScreen, $CreativeModeInventoryScreenExt {
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getCurrentPage(): number;
-        getItemGroupsOnPage(arg0: number): $List<any>;
-        getSelectedItemGroup(): $CreativeModeTab;
-        axiom$renderTabButton(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, creativeModeTab: $CreativeModeTab_, forceDeselected: boolean): void;
-        handler$jhb009$axiom$init(ci: $CallbackInfo): void;
-        setSelectedItemGroup(arg0: $CreativeModeTab_): boolean;
-        axiom$checkTabClicked(creativeModeTab: $CreativeModeTab_, mouseX: number, mouseY: number): boolean;
-        switchToPreviousPage(): boolean;
+        static handleHotbarLoadOrSave(client: $Minecraft, index: number, load: boolean, save: boolean): void;
         axiom$checkTabHovering(guiGraphics: $GuiGraphics, creativeModeTab: $CreativeModeTab_, mouseX: number, mouseY: number): boolean;
-        getPageCount(): number;
-        getPage(arg0: $CreativeModeTab_): number;
-        static handleHotbarLoadOrSave(arg0: $Minecraft, arg1: number, arg2: boolean, arg3: boolean): void;
-        handler$jhb001$axiom$keyPressed(key: number, j: number, k: number, cir: $CallbackInfoReturnable<any>): void;
-        handler$jhb002$axiom$render(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number, ci: $CallbackInfo): void;
-        setCurrentPage(arg0: $CreativeTabsScreenPage): void;
-        insideScrollbar(arg0: number, arg1: number): boolean;
-        switchToNextPage(): boolean;
-        hasAdditionalPages(): boolean;
-        checkTabClicked(arg0: $CreativeModeTab_, arg1: number, arg2: number): boolean;
-        checkTabHovering(arg0: $GuiGraphics, arg1: $CreativeModeTab_, arg2: number, arg3: number): boolean;
-        renderTabButton(arg0: $GuiGraphics, arg1: $CreativeModeTab_): void;
-        switchToPage(arg0: number): boolean;
-        axiom$selectTab(creativeModeTab: $CreativeModeTab_): void;
-        wrapOperation$jhb000$axiom$renderTabButton_selectedTab(original: $Operation_<any>): $CreativeModeTab;
+        /**
+         * Returns (if you are not on the inventoryTab) and (the flag isn't set) and (you have more than 1 page of items).
+         */
+        switchToPreviousPage(): boolean;
+        handler$jdm007$axiom$init(ci: $CallbackInfo): void;
+        getItemGroupsOnPage(arg0: number): $List<any>;
+        setSelectedItemGroup(arg0: $CreativeModeTab_): boolean;
+        axiom$renderTabButton(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, creativeModeTab: $CreativeModeTab_, forceDeselected: boolean): void;
+        axiom$checkTabClicked(creativeModeTab: $CreativeModeTab_, relativeMouseX: number, mouseY: number): boolean;
+        getSelectedItemGroup(): $CreativeModeTab;
+        /**
+         * Returns (if you are not on the inventoryTab) and (the flag isn't set) and (you have more than 1 page of items).
+         */
         isInventoryOpen(): boolean;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        getPageCount(): number;
+        getPage(tab: $CreativeModeTab_): number;
+        checkTabClicked(creativeModeTab: $CreativeModeTab_, relativeMouseX: number, arg2: number): boolean;
+        insideScrollbar(mouseX: number, arg1: number): boolean;
+        checkTabHovering(guiGraphics: $GuiGraphics, creativeModeTab: $CreativeModeTab_, mouseX: number, mouseY: number): boolean;
+        handler$jdm001$axiom$keyPressed(key: number, j: number, k: number, cir: $CallbackInfoReturnable<any>): void;
+        handler$jdm001$axiom$render(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number, ci: $CallbackInfo): void;
+        wrapOperation$jdm000$axiom$renderTabButton_selectedTab(original: $Operation_<any>): $CreativeModeTab;
+        /**
+         * Returns (if you are not on the inventoryTab) and (the flag isn't set) and (you have more than 1 page of items).
+         */
+        hasAdditionalPages(): boolean;
+        setCurrentPage(arg0: $CreativeTabsScreenPage): void;
+        /**
+         * Returns (if you are not on the inventoryTab) and (the flag isn't set) and (you have more than 1 page of items).
+         */
+        switchToNextPage(): boolean;
+        renderTabButton(guiGraphics: $GuiGraphics, creativeModeTab: $CreativeModeTab_): void;
+        /**
+         * Sets the current creative tab, restructuring the GUI as needed.
+         */
+        axiom$selectTab(tab: $CreativeModeTab_): void;
+        switchToPage(keyCode: number): boolean;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -353,16 +383,22 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $LocalPlayer, arg1: $FeatureFlagSet, arg2: boolean);
-        get pageCount(): number;
+        constructor(player: $LocalPlayer, enabledFeatures: $FeatureFlagSet, displayOperatorCreativeTab: boolean);
         get inventoryOpen(): boolean;
+        get pageCount(): number;
     }
     export class $AbstractCommandBlockEditScreen extends $Screen {
         getCommandBlock(): $BaseCommandBlock;
         onDone(): void;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getPreviousY(): number;
-        updatePreviousOutput(arg0: boolean): void;
-        populateAndSendPacket(arg0: $BaseCommandBlock): void;
+        populateAndSendPacket(commandBlock: $BaseCommandBlock): void;
+        updatePreviousOutput(trackOutput: boolean): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         previousEdit: $EditBox;
@@ -391,6 +427,9 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         get previousY(): number;
     }
     export class $EffectRenderingInventoryScreen<T extends $AbstractContainerMenu> extends $AbstractContainerScreen<T> {
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
         canSeeEffects(): boolean;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -432,7 +471,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: T, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: T, playerInventory: $Inventory, title: $Component_);
     }
     export class $DispenserScreen extends $AbstractContainerScreen<$DispenserMenu> {
         leftPos: number;
@@ -475,7 +514,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $DispenserMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $DispenserMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $CreativeModeInventoryScreen$CustomCreativeSlot extends $Slot {
         container: $Container;
@@ -484,15 +523,36 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         y: number;
     }
     export class $BookViewScreen extends $Screen {
-        setPage(arg0: number): boolean;
-        getClickedComponentStyleAt(arg0: number, arg1: number): $Style;
-        closeScreen(): void;
-        pageForward(): void;
-        setBookAccess(arg0: $BookViewScreen$BookAccess_): void;
-        createMenuControls(): void;
+        getClickedComponentStyleAt(mouseX: number, arg1: number): $Style;
+        /**
+         * Moves the display back one page
+         */
         pageBack(): void;
-        forcePage(arg0: number): boolean;
+        /**
+         * Moves the display back one page
+         */
+        pageForward(): void;
+        setBookAccess(bookAccess: $BookViewScreen$BookAccess_): void;
+        /**
+         * Moves the display back one page
+         */
+        createMenuControls(): void;
+        /**
+         * Moves the display back one page
+         */
+        closeScreen(): void;
+        /**
+         * I'm not sure why this exists. The function it calls is public and does all the work.
+         */
+        setPage(pageNum: number): boolean;
+        /**
+         * Moves the display back one page
+         */
         createPageControlButtons(): void;
+        /**
+         * I'm not sure why this exists. The function it calls is public and does all the work.
+         */
+        forcePage(pageNum: number): boolean;
         static BOOK_LOCATION: $ResourceLocation;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -520,14 +580,14 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         font: $Font;
         constructor();
-        constructor(arg0: $BookViewScreen$BookAccess_);
-        set page(value: number);
+        constructor(bookAccess: $BookViewScreen$BookAccess_);
         set bookAccess(value: $BookViewScreen$BookAccess_);
+        set page(value: number);
     }
     export class $BeaconScreen extends $AbstractContainerScreen<$BeaconMenu> {
+        static access$100(arg0: $BeaconScreen): $Minecraft;
         static access$000(arg0: $BeaconScreen): $Minecraft;
         static access$200(arg0: $BeaconScreen): $Minecraft;
-        static access$100(arg0: $BeaconScreen): $Minecraft;
         updateButtons(): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -577,7 +637,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $BeaconMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $BeaconMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $ContainerScreen extends $AbstractContainerScreen<$ChestMenu> implements $MenuAccess<$ChestMenu> {
         leftPos: number;
@@ -620,7 +680,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $ChestMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $ChestMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $BeaconScreen$BeaconCancelButton extends $BeaconScreen$BeaconSpriteScreenButton {
         static SPRITES: $WidgetSprites;
@@ -635,11 +695,11 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         height: number;
     }
     export class $InventoryScreen extends $EffectRenderingInventoryScreen<$InventoryMenu> implements $RecipeUpdateListener {
-        static renderEntityInInventory(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $Vector3f, arg5: $Quaternionf, arg6: $Quaternionf, arg7: $LivingEntity): void;
+        static renderEntityInInventory(guiGraphics: $GuiGraphics, x: number, y: number, scale: number, translate: $Vector3f, pose: $Quaternionf, cameraOrientation: $Quaternionf | null, entity: $LivingEntity): void;
         getRecipeBookComponent(): $RecipeBookComponent;
-        static renderEntityInInventoryFollowsAngle(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: $LivingEntity): void;
-        static renderEntityInInventoryFollowsMouse(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: $LivingEntity): void;
         recipesUpdated(): void;
+        static renderEntityInInventoryFollowsMouse(guiGraphics: $GuiGraphics, x1: number, y1: number, x2: number, y2: number, scale: number, yOffset: number, mouseX: number, mouseY: number, entity: $LivingEntity): void;
+        static renderEntityInInventoryFollowsAngle(guiGraphics: $GuiGraphics, x1: number, y1: number, x2: number, y2: number, scale: number, yOffset: number, mouseX: number, mouseY: number, entity: $LivingEntity): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -682,7 +742,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $Player);
+        constructor(player: $Player);
         get recipeBookComponent(): $RecipeBookComponent;
     }
     export class $HopperScreen extends $AbstractContainerScreen<$HopperMenu> {
@@ -726,7 +786,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $HopperMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $HopperMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $BookEditScreen$DisplayCache {
     }
@@ -772,11 +832,17 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $FurnaceMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $FurnaceMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $MerchantScreen$TradeOfferButton extends $Button {
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getIndex(): number;
-        renderToolTip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
+        renderToolTip(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number): void;
         static SPRITES: $WidgetSprites;
         visible: boolean;
         createNarration: $Button$CreateNarration;
@@ -796,7 +862,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static BIG_WIDTH: number;
         static DEFAULT_SPACING: number;
         height: number;
-        constructor(arg0: $MerchantScreen, arg1: number, arg2: number, arg3: number, arg4: $Button$OnPress_);
+        constructor(x: $MerchantScreen, y: number, index: number, onPress: number, arg4: $Button$OnPress_);
     }
     export class $CartographyTableScreen extends $AbstractContainerScreen<$CartographyTableMenu> {
         leftPos: number;
@@ -839,7 +905,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $CartographyTableMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $CartographyTableMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $LoomScreen extends $AbstractContainerScreen<$LoomMenu> {
         leftPos: number;
@@ -882,7 +948,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $LoomMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $LoomMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $AbstractFurnaceScreen<T extends $AbstractFurnaceMenu> extends $AbstractContainerScreen<T> implements $RecipeUpdateListener {
         getRecipeBookComponent(): $RecipeBookComponent;
@@ -928,7 +994,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: T, arg1: $AbstractFurnaceRecipeBookComponent, arg2: $Inventory, arg3: $Component_, arg4: $ResourceLocation_, arg5: $ResourceLocation_, arg6: $ResourceLocation_);
+        constructor(menu: T, recipeBookComponent: $AbstractFurnaceRecipeBookComponent, playerInventory: $Inventory, title: $Component_, texture: $ResourceLocation_, listProgressSprite: $ResourceLocation_, burnProgressSprite: $ResourceLocation_);
     }
     export class $SmokerScreen extends $AbstractFurnaceScreen<$SmokerMenu> {
         leftPos: number;
@@ -972,72 +1038,161 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $SmokerMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $SmokerMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $EnchantmentNames {
         static getInstance(): $EnchantmentNames;
-        getRandomName(arg0: $Font, arg1: number): $FormattedText;
-        initSeed(arg0: number): void;
+        getRandomName(fontRenderer: $Font, maxWidth: number): $FormattedText;
+        /**
+         * Resets the underlying random number generator using a given seed.
+         */
+        initSeed(seed: number): void;
         static get instance(): $EnchantmentNames;
     }
     export class $AbstractContainerScreen<T extends $AbstractContainerMenu> extends $Screen implements $MenuAccess<T>, $AbstractContainerScreenAccessor$2, $AbstractContainerScreenAccessor$1, $ContainerEventHandler, $AbstractContainerScreenAccessor$3, $AbstractContainerScreenAccessor, $CreativeModeInventoryScreenAccessor {
-        handler$fgo000$inventoryprofilesnext$afterSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
-        handler$cia000$acceleratedrendering$startRenderHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        wrapMethod$cil000$acceleratedrendering$startBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $Operation_<any>): void;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getYSize(): number;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getXSize(): number;
-        getSlotColor(arg0: number): number;
-        handleSlotStateChanged(arg0: number, arg1: number, arg2: boolean): void;
-        static renderSlotHighlight(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: number): void;
+        handleSlotStateChanged(slotId: number, containerId: number, newState: boolean): void;
+        static renderSlotHighlight(guiGraphics: $GuiGraphics, x: number, y: number, width: number, height: number): void;
         renderSlotHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number): void;
-        static renderSlotHighlight(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        checkHotbarKeyPressed(arg0: number, arg1: number): boolean;
-        recalculateQuickCraftRemaining(): void;
-        getTooltipFromContainerItem(arg0: $ItemStack_): $List<$Component>;
-        handler$fgo000$inventoryprofilesnext$slotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
-        handler$cia000$acceleratedrendering$stopRenderHighlight(arg0: $GuiGraphics, arg1: $Slot, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        renderTooltip(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        renderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
-        getGuiLeft(): number;
-        getGuiTop(): number;
-        handler$cia000$acceleratedrendering$startItemBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        handler$cia000$acceleratedrendering$flushItemBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        isHovering(arg0: $Slot, arg1: number, arg2: number): boolean;
-        isHovering(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): boolean;
-        renderBg(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
-        handler$cia000$acceleratedrendering$flushBackgroundBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        handler$cia000$acceleratedrendering$startBackgroundBatching(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo): void;
-        renderLabels(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        slotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_): void;
+        static renderSlotHighlight(guiGraphics: $GuiGraphics, x: number, y: number, blitOffset: number): void;
+        checkHotbarKeyPressed(keyCode: number, scanCode: number): boolean;
+        hasClickedOutside(mouseX: number, arg1: number, mouseY: number, arg3: number, guiLeft: number): boolean;
+        /**
+         * Called when the mouse is clicked over a slot or outside the gui.
+         */
+        slotClicked(slot: $Slot, slotId: number, mouseButton: number, type: $ClickType_): void;
         containerTick(): void;
-        hasClickedOutside(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): boolean;
-        renderFloatingItem(arg0: $GuiGraphics, arg1: $ItemStack_, arg2: number, arg3: number, arg4: string): void;
+        renderLabels(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number): void;
+        renderFloatingItem(guiGraphics: $GuiGraphics, stack: $ItemStack_, x: number, y: number, text: string): void;
+        renderSlotContents(arg0: $GuiGraphics, arg1: $ItemStack_, arg2: $Slot, arg3: string | null): void;
         clearDraggingState(): void;
         getSlotUnderMouse(): $Slot;
-        renderSlotContents(arg0: $GuiGraphics, arg1: $ItemStack_, arg2: $Slot, arg3: string): void;
-        findSlot(arg0: number, arg1: number): $Slot;
+        handler$fcd000$inventoryprofilesnext$slotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
+        renderTooltip(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number): void;
+        getTooltipFromContainerItem(stack: $ItemStack_): $List<$Component>;
+        recalculateQuickCraftRemaining(): void;
+        isHovering(slot: $Slot, mouseX: number, arg2: number): boolean;
+        isHovering(x: number, y: number, width: number, height: number, mouseX: number, arg5: number): boolean;
+        renderBg(guiGraphics: $GuiGraphics, partialTick: number, mouseX: number, mouseY: number): void;
+        renderSlot(guiGraphics: $GuiGraphics, slot: $Slot): void;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        getGuiLeft(): number;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        getGuiTop(): number;
+        getSlotColor(arg0: number): number;
+        findSlot(mouseX: number, arg1: number): $Slot;
         getMenu(): T;
-        fairylights$getLeftPos(): number;
+        handler$fcd000$inventoryprofilesnext$afterSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_, arg4: $CallbackInfo): void;
         apricityui$getClickedSlot(): $Slot;
-        apricityui$getDraggingItem(): $ItemStack;
-        mousetweaks$invokeFindSlot(arg0: number, arg1: number): $Slot;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
         apricityui$isQuickCrafting(): boolean;
+        mousetweaks$invokeFindSlot(mouseX: number, arg1: number): $Slot;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        fairylights$getLeftPos(): number;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         fairylights$getTopPos(): number;
-        apricityui$getQuickCraftingType(): number;
-        mousetweaks$getIsQuickCrafting(): boolean;
-        mousetweaks$invokeSlotClicked(arg0: $Slot, arg1: number, arg2: number, arg3: $ClickType_): void;
-        apricityui$isSplittingStack(): boolean;
-        apricityui$getQuickCraftSlots(): $Set<$Slot>;
-        mousetweaks$setIsQuickCrafting(arg0: boolean): void;
-        mousetweaks$getQuickCraftingButton(): number;
-        mousetweaks$setSkipNextRelease(arg0: boolean): void;
-        getLeftPos(): number;
-        getTopPos(): number;
-        callIsHovering(arg0: $Slot, arg1: number, arg2: number): boolean;
+        apricityui$getDraggingItem(): $ItemStack;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getImageWidth(): number;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getImageHeight(): number;
         getHoveredSlot(): $Slot;
-        callRenderSlot(arg0: $GuiGraphics, arg1: $Slot): void;
+        callIsHovering(slot: $Slot, mouseX: number, arg2: number): boolean;
+        callRenderSlot(guiGraphics: $GuiGraphics, slot: $Slot): void;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        apricityui$getQuickCraftingType(): number;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        mousetweaks$getIsQuickCrafting(): boolean;
+        /**
+         * Sets the focus state of the GUI element.
+         */
+        mousetweaks$setIsQuickCrafting(focused: boolean): void;
+        /**
+         * Sets the focus state of the GUI element.
+         */
+        mousetweaks$setSkipNextRelease(focused: boolean): void;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        mousetweaks$getQuickCraftingButton(): number;
+        apricityui$getQuickCraftSlots(): $Set<$Slot>;
+        /**
+         * Called when the mouse is clicked over a slot or outside the gui.
+         */
+        mousetweaks$invokeSlotClicked(slot: $Slot, slotId: number, mouseButton: number, type: $ClickType_): void;
+        /**
+         * @return `true` if the GUI element is dragging, `false` otherwise
+         */
+        apricityui$isSplittingStack(): boolean;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        getTopPos(): number;
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
+        getLeftPos(): number;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -1078,17 +1233,20 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: T, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: T, playerInventory: $Inventory, title: $Component_);
         get YSize(): number;
         get XSize(): number;
+        get slotUnderMouse(): $Slot;
         get guiLeft(): number;
         get guiTop(): number;
-        get slotUnderMouse(): $Slot;
     }
     export class $CreativeInventoryListener implements $ContainerListener {
-        slotChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
-        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
-        constructor(arg0: $Minecraft);
+        /**
+         * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual contents of that slot.
+         */
+        slotChanged(containerToSend: $AbstractContainerMenu, slotInd: number, stack: $ItemStack_): void;
+        dataChanged(containerMenu: $AbstractContainerMenu, dataSlotIndex: number, value: number): void;
+        constructor(minecraft: $Minecraft);
     }
     export class $BlastFurnaceScreen extends $AbstractFurnaceScreen<$BlastFurnaceMenu> {
         leftPos: number;
@@ -1132,7 +1290,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $BlastFurnaceMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $BlastFurnaceMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $CrafterScreen extends $AbstractContainerScreen<$CrafterMenu> {
         leftPos: number;
@@ -1175,7 +1333,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $CrafterMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $CrafterMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $HorseInventoryScreen extends $AbstractContainerScreen<$HorseInventoryMenu> {
         leftPos: number;
@@ -1218,7 +1376,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $HorseInventoryMenu, arg1: $Inventory, arg2: $AbstractHorse, arg3: number);
+        constructor(menu: $HorseInventoryMenu, inventory: $Inventory, horse: $AbstractHorse, inventoryColumns: number);
     }
     export class $BeaconScreen$BeaconConfirmButton extends $BeaconScreen$BeaconSpriteScreenButton {
         static SPRITES: $WidgetSprites;
@@ -1268,14 +1426,20 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $BaseCommandBlock);
+        constructor(commandBlock: $BaseCommandBlock);
     }
     export class $ItemCombinerScreen<T extends $ItemCombinerMenu> extends $AbstractContainerScreen<T> implements $ContainerListener {
-        slotChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: $ItemStack_): void;
-        renderErrorIcon(arg0: $GuiGraphics, arg1: number, arg2: number): void;
-        dataChanged(arg0: $AbstractContainerMenu, arg1: number, arg2: number): void;
+        /**
+         * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual contents of that slot.
+         */
+        slotChanged(containerToSend: $AbstractContainerMenu, slotInd: number, stack: $ItemStack_): void;
+        renderErrorIcon(guiGraphics: $GuiGraphics, x: number, y: number): void;
+        dataChanged(containerMenu: $AbstractContainerMenu, dataSlotIndex: number, value: number): void;
         subInit(): void;
-        renderFg(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number): void;
+        /**
+         * Renders the graphical user interface (GUI) element.
+         */
+        renderFg(guiGraphics: $GuiGraphics, mouseX: number, mouseY: number, partialTick: number): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -1316,11 +1480,17 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: T, arg1: $Inventory, arg2: $Component_, arg3: $ResourceLocation_);
+        constructor(menu: T, playerInventory: $Inventory, title: $Component_, menuResource: $ResourceLocation_);
     }
     export class $LecternScreen extends $BookViewScreen implements $MenuAccess<$LecternMenu> {
-        pageChanged(): void;
+        /**
+         * Moves the display back one page
+         */
         bookChanged(): void;
+        /**
+         * Moves the display back one page
+         */
+        pageChanged(): void;
         getMenu(): $LecternMenu;
         static BOOK_LOCATION: $ResourceLocation;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -1348,7 +1518,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         width: number;
         screenExecutor: $Executor;
         font: $Font;
-        constructor(arg0: $LecternMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $LecternMenu, playerInventory: $Inventory, title: $Component_);
         get menu(): $LecternMenu;
     }
     export class $SignEditScreen extends $AbstractSignEditScreen {
@@ -1417,15 +1587,15 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $CraftingMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $CraftingMenu, playerInventory: $Inventory, title: $Component_);
         get recipeBookComponent(): $RecipeBookComponent;
     }
     export class $MerchantScreen extends $AbstractContainerScreen<$MerchantMenu> {
+        static access$100(arg0: $MerchantScreen): $Font;
         static access$000(arg0: $MerchantScreen): $Font;
         static access$200(arg0: $MerchantScreen): $Font;
-        static access$100(arg0: $MerchantScreen): $Font;
         postButtonClick(): void;
-        handler$fhb000$inventoryprofilesnext$render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo, arg5: $MerchantOffers, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: $Iterator<any>, arg12: $MerchantOffer, arg13: $ItemStack_, arg14: $ItemStack_, arg15: $ItemStack_, arg16: $ItemStack_): void;
+        handler$fcg000$inventoryprofilesnext$render(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $CallbackInfo, arg5: $MerchantOffers, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: $Iterator<any>, arg12: $MerchantOffer, arg13: $ItemStack_, arg14: $ItemStack_, arg15: $ItemStack_, arg16: $ItemStack_): void;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -1469,7 +1639,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $MerchantMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $MerchantMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $BeaconScreen$BeaconSpriteScreenButton extends $BeaconScreen$BeaconScreenButton {
         static SPRITES: $WidgetSprites;
@@ -1486,7 +1656,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
     export class $BookEditScreen$Pos2i {
     }
     export class $JigsawBlockEditScreen extends $Screen {
-        static isValidResourceLocation(arg0: string): boolean;
+        static isValidResourceLocation(location: string): boolean;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -1505,7 +1675,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $JigsawBlockEntity);
+        constructor(jigsawEntity: $JigsawBlockEntity);
     }
     export class $BeaconScreen$BeaconScreenButton extends $AbstractButton implements $BeaconScreen$BeaconButton {
         static SPRITES: $WidgetSprites;
@@ -1520,11 +1690,14 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         height: number;
     }
     export class $CreativeModeInventoryScreen$ItemPickerMenu extends $AbstractContainerMenu {
+        /**
+         * Updates the gui slot's ItemStacks based on scroll position.
+         */
+        scrollTo(pos: number): void;
+        getRowIndexForScroll(scrollOffs: number): number;
+        subtractInputFromScroll(scrollOffs: number, input: number): number;
+        getScrollForRowIndex(rowIndex: number): number;
         canScroll(): boolean;
-        getScrollForRowIndex(arg0: number): number;
-        getRowIndexForScroll(arg0: number): number;
-        subtractInputFromScroll(arg0: number, arg1: number): number;
-        scrollTo(arg0: number): void;
         calculateRowCount(): number;
         quickcraftSlots: $Set<$Slot>;
         remoteCarried: $ItemStack;
@@ -1548,7 +1721,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         containerId: number;
         items: $NonNullList<$ItemStack>;
         static QUICKCRAFT_TYPE_CHARITABLE: number;
-        constructor(arg0: $Player);
+        constructor(player: $Player);
     }
     export class $BookEditScreen$LineInfo {
     }
@@ -1561,7 +1734,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
      */
     export type $BeaconScreen$BeaconButton_ = (() => void);
     export class $BookEditScreen extends $Screen {
-        static findLineFromPos(arg0: number[], arg1: number): number;
+        static findLineFromPos(lineStarts: number[], find: number): number;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -1579,7 +1752,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Player, arg1: $ItemStack_, arg2: $InteractionHand_);
+        constructor(owner: $Player, book: $ItemStack_, hand: $InteractionHand_);
     }
     export class $HangingSignEditScreen extends $AbstractSignEditScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -1604,6 +1777,12 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         constructor(arg0: $SignBlockEntity, arg1: boolean, arg2: boolean);
     }
     export class $StonecutterScreen extends $AbstractContainerScreen<$StonecutterMenu> {
+        /**
+         * Returns the tab order group of the GUI component.
+         * Tab order group determines the order in which the components are traversed when using keyboard navigation.
+         * 
+         * @return The tab order group of the GUI component.
+         */
         getOffscreenRows(): number;
         leftPos: number;
         static MENU_BACKGROUND: $ResourceLocation;
@@ -1645,7 +1824,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $StonecutterMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $StonecutterMenu, playerInventory: $Inventory, title: $Component_);
         get offscreenRows(): number;
     }
     export class $MenuAccess<T extends $AbstractContainerMenu> {
@@ -1700,12 +1879,12 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $AnvilMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $AnvilMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $AbstractSignEditScreen extends $Screen {
+        renderSignBackground(guiGraphics: $GuiGraphics, state: $BlockState_): void;
+        offsetSign(guiGraphics: $GuiGraphics, state: $BlockState_): void;
         getSignTextScale(): $Vector3f;
-        offsetSign(arg0: $GuiGraphics, arg1: $BlockState_): void;
-        renderSignBackground(arg0: $GuiGraphics, arg1: $BlockState_): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -1724,8 +1903,8 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $SignBlockEntity, arg1: boolean, arg2: boolean);
-        constructor(arg0: $SignBlockEntity, arg1: boolean, arg2: boolean, arg3: $Component_);
+        constructor(sign: $SignBlockEntity, isFrontText: boolean, isFiltered: boolean);
+        constructor(sign: $SignBlockEntity, isFrontText: boolean, isFiltered: boolean, title: $Component_);
         get signTextScale(): $Vector3f;
     }
     export class $GrindstoneScreen extends $AbstractContainerScreen<$GrindstoneMenu> {
@@ -1769,7 +1948,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         screenExecutor: $Executor;
         topPos: number;
         font: $Font;
-        constructor(arg0: $GrindstoneMenu, arg1: $Inventory, arg2: $Component_);
+        constructor(menu: $GrindstoneMenu, playerInventory: $Inventory, title: $Component_);
     }
     export class $PageButton extends $Button {
         static SPRITES: $WidgetSprites;
@@ -1789,7 +1968,7 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static BIG_WIDTH: number;
         static DEFAULT_SPACING: number;
         height: number;
-        constructor(arg0: number, arg1: number, arg2: boolean, arg3: $Button$OnPress_, arg4: boolean);
+        constructor(x: number, y: number, isForward: boolean, onPress: $Button$OnPress_, playTurnSound: boolean);
     }
     export class $StructureBlockEditScreen extends $Screen {
         static access$000(arg0: $StructureBlockEditScreen, arg1: string, arg2: string, arg3: number): boolean;
@@ -1810,6 +1989,6 @@ declare module "@package/net/minecraft/client/gui/screens/inventory" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $StructureBlockEntity);
+        constructor(structure: $StructureBlockEntity);
     }
 }

@@ -7,6 +7,7 @@ declare module "@package/xaero/pac/common/parties/party/member" {
         static values(): $PartyMemberRank[];
         static valueOf(arg0: string): $PartyMemberRank;
         getColor(): $ChatFormatting;
+        static CLAIMER: $PartyMemberRank;
         static ADMIN: $PartyMemberRank;
         static MEMBER: $PartyMemberRank;
         static MODERATOR: $PartyMemberRank;
@@ -15,5 +16,5 @@ declare module "@package/xaero/pac/common/parties/party/member" {
     /**
      * Values that may be interpreted as {@link $PartyMemberRank}.
      */
-    export type $PartyMemberRank_ = "member" | "moderator" | "admin";
+    export type $PartyMemberRank_ = "member" | "claimer" | "moderator" | "admin";
 }

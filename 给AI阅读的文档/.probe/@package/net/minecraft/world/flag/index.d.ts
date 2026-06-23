@@ -10,7 +10,7 @@ declare module "@package/net/minecraft/world/flag" {
         static FILTERED_REGISTRIES: $Set<$ResourceKey<$Registry<$FeatureElement>>>;
     }
     export interface $FeatureElement {
-        isEnabled(arg0: $FeatureFlagSet): boolean;
+        isEnabled(enabledFeatures: $FeatureFlagSet): boolean;
         requiredFeatures(): $FeatureFlagSet;
     }
     /**
@@ -19,15 +19,15 @@ declare module "@package/net/minecraft/world/flag" {
     export type $FeatureElement_ = (() => $FeatureFlagSet);
     export class $FeatureFlagSet {
         isEmpty(): boolean;
-        join(arg0: $FeatureFlagSet): $FeatureFlagSet;
+        join(other: $FeatureFlagSet): $FeatureFlagSet;
         static of(): $FeatureFlagSet;
-        static of(arg0: $FeatureFlag, ...arg1: $FeatureFlag[]): $FeatureFlagSet;
-        static of(arg0: $FeatureFlag): $FeatureFlagSet;
-        contains(arg0: $FeatureFlag): boolean;
-        static create(arg0: $FeatureFlagUniverse, arg1: $Collection_<$FeatureFlag>): $FeatureFlagSet;
-        subtract(arg0: $FeatureFlagSet): $FeatureFlagSet;
-        intersects(arg0: $FeatureFlagSet): boolean;
-        isSubsetOf(arg0: $FeatureFlagSet): boolean;
+        static of(flag: $FeatureFlag, ...others: $FeatureFlag[]): $FeatureFlagSet;
+        static of(flag: $FeatureFlag): $FeatureFlagSet;
+        contains(flag: $FeatureFlag): boolean;
+        static create(universe: $FeatureFlagUniverse, flags: $Collection_<$FeatureFlag>): $FeatureFlagSet;
+        subtract(other: $FeatureFlagSet): $FeatureFlagSet;
+        intersects(set: $FeatureFlagSet): boolean;
+        isSubsetOf(set: $FeatureFlagSet): boolean;
         static MAX_CONTAINER_SIZE: number;
         get empty(): boolean;
     }
@@ -36,15 +36,15 @@ declare module "@package/net/minecraft/world/flag" {
         /**
          * @deprecated
          */
-        create(arg0: $ResourceLocation_): $FeatureFlag;
+        create(location: $ResourceLocation_): $FeatureFlag;
         build(): $FeatureFlagRegistry;
-        createVanilla(arg0: string): $FeatureFlag;
-        constructor(arg0: string);
+        createVanilla(id: string): $FeatureFlag;
+        constructor(id: string);
     }
     export class $FeatureFlags {
-        static printMissingFlags(arg0: $FeatureFlagRegistry, arg1: $FeatureFlagSet, arg2: $FeatureFlagSet): string;
-        static printMissingFlags(arg0: $FeatureFlagSet, arg1: $FeatureFlagSet): string;
-        static isExperimental(arg0: $FeatureFlagSet): boolean;
+        static isExperimental(set: $FeatureFlagSet): boolean;
+        static printMissingFlags(enabledFeatures: $FeatureFlagSet, requestedFeatures: $FeatureFlagSet): string;
+        static printMissingFlags(registry: $FeatureFlagRegistry, enabledFeatures: $FeatureFlagSet, requestedFeatures: $FeatureFlagSet): string;
         static BUNDLE: $FeatureFlag;
         static CODEC: $Codec<$FeatureFlagSet>;
         static VANILLA: $FeatureFlag;
@@ -55,7 +55,7 @@ declare module "@package/net/minecraft/world/flag" {
         constructor();
     }
     export class $FeatureFlagUniverse {
-        constructor(arg0: string);
+        constructor(id: string);
     }
     export class $FeatureFlag {
         isModded(): boolean;
@@ -66,20 +66,20 @@ declare module "@package/net/minecraft/world/flag" {
         /**
          * @deprecated
          */
-        constructor(arg0: $FeatureFlagUniverse, arg1: number);
+        constructor(universe: $FeatureFlagUniverse, maskBit: number);
         constructor(arg0: $FeatureFlagUniverse, arg1: number, arg2: number, arg3: boolean);
     }
     export class $FeatureFlagRegistry {
-        subset(...arg0: $FeatureFlag[]): $FeatureFlagSet;
+        subset(...flags: $FeatureFlag[]): $FeatureFlagSet;
         getAllFlags(): $Map<$ResourceLocation, $FeatureFlag>;
         getFlag(arg0: $ResourceLocation_): $FeatureFlag;
         allFlags(): $FeatureFlagSet;
         codec(): $Codec<$FeatureFlagSet>;
+        toNames(set: $FeatureFlagSet): $Set<$ResourceLocation>;
+        fromNames(names: $Iterable_<$ResourceLocation>, onError: $Consumer_<$ResourceLocation>): $FeatureFlagSet;
+        fromNames(names: $Iterable_<$ResourceLocation>): $FeatureFlagSet;
+        isSubset(set: $FeatureFlagSet): boolean;
         hasAnyModdedFlags(): boolean;
-        toNames(arg0: $FeatureFlagSet): $Set<$ResourceLocation>;
-        isSubset(arg0: $FeatureFlagSet): boolean;
-        fromNames(arg0: $Iterable_<$ResourceLocation>, arg1: $Consumer_<$ResourceLocation>): $FeatureFlagSet;
-        fromNames(arg0: $Iterable_<$ResourceLocation>): $FeatureFlagSet;
-        constructor(arg0: $FeatureFlagUniverse, arg1: $FeatureFlagSet, arg2: $Map_<$ResourceLocation_, $FeatureFlag>);
+        constructor(universe: $FeatureFlagUniverse, allFlags: $FeatureFlagSet, names: $Map_<$ResourceLocation_, $FeatureFlag>);
     }
 }

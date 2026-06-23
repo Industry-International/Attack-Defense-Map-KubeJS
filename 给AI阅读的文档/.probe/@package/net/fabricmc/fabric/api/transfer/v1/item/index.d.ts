@@ -20,9 +20,9 @@ declare module "@package/net/fabricmc/fabric/api/transfer/v1/item" {
         matches(arg0: $ItemStack_): boolean;
         getItem(): $Item;
         withComponentChanges(arg0: $DataComponentPatch_): $ItemVariant;
-        getRegistryEntry(): $Holder<$Item>;
-        toStack(arg0: number): $ItemStack;
         toStack(): $ItemStack;
+        toStack(arg0: number): $ItemStack;
+        getRegistryEntry(): $Holder<$Item>;
         get item(): $Item;
         get registryEntry(): $Holder<$Item>;
     }

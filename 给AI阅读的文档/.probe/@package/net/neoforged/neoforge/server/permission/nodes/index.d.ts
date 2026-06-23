@@ -8,39 +8,82 @@ import { $UUID_, $UUID } from "@package/java/util";
 declare module "@package/net/neoforged/neoforge/server/permission/nodes" {
     export class $PermissionDynamicContextKey<T> extends $Record {
         name(): string;
-        typeToken(): $Class<T>;
         serializer(): $Function<T, string>;
         createContext(arg0: T): $PermissionDynamicContext<T>;
+        typeToken(): $Class<T>;
         constructor(typeToken: $Class<T>, name: string, serializer: $Function_<T, string>);
     }
+    /**
+     * Represents the basic unit at the heart of the permission system.
+     * 
+     * A permission indicates the ability for an actor to perform an action,
+     * in its most general sense. In the permission system, all permissions are encoded as instances of this class,
+     * optionally integrated by a `PermissionDynamicContext`.
+     * 
+     * A node is uniquely identified by its `nodeName`,
+     * which is a dot-separated string providing meaning to the node itself.
+     * The suggested structure of the name is `modid.name`, where `modid` is the ID of the owner of the node.
+     * This API **does not require** any implicit hierarchy,
+     * so `modid.name` is not considered a parent of `modid.name.sub`. Such decisions are left to the `IPermissionHandler`.
+     * 
+     * Each node also has an associated `PermissionType`, detailing its exact type,
+     * along with a `PermissionResolver` that is used to obtain the default value of the permission.
+     * More information can be found on their documentation.
+     * 
+     * A node can also be bound to additional `PermissionDynamicContextKey`s,
+     * which are used when querying the availability of the permission.
+     * There are no restrictions on their amount. It is also not mandatory to provide a value for all dynamics in a permission query.
+     * See the above link for more information.
+     * 
+     * Each node should be registered via the `Nodes` and stored statically in a field.
+     * That instance should then be reused every-time a permission check needs to be performed via `PermissionAPI#getPermission(ServerPlayer, PermissionNode, PermissionDynamicContext[])`.
+     */
     export class $PermissionNode<T> {
-        getType(): $PermissionType<T>;
-        getNodeName(): string;
         getDescription(): $Component;
-        getDynamics(): $PermissionDynamicContextKey<never>[];
+        getNodeName(): string;
+        getType(): $PermissionType<T>;
+        /**
+         * Allows you to set a human-readable name and description for your Permission.
+         * 
+         * Note: Even though not used by Default, PermissionHandlers may display this information in game,
+         * or provide it to the user by other means.
+         * 
+         * You may use translatable components, but you'll
+         * need 2 language files. One inside the data directory for the server and one inside assets for the client.
+         */
+        setInformation(readableName: $Component_, description: $Component_): $PermissionNode<any>;
         getDefaultResolver(): $PermissionNode$PermissionResolver<T>;
         getReadableName(): $Component;
-        setInformation(arg0: $Component_, arg1: $Component_): $PermissionNode<any>;
-        constructor(arg0: string, arg1: string, arg2: $PermissionType<T>, arg3: $PermissionNode$PermissionResolver_<T>, ...arg4: $PermissionDynamicContextKey_<any>[]);
+        getDynamics(): $PermissionDynamicContextKey<never>[];
         constructor(arg0: $ResourceLocation_, arg1: $PermissionType<T>, arg2: $PermissionNode$PermissionResolver_<T>, ...arg3: $PermissionDynamicContextKey_<any>[]);
-        get type(): $PermissionType<T>;
-        get nodeName(): string;
+        constructor(arg0: string, arg1: string, arg2: $PermissionType<T>, arg3: $PermissionNode$PermissionResolver_<T>, ...arg4: $PermissionDynamicContextKey_<any>[]);
         get description(): $Component;
-        get dynamics(): $PermissionDynamicContextKey<never>[];
+        get nodeName(): string;
+        get type(): $PermissionType<T>;
         get defaultResolver(): $PermissionNode$PermissionResolver<T>;
         get readableName(): $Component;
+        get dynamics(): $PermissionDynamicContextKey<never>[];
     }
+    /**
+     * Default PermissionTypes, if you need additional ones, please PR it.
+     */
     export class $PermissionTypes {
-        static getTypeByName(arg0: string): $PermissionType<never>;
+        static getTypeByName(name: string): $PermissionType<never>;
         static STRING: $PermissionType<string>;
         static COMPONENT: $PermissionType<$Component>;
         static BOOLEAN: $PermissionType<boolean>;
         static INTEGER: $PermissionType<number>;
     }
+    /**
+     * Type of a Permission, use the existing Types in `PermissionTypes`
+     */
     export class $PermissionType<T> {
         typeName(): string;
         typeToken(): $Class<T>;
     }
+    /**
+     * Utility Interface used for resolving the default value of PermissionNodes
+     */
     export class $PermissionNode$PermissionResolver<T> {
     }
     export interface $PermissionNode$PermissionResolver<T> {
@@ -50,12 +93,19 @@ declare module "@package/net/neoforged/neoforge/server/permission/nodes" {
      * Values that may be interpreted as {@link $PermissionNode$PermissionResolver}.
      */
     export type $PermissionNode$PermissionResolver_<T> = ((arg0: $ServerPlayer, arg1: $UUID, arg2: $PermissionDynamicContext<never>[]) => T);
+    /**
+     * Pair of a PermissionDynamicContextKey and a value of the corresponding type.
+     * Use `PermissionDynamicContextKey#createContext(Object)` )} for constructing.
+     * 
+     * Note: While the DynamicContext behaves similar to BlockStates, it does not oblige to the same limitations.
+     * There is no string representation that you have to follow, nor is there a limit on how many unique value a DynamicContext may have
+     */
     export class $PermissionDynamicContext<T> {
         getValue(): T;
-        getDynamic(): $PermissionDynamicContextKey<T>;
         getSerializedValue(): string;
+        getDynamic(): $PermissionDynamicContextKey<T>;
         get value(): T;
-        get dynamic(): $PermissionDynamicContextKey<T>;
         get serializedValue(): string;
+        get dynamic(): $PermissionDynamicContextKey<T>;
     }
 }

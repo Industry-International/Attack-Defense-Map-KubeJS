@@ -6,8 +6,8 @@ import { $InclusiveRange, $InclusiveRange_ } from "@package/net/minecraft/util";
 
 declare module "@package/net/minecraft/server/packs/metadata/pack" {
     export class $PackMetadataSection extends $Record {
-        description(): $Component;
         supportedFormats(): ($InclusiveRange<number>) | undefined;
+        description(): $Component;
         packFormat(): number;
         static CODEC: $Codec<$PackMetadataSection>;
         static TYPE: $MetadataSectionType<$PackMetadataSection>;

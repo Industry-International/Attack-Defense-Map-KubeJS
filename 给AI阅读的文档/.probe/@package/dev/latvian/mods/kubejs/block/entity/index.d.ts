@@ -1,5 +1,5 @@
 import { $MinecraftServer } from "@package/net/minecraft/server";
-import { $Tag_, $Tag, $CompoundTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
+import { $Tag_, $Tag, $CompoundTag, $ListTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
 import { $Entity } from "@package/net/minecraft/world/entity";
 import { $FluidStack } from "@package/net/neoforged/neoforge/fluids";
 import { $EnergyStorage } from "@package/net/neoforged/neoforge/energy";
@@ -32,11 +32,11 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
     }
     export interface $BlockEntityAttachmentHandler {
         attach(id: string, type: $ResourceLocation_, directions: $Set_<$Direction_>, args: $Object): void;
-        energyStorage(id: string, directions: $Set_<$Direction_>, capacity: number, maxReceive: number, maxExtract: number, autoOutput: number): void;
-        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number, inputFilter: $FluidIngredient_): void;
-        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number): void;
-        inventory(id: string, directions: $Set_<$Direction_>, width: number, height: number): void;
         inventory(id: string, directions: $Set_<$Direction_>, width: number, height: number, inputFilter: $ItemPredicate_): void;
+        inventory(id: string, directions: $Set_<$Direction_>, width: number, height: number): void;
+        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number): void;
+        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number, inputFilter: $FluidIngredient_): void;
+        energyStorage(id: string, directions: $Set_<$Direction_>, capacity: number, maxReceive: number, maxExtract: number, autoOutput: number): void;
         attachCustomCapability(id: string, directions: $Set_<$Direction_>, capability: $BlockCapability<never, never>, dataFactory: $Supplier_<never>): void;
     }
     /**
@@ -46,8 +46,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
     export class $KubeBlockEntity extends $BlockEntity {
         save(): void;
         sync(): void;
-        getBlock(): $LevelBlock;
         sendEvent(eventId: number, data: number): void;
+        getBlock(): $LevelBlock;
         getPlacer(): $Entity;
         attachments: $Map<string, $Object>;
         data: $CompoundTag;
@@ -71,8 +71,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
     export class $BlockEntityAttachment {
     }
     export interface $BlockEntityAttachment {
-        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         serialize(registries: $HolderLookup$Provider): $Tag;
+        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         onRemove(level: $ServerLevel, blockEntity: $KubeBlockEntity, newState: $BlockState_): void;
         getCapability<CAP, SRC>(capability: $BlockCapability<CAP, SRC>): CAP;
         serverTick(): void;
@@ -90,9 +90,9 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
         create(info: $BlockEntityAttachmentInfo_, entity: $KubeBlockEntity): $BlockEntityAttachment;
         capacity(): number;
         getCapabilities(): $List<$BlockCapability<never, never>>;
+        isTicking(): boolean;
         maxExtract(): (number) | undefined;
         maxReceive(): (number) | undefined;
-        isTicking(): boolean;
         autoOutput(): (number) | undefined;
         constructor(capacity: number, maxReceive: (number) | undefined, maxExtract: (number) | undefined, autoOutput: (number) | undefined);
         get capabilities(): $List<$BlockCapability<never, never>>;
@@ -112,8 +112,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
         getCapability<CAP, SRC>(capability: $BlockCapability<CAP, SRC>): CAP;
         serverTick(): void;
         getWrappedObject(): $Object;
-        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         serialize(registries: $HolderLookup$Provider): $Tag;
+        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         onRemove(level: $ServerLevel, blockEntity: $KubeBlockEntity, newState: $BlockState_): void;
         autoOutputDirections: $Direction[];
         energyStorage: $EnergyStorageAttachment$Wrapped;
@@ -139,12 +139,12 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
         constructor(info: $BlockEntityAttachmentInfo_, attachment: $BlockEntityAttachment);
     }
     export class $InventoryAttachment implements $BlockEntityAttachment {
+        serialize(registries: $HolderLookup$Provider): $ListTag;
         deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         onRemove(level: $ServerLevel, blockEntity: $KubeBlockEntity, newState: $BlockState_): void;
         getCapability<CAP, SRC>(capability: $BlockCapability<CAP, SRC>): CAP;
         getWrappedObject(): $Object;
         serverTick(): void;
-        serialize(registries: $HolderLookup$Provider): $Tag;
         inputFilter: $ItemPredicate;
         blockEntity: $KubeBlockEntity;
         width: number;
@@ -156,29 +156,29 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
     }
     export class $EnergyStorageAttachment$Wrapped extends $EnergyStorage {
         setEnergyStored(energy: number): void;
-        removeEnergy(remove: number, simulate: boolean): number;
-        useEnergy(use: number, simulate: boolean): boolean;
         addEnergy(add: number, simulate: boolean): number;
+        useEnergy(use: number, simulate: boolean): boolean;
+        removeEnergy(remove: number, simulate: boolean): number;
         constructor(attachment: $EnergyStorageAttachment, capacity: number, maxReceive: number, maxExtract: number);
         set energyStored(value: number);
     }
     export class $BlockEntityInfo implements $BlockEntityAttachmentHandler {
         eventHandler(eventId: number, callback: $BlockEntityEventCallback_): void;
-        initialData(data: $CompoundTag_): void;
-        serverTicking(): void;
-        clientTicking(): void;
         ticking(): void;
-        enableSync(): void;
+        initialData(data: $CompoundTag_): void;
+        clientTicking(): void;
+        serverTicking(): void;
         tickFrequency(frequency: number): void;
-        rightClickOpensInventory(id: string): void;
         rightClickFillsTank(id: string): void;
+        rightClickOpensInventory(id: string): void;
         tickOffset(offset: number): void;
+        enableSync(): void;
         attach(id: string, type: $ResourceLocation_, directions: $Set_<$Direction_>, args: $Object): void;
-        energyStorage(id: string, directions: $Set_<$Direction_>, capacity: number, maxReceive: number, maxExtract: number, autoOutput: number): void;
-        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number, inputFilter: $FluidIngredient_): void;
-        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number): void;
-        inventory(id: string, directions: $Set_<$Direction_>, width: number, height: number): void;
         inventory(id: string, directions: $Set_<$Direction_>, width: number, height: number, inputFilter: $ItemPredicate_): void;
+        inventory(id: string, directions: $Set_<$Direction_>, width: number, height: number): void;
+        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number): void;
+        fluidTank(id: string, directions: $Set_<$Direction_>, capacity: number, inputFilter: $FluidIngredient_): void;
+        energyStorage(id: string, directions: $Set_<$Direction_>, capacity: number, maxReceive: number, maxExtract: number, autoOutput: number): void;
         attachCustomCapability(id: string, directions: $Set_<$Direction_>, capability: $BlockCapability<never, never>, dataFactory: $Supplier_<never>): void;
         constructor(blockBuilder: $BlockBuilder);
     }
@@ -187,8 +187,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
         capability(): $BlockCapability<never, never>;
         getCapability<CAP, SRC>(c: $BlockCapability<CAP, SRC>): CAP;
         getWrappedObject(): $Object;
-        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         serialize(registries: $HolderLookup$Provider): $Tag;
+        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         onRemove(level: $ServerLevel, blockEntity: $KubeBlockEntity, newState: $BlockState_): void;
         serverTick(): void;
         static TYPE: $BlockEntityAttachmentType;
@@ -226,8 +226,8 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
         constructor(attachment: $FluidTankAttachment, capacity: number, inputFilter: $Predicate_<$FluidStack>);
     }
     export class $FluidTankAttachment implements $BlockEntityAttachment {
-        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         serialize(registries: $HolderLookup$Provider): $Tag;
+        deserialize(registries: $HolderLookup$Provider, tag: $Tag_): void;
         getCapability<CAP, SRC>(capability: $BlockCapability<CAP, SRC>): CAP;
         getWrappedObject(): $Object;
         onRemove(level: $ServerLevel, blockEntity: $KubeBlockEntity, newState: $BlockState_): void;
@@ -240,17 +240,11 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
     }
     export class $BlockEntityTickKubeEvent implements $KubeLevelEvent {
         getLevel(): $Level;
+        getCycle(): number;
         getBlock(): $LevelBlock;
         getTick(): number;
-        getCycle(): number;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -258,11 +252,11 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -270,22 +264,28 @@ declare module "@package/dev/latvian/mods/kubejs/block/entity" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(entity: $KubeBlockEntity);
         get level(): $Level;
+        get cycle(): number;
         get block(): $LevelBlock;
         get tick(): number;
-        get cycle(): number;
         get registries(): $RegistryAccess;
         get server(): $MinecraftServer;
     }

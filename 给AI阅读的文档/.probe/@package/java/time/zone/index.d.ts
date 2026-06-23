@@ -5,6 +5,8 @@ import { $Comparable, $Enum } from "@package/java/lang";
 
 declare module "@package/java/time/zone" {
     export class $ZoneOffsetTransition implements $Comparable<$ZoneOffsetTransition>, $Serializable {
+        getInstant(): $Instant;
+        isOverlap(): boolean;
         compareTo(arg0: $ZoneOffsetTransition): number;
         static of(arg0: $LocalDateTime, arg1: $ZoneOffset, arg2: $ZoneOffset): $ZoneOffsetTransition;
         getDuration(): $Duration;
@@ -15,16 +17,14 @@ declare module "@package/java/time/zone" {
         getOffsetAfter(): $ZoneOffset;
         getDateTimeBefore(): $LocalDateTime;
         isValidOffset(arg0: $ZoneOffset): boolean;
-        getInstant(): $Instant;
-        isOverlap(): boolean;
+        get instant(): $Instant;
+        get overlap(): boolean;
         get duration(): $Duration;
         get gap(): boolean;
         get dateTimeAfter(): $LocalDateTime;
         get offsetBefore(): $ZoneOffset;
         get offsetAfter(): $ZoneOffset;
         get dateTimeBefore(): $LocalDateTime;
-        get instant(): $Instant;
-        get overlap(): boolean;
     }
     export class $ZoneRules implements $Serializable {
         static of(arg0: $ZoneOffset, arg1: $ZoneOffset, arg2: $List_<$ZoneOffsetTransition>, arg3: $List_<$ZoneOffsetTransition>, arg4: $List_<$ZoneOffsetTransitionRule>): $ZoneRules;

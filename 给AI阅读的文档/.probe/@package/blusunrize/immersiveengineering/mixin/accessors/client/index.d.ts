@@ -28,12 +28,12 @@ declare module "@package/blusunrize/immersiveengineering/mixin/accessors/client"
     export class $SimpleModelAccess {
     }
     export interface $SimpleModelAccess {
-        getItemRenderTypes(): $List<$RenderType>;
-        getBlockRenderTypes(): $ChunkRenderTypeSet;
         getFabulousItemRenderTypes(): $List<$RenderType>;
-        get itemRenderTypes(): $List<$RenderType>;
-        get blockRenderTypes(): $ChunkRenderTypeSet;
+        getBlockRenderTypes(): $ChunkRenderTypeSet;
+        getItemRenderTypes(): $List<$RenderType>;
         get fabulousItemRenderTypes(): $List<$RenderType>;
+        get blockRenderTypes(): $ChunkRenderTypeSet;
+        get itemRenderTypes(): $List<$RenderType>;
     }
     export class $AdvancementToastAccess {
     }

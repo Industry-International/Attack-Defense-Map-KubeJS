@@ -14,31 +14,31 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/gun
     export class $EnhancedGunData {
     }
     export interface $EnhancedGunData {
+        gunsmith$getArcanaExtras(): ($ArcanaExtras) | undefined;
+        gunsmith$getGunsmithLibExtension(): ($GunsmithLibGunDataExtension) | undefined;
         /**
          * @deprecated
          */
         gunsmith$getOldFireControlSystemData(): ($OldFireControlData) | undefined;
-        gunsmith$getGunsmithLibExtension(): ($GunsmithLibGunDataExtension) | undefined;
-        gunsmith$getArcanaExtras(): ($ArcanaExtras) | undefined;
     }
     export class $GunsmithLibGunDataExtension extends $GunsmithLibSharedDataExtension {
         isHidden(): boolean;
-        static of(arg0: $ItemStack_): ($GunsmithLibGunDataExtension) | undefined;
         static of(arg0: $GunInfo_): ($GunsmithLibGunDataExtension) | undefined;
+        static of(arg0: $ItemStack_): ($GunsmithLibGunDataExtension) | undefined;
+        enableOverheatFeedback(): boolean;
         getGunExplosiveData(): $GunExplosiveData;
         getShieldData(): $ShieldData;
-        enableOverheatFeedback(): boolean;
         battery(): $EnergyWeaponData;
+        getFireControlData(): $FireControlData;
         /**
          * @deprecated
          */
         isChargeable(): boolean;
-        getFireControlData(): $FireControlData;
         constructor();
         get hidden(): boolean;
         get gunExplosiveData(): $GunExplosiveData;
         get shieldData(): $ShieldData;
-        get chargeable(): boolean;
         get fireControlData(): $FireControlData;
+        get chargeable(): boolean;
     }
 }

@@ -30,19 +30,19 @@ declare module "@package/com/google/common/base" {
         split(sequence: $CharSequence): $Iterable<string>;
         limit(maxItems: number): $Splitter;
         static on(separatorPattern: $Pattern): $Splitter;
+        static on(separator: string): $Splitter;
         static on(separatorMatcher: $CharMatcher): $Splitter;
         static on(separator: string): $Splitter;
-        static on(separator: string): $Splitter;
-        omitEmptyStrings(): $Splitter;
-        static fixedLength(length: number): $Splitter;
-        trimResults(trimmer: $CharMatcher): $Splitter;
-        trimResults(): $Splitter;
+        withKeyValueSeparator(keyValueSplitter: $Splitter): $Splitter$MapSplitter;
+        withKeyValueSeparator(separator: string): $Splitter$MapSplitter;
+        withKeyValueSeparator(separator: string): $Splitter$MapSplitter;
         splitToList(sequence: $CharSequence): $List<string>;
         splitToStream(sequence: $CharSequence): $Stream<string>;
+        static fixedLength(length: number): $Splitter;
+        trimResults(): $Splitter;
+        trimResults(trimmer: $CharMatcher): $Splitter;
+        omitEmptyStrings(): $Splitter;
         static onPattern(separatorPattern: string): $Splitter;
-        withKeyValueSeparator(separator: string): $Splitter$MapSplitter;
-        withKeyValueSeparator(separator: string): $Splitter$MapSplitter;
-        withKeyValueSeparator(keyValueSplitter: $Splitter): $Splitter$MapSplitter;
     }
     export class $Ticker {
         read(): number;
@@ -58,13 +58,13 @@ declare module "@package/com/google/common/base" {
         reset(): $Stopwatch;
         start(): $Stopwatch;
         stop(): $Stopwatch;
-        elapsed(): $Duration;
         elapsed(desiredUnit: $TimeUnit_): number;
+        elapsed(): $Duration;
         isRunning(): boolean;
         static createStarted(): $Stopwatch;
         static createStarted(ticker: $Ticker): $Stopwatch;
-        static createUnstarted(ticker: $Ticker): $Stopwatch;
         static createUnstarted(): $Stopwatch;
+        static createUnstarted(ticker: $Ticker): $Stopwatch;
         get running(): boolean;
     }
     export class $CharMatcher implements $Predicate<string> {
@@ -82,6 +82,7 @@ declare module "@package/com/google/common/base" {
         static digit(): $CharMatcher;
         or(other: $CharMatcher): $CharMatcher;
         static inRange(startInclusive: string, endInclusive: string): $CharMatcher;
+        negate(): $CharMatcher;
         and(other: $CharMatcher): $CharMatcher;
         /**
          * @deprecated
@@ -106,39 +107,38 @@ declare module "@package/com/google/common/base" {
         static any(): $CharMatcher;
         static whitespace(): $CharMatcher;
         static none(): $CharMatcher;
+        trimAndCollapseFrom(sequence: $CharSequence, replacement: string): string;
         retainFrom(sequence: $CharSequence): string;
+        static anyOf(sequence: $CharSequence): $CharMatcher;
         removeFrom(sequence: $CharSequence): string;
-        static breakingWhitespace(): $CharMatcher;
-        precomputed(): $CharMatcher;
-        matchesAnyOf(sequence: $CharSequence): boolean;
-        matchesNoneOf(sequence: $CharSequence): boolean;
-        matchesAllOf(sequence: $CharSequence): boolean;
-        lastIndexIn(sequence: $CharSequence): number;
-        collapseFrom(sequence: $CharSequence, replacement: string): string;
         static javaIsoControl(): $CharMatcher;
-        static forPredicate(predicate: $Predicate<string>): $CharMatcher;
-        replaceFrom(sequence: $CharSequence, replacement: $CharSequence): string;
-        replaceFrom(sequence: $CharSequence, replacement: string): string;
-        trimLeadingFrom(sequence: $CharSequence): string;
         /**
          * @deprecated
          */
         static singleWidth(): $CharMatcher;
+        static forPredicate(predicate: $Predicate<string>): $CharMatcher;
+        precomputed(): $CharMatcher;
+        static breakingWhitespace(): $CharMatcher;
+        matchesNoneOf(sequence: $CharSequence): boolean;
+        replaceFrom(sequence: $CharSequence, replacement: string): string;
+        replaceFrom(sequence: $CharSequence, replacement: $CharSequence): string;
+        matchesAnyOf(sequence: $CharSequence): boolean;
+        matchesAllOf(sequence: $CharSequence): boolean;
+        trimLeadingFrom(sequence: $CharSequence): string;
+        collapseFrom(sequence: $CharSequence, replacement: string): string;
+        lastIndexIn(sequence: $CharSequence): number;
         trimTrailingFrom(sequence: $CharSequence): string;
-        static isNot(match: string): $CharMatcher;
         /**
          * @deprecated
          */
         static invisible(): $CharMatcher;
-        countIn(sequence: $CharSequence): number;
-        indexIn(sequence: $CharSequence, start: number): number;
         indexIn(sequence: $CharSequence): number;
+        indexIn(sequence: $CharSequence, start: number): number;
+        static isNot(match: string): $CharMatcher;
         trimFrom(sequence: $CharSequence): string;
-        static anyOf(sequence: $CharSequence): $CharMatcher;
-        trimAndCollapseFrom(sequence: $CharSequence, replacement: string): string;
+        countIn(sequence: $CharSequence): number;
         test(input: string): boolean;
         or(arg0: $Predicate_<string>): $Predicate$1<string>;
         and(arg0: $Predicate_<string>): $Predicate$1<string>;
-        negate(): $Predicate$1<string>;
     }
 }

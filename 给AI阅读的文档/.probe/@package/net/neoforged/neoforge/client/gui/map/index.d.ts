@@ -9,19 +9,37 @@ import { $IModBusEvent } from "@package/net/neoforged/fml/event";
 declare module "@package/net/neoforged/neoforge/client/gui/map" {
     export class $MapDecorationRendererManager {
         static init(): void;
-        static render(arg0: $MapDecoration_, arg1: $PoseStack, arg2: $MultiBufferSource_, arg3: $MapItemSavedData, arg4: $MapDecorationTextureManager, arg5: boolean, arg6: number, arg7: number): boolean;
+        static render(decoration: $MapDecoration_, poseStack: $PoseStack, bufferSource: $MultiBufferSource_, mapData: $MapItemSavedData, decorationTextures: $MapDecorationTextureManager, inItemFrame: boolean, packedLight: number, index: number): boolean;
     }
+    /**
+     * Interface for custom `MapDecoration` renderers
+     */
     export class $IMapDecorationRenderer {
     }
     export interface $IMapDecorationRenderer {
-        render(arg0: $MapDecoration_, arg1: $PoseStack, arg2: $MultiBufferSource_, arg3: $MapItemSavedData, arg4: $MapDecorationTextureManager, arg5: boolean, arg6: number, arg7: number): boolean;
+        /**
+         * Render the given `MapDecoration` on the map. If this method returns true, the vanilla rendering will be
+         * canceled. Otherwise, it will render above whatever is rendered in this method, if anything
+         */
+        render(decoration: $MapDecoration_, poseStack: $PoseStack, bufferSource: $MultiBufferSource_, mapData: $MapItemSavedData, decorationTextures: $MapDecorationTextureManager, inItemFrame: boolean, packedLight: number, index: number): boolean;
     }
     /**
      * Values that may be interpreted as {@link $IMapDecorationRenderer}.
      */
     export type $IMapDecorationRenderer_ = ((arg0: $MapDecoration, arg1: $PoseStack, arg2: $MultiBufferSource, arg3: $MapItemSavedData, arg4: $MapDecorationTextureManager, arg5: boolean, arg6: number, arg7: number) => boolean);
+    /**
+     * Allows users to register custom decoration renderers for `MapDecoration`s
+     * which require more dynamic rendering than a single texture on the map decoration atlas allows.
+     * 
+     * This event is not cancellable
+     * 
+     * This event is fired on the mod-specific event bus, only on the logical client.
+     */
     export class $RegisterMapDecorationRenderersEvent extends $Event implements $IModBusEvent {
-        register(arg0: $MapDecorationType_, arg1: $IMapDecorationRenderer_): void;
-        constructor(arg0: $Map_<$MapDecorationType_, $IMapDecorationRenderer_>);
+        /**
+         * Registers a decoration renderer for the given decoration type
+         */
+        register(type: $MapDecorationType_, renderer: $IMapDecorationRenderer_): void;
+        constructor(renderers: $Map_<$MapDecorationType_, $IMapDecorationRenderer_>);
     }
 }

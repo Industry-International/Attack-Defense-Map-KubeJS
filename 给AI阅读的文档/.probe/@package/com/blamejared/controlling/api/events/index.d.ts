@@ -7,9 +7,9 @@ import { $GuiEventListener } from "@package/net/minecraft/client/gui/components/
 declare module "@package/com/blamejared/controlling/api/events" {
     export class $KeyEntryMouseReleasedEvent extends $Event implements $IKeyEntryMouseReleasedEvent {
         getEntry(): $IKeyEntry;
-        isHandled(): boolean;
         getMouseX(): number;
         getMouseY(): number;
+        isHandled(): boolean;
         getButtonId(): number;
         setHandled(arg0: boolean): void;
         constructor(arg0: $IKeyEntry, arg1: number, arg2: number, arg3: number);
@@ -21,33 +21,33 @@ declare module "@package/com/blamejared/controlling/api/events" {
     export class $KeyEntryRenderEvent extends $Event implements $IKeyEntryRenderEvent {
         getEntry(): $IKeyEntry;
         getY(): number;
-        getX(): number;
-        isHovered(): boolean;
-        getSlotIndex(): number;
-        getPartialTicks(): number;
+        getRowWidth(): number;
         getMouseX(): number;
         getMouseY(): number;
         getRowLeft(): number;
+        getPartialTicks(): number;
+        getSlotIndex(): number;
+        getX(): number;
+        isHovered(): boolean;
         getGuiGraphics(): $GuiGraphics;
-        getRowWidth(): number;
         constructor(arg0: $IKeyEntry, arg1: $GuiGraphics, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: boolean, arg10: number);
         get entry(): $IKeyEntry;
         get y(): number;
-        get x(): number;
-        get hovered(): boolean;
-        get slotIndex(): number;
-        get partialTicks(): number;
+        get rowWidth(): number;
         get mouseX(): number;
         get mouseY(): number;
         get rowLeft(): number;
+        get partialTicks(): number;
+        get slotIndex(): number;
+        get x(): number;
+        get hovered(): boolean;
         get guiGraphics(): $GuiGraphics;
-        get rowWidth(): number;
     }
     export class $KeyEntryMouseClickedEvent extends $Event implements $IKeyEntryMouseClickedEvent {
         getEntry(): $IKeyEntry;
-        isHandled(): boolean;
         getMouseX(): number;
         getMouseY(): number;
+        isHandled(): boolean;
         getButtonId(): number;
         setHandled(arg0: boolean): void;
         constructor(arg0: $IKeyEntry, arg1: number, arg2: number, arg3: number);
@@ -76,34 +76,34 @@ declare module "@package/com/blamejared/controlling/api/events" {
     export interface $IKeyEntryRenderEvent {
         getEntry(): $IKeyEntry;
         getY(): number;
-        getX(): number;
-        isHovered(): boolean;
-        getSlotIndex(): number;
-        getPartialTicks(): number;
+        getRowWidth(): number;
         getMouseX(): number;
         getMouseY(): number;
         getRowLeft(): number;
+        getPartialTicks(): number;
+        getSlotIndex(): number;
+        getX(): number;
+        isHovered(): boolean;
         getGuiGraphics(): $GuiGraphics;
-        getRowWidth(): number;
         get entry(): $IKeyEntry;
         get y(): number;
-        get x(): number;
-        get hovered(): boolean;
-        get slotIndex(): number;
-        get partialTicks(): number;
+        get rowWidth(): number;
         get mouseX(): number;
         get mouseY(): number;
         get rowLeft(): number;
+        get partialTicks(): number;
+        get slotIndex(): number;
+        get x(): number;
+        get hovered(): boolean;
         get guiGraphics(): $GuiGraphics;
-        get rowWidth(): number;
     }
     export class $IKeyEntryMouseReleasedEvent {
     }
     export interface $IKeyEntryMouseReleasedEvent {
         getEntry(): $IKeyEntry;
-        isHandled(): boolean;
         getMouseX(): number;
         getMouseY(): number;
+        isHandled(): boolean;
         getButtonId(): number;
         setHandled(arg0: boolean): void;
         get entry(): $IKeyEntry;
@@ -115,9 +115,9 @@ declare module "@package/com/blamejared/controlling/api/events" {
     }
     export interface $IKeyEntryMouseClickedEvent {
         getEntry(): $IKeyEntry;
-        isHandled(): boolean;
         getMouseX(): number;
         getMouseY(): number;
+        isHandled(): boolean;
         getButtonId(): number;
         setHandled(arg0: boolean): void;
         get entry(): $IKeyEntry;

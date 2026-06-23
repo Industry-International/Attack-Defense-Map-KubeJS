@@ -20,28 +20,28 @@ export * as localhandlers from "@package/blusunrize/immersiveengineering/api/wir
 declare module "@package/blusunrize/immersiveengineering/api/wires" {
     export class $GlobalWireNetwork extends $SavedData implements $IWorldTickable {
         update(arg0: $Level_): void;
+        getCollisionData(): $WireCollisionData;
         static getNetwork(arg0: $Level_): $GlobalWireNetwork;
-        addConnection(arg0: $Connection): void;
-        readFromNBT(arg0: $CompoundTag_): void;
-        removeConnection(arg0: $Connection): void;
         getNullableLocalNet(arg0: $BlockPos_): $LocalWireNetwork;
         getNullableLocalNet(arg0: $ConnectionPoint_): $LocalWireNetwork;
-        static onWorldUnload(arg0: $LevelEvent$Unload): void;
-        getCollisionData(): $WireCollisionData;
+        readFromNBT(arg0: $CompoundTag_): void;
+        removeConnection(arg0: $Connection): void;
         getLocalNet(arg0: $ConnectionPoint_): $LocalWireNetwork;
         getLocalNet(arg0: $BlockPos_): $LocalWireNetwork;
-        updateCatenaryData(arg0: $Connection): void;
-        getExistingConnector(arg0: $ConnectionPoint_): $IImmersiveConnectable;
         removeAndDropConnection(arg0: $Connection, arg1: $BlockPos_, arg2: $Level_): void;
-        removeAllConnectionsAt(arg0: $IImmersiveConnectable, arg1: $Consumer_<$Connection>): void;
+        getExistingConnector(arg0: $ConnectionPoint_): $IImmersiveConnectable;
+        static onWorldUnload(arg0: $LevelEvent$Unload): void;
+        updateCatenaryData(arg0: $Connection): void;
+        addConnection(arg0: $Connection): void;
         removeAllConnectionsAt(arg0: $ConnectionPoint_, arg1: $Consumer_<$Connection>): void;
+        removeAllConnectionsAt(arg0: $IImmersiveConnectable, arg1: $Consumer_<$Connection>): void;
         removeInsertAndDropConnection(arg0: $Connection, arg1: $Player, arg2: $Level_): void;
-        getProxyProvider(): $IICProxyProvider;
-        onConnectorUnload(arg0: $IImmersiveConnectable): void;
         removeConnector(arg0: $IImmersiveConnectable): void;
-        getAllConnectorsIn(arg0: $ChunkPos): $Collection<$ConnectionPoint>;
         onConnectorLoad(arg0: $IImmersiveConnectable, arg1: $Level_): void;
         onConnectorLoad(arg0: $IImmersiveConnectable, arg1: boolean): void;
+        getAllConnectorsIn(arg0: $ChunkPos): $Collection<$ConnectionPoint>;
+        onConnectorUnload(arg0: $IImmersiveConnectable): void;
+        getProxyProvider(): $IICProxyProvider;
         static GET_NET_UNCACHED: $SetRestrictedField<$Function<$Level, $GlobalWireNetwork>>;
         static VALIDATE_CONNECTIONS: $SetRestrictedField<$BooleanSupplier>;
         static SANITIZE_CONNECTIONS: $SetRestrictedField<$BooleanSupplier>;
@@ -51,15 +51,15 @@ declare module "@package/blusunrize/immersiveengineering/api/wires" {
     }
     export class $WireType implements $ILocalHandlerProvider {
         static getValue(arg0: string): $WireType;
-        getColour(arg0: $Connection): number;
-        getMaxLength(): number;
+        getRenderDiameter(): number;
         getCategory(): string;
+        getMaxLength(): number;
         getUniqueName(): string;
-        static getValues(): $LinkedHashSet<$WireType>;
         getWireCoil(arg0: $Connection): $ItemStack;
         static getIEWireTypes(): $Collection<$WireType>;
-        getRenderDiameter(): number;
         getSlack(): number;
+        static getValues(): $LinkedHashSet<$WireType>;
+        getColour(arg0: $Connection): number;
         getRequestedHandlers(): $Collection<$ResourceLocation>;
         static INTERNAL_CONNECTION: $WireType;
         static HV_CATEGORY: string;
@@ -77,13 +77,13 @@ declare module "@package/blusunrize/immersiveengineering/api/wires" {
         static MV_CATEGORY: string;
         static ELECTRUM: $WireType;
         constructor();
-        get maxLength(): number;
-        get category(): string;
-        get uniqueName(): string;
-        static get values(): $LinkedHashSet<$WireType>;
-        static get IEWireTypes(): $Collection<$WireType>;
         get renderDiameter(): number;
+        get category(): string;
+        get maxLength(): number;
+        get uniqueName(): string;
+        static get IEWireTypes(): $Collection<$WireType>;
         get slack(): number;
+        static get values(): $LinkedHashSet<$WireType>;
         get requestedHandlers(): $Collection<$ResourceLocation>;
     }
     export class $IConnectionTemplate {
@@ -100,16 +100,16 @@ declare module "@package/blusunrize/immersiveengineering/api/wires" {
         index(): number;
         compareTo(arg0: $ConnectionPoint_): number;
         position(): $BlockPos;
-        createTag(): $CompoundTag;
         getY(): number;
-        getX(): number;
+        createTag(): $CompoundTag;
         getZ(): number;
+        getX(): number;
         static CODECS: $DualCodec<$ByteBuf, $ConnectionPoint>;
         constructor(arg0: $CompoundTag_);
         constructor(position: $BlockPos_, index: number);
         get y(): number;
-        get x(): number;
         get z(): number;
+        get x(): number;
     }
     export class $LocalWireNetwork implements $IWorldTickable {
         update(arg0: $Level_): void;
@@ -117,28 +117,28 @@ declare module "@package/blusunrize/immersiveengineering/api/wires" {
         isValid(): boolean;
         isValid(arg0: $ConnectionPoint_): boolean;
         getVersion(): number;
-        getConnectors(): $Collection<$BlockPos>;
-        writeToNBT(): $CompoundTag;
         getConnections(arg0: $ConnectionPoint_): $Collection<$Connection>;
         getConnections(arg0: $BlockPos_): $Collection<$Connection>;
-        getConnectionPoints(): $Collection<$ConnectionPoint>;
-        getAllHandlers(): $Collection<$LocalNetworkHandler>;
         addAsFutureTask(arg0: $Runnable_): void;
+        getAllHandlers(): $Collection<$LocalNetworkHandler>;
+        writeToNBT(): $CompoundTag;
+        setInvalid(): void;
+        getConnectionPoints(): $Collection<$ConnectionPoint>;
+        getConnectors(): $Collection<$BlockPos>;
         getConnector(arg0: $ConnectionPoint_): $IImmersiveConnectable;
         getConnector(arg0: $BlockPos_): $IImmersiveConnectable;
-        setInvalid(): void;
         constructor(arg0: $CompoundTag_, arg1: $GlobalWireNetwork);
         constructor(arg0: $GlobalWireNetwork);
         get version(): number;
-        get connectors(): $Collection<$BlockPos>;
-        get connectionPoints(): $Collection<$ConnectionPoint>;
         get allHandlers(): $Collection<$LocalNetworkHandler>;
+        get connectionPoints(): $Collection<$ConnectionPoint>;
+        get connectors(): $Collection<$BlockPos>;
     }
     export class $IConnectionTemplate$TemplateConnection extends $Record {
         type(): $WireType;
-        endB(): $ConnectionPoint;
-        endA(): $ConnectionPoint;
         toNBT(): $CompoundTag;
+        endA(): $ConnectionPoint;
+        endB(): $ConnectionPoint;
         constructor(arg0: $CompoundTag_);
         constructor(endA: $ConnectionPoint_, endB: $ConnectionPoint_, type: $WireType);
     }
@@ -147,40 +147,40 @@ declare module "@package/blusunrize/immersiveengineering/api/wires" {
         scale(): number;
         delta(): $Vec3;
         getPoint(arg0: number): $Vec3;
-        offsetY(): number;
-        offsetX(): number;
-        getDeltaX(): number;
-        getDeltaZ(): number;
-        getDeltaY(): number;
-        isVertical(): boolean;
         getRenderPoint(arg0: number): $Vec3;
-        horLength(): number;
-        getSlope(arg0: number): number;
+        getDeltaZ(): number;
+        getDeltaX(): number;
+        getDeltaY(): number;
         vecA(): $Vec3;
+        getSlope(arg0: number): number;
+        horLength(): number;
+        offsetX(): number;
+        offsetY(): number;
+        isVertical(): boolean;
         constructor(isVertical: boolean, offsetX: number, offsetY: number, scale: number, delta: $Vec3_, horLength: number, vecA: $Vec3_);
-        get deltaX(): number;
         get deltaZ(): number;
+        get deltaX(): number;
         get deltaY(): number;
         get vertical(): boolean;
     }
     export class $Connection {
         getLength(): number;
-        isInternal(): boolean;
-        getPoint(arg0: number, arg1: $ConnectionPoint_): $Vec3;
-        getOtherEnd(arg0: $ConnectionPoint_): $ConnectionPoint;
-        transformPosition(arg0: number, arg1: $ConnectionPoint_): number;
-        toNBT(): $CompoundTag;
+        getEndA(): $ConnectionPoint;
         getCatenaryData(): $Connection$CatenaryData;
         static makeCatenaryData(arg0: $Vec3_, arg1: $Vec3_, arg2: number): $Connection$CatenaryData;
-        getEndA(): $ConnectionPoint;
+        getEndB(): $ConnectionPoint;
+        getPoint(arg0: number, arg1: $ConnectionPoint_): $Vec3;
+        transformPosition(arg0: number, arg1: $ConnectionPoint_): number;
+        isInternal(): boolean;
+        getEndBOffset(): $Vec3;
+        toNBT(): $CompoundTag;
         getSlope(arg0: number, arg1: $ConnectionPoint_): number;
         isEnd(arg0: $ConnectionPoint_): boolean;
-        getEndFor(arg0: $BlockPos_): $ConnectionPoint;
-        getEnds(): $ConnectionPoint[];
-        getEndB(): $ConnectionPoint;
+        getOtherEnd(arg0: $ConnectionPoint_): $ConnectionPoint;
         getContainingNet(arg0: $GlobalWireNetwork): $LocalWireNetwork;
         getEndAOffset(): $Vec3;
-        getEndBOffset(): $Vec3;
+        getEnds(): $ConnectionPoint[];
+        getEndFor(arg0: $BlockPos_): $ConnectionPoint;
         isPositiveEnd(arg0: $ConnectionPoint_): boolean;
         static RENDER_POINTS_PER_WIRE: number;
         type: $WireType;
@@ -189,12 +189,12 @@ declare module "@package/blusunrize/immersiveengineering/api/wires" {
         constructor(arg0: $WireType, arg1: $ConnectionPoint_, arg2: $ConnectionPoint_, arg3: $GlobalWireNetwork);
         constructor(arg0: $WireType, arg1: $ConnectionPoint_, arg2: $ConnectionPoint_, arg3: $Vec3_, arg4: $Vec3_);
         get length(): number;
-        get internal(): boolean;
-        get catenaryData(): $Connection$CatenaryData;
         get endA(): $ConnectionPoint;
-        get ends(): $ConnectionPoint[];
+        get catenaryData(): $Connection$CatenaryData;
         get endB(): $ConnectionPoint;
-        get endAOffset(): $Vec3;
+        get internal(): boolean;
         get endBOffset(): $Vec3;
+        get endAOffset(): $Vec3;
+        get ends(): $ConnectionPoint[];
     }
 }

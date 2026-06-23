@@ -16,41 +16,41 @@ declare module "@package/mezz/jei/api/recipe/category" {
     export class $IRecipeCategory<T> {
     }
     export interface $IRecipeCategory<T> {
-        getWidth(): number;
+        onDisplayedIngredientsUpdate(arg0: T, arg1: $List_<$IRecipeSlotDrawable>, arg2: $IFocusGroup): void;
         getTitle(): $Component;
+        getIcon(): $IDrawable;
+        getWidth(): number;
         draw(arg0: T, arg1: $IRecipeSlotsView_, arg2: $GuiGraphics, arg3: number, arg4: number): void;
         getCodec(arg0: $ICodecHelper, arg1: $IRecipeManager): $Codec<T>;
-        isHandled(arg0: T): boolean;
-        setRecipe(arg0: $IRecipeLayoutBuilder, arg1: T, arg2: $IFocusGroup): void;
-        getIcon(): $IDrawable;
-        getRecipeType(): $RecipeType<T>;
-        createRecipeExtras(arg0: $IRecipeExtrasBuilder, arg1: T, arg2: $IFocusGroup): void;
+        /**
+         * @deprecated
+         */
+        getBackground(): $IDrawable;
         /**
          * @deprecated
          */
         createRecipeExtras(arg0: $IRecipeExtrasBuilder, arg1: T, arg2: $IRecipeSlotsView_, arg3: $IFocusGroup): void;
+        createRecipeExtras(arg0: $IRecipeExtrasBuilder, arg1: T, arg2: $IFocusGroup): void;
         /**
          * @deprecated
          */
         getTooltipStrings(arg0: T, arg1: $IRecipeSlotsView_, arg2: number, arg3: number): $List<$Component>;
         needsRecipeBorder(): boolean;
-        /**
-         * @deprecated
-         */
-        getBackground(): $IDrawable;
-        getHeight(): number;
+        setRecipe(arg0: $IRecipeLayoutBuilder, arg1: T, arg2: $IFocusGroup): void;
+        isHandled(arg0: T): boolean;
         getTooltip(arg0: $ITooltipBuilder, arg1: T, arg2: $IRecipeSlotsView_, arg3: number, arg4: number): void;
+        getRecipeType(): $RecipeType<T>;
         getRegistryName(arg0: T): $ResourceLocation;
+        getHeight(): number;
         /**
          * @deprecated
          */
         handleInput(arg0: T, arg1: number, arg2: number, arg3: $InputConstants$Key): boolean;
-        onDisplayedIngredientsUpdate(arg0: T, arg1: $List_<$IRecipeSlotDrawable>, arg2: $IFocusGroup): void;
-        get width(): number;
         get title(): $Component;
         get icon(): $IDrawable;
-        get recipeType(): $RecipeType<T>;
+        get width(): number;
         get background(): $IDrawable;
+        get recipeType(): $RecipeType<T>;
         get height(): number;
     }
 }

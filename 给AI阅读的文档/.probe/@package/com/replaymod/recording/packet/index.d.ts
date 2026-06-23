@@ -12,9 +12,9 @@ declare module "@package/com/replaymod/recording/packet" {
     export class $PacketListener extends $ChannelInboundHandlerAdapter {
         save(packet: $Packet$1<any>): void;
         save(packet: $Packet): void;
+        getResourcePackRecorder(): $ResourcePackRecorder;
         addMarker(name: string): void;
         addMarker(name: string, timestamp: number): void;
-        getResourcePackRecorder(): $ResourcePackRecorder;
         getCurrentDuration(): number;
         setServerWasPaused(): void;
         static DECOMPRESS_KEY: string;
@@ -26,9 +26,9 @@ declare module "@package/com/replaymod/recording/packet" {
         get currentDuration(): number;
     }
     export class $ResourcePackRecorder {
-        handleResourcePack(netManager: $Connection, packet: $ClientboundResourcePackPushPacket_): $ClientboundResourcePackPushPacket;
-        recordResourcePack(file: $Path_, uuid: $UUID_): void;
         recordResourcePack(file: $Path_, requestId: number): void;
+        recordResourcePack(file: $Path_, uuid: $UUID_): void;
+        handleResourcePack(netManager: $Connection, packet: $ClientboundResourcePackPushPacket_): $ClientboundResourcePackPushPacket;
         constructor(replayFile: $ReplayFile);
     }
 }

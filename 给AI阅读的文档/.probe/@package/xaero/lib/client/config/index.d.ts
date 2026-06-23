@@ -13,26 +13,26 @@ export * as channel from "@package/xaero/lib/client/config/channel";
 
 declare module "@package/xaero/lib/client/config" {
     export class $ClientConfigManager {
+        getPrimaryConfigManager(): $SingleConfigManager<$Config>;
         getChannel(): $ConfigChannel;
         getRaw<T>(arg0: $ConfigOption<T>): T;
         getRaw<T>(arg0: $ConfigProfile, arg1: $ConfigOption<T>): T;
-        getCurrentProfile(): $ConfigProfile;
         setChannel(arg0: $ConfigChannel): void;
+        getProfileManager(): $ConfigProfileManager;
         postLoad(): void;
-        shouldIgnoreServerEnforcement<T>(arg0: $ConfigOption<T>): boolean;
-        shouldIgnoreServerEnforcement<T>(arg0: $ConfigProfile, arg1: $ConfigOption<T>): boolean;
-        getServerSynced(): $SyncedConfigManager;
-        getPrimaryConfigManager(): $SingleConfigManager<$Config>;
-        getEffective<T>(arg0: $ConfigOption<T>): T;
-        getEffective<T>(arg0: $ConfigProfile, arg1: $ConfigOption<T>): T;
         getRedirectorManager(): $ClientOptionValueRedirectorManager;
         getChangeListener(): $ClientConfigChangeListener;
-        getProfileManager(): $ConfigProfileManager;
-        get currentProfile(): $ConfigProfile;
-        get serverSynced(): $SyncedConfigManager;
+        getEffective<T>(arg0: $ConfigOption<T>): T;
+        getEffective<T>(arg0: $ConfigProfile, arg1: $ConfigOption<T>): T;
+        getServerSynced(): $SyncedConfigManager;
+        shouldIgnoreServerEnforcement<T>(arg0: $ConfigOption<T>): boolean;
+        shouldIgnoreServerEnforcement<T>(arg0: $ConfigProfile, arg1: $ConfigOption<T>): boolean;
+        getCurrentProfile(): $ConfigProfile;
         get primaryConfigManager(): $SingleConfigManager<$Config>;
+        get profileManager(): $ConfigProfileManager;
         get redirectorManager(): $ClientOptionValueRedirectorManager;
         get changeListener(): $ClientConfigChangeListener;
-        get profileManager(): $ConfigProfileManager;
+        get serverSynced(): $SyncedConfigManager;
+        get currentProfile(): $ConfigProfile;
     }
 }

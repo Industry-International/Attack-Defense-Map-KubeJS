@@ -8,13 +8,16 @@ declare module "@package/net/minecraft/client/resources/metadata/texture" {
         static DEFAULT_BLUR: boolean;
         static DEFAULT_CLAMP: boolean;
         static SERIALIZER: $TextureMetadataSectionSerializer;
-        constructor(arg0: boolean, arg1: boolean);
+        constructor(blur: boolean, clamp: boolean);
         get blur(): boolean;
         get clamp(): boolean;
     }
     export class $TextureMetadataSectionSerializer implements $MetadataSectionSerializer<$TextureMetadataSection> {
+        /**
+         * The name of this section type as it appears in JSON.
+         */
         getMetadataSectionName(): string;
-        fromJson(arg0: $JsonObject_): $TextureMetadataSection;
+        fromJson(json: $JsonObject_): $TextureMetadataSection;
         constructor();
         get metadataSectionName(): string;
     }

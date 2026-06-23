@@ -3,7 +3,7 @@ import { $Function_, $BiConsumer_ } from "@package/java/util/function";
 import { $PonderScene } from "@package/net/createmod/ponder/foundation";
 import { $PonderStoryBoard } from "@package/net/createmod/ponder/api/scene";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
-import { $Collection_, $List, $Collection, $Map$Entry } from "@package/java/util";
+import { $Collection_, $List, $Map$Entry, $Collection } from "@package/java/util";
 import { $Object, $Enum, $Record } from "@package/java/lang";
 
 declare module "@package/net/createmod/ponder/api/registration" {
@@ -12,22 +12,22 @@ declare module "@package/net/createmod/ponder/api/registration" {
     export interface $StoryBoardEntry {
         getNamespace(): string;
         getComponent(): $ResourceLocation;
-        getTags(): $List<$ResourceLocation>;
         getBoard(): $PonderStoryBoard;
         getOrderingEntries(): $List<$StoryBoardEntry$SceneOrderingEntry>;
+        getTags(): $List<$ResourceLocation>;
         getSchematicLocation(): $ResourceLocation;
+        orderAfter(arg0: string): $StoryBoardEntry;
+        orderAfter(arg0: string, arg1: string): $StoryBoardEntry;
         highlightTags(...arg0: $ResourceLocation_[]): $StoryBoardEntry;
-        highlightTag(arg0: $ResourceLocation_): $StoryBoardEntry;
-        highlightAllTags(): $StoryBoardEntry;
         orderBefore(arg0: string): $StoryBoardEntry;
         orderBefore(arg0: string, arg1: string): $StoryBoardEntry;
-        orderAfter(arg0: string, arg1: string): $StoryBoardEntry;
-        orderAfter(arg0: string): $StoryBoardEntry;
+        highlightTag(arg0: $ResourceLocation_): $StoryBoardEntry;
+        highlightAllTags(): $StoryBoardEntry;
         get namespace(): string;
         get component(): $ResourceLocation;
-        get tags(): $List<$ResourceLocation>;
         get board(): $PonderStoryBoard;
         get orderingEntries(): $List<$StoryBoardEntry$SceneOrderingEntry>;
+        get tags(): $List<$ResourceLocation>;
         get schematicLocation(): $ResourceLocation;
     }
     export class $MultiTagBuilder$Component {
@@ -68,14 +68,14 @@ declare module "@package/net/createmod/ponder/api/registration" {
     export class $PonderTagRegistrationHelper<T> {
     }
     export interface $PonderTagRegistrationHelper<T> {
-        registerTag(arg0: string): $TagBuilder;
-        registerTag(arg0: $ResourceLocation_): $TagBuilder;
-        addToTag(...arg0: $ResourceLocation_[]): $MultiTagBuilder$Tag<T>;
         addToTag(arg0: $ResourceLocation_): $MultiTagBuilder$Tag<T>;
+        addToTag(...arg0: $ResourceLocation_[]): $MultiTagBuilder$Tag<T>;
         withKeyFunction<S>(arg0: $Function_<S, T>): $PonderTagRegistrationHelper<S>;
+        addTagToComponent(arg0: T, arg1: $ResourceLocation_): void;
         addToComponent(arg0: T): $MultiTagBuilder$Component;
         addToComponent(...arg0: T[]): $MultiTagBuilder$Component;
-        addTagToComponent(arg0: T, arg1: $ResourceLocation_): void;
+        registerTag(arg0: string): $TagBuilder;
+        registerTag(arg0: $ResourceLocation_): $TagBuilder;
     }
     export class $TagBuilder {
     }
@@ -95,19 +95,19 @@ declare module "@package/net/createmod/ponder/api/registration" {
     export interface $SceneRegistryAccess {
         compile(arg0: $Collection_<$StoryBoardEntry>): $List<$PonderScene>;
         compile(arg0: $ResourceLocation_): $List<$PonderScene>;
-        doScenesExistForId(arg0: $ResourceLocation_): boolean;
         getRegisteredEntries(): $Collection<$Map$Entry<$ResourceLocation, $StoryBoardEntry>>;
+        doScenesExistForId(arg0: $ResourceLocation_): boolean;
         get registeredEntries(): $Collection<$Map$Entry<$ResourceLocation, $StoryBoardEntry>>;
     }
     export class $LangRegistryAccess {
     }
     export interface $LangRegistryAccess {
         getTagName(arg0: $ResourceLocation_): string;
-        provideLang(arg0: string, arg1: $BiConsumer_<string, string>): void;
-        getShared(arg0: $ResourceLocation_, ...arg1: $Object[]): string;
-        getShared(arg0: $ResourceLocation_): string;
-        getTagDescription(arg0: $ResourceLocation_): string;
         getSpecific(arg0: $ResourceLocation_, arg1: string): string;
         getSpecific(arg0: $ResourceLocation_, arg1: string, ...arg2: $Object[]): string;
+        getTagDescription(arg0: $ResourceLocation_): string;
+        getShared(arg0: $ResourceLocation_): string;
+        getShared(arg0: $ResourceLocation_, ...arg1: $Object[]): string;
+        provideLang(arg0: string, arg1: $BiConsumer_<string, string>): void;
     }
 }

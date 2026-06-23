@@ -9,24 +9,24 @@ declare module "@package/net/minecraft/recipebook" {
     export class $PlaceRecipe<T> {
     }
     export interface $PlaceRecipe<T> {
-        placeRecipe(arg0: number, arg1: number, arg2: number, arg3: $RecipeHolder_<never>, arg4: $Iterator<T>, arg5: number): void;
-        addItemToSlot(arg0: T, arg1: number, arg2: number, arg3: number, arg4: number): void;
+        placeRecipe(width: number, height: number, outputSlot: number, recipe: $RecipeHolder_<never>, ingredients: $Iterator<T>, maxAmount: number): void;
+        addItemToSlot(item: T, slot: number, maxAmount: number, x: number, y: number): void;
     }
     /**
      * Values that may be interpreted as {@link $PlaceRecipe}.
      */
     export type $PlaceRecipe_<T> = ((arg0: T, arg1: number, arg2: number, arg3: number, arg4: number) => void);
     export class $ServerPlaceRecipe<I extends $RecipeInput, R extends $Recipe<I>> implements $PlaceRecipe<number> {
-        addItemToSlot(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number): void;
-        getStackSize(arg0: boolean, arg1: number, arg2: boolean): number;
-        recipeClicked(arg0: $ServerPlayer, arg1: $RecipeHolder_<R>, arg2: boolean): void;
+        getStackSize(placeAll: boolean, maxPossible: number, recipeMatches: boolean): number;
+        addItemToSlot(item: number, slot: number, maxAmount: number, x: number, y: number): void;
+        recipeClicked(player: $ServerPlayer, recipe: $RecipeHolder_<R> | null, placeAll: boolean): void;
+        handleRecipeClicked(recipe: $RecipeHolder_<R>, placeAll: boolean): void;
+        moveItemToGrid(slot: $Slot, stack: $ItemStack_, maxAmount: number): number;
         clearGrid(): void;
-        moveItemToGrid(arg0: $Slot, arg1: $ItemStack_, arg2: number): number;
-        handleRecipeClicked(arg0: $RecipeHolder_<R>, arg1: boolean): void;
-        placeRecipe(arg0: number, arg1: number, arg2: number, arg3: $RecipeHolder_<never>, arg4: $Iterator<number>, arg5: number): void;
+        placeRecipe(width: number, height: number, outputSlot: number, recipe: $RecipeHolder_<never>, ingredients: $Iterator<number>, maxAmount: number): void;
         stackedContents: $StackedContents;
         inventory: $Inventory;
         menu: $RecipeBookMenu<I, R>;
-        constructor(arg0: $RecipeBookMenu<I, R>);
+        constructor(menu: $RecipeBookMenu<I, R>);
     }
 }

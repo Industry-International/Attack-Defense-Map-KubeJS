@@ -22,6 +22,12 @@ declare module "@package/com/ishland/c2me/rewrites/chunksystem/common/ducks" {
      * Values that may be interpreted as {@link $TicketDistanceLevelPropagatorExtension}.
      */
     export type $TicketDistanceLevelPropagatorExtension_ = (() => $Long2IntLinkedOpenHashMap);
+    export class $WorldChunkExtension {
+    }
+    export interface $WorldChunkExtension {
+        c2me$isBlockTicking(): boolean;
+        c2me$setBlockTicking(arg0: boolean): void;
+    }
     export class $IChunkSystemAccess {
     }
     export interface $IChunkSystemAccess {

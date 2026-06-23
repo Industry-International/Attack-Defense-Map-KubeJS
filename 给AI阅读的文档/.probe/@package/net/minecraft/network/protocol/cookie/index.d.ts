@@ -9,7 +9,7 @@ declare module "@package/net/minecraft/network/protocol/cookie" {
     export class $ServerCookiePacketListener {
     }
     export interface $ServerCookiePacketListener extends $ServerPacketListener {
-        handleCookieResponse(arg0: $ServerboundCookieResponsePacket_): void;
+        handleCookieResponse(packet: $ServerboundCookieResponsePacket_): void;
     }
     export class $CookiePacketTypes {
         static SERVERBOUND_COOKIE_RESPONSE: $PacketType<$ServerboundCookieResponsePacket>;
@@ -19,8 +19,17 @@ declare module "@package/net/minecraft/network/protocol/cookie" {
     export class $ClientboundCookieRequestPacket extends $Record implements $Packet<$ClientCookiePacketListener> {
         type(): $PacketType<$ClientboundCookieRequestPacket>;
         key(): $ResourceLocation;
-        handle(arg0: $ClientCookiePacketListener): void;
+        /**
+         * Passes this Packet on to the PacketListener for processing.
+         */
+        handle(handler: $ClientCookiePacketListener): void;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientboundCookieRequestPacket>;
         constructor(arg0: $ResourceLocation_);
@@ -31,17 +40,26 @@ declare module "@package/net/minecraft/network/protocol/cookie" {
         payload(): number[];
         type(): $PacketType<$ServerboundCookieResponsePacket>;
         key(): $ResourceLocation;
-        handle(arg0: $ServerCookiePacketListener): void;
+        /**
+         * Passes this Packet on to the PacketListener for processing.
+         */
+        handle(handler: $ServerCookiePacketListener): void;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ServerboundCookieResponsePacket>;
-        constructor(arg0: $ResourceLocation_, arg1: number[]);
+        constructor(arg0: $ResourceLocation_, arg1: number[] | null);
         get skippable(): boolean;
         get terminal(): boolean;
     }
     export class $ClientCookiePacketListener {
     }
     export interface $ClientCookiePacketListener extends $ClientboundPacketListener {
-        handleRequestCookie(arg0: $ClientboundCookieRequestPacket_): void;
+        handleRequestCookie(packet: $ClientboundCookieRequestPacket_): void;
     }
 }

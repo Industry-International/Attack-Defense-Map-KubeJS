@@ -13,18 +13,18 @@ declare module "@package/com/railwayteam/railways/content/switches" {
     export class $TrackSwitch extends $SingleBlockEntityEdgePoint {
         isAutomatic(): boolean;
         isLocked(): boolean;
-        getTargetState(arg0: $TrackNodeLocation): $TrackSwitchBlock$SwitchState;
         static getSelectionPriority(): number;
-        setEdgesActive(arg0: $TrackGraph): void;
-        hasLeftExit(): boolean;
-        hasRightExit(): boolean;
-        updateEdges(arg0: $TrackGraph): void;
-        hasStraightExit(): boolean;
-        setSwitchState(arg0: $TrackSwitchBlock$SwitchState_): boolean;
-        getSwitchTarget(): $TrackNodeLocation;
         getSwitchState(): $TrackSwitchBlock$SwitchState;
         trySetSwitchState(arg0: $TrackSwitchBlock$SwitchState_): boolean;
+        getTargetState(arg0: $TrackNodeLocation): $TrackSwitchBlock$SwitchState;
         shouldAutoTrainsSwitch(): boolean;
+        getSwitchTarget(): $TrackNodeLocation;
+        setEdgesActive(arg0: $TrackGraph): void;
+        hasStraightExit(): boolean;
+        hasRightExit(): boolean;
+        setSwitchState(arg0: $TrackSwitchBlock$SwitchState_): boolean;
+        updateEdges(arg0: $TrackGraph): void;
+        hasLeftExit(): boolean;
         edgeLocation: $Couple<$TrackNodeLocation>;
         blockEntityPos: $BlockPos;
         blockEntityDimension: $ResourceKey<$Level>;
@@ -34,17 +34,17 @@ declare module "@package/com/railwayteam/railways/content/switches" {
         get automatic(): boolean;
         get locked(): boolean;
         static get selectionPriority(): number;
-        set edgesActive(value: $TrackGraph);
         get switchTarget(): $TrackNodeLocation;
+        set edgesActive(value: $TrackGraph);
     }
     export class $TrackSwitchBlock$SwitchState extends $Enum<$TrackSwitchBlock$SwitchState> implements $StringRepresentable {
         static values(): $TrackSwitchBlock$SwitchState[];
         static valueOf(arg0: string): $TrackSwitchBlock$SwitchState;
+        canSwitchTo(arg0: $TrackSwitchBlock$SwitchState_, arg1: $TrackSwitchBlock$SwitchConstraint): boolean;
         getSerializedName(): string;
         nextStateFor(arg0: $TrackSwitch, arg1: $TrackSwitchBlock$SwitchConstraint): $TrackSwitchBlock$SwitchState;
         static fromSteerDirection(arg0: $TravellingPoint$SteerDirection_, arg1: boolean): $TrackSwitchBlock$SwitchState;
         nextStateForPonder(arg0: $TrackSwitchBlock$SwitchConstraint): $TrackSwitchBlock$SwitchState;
-        canSwitchTo(arg0: $TrackSwitchBlock$SwitchState_, arg1: $TrackSwitchBlock$SwitchConstraint): boolean;
         getRemappedEnumConstantName(): string;
         static REVERSE_RIGHT: $TrackSwitchBlock$SwitchState;
         static NORMAL: $TrackSwitchBlock$SwitchState;

@@ -11,12 +11,12 @@ export * as mixin from "@package/com/almostreliable/morejs/mixin";
 
 declare module "@package/com/almostreliable/morejs" {
     export class $MoreJSBinding {
-        static range(arg0: $Object): $IntRange;
-        static weightedList(): $WeightedList$Builder<$Object>;
-        static ofTradeItem(arg1: $Object): $TradeItem;
-        static ofWeightedList(arg0: $Object): $WeightedList<$Object>;
-        static findStructure(arg0: $BlockPos_, arg1: $ServerLevel, arg2: $HolderSet_<$Structure>, arg3: number): $BlockPos;
+        static range(arg0: $Object | null): $IntRange;
         static findBiome(arg0: $BlockPos_, arg1: $ServerLevel, arg2: $HolderSet_<$Biome>, arg3: number): $BlockPos;
+        static weightedList(): $WeightedList$Builder<$Object>;
+        static findStructure(arg0: $BlockPos_, arg1: $ServerLevel, arg2: $HolderSet_<$Structure>, arg3: number): $BlockPos;
+        static ofTradeItem(arg1: $Object | null): $TradeItem;
+        static ofWeightedList(arg0: $Object | null): $WeightedList<$Object>;
         constructor();
     }
 }

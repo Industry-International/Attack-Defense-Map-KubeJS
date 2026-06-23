@@ -39,11 +39,11 @@ declare module "@package/net/createmod/catnip/gui" {
         font: $Font;
     }
     export class $NavigatableSimiScreen extends $AbstractSimiScreen {
-        isEquivalentTo(arg0: $NavigatableSimiScreen): boolean;
-        static isCurrentlyRenderingPreviousScreen(): boolean;
-        centerScalingOn(arg0: number, arg1: number): void;
         shareContextWith(arg0: $NavigatableSimiScreen): void;
+        centerScalingOn(arg0: number, arg1: number): void;
+        isEquivalentTo(arg0: $NavigatableSimiScreen): boolean;
         centerScalingOnMouse(): void;
+        static isCurrentlyRenderingPreviousScreen(): boolean;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -71,12 +71,12 @@ declare module "@package/net/createmod/catnip/gui" {
     export interface $TextureSheetSegment extends $BindableTexture {
         getWidth(): number;
         getHeight(): number;
-        getStartX(): number;
         getStartY(): number;
+        getStartX(): number;
         get width(): number;
         get height(): number;
-        get startX(): number;
         get startY(): number;
+        get startX(): number;
     }
     export class $TickableGuiEventListener {
     }

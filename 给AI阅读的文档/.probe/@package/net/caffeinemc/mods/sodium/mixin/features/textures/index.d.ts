@@ -14,8 +14,7 @@ declare module "@package/net/caffeinemc/mods/sodium/mixin/features/textures" {
     export class $NativeImageAccessor {
     }
     export interface $NativeImageAccessor {
-        getPixels(): number;
-        get pixels(): number;
+        sodium$getPixels(): number;
     }
     /**
      * Values that may be interpreted as {@link $NativeImageAccessor}.

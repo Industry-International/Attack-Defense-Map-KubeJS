@@ -33,10 +33,10 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 
 declare module "@package/net/minecraft/world/entity/animal/goat" {
     export class $GoatAi {
-        static updateActivity(arg0: $Goat): void;
-        static makeBrain(arg0: $Brain<$Goat>): $Brain<never>;
-        static initMemories(arg0: $Goat, arg1: $RandomSource): void;
+        static updateActivity(brain: $Goat): void;
+        static makeBrain(brain: $Brain<$Goat>): $Brain<never>;
         static getTemptations(): $Predicate<$ItemStack>;
+        static initMemories(goat: $Goat, random: $RandomSource): void;
         static MAX_LONG_JUMP_WIDTH: number;
         static RAM_PREPARE_TIME: number;
         static ADULT_RAM_KNOCKBACK_FORCE: number;
@@ -49,18 +49,43 @@ declare module "@package/net/minecraft/world/entity/animal/goat" {
         static get temptations(): $Predicate<$ItemStack>;
     }
     export class $Goat extends $Animal {
-        static createAttributes(): $AttributeSupplier$Builder;
-        static checkGoatSpawnRules(arg0: $EntityType_<$Animal>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        setScreamingGoat(arg0: boolean): void;
-        hasRightHorn(): boolean;
-        removeHorns(): void;
-        isScreamingGoat(): boolean;
-        getRammingXHeadRot(): number;
-        hasLeftHorn(): boolean;
-        getMilkingSound(): $SoundEvent;
-        createHorn(): $ItemStack;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
         addHorns(): void;
+        createHorn(): $ItemStack;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         dropHorn(): boolean;
+        getMilkingSound(): $SoundEvent;
+        /**
+         * Called every tick so the entity can update its state as required. For example, zombies and skeletons use this to react to sunlight and start to burn.
+         */
+        removeHorns(): void;
+        /**
+         * Returns the amount of health added by the Absorption effect.
+         */
+        getRammingXHeadRot(): number;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        hasRightHorn(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        hasLeftHorn(): boolean;
+        setScreamingGoat(isScreamingGoat: boolean): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isScreamingGoat(): boolean;
+        static createAttributes(): $AttributeSupplier$Builder;
+        static checkGoatSpawnRules(goat: $EntityType_<$Animal>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -239,8 +264,8 @@ declare module "@package/net/minecraft/world/entity/animal/goat" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Goat>, arg1: $Level_);
-        get rammingXHeadRot(): number;
+        constructor(entityType: $EntityType_<$Goat>, level: $Level_);
         get milkingSound(): $SoundEvent;
+        get rammingXHeadRot(): number;
     }
 }

@@ -13,14 +13,14 @@ declare module "@package/com/replaymod/render/capturer" {
     export class $RenderInfo {
     }
     export interface $RenderInfo {
-        updateForNextFrame(): number;
-        getRenderSettings(): $RenderSettings;
-        getFramesDone(): number;
         getTotalFrames(): number;
+        getRenderSettings(): $RenderSettings;
+        updateForNextFrame(): number;
+        getFramesDone(): number;
         getFrameSize(): $ReadableDimension;
+        get totalFrames(): number;
         get renderSettings(): $RenderSettings;
         get framesDone(): number;
-        get totalFrames(): number;
         get frameSize(): $ReadableDimension;
     }
     export class $CaptureData {

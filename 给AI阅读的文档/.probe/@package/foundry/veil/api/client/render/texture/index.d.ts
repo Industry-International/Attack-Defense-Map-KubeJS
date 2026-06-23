@@ -40,20 +40,20 @@ declare module "@package/foundry/veil/api/client/render/texture" {
      */
     export type $TextureFilter$Wrap_ = "clamp_to_edge" | "clamp_to_border" | "mirrored_repeat" | "repeat" | "mirror_clamp_to_edge";
     export class $TextureFilter extends $Record {
-        compareFunction(): $TextureFilter$CompareFunction;
         wrapX(): $TextureFilter$Wrap;
-        wrapY(): $TextureFilter$Wrap;
         wrapZ(): $TextureFilter$Wrap;
-        borderType(): $TextureFilter$EdgeType;
-        anisotropy(): number;
-        seamless(): boolean;
-        minFilter(): number;
-        mipmap(): boolean;
+        wrapY(): $TextureFilter$Wrap;
         blur(): boolean;
-        magFilter(): number;
-        applyToTexture(arg0: number): void;
-        borderColor(): number;
+        mipmap(): boolean;
+        compareFunction(): $TextureFilter$CompareFunction;
         applyToTextureTarget(arg0: number): void;
+        borderType(): $TextureFilter$EdgeType;
+        seamless(): boolean;
+        anisotropy(): number;
+        applyToTexture(arg0: number): void;
+        magFilter(): number;
+        minFilter(): number;
+        borderColor(): number;
         static REPEAT_DEFAULT_CODEC: $Codec<$TextureFilter>;
         static REPEAT: $TextureFilter;
         static CLAMP_DEFAULT_CODEC: $Codec<$TextureFilter>;

@@ -37,84 +37,209 @@ declare module "@package/net/neoforged/neoforge/client/extensions" {
     export interface $IBlockEntityRendererExtension<T extends $BlockEntity> {
         getRenderBoundingBox(arg0: T): $AABB;
     }
+    /**
+     * Extension interface for `PoseStack`.
+     */
     export class $IPoseStackExtension {
     }
     export interface $IPoseStackExtension {
-        pushTransformation(arg0: $Transformation): void;
+        /**
+         * Pushes and applies the `transformation` to this pose stack.
+         * 
+         * The effects of this method can be reversed by a corresponding `PoseStack#popPose()` call.
+         */
+        pushTransformation(transformation: $Transformation): void;
     }
     export class $ModelStateExtension {
     }
     export interface $ModelStateExtension {
+        /**
+         * @return whether this model state may apply a rotation that is not a multiple of 90 degrees
+         */
         mayApplyArbitraryRotation(): boolean;
     }
+    /**
+     * Extension type for the `MenuProvider` interface.
+     */
     export class $IMenuProviderExtension {
     }
     export interface $IMenuProviderExtension {
+        /**
+         * @return `true` if the existing container should be closed on the client side when opening a new one, `false` otherwise
+         */
         shouldTriggerClientSideContainerClosingOnOpen(): boolean;
-        writeClientSideData(arg0: $AbstractContainerMenu, arg1: $RegistryFriendlyByteBuf): void;
+        /**
+         * Allows the menu provider to write additional data to be read by `IContainerFactory#create(int, Inventory, RegistryFriendlyByteBuf)`
+         * when the menu is created on the client-side.
+         */
+        writeClientSideData(menu: $AbstractContainerMenu, buffer: $RegistryFriendlyByteBuf): void;
     }
+    /**
+     * Extension interface for `Minecraft`.
+     */
     export class $IMinecraftExtension {
     }
     export interface $IMinecraftExtension {
+        /**
+         * Retrieves the `Locale` set by the player.
+         * Useful for creating string and number formatters.
+         */
         getLocale(): $Locale;
-        pushGuiLayer(arg0: $Screen): void;
+        /**
+         * Pushes a screen as a new GUI layer.
+         */
+        pushGuiLayer(screen: $Screen): void;
+        /**
+         * Pops a GUI layer from the screen.
+         */
         popGuiLayer(): void;
         get locale(): $Locale;
     }
+    /**
+     * Extension interface for `VertexConsumer`.
+     */
     export class $IVertexConsumerExtension {
     }
     export interface $IVertexConsumerExtension {
-        applyBakedNormals(arg0: $Vector3f, arg1: $ByteBuffer, arg2: $Matrix3f): void;
-        applyBakedLighting(arg0: number, arg1: $ByteBuffer): number;
-        putBulkData(arg0: $PoseStack$Pose, arg1: $BakedQuad, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean): void;
+        applyBakedNormals(generated: $Vector3f, data: $ByteBuffer, normalTransform: $Matrix3f): void;
+        /**
+         * Variant with no per-vertex shading.
+         */
+        putBulkData(pose: $PoseStack$Pose, bakedQuad: $BakedQuad, red: number, green: number, blue: number, alpha: number, packedLight: number, packedOverlay: number, readExistingColor: boolean): void;
+        applyBakedLighting(packedLight: number, data: $ByteBuffer): number;
         misc(arg0: $VertexFormatElement_, ...arg1: number[]): $VertexConsumer;
     }
+    /**
+     * Extension interface for `BakedModel`.
+     */
     export class $IBakedModelExtension {
     }
     export interface $IBakedModelExtension {
-        getModelData(arg0: $BlockAndTintGetter, arg1: $BlockPos_, arg2: $BlockState_, arg3: $ModelData): $ModelData;
-        useAmbientOcclusion(arg0: $BlockState_, arg1: $ModelData, arg2: $RenderType): $TriState;
-        applyTransform(arg0: $ItemDisplayContext_, arg1: $PoseStack, arg2: boolean): $BakedModel;
-        getRenderTypes(arg0: $BlockState_, arg1: $RandomSource, arg2: $ModelData): $ChunkRenderTypeSet;
-        getRenderTypes(arg0: $ItemStack_, arg1: boolean): $List<$RenderType>;
-        getRenderPasses(arg0: $ItemStack_, arg1: boolean): $List<$BakedModel>;
-        getQuads(arg0: $BlockState_, arg1: $Direction_, arg2: $RandomSource, arg3: $ModelData, arg4: $RenderType): $List<$BakedQuad>;
-        getParticleIcon(arg0: $ModelData): $TextureAtlasSprite;
+        getModelData(level: $BlockAndTintGetter, pos: $BlockPos_, state: $BlockState_, modelData: $ModelData): $ModelData;
+        /**
+         * Controls the AO behavior for all quads of this model. The default behavior is to use AO unless the block emits light,
+         * `TriState#TRUE` and `TriState#FALSE` force AO to be enabled and disabled respectively, regardless of
+         * the block emitting light or not. `BakedQuad#hasAmbientOcclusion()` can be used to disable AO for a specific
+         * quad even if this method says otherwise.
+         * 
+         * This method cannot force AO if the global smooth lighting video setting is disabled.
+         */
+        useAmbientOcclusion(state: $BlockState_, data: $ModelData, renderType: $RenderType): $TriState;
+        /**
+         * Gets the set of render types to use when drawing this block in the level.
+         * Supported types are those returned by `RenderType#chunkBufferLayers()`.
+         * 
+         * By default, defers query to `ItemBlockRenderTypes`.
+         */
+        getRenderTypes(state: $BlockState_, rand: $RandomSource, data: $ModelData): $ChunkRenderTypeSet;
+        /**
+         * Gets an ordered list of render types to use when drawing this item.
+         * All render types using the `DefaultVertexFormat#NEW_ENTITY` format are supported.
+         * 
+         * This method will only be called on the models returned by `#getRenderPasses(ItemStack, boolean)`.
+         * 
+         * By default, defers query to `ItemBlockRenderTypes`.
+         */
+        getRenderTypes(itemStack: $ItemStack_, fabulous: boolean): $List<$RenderType>;
+        /**
+         * Applies a transform for the given `TransformType` and `applyLeftHandTransform`, and
+         * returns the model to be rendered.
+         */
+        applyTransform(transformType: $ItemDisplayContext_, poseStack: $PoseStack, applyLeftHandTransform: boolean): $BakedModel;
+        /**
+         * Gets an ordered list of render types to use when drawing this item.
+         * All render types using the `DefaultVertexFormat#NEW_ENTITY` format are supported.
+         * 
+         * This method will only be called on the models returned by `#getRenderPasses(ItemStack, boolean)`.
+         * 
+         * By default, defers query to `ItemBlockRenderTypes`.
+         */
+        getRenderPasses(itemStack: $ItemStack_, fabulous: boolean): $List<$BakedModel>;
+        getParticleIcon(data: $ModelData): $TextureAtlasSprite;
+        /**
+         * A null `RenderType` is used for the breaking overlay as well as non-standard rendering, so models should return all their quads.
+         */
+        getQuads(state: $BlockState_, side: $Direction_, rand: $RandomSource, data: $ModelData, renderType: $RenderType): $List<$BakedQuad>;
     }
+    /**
+     * Extension interface for `DimensionSpecialEffects`.
+     */
     export class $IDimensionSpecialEffectsExtension {
     }
     export interface $IDimensionSpecialEffectsExtension {
-        renderSky(arg0: $ClientLevel, arg1: number, arg2: number, arg3: $Matrix4f, arg4: $Camera, arg5: $Matrix4f, arg6: boolean, arg7: $Runnable_): boolean;
-        adjustLightmapColors(arg0: $ClientLevel, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: $Vector3f): void;
-        tickRain(arg0: $ClientLevel, arg1: number, arg2: $Camera): boolean;
-        renderSnowAndRain(arg0: $ClientLevel, arg1: number, arg2: number, arg3: $LightTexture, arg4: number, arg5: number, arg6: number): boolean;
-        renderClouds(arg0: $ClientLevel, arg1: number, arg2: number, arg3: $PoseStack, arg4: number, arg5: number, arg6: number, arg7: $Matrix4f, arg8: $Matrix4f): boolean;
+        /**
+         * Allows for manipulating the coloring of the lightmap texture.
+         * Will be called for each 16*16 combination of sky/block light values.
+         */
+        adjustLightmapColors(level: $ClientLevel, partialTicks: number, skyDarken: number, blockLightRedFlicker: number, skyLight: number, pixelX: number, pixelY: number, colors: $Vector3f): void;
+        /**
+         * Renders the sky of this dimension.
+         */
+        renderSky(level: $ClientLevel, ticks: number, partialTick: number, modelViewMatrix: $Matrix4f, camera: $Camera, projectionMatrix: $Matrix4f, isFoggy: boolean, setupFog: $Runnable_): boolean;
+        /**
+         * Renders the snow and rain effects of this dimension.
+         */
+        renderSnowAndRain(level: $ClientLevel, ticks: number, partialTick: number, lightTexture: $LightTexture, camX: number, camY: number, camZ: number): boolean;
+        /**
+         * Renders the clouds of this dimension.
+         */
+        renderClouds(level: $ClientLevel, ticks: number, partialTick: number, poseStack: $PoseStack, camX: number, camY: number, camZ: number, modelViewMatrix: $Matrix4f, projectionMatrix: $Matrix4f): boolean;
+        /**
+         * Ticks the rain of this dimension.
+         */
+        tickRain(level: $ClientLevel, ticks: number, camera: $Camera): boolean;
     }
+    /**
+     * Extension interface for `AbstractWidget`.
+     */
     export class $IAbstractWidgetExtension {
     }
     export interface $IAbstractWidgetExtension {
-        onClick(arg0: number, arg1: number, arg2: number): void;
+        /**
+         * Handles the logic for when this widget is clicked. Vanilla calls this after `AbstractWidget#mouseClicked(double, double, int)` validates that:
+         * 
+         * - this widget is active and visible
+         * - the button can be handled by this widget
+         * - the mouse is over this widget
+         */
+        onClick(mouseX: number, mouseY: number, button: number): void;
     }
+    /**
+     * Extension interface for `KeyMapping`.
+     */
     export class $IKeyMappingExtension {
     }
     export interface $IKeyMappingExtension {
         getKey(): $InputConstants$Key;
+        /**
+         * @return the display name of this key mapping
+         * Defaults to a translatable component of the name.
+         */
         getDisplayName(): $Component;
         setToDefault(): void;
-        setKeyModifierAndCode(arg0: $KeyModifier_, arg1: $InputConstants$Key): void;
-        getDefaultKeyModifier(): $KeyModifier;
-        getKeyConflictContext(): $IKeyConflictContext;
-        hasKeyModifierConflict(arg0: $KeyMapping): boolean;
-        setKeyConflictContext(arg0: $IKeyConflictContext): void;
-        isActiveAndMatches(arg0: $InputConstants$Key): boolean;
         getKeyModifier(): $KeyModifier;
         isConflictContextAndModifierActive(): boolean;
+        /**
+         * @return true if the key conflict context and modifier are active and the keyCode matches this binding, false otherwise
+         */
+        isActiveAndMatches(keyCode: $InputConstants$Key): boolean;
+        getKeyConflictContext(): $IKeyConflictContext;
+        getDefaultKeyModifier(): $KeyModifier;
+        setKeyModifierAndCode(keyModifier: $KeyModifier_, keyCode: $InputConstants$Key): void;
+        setKeyConflictContext(keyConflictContext: $IKeyConflictContext): void;
+        /**
+         * Returns true when one of the bindings' key codes conflicts with the other's modifier.
+         */
+        hasKeyModifierConflict(other: $KeyMapping): boolean;
         get key(): $InputConstants$Key;
         get displayName(): $Component;
-        get defaultKeyModifier(): $KeyModifier;
         get keyModifier(): $KeyModifier;
         get conflictContextAndModifierActive(): boolean;
+        get defaultKeyModifier(): $KeyModifier;
     }
+    /**
+     * Extension interface for `GuiGraphics`.
+     */
     export class $IGuiGraphicsExtension {
         static DEFAULT_BORDER_COLOR_START: number;
         static TEXT_COLOR_CODES: number[];
@@ -126,19 +251,36 @@ declare module "@package/net/neoforged/neoforge/client/extensions" {
         static RESET_CHAR: string;
     }
     export interface $IGuiGraphicsExtension {
-        drawScrollingString(arg0: $Font, arg1: $Component_, arg2: number, arg3: number, arg4: number, arg5: number): number;
-        blitWithBorder(arg0: $ResourceLocation_, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number): void;
-        blitWithBorder(arg0: $ResourceLocation_, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        blitInscribed(arg0: $ResourceLocation_, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): void;
-        blitInscribed(arg0: $ResourceLocation_, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: boolean, arg8: boolean): void;
-        getColorFromFormattingCharacter(arg0: string, arg1: boolean): number;
+        /**
+         * Draws a textured box of any size (smallest size is borderSize * 2 square)
+         * based on a fixed size textured box with continuous borders and filler.
+         */
+        blitWithBorder(texture: $ResourceLocation_, x: number, y: number, u: number, v: number, width: number, height: number, textureWidth: number, textureHeight: number, topBorder: number, bottomBorder: number, leftBorder: number, rightBorder: number): void;
+        /**
+         * Draws a textured box of any size (smallest size is borderSize * 2 square)
+         * based on a fixed size textured box with continuous borders and filler.
+         */
+        blitWithBorder(texture: $ResourceLocation_, x: number, y: number, u: number, v: number, width: number, height: number, textureWidth: number, textureHeight: number, borderSize: number): void;
+        blitInscribed(texture: $ResourceLocation_, x: number, y: number, boundsWidth: number, boundsHeight: number, rectWidth: number, rectHeight: number): void;
+        blitInscribed(texture: $ResourceLocation_, x: number, y: number, boundsWidth: number, boundsHeight: number, rectWidth: number, rectHeight: number, centerX: boolean, centerY: boolean): void;
+        getColorFromFormattingCharacter(c: string, isLighter: boolean): number;
+        /**
+         * Draws a left-aligned string, with a scrolling effect if the string is too long.
+         */
+        drawScrollingString(font: $Font, text: $Component_, minX: number, maxX: number, y: number, color: number): number;
     }
+    /**
+     * Extension interface for `Font`.
+     */
     export class $IFontExtension {
         static ELLIPSIS: $FormattedText;
     }
     export interface $IFontExtension {
         self(): $Font;
-        ellipsize(arg0: $FormattedText, arg1: number): $FormattedText;
+        /**
+         * If the width of the text exceeds `maxWidth`, an ellipse is added and the text is substringed.
+         */
+        ellipsize(text: $FormattedText, maxWidth: number): $FormattedText;
     }
     /**
      * Values that may be interpreted as {@link $IFontExtension}.
@@ -147,10 +289,10 @@ declare module "@package/net/neoforged/neoforge/client/extensions" {
     export class $IModelBakerExtension {
     }
     export interface $IModelBakerExtension {
-        bake(arg0: $ResourceLocation_, arg1: $ModelState, arg2: $Function_<$Material, $TextureAtlasSprite>): $BakedModel;
-        getTopLevelModel(arg0: $ModelResourceLocation_): $UnbakedModel;
         getModelTextureGetter(): $Function<$Material, $TextureAtlasSprite>;
-        bakeUncached(arg0: $UnbakedModel, arg1: $ModelState, arg2: $Function_<$Material, $TextureAtlasSprite>): $BakedModel;
+        getTopLevelModel(location: $ModelResourceLocation_): $UnbakedModel;
+        bake(location: $ResourceLocation_, state: $ModelState, sprites: $Function_<$Material, $TextureAtlasSprite>): $BakedModel;
+        bakeUncached(model: $UnbakedModel, state: $ModelState, sprites: $Function_<$Material, $TextureAtlasSprite>): $BakedModel;
         get modelTextureGetter(): $Function<$Material, $TextureAtlasSprite>;
     }
 }

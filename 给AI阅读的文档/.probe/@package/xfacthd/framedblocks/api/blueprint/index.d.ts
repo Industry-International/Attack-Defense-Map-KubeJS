@@ -32,14 +32,14 @@ declare module "@package/xfacthd/framedblocks/api/blueprint" {
     export class $BlueprintData extends $Record {
         isEmpty(): boolean;
         block(): $Block;
-        glowing(): boolean;
-        blockState(): $BlockItemStateProperties;
         intangible(): boolean;
         reinforced(): boolean;
-        camos(): $CamoList;
-        withBlockState(arg0: $BlockItemStateProperties_): $BlueprintData;
         auxData(): ($AuxBlueprintData<never>) | undefined;
+        blockState(): $BlockItemStateProperties;
         withAuxData(arg0: $AuxBlueprintData<never>): $BlueprintData;
+        withBlockState(arg0: $BlockItemStateProperties_): $BlueprintData;
+        camos(): $CamoList;
+        glowing(): boolean;
         getAuxDataOrDefault<T extends $AuxBlueprintData<T>>(arg0: T): T;
         static CODEC: $Codec<$BlueprintData>;
         static EMPTY: $BlueprintData;
@@ -51,7 +51,7 @@ declare module "@package/xfacthd/framedblocks/api/blueprint" {
         constructor(block: $Block_, camos: $CamoList, glowing: boolean, intangible: boolean, reinforced: boolean, blockState: $BlockItemStateProperties_, auxData: ($AuxBlueprintData<never>) | undefined);
         get empty(): boolean;
     }
-    export interface $AuxBlueprintData$Type extends RegistryMarked<RegistryTypes.FramedblocksAuxBlueprintDataTag, RegistryTypes.FramedblocksAuxBlueprintData> {}
+    export interface $AuxBlueprintData$Type<T> extends RegistryMarked<RegistryTypes.FramedblocksAuxBlueprintDataTag, RegistryTypes.FramedblocksAuxBlueprintData> {}
     export class $RegisterBlueprintCopyBehavioursEvent extends $Event implements $IModBusEvent {
         register(arg0: $BlueprintCopyBehaviour, arg1: $List_<$Holder_<$Block>>): void;
         register(arg0: $BlueprintCopyBehaviour, arg1: $Holder_<$Block>): void;
@@ -59,8 +59,8 @@ declare module "@package/xfacthd/framedblocks/api/blueprint" {
         constructor(arg0: $BiConsumer_<$BlueprintCopyBehaviour, $Block[]>);
     }
     export class $AuxBlueprintData$Type<T extends $AuxBlueprintData<never>> extends $Record {
-        codec(): $MapCodec<T>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        codec(): $MapCodec<T>;
         constructor(codec: $MapCodec_<T>, streamCodec: $StreamCodec<$RegistryFriendlyByteBuf, T>);
     }
     /**
@@ -70,15 +70,15 @@ declare module "@package/xfacthd/framedblocks/api/blueprint" {
     export class $BlueprintCopyBehaviour {
     }
     export interface $BlueprintCopyBehaviour {
-        attachDataToDummyRenderStack(arg0: $ItemStack_, arg1: $BlueprintData_): void;
-        getAdditionalConsumedMaterials(arg0: $BlueprintData_): $List<$ItemStack>;
+        writeToBlueprint(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $FramedBlockEntity): $BlueprintData;
         getIntangibleCount(arg0: $BlueprintData_): number;
         getBlockItem(arg0: $BlueprintData_): $ItemStack;
-        postProcessPaste(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $BlueprintData_, arg4: $ItemStack_): void;
         getGlowstoneCount(arg0: $BlueprintData_): number;
-        getReinforcementCount(arg0: $BlueprintData_): number;
+        postProcessPaste(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $BlueprintData_, arg4: $ItemStack_): void;
+        attachDataToDummyRenderStack(arg0: $ItemStack_, arg1: $BlueprintData_): void;
+        getAdditionalConsumedMaterials(arg0: $BlueprintData_): $List<$ItemStack>;
         getPropertiesToCopy(arg0: $BlockState_): $List<$Property<never>>;
-        writeToBlueprint(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_, arg3: $FramedBlockEntity): $BlueprintData;
+        getReinforcementCount(arg0: $BlueprintData_): number;
         getCamos(arg0: $BlueprintData_): $CamoList;
     }
 }

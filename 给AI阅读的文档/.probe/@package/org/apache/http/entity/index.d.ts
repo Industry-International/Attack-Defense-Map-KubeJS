@@ -1,5 +1,5 @@
 import { $Serializable, $InputStream } from "@package/java/io";
-import { $Header, $HttpEntity, $NameValuePair } from "@package/org/apache/http";
+import { $HttpEntity, $Header, $NameValuePair } from "@package/org/apache/http";
 import { $Charset } from "@package/java/nio/charset";
 
 declare module "@package/org/apache/http/entity" {
@@ -8,13 +8,13 @@ declare module "@package/org/apache/http/entity" {
         setContentType(arg0: string): void;
         getContentType(): $Header;
         getContentEncoding(): $Header;
+        setContentEncoding(arg0: string): void;
+        setContentEncoding(arg0: $Header): void;
+        setChunked(arg0: boolean): void;
         /**
          * @deprecated
          */
         consumeContent(): void;
-        setContentEncoding(arg0: string): void;
-        setContentEncoding(arg0: $Header): void;
-        setChunked(arg0: boolean): void;
         isChunked(): boolean;
     }
     export class $InputStreamEntity extends $AbstractHttpEntity {
@@ -31,15 +31,15 @@ declare module "@package/org/apache/http/entity" {
         static create(arg0: string, arg1: $Charset): $ContentType;
         static create(arg0: string): $ContentType;
         static create(arg0: string, arg1: string): $ContentType;
-        getCharset(): $Charset;
-        withCharset(arg0: $Charset): $ContentType;
-        withCharset(arg0: string): $ContentType;
         getParameter(arg0: string): string;
+        getCharset(): $Charset;
+        withCharset(arg0: string): $ContentType;
+        withCharset(arg0: $Charset): $ContentType;
         static getLenient(arg0: $HttpEntity): $ContentType;
         getMimeType(): string;
-        static getLenientOrDefault(arg0: $HttpEntity): $ContentType;
-        withParameters(...arg0: $NameValuePair[]): $ContentType;
         static getByMimeType(arg0: string): $ContentType;
+        withParameters(...arg0: $NameValuePair[]): $ContentType;
+        static getLenientOrDefault(arg0: $HttpEntity): $ContentType;
         static TEXT_HTML: $ContentType;
         static WILDCARD: $ContentType;
         static TEXT_XML: $ContentType;

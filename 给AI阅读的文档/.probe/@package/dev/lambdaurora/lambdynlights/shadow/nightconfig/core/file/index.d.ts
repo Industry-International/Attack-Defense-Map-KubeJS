@@ -5,11 +5,11 @@ import { $ConfigFormat } from "@package/dev/lambdaurora/lambdynlights/shadow/nig
 
 declare module "@package/dev/lambdaurora/lambdynlights/shadow/nightconfig/core/file" {
     export class $FileNotFoundAction {
-        static copyData(url: $URL): $FileNotFoundAction;
-        static copyData(file: $File_): $FileNotFoundAction;
-        static copyData(data: $InputStream): $FileNotFoundAction;
-        static copyData(file: $Path_): $FileNotFoundAction;
         static copyResource(resourcePath: string): $FileNotFoundAction;
+        static copyData(file: $File_): $FileNotFoundAction;
+        static copyData(file: $Path_): $FileNotFoundAction;
+        static copyData(data: $InputStream): $FileNotFoundAction;
+        static copyData(url: $URL): $FileNotFoundAction;
         static READ_NOTHING: $FileNotFoundAction;
         static CREATE_EMPTY: $FileNotFoundAction;
         static THROW_ERROR: $FileNotFoundAction;

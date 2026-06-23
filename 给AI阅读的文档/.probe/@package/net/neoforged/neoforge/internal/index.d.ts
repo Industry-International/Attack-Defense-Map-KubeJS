@@ -6,15 +6,15 @@ export * as versions from "@package/net/neoforged/neoforge/internal/versions";
 
 declare module "@package/net/neoforged/neoforge/internal" {
     export class $RegistrationEvents {
-        static modifyComponents(): void;
         static canModifyComponents(): boolean;
+        static modifyComponents(): void;
         constructor();
     }
     export class $BrandingControl {
-        static getServerBranding(): string;
         static resourceManagerReloadListener(): $ResourceManagerReloadListener;
-        static forEachAboveCopyrightLine(arg0: $BiConsumer_<number, string>): void;
-        static forEachLine(arg0: boolean, arg1: boolean, arg2: $BiConsumer_<number, string>): void;
+        static forEachAboveCopyrightLine(lineConsumer: $BiConsumer_<number, string>): void;
+        static forEachLine(includeMC: boolean, reverse: boolean, lineConsumer: $BiConsumer_<number, string>): void;
+        static getServerBranding(): string;
         static getClientBranding(): string;
         constructor();
         static get serverBranding(): string;
@@ -25,6 +25,13 @@ declare module "@package/net/neoforged/neoforge/internal" {
         constructor();
         get gameBus(): $IEventBus;
     }
+    /**
+     * Internal class for handling the steps of mod loading that are common for client, data and server runs.
+     * 
+     * - Client runs `#begin`, `#load` and `#finish` at different timings, see `ClientModLoader`.
+     * - Server runs all 3 consecutively.
+     * - Datagen only runs `#begin`.
+     */
     export class $CommonModLoader {
         static areRegistriesLoaded(): boolean;
         constructor();

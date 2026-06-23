@@ -20,7 +20,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number);
     }
     export class $TrunkPlacerType<P extends $TrunkPlacer> {
         codec(): $MapCodec<P>;
@@ -33,7 +33,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         static STRAIGHT_TRUNK_PLACER: $TrunkPlacerType<$StraightTrunkPlacer>;
         static FORKING_TRUNK_PLACER: $TrunkPlacerType<$ForkingTrunkPlacer>;
         static MEGA_JUNGLE_TRUNK_PLACER: $TrunkPlacerType<$MegaJungleTrunkPlacer>;
-        constructor(arg0: $MapCodec_<P>);
+        constructor(codec: $MapCodec_<P>);
     }
     /**
      * Values that may be interpreted as {@link $TrunkPlacerType}.
@@ -45,7 +45,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: $IntProvider_);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number, minHeightForLeaves: number, bendLength: $IntProvider_);
     }
     export class $CherryTrunkPlacer extends $TrunkPlacer {
         static CODEC: $MapCodec<$CherryTrunkPlacer>;
@@ -53,7 +53,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: $IntProvider_, arg4: $IntProvider_, arg5: $UniformInt, arg6: $IntProvider_);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number, branchCount: $IntProvider_, branchHorizontalLength: $IntProvider_, branchStartOffsetFromTop: $UniformInt, branchEndOffsetFromTop: $IntProvider_);
     }
     export class $FancyTrunkPlacer$FoliageCoords {
     }
@@ -63,7 +63,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: $IntProvider_, arg4: number, arg5: $IntProvider_, arg6: $HolderSet_<$Block>);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number, extraBranchSteps: $IntProvider_, placeBranchPerLogProbability: number, extraBranchLength: $IntProvider_, canGrowThrough: $HolderSet_<$Block>);
     }
     export class $DarkOakTrunkPlacer extends $TrunkPlacer {
         static CODEC: $MapCodec<$DarkOakTrunkPlacer>;
@@ -71,7 +71,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number);
     }
     export class $FancyTrunkPlacer extends $TrunkPlacer {
         static CODEC: $MapCodec<$FancyTrunkPlacer>;
@@ -79,7 +79,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number);
     }
     export class $GiantTrunkPlacer extends $TrunkPlacer {
         static CODEC: $MapCodec<$GiantTrunkPlacer>;
@@ -87,7 +87,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number);
     }
     export class $MegaJungleTrunkPlacer extends $GiantTrunkPlacer {
         static CODEC: $MapCodec<$MegaJungleTrunkPlacer>;
@@ -95,33 +95,33 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/trunkplacers
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number);
     }
     export class $TrunkPlacer {
         type(): $TrunkPlacerType<never>;
-        isFree(arg0: $LevelSimulatedReader, arg1: $BlockPos_): boolean;
-        validTreePos(arg0: $LevelSimulatedReader, arg1: $BlockPos_): boolean;
-        getTreeHeight(arg0: $RandomSource): number;
-        placeLogIfFree(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos$MutableBlockPos, arg4: $TreeConfiguration): void;
-        static trunkPlacerParts<P extends $TrunkPlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, number, number, number>;
-        static setDirtAt(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): void;
-        placeTrunk(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: number, arg4: $BlockPos_, arg5: $TreeConfiguration): $List<$FoliagePlacer$FoliageAttachment>;
-        placeLog(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration, arg5: $Function_<$BlockState, $BlockState>): boolean;
-        placeLog(arg0: $LevelSimulatedReader, arg1: $BiConsumer_<$BlockPos, $BlockState>, arg2: $RandomSource, arg3: $BlockPos_, arg4: $TreeConfiguration): boolean;
+        static setDirtAt(level: $LevelSimulatedReader, blockSetter: $BiConsumer_<$BlockPos, $BlockState>, random: $RandomSource, pos: $BlockPos_, config: $TreeConfiguration): void;
+        placeLog(level: $LevelSimulatedReader, blockSetter: $BiConsumer_<$BlockPos, $BlockState>, random: $RandomSource, pos: $BlockPos_, config: $TreeConfiguration): boolean;
+        placeLog(level: $LevelSimulatedReader, blockSetter: $BiConsumer_<$BlockPos, $BlockState>, random: $RandomSource, pos: $BlockPos_, config: $TreeConfiguration, propertySetter: $Function_<$BlockState, $BlockState>): boolean;
+        placeTrunk(level: $LevelSimulatedReader, blockSetter: $BiConsumer_<$BlockPos, $BlockState>, random: $RandomSource, freeTreeHeight: number, pos: $BlockPos_, config: $TreeConfiguration): $List<$FoliagePlacer$FoliageAttachment>;
+        isFree(level: $LevelSimulatedReader, pos: $BlockPos_): boolean;
+        validTreePos(level: $LevelSimulatedReader, pos: $BlockPos_): boolean;
+        placeLogIfFree(level: $LevelSimulatedReader, blockSetter: $BiConsumer_<$BlockPos, $BlockState>, random: $RandomSource, pos: $BlockPos$MutableBlockPos, config: $TreeConfiguration): void;
+        static trunkPlacerParts<P extends $TrunkPlacer>(instance: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, number, number, number>;
+        getTreeHeight(random: $RandomSource): number;
         static CODEC: $Codec<$TrunkPlacer>;
         static MAX_HEIGHT: number;
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number);
     }
-    export interface $TrunkPlacerType extends RegistryMarked<RegistryTypes.WorldgenTrunkPlacerTypeTag, RegistryTypes.WorldgenTrunkPlacerType> {}
+    export interface $TrunkPlacerType<P> extends RegistryMarked<RegistryTypes.WorldgenTrunkPlacerTypeTag, RegistryTypes.WorldgenTrunkPlacerType> {}
     export class $StraightTrunkPlacer extends $TrunkPlacer {
         static CODEC: $MapCodec<$StraightTrunkPlacer>;
         static MAX_HEIGHT: number;
         baseHeight: number;
         heightRandA: number;
         heightRandB: number;
-        constructor(arg0: number, arg1: number, arg2: number);
+        constructor(baseHeight: number, heightRandA: number, heightRandB: number);
     }
 }

@@ -5,8 +5,8 @@ import { $SelectorProvider } from "@package/java/nio/channels/spi";
 
 declare module "@package/io/netty/channel/nio" {
     export class $NioEventLoopGroup extends $MultithreadEventLoopGroup {
-        rebuildSelectors(): void;
         setIoRatio(arg0: number): void;
+        rebuildSelectors(): void;
         constructor(arg0: number, arg1: $Executor_, arg2: $EventExecutorChooserFactory_, arg3: $SelectorProvider, arg4: $SelectStrategyFactory_);
         constructor(arg0: number, arg1: $Executor_, arg2: $SelectorProvider, arg3: $SelectStrategyFactory_);
         constructor(arg0: number, arg1: $Executor_, arg2: $SelectorProvider);

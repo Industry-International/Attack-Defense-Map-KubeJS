@@ -20,7 +20,7 @@ export * as boring from "@package/rbasamoyai/createbigcannons/crafting/boring";
 export * as builtup from "@package/rbasamoyai/createbigcannons/crafting/builtup";
 
 declare module "@package/rbasamoyai/createbigcannons/crafting" {
-    export interface $BlockRecipeType extends RegistryMarked<RegistryTypes.CreatebigcannonsBlockRecipeTypesTag, RegistryTypes.CreatebigcannonsBlockRecipeTypes> {}
+    export interface $BlockRecipeType<T> extends RegistryMarked<RegistryTypes.CreatebigcannonsBlockRecipeTypesTag, RegistryTypes.CreatebigcannonsBlockRecipeTypes> {}
     export class $BlockRecipe {
         static CODEC: $Codec<$BlockRecipe>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $BlockRecipe>;
@@ -28,14 +28,14 @@ declare module "@package/rbasamoyai/createbigcannons/crafting" {
     export interface $BlockRecipe {
         matches(arg0: $Level_, arg1: $BlockPos_): boolean;
         getType(): $BlockRecipeType<never>;
-        getSerializer(): $BlockRecipeSerializer<never>;
-        getResultBlock(): $Block;
         assembleInWorld(arg0: $Level_, arg1: $BlockPos_): void;
+        getResultBlock(): $Block;
+        getSerializer(): $BlockRecipeSerializer<never>;
         get type(): $BlockRecipeType<never>;
-        get serializer(): $BlockRecipeSerializer<never>;
         get resultBlock(): $Block;
+        get serializer(): $BlockRecipeSerializer<never>;
     }
-    export interface $BlockRecipeSerializer extends RegistryMarked<RegistryTypes.CreatebigcannonsBlockRecipeSerializersTag, RegistryTypes.CreatebigcannonsBlockRecipeSerializers> {}
+    export interface $BlockRecipeSerializer<T> extends RegistryMarked<RegistryTypes.CreatebigcannonsBlockRecipeSerializersTag, RegistryTypes.CreatebigcannonsBlockRecipeSerializers> {}
     export class $BlockRecipeType<T extends $BlockRecipe> {
         static register(): void;
         static CANNON_CASTING: $BlockRecipeType<$CannonCastingRecipe>;
@@ -51,9 +51,9 @@ declare module "@package/rbasamoyai/createbigcannons/crafting" {
     export class $BlockRecipeIngredient implements $Predicate<$BlockState> {
         static of(arg0: $TagKey_<$Block>): $BlockRecipeIngredient;
         static of(arg0: $Block_): $BlockRecipeIngredient;
-        toNetwork(arg0: $FriendlyByteBuf): void;
         ingredientType(): $BlockRecipeIngredient$Type;
         getBlockItems(): $List<$ItemStack>;
+        toNetwork(arg0: $FriendlyByteBuf): void;
         stringForSerialization(): string;
         or(arg0: $Predicate_<$BlockState>): $Predicate<$BlockState>;
         negate(): $Predicate<$BlockState>;
@@ -70,8 +70,8 @@ declare module "@package/rbasamoyai/createbigcannons/crafting" {
         static BUILT_UP_HEATING: $BlockRecipeSerializer<$BuiltUpHeatingRecipe>;
     }
     export interface $BlockRecipeSerializer<T extends $BlockRecipe> {
-        codec(): $MapCodec<T>;
         streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, T>;
+        codec(): $MapCodec<T>;
     }
     /**
      * Values that may be interpreted as {@link $BlockRecipeSerializer}.

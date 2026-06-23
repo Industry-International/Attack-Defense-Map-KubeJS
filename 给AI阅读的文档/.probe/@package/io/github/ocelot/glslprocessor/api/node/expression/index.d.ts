@@ -25,9 +25,9 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/expression" {
      */
     export type $GlslUnaryNode$Operand_ = "pre_increment" | "pre_decrement" | "post_increment" | "post_decrement" | "plus" | "dash" | "bang" | "tilde";
     export class $GlslBitwiseNode$Operand extends $Enum<$GlslBitwiseNode$Operand> {
+        getNodeType(): $GlslNodeType;
         static values(): $GlslBitwiseNode$Operand[];
         static valueOf(arg0: string): $GlslBitwiseNode$Operand;
-        getNodeType(): $GlslNodeType;
         getDelimiter(): string;
         static BITWISE_INCLUSIVE_OR: $GlslBitwiseNode$Operand;
         static LOGICAL_AND: $GlslBitwiseNode$Operand;
@@ -59,19 +59,19 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/expression" {
      */
     export type $GlslCompareNode$Operand_ = "equal" | "not_equal" | "less" | "greater" | "lequal" | "gequal";
     export class $GlslPrecisionNode implements $GlslNode {
-        getPrecision(): $GlslTypeQualifier$Precision;
+        getNodeType(): $GlslNodeType;
         stream(): $Stream<$GlslNode>;
         visit(arg0: $GlslNodeVisitor): void;
-        getNodeType(): $GlslNodeType;
+        getPrecision(): $GlslTypeQualifier$Precision;
         setPrecision(arg0: $GlslTypeQualifier$Precision_): $GlslPrecisionNode;
         getTypeSpecifier(): $GlslTypeSpecifier;
         setTypeSpecifier(arg0: $GlslTypeSpecifier_): $GlslPrecisionNode;
         toList(): $List<$GlslNode>;
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
+        getBody(): $GlslNodeList;
         constructor(arg0: $GlslTypeQualifier$Precision_, arg1: $GlslTypeSpecifier_);
         get nodeType(): $GlslNodeType;
         get type(): $GlslSpecifiedType;
@@ -94,106 +94,106 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/expression" {
      */
     export type $GlslOperationNode$Operand_ = "left_shift" | "right_shift" | "add" | "subtract" | "multiply" | "divide" | "modulo";
     export class $GlslOperationNode implements $GlslNode {
+        getNodeType(): $GlslNodeType;
         stream(): $Stream<$GlslNode>;
         getFirst(): $GlslNode;
         visit(arg0: $GlslNodeVisitor): void;
         getSecond(): $GlslNode;
-        getNodeType(): $GlslNodeType;
-        setFirst(arg0: $GlslNode): $GlslOperationNode;
         setSecond(arg0: $GlslNode): $GlslOperationNode;
+        setFirst(arg0: $GlslNode): $GlslOperationNode;
         getOperand(): $GlslOperationNode$Operand;
         setOperand(arg0: $GlslOperationNode$Operand_): $GlslOperationNode;
         toList(): $List<$GlslNode>;
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
+        getBody(): $GlslNodeList;
         constructor(arg0: $GlslNode, arg1: $GlslNode, arg2: $GlslOperationNode$Operand_);
         get nodeType(): $GlslNodeType;
         get type(): $GlslSpecifiedType;
     }
     export class $GlslAssignmentNode implements $GlslNode {
+        getNodeType(): $GlslNodeType;
         stream(): $Stream<$GlslNode>;
         getType(): $GlslSpecifiedType;
         getFirst(): $GlslNode;
         visit(arg0: $GlslNodeVisitor): void;
         getSecond(): $GlslNode;
-        getNodeType(): $GlslNodeType;
-        setFirst(arg0: $GlslNode): $GlslAssignmentNode;
         setSecond(arg0: $GlslNode): $GlslAssignmentNode;
+        setFirst(arg0: $GlslNode): $GlslAssignmentNode;
         getOperand(): $GlslAssignmentNode$Operand;
         setOperand(arg0: $GlslAssignmentNode$Operand_): $GlslAssignmentNode;
         toList(): $List<$GlslNode>;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
+        getBody(): $GlslNodeList;
         constructor(arg0: $GlslNode, arg1: $GlslNode, arg2: $GlslAssignmentNode$Operand_);
-        get type(): $GlslSpecifiedType;
         get nodeType(): $GlslNodeType;
+        get type(): $GlslSpecifiedType;
     }
     export class $GlslCompareNode implements $GlslNode {
+        getNodeType(): $GlslNodeType;
         stream(): $Stream<$GlslNode>;
         getFirst(): $GlslNode;
         visit(arg0: $GlslNodeVisitor): void;
         getSecond(): $GlslNode;
-        getNodeType(): $GlslNodeType;
-        setFirst(arg0: $GlslNode): $GlslCompareNode;
         setSecond(arg0: $GlslNode): $GlslCompareNode;
+        setFirst(arg0: $GlslNode): $GlslCompareNode;
         getOperand(): $GlslCompareNode$Operand;
         setOperand(arg0: $GlslCompareNode$Operand_): $GlslCompareNode;
         toList(): $List<$GlslNode>;
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
+        getBody(): $GlslNodeList;
         constructor(arg0: $GlslNode, arg1: $GlslNode, arg2: $GlslCompareNode$Operand_);
         get nodeType(): $GlslNodeType;
         get type(): $GlslSpecifiedType;
     }
     export class $GlslConditionalNode implements $GlslNode {
+        getNodeType(): $GlslNodeType;
         stream(): $Stream<$GlslNode>;
         getFirst(): $GlslNode;
         visit(arg0: $GlslNodeVisitor): void;
         getSecond(): $GlslNode;
-        getNodeType(): $GlslNodeType;
-        setFirst(arg0: $GlslNode): $GlslConditionalNode;
         setSecond(arg0: $GlslNode): $GlslConditionalNode;
-        getCondition(): $GlslNode;
+        setFirst(arg0: $GlslNode): $GlslConditionalNode;
         setCondition(arg0: $GlslNode): $GlslConditionalNode;
+        getCondition(): $GlslNode;
         toList(): $List<$GlslNode>;
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
+        getBody(): $GlslNodeList;
         constructor(arg0: $GlslNode, arg1: $GlslNode, arg2: $GlslNode);
         get nodeType(): $GlslNodeType;
         get type(): $GlslSpecifiedType;
     }
     export class $GlslBitwiseNode implements $GlslNode {
+        getNodeType(): $GlslNodeType;
         stream(): $Stream<$GlslNode>;
         static logicalAnd(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
         static logicalOr(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
         static logicalXor(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
         visit(arg0: $GlslNodeVisitor): void;
         getExpressions(): $List<$GlslNode>;
-        getNodeType(): $GlslNodeType;
         getOperand(): $GlslBitwiseNode$Operand;
-        setOperand(arg0: $GlslBitwiseNode$Operand_): $GlslBitwiseNode;
         setExpressions(...arg0: $GlslNode[]): $GlslBitwiseNode;
         setExpressions(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
-        static bitAnd(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
+        setOperand(arg0: $GlslBitwiseNode$Operand_): $GlslBitwiseNode;
         static bitXor(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
+        static bitAnd(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
         static bitOr(arg0: $Collection_<$GlslNode>): $GlslBitwiseNode;
         toList(): $List<$GlslNode>;
         getType(): $GlslSpecifiedType;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
+        getBody(): $GlslNodeList;
         constructor(arg0: $Collection_<$GlslNode>, arg1: $GlslBitwiseNode$Operand_);
         get nodeType(): $GlslNodeType;
         get type(): $GlslSpecifiedType;
@@ -220,21 +220,21 @@ declare module "@package/io/github/ocelot/glslprocessor/api/node/expression" {
      */
     export type $GlslAssignmentNode$Operand_ = "equal" | "mul_assign" | "div_assign" | "mod_assign" | "add_assign" | "sub_assign" | "left_assign" | "right_assign" | "and_assign" | "xor_assign" | "or_assign";
     export class $GlslUnaryNode implements $GlslNode {
+        getNodeType(): $GlslNodeType;
         stream(): $Stream<$GlslNode>;
         getType(): $GlslSpecifiedType;
         visit(arg0: $GlslNodeVisitor): void;
-        getNodeType(): $GlslNodeType;
         getExpression(): $GlslNode;
         getOperand(): $GlslUnaryNode$Operand;
         setExpression(arg0: $GlslNode): $GlslUnaryNode;
         setOperand(arg0: $GlslUnaryNode$Operand_): $GlslUnaryNode;
         toList(): $List<$GlslNode>;
         toSourceString(): string;
-        getBody(): $GlslNodeList;
         setBody(arg0: $Collection_<$GlslNode>): boolean;
         setBody(...arg0: $GlslNode[]): boolean;
+        getBody(): $GlslNodeList;
         constructor(arg0: $GlslNode, arg1: $GlslUnaryNode$Operand_);
-        get type(): $GlslSpecifiedType;
         get nodeType(): $GlslNodeType;
+        get type(): $GlslSpecifiedType;
     }
 }

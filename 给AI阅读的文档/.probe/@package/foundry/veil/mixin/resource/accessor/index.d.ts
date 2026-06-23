@@ -26,9 +26,9 @@ declare module "@package/foundry/veil/mixin/resource/accessor" {
     export class $ResourceModelManagerAccessor {
     }
     export interface $ResourceModelManagerAccessor {
-        getMaxMipmapLevels(): number;
         getAtlases(): $AtlasSet;
-        get maxMipmapLevels(): number;
+        getMaxMipmapLevels(): number;
         get atlases(): $AtlasSet;
+        get maxMipmapLevels(): number;
     }
 }

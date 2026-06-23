@@ -5,18 +5,21 @@ export * as json from "@package/net/neoforged/neoforge/client/entity/animation/j
 
 declare module "@package/net/neoforged/neoforge/client/entity/animation" {
     export class $AnimationTarget extends $Record {
-        keyframeTarget(): $AnimationKeyframeTarget;
-        channelTarget(): $AnimationChannel$Target;
         inverseKeyframeTarget(): $AnimationKeyframeTarget;
+        channelTarget(): $AnimationChannel$Target;
+        keyframeTarget(): $AnimationKeyframeTarget;
         static ROTATION: $AnimationTarget;
         static POSITION: $AnimationTarget;
         static SCALE: $AnimationTarget;
         constructor(channelTarget: $AnimationChannel$Target_, keyframeTarget: $AnimationKeyframeTarget_, inverseKeyframeTarget: $AnimationKeyframeTarget_);
     }
+    /**
+     * A function for transforming vectors into values that make sense to their keyframe's target.
+     */
     export class $AnimationKeyframeTarget {
     }
     export interface $AnimationKeyframeTarget {
-        apply(arg0: number, arg1: number, arg2: number): $Vector3f;
+        apply(x: number, y: number, z: number): $Vector3f;
     }
     /**
      * Values that may be interpreted as {@link $AnimationKeyframeTarget}.

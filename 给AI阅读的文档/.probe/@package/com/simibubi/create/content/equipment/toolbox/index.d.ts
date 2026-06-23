@@ -22,24 +22,24 @@ declare module "@package/com/simibubi/create/content/equipment/toolbox" {
     export class $ToolboxBlockEntity extends $SmartBlockEntity implements $MenuProvider, $Nameable, $AccessorToolboxBlockEntity {
         getName(): $Component;
         getDisplayName(): $Component;
-        unequip(arg0: number, arg1: $Player, arg2: number, arg3: boolean): void;
+        setUniqueId(arg0: $UUID_): void;
         getColor(): $DyeColor;
         static registerCapabilities(arg0: $RegisterCapabilitiesEvent): void;
-        getUniqueId(): $UUID;
-        setCustomName(arg0: $Component_): void;
         getCustomName(): $Component;
-        hasCustomName(): boolean;
-        setUniqueId(arg0: $UUID_): void;
-        createMenu(arg0: number, arg1: $Inventory, arg2: $Player): $AbstractContainerMenu;
         readInventory(arg0: $ToolboxInventory): void;
-        unequipTracked(): void;
-        isFullyInitialized(): boolean;
         connectPlayer(arg0: number, arg1: $Player, arg2: number): void;
+        isFullyInitialized(): boolean;
+        hasCustomName(): boolean;
+        getUniqueId(): $UUID;
+        createMenu(arg0: number, arg1: $Inventory, arg2: $Player): $AbstractContainerMenu;
+        setCustomName(arg0: $Component_): void;
+        unequipTracked(): void;
+        unequip(arg0: number, arg1: $Player, arg2: number, arg3: boolean): void;
         shouldTriggerClientSideContainerClosingOnOpen(): boolean;
         writeClientSideData(arg0: $AbstractContainerMenu, arg1: $RegistryFriendlyByteBuf): void;
         shouldCloseCurrentScreen(): boolean;
-        getInventory(): $ToolboxInventory;
         getConnectedPlayers(): $Map<number, $WeakHashMap<$Player, number>>;
+        getInventory(): $ToolboxInventory;
         worldPosition: $BlockPos;
         drawers: $LerpedFloat;
         level: $Level;
@@ -50,16 +50,16 @@ declare module "@package/com/simibubi/create/content/equipment/toolbox" {
         get displayName(): $Component;
         get color(): $DyeColor;
         get fullyInitialized(): boolean;
-        get inventory(): $ToolboxInventory;
         get connectedPlayers(): $Map<number, $WeakHashMap<$Player, number>>;
+        get inventory(): $ToolboxInventory;
     }
     export class $ToolboxInventory extends $ItemStackHandler implements $AccessorToolboxInventory {
-        inLimitedMode(arg0: $Consumer_<$ToolboxInventory>): void;
-        static cleanItemNBT(arg0: $ItemStack_): $ItemStack;
-        distributeToCompartment(arg0: $ItemStack_, arg1: number, arg2: boolean): $ItemStack;
-        takeFromCompartment(arg0: number, arg1: number, arg2: boolean): $ItemStack;
-        static canItemsShareCompartment(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
         settle(arg0: number): void;
+        static cleanItemNBT(arg0: $ItemStack_): $ItemStack;
+        inLimitedMode(arg0: $Consumer_<$ToolboxInventory>): void;
+        takeFromCompartment(arg0: number, arg1: number, arg2: boolean): $ItemStack;
+        distributeToCompartment(arg0: $ItemStack_, arg1: number, arg2: boolean): $ItemStack;
+        static canItemsShareCompartment(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
         getFilters(): $List<$ItemStack>;
         /**
          * @deprecated

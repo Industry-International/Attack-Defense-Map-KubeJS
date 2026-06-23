@@ -5,9 +5,9 @@ export * as key from "@package/xaero/hud/controls/key";
 
 declare module "@package/xaero/hud/controls" {
     export class $ControlsRegister {
+        registerKeybindings(arg0: $Consumer_<$KeyMapping>): void;
         onStage2(): void;
         getKeyMappingControllers(): $KeyMappingControllerManager;
-        registerKeybindings(arg0: $Consumer_<$KeyMapping>): void;
         get keyMappingControllers(): $KeyMappingControllerManager;
     }
 }

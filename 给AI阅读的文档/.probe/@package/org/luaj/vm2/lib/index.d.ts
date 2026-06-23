@@ -1,15 +1,15 @@
 import { $InputStream } from "@package/java/io";
-import { $LuaValue, $LuaString, $Varargs, $LuaClosure, $LuaBoolean, $Prototype, $LuaFunction, $LuaNumber, $LuaTable } from "@package/org/luaj/vm2";
+import { $LuaValue, $LuaString, $Varargs, $LuaClosure, $Prototype, $LuaBoolean, $LuaFunction, $LuaNumber, $LuaTable } from "@package/org/luaj/vm2";
 
 declare module "@package/org/luaj/vm2/lib" {
     export class $DebugLib extends $TwoArgFunction {
-        traceback(arg0: number): string;
-        onInstruction(arg0: number, arg1: $Varargs, arg2: number): void;
-        getCallFrame(arg0: number): $DebugLib$CallFrame;
         onCall(arg0: $LuaFunction): void;
         onCall(arg0: $LuaClosure, arg1: $Varargs, arg2: $LuaValue[]): void;
-        static getobjname(arg0: $Prototype, arg1: number, arg2: number): $DebugLib$NameWhat;
         onReturn(): void;
+        static getobjname(arg0: $Prototype, arg1: number, arg2: number): $DebugLib$NameWhat;
+        traceback(arg0: number): string;
+        getCallFrame(arg0: number): $DebugLib$CallFrame;
+        onInstruction(arg0: number, arg1: $Varargs, arg2: number): void;
         static ZERO: $LuaNumber;
         static CALL: $LuaString;
         static ADD: $LuaString;
@@ -199,8 +199,8 @@ declare module "@package/org/luaj/vm2/lib" {
     }
     export class $BaseLib extends $TwoArgFunction implements $ResourceFinder {
         findResource(arg0: string): $InputStream;
-        loadFile(arg0: string, arg1: string, arg2: $LuaValue): $Varargs;
         loadStream(arg0: $InputStream, arg1: string, arg2: string, arg3: $LuaValue): $Varargs;
+        loadFile(arg0: string, arg1: string, arg2: $LuaValue): $Varargs;
         static ZERO: $LuaNumber;
         static CALL: $LuaString;
         static ADD: $LuaString;
@@ -247,9 +247,9 @@ declare module "@package/org/luaj/vm2/lib" {
         constructor();
     }
     export class $PackageLib extends $TwoArgFunction {
-        setIsLoaded(arg0: string, arg1: $LuaTable): void;
-        static toClassname(arg0: string): string;
         setLuaPath(arg0: string): void;
+        static toClassname(arg0: string): string;
+        setIsLoaded(arg0: string, arg1: $LuaTable): void;
         static ZERO: $LuaNumber;
         static CALL: $LuaString;
         static ADD: $LuaString;
@@ -347,8 +347,8 @@ declare module "@package/org/luaj/vm2/lib" {
         constructor(arg0: $PackageLib);
     }
     export class $DebugLib$CallFrame {
-        shortsource(): string;
         currentline(): number;
+        shortsource(): string;
         constructor();
     }
     export class $ResourceFinder {

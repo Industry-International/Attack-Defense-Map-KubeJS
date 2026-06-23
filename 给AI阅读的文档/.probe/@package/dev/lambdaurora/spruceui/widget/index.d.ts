@@ -6,32 +6,32 @@ declare module "@package/dev/lambdaurora/spruceui/widget" {
     export class $SpruceWidget {
     }
     export interface $SpruceWidget extends $SprucePositioned, $SpruceElement, $NarratableEntry, $Renderable {
-        getWidth(): number;
+        getPosition(): $Position;
+        isMouseHovered(): boolean;
+        isFocusedOrHovered(): boolean;
         isActive(): boolean;
         getY(): number;
-        getX(): number;
-        setVisible(arg0: boolean): void;
+        getWidth(): number;
         setActive(arg0: boolean): void;
-        isVisible(): boolean;
-        getEndY(): number;
         getEndX(): number;
-        getPosition(): $Position;
-        isFocused(): boolean;
+        getEndY(): number;
+        setVisible(arg0: boolean): void;
+        isMouseOver(mouseX: number, mouseY: number): boolean;
+        setDragging(arg0: boolean): void;
         setFocused(arg0: boolean): void;
         isDragging(): boolean;
         getHeight(): number;
-        isMouseOver(mouseX: number, mouseY: number): boolean;
-        setDragging(arg0: boolean): void;
-        isMouseHovered(): boolean;
-        isFocusedOrHovered(): boolean;
-        get width(): number;
-        get y(): number;
-        get x(): number;
-        get endY(): number;
-        get endX(): number;
+        isFocused(): boolean;
+        getX(): number;
+        isVisible(): boolean;
         get position(): $Position;
-        get height(): number;
         get mouseHovered(): boolean;
         get focusedOrHovered(): boolean;
+        get y(): number;
+        get width(): number;
+        get endX(): number;
+        get endY(): number;
+        get height(): number;
+        get x(): number;
     }
 }

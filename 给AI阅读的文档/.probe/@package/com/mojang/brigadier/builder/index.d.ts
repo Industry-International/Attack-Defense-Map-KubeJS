@@ -3,7 +3,7 @@ import { $SuggestionProvider_, $SuggestionProvider } from "@package/com/mojang/b
 import { $Command_, $SingleRedirectModifier_, $Command, $RedirectModifier, $RedirectModifier_ } from "@package/com/mojang/brigadier";
 import { $Collection } from "@package/java/util";
 import { $LiteralCommandNode, $CommandNode, $ArgumentCommandNode } from "@package/com/mojang/brigadier/tree";
-import { $ArgumentType, $ArgumentType_ } from "@package/com/mojang/brigadier/arguments";
+import { $ArgumentType_, $ArgumentType } from "@package/com/mojang/brigadier/arguments";
 
 declare module "@package/com/mojang/brigadier/builder" {
     export class $LiteralArgumentBuilder<S> extends $ArgumentBuilder<S, $LiteralArgumentBuilder<S>> {
@@ -20,13 +20,13 @@ declare module "@package/com/mojang/brigadier/builder" {
         getArguments(): $Collection<$CommandNode<S>>;
         then(arg0: $CommandNode<S>): T;
         then(arg0: $ArgumentBuilder<S, never>): T;
+        getCommand(): $Command<S>;
         forward(arg0: $CommandNode<S>, arg1: $RedirectModifier_<S>, arg2: boolean): T;
         executes(arg0: $Command_<S>): T;
-        getCommand(): $Command<S>;
         getRedirectModifier(): $RedirectModifier<S>;
-        isFork(): boolean;
         getRequirement(): $Predicate<S>;
         getRedirect(): $CommandNode<S>;
+        isFork(): boolean;
         constructor();
         get arguments(): $Collection<$CommandNode<S>>;
         get command(): $Command<S>;

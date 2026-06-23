@@ -1,8 +1,8 @@
 
 declare module "@package/com/ishland/c2me/notickvd/common" {
-    export class $ChunkTicketManagerExtension {
+    export class $ChunkLevelManagerExtension {
     }
-    export interface $ChunkTicketManagerExtension {
+    export interface $ChunkLevelManagerExtension {
         c2me$closeNoTickVD(): void;
         c2me$getPendingLoadsCount(): number;
     }

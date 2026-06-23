@@ -56,14 +56,14 @@ declare module "@package/net/blay09/mods/balm/api/event/client/screen" {
         getMouseX(): number;
         getMouseY(): number;
         getScreen(): $Screen;
-        getGuiGraphics(): $GuiGraphics;
         getTickDelta(): number;
+        getGuiGraphics(): $GuiGraphics;
         constructor(arg0: $Screen, arg1: $GuiGraphics, arg2: number, arg3: number, arg4: number);
         get mouseX(): number;
         get mouseY(): number;
         get screen(): $Screen;
-        get guiGraphics(): $GuiGraphics;
         get tickDelta(): number;
+        get guiGraphics(): $GuiGraphics;
     }
     export class $ScreenMouseEvent extends $BalmEvent {
         getButton(): number;
@@ -113,12 +113,12 @@ declare module "@package/net/blay09/mods/balm/api/event/client/screen" {
     export class $ScreenKeyEvent extends $BalmEvent {
         getModifiers(): number;
         getKey(): number;
-        getScanCode(): number;
         getScreen(): $Screen;
+        getScanCode(): number;
         constructor(arg0: $Screen, arg1: number, arg2: number, arg3: number);
         get modifiers(): number;
         get key(): number;
-        get scanCode(): number;
         get screen(): $Screen;
+        get scanCode(): number;
     }
 }

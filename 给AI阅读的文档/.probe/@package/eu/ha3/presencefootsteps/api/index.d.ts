@@ -16,7 +16,7 @@ declare module "@package/eu/ha3/presencefootsteps/api" {
     export class $DerivedBlock$Settings {
     }
     export interface $DerivedBlock$Settings {
-        getBaseBlock(): $Block;
         setBaseBlock(arg0: $Block_): void;
+        getBaseBlock(): $Block;
     }
 }

@@ -8,10 +8,10 @@ declare module "@package/com/blamejared/controlling/mixin" {
     export class $AccessKeyBindsScreen {
     }
     export interface $AccessKeyBindsScreen {
+        controlling$getResetButton(): $Button;
+        controlling$setResetButton(arg0: $Button): void;
         controlling$setKeyBindsList(arg0: $KeyBindsList): void;
         controlling$getKeyBindsList(): $KeyBindsList;
-        controlling$setResetButton(arg0: $Button): void;
-        controlling$getResetButton(): $Button;
     }
     export class $AccessKeyMapping {
     }
@@ -34,14 +34,14 @@ declare module "@package/com/blamejared/controlling/mixin" {
     export class $AccessKeyBindsScreenNeoForge {
     }
     export interface $AccessKeyBindsScreenNeoForge {
-        setIsLastModifierHeldDown(arg0: boolean): void;
-        getLastPressedModifier(): $InputConstants$Key;
         setLastPressedModifier(arg0: $InputConstants$Key): void;
+        setIsLastModifierHeldDown(arg0: boolean): void;
         isIsLastKeyHeldDown(): boolean;
         setIsLastKeyHeldDown(arg0: boolean): void;
+        getLastPressedModifier(): $InputConstants$Key;
         isIsLastModifierHeldDown(): boolean;
-        getLastPressedKey(): $InputConstants$Key;
         setLastPressedKey(arg0: $InputConstants$Key): void;
+        getLastPressedKey(): $InputConstants$Key;
     }
     export class $AccessInputConstantsKey {
         static controlling$getNAME_MAP(): $Map<string, $InputConstants$Key>;

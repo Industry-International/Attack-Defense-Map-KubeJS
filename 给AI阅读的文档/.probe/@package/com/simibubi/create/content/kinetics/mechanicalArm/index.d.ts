@@ -26,16 +26,16 @@ declare module "@package/com/simibubi/create/content/kinetics/mechanicalArm" {
         keepAlive(): void;
         getLevel(): $Level;
         setLevel(arg0: $Level_): void;
-        getMode(): $ArmInteractionPoint$Mode;
-        static deserialize(arg0: $CompoundTag_, arg1: $Level_, arg2: $BlockPos_): $ArmInteractionPoint;
         serialize(arg0: $BlockPos_): $CompoundTag;
+        static deserialize(arg0: $CompoundTag_, arg1: $Level_, arg2: $BlockPos_): $ArmInteractionPoint;
+        getMode(): $ArmInteractionPoint$Mode;
         getPos(): $BlockPos;
-        getSlotCount(arg0: $ArmBlockEntity): number;
         static isInteractable(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): boolean;
-        static transformPos(arg0: $CompoundTag_, arg1: $StructureTransform): void;
-        updateCachedState(): void;
+        getSlotCount(arg0: $ArmBlockEntity): number;
         getTargetAngles(arg0: $BlockPos_, arg1: boolean): $ArmAngleTarget;
+        updateCachedState(): void;
         xaero_OPAC_getPos(): $BlockPos;
+        static transformPos(arg0: $CompoundTag_, arg1: $StructureTransform): void;
         cycleMode(): void;
         constructor(arg0: $ArmInteractionPointType_, arg1: $Level_, arg2: $BlockPos_, arg3: $BlockState_);
         get type(): $ArmInteractionPointType;
@@ -52,9 +52,9 @@ declare module "@package/com/simibubi/create/content/kinetics/mechanicalArm" {
         write(arg0: $CompoundTag_, arg1: $HolderLookup$Provider, arg2: boolean): void;
         static getRange(): number;
         redstoneUpdate(): void;
-        writeInteractionPoints(arg0: $CompoundTag_): void;
-        handler$zfa000$openpartiesandclaims$onSearchForItem(arg0: $CallbackInfo): void;
         handler$zfa000$openpartiesandclaims$onSearchForDestination(arg0: $CallbackInfo): void;
+        handler$zfa000$openpartiesandclaims$onSearchForItem(arg0: $CallbackInfo): void;
+        writeInteractionPoints(arg0: $CompoundTag_): void;
         sequenceContext: $SequencedGearshiftBlockEntity$SequenceContext;
         networkDirty: boolean;
         worldPosition: $BlockPos;
@@ -84,9 +84,9 @@ declare module "@package/com/simibubi/create/content/kinetics/mechanicalArm" {
     export class $ArmInteractionPointType {
         static init(): void;
         getPriority(): number;
-        static getPrimaryType(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): $ArmInteractionPointType;
-        createPoint(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): $ArmInteractionPoint;
         canCreatePoint(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): boolean;
+        createPoint(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): $ArmInteractionPoint;
+        static getPrimaryType(arg0: $Level_, arg1: $BlockPos_, arg2: $BlockState_): $ArmInteractionPointType;
         static SORTED_TYPES_VIEW: $List<$ArmInteractionPointType>;
         constructor();
         get priority(): number;

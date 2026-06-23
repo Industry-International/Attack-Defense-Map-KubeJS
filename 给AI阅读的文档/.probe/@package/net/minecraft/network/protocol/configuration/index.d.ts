@@ -22,8 +22,8 @@ declare module "@package/net/minecraft/network/protocol/configuration" {
     }
     export interface $ServerConfigurationPacketListener extends $ServerCommonPacketListener, $IServerConfigurationPacketListenerExtension {
         protocol(): $ConnectionProtocol;
-        handleSelectKnownPacks(arg0: $ServerboundSelectKnownPacks_): void;
-        handleConfigurationFinished(arg0: $ServerboundFinishConfigurationPacket): void;
+        handleConfigurationFinished(packet: $ServerboundFinishConfigurationPacket): void;
+        handleSelectKnownPacks(packet: $ServerboundSelectKnownPacks_): void;
     }
     export class $ClientboundResetChatPacket implements $Packet<$ClientConfigurationPacketListener> {
         type(): $PacketType<$ClientboundResetChatPacket>;
@@ -47,9 +47,18 @@ declare module "@package/net/minecraft/network/protocol/configuration" {
     }
     export class $ClientboundUpdateEnabledFeaturesPacket extends $Record implements $Packet<$ClientConfigurationPacketListener> {
         type(): $PacketType<$ClientboundUpdateEnabledFeaturesPacket>;
-        handle(arg0: $ClientConfigurationPacketListener): void;
+        /**
+         * Passes this Packet on to the PacketListener for processing.
+         */
+        handle(handler: $ClientConfigurationPacketListener): void;
         features(): $Set<$ResourceLocation>;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientboundUpdateEnabledFeaturesPacket>;
         constructor(arg0: $Set_<$ResourceLocation_>);
@@ -103,11 +112,11 @@ declare module "@package/net/minecraft/network/protocol/configuration" {
     }
     export interface $ClientConfigurationPacketListener extends $ClientCommonPacketListener {
         protocol(): $ConnectionProtocol;
-        handleSelectKnownPacks(arg0: $ClientboundSelectKnownPacks_): void;
-        handleConfigurationFinished(arg0: $ClientboundFinishConfigurationPacket): void;
-        handleResetChat(arg0: $ClientboundResetChatPacket): void;
-        handleRegistryData(arg0: $ClientboundRegistryDataPacket_): void;
-        handleEnabledFeatures(arg0: $ClientboundUpdateEnabledFeaturesPacket_): void;
+        handleConfigurationFinished(packet: $ClientboundFinishConfigurationPacket): void;
+        handleSelectKnownPacks(packet: $ClientboundSelectKnownPacks_): void;
+        handleResetChat(packet: $ClientboundResetChatPacket): void;
+        handleRegistryData(packet: $ClientboundRegistryDataPacket_): void;
+        handleEnabledFeatures(packet: $ClientboundUpdateEnabledFeaturesPacket_): void;
     }
     export class $ClientboundSelectKnownPacks extends $Record implements $Packet<$ClientConfigurationPacketListener> {
         type(): $PacketType<$ClientboundSelectKnownPacks>;

@@ -11,40 +11,40 @@ export * as families from "@package/com/mojang/datafixers/types/families";
 
 declare module "@package/com/mojang/datafixers/types" {
     export class $Type<A> implements $App<$Type$Mu, A> {
-        one(arg0: $TypeRewriteRule_): ($RewriteResult<A, never>) | undefined;
         equals(arg0: $Object, arg1: boolean, arg2: boolean): boolean;
         write<T>(arg0: $DynamicOps<T>, arg1: A): $DataResult<T>;
-        read<T>(arg0: $DynamicOps<T>, arg1: $TypeRewriteRule_, arg2: $PointFreeRule_, arg3: T): $DataResult<$Pair<(never) | undefined, T>>;
         read<T>(arg0: $Dynamic<T>): $DataResult<$Pair<A, $Dynamic<T>>>;
+        read<T>(arg0: $DynamicOps<T>, arg1: $TypeRewriteRule_, arg2: $PointFreeRule_, arg3: T): $DataResult<$Pair<(never) | undefined, T>>;
         finder(): $OpticFinder<A>;
         all(arg0: $TypeRewriteRule_, arg1: boolean, arg2: boolean): $RewriteResult<A, never>;
         static unbox<A>(arg0: $App<$Type$Mu, A>): $Type<A>;
-        point(arg0: $DynamicOps<never>): (A) | undefined;
+        rewrite(arg0: $TypeRewriteRule_, arg1: $PointFreeRule_): ($RewriteResult<A, never>) | undefined;
+        one(arg0: $TypeRewriteRule_): ($RewriteResult<A, never>) | undefined;
+        writeDynamic<T>(arg0: $DynamicOps<T>, arg1: A): $DataResult<$Dynamic<T>>;
         findChoiceType(arg0: string, arg1: number): ($TaggedChoice$TaggedChoiceType<never>) | undefined;
         findFieldType(arg0: string): $Type<never>;
-        rewrite(arg0: $TypeRewriteRule_, arg1: $PointFreeRule_): ($RewriteResult<A, never>) | undefined;
+        findCheckedType(arg0: number): ($Type<never>) | undefined;
+        findTypeInChildren<FT, FR>(arg0: $Type<FT>, arg1: $Type<FR>, arg2: $Type$TypeMatcher_<FT, FR>, arg3: boolean): $Either<$TypedOptic<A, never, FT, FR>, $Type$FieldNotFoundException>;
+        buildTemplate(): $TypeTemplate;
+        rewriteOrNop(arg0: $TypeRewriteRule_): $RewriteResult<A, never>;
+        findTypeCached<FT, FR>(arg0: $Type<FT>, arg1: $Type<FR>, arg2: $Type$TypeMatcher_<FT, FR>, arg3: boolean): $Either<$TypedOptic<A, never, FT, FR>, $Type$FieldNotFoundException>;
+        findFieldTypeOpt(arg0: string): ($Type<never>) | undefined;
+        readAndWrite<T>(arg0: $DynamicOps<T>, arg1: $Type<never>, arg2: $TypeRewriteRule_, arg3: $PointFreeRule_, arg4: T): $DataResult<T>;
+        point(arg0: $DynamicOps<never>): (A) | undefined;
         findField(arg0: string): $OpticFinder<never>;
         template(): $TypeTemplate;
-        writeDynamic<T>(arg0: $DynamicOps<T>, arg1: A): $DataResult<$Dynamic<T>>;
         codec(): $Codec<A>;
-        pointTyped(arg0: $DynamicOps<never>): ($Typed<A>) | undefined;
-        ifSame<B>(arg0: $Typed<B>): (A) | undefined;
         ifSame<B>(arg0: $Type<B>, arg1: B): (A) | undefined;
+        ifSame<B>(arg0: $Typed<B>): (A) | undefined;
         ifSame<B>(arg0: $Type<B>, arg1: $RewriteResult_<B, never>): ($RewriteResult<A, never>) | undefined;
         everywhere(arg0: $TypeRewriteRule_, arg1: $PointFreeRule_, arg2: boolean, arg3: boolean): ($RewriteResult<A, never>) | undefined;
         readTyped<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<$Pair<$Typed<A>, T>>;
         readTyped<T>(arg0: $Dynamic<T>): $DataResult<$Pair<$Typed<A>, T>>;
-        findTypeInChildren<FT, FR>(arg0: $Type<FT>, arg1: $Type<FR>, arg2: $Type$TypeMatcher_<FT, FR>, arg3: boolean): $Either<$TypedOptic<A, never, FT, FR>, $Type$FieldNotFoundException>;
-        buildTemplate(): $TypeTemplate;
-        findCheckedType(arg0: number): ($Type<never>) | undefined;
-        findFieldTypeOpt(arg0: string): ($Type<never>) | undefined;
-        findTypeCached<FT, FR>(arg0: $Type<FT>, arg1: $Type<FR>, arg2: $Type$TypeMatcher_<FT, FR>, arg3: boolean): $Either<$TypedOptic<A, never, FT, FR>, $Type$FieldNotFoundException>;
-        readAndWrite<T>(arg0: $DynamicOps<T>, arg1: $Type<never>, arg2: $TypeRewriteRule_, arg3: $PointFreeRule_, arg4: T): $DataResult<T>;
-        rewriteOrNop(arg0: $TypeRewriteRule_): $RewriteResult<A, never>;
-        getSetType<FT, FR>(arg0: $OpticFinder<FT>, arg1: $Type<FR>): $Type<never>;
-        findType<FT, FR>(arg0: $Type<FT>, arg1: $Type<FR>, arg2: $Type$TypeMatcher_<FT, FR>, arg3: boolean): $Either<$TypedOptic<A, never, FT, FR>, $Type$FieldNotFoundException>;
+        pointTyped(arg0: $DynamicOps<never>): ($Typed<A>) | undefined;
         updateMu(arg0: $RecursiveTypeFamily): $Type<never>;
+        getSetType<FT, FR>(arg0: $OpticFinder<FT>, arg1: $Type<FR>): $Type<never>;
         static opticView<S, T, A, B>(arg0: $Type<S>, arg1: $RewriteResult_<A, B>, arg2: $TypedOptic_<S, T, A, B>): $RewriteResult<S, T>;
+        findType<FT, FR>(arg0: $Type<FT>, arg1: $Type<FR>, arg2: $Type$TypeMatcher_<FT, FR>, arg3: boolean): $Either<$TypedOptic<A, never, FT, FR>, $Type$FieldNotFoundException>;
         constructor();
     }
     export class $Type$Mu implements $K1 {

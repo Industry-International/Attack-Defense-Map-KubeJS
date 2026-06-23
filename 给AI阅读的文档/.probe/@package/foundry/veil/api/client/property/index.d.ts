@@ -10,11 +10,11 @@ declare module "@package/foundry/veil/api/client/property" {
     export class $Property<T> {
         getType(): $PropertyRegistry$PropertyType<T, $Property<T>>;
         getEnvironment(): $Supplier<$MolangEnvironment>;
-        static createCodec<T, M extends $Property<T>>(arg0: $Function_<T, M>, arg1: $Codec<T>): $MapCodec<M>;
-        applyValue(arg0: string, arg1: $ShaderInstance): void;
         static codec<T, M extends $Property<T>>(arg0: $PropertyRegistry$PropertyType_<T, M>): $MapCodec<M>;
+        static createCodec<T, M extends $Property<T>>(arg0: $Function_<T, M>, arg1: $Codec<T>): $MapCodec<M>;
         modify(arg0: T, arg1: $PropertyModifier$PropertyModifierMode_, arg2: ($List_<$MolangExpression_>) | undefined): void;
         resetOverrideValue(): void;
+        applyValue(arg0: string, arg1: $ShaderInstance): void;
         constructor(arg0: $PropertyRegistry$PropertyType_<T, $Property<T>>, arg1: T);
         get type(): $PropertyRegistry$PropertyType<T, $Property<T>>;
         get environment(): $Supplier<$MolangEnvironment>;

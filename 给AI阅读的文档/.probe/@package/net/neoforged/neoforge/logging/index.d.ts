@@ -11,20 +11,20 @@ declare module "@package/net/neoforged/neoforge/logging" {
     export class $CrashReportExtender$ModLoadingCrashException extends $Exception {
     }
     export class $PacketDump {
-        static getContentDump(arg0: $ByteBuf): string;
+        static getContentDump(buffer: $ByteBuf): string;
         constructor();
     }
     export class $ThreadInfoUtil {
-        static getEntireStacktrace(arg0: $ThreadInfo): string;
+        static getEntireStacktrace(threadInfo: $ThreadInfo): string;
         constructor();
     }
     export class $CrashReportExtender {
-        static generateEnhancedStackTrace(arg0: $StackTraceElement[]): string;
-        static generateEnhancedStackTrace(arg0: $Throwable): string;
-        static generateEnhancedStackTrace(arg0: $Throwable, arg1: boolean): string;
-        static addCrashReportHeader(arg0: $StringBuilder, arg1: $CrashReport): void;
-        static dumpModLoadingCrashReport(arg0: $Logger, arg1: $List_<$ModLoadingIssue_>, arg2: $File_): $File;
-        static extendSystemReport(arg0: $SystemReport): void;
+        static generateEnhancedStackTrace(throwable: $Throwable): string;
+        static generateEnhancedStackTrace(stacktrace: $StackTraceElement[]): string;
+        static generateEnhancedStackTrace(throwable: $Throwable, header: boolean): string;
+        static dumpModLoadingCrashReport(logger: $Logger, issues: $List_<$ModLoadingIssue_>, topLevelDir: $File_): $File;
+        static addCrashReportHeader(stringbuilder: $StringBuilder, crashReport: $CrashReport): void;
+        static extendSystemReport(systemReport: $SystemReport): void;
         constructor();
     }
 }

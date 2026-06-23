@@ -8,11 +8,11 @@ declare module "@package/com/lowdragmc/lowdraglib2/registry/annotation" {
         group(): string;
         environment(): $RegistrationEnvironment;
         registry(): string;
+        modID(): string;
         /**
          * @deprecated
          */
         manual(): boolean;
-        modID(): string;
     }
     export class $LDLRegisterClient implements $Annotation {
         name(): string;
@@ -20,10 +20,10 @@ declare module "@package/com/lowdragmc/lowdraglib2/registry/annotation" {
         group(): string;
         environment(): $RegistrationEnvironment;
         registry(): string;
+        modID(): string;
         /**
          * @deprecated
          */
         manual(): boolean;
-        modID(): string;
     }
 }

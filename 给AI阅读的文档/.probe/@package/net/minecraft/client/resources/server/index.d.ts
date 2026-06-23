@@ -31,7 +31,7 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $PackReloadConfig {
     }
     export interface $PackReloadConfig {
-        scheduleReload(arg0: $PackReloadConfig$Callbacks): void;
+        scheduleReload(callbacks: $PackReloadConfig$Callbacks): void;
     }
     /**
      * Values that may be interpreted as {@link $PackReloadConfig}.
@@ -56,7 +56,7 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $PackDownloader {
     }
     export interface $PackDownloader {
-        download(arg0: $Map_<$UUID_, $DownloadQueue$DownloadRequest_>, arg1: $Consumer_<$DownloadQueue$BatchResult>): void;
+        download(packs: $Map_<$UUID_, $DownloadQueue$DownloadRequest_>, resultConsumer: $Consumer_<$DownloadQueue$BatchResult>): void;
     }
     /**
      * Values that may be interpreted as {@link $PackDownloader}.
@@ -65,22 +65,22 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $ServerPackManager {
         popAll(): void;
         tick(): void;
-        pushPack(arg0: $UUID_, arg1: $URL, arg2: $HashCode): void;
-        popPack(arg0: $UUID_): void;
-        pushLocalPack(arg0: $UUID_, arg1: $Path_): void;
         allowServerPacks(): void;
         resetPromptStatus(): void;
+        pushLocalPack(id: $UUID_, path: $Path_): void;
         rejectServerPacks(): void;
         registerForUpdate(): void;
+        pushPack(id: $UUID_, url: $URL, hash: $HashCode | null): void;
+        popPack(id: $UUID_): void;
         packLoadFeedback: $PackLoadFeedback;
         packs: $List<$ServerPackManager$ServerPackData>;
-        constructor(arg0: $PackDownloader_, arg1: $PackLoadFeedback, arg2: $PackReloadConfig_, arg3: $Runnable_, arg4: $ServerPackManager$PackPromptStatus_);
+        constructor(downloader: $PackDownloader_, packLoadFeedback: $PackLoadFeedback, reloadConfig: $PackReloadConfig_, updateRequest: $Runnable_, packPromptStatus: $ServerPackManager$PackPromptStatus_);
     }
     export class $PackLoadFeedback {
     }
     export interface $PackLoadFeedback {
-        reportFinalResult(arg0: $UUID_, arg1: $PackLoadFeedback$FinalResult_): void;
-        reportUpdate(arg0: $UUID_, arg1: $PackLoadFeedback$Update_): void;
+        reportUpdate(id: $UUID_, update: $PackLoadFeedback$Update_): void;
+        reportFinalResult(id: $UUID_, result: $PackLoadFeedback$FinalResult_): void;
     }
     export class $ServerPackManager$PackDownloadStatus extends $Enum<$ServerPackManager$PackDownloadStatus> {
     }
@@ -91,26 +91,26 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $DownloadedPackSource implements $AutoCloseable {
         popAll(): void;
         close(): void;
-        pushPack(arg0: $UUID_, arg1: $URL, arg2: string): void;
-        popPack(arg0: $UUID_): void;
-        createRepositorySource(): $RepositorySource;
-        cleanupAfterDisconnect(): void;
-        createDownloadNotifier(arg0: number): $HttpUtil$DownloadProgressListener;
+        createDownloadNotifier(packCount: number): $HttpUtil$DownloadProgressListener;
+        configureForServerControl(connection: $Connection, packPromptStatus: $ServerPackManager$PackPromptStatus_): void;
         configureForLocalWorld(): void;
-        waitForPackFeedback(arg0: $UUID_): $CompletableFuture<void>;
-        configureForServerControl(arg0: $Connection, arg1: $ServerPackManager$PackPromptStatus_): void;
-        onRecovery(): void;
-        pushLocalPack(arg0: $UUID_, arg1: $Path_): void;
+        waitForPackFeedback(uuid: $UUID_): $CompletableFuture<void>;
         allowServerPacks(): void;
+        pushLocalPack(uuid: $UUID_, path: $Path_): void;
         rejectServerPacks(): void;
-        handler$bol000$chat_heads$chatheads$checkForDisableResource(list: $List_<any>, cir: $CallbackInfoReturnable<any>): void;
+        cleanupAfterDisconnect(): void;
         onReloadSuccess(): void;
         onRecoveryFailure(): void;
+        onRecovery(): void;
+        handler$bol000$chat_heads$chatheads$checkForDisableResource(list: $List_<any>, cir: $CallbackInfoReturnable<any>): void;
+        pushPack(uuid: $UUID_, url: $URL, hash: string | null): void;
+        popPack(uuid: $UUID_): void;
+        createRepositorySource(): $RepositorySource;
         minecraft: $Minecraft;
         manager: $ServerPackManager;
         static LOGGER: $Logger;
         packFeedback: $PackLoadFeedback;
-        constructor(arg0: $Minecraft, arg1: $Path_, arg2: $GameConfig$UserData);
+        constructor(minecraft: $Minecraft, directory: $Path_, userData: $GameConfig$UserData);
     }
     export class $ServerPackManager$PackPromptStatus extends $Enum<$ServerPackManager$PackPromptStatus> {
         static values(): $ServerPackManager$PackPromptStatus[];
@@ -139,8 +139,8 @@ declare module "@package/net/minecraft/client/resources/server" {
     export class $PackReloadConfig$Callbacks {
     }
     export interface $PackReloadConfig$Callbacks {
-        onFailure(arg0: boolean): void;
-        onSuccess(): void;
         packsToLoad(): $List<$PackReloadConfig$IdAndPath>;
+        onFailure(recoveryFailure: boolean): void;
+        onSuccess(): void;
     }
 }

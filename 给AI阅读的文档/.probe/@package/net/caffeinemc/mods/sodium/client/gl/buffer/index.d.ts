@@ -28,8 +28,8 @@ declare module "@package/net/caffeinemc/mods/sodium/client/gl/buffer" {
         get flags(): $EnumBitField<$GlBufferStorageFlags>;
     }
     export class $GlBuffer extends $GlObject {
-        getActiveMapping(): $GlBufferMapping;
         setActiveMapping(arg0: $GlBufferMapping): void;
+        getActiveMapping(): $GlBufferMapping;
     }
     export class $GlMutableBuffer extends $GlBuffer {
         getSize(): number;

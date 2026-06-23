@@ -39,8 +39,8 @@ declare module "@package/kotlin/reflect" {
         call(...arg0: $Object[]): R;
         getParameters(): $List<$KParameter>;
         isAbstract(): boolean;
-        callBy(arg0: $Map_<$KParameter, never>): R;
         isSuspend(): boolean;
+        callBy(arg0: $Map_<$KParameter, never>): R;
         getVisibility(): $KVisibility;
         get name(): string;
         get typeParameters(): $List<$KTypeParameter>;
@@ -55,8 +55,8 @@ declare module "@package/kotlin/reflect" {
     export class $KProperty1<T, V> {
     }
     export interface $KProperty1<T, V> extends $KProperty<V>, $Function1<T, V> {
-        get(arg0: T): V;
         getDelegate(arg0: T): $Object;
+        get(arg0: T): V;
         getGetter(): $KProperty$Getter<V>;
         get getter(): $KProperty$Getter<V>;
     }
@@ -97,12 +97,12 @@ declare module "@package/kotlin/reflect" {
     }
     export interface $KTypeParameter extends $KClassifier {
         getName(): string;
-        getUpperBounds(): $List<$KType>;
         isReified(): boolean;
+        getUpperBounds(): $List<$KType>;
         getVariance(): $KVariance;
         get name(): string;
-        get upperBounds(): $List<$KType>;
         get reified(): boolean;
+        get upperBounds(): $List<$KType>;
         get variance(): $KVariance;
     }
     export class $KClass<T> {
@@ -118,18 +118,18 @@ declare module "@package/kotlin/reflect" {
         getConstructors(): $Collection<$KFunction<T>>;
         isSealed(): boolean;
         isAbstract(): boolean;
-        getQualifiedName(): string;
-        getObjectInstance(): T;
         isValue(): boolean;
+        getObjectInstance(): T;
+        getNestedClasses(): $Collection<$KClass<never>>;
+        getSealedSubclasses(): $List<$KClass<T>>;
+        getQualifiedName(): string;
         isData(): boolean;
         isFun(): boolean;
-        getSealedSubclasses(): $List<$KClass<T>>;
         getVisibility(): $KVisibility;
-        getMembers(): $Collection<$KCallable<never>>;
         isInner(): boolean;
+        getMembers(): $Collection<$KCallable<never>>;
         isCompanion(): boolean;
         getSupertypes(): $List<$KType>;
-        getNestedClasses(): $Collection<$KClass<never>>;
         get typeParameters(): $List<$KTypeParameter>;
         get simpleName(): string;
         get final(): boolean;
@@ -137,18 +137,18 @@ declare module "@package/kotlin/reflect" {
         get constructors(): $Collection<$KFunction<T>>;
         get sealed(): boolean;
         get abstract(): boolean;
-        get qualifiedName(): string;
-        get objectInstance(): T;
         get value(): boolean;
+        get objectInstance(): T;
+        get nestedClasses(): $Collection<$KClass<never>>;
+        get sealedSubclasses(): $List<$KClass<T>>;
+        get qualifiedName(): string;
         get data(): boolean;
         get fun(): boolean;
-        get sealedSubclasses(): $List<$KClass<T>>;
         get visibility(): $KVisibility;
-        get members(): $Collection<$KCallable<never>>;
         get inner(): boolean;
+        get members(): $Collection<$KCallable<never>>;
         get companion(): boolean;
         get supertypes(): $List<$KType>;
-        get nestedClasses(): $Collection<$KClass<never>>;
     }
     export class $KClassifier {
     }
@@ -157,24 +157,24 @@ declare module "@package/kotlin/reflect" {
     export class $KProperty<V> {
     }
     export interface $KProperty<V> extends $KCallable<V> {
-        isConst(): boolean;
         isLateinit(): boolean;
         getGetter(): $KProperty$Getter<V>;
-        get const(): boolean;
+        isConst(): boolean;
         get lateinit(): boolean;
         get getter(): $KProperty$Getter<V>;
+        get const(): boolean;
     }
     export class $KFunction<R> {
     }
     export interface $KFunction<R> extends $KCallable<R>, $Function<R> {
-        isExternal(): boolean;
         isSuspend(): boolean;
         isInfix(): boolean;
+        isExternal(): boolean;
         isOperator(): boolean;
         isInline(): boolean;
-        get external(): boolean;
         get suspend(): boolean;
         get infix(): boolean;
+        get external(): boolean;
         get operator(): boolean;
         get inline(): boolean;
     }

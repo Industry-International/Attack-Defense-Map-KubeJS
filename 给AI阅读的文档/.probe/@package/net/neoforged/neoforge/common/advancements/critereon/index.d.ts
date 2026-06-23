@@ -16,19 +16,19 @@ declare module "@package/net/neoforged/neoforge/common/advancements/critereon" {
         constructor(action: $ItemAbility_);
     }
     export class $SnowBootsEntityPredicate implements $EntitySubPredicate {
-        matches(arg0: $Entity, arg1: $ServerLevel, arg2: $Vec3_): boolean;
+        matches(entity: $Entity, level: $ServerLevel, position: $Vec3_): boolean;
         codec(): $MapCodec<$SnowBootsEntityPredicate>;
         static CODEC: $MapCodec<$SnowBootsEntityPredicate>;
         static INSTANCE: $SnowBootsEntityPredicate;
     }
     export class $PiglinCurrencyItemPredicate implements $ItemSubPredicate {
-        matches(arg0: $ItemStack_): boolean;
+        matches(stack: $ItemStack_): boolean;
         static CODEC: $Codec<$PiglinCurrencyItemPredicate>;
         static INSTANCE: $PiglinCurrencyItemPredicate;
         static TYPE: $ItemSubPredicate$Type<$PiglinCurrencyItemPredicate>;
     }
     export class $PiglinNeutralArmorEntityPredicate implements $EntitySubPredicate {
-        matches(arg0: $Entity, arg1: $ServerLevel, arg2: $Vec3_): boolean;
+        matches(entity: $Entity, level: $ServerLevel, position: $Vec3_): boolean;
         codec(): $MapCodec<$PiglinNeutralArmorEntityPredicate>;
         static CODEC: $MapCodec<$PiglinNeutralArmorEntityPredicate>;
         static INSTANCE: $PiglinNeutralArmorEntityPredicate;

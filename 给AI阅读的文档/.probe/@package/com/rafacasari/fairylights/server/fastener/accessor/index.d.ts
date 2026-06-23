@@ -9,8 +9,8 @@ declare module "@package/com/rafacasari/fairylights/server/fastener/accessor" {
         get<T>(arg0: $Level_): (T) | undefined;
         get<T>(arg0: $Level_, arg1: boolean): (T) | undefined;
         getType(): $FastenerType;
-        deserialize(arg0: $CompoundTag_): void;
         serialize(): $CompoundTag;
+        deserialize(arg0: $CompoundTag_): void;
         isGone(arg0: $Level_): boolean;
         get type(): $FastenerType;
     }

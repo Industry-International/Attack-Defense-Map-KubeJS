@@ -13,8 +13,8 @@ declare module "@package/net/blay09/mods/balm/api/config" {
     }
     export interface $MutableLoadedConfig extends $LoadedConfig {
         copy(): $MutableLoadedConfig;
-        setRaw<T>(arg0: $ConfiguredProperty<T>, arg1: T): void;
         applyFrom(arg0: $BalmConfigSchema, arg1: $LoadedConfig, arg2: $Predicate_<$ConfiguredProperty<never>>): void;
         applyFrom(arg0: $BalmConfigSchema, arg1: $LoadedConfig): void;
+        setRaw<T>(arg0: $ConfiguredProperty<T>, arg1: T): void;
     }
 }

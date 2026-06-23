@@ -18,44 +18,68 @@ import { $BlockEntity } from "@package/net/minecraft/world/level/block/entity";
 declare module "@package/net/minecraft/server/commands/data" {
     export class $BlockDataAccessor implements $DataAccessor {
         getData(): $CompoundTag;
-        setData(arg0: $CompoundTag_): void;
-        getPrintSuccess(arg0: $Tag_): $Component;
-        getPrintSuccess(arg0: $NbtPathArgument$NbtPath, arg1: number, arg2: number): $Component;
+        setData(other: $CompoundTag_): void;
         getModifiedSuccess(): $Component;
+        /**
+         * Gets the message used as a result of querying the given NBT (both for /data get and /data get path)
+         */
+        getPrintSuccess(nbt: $Tag_): $Component;
+        /**
+         * Gets the message used as a result of querying the given path with a scale.
+         */
+        getPrintSuccess(path: $NbtPathArgument$NbtPath, scale: number, arg2: number): $Component;
         static PROVIDER: $Function<string, $DataCommands$DataProvider>;
         static ERROR_NOT_A_BLOCK_ENTITY: $SimpleCommandExceptionType;
-        constructor(arg0: $BlockEntity, arg1: $BlockPos_);
+        constructor(entity: $BlockEntity, pos: $BlockPos_);
         get modifiedSuccess(): $Component;
     }
     export class $DataAccessor {
     }
     export interface $DataAccessor {
         getData(): $CompoundTag;
-        setData(arg0: $CompoundTag_): void;
-        getPrintSuccess(arg0: $Tag_): $Component;
-        getPrintSuccess(arg0: $NbtPathArgument$NbtPath, arg1: number, arg2: number): $Component;
+        setData(other: $CompoundTag_): void;
         getModifiedSuccess(): $Component;
+        /**
+         * Gets the message used as a result of querying the given NBT (both for /data get and /data get path)
+         */
+        getPrintSuccess(nbt: $Tag_): $Component;
+        /**
+         * Gets the message used as a result of querying the given path with a scale.
+         */
+        getPrintSuccess(path: $NbtPathArgument$NbtPath, scale: number, arg2: number): $Component;
         get modifiedSuccess(): $Component;
     }
     export class $DataCommands$DataProvider {
     }
     export interface $DataCommands$DataProvider {
-        wrap(arg0: $ArgumentBuilder<$CommandSourceStack, never>, arg1: $Function_<$ArgumentBuilder<$CommandSourceStack, never>, $ArgumentBuilder<$CommandSourceStack, never>>): $ArgumentBuilder<$CommandSourceStack, never>;
-        access(arg0: $CommandContext<$CommandSourceStack>): $DataAccessor;
+        /**
+         * Creates an argument used for accessing data related to this type of thing, including a literal to distinguish from other types.
+         */
+        wrap(builder: $ArgumentBuilder<$CommandSourceStack, never>, action: $Function_<$ArgumentBuilder<$CommandSourceStack, never>, $ArgumentBuilder<$CommandSourceStack, never>>): $ArgumentBuilder<$CommandSourceStack, never>;
+        /**
+         * Creates an accessor based on the command context. This should only refer to arguments registered in `createArgument`.
+         */
+        access(context: $CommandContext<$CommandSourceStack>): $DataAccessor;
     }
     export class $EntityDataAccessor implements $DataAccessor {
         getData(): $CompoundTag;
-        setData(arg0: $CompoundTag_): void;
-        getPrintSuccess(arg0: $Tag_): $Component;
-        getPrintSuccess(arg0: $NbtPathArgument$NbtPath, arg1: number, arg2: number): $Component;
+        setData(other: $CompoundTag_): void;
         getModifiedSuccess(): $Component;
+        /**
+         * Gets the message used as a result of querying the given NBT (both for /data get and /data get path)
+         */
+        getPrintSuccess(nbt: $Tag_): $Component;
+        /**
+         * Gets the message used as a result of querying the given path with a scale.
+         */
+        getPrintSuccess(path: $NbtPathArgument$NbtPath, scale: number, arg2: number): $Component;
         static PROVIDER: $Function<string, $DataCommands$DataProvider>;
-        constructor(arg0: $Entity);
+        constructor(entity: $Entity);
         get modifiedSuccess(): $Component;
     }
     export class $DataCommands {
-        static register(arg0: $CommandDispatcher<$CommandSourceStack>): void;
-        static getSingleTag(arg0: $NbtPathArgument$NbtPath, arg1: $DataAccessor): $Tag;
+        static register(dispatcher: $CommandDispatcher<$CommandSourceStack>): void;
+        static getSingleTag(path: $NbtPathArgument$NbtPath, accessor: $DataAccessor): $Tag;
         static TARGET_PROVIDERS: $List<$DataCommands$DataProvider>;
         static ALL_PROVIDERS: $List<$Function<string, $DataCommands$DataProvider>>;
         static SOURCE_PROVIDERS: $List<$DataCommands$DataProvider>;
@@ -71,14 +95,20 @@ declare module "@package/net/minecraft/server/commands/data" {
     export type $DataCommands$DataManipulator_ = (() => void);
     export class $StorageDataAccessor implements $DataAccessor {
         getData(): $CompoundTag;
-        setData(arg0: $CompoundTag_): void;
-        getPrintSuccess(arg0: $NbtPathArgument$NbtPath, arg1: number, arg2: number): $Component;
-        getPrintSuccess(arg0: $Tag_): $Component;
+        setData(other: $CompoundTag_): void;
         getModifiedSuccess(): $Component;
-        static getGlobalTags(arg0: $CommandContext<$CommandSourceStack>): $CommandStorage;
+        static getGlobalTags(context: $CommandContext<$CommandSourceStack>): $CommandStorage;
+        /**
+         * Gets the message used as a result of querying the given path with a scale.
+         */
+        getPrintSuccess(path: $NbtPathArgument$NbtPath, scale: number, arg2: number): $Component;
+        /**
+         * Gets the message used as a result of querying the given NBT (both for /data get and /data get path)
+         */
+        getPrintSuccess(nbt: $Tag_): $Component;
         static SUGGEST_STORAGE: $SuggestionProvider<$CommandSourceStack>;
         static PROVIDER: $Function<string, $DataCommands$DataProvider>;
-        constructor(arg0: $CommandStorage, arg1: $ResourceLocation_);
+        constructor(storage: $CommandStorage, id: $ResourceLocation_);
         get modifiedSuccess(): $Component;
     }
     export class $DataCommands$DataManipulatorDecorator {

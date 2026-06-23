@@ -19,13 +19,13 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/project" {
         getSuffix(): string;
         getMetadata(): $CompoundTag;
         onLoad(arg0: $Editor): void;
+        onClosed(arg0: $Editor): void;
+        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
         getProjectType(): $ProjectType;
         initNewProject(): void;
-        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        onClosed(arg0: $Editor): void;
-        deserializeProject(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
         serializeProject(arg0: $HolderLookup$Provider): $CompoundTag;
+        deserializeProject(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
+        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         get name(): string;
         get resources(): $Resources;
         get displayName(): $Component;
@@ -37,14 +37,15 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/project" {
     export class $ProjectType {
         getName(): string;
         static of(arg0: $IGuiTexture_, arg1: string, arg2: string, arg3: $Supplier_<$IProject>): $ProjectType;
+        getIcon(): $IGuiTexture;
         getSuffix(): string;
         saveProjectToFile(arg0: $IProject, arg1: $File_): void;
         getRootSavePath(arg0: $IProject, arg1: $File_): $File;
+        getDefaultSaveFile(arg0: $IProject, arg1: $File_): $File;
         isProjectDirty(arg0: $IProject, arg1: $File_): boolean;
+        loadProjectFromFile(arg0: $File_): $IProject;
         getProjectCreator(): $Supplier<$IProject>;
         newEmptyProject(): $IProject;
-        getIcon(): $IGuiTexture;
-        loadProjectFromFile(arg0: $File_): $IProject;
         icon: $IGuiTexture;
         name: string;
         projectCreator: $Supplier<$IProject>;

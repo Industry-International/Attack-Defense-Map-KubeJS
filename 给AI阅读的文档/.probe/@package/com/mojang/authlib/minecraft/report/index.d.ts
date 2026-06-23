@@ -7,14 +7,14 @@ declare module "@package/com/mojang/authlib/minecraft/report" {
     export class $AbuseReport extends $Record {
         static name(arg0: string, arg1: $ReportedEntity_, arg2: $Instant): $AbuseReport;
         reason(): string;
-        static skin(arg0: string, arg1: string, arg2: string, arg3: $ReportedEntity_, arg4: $Instant): $AbuseReport;
         static chat(arg0: string, arg1: string, arg2: $ReportEvidence_, arg3: $ReportedEntity_, arg4: $Instant): $AbuseReport;
         createdTime(): $Instant;
-        opinionComments(): string;
-        reportedEntity(): $ReportedEntity;
+        static skin(arg0: string, arg1: string, arg2: string | null, arg3: $ReportedEntity_, arg4: $Instant): $AbuseReport;
         skinUrl(): string;
         evidence(): $ReportEvidence;
-        constructor(opinionComments: string, reason: string, evidence: $ReportEvidence_, skinUrl: string, reportedEntity: $ReportedEntity_, createdTime: $Instant);
+        reportedEntity(): $ReportedEntity;
+        opinionComments(): string;
+        constructor(opinionComments: string, reason: string | null, evidence: $ReportEvidence_ | null, skinUrl: string | null, reportedEntity: $ReportedEntity_, createdTime: $Instant);
     }
     export class $ReportedEntity extends $Record {
         profileId(): $UUID;
@@ -26,10 +26,10 @@ declare module "@package/com/mojang/authlib/minecraft/report" {
         message(): string;
         timestamp(): $Instant;
         salt(): number;
+        messageReported(): boolean;
+        sessionId(): $UUID;
         profileId(): $UUID;
         lastSeen(): $List<$ByteBuffer>;
-        sessionId(): $UUID;
-        messageReported(): boolean;
         constructor(index: number, profileId: $UUID_, sessionId: $UUID_, timestamp: $Instant, salt: number, lastSeen: $List_<$ByteBuffer>, message: string, signature: $ByteBuffer, messageReported: boolean);
     }
     export class $ReportEvidence extends $Record {
@@ -37,11 +37,11 @@ declare module "@package/com/mojang/authlib/minecraft/report" {
         constructor(messages: $List_<$ReportChatMessage_>);
     }
     export class $AbuseReportLimits extends $Record {
-        trailingContextMessageCount(): number;
-        maxEvidenceMessageCount(): number;
         leadingContextMessageCount(): number;
-        maxOpinionCommentsLength(): number;
         maxReportedMessageCount(): number;
+        maxEvidenceMessageCount(): number;
+        trailingContextMessageCount(): number;
+        maxOpinionCommentsLength(): number;
         static DEFAULTS: $AbuseReportLimits;
         constructor(maxOpinionCommentsLength: number, maxReportedMessageCount: number, maxEvidenceMessageCount: number, leadingContextMessageCount: number, trailingContextMessageCount: number);
     }

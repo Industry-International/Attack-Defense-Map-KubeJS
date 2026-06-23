@@ -6,13 +6,13 @@ import { $BlockState, $BlockState_ } from "@package/net/minecraft/world/level/bl
 
 declare module "@package/com/simibubi/create/content/equipment/wrench" {
     export class $IWrenchable {
-        static playRotateSound(arg0: $Level_, arg1: $BlockPos_): void;
         static playRemoveSound(arg0: $Level_, arg1: $BlockPos_): void;
+        static playRotateSound(arg0: $Level_, arg1: $BlockPos_): void;
     }
     export interface $IWrenchable {
-        onSneakWrenched(arg0: $BlockState_, arg1: $UseOnContext): $InteractionResult;
-        updateAfterWrenched(arg0: $BlockState_, arg1: $UseOnContext): $BlockState;
-        getRotatedBlockState(arg0: $BlockState_, arg1: $Direction_): $BlockState;
         onWrenched(arg0: $BlockState_, arg1: $UseOnContext): $InteractionResult;
+        getRotatedBlockState(arg0: $BlockState_, arg1: $Direction_): $BlockState;
+        updateAfterWrenched(arg0: $BlockState_, arg1: $UseOnContext): $BlockState;
+        onSneakWrenched(arg0: $BlockState_, arg1: $UseOnContext): $InteractionResult;
     }
 }

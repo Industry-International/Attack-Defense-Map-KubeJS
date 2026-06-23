@@ -34,3 +34,4 @@ export * as ru from "@package/ru";
 export * as yalter from "@package/yalter";
 export * as joptsimple from "@package/joptsimple";
 export * as oshi from "@package/oshi";
+export * as moe from "@package/moe";

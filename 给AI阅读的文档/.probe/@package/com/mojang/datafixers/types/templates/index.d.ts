@@ -20,10 +20,10 @@ declare module "@package/com/mojang/datafixers/types/templates" {
     export class $TaggedChoice$TaggedChoiceType<K> extends $Type<$Pair<K, never>> {
         getName(): string;
         types(): $Map<K, $Type<never>>;
-        getKeyType(): $Type<K>;
-        hasType(arg0: K): boolean;
         point(arg0: $DynamicOps<never>, arg1: K, arg2: $Object): ($Typed<$Pair<K, never>>) | undefined;
         static elementResult<K, FT, FR>(arg0: K, arg1: $TaggedChoice$TaggedChoiceType<K>, arg2: $RewriteResult_<FT, FR>): $RewriteResult<$Pair<K, never>, $Pair<K, never>>;
+        getKeyType(): $Type<K>;
+        hasType(arg0: K): boolean;
         constructor(arg0: string, arg1: $Type<K>, arg2: $Object2ObjectMap<K, $Type<never>>);
         get name(): string;
         get keyType(): $Type<K>;
@@ -43,9 +43,9 @@ declare module "@package/com/mojang/datafixers/types/templates" {
     export interface $TypeTemplate {
         size(): number;
         apply(arg0: $TypeFamily_): $TypeFamily;
-        findFieldOrType<A, B>(arg0: number, arg1: string, arg2: $Type<A>, arg3: $Type<B>): $Either<$TypeTemplate, $Type$FieldNotFoundException>;
         toSimpleType(): $Type<never>;
-        hmap(arg0: $TypeFamily_, arg1: $IntFunction_<$RewriteResult<never, never>>): $IntFunction<$RewriteResult<never, never>>;
+        findFieldOrType<A, B>(arg0: number, arg1: string | null, arg2: $Type<A>, arg3: $Type<B>): $Either<$TypeTemplate, $Type$FieldNotFoundException>;
         applyO<A, B>(arg0: $FamilyOptic_<A, B>, arg1: $Type<A>, arg2: $Type<B>): $FamilyOptic<A, B>;
+        hmap(arg0: $TypeFamily_, arg1: $IntFunction_<$RewriteResult<never, never>>): $IntFunction<$RewriteResult<never, never>>;
     }
 }

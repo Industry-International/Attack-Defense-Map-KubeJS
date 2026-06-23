@@ -6,24 +6,32 @@ import { $List_, $Map } from "@package/java/util";
 
 declare module "@package/net/minecraft/client/gui/narration" {
     export class $NarrationThunk<T> {
-        static from(arg0: $List_<$Component_>): $NarrationThunk<never>;
-        static from(arg0: string): $NarrationThunk<never>;
-        static from(arg0: $Component_): $NarrationThunk<never>;
-        getText(arg0: $Consumer_<string>): void;
+        static from(components: $List_<$Component_>): $NarrationThunk<never>;
+        static from(text: string): $NarrationThunk<never>;
+        static from(component: $Component_): $NarrationThunk<never>;
+        getText(consumer: $Consumer_<string>): void;
         static EMPTY: $NarrationThunk<never>;
     }
     export class $NarrationElementOutput {
     }
     export interface $NarrationElementOutput {
-        add(arg0: $NarratedElementType_, arg1: $NarrationThunk<never>): void;
-        add(arg0: $NarratedElementType_, ...arg1: $Component_[]): void;
-        add(arg0: $NarratedElementType_, arg1: string): void;
-        add(arg0: $NarratedElementType_, arg1: $Component_): void;
+        add(type: $NarratedElementType_, contents: $NarrationThunk<never>): void;
+        add(type: $NarratedElementType_, ...contents: $Component_[]): void;
+        add(type: $NarratedElementType_, contents: string): void;
+        add(type: $NarratedElementType_, contents: $Component_): void;
         nest(): $NarrationElementOutput;
     }
+    /**
+     * The narration priority levels.
+     */
     export class $NarratableEntry$NarrationPriority extends $Enum<$NarratableEntry$NarrationPriority> {
         static values(): $NarratableEntry$NarrationPriority[];
         static valueOf(arg0: string): $NarratableEntry$NarrationPriority;
+        /**
+         * Checks if the narration priority is terminal, indicating that no further narration will occur after this.
+         * 
+         * @return `true` if the narration priority is terminal, `false` otherwise.
+         */
         isTerminal(): boolean;
         static HOVERED: $NarratableEntry$NarrationPriority;
         static NONE: $NarratableEntry$NarrationPriority;
@@ -36,10 +44,19 @@ declare module "@package/net/minecraft/client/gui/narration" {
     export type $NarratableEntry$NarrationPriority_ = "none" | "hovered" | "focused";
     export class $ScreenNarrationCollector$EntryKey {
     }
+    /**
+     * An interface for GUI elements that can provide narration information.
+     */
     export class $NarratableEntry {
     }
     export interface $NarratableEntry extends $TabOrderedElement, $NarrationSupplier {
+        /**
+         * @return `true` if the element is active, `false` otherwise
+         */
         isActive(): boolean;
+        /**
+         * @return the narration priority
+         */
         narrationPriority(): $NarratableEntry$NarrationPriority;
         get active(): boolean;
     }
@@ -56,26 +73,32 @@ declare module "@package/net/minecraft/client/gui/narration" {
      */
     export type $NarratedElementType_ = "title" | "position" | "hint" | "usage";
     export class $ScreenNarrationCollector {
-        update(arg0: $Consumer_<$NarrationElementOutput>): void;
-        collectNarrationText(arg0: boolean): string;
+        update(updater: $Consumer_<$NarrationElementOutput>): void;
+        collectNarrationText(collectAll: boolean): string;
         generation: number;
         entries: $Map<$ScreenNarrationCollector$EntryKey, $ScreenNarrationCollector$NarrationEntry>;
         constructor();
     }
     export class $ScreenNarrationCollector$NarrationEntry {
     }
+    /**
+     * An interface for providing narration information.
+     */
     export class $NarrationSupplier {
     }
     export interface $NarrationSupplier {
-        updateNarration(arg0: $NarrationElementOutput): void;
+        /**
+         * Updates the narration output with the current narration information.
+         */
+        updateNarration(narrationElementOutput: $NarrationElementOutput): void;
     }
     /**
      * Values that may be interpreted as {@link $NarrationSupplier}.
      */
     export type $NarrationSupplier_ = ((arg0: $NarrationElementOutput) => void);
     export class $ScreenNarrationCollector$Output implements $NarrationElementOutput {
-        add(arg0: $NarratedElementType_, ...arg1: $Component_[]): void;
-        add(arg0: $NarratedElementType_, arg1: string): void;
-        add(arg0: $NarratedElementType_, arg1: $Component_): void;
+        add(type: $NarratedElementType_, ...contents: $Component_[]): void;
+        add(type: $NarratedElementType_, contents: string): void;
+        add(type: $NarratedElementType_, contents: $Component_): void;
     }
 }

@@ -30,12 +30,12 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/animation" {
     }
     export class $AnimationRuntime {
         update(arg0: number): void;
-        isFinished(): boolean;
         getInterpolator(): $Interpolator;
+        isFinished(): boolean;
         animation: $KeyFrameAnimation;
         constructor(arg0: number, arg1: $KeyFrameAnimation_);
-        get finished(): boolean;
         get interpolator(): $Interpolator;
+        get finished(): boolean;
     }
     export class $IFrameValueHandler<T> {
     }

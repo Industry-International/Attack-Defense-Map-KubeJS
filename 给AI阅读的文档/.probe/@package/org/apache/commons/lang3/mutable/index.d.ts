@@ -73,18 +73,18 @@ declare module "@package/org/apache/commons/lang3/mutable" {
         get andDecrement(): number;
     }
     export class $MutableBoolean implements $Mutable<boolean>, $Serializable, $Comparable<$MutableBoolean> {
+        isTrue(): boolean;
+        setTrue(): void;
+        setFalse(): void;
         compareTo(arg0: $MutableBoolean): number;
         booleanValue(): boolean;
         setValue(arg0: boolean): void;
         setValue(arg0: boolean): void;
         toBoolean(): boolean;
-        isTrue(): boolean;
         isFalse(): boolean;
-        setFalse(): void;
-        setTrue(): void;
         getValue(): boolean;
-        constructor(arg0: boolean);
-        constructor(arg0: boolean);
         constructor();
+        constructor(arg0: boolean);
+        constructor(arg0: boolean);
     }
 }

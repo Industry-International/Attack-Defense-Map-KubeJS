@@ -38,11 +38,11 @@ declare module "@package/xaero/hud/minimap/radar/color" {
      */
     export type $RadarColor_ = "black" | "dark_blue" | "dark_green" | "dark_aqua" | "dark_red" | "dark_purple" | "gold" | "gray" | "dark_gray" | "blue" | "green" | "aqua" | "red" | "purple" | "yellow" | "white";
     export class $RadarColorHelper {
-        getTeamColor(arg0: $Entity): number;
         getEntityHeightFade(arg0: number, arg1: number, arg2: number): number;
-        getEntityColor(arg0: $Entity, arg1: number, arg2: boolean, arg3: number, arg4: number, arg5: boolean, arg6: $RadarColor_, arg7: $RadarColor_): number;
+        getTeamColor(arg0: $Entity): number;
         getFallbackColor(arg0: $RadarList): $RadarColor;
         getFallbackColor(arg0: $EntityRadarCategory, arg1: $EntityRadarCategory): $RadarColor;
+        getEntityColor(arg0: $Entity, arg1: number, arg2: boolean, arg3: number, arg4: number, arg5: boolean, arg6: $RadarColor_, arg7: $RadarColor_): number;
         constructor();
     }
 }

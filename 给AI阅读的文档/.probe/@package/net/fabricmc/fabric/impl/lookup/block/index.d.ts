@@ -12,18 +12,18 @@ import { $BlockApiLookup$BlockApiProvider_, $BlockApiLookup$BlockEntityApiProvid
 
 declare module "@package/net/fabricmc/fabric/impl/lookup/block" {
     export class $BlockApiCacheImpl<A, C> implements $BlockApiCache<A, C> {
-        find(arg0: $BlockState_, arg1: C): A;
-        getPos(): $BlockPos;
-        getWorld(): $ServerLevel;
         invalidate(): void;
+        find(arg0: $BlockState_, arg1: C): A;
+        getLookup(): $BlockApiLookupImpl<A, C>;
+        getWorld(): $ServerLevel;
+        getPos(): $BlockPos;
         getBlockEntity(): $BlockEntity;
         find(arg0: C): A;
-        getLookup(): $BlockApiLookup<A, C>;
         constructor(arg0: $BlockApiLookupImpl<A, C>, arg1: $ServerLevel, arg2: $BlockPos_);
-        get pos(): $BlockPos;
+        get lookup(): $BlockApiLookupImpl<A, C>;
         get world(): $ServerLevel;
+        get pos(): $BlockPos;
         get blockEntity(): $BlockEntity;
-        get lookup(): $BlockApiLookup<A, C>;
     }
     export class $BlockApiLookupImpl<A, C> implements $BlockApiLookup<A, C> {
         static get<A, C>(arg0: $ResourceLocation_, arg1: $Class<A>, arg2: $Class<C>): $BlockApiLookup<A, C>;
@@ -31,10 +31,10 @@ declare module "@package/net/fabricmc/fabric/impl/lookup/block" {
         getId(): $ResourceLocation;
         getProvider(arg0: $Block_): $BlockApiLookup$BlockApiProvider<A, C>;
         contextClass(): $Class<C>;
-        apiClass(): $Class<A>;
-        registerForBlocks(arg0: $BlockApiLookup$BlockApiProvider_<A, C>, ...arg1: $Block_[]): void;
         registerSelf(...arg0: $BlockEntityType_<never>[]): void;
         registerFallback(arg0: $BlockApiLookup$BlockApiProvider_<A, C>): void;
+        apiClass(): $Class<A>;
+        registerForBlocks(arg0: $BlockApiLookup$BlockApiProvider_<A, C>, ...arg1: $Block_[]): void;
         getFallbackProviders(): $List<$BlockApiLookup$BlockApiProvider<A, C>>;
         registerForBlockEntities(arg0: $BlockApiLookup$BlockEntityApiProvider_<A, C>, ...arg1: $BlockEntityType_<never>[]): void;
         find(arg0: $Level_, arg1: $BlockPos_, arg2: C): A;

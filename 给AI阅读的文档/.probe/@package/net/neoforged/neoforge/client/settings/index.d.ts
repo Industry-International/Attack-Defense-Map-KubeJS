@@ -6,19 +6,31 @@ import { $Enum } from "@package/java/lang";
 import { $InputConstants$Key } from "@package/com/mojang/blaze3d/platform";
 
 declare module "@package/net/neoforged/neoforge/client/settings" {
+    /**
+     * Defines the context that a `KeyMapping` is used.
+     * Key conflicts occur when a `KeyMapping` has the same `IKeyConflictContext` and has conflicting modifiers and keyCodes.
+     */
     export class $IKeyConflictContext {
     }
     export interface $IKeyConflictContext {
         isActive(): boolean;
-        conflicts(arg0: $IKeyConflictContext): boolean;
+        conflicts(other: $IKeyConflictContext): boolean;
         get active(): boolean;
     }
     export class $KeyMappingLookup {
-        remove(arg0: $KeyMapping): void;
-        put(arg0: $InputConstants$Key, arg1: $KeyMapping): void;
+        remove(keyBinding: $KeyMapping): void;
+        put(keyCode: $InputConstants$Key, keyBinding: $KeyMapping): void;
         clear(): void;
-        getAll(arg0: $InputConstants$Key, arg1: boolean): $List<$KeyMapping>;
-        getAll(arg0: $InputConstants$Key): $List<$KeyMapping>;
+        /**
+         * Returns all active keys associated with the given key code and the active
+         * modifiers and conflict context.
+         */
+        getAll(keyCode: $InputConstants$Key, releasing: boolean): $List<$KeyMapping>;
+        /**
+         * Returns all active keys associated with the given key code and the active
+         * modifiers and conflict context.
+         */
+        getAll(keyCode: $InputConstants$Key): $List<$KeyMapping>;
         constructor();
     }
     export class $KeyModifier extends $Enum<$KeyModifier> {

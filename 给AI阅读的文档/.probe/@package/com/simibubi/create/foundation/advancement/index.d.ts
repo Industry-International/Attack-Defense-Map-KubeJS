@@ -5,8 +5,8 @@ declare module "@package/com/simibubi/create/foundation/advancement" {
     export class $CreateAdvancement$Builder {
     }
     export class $CreateAdvancement {
-        awardTo(arg0: $Player): void;
         isAlreadyAwardedTo(arg0: $Player): boolean;
+        awardTo(arg0: $Player): void;
         constructor(arg0: string, arg1: $UnaryOperator_<$CreateAdvancement$Builder>);
     }
 }

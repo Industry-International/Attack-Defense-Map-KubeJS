@@ -16,9 +16,9 @@ declare module "@package/dev/ryanhcode/sable/sublevel/plot/heat" {
     export type $SubLevelHeatMapManager$SplitListener_ = ((arg0: $Level, arg1: $BoundingBox3ic, arg2: $Collection<$BlockPos>) => void);
     export class $SubLevelHeatMapManager {
         tick(): void;
-        onSolidRemoved(arg0: $BlockPos_): void;
         static addSplitListener(arg0: $SubLevelHeatMapManager$SplitListener_): void;
         onSolidAdded(arg0: $BlockPos_): void;
+        onSolidRemoved(arg0: $BlockPos_): void;
         constructor(arg0: $ServerSubLevel);
     }
 }

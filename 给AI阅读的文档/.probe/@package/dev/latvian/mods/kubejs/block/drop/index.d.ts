@@ -5,8 +5,8 @@ import { $Record } from "@package/java/lang";
 declare module "@package/dev/latvian/mods/kubejs/block/drop" {
     export class $BlockDrops extends $Record {
         items(): $ItemStack[];
-        static createDefault(item: $ItemStack_): $BlockDrops;
         rolls(): $NumberProvider;
+        static createDefault(item: $ItemStack_): $BlockDrops;
         static EMPTY: $BlockDrops;
         constructor(items: $ItemStack_[], rolls: $NumberProvider_);
     }

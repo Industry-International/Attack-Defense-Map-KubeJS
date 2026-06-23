@@ -4,16 +4,16 @@ import { $GunInfo_, $GunInfo } from "@package/mod/chloeprime/gunsmithlib/api/uti
 
 declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/gun/energy" {
     export class $EnergyWeaponData$Runtime extends $Record {
-        gun(): $GunInfo;
         energy(): $EnergyWeaponData;
+        gun(): $GunInfo;
         constructor(energy: $EnergyWeaponData_, gun: $GunInfo_);
     }
     export class $EnergyWeaponData extends $Record {
         static runtime(arg0: $GunInfo_): ($EnergyWeaponData$Runtime) | undefined;
         static runtime(arg0: $ItemStack_): ($EnergyWeaponData$Runtime) | undefined;
-        chargePower(): number;
         needsReloadOnFullHeat(): boolean;
         energyPerShot(): number;
+        chargePower(): number;
         constructor(energyPerShot: number, chargePower: number, needsReloadOnFullHeat: boolean);
     }
 }

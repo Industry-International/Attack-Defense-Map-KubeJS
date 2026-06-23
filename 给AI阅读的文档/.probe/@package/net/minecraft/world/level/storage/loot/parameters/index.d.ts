@@ -13,17 +13,25 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 import { $ProblemReporter } from "@package/net/minecraft/util";
 
 declare module "@package/net/minecraft/world/level/storage/loot/parameters" {
+    /**
+     * A parameter of a `LootContext`.
+     * 
+     * @see LootContextParams
+     */
     export class $LootContextParam<T> {
         getName(): $ResourceLocation;
-        constructor(arg0: $ResourceLocation_);
+        constructor(name: $ResourceLocation_);
         get name(): $ResourceLocation;
     }
     export class $LootContextParamSet$Builder {
         build(): $LootContextParamSet;
-        optional(arg0: $LootContextParam<never>): $LootContextParamSet$Builder;
-        required(arg0: $LootContextParam<never>): $LootContextParamSet$Builder;
+        optional(parameter: $LootContextParam<never>): $LootContextParamSet$Builder;
+        required(parameter: $LootContextParam<never>): $LootContextParamSet$Builder;
         constructor();
     }
+    /**
+     * Holds all known LootContextParams.
+     */
     export class $LootContextParams {
         static DIRECT_ATTACKING_ENTITY: $LootContextParam<$Entity>;
         static ORIGIN: $LootContextParam<$Vec3>;
@@ -39,16 +47,38 @@ declare module "@package/net/minecraft/world/level/storage/loot/parameters" {
         static ENCHANTMENT_ACTIVE: $LootContextParam<boolean>;
         constructor();
     }
+    /**
+     * A LootContextParamSet defines a set of required and optional `LootContextParam`s.
+     * This is used to validate that conditions, functions and other `LootContextUser`s only use those parameters that are present for the given loot table.
+     * 
+     * @see LootContextParamSets
+     * @see ValidationContext
+     */
     export class $LootContextParamSet {
         static builder(): $LootContextParamSet$Builder;
+        /**
+         * Gets the required and optional parameters
+         */
         getAllowed(): $Set<$LootContextParam<never>>;
-        validateUser(arg0: $ProblemReporter, arg1: $LootContextUser): void;
-        validateUser(arg0: $ValidationContext, arg1: $LootContextUser): void;
+        /**
+         * Whether the given parameter is allowed in this set.
+         */
+        isAllowed(param: $LootContextParam<never>): boolean;
+        /**
+         * Gets the required and optional parameters
+         */
         getRequired(): $Set<$LootContextParam<never>>;
-        isAllowed(arg0: $LootContextParam<never>): boolean;
-        constructor(arg0: $Set_<$LootContextParam<never>>, arg1: $Set_<$LootContextParam<never>>);
+        validateUser(problemReporter: $ProblemReporter, lootContextUser: $LootContextUser): void;
+        /**
+         * Validate that all parameters referenced by the given LootContextUser are present in this set.
+         */
+        validateUser(validationContext: $ValidationContext, lootContextUser: $LootContextUser): void;
+        constructor(required: $Set_<$LootContextParam<never>>, optional: $Set_<$LootContextParam<never>>);
         get required(): $Set<$LootContextParam<never>>;
     }
+    /**
+     * Registry for `LootContextParamSet`s.
+     */
     export class $LootContextParamSets {
         static ENCHANTED_ITEM: $LootContextParamSet;
         static ENCHANTED_LOCATION: $LootContextParamSet;

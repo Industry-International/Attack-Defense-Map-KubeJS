@@ -9,60 +9,60 @@ declare module "@package/io/github/reserveword/imblocker/common/gui" {
     export class $FocusableObject {
     }
     export interface $FocusableObject {
-        lostFocus(): void;
-        getFontHeight(): number;
-        getCaretPos(): $Point;
-        getBoundsAbs(): $Rectangle;
-        isTrulyFocused(): boolean;
-        getPreferredState(): boolean;
-        updateEnglishState(): void;
-        updateIMState(): void;
-        deliverFocus(): void;
         getGuiScale(): number;
         getPreferredEnglishState(): boolean;
-        get fontHeight(): number;
-        get caretPos(): $Point;
-        get boundsAbs(): $Rectangle;
-        get trulyFocused(): boolean;
-        get preferredState(): boolean;
+        getBoundsAbs(): $Rectangle;
+        deliverFocus(): void;
+        getFontHeight(): number;
+        getCaretPos(): $Point;
+        updateIMState(): void;
+        getPreferredState(): boolean;
+        updateEnglishState(): void;
+        isTrulyFocused(): boolean;
+        lostFocus(): void;
         get guiScale(): number;
         get preferredEnglishState(): boolean;
+        get boundsAbs(): $Rectangle;
+        get fontHeight(): number;
+        get caretPos(): $Point;
+        get preferredState(): boolean;
+        get trulyFocused(): boolean;
     }
     export class $FocusContainer implements $FocusableObject {
-        requestFocus(arg0: $FocusableWidget): void;
-        lostFocus(): void;
-        getCaretPos(): $Point;
-        getBoundsAbs(): $Rectangle;
-        getPreferredState(): boolean;
-        removeFocus(arg0: $FocusableWidget): void;
-        deliverFocus(): void;
-        switchFocus(arg0: $FocusableWidget): void;
-        locateRealFocus(): void;
         setGuiScaleFactor(arg0: number): void;
-        clearFocus(): void;
         getGuiScale(): number;
-        setPreferredState(arg0: boolean): void;
         checkFocusCandidatesVisibility(arg0: number): void;
-        getFontHeight(): number;
-        isTrulyFocused(): boolean;
-        updateEnglishState(): void;
-        updateIMState(): void;
+        requestFocus(arg0: $FocusableWidget): void;
+        setPreferredState(arg0: boolean): void;
+        clearFocus(): void;
+        locateRealFocus(): void;
+        getBoundsAbs(): $Rectangle;
+        deliverFocus(): void;
+        getCaretPos(): $Point;
+        removeFocus(arg0: $FocusableWidget): void;
+        getPreferredState(): boolean;
+        switchFocus(arg0: $FocusableWidget): void;
+        lostFocus(): void;
         getPreferredEnglishState(): boolean;
+        getFontHeight(): number;
+        updateIMState(): void;
+        updateEnglishState(): void;
+        isTrulyFocused(): boolean;
         static MINECRAFT: $FocusContainer;
         static IMGUI: $FocusContainer;
-        get caretPos(): $Point;
-        get boundsAbs(): $Rectangle;
         set guiScaleFactor(value: number);
         get guiScale(): number;
+        get boundsAbs(): $Rectangle;
+        get caretPos(): $Point;
+        get preferredEnglishState(): boolean;
         get fontHeight(): number;
         get trulyFocused(): boolean;
-        get preferredEnglishState(): boolean;
     }
     export class $MinecraftMultilineEditBoxWidget {
     }
     export interface $MinecraftMultilineEditBoxWidget extends $MinecraftAbstractTextInputWidget<$MultilineCursorInfo> {
-        imblocker$getContentOffsetX(): number;
         imblocker$getContentOffsetY(): number;
+        imblocker$getContentOffsetX(): number;
         getCaretPos(): $Point;
         get caretPos(): $Point;
     }
@@ -97,24 +97,24 @@ declare module "@package/io/github/reserveword/imblocker/common/gui" {
     export class $MinecraftFocusableWidget {
     }
     export interface $MinecraftFocusableWidget extends $FocusableWidget {
-        getFocusContainer(): $FocusContainer;
-        imblocker$onFocusLost(): void;
-        imblocker$onBoundsChanged(): void;
-        imblocker$onFocusChanged(arg0: boolean): void;
         imblocker$onFocusGained(): void;
+        imblocker$onFocusLost(): void;
+        imblocker$onFocusChanged(arg0: boolean): void;
+        imblocker$onBoundsChanged(): void;
+        getFocusContainer(): $FocusContainer;
         get focusContainer(): $FocusContainer;
     }
     export class $FocusableWidget {
     }
     export interface $FocusableWidget extends $FocusableObject {
-        getFocusContainer(): $FocusContainer;
+        getGuiScale(): number;
         isRenderable(): boolean;
         getPreferredState(): boolean;
-        getGuiScale(): number;
-        get focusContainer(): $FocusContainer;
+        getFocusContainer(): $FocusContainer;
+        get guiScale(): number;
         get renderable(): boolean;
         get preferredState(): boolean;
-        get guiScale(): number;
+        get focusContainer(): $FocusContainer;
     }
     export class $Point {
         x(): number;
@@ -127,23 +127,23 @@ declare module "@package/io/github/reserveword/imblocker/common/gui" {
     export class $MinecraftAbstractTextInputWidget<CI extends $CursorInfo> {
     }
     export interface $MinecraftAbstractTextInputWidget<CI extends $CursorInfo> extends $MinecraftFocusableWidget {
-        deliverFocus(): void;
-        getCursorInfo(): CI;
-        updateCursorInfo(): boolean;
         imblocker$onCursorChanged(): void;
+        deliverFocus(): void;
+        updateCursorInfo(): boolean;
+        getCursorInfo(): CI;
         get cursorInfo(): CI;
     }
     export class $MinecraftTextFieldWidget {
     }
     export interface $MinecraftTextFieldWidget extends $MinecraftAbstractTextInputWidget<$SinglelineCursorInfo> {
-        getCaretPos(): $Point;
-        getPaddingX(): number;
-        checkVisibility(arg0: number): void;
         setPreferredEnglishState(arg0: boolean): void;
         getPrimaryEnglishState(): boolean;
-        get caretPos(): $Point;
-        get paddingX(): number;
+        checkVisibility(arg0: number): void;
+        getPaddingX(): number;
+        getCaretPos(): $Point;
         set preferredEnglishState(value: boolean);
         get primaryEnglishState(): boolean;
+        get paddingX(): number;
+        get caretPos(): $Point;
     }
 }

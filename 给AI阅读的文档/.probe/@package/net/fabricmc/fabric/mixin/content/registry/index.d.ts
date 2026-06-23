@@ -11,8 +11,8 @@ import { $LootTable } from "@package/net/minecraft/world/level/storage/loot";
 
 declare module "@package/net/fabricmc/fabric/mixin/content/registry" {
     export class $AxeItemAccessor {
-        static setStrippedBlocks(arg0: $Map_<$Block_, $Block_>): void;
         static getStrippedBlocks(): $Map<$Block, $Block>;
+        static setStrippedBlocks(arg0: $Map_<$Block_, $Block_>): void;
     }
     export interface $AxeItemAccessor {
     }
@@ -23,8 +23,8 @@ declare module "@package/net/fabricmc/fabric/mixin/content/registry" {
     export interface $ShovelItemAccessor {
     }
     export class $VillagerEntityAccessor {
-        static fabric_getGatherableItems(): $Set<$Item>;
         static fabric_setGatherableItems(arg0: $Set_<$Item_>): void;
+        static fabric_getGatherableItems(): $Set<$Item>;
         static fabric_setItemFoodValues(arg0: $Map_<$Item_, number>): void;
     }
     export interface $VillagerEntityAccessor {

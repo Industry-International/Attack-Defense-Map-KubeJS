@@ -10,16 +10,16 @@ declare module "@package/com/replaymod/core/files" {
         constructor(folders: $ReplayFoldersService);
     }
     export class $ReplayFoldersService {
-        getReplayPathForCache(cache: $Path_): $Path;
         getCachePathForReplay(replay: $Path_): $Path;
+        getReplayPathForCache(cache: $Path_): $Path;
         getRawReplayFolder(): $Path;
         getCacheFolder(): $Path;
-        getRecordingFolder(): $Path;
         getReplayFolder(): $Path;
+        getRecordingFolder(): $Path;
         constructor(settings: $SettingsRegistry);
         get rawReplayFolder(): $Path;
         get cacheFolder(): $Path;
-        get recordingFolder(): $Path;
         get replayFolder(): $Path;
+        get recordingFolder(): $Path;
     }
 }

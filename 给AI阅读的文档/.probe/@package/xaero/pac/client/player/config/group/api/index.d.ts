@@ -8,13 +8,13 @@ declare module "@package/xaero/pac/client/player/config/group/api" {
         dataExists(arg0: string): boolean;
         getIds(): $Set<string>;
         isSyncInProgress(): boolean;
-        getMaxGroups(): number;
-        getAllIdsSorted(): $List<string>;
         getGroupSpace(): number;
+        getAllIdsSorted(): $List<string>;
+        getMaxGroups(): number;
         get ids(): $Set<string>;
         get syncInProgress(): boolean;
-        get maxGroups(): number;
-        get allIdsSorted(): $List<string>;
         get groupSpace(): number;
+        get allIdsSorted(): $List<string>;
+        get maxGroups(): number;
     }
 }

@@ -6,7 +6,7 @@ declare module "@package/dev/lambdaurora/lambdynlights/engine" {
     export class $CellHasher {
     }
     export interface $CellHasher {
-        hashCell(arg0: number, arg1: number, arg2: number): number;
         hashAt(arg0: number, arg1: number, arg2: number): number;
+        hashCell(arg0: number, arg1: number, arg2: number): number;
     }
 }

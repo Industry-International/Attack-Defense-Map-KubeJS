@@ -47,7 +47,7 @@ declare module "@package/dev/latvian/mods/kubejs/error" {
         value: $Object;
         key: $RecipeKey<never>;
         constructor(msg: string, cause: $Throwable, value: $RecipeComponentValue<never>);
-        constructor(msg: string, cause: $Throwable, component: $RecipeComponent<never>, key: $RecipeKey<never>, value: $Object);
+        constructor(msg: string, cause: $Throwable, component: $RecipeComponent<never>, key: $RecipeKey<never> | null, value: $Object);
     }
     export class $MissingRequiredValueException extends $KubeRuntimeException {
         constructor();

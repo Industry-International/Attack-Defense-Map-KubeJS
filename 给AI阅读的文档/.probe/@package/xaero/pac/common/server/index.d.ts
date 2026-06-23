@@ -15,28 +15,28 @@ declare module "@package/xaero/pac/common/server" {
     export class $IOpenPACMinecraftServer {
     }
     export interface $IOpenPACMinecraftServer {
-        getXaero_OPAC_ServerData(): $IServerDataAPI;
         setXaero_OPAC_ServerData(arg0: $IServerDataAPI): void;
+        getXaero_OPAC_ServerData(): $IServerDataAPI;
     }
     export class $IServerDataAPI {
     }
     export interface $IServerDataAPI {
+        getAPI(): $OpenPACServerAPI;
         getAdaptiveLocalizer(): $IAdaptiveLocalizerAPI;
         getPlayerConfigManager(): $IPlayerConfigManagerAPI;
         getChunkProtection(): $IChunkProtectionAPI;
-        getAPI(): $OpenPACServerAPI;
-        getServerClaimsManager(): $IServerClaimsManagerAPI;
+        getPartyManager(): $IPartyManagerAPI;
         /**
          * @deprecated
          */
         getPlayerConfigs(): $IPlayerConfigManagerAPI$1;
-        getPartyManager(): $IPartyManagerAPI;
+        getServerClaimsManager(): $IServerClaimsManagerAPI;
+        get API(): $OpenPACServerAPI;
         get adaptiveLocalizer(): $IAdaptiveLocalizerAPI;
         get playerConfigManager(): $IPlayerConfigManagerAPI;
         get chunkProtection(): $IChunkProtectionAPI;
-        get API(): $OpenPACServerAPI;
-        get serverClaimsManager(): $IServerClaimsManagerAPI;
-        get playerConfigs(): $IPlayerConfigManagerAPI$1;
         get partyManager(): $IPartyManagerAPI;
+        get playerConfigs(): $IPlayerConfigManagerAPI$1;
+        get serverClaimsManager(): $IServerClaimsManagerAPI;
     }
 }

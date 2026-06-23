@@ -9,14 +9,14 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/sha
     export class $DamageSourceControlData {
         static of(arg0: $ItemStack_, arg1: $RegistryAccess): $List<$DamageSourceControlData>;
         static of(arg0: $GunInfo_, arg1: $RegistryAccess): $List<$DamageSourceControlData>;
-        getMasterType(): ($Holder<$DamageType>) | undefined;
+        getIsList(): $List<$TagKeyOr<$DamageType>>;
         getIsNotList(): $List<$TagKeyOr<$DamageType>>;
         getMasterApType(): ($Holder<$DamageType>) | undefined;
-        getIsList(): $List<$TagKeyOr<$DamageType>>;
+        getMasterType(): ($Holder<$DamageType>) | undefined;
         constructor();
-        get masterType(): ($Holder<$DamageType>) | undefined;
+        get isList(): $List<$TagKeyOr<$DamageType>>;
         get isNotList(): $List<$TagKeyOr<$DamageType>>;
         get masterApType(): ($Holder<$DamageType>) | undefined;
-        get isList(): $List<$TagKeyOr<$DamageType>>;
+        get masterType(): ($Holder<$DamageType>) | undefined;
     }
 }

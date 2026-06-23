@@ -6,7 +6,7 @@ import { $Set } from "@package/java/util";
 
 declare module "@package/net/minecraft/client/profiling" {
     export class $ClientMetricsSamplersProvider implements $MetricsSamplerProvider {
-        samplers(arg0: $Supplier_<$ProfileCollector>): $Set<$MetricSampler>;
-        constructor(arg0: $LongSupplier_, arg1: $LevelRenderer);
+        samplers(profiles: $Supplier_<$ProfileCollector>): $Set<$MetricSampler>;
+        constructor(timeSource: $LongSupplier_, levelRenderer: $LevelRenderer);
     }
 }

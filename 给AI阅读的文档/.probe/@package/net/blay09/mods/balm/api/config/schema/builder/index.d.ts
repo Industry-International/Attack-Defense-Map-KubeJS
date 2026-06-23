@@ -21,13 +21,13 @@ declare module "@package/net/blay09/mods/balm/api/config/schema/builder" {
         listOf<T>(arg0: $Class<T>, arg1: $List_<T>): $ListConfigProperty<T>;
         setOf<T>(arg0: $Class<T>, arg1: $Set_<T>): $SetConfigProperty<T>;
         synced(): $ConfigPropertyBuilder;
+        resourceLocationOf(arg0: $ResourceLocation_): $ResourceLocationConfigProperty;
+        longOf(arg0: number): $LongConfigProperty;
         floatOf(arg0: number): $FloatConfigProperty;
         intOf(arg0: number): $IntConfigProperty;
-        longOf(arg0: number): $LongConfigProperty;
-        doubleOf(arg0: number): $DoubleConfigProperty;
         boolOf(arg0: boolean): $BooleanConfigProperty;
         enumOf<T extends $Enum<T>>(arg0: T): $EnumConfigProperty<T>;
-        resourceLocationOf(arg0: $ResourceLocation_): $ResourceLocationConfigProperty;
+        doubleOf(arg0: number): $DoubleConfigProperty;
         constructor(arg0: $ConfigSchemaImpl, arg1: string);
         constructor(arg0: $ConfigSchemaImpl, arg1: string, arg2: string);
     }
@@ -125,8 +125,8 @@ declare module "@package/net/blay09/mods/balm/api/config/schema/builder" {
         name(): string;
         comment(): string;
         category(): string;
-        synced(): boolean;
         parentSchema(): $ConfigSchemaImpl;
+        synced(): boolean;
         getRaw(arg0: $LoadedConfig): T;
         setRaw(arg0: $MutableLoadedConfig, arg1: T): void;
         constructor(arg0: $ConfigPropertyBuilder);

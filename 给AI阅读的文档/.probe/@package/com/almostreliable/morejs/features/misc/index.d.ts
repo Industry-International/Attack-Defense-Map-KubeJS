@@ -12,20 +12,14 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
         isIgnoreHoldingCheck(): boolean;
         ignoreHoldingCheck(): void;
         getBehavior(): $PiglinPlayerBehaviorEventJS$PiglinBehavior;
-        setBehavior(arg0: $PiglinPlayerBehaviorEventJS$PiglinBehavior_): void;
         getPiglin(): $Piglin;
-        getPreviousTargetPlayer(): $Player;
         isAggressiveAlready(): boolean;
+        getPreviousTargetPlayer(): $Player;
+        setBehavior(arg0: $PiglinPlayerBehaviorEventJS$PiglinBehavior_): void;
         getPlayer(): $Player;
         getLevel(): $Level;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -33,11 +27,11 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -45,22 +39,28 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(arg0: $Piglin, arg1: $Player, arg2: ($Player) | undefined);
         get piglin(): $Piglin;
-        get previousTargetPlayer(): $Player;
         get aggressiveAlready(): boolean;
+        get previousTargetPlayer(): $Player;
         get player(): $Player;
         get level(): $Level;
         get registries(): $RegistryAccess;
@@ -69,27 +69,21 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
     }
     export class $ExperiencePlayerEventJS implements $KubePlayerEvent {
         getEntity(): $Player;
+        getRemainingExperience(): number;
+        setExperienceProgress(arg0: number): void;
         setAmount(arg0: number): void;
-        getExperienceProgress(): number;
         getAmount(): number;
-        getXpNeededForNextLevel(): number;
+        getExperienceProgress(): number;
         getTotalExperience(): number;
         getExperienceLevel(): number;
+        getXpNeededForNextLevel(): number;
         setTotalExperience(arg0: number): void;
         setExperienceLevel(arg0: number): void;
         willLevelUp(): boolean;
-        setExperienceProgress(arg0: number): void;
-        getRemainingExperience(): number;
         getPlayer(): $Player;
         getLevel(): $Level;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -97,11 +91,11 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -109,21 +103,27 @@ declare module "@package/com/almostreliable/morejs/features/misc" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(arg0: $Player, arg1: number);
         get entity(): $Player;
-        get xpNeededForNextLevel(): number;
         get remainingExperience(): number;
+        get xpNeededForNextLevel(): number;
         get player(): $Player;
         get level(): $Level;
         get registries(): $RegistryAccess;

@@ -1,6 +1,5 @@
 import { $SectionPos } from "@package/net/minecraft/core";
 import { $ObjectArrayList } from "@package/it/unimi/dsi/fastutil/objects";
-import { $RenderSection } from "@package/net/caffeinemc/mods/sodium/client/render/chunk";
 import { $ByteIterator } from "@package/net/caffeinemc/mods/sodium/client/util/iterator";
 import { $SortedRenderListsAccessor } from "@package/foundry/veil/forge/mixin/compat/sodium";
 import { $Iterator } from "@package/java/util";
@@ -19,28 +18,35 @@ declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/lists" {
     export type $ChunkRenderListIterable_ = ((arg0: boolean) => $Iterator<$ChunkRenderList>);
     export class $SortedRenderLists implements $ChunkRenderListIterable, $SortedRenderListsAccessor {
         static empty(): $SortedRenderLists;
-        static init$veil_$md$9aa1a5$0(arg0: $ObjectArrayList<any>): $SortedRenderLists;
+        static init$veil_$md$dd6cb9$0(arg0: $ObjectArrayList<any>): $SortedRenderLists;
         iterator(): $Iterator<$ChunkRenderList>;
         iterator(arg0: boolean): $Iterator<$ChunkRenderList>;
     }
     export class $ChunkRenderList {
         size(): number;
-        reset(arg0: number): void;
-        add(arg0: $RenderSection): void;
+        reset(arg0: number, arg1: boolean): void;
+        add(arg0: number, arg1: number): void;
         getRegion(): $RenderRegion;
-        sectionsWithEntitiesIterator(): $ByteIterator;
-        getLastVisibleFrame(): number;
         sectionsWithGeometryIterator(arg0: boolean): $ByteIterator;
+        getSectionsWithEntitiesCount(): number;
+        getSectionsWithSpritesCount(): number;
+        sectionsWithEntitiesIterator(): $ByteIterator;
+        prepareForRender(arg0: $SectionPos, arg1: $SortItemsProvider): void;
         getSectionsWithGeometryCount(): number;
         sectionsWithSpritesIterator(): $ByteIterator;
-        getSectionsWithSpritesCount(): number;
-        getSectionsWithEntitiesCount(): number;
-        sortSections(arg0: $SectionPos, arg1: number[]): void;
+        getLastVisibleFrame(): number;
         constructor(arg0: $RenderRegion);
         get region(): $RenderRegion;
-        get lastVisibleFrame(): number;
-        get sectionsWithGeometryCount(): number;
-        get sectionsWithSpritesCount(): number;
         get sectionsWithEntitiesCount(): number;
+        get sectionsWithSpritesCount(): number;
+        get sectionsWithGeometryCount(): number;
+        get lastVisibleFrame(): number;
+    }
+    export class $SortItemsProvider {
+    }
+    export interface $SortItemsProvider {
+        getCachedSortItems(): number[];
+        setCachedSortItems(arg0: number[]): void;
+        ensureSortItemsOfLength(arg0: number): number[];
     }
 }

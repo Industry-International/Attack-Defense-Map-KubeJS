@@ -44,17 +44,17 @@ declare module "@package/blusunrize/immersiveengineering/mixin/accessors" {
     export class $ServerPlayNetHandlerAccess {
     }
     export interface $ServerPlayNetHandlerAccess extends $PlayerUtils$ConnectionAccess {
-        setClientIsFloating(arg0: boolean): void;
         setAboveGroundTickCount(arg0: number): void;
-        set clientIsFloating(value: boolean);
+        setClientIsFloating(arg0: boolean): void;
         set aboveGroundTickCount(value: number);
+        set clientIsFloating(value: boolean);
     }
     export class $TemplatePoolAccess {
     }
     export interface $TemplatePoolAccess {
-        getRawTemplates(): $List<$Pair<$StructurePoolElement, number>>;
-        setRawTemplates(arg0: $List_<$Pair<$StructurePoolElement, number>>): void;
         getTemplates(): $ObjectArrayList<$StructurePoolElement>;
+        setRawTemplates(arg0: $List_<$Pair<$StructurePoolElement, number>>): void;
+        getRawTemplates(): $List<$Pair<$StructurePoolElement, number>>;
         get templates(): $ObjectArrayList<$StructurePoolElement>;
     }
     export class $DataStorageAccess {
@@ -67,7 +67,7 @@ declare module "@package/blusunrize/immersiveengineering/mixin/accessors" {
     export class $DamageSourcesAccess {
     }
     export interface $DamageSourcesAccess {
-        invokeSource(arg0: $ResourceKey_<$DamageType>, arg1: $Entity, arg2: $Entity): $DamageSource;
+        invokeSource(arg0: $ResourceKey_<$DamageType>, arg1: $Entity | null, arg2: $Entity | null): $DamageSource;
     }
     /**
      * Values that may be interpreted as {@link $DamageSourcesAccess}.
@@ -158,18 +158,18 @@ declare module "@package/blusunrize/immersiveengineering/mixin/accessors" {
     export class $ContainerAccess {
     }
     export interface $ContainerAccess {
-        getRemoteSlots(): $NonNullList<$ItemStack>;
         getLastSlots(): $NonNullList<$ItemStack>;
-        get remoteSlots(): $NonNullList<$ItemStack>;
+        getRemoteSlots(): $NonNullList<$ItemStack>;
         get lastSlots(): $NonNullList<$ItemStack>;
+        get remoteSlots(): $NonNullList<$ItemStack>;
     }
     export class $FurnaceTEAccess {
     }
     export interface $FurnaceTEAccess {
-        getQuickCheck(): $RecipeManager$CachedCheck<$SingleRecipeInput, $AbstractCookingRecipe>;
         getDataAccess(): $ContainerData;
-        get quickCheck(): $RecipeManager$CachedCheck<$SingleRecipeInput, $AbstractCookingRecipe>;
+        getQuickCheck(): $RecipeManager$CachedCheck<$SingleRecipeInput, $AbstractCookingRecipe>;
         get dataAccess(): $ContainerData;
+        get quickCheck(): $RecipeManager$CachedCheck<$SingleRecipeInput, $AbstractCookingRecipe>;
     }
     export class $PaletteAccess {
         static construct(arg0: $List_<$StructureTemplate$StructureBlockInfo_>): $StructureTemplate$Palette;

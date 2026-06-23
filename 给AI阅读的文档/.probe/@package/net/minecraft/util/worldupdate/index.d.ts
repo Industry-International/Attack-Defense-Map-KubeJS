@@ -28,13 +28,13 @@ declare module "@package/net/minecraft/util/worldupdate" {
         cancel(): void;
         levels(): $Set<$ResourceKey<$Level>>;
         getStatus(): $Component;
-        getProgress(): number;
         getConverted(): number;
+        getProgress(): number;
         isFinished(): boolean;
         getSkipped(): number;
         getTotalChunks(): number;
-        dimensionProgress(arg0: $ResourceKey_<$Level>): number;
-        static resolveRecreateDirectory(arg0: $Path_): $Path;
+        dimensionProgress(level: $ResourceKey_<$Level>): number;
+        static resolveRecreateDirectory(path: $Path_): $Path;
         static STATUS_UPGRADING_ENTITIES: $MutableComponent;
         recreateRegionFiles: boolean;
         static REGEX: $Pattern;
@@ -57,7 +57,7 @@ declare module "@package/net/minecraft/util/worldupdate" {
         static STATUS_FINISHED_POI: $MutableComponent;
         dimensions: $Registry<$LevelStem>;
         status: $Component;
-        constructor(arg0: $LevelStorageSource$LevelStorageAccess, arg1: $DataFixer, arg2: $RegistryAccess, arg3: boolean, arg4: boolean);
+        constructor(levelStorage: $LevelStorageSource$LevelStorageAccess, dataFixer: $DataFixer, registryAccess: $RegistryAccess, eraseCache: boolean, recreateRegionFiles: boolean);
         get finished(): boolean;
     }
     export class $WorldUpgrader$FileToUpgrade extends $Record {

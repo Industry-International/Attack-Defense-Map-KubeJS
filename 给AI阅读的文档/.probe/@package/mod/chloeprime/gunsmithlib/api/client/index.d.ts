@@ -13,50 +13,50 @@ export * as scripting_v2 from "@package/mod/chloeprime/gunsmithlib/api/client/sc
 
 declare module "@package/mod/chloeprime/gunsmithlib/api/client" {
     export class $RenderGunTooltipTextEvent$AfterUpgradeTip extends $RenderGunTooltipTextEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $RenderGunTooltipTextEvent$AfterPackInfo extends $RenderGunTooltipTextEvent {
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $RenderGunTooltipTextEvent$AfterAmmoInfo extends $RenderGunTooltipTextEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $RenderGunTooltipTextEvent$BeforeDescription extends $RenderGunTooltipTextEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $GunTooltipEvent$ComputeHeight extends $GunTooltipEvent$ComputeSize {
-        getOriginalHeight(): number;
         pumpHeight(arg0: number): void;
-        getHeight(): number;
         setHeight(arg0: number): void;
+        getHeight(): number;
+        getOriginalHeight(): number;
         constructor(arg0: $GunTooltipContext_, arg1: number);
         get originalHeight(): number;
     }
     export class $GunTooltipEvent$ComputeWidth extends $GunTooltipEvent$ComputeSize {
-        getWidth(): number;
-        getOriginalWidth(): number;
         pumpWidth(arg0: number): void;
+        getWidth(): number;
         setWidth(arg0: number): void;
+        getOriginalWidth(): number;
         constructor(arg0: $GunTooltipContext_, arg1: number);
         get originalWidth(): number;
     }
     export class $RenderGunTooltipTextEvent extends $GunTooltipEvent {
         enqueue(arg0: $RenderGunTooltipTextEvent$RenderFunc_): void;
         pumpHeight(arg0: number): void;
-        getHeight(): number;
         doRender(): void;
+        getHeight(): number;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
         get height(): number;
     }
     export class $RenderGunTooltipTextEvent$AfterDescription extends $RenderGunTooltipTextEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $RenderGunTooltipTextEvent$RenderFunc {
@@ -68,8 +68,8 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/client" {
      */
     export type $RenderGunTooltipTextEvent$RenderFunc_ = (() => void);
     export class $RenderGunTooltipTextEvent$AfterBaseInfo extends $RenderGunTooltipTextEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $GunTooltipEvent$Initialize extends $GunTooltipEvent {
@@ -84,11 +84,11 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/client" {
     export class $GunTooltipContext extends $Record {
         instance(): $ClientGunTooltip;
         gunInfo(): $GunInfo;
-        constructor(instance: $ClientGunTooltip, gunInfo: $GunInfo_);
+        constructor(instance: $ClientGunTooltip, gunInfo: $GunInfo_ | null);
     }
     export class $RenderGunTooltipTextEvent$AfterExtraDamageInfo extends $RenderGunTooltipTextEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $GunTooltipContext_, arg1: $RenderGunTooltipTextEvent$RenderContext_);
     }
     export class $GunTooltipEvent$ComputeSize extends $GunTooltipEvent {

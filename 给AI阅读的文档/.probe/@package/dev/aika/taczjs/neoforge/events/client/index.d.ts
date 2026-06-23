@@ -27,18 +27,18 @@ declare module "@package/dev/aika/taczjs/neoforge/events/client" {
         constructor(gunId: $ResourceLocation_);
     }
     export class $AbstractClientGunEvent extends $ClientPlayerKubeEvent {
-        canInteractEntity(): boolean;
+        getBlockHitResult(): $BlockHitResult;
         getGunId(): $ResourceLocation;
+        getEntityHitResult(): $EntityHitResult;
         setVanillaInteract(v: boolean): void;
         getGunIndex(): $ClientGunIndex;
-        getEntityHitResult(): $EntityHitResult;
-        getGunOperator(): $IClientPlayerGunOperator;
         isVanillaInteract(): boolean;
-        getBlockHitResult(): $BlockHitResult;
-        get gunId(): $ResourceLocation;
-        get gunIndex(): $ClientGunIndex;
-        get entityHitResult(): $EntityHitResult;
-        get gunOperator(): $IClientPlayerGunOperator;
+        canInteractEntity(): boolean;
+        getGunOperator(): $IClientPlayerGunOperator;
         get blockHitResult(): $BlockHitResult;
+        get gunId(): $ResourceLocation;
+        get entityHitResult(): $EntityHitResult;
+        get gunIndex(): $ClientGunIndex;
+        get gunOperator(): $IClientPlayerGunOperator;
     }
 }

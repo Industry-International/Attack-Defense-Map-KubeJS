@@ -9,19 +9,19 @@ declare module "@package/org/apache/commons/lang3/math" {
         reduce(): $Fraction;
         subtract(arg0: $Fraction): $Fraction;
         negate(): $Fraction;
-        invert(): $Fraction;
-        divideBy(arg0: $Fraction): $Fraction;
         multiplyBy(arg0: $Fraction): $Fraction;
-        getDenominator(): number;
-        getNumerator(): number;
-        getProperNumerator(): number;
+        divideBy(arg0: $Fraction): $Fraction;
+        invert(): $Fraction;
         getProperWhole(): number;
-        static getFraction(arg0: number, arg1: number): $Fraction;
+        static getReducedFraction(arg0: number, arg1: number): $Fraction;
+        getProperNumerator(): number;
+        toProperString(): string;
         static getFraction(arg0: number): $Fraction;
+        static getFraction(arg0: number, arg1: number): $Fraction;
         static getFraction(arg0: string): $Fraction;
         static getFraction(arg0: number, arg1: number, arg2: number): $Fraction;
-        toProperString(): string;
-        static getReducedFraction(arg0: number, arg1: number): $Fraction;
+        getDenominator(): number;
+        getNumerator(): number;
         static FOUR_FIFTHS: $Fraction;
         static ZERO: $Fraction;
         static ONE_HALF: $Fraction;
@@ -34,9 +34,9 @@ declare module "@package/org/apache/commons/lang3/math" {
         static ONE_THIRD: $Fraction;
         static ONE_FIFTH: $Fraction;
         static TWO_FIFTHS: $Fraction;
+        get properWhole(): number;
+        get properNumerator(): number;
         get denominator(): number;
         get numerator(): number;
-        get properNumerator(): number;
-        get properWhole(): number;
     }
 }

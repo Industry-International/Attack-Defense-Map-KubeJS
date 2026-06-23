@@ -10,12 +10,12 @@ declare module "@package/com/possible_triangle/flightlib/api" {
         static valueOf(arg0: string): $FlightKey;
         getDefault(): boolean;
         static getEntries(): $EnumEntries<$FlightKey>;
-        getBinding(): ($KeyMapping) | undefined;
+        getToggle(): boolean;
         getDefaultKey(): number;
         setBinding(arg0: ($KeyMapping) | undefined): void;
         getSerializedName(): string;
+        getBinding(): ($KeyMapping) | undefined;
         isPressed(arg0: $LivingEntity): boolean;
-        getToggle(): boolean;
         getRemappedEnumConstantName(): string;
         static TOGGLE_ACTIVE: $FlightKey;
         static BACKWARD: $FlightKey;
@@ -27,9 +27,9 @@ declare module "@package/com/possible_triangle/flightlib/api" {
         static UP: $FlightKey;
         get default(): boolean;
         static get entries(): $EnumEntries<$FlightKey>;
+        get toggle(): boolean;
         get defaultKey(): number;
         get serializedName(): string;
-        get toggle(): boolean;
         get remappedEnumConstantName(): string;
     }
     /**

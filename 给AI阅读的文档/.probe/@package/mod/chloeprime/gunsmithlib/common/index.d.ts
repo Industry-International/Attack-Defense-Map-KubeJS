@@ -14,18 +14,18 @@ declare module "@package/mod/chloeprime/gunsmithlib/common" {
     export class $AbstractCommonScriptingExtension {
     }
     export interface $AbstractCommonScriptingExtension extends $CommonScriptingExtension {
-        gunsmith_asyncRunCycled(arg0: $LuaValue, arg1: number, arg2: number, ...arg3: $Object[]): void;
-        gunsmith_asyncRunDelayed(arg0: $LuaValue, arg1: number, ...arg2: $Object[]): void;
+        gunsmithlib$getGunItemInterface(): $IGun;
+        gunsmith_getEstimatedRange(arg0: number): number;
+        gunsmith_getEstimatedRange(): number;
         /**
          * @deprecated
          */
         gunsmith_getChargingTime(): number;
-        gunsmith_getEstimatedRange(arg0: number): number;
-        gunsmith_getEstimatedRange(): number;
-        gunsmithlib$getGunItemInterface(): $IGun;
-        gunsmithlib$getShooter(): ($LivingEntity) | undefined;
-        gunsmithlib$getCurrentItem(): $ItemStack;
+        gunsmith_asyncRunDelayed(arg0: $LuaValue, arg1: number, ...arg2: $Object[]): void;
+        gunsmith_asyncRunCycled(arg0: $LuaValue, arg1: number, arg2: number, ...arg3: $Object[]): void;
         gunsmith$getGunIdHelper(): string;
         gunsmithlib$getSide(): $LogicalSide;
+        gunsmithlib$getShooter(): ($LivingEntity) | undefined;
+        gunsmithlib$getCurrentItem(): $ItemStack;
     }
 }

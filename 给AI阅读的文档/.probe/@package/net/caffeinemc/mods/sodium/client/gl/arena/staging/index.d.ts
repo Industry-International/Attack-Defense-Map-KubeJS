@@ -9,6 +9,7 @@ declare module "@package/net/caffeinemc/mods/sodium/client/gl/arena/staging" {
         flush(arg0: $CommandList): void;
         "delete"(arg0: $CommandList): void;
         flip(): void;
+        getUploadSizeLimit(arg0: number): number;
         enqueueCopy(arg0: $CommandList, arg1: $ByteBuffer, arg2: $GlBuffer, arg3: number): void;
     }
 }

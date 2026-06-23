@@ -8,7 +8,7 @@ import { $Stream } from "@package/java/util/stream";
 import { $KMappedMarker } from "@package/kotlin/jvm/internal/markers";
 import { $JsonElement } from "@package/kotlinx/serialization/json";
 import { $Object } from "@package/java/lang";
-import { $Comparator, $Spliterator, $Iterator, $List, $SequencedCollection, $ListIterator, $Collection_, $List_ } from "@package/java/util";
+import { $Spliterator, $Comparator, $Iterator, $List, $SequencedCollection, $ListIterator, $Collection_, $List_ } from "@package/java/util";
 import { $Vec3_, $Vec3 } from "@package/net/minecraft/world/phys";
 import { $KMutableProperty1 } from "@package/kotlin/reflect";
 export * as gun from "@package/com/atsuishio/superbwarfare/data/gun";
@@ -26,15 +26,15 @@ declare module "@package/com/atsuishio/superbwarfare/data" {
     export class $Prop<DATA extends $DefaultDataSupplier<DEFAULT_DATA>, DEFAULT_DATA, FIELD, RESULT, SELF extends $Prop<DATA, DEFAULT_DATA, FIELD, RESULT, SELF>> {
         getDefault(arg0: DEFAULT_DATA): RESULT;
         deserialize(arg0: $JsonElement): RESULT;
+        getProp(): $KMutableProperty1<DEFAULT_DATA, FIELD>;
         getTransform(): $Function1<FIELD, RESULT>;
         getSerializer(): $KSerializer<FIELD>;
-        getProp(): $KMutableProperty1<DEFAULT_DATA, FIELD>;
         getSerializationName(): string;
         static Companion: $Prop$Companion;
         static props: $List<$Prop<never, never, never, never, never>>;
+        get prop(): $KMutableProperty1<DEFAULT_DATA, FIELD>;
         get transform(): $Function1<FIELD, RESULT>;
         get serializer(): $KSerializer<FIELD>;
-        get prop(): $KMutableProperty1<DEFAULT_DATA, FIELD>;
         get serializationName(): string;
     }
     export class $ModColor {
@@ -130,8 +130,8 @@ declare module "@package/com/atsuishio/superbwarfare/data" {
         limit(): void;
         getId(): string;
         copy(): T;
-        toJson(): $JsonObject;
         setId(arg0: string): void;
+        toJson(): $JsonObject;
         fromJson(arg0: $JsonObject_): T;
     }
     export class $PMC<DATA extends $DefaultDataSupplier<DEFAULT_DATA>, DEFAULT_DATA> {
@@ -149,9 +149,9 @@ declare module "@package/com/atsuishio/superbwarfare/data" {
     }
     export class $StringOrVec3 {
         getString(): string;
+        isVec3(): boolean;
         isString(): boolean;
         getVec3(): $Vec3;
-        isVec3(): boolean;
         static Companion: $StringOrVec3$Companion;
         constructor(arg0: $Vec3_);
         constructor(arg0: string);

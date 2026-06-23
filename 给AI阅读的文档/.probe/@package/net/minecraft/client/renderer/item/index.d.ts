@@ -10,21 +10,21 @@ declare module "@package/net/minecraft/client/renderer/item" {
     export class $CompassItemPropertyFunction$CompassTarget {
     }
     export interface $CompassItemPropertyFunction$CompassTarget {
-        getPos(arg0: $ClientLevel, arg1: $ItemStack_, arg2: $Entity): $GlobalPos;
+        getPos(level: $ClientLevel, stack: $ItemStack_, entity: $Entity): $GlobalPos;
     }
     /**
      * Values that may be interpreted as {@link $CompassItemPropertyFunction$CompassTarget}.
      */
     export type $CompassItemPropertyFunction$CompassTarget_ = ((arg0: $ClientLevel, arg1: $ItemStack, arg2: $Entity) => $GlobalPos_);
     export class $CompassItemPropertyFunction implements $ClampedItemPropertyFunction {
-        unclampedCall(arg0: $ItemStack_, arg1: $ClientLevel, arg2: $LivingEntity, arg3: number): number;
+        unclampedCall(stack: $ItemStack_, level: $ClientLevel | null, entity: $LivingEntity | null, seed: number): number;
         /**
          * @deprecated
          */
-        call(arg0: $ItemStack_, arg1: $ClientLevel, arg2: $LivingEntity, arg3: number): number;
+        call(stack: $ItemStack_, level: $ClientLevel | null, entity: $LivingEntity | null, seed: number): number;
         static DEFAULT_ROTATION: number;
         compassTarget: $CompassItemPropertyFunction$CompassTarget;
-        constructor(arg0: $CompassItemPropertyFunction$CompassTarget_);
+        constructor(compassTarget: $CompassItemPropertyFunction$CompassTarget_);
     }
     export class $ClampedItemPropertyFunction {
     }
@@ -32,20 +32,20 @@ declare module "@package/net/minecraft/client/renderer/item" {
         /**
          * @deprecated
          */
-        call(arg0: $ItemStack_, arg1: $ClientLevel, arg2: $LivingEntity, arg3: number): number;
-        unclampedCall(arg0: $ItemStack_, arg1: $ClientLevel, arg2: $LivingEntity, arg3: number): number;
+        call(stack: $ItemStack_, level: $ClientLevel | null, entity: $LivingEntity | null, seed: number): number;
+        unclampedCall(stack: $ItemStack_, level: $ClientLevel | null, entity: $LivingEntity | null, seed: number): number;
     }
     /**
      * Values that may be interpreted as {@link $ClampedItemPropertyFunction}.
      */
     export type $ClampedItemPropertyFunction_ = ((arg0: $ItemStack, arg1: $ClientLevel, arg2: $LivingEntity, arg3: number) => number);
     export class $ItemProperties {
-        static getProperty(arg0: $ItemStack_, arg1: $ResourceLocation_): $ItemPropertyFunction;
+        static getProperty(stack: $ItemStack_, location: $ResourceLocation_): $ItemPropertyFunction;
         static register(arg0: $Item_, arg1: $ResourceLocation_, arg2: $ItemPropertyFunction_): void;
-        static register(arg0: $Item_, arg1: $ResourceLocation_, arg2: $ClampedItemPropertyFunction_): void;
-        static registerGeneric(arg0: $ResourceLocation_, arg1: $ClampedItemPropertyFunction_): $ClampedItemPropertyFunction;
+        static register(item: $Item_, name: $ResourceLocation_, property: $ClampedItemPropertyFunction_): void;
+        static registerGeneric(name: $ResourceLocation_, property: $ClampedItemPropertyFunction_): $ClampedItemPropertyFunction;
         static registerGeneric(arg0: $ResourceLocation_, arg1: $ItemPropertyFunction_): $ItemPropertyFunction;
-        static registerCustomModelData(arg0: $ItemPropertyFunction_): void;
+        static registerCustomModelData(property: $ItemPropertyFunction_): void;
         constructor();
     }
     /**
@@ -54,7 +54,7 @@ declare module "@package/net/minecraft/client/renderer/item" {
     export class $ItemPropertyFunction {
     }
     export interface $ItemPropertyFunction {
-        call(arg0: $ItemStack_, arg1: $ClientLevel, arg2: $LivingEntity, arg3: number): number;
+        call(stack: $ItemStack_, level: $ClientLevel | null, entity: $LivingEntity | null, seed: number): number;
     }
     /**
      * Values that may be interpreted as {@link $ItemPropertyFunction}.

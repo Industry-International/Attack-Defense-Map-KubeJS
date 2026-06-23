@@ -12,31 +12,31 @@ import { $MinimapWorldState, $MinimapWorldStateUpdater } from "@package/xaero/hu
 
 declare module "@package/xaero/hud/minimap/module" {
     export class $MinimapSession extends $ModuleSession<$MinimapSession> {
-        getMultiTextureRenderTypeRenderers(): $MultiTextureRenderTypeRendererProvider;
+        getWorldManager(): $MinimapWorldManager;
+        getMc(): $Minecraft;
+        getRadarSession(): $RadarSession;
+        getWaypointSession(): $WaypointSession;
         getProcessor(): $MinimapProcessor;
+        getMultiTextureRenderTypeRenderers(): $MultiTextureRenderTypeRendererProvider;
         getWorldManagerIO(): $MinimapWorldManagerIO;
         getWorldState(): $MinimapWorldState;
         getDimensionHelper(): $MinimapDimensionHelper;
-        getMc(): $Minecraft;
-        getRadarSession(): $RadarSession;
         getWorldStateUpdater(): $MinimapWorldStateUpdater;
-        getWaypointSession(): $WaypointSession;
         getConfiguredWidth(): number;
-        getWorldManager(): $MinimapWorldManager;
         getHideMinimapUnderF3(): boolean;
         getHideMinimapUnderScreen(): boolean;
         constructor(arg0: $HudMod, arg1: $HudModule<$MinimapSession>, arg2: $ClientPacketListener);
-        get multiTextureRenderTypeRenderers(): $MultiTextureRenderTypeRendererProvider;
+        get worldManager(): $MinimapWorldManager;
+        get mc(): $Minecraft;
+        get radarSession(): $RadarSession;
+        get waypointSession(): $WaypointSession;
         get processor(): $MinimapProcessor;
+        get multiTextureRenderTypeRenderers(): $MultiTextureRenderTypeRendererProvider;
         get worldManagerIO(): $MinimapWorldManagerIO;
         get worldState(): $MinimapWorldState;
         get dimensionHelper(): $MinimapDimensionHelper;
-        get mc(): $Minecraft;
-        get radarSession(): $RadarSession;
         get worldStateUpdater(): $MinimapWorldStateUpdater;
-        get waypointSession(): $WaypointSession;
         get configuredWidth(): number;
-        get worldManager(): $MinimapWorldManager;
         get hideMinimapUnderF3(): boolean;
         get hideMinimapUnderScreen(): boolean;
     }

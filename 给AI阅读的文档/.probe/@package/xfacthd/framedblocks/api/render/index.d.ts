@@ -15,8 +15,8 @@ declare module "@package/xfacthd/framedblocks/api/render" {
         constructor(arg0: $BiConsumer_<$IBlockType, $OutlineRenderer>);
     }
     export class $OutlineRenderer {
-        static drawLine(arg0: $VertexConsumer, arg1: $PoseStack, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
         static mirrorHorizontally(arg0: $PoseStack, arg1: boolean): void;
+        static drawLine(arg0: $VertexConsumer, arg1: $PoseStack, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
         static makeQuaternionArray(): $Quaternionf[];
         static YN_DIR: $Quaternionf[];
     }

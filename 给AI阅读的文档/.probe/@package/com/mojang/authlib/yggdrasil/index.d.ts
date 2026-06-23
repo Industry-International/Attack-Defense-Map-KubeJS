@@ -35,9 +35,9 @@ declare module "@package/com/mojang/authlib/yggdrasil" {
     }
     export interface $ServicesKeyInfo {
         signature(): $Signature;
-        validateProperty(arg0: $Property_): boolean;
         keyBitCount(): number;
         signatureBitCount(): number;
+        validateProperty(arg0: $Property_): boolean;
     }
     export class $ProfileResult extends $Record {
         profile(): $GameProfile;
@@ -56,8 +56,8 @@ declare module "@package/com/mojang/authlib/yggdrasil" {
      */
     export type $ServicesKeyType_ = "profile_property" | "profile_key";
     export class $YggdrasilAuthenticationService extends $HttpAuthenticationService {
-        createUserApiService(arg0: string): $UserApiService;
         getServicesKeySet(): $ServicesKeySet;
+        createUserApiService(arg0: string): $UserApiService;
         constructor(arg0: $Proxy);
         constructor(arg0: $Proxy, arg1: $Environment_);
         get servicesKeySet(): $ServicesKeySet;

@@ -1,4 +1,4 @@
-import { $AdvancedOpenScreenPayload_, $AdvancedContainerSetDataPayload_, $AuxiliaryLightDataPayload_, $FrozenRegistrySyncCompletedPayload, $FrozenRegistryPayload_, $ClientboundCustomSetTimePayload_, $ConfigFilePayload_, $AdvancedAddEntityPayload_, $FrozenRegistrySyncStartPayload_, $SyncAttachmentsPayload_ } from "@package/net/neoforged/neoforge/network/payload";
+import { $AdvancedOpenScreenPayload_, $AdvancedContainerSetDataPayload_, $AuxiliaryLightDataPayload_, $FrozenRegistrySyncCompletedPayload, $FrozenRegistryPayload_, $ClientboundCustomSetTimePayload_, $ConfigFilePayload_, $AdvancedAddEntityPayload_, $SyncAttachmentsPayload_, $FrozenRegistrySyncStartPayload_ } from "@package/net/neoforged/neoforge/network/payload";
 import { $IPayloadContext } from "@package/net/neoforged/neoforge/network/handling";
 
 declare module "@package/net/neoforged/neoforge/network/handlers" {
@@ -15,6 +15,6 @@ declare module "@package/net/neoforged/neoforge/network/handlers" {
         static handle(arg0: $AdvancedOpenScreenPayload_, arg1: $IPayloadContext): void;
     }
     export class $ServerPayloadHandler {
-        static handle(arg0: $FrozenRegistrySyncCompletedPayload, arg1: $IPayloadContext): void;
+        static handle(payload: $FrozenRegistrySyncCompletedPayload, context: $IPayloadContext): void;
     }
 }

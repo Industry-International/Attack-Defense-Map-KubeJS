@@ -8,14 +8,14 @@ declare module "@package/com/mojang/realmsclient/gui/task" {
     export class $DataFetcher$Subscription {
         reset(): void;
         tick(): void;
-        subscribe<T>(arg0: $DataFetcher$Task<T>, arg1: $Consumer_<T>): void;
+        subscribe<T>(task: $DataFetcher$Task<T>, output: $Consumer_<T>): void;
         forceUpdate(): void;
         constructor(arg0: $DataFetcher);
     }
     export class $DataFetcher {
         createSubscription(): $DataFetcher$Subscription;
-        createTask<T>(arg0: string, arg1: $Callable_<T>, arg2: $Duration_, arg3: $RepeatedDelayStrategy): $DataFetcher$Task<T>;
-        constructor(arg0: $Executor_, arg1: $TimeUnit_, arg2: $TimeSource_);
+        createTask<T>(id: string, updater: $Callable_<T>, period: $Duration_, repeatStrategy: $RepeatedDelayStrategy): $DataFetcher$Task<T>;
+        constructor(executor: $Executor_, resolution: $TimeUnit_, timeSource: $TimeSource_);
     }
     export class $DataFetcher$SuccessfulComputationResult<T> extends $Record {
     }
@@ -24,7 +24,7 @@ declare module "@package/com/mojang/realmsclient/gui/task" {
     export class $DataFetcher$SubscribedTask<T> {
     }
     export class $RepeatedDelayStrategy {
-        static exponentialBackoff(arg0: number): $RepeatedDelayStrategy;
+        static exponentialBackoff(maxFailureDelay: number): $RepeatedDelayStrategy;
         static CONSTANT: $RepeatedDelayStrategy;
     }
     export interface $RepeatedDelayStrategy {

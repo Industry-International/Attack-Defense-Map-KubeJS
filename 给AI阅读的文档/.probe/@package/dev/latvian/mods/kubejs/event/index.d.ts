@@ -12,10 +12,10 @@ import { $ScriptTypePredicate, $ScriptType_, $ScriptTypeHolder_, $ScriptTypePred
 
 declare module "@package/dev/latvian/mods/kubejs/event" {
     export class $EventHandler extends $BaseFunction {
-        hasListeners(): boolean;
         listen(type: $ScriptType_, extraId: $Object, handler: $IEventHandler_): void;
         post(scriptType: $ScriptTypeHolder_, event: $KubeEvent): $EventResult;
         post(event: $KubeEvent): $EventResult;
+        hasListeners(): boolean;
         supportsTarget<E>(type: $EventTargetType<E>): $TargetedEventHandler<E>;
         requiredTarget<E>(type: $EventTargetType<E>): $TargetedEventHandler<E>;
         forEachListener(type: $ScriptType_, callback: $Consumer_<$EventHandlerContainer>): void;
@@ -38,8 +38,8 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         transformer(factory: $EventTargetType$Transformer_): $EventTargetType<T>;
         validator(validator: $Predicate_<$Object>): $EventTargetType<T>;
         describeType(describeType: $TypeInfo_): $EventTargetType<T>;
-        static registryKey<T>(registry: $ResourceKey_<$Registry<T>>, type: $Class<never>): $EventTargetType<$ResourceKey<T>>;
         static fromEnum<T extends $Enum<T>>(type: $Class<T>): $EventTargetType<T>;
+        static registryKey<T>(registry: $ResourceKey_<$Registry<T>>, type: $Class<never>): $EventTargetType<$ResourceKey<T>>;
         static STRING: $EventTargetType<string>;
         static ID: $EventTargetType<$ResourceLocation>;
         type: $Class<T>;
@@ -55,8 +55,8 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         static of(name: string): $EventGroup;
         common(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
         getHandlers(): $Map<string, $EventHandler>;
-        server(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
         startup(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
+        server(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
         client(name: string, eventType: $Supplier_<$Class<$KubeEvent>>): $EventHandler;
         name: string;
         get handlers(): $Map<string, $EventHandler>;
@@ -92,10 +92,11 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         constructor(scriptType: $ScriptType_, group: $EventGroup);
     }
     export class $TargetedEventHandler<E> extends $EventHandler {
-        hasListeners(extraId: E): boolean;
         post(type: $ScriptTypeHolder_, extraId: E, event: $KubeEvent): $EventResult;
         post(event: $KubeEvent, extraId: E): $EventResult;
+        hasListeners(extraId: E): boolean;
         findUniqueExtraIds(type: $ScriptType_): $Set<E>;
+        hasResult(): $TargetedEventHandler<E>;
         static DONTENUM: number;
         eventType: $Supplier<$Class<$KubeEvent>>;
         scriptTypePredicate: $ScriptTypePredicate;
@@ -120,23 +121,17 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
     }
     export interface $KubeEvent {
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -144,17 +139,23 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
     }
     export class $EventResult {
         type(): $EventResult$Type;
@@ -162,11 +163,11 @@ declare module "@package/dev/latvian/mods/kubejs/event" {
         override(): boolean;
         pass(): boolean;
         cx(): $Context;
-        applyCancel(event: $ICancellableEvent): boolean;
+        applyTristate(consumer: $Consumer_<$TriState>): void;
         interruptFalse(): boolean;
         interruptTrue(): boolean;
         interruptDefault(): boolean;
-        applyTristate(consumer: $Consumer_<$TriState>): void;
+        applyCancel(event: $ICancellableEvent): boolean;
         static PASS: $EventResult;
     }
     export class $EventGroups extends $Record implements $EventGroupRegistry {

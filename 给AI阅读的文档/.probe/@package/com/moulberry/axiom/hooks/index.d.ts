@@ -34,9 +34,9 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $CreativeModeInventoryScreenExt {
     }
     export interface $CreativeModeInventoryScreenExt {
+        axiom$checkTabHovering(arg0: $GuiGraphics, arg1: $CreativeModeTab_, arg2: number, arg3: number): boolean;
         axiom$renderTabButton(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: $CreativeModeTab_, arg4: boolean): void;
         axiom$checkTabClicked(arg0: $CreativeModeTab_, arg1: number, arg2: number): boolean;
-        axiom$checkTabHovering(arg0: $GuiGraphics, arg1: $CreativeModeTab_, arg2: number, arg3: number): boolean;
         axiom$selectTab(arg0: $CreativeModeTab_): void;
     }
     export class $NativeImageExt {
@@ -66,8 +66,8 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $PalettedContainerExt {
     }
     export interface $PalettedContainerExt {
-        axiom$unlock(): void;
         axiom$lock(): void;
+        axiom$unlock(): void;
     }
     export class $GameRendererExt {
     }
@@ -82,24 +82,24 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $MinecraftExt {
     }
     export interface $MinecraftExt {
-        axiom$popMainRenderTarget(): void;
-        axiom$addCustomNbtData(arg0: $ItemStack_, arg1: $BlockEntity, arg2: $RegistryAccess): void;
         axiom$getRightClickDelay(): number;
         axiom$pushMainRenderTarget(arg0: $RenderTarget): void;
         axiom$setRightClickDelay(arg0: number): void;
+        axiom$addCustomNbtData(arg0: $ItemStack_, arg1: $BlockEntity, arg2: $RegistryAccess): void;
+        axiom$popMainRenderTarget(): void;
     }
     export class $ServerPlayerExt {
     }
     export interface $ServerPlayerExt {
-        axiom$isNoPhysicalTrigger(): boolean;
         axiom$setNoPhysicalTrigger(arg0: boolean): void;
+        axiom$isNoPhysicalTrigger(): boolean;
     }
     export class $BufferBuilderExt {
     }
     export interface $BufferBuilderExt {
-        axiom$reserve(arg0: number): number;
-        axiom$getVertexPointer(): number;
         axiom$getByteBufferBuilder(): $ByteBufferBuilder;
+        axiom$getVertexPointer(): number;
+        axiom$reserve(arg0: number): number;
     }
     export class $BlockItemStatePropertiesExt {
     }
@@ -115,8 +115,8 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export interface $ServerLevelExt {
         axiom$markChunkDirty(arg0: number, arg1: number): void;
         axiom$getWorldProperties(): $ServerWorldPropertiesRegistry;
-        axiom$getPendingLightUpdates(arg0: number, arg1: number, arg2: number): number[];
         axiom$relightChunkStarlight(arg0: number, arg1: number): void;
+        axiom$getPendingLightUpdates(arg0: number, arg1: number, arg2: number): number[];
         axiom$processTasks(): void;
     }
     export class $MarkerEntityExt {
@@ -140,8 +140,8 @@ declare module "@package/com/moulberry/axiom/hooks" {
     export class $WindowExt {
     }
     export interface $WindowExt {
-        axiom$resizeFramebuffer(arg0: number, arg1: number, arg2: number): void;
         axiom$resize(arg0: number, arg1: number, arg2: number): void;
+        axiom$resizeFramebuffer(arg0: number, arg1: number, arg2: number): void;
     }
     export class $StructureTemplateExt {
     }

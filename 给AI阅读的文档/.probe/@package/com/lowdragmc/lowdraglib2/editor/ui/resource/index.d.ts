@@ -12,8 +12,8 @@ import { $ScrollerView, $SplitView$Horizontal } from "@package/com/lowdragmc/low
 
 declare module "@package/com/lowdragmc/lowdraglib2/editor/ui/resource" {
     export class $ResourceContainer<T> extends $UIElement {
-        loadResource(): void;
         selectProvider(arg0: $IResourceProvider<$CompoundTag_>): void;
+        loadResource(): void;
         setOnResourceSelect(arg0: $Consumer_<$CompoundTag>): void;
         getSelectedProvider(): $IResourceProvider<$CompoundTag>;
         editor: $Editor;
@@ -28,52 +28,52 @@ declare module "@package/com/lowdragmc/lowdraglib2/editor/ui/resource" {
         get selectedProvider(): $IResourceProvider<$CompoundTag>;
     }
     export class $ResourceProviderContainer<T> extends $UIElement {
-        setCanEdit(arg0: $Predicate_<$IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
         getSelected(): $IResourcePath;
         copyResource(arg0: $IResourcePath): void;
+        setCanEdit(arg0: $Predicate_<$IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
         setAddDefault(arg0: $Supplier_<$CompoundTag>): $ResourceProviderContainer<$CompoundTag>;
         setCanRemove(arg0: $Predicate_<$IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
-        setDisplayMode(arg0: $Resource$DisplayMode_): void;
         removeResource(arg0: $IResourcePath, arg1: boolean): void;
-        addNewResource(arg0: $CompoundTag_): void;
-        appendResourceUI(arg0: $IResourcePath): void;
-        editResource(arg0: $IResourcePath): void;
+        setDisplayMode(arg0: $Resource$DisplayMode_): void;
         selectResource(arg0: $IResourcePath): void;
-        markResourceDirty(arg0: $IResourcePath): void;
-        renameResource(arg0: $IResourcePath): void;
-        setSupportAdd(arg0: $BooleanSupplier_): $ResourceProviderContainer<$CompoundTag>;
-        getDirtyResources(): $HashSet<$IResourcePath>;
-        setOnDragProvider(arg0: $Function_<$IResourcePath, never>): $ResourceProviderContainer<$CompoundTag>;
         setUiSupplier(arg0: $UIElementProvider_<$IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
         setCanRename(arg0: $Predicate_<$IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
-        setUiWidth(arg0: number): void;
-        setEditor(arg0: $Editor): $ResourceProviderContainer<$CompoundTag>;
-        setOnEdit(arg0: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
-        getEditor(): $Editor;
-        setCanCopy(arg0: $Predicate_<$IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
-        setOnMenu(arg0: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $TreeBuilder$Menu>): $ResourceProviderContainer<$CompoundTag>;
+        appendResourceUI(arg0: $IResourcePath): void;
+        markResourceDirty(arg0: $IResourcePath): void;
+        addNewResource(arg0: $CompoundTag_): void;
+        renameResource(arg0: $IResourcePath): void;
+        editResource(arg0: $IResourcePath): void;
+        setOnDragProvider(arg0: $Function_<$IResourcePath, never>): $ResourceProviderContainer<$CompoundTag>;
+        setSupportAdd(arg0: $BooleanSupplier_): $ResourceProviderContainer<$CompoundTag>;
+        getDirtyResources(): $HashSet<$IResourcePath>;
+        reloadSpecificResource(arg0: $IResourcePath): void;
         setOnResourceSelect(arg0: $Consumer_<$CompoundTag>): $ResourceProviderContainer<$CompoundTag>;
         reloadResourceContainer(): void;
-        reloadSpecificResource(arg0: $IResourcePath): void;
+        setEditor(arg0: $Editor): $ResourceProviderContainer<$CompoundTag>;
+        setOnMenu(arg0: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $TreeBuilder$Menu>): $ResourceProviderContainer<$CompoundTag>;
+        getEditor(): $Editor;
+        setUiWidth(arg0: number): void;
+        setCanCopy(arg0: $Predicate_<$IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
+        setOnEdit(arg0: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $IResourcePath>): $ResourceProviderContainer<$CompoundTag>;
         static CODEC: $Codec<$UIElement>;
         static EMPTY_LAYOUT: $Layout;
         scrollerView: $ScrollerView;
         resourceProvider: $IResourceProvider<$CompoundTag>;
         constructor(arg0: $IResourceProvider<$CompoundTag_>);
-        set canEdit(value: $Predicate_<$IResourcePath>);
         get selected(): $IResourcePath;
+        set canEdit(value: $Predicate_<$IResourcePath>);
         set addDefault(value: $Supplier_<$CompoundTag>);
         set canRemove(value: $Predicate_<$IResourcePath>);
         set displayMode(value: $Resource$DisplayMode_);
-        set supportAdd(value: $BooleanSupplier_);
-        get dirtyResources(): $HashSet<$IResourcePath>;
-        set onDragProvider(value: $Function_<$IResourcePath, never>);
         set uiSupplier(value: $UIElementProvider_<$IResourcePath>);
         set canRename(value: $Predicate_<$IResourcePath>);
-        set uiWidth(value: number);
-        set onEdit(value: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $IResourcePath>);
-        set canCopy(value: $Predicate_<$IResourcePath>);
-        set onMenu(value: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $TreeBuilder$Menu>);
+        set onDragProvider(value: $Function_<$IResourcePath, never>);
+        set supportAdd(value: $BooleanSupplier_);
+        get dirtyResources(): $HashSet<$IResourcePath>;
         set onResourceSelect(value: $Consumer_<$CompoundTag>);
+        set onMenu(value: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $TreeBuilder$Menu>);
+        set uiWidth(value: number);
+        set canCopy(value: $Predicate_<$IResourcePath>);
+        set onEdit(value: $BiConsumer_<$ResourceProviderContainer<$CompoundTag>, $IResourcePath>);
     }
 }

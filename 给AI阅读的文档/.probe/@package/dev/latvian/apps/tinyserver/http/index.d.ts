@@ -9,10 +9,10 @@ export * as response from "@package/dev/latvian/apps/tinyserver/http/response";
 
 declare module "@package/dev/latvian/apps/tinyserver/http" {
     export class $HTTPMethod extends $Enum<$HTTPMethod> {
+        static fromString(method: string): $HTTPMethod;
         static values(): $HTTPMethod[];
         static valueOf(name: string): $HTTPMethod;
         body(): boolean;
-        static fromString(method: string): $HTTPMethod;
         static TRACE: $HTTPMethod;
         static HEAD: $HTTPMethod;
         static DELETE: $HTTPMethod;
@@ -35,52 +35,52 @@ declare module "@package/dev/latvian/apps/tinyserver/http" {
         constructor(method: $HTTPMethod_, path: $CompiledPath_, handler: $HTTPHandler_<REQ>);
     }
     export class $Body {
+        contentType(): string;
         name(): string;
         fileName(): string;
         bytes(): number[];
         property(key: string): $OptionalString;
         text(): string;
         byteBuffer(): $ByteBuffer;
-        contentType(): string;
         getPostData(): $Map<string, $OptionalString>;
         constructor();
         get postData(): $Map<string, $OptionalString>;
     }
     export class $HTTPRequest {
+        pathParts(): string[];
         method(): $HTTPMethod;
         init(path: string, pathParts: string[], compiledPath: $CompiledPath_, headers: $List_<$Header_>, queryString: string, query: $Map_<string, $OptionalString_>): void;
         startTime(): $Instant;
-        query(key: string): $OptionalString;
         query(): $Map<string, $OptionalString>;
+        query(key: string): $OptionalString;
         path(): string;
         header(name: string): $OptionalString;
         country(): string;
         connection(): $HTTPConnection<never>;
-        pathParts(): string[];
-        server(): $HTTPServer<never>;
         cookie(key: string): $OptionalString;
+        server(): $HTTPServer<never>;
+        fullPath(): string;
         ip(): string;
         headers(): $List<$Header>;
-        cookies(): $Map<string, $OptionalString>;
-        variables(): $Map<string, $OptionalString>;
-        variable(name: string): $OptionalString;
-        ipv6(): string;
-        afterInit(): void;
-        userAgent(): string;
         preInit(session: $HTTPConnection<never>, startTime: $Instant, method: $HTTPMethod_): void;
-        bodyBuffer(): $ByteBuffer;
-        bodyList(): $List<$Body>;
-        formData(key: string): $OptionalString;
-        formData(): $Map<string, $OptionalString>;
-        fullPath(): string;
-        handleResponse(payload: $HTTPPayload, response: $HTTPResponse, error: $Throwable): $HTTPResponse;
+        mainBody(): $Body;
+        userAgent(): string;
+        cookies(): $Map<string, $OptionalString>;
+        afterResponse(payload: $HTTPPayload, response: $HTTPResponse, handler: $HTTPHandler_<never>, error: $Throwable): void;
         createPreResponse(handler: $HTTPHandler_<never>): $HTTPResponse;
         queryString(): string;
-        afterResponse(payload: $HTTPPayload, response: $HTTPResponse, handler: $HTTPHandler_<never>, error: $Throwable): void;
-        mainBody(): $Body;
+        ipv6(): string;
+        afterInit(): void;
+        variables(): $Map<string, $OptionalString>;
+        variable(name: string): $OptionalString;
+        handleResponse(payload: $HTTPPayload, response: $HTTPResponse, error: $Throwable): $HTTPResponse;
         gitHubSignature(): string;
         acceptedEncodings(): $Set<string>;
         gitHubEvent(): string;
+        formData(key: string): $OptionalString;
+        formData(): $Map<string, $OptionalString>;
+        bodyBuffer(): $ByteBuffer;
+        bodyList(): $List<$Body>;
         constructor();
     }
     export class $Header extends $Record {
@@ -104,9 +104,9 @@ declare module "@package/dev/latvian/apps/tinyserver/http" {
     export class $HTTPUpgrade<REQ extends $HTTPRequest> {
     }
     export interface $HTTPUpgrade<REQ extends $HTTPRequest> {
+        isClosed(): boolean;
         start(req: REQ): void;
         protocol(): string;
-        isClosed(): boolean;
         get closed(): boolean;
     }
 }

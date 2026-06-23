@@ -10,9 +10,9 @@ export * as task from "@package/com/mojang/realmsclient/util/task";
 
 declare module "@package/com/mojang/realmsclient/util" {
     export class $RealmsUtil {
-        static renderPlayerFace(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: number, arg4: $UUID_): void;
-        static convertToAgePresentationFromInstant(arg0: $Date): $Component;
-        static convertToAgePresentation(arg0: number): $Component;
+        static convertToAgePresentationFromInstant(date: $Date): $Component;
+        static convertToAgePresentation(millis: number): $Component;
+        static renderPlayerFace(guiGraphics: $GuiGraphics, x: number, y: number, size: number, playerUuid: $UUID_): void;
         constructor();
     }
     export class $RealmsTextureManager$RealmsTexture extends $Record {
@@ -22,8 +22,8 @@ declare module "@package/com/mojang/realmsclient/util" {
     }
     export class $RealmsPersistence {
         read(): $RealmsPersistence$RealmsPersistenceData;
-        save(arg0: $RealmsPersistence$RealmsPersistenceData): void;
-        static writeFile(arg0: $RealmsPersistence$RealmsPersistenceData): void;
+        save(persistenceData: $RealmsPersistence$RealmsPersistenceData): void;
+        static writeFile(persistenceData: $RealmsPersistence$RealmsPersistenceData): void;
         static readFile(): $RealmsPersistence$RealmsPersistenceData;
         constructor();
     }
@@ -36,37 +36,37 @@ declare module "@package/com/mojang/realmsclient/util" {
         constructor();
     }
     export class $TextRenderingUtils {
-        static split(arg0: string, arg1: string): $List<string>;
-        static decompose(arg0: string, ...arg1: $TextRenderingUtils$LineSegment[]): $List<$TextRenderingUtils$Line>;
+        static split(toSplit: string, delimiter: string): $List<string>;
+        static decompose(text: string, ...segments: $TextRenderingUtils$LineSegment[]): $List<$TextRenderingUtils$Line>;
     }
     export class $WorldGenerationInfo extends $Record {
-        seed(): string;
         levelType(): $LevelType;
+        seed(): string;
         generateStructures(): boolean;
         experiments(): $Set<string>;
         constructor(arg0: string, arg1: $LevelType_, arg2: boolean, arg3: $Set_<string>);
     }
     export class $JsonUtils {
-        static getOptional<T>(arg0: string, arg1: $JsonObject_, arg2: $Function_<$JsonObject, T>): T;
-        static getRequiredString(arg0: string, arg1: $JsonObject_): string;
-        static getRequired<T>(arg0: string, arg1: $JsonObject_, arg2: $Function_<$JsonObject, T>): T;
-        static getLongOr(arg0: string, arg1: $JsonObject_, arg2: number): number;
-        static getUuidOr(arg0: string, arg1: $JsonObject_, arg2: $UUID_): $UUID;
-        static getIntOr(arg0: string, arg1: $JsonObject_, arg2: number): number;
-        static getStringOr(arg0: string, arg1: $JsonObject_, arg2: string): string;
-        static getBooleanOr(arg0: string, arg1: $JsonObject_, arg2: boolean): boolean;
-        static getRequiredStringOr(arg0: string, arg1: $JsonObject_, arg2: string): string;
-        static getDateOr(arg0: string, arg1: $JsonObject_): $Date;
+        static getOptional<T>(key: string, json: $JsonObject_, output: $Function_<$JsonObject, T>): T;
+        static getLongOr(key: string, json: $JsonObject_, defaultValue: number): number;
+        static getUuidOr(key: string, json: $JsonObject_, defaultValue: $UUID_ | null): $UUID;
+        static getIntOr(key: string, json: $JsonObject_, defaultValue: number): number;
+        static getDateOr(key: string, json: $JsonObject_): $Date;
+        static getBooleanOr(key: string, json: $JsonObject_, defaultValue: boolean): boolean;
+        static getStringOr(key: string, json: $JsonObject_, defaultValue: string | null): string;
+        static getRequired<T>(key: string, json: $JsonObject_, output: $Function_<$JsonObject, T>): T;
+        static getRequiredStringOr(key: string, json: $JsonObject_, defaultValue: string): string;
+        static getRequiredString(key: string, json: $JsonObject_): string;
         constructor();
     }
     export class $RealmsTextureManager {
-        static worldTemplate(arg0: string, arg1: string): $ResourceLocation;
+        static worldTemplate(key: string, image: string | null): $ResourceLocation;
         constructor();
     }
     export class $UploadTokenCache {
-        static get(arg0: number): string;
-        static put(arg0: number, arg1: string): void;
-        static invalidate(arg0: number): void;
+        static invalidate(worldId: number): void;
+        static get(worldId: number): string;
+        static put(worldId: number, arg1: string): void;
         constructor();
     }
     export class $LevelType extends $Enum<$LevelType> {
@@ -85,10 +85,10 @@ declare module "@package/com/mojang/realmsclient/util" {
      */
     export type $LevelType_ = "default" | "flat" | "large_biomes" | "amplified";
     export class $TextRenderingUtils$LineSegment {
-        static link(arg0: string, arg1: string): $TextRenderingUtils$LineSegment;
-        getLinkUrl(): string;
-        isLink(): boolean;
+        static link(linkTitle: string, linkUrl: string): $TextRenderingUtils$LineSegment;
         renderedText(): string;
+        isLink(): boolean;
+        getLinkUrl(): string;
         get linkUrl(): string;
     }
 }

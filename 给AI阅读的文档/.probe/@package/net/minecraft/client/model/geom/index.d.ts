@@ -1,4 +1,3 @@
-import { $IAcceleratedRenderer } from "@package/com/github/argon4w/acceleratedrendering/core/buffers/accelerated/renderers";
 import { $ModelPartAccessor as $ModelPartAccessor$2 } from "@package/dev/engine_room/flywheel/impl/mixin";
 import { $EntityModelLayersAccessor } from "@package/net/fabricmc/fabric/mixin/client/rendering";
 import { $ProfilerFiller } from "@package/net/minecraft/util/profiling";
@@ -15,27 +14,25 @@ import { $CubeDeformation, $LayerDefinition } from "@package/net/minecraft/clien
 import { $ModelPartAccessor as $ModelPartAccessor$1 } from "@package/com/rafacasari/fairylights/mixins/accessor";
 import { $ResourceLocation_, $ResourceLocation } from "@package/net/minecraft/resources";
 import { $VertexConsumer, $PoseStack, $PoseStack$Pose } from "@package/com/mojang/blaze3d/vertex";
-import { $IAcceleratedModelPart } from "@package/com/github/argon4w/acceleratedrendering/features/modelparts";
 import { $Boat$Type_ } from "@package/net/minecraft/world/entity/vehicle";
-import { $Matrix3f, $Matrix4f, $Vector3f } from "@package/org/joml";
+import { $Vector3f } from "@package/org/joml";
 export * as builders from "@package/net/minecraft/client/model/geom/builders";
 
 declare module "@package/net/minecraft/client/model/geom" {
     export class $ModelPart$Cube {
-        compile(arg0: $PoseStack$Pose, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number): void;
+        compile(pose: $PoseStack$Pose, buffer: $VertexConsumer, packedLight: number, packedOverlay: number, color: number): void;
         minY: number;
-        polygons: $ModelPart$Polygon[];
         minX: number;
         maxZ: number;
         maxY: number;
         maxX: number;
         minZ: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: number, arg11: boolean, arg12: number, arg13: number, arg14: $Set_<$Direction_>);
+        constructor(texCoordU: number, texCoordV: number, originX: number, originY: number, originZ: number, dimensionX: number, dimensionY: number, dimensionZ: number, gtowX: number, growY: number, growZ: number, mirror: boolean, texScaleU: number, texScaleV: number, visibleFaces: $Set_<$Direction_>);
     }
     export class $ModelPart$Polygon {
         normal: $Vector3f;
         vertices: $ModelPart$Vertex[];
-        constructor(arg0: $ModelPart$Vertex[], arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: boolean, arg8: $Direction_);
+        constructor(vertices: $ModelPart$Vertex[], u1: number, v1: number, u2: number, v2: number, textureWidth: number, textureHeight: number, mirror: boolean, direction: $Direction_);
     }
     export class $PartNames {
         static RIGHT_LID: string;
@@ -121,42 +118,39 @@ declare module "@package/net/minecraft/client/model/geom" {
         constructor();
     }
     export class $ModelPart$Vertex {
-        remap(arg0: number, arg1: number): $ModelPart$Vertex;
+        remap(u: number, v: number): $ModelPart$Vertex;
         pos: $Vector3f;
         u: number;
         v: number;
-        constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number);
-        constructor(arg0: $Vector3f, arg1: number, arg2: number);
+        constructor(x: number, y: number, z: number, u: number, v: number);
+        constructor(pos: $Vector3f, u: number, v: number);
     }
-    export class $ModelPart implements $ModelPartAccessor$1, $IAcceleratedModelPart, $IAcceleratedRenderer<any>, $ModelPartAccessor$2, $ModelPartAccessor {
+    export class $ModelPart implements $ModelPartAccessor$1, $ModelPartAccessor$2, $ModelPartAccessor {
         isEmpty(): boolean;
-        visit(arg0: $PoseStack, arg1: $ModelPart$Visitor_): void;
-        getChild(arg0: string): $ModelPart;
-        copyFrom(arg0: $ModelPart): void;
-        render(arg0: $PoseStack, arg1: $VertexConsumer, arg2: number, arg3: number): void;
-        render(arg0: $VertexConsumer, arg1: void, arg2: $Matrix4f, arg3: $Matrix3f, arg4: number, arg5: number, arg6: number): void;
-        render(arg0: $PoseStack, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number): void;
-        hasChild(arg0: string): boolean;
-        handler$dki000$xaerominimap$onRender(arg0: $PoseStack$Pose, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        setPos(arg0: number, arg1: number, arg2: number): void;
-        setRotation(arg0: number, arg1: number, arg2: number): void;
-        offsetPos(arg0: $Vector3f): void;
-        handler$chn000$acceleratedrendering$compileFast(arg0: $PoseStack$Pose, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
-        offsetRotation(arg0: $Vector3f): void;
-        setInitialPose(arg0: $PartPose): void;
-        getRandomCube(arg0: $RandomSource): $ModelPart$Cube;
-        getInitialPose(): $PartPose;
-        loadPose(arg0: $PartPose): void;
-        storePose(): $PartPose;
-        resetPose(): void;
-        translateAndRotate(arg0: $PoseStack): void;
-        clearMeshCacheUnsafe(): void;
+        visit(poseStack: $PoseStack, visitor: $ModelPart$Visitor_): void;
+        getChild(name: string): $ModelPart;
+        copyFrom(modelPart: $ModelPart): void;
+        hasChild(name: string): boolean;
+        offsetScale(offset: $Vector3f): void;
+        render(poseStack: $PoseStack, buffer: $VertexConsumer, packedLight: number, packedOverlay: number, color: number): void;
+        render(poseStack: $PoseStack, buffer: $VertexConsumer, packedLight: number, packedOverlay: number): void;
+        setPos(x: number, y: number, z: number): void;
+        setRotation(x: number, y: number, z: number): void;
+        translateAndRotate(poseStack: $PoseStack): void;
         getAllParts(): $Stream<$ModelPart>;
-        offsetScale(arg0: $Vector3f): void;
-        flywheel$children(): $Map<string, $ModelPart>;
-        flywheel$compile(arg0: $PoseStack$Pose, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number): void;
-        fairylights$getChildren(): $Map<string, $ModelPart>;
+        offsetPos(offset: $Vector3f): void;
+        loadPose(partPose: $PartPose): void;
+        storePose(): $PartPose;
+        handler$dfm000$xaerominimap$onRender(arg0: $PoseStack$Pose, arg1: $VertexConsumer, arg2: number, arg3: number, arg4: number, arg5: $CallbackInfo): void;
+        resetPose(): void;
+        getRandomCube(random: $RandomSource): $ModelPart$Cube;
+        offsetRotation(offset: $Vector3f): void;
+        getInitialPose(): $PartPose;
+        setInitialPose(partPose: $PartPose): void;
         getCubes(): $List<$ModelPart$Cube>;
+        flywheel$children(): $Map<string, $ModelPart>;
+        flywheel$compile(pose: $PoseStack$Pose, buffer: $VertexConsumer, packedLight: number, packedOverlay: number, color: number): void;
+        fairylights$getChildren(): $Map<string, $ModelPart>;
         visible: boolean;
         static DEFAULT_SCALE: number;
         zRot: number;
@@ -171,14 +165,14 @@ declare module "@package/net/minecraft/client/model/geom" {
         z: number;
         skipDraw: boolean;
         zScale: number;
-        constructor(arg0: $List_<$ModelPart$Cube>, arg1: $Map_<string, $ModelPart>);
+        constructor(cubes: $List_<$ModelPart$Cube>, children: $Map_<string, $ModelPart>);
         get empty(): boolean;
         get allParts(): $Stream<$ModelPart>;
     }
     export class $PartPose {
-        static offset(arg0: number, arg1: number, arg2: number): $PartPose;
-        static rotation(arg0: number, arg1: number, arg2: number): $PartPose;
-        static offsetAndRotation(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): $PartPose;
+        static offset(x: number, y: number, z: number): $PartPose;
+        static offsetAndRotation(x: number, y: number, z: number, xRot: number, yRot: number, zRot: number): $PartPose;
+        static rotation(x: number, y: number, z: number): $PartPose;
         static ZERO: $PartPose;
         zRot: number;
         yRot: number;
@@ -188,14 +182,14 @@ declare module "@package/net/minecraft/client/model/geom" {
         z: number;
     }
     export class $ModelLayers implements $EntityModelLayersAccessor {
+        static getLayers$fabric_rendering_v1_$md$dd6cb9$0(): $Set<any>;
         static getKnownLocations(): $Stream<$ModelLayerLocation>;
-        static createBoatModelName(arg0: $Boat$Type_): $ModelLayerLocation;
-        static createChestBoatModelName(arg0: $Boat$Type_): $ModelLayerLocation;
-        static createSignModelName(arg0: $WoodType_): $ModelLayerLocation;
-        static createHangingSignModelName(arg0: $WoodType_): $ModelLayerLocation;
-        static createChestRaftModelName(arg0: $Boat$Type_): $ModelLayerLocation;
-        static createRaftModelName(arg0: $Boat$Type_): $ModelLayerLocation;
-        static getLayers$fabric_rendering_v1_$md$9aa1a5$0(): $Set<any>;
+        static createSignModelName(woodType: $WoodType_): $ModelLayerLocation;
+        static createHangingSignModelName(woodType: $WoodType_): $ModelLayerLocation;
+        static createChestBoatModelName(type: $Boat$Type_): $ModelLayerLocation;
+        static createBoatModelName(type: $Boat$Type_): $ModelLayerLocation;
+        static createChestRaftModelName(type: $Boat$Type_): $ModelLayerLocation;
+        static createRaftModelName(type: $Boat$Type_): $ModelLayerLocation;
         static MOOSHROOM: $ModelLayerLocation;
         static MAGMA_CUBE: $ModelLayerLocation;
         static SILVERFISH: $ModelLayerLocation;
@@ -370,13 +364,13 @@ declare module "@package/net/minecraft/client/model/geom" {
         static BOOK: $ModelLayerLocation;
         static CONDUIT_SHELL: $ModelLayerLocation;
         constructor();
+        static get layers$fabric_rendering_v1_$md$dd6cb9$0(): $Set<any>;
         static get knownLocations(): $Stream<$ModelLayerLocation>;
-        static get layers$fabric_rendering_v1_$md$9aa1a5$0(): $Set<any>;
     }
     export class $EntityModelSet implements $ResourceManagerReloadListener {
-        bakeLayer(arg0: $ModelLayerLocation): $ModelPart;
-        onResourceManagerReload(arg0: $ResourceManager): void;
-        reload(arg0: $PreparableReloadListener$PreparationBarrier_, arg1: $ResourceManager, arg2: $ProfilerFiller, arg3: $ProfilerFiller, arg4: $Executor_, arg5: $Executor_): $CompletableFuture<void>;
+        bakeLayer(modelLayerLocation: $ModelLayerLocation): $ModelPart;
+        onResourceManagerReload(resourceManager: $ResourceManager): void;
+        reload(preparationBarrier: $PreparableReloadListener$PreparationBarrier_, resourceManager: $ResourceManager, preparationsProfiler: $ProfilerFiller, reloadProfiler: $ProfilerFiller, backgroundExecutor: $Executor_, gameExecutor: $Executor_): $CompletableFuture<void>;
         getName(): string;
         constructor();
         get name(): string;
@@ -384,7 +378,7 @@ declare module "@package/net/minecraft/client/model/geom" {
     export class $ModelPart$Visitor {
     }
     export interface $ModelPart$Visitor {
-        visit(arg0: $PoseStack$Pose, arg1: string, arg2: number, arg3: $ModelPart$Cube): void;
+        visit(pose: $PoseStack$Pose, path: string, index: number, cube: $ModelPart$Cube): void;
     }
     /**
      * Values that may be interpreted as {@link $ModelPart$Visitor}.
@@ -393,7 +387,7 @@ declare module "@package/net/minecraft/client/model/geom" {
     export class $ModelLayerLocation {
         getLayer(): string;
         getModel(): $ResourceLocation;
-        constructor(arg0: $ResourceLocation_, arg1: string);
+        constructor(model: $ResourceLocation_, layer: string);
         get layer(): string;
         get model(): $ResourceLocation;
     }

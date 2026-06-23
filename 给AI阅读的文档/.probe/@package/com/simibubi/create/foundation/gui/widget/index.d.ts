@@ -10,8 +10,8 @@ import { $Couple } from "@package/net/createmod/catnip/data";
 declare module "@package/com/simibubi/create/foundation/gui/widget" {
     export class $Label extends $AbstractSimiWidget {
         withSuffix(arg0: string): $Label;
-        colored(arg0: number): $Label;
         withShadow(): $Label;
+        colored(arg0: number): $Label;
         setTextAndTrim(arg0: $Component_, arg1: boolean, arg2: number): void;
         static COLOR_SUCCESS: $Couple<$Color>;
         visible: boolean;
@@ -39,16 +39,16 @@ declare module "@package/com/simibubi/create/foundation/gui/widget" {
         format(arg0: $Function_<number, $Component>): $ScrollInput;
         getState(): number;
         setState(arg0: number): $ScrollInput;
-        titled(arg0: $MutableComponent_): $ScrollInput;
-        withRange(arg0: number, arg1: number): $ScrollInput;
         inverted(): $ScrollInput;
-        onChanged(): void;
-        calling(arg0: $Consumer_<number>): $ScrollInput;
         writingTo(arg0: $Label): $ScrollInput;
-        withShiftStep(arg0: number): $ScrollInput;
-        standardStep(): $Function<$ScrollValueBehaviour$StepContext, number>;
-        withStepFunction(arg0: $Function_<$ScrollValueBehaviour$StepContext, number>): $ScrollInput;
+        titled(arg0: $MutableComponent_): $ScrollInput;
         addHint(arg0: $MutableComponent_): $ScrollInput;
+        onChanged(): void;
+        withRange(arg0: number, arg1: number): $ScrollInput;
+        calling(arg0: $Consumer_<number>): $ScrollInput;
+        withShiftStep(arg0: number): $ScrollInput;
+        withStepFunction(arg0: $Function_<$ScrollValueBehaviour$StepContext, number>): $ScrollInput;
+        standardStep(): $Function<$ScrollValueBehaviour$StepContext, number>;
         removeCallback(): $ScrollInput;
         static COLOR_SUCCESS: $Couple<$Color>;
         visible: boolean;

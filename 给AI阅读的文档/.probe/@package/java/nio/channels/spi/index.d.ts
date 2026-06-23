@@ -12,15 +12,15 @@ declare module "@package/java/nio/channels/spi" {
         get open(): boolean;
     }
     export class $SelectorProvider {
-        static provider(): $SelectorProvider;
-        inheritedChannel(): $Channel;
         openSocketChannel(arg0: $ProtocolFamily_): $SocketChannel;
         openSocketChannel(): $SocketChannel;
-        openSelector(): $AbstractSelector;
-        openDatagramChannel(arg0: $ProtocolFamily_): $DatagramChannel;
-        openDatagramChannel(): $DatagramChannel;
+        static provider(): $SelectorProvider;
+        inheritedChannel(): $Channel;
         openPipe(): $Pipe;
-        openServerSocketChannel(): $ServerSocketChannel;
         openServerSocketChannel(arg0: $ProtocolFamily_): $ServerSocketChannel;
+        openServerSocketChannel(): $ServerSocketChannel;
+        openSelector(): $AbstractSelector;
+        openDatagramChannel(): $DatagramChannel;
+        openDatagramChannel(arg0: $ProtocolFamily_): $DatagramChannel;
     }
 }

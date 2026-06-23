@@ -20,9 +20,9 @@ declare module "@package/com/tacz/guns/api/util" {
         static from(arg0: $CompoundTag_): $LuaNbtAccessor;
         getString(arg0: string): string;
         putString(arg0: string, arg1: string): void;
-        getCompound(arg0: string): $LuaNbtAccessor;
-        nbt(): $CompoundTag;
         putCompound(arg0: string, arg1: $LuaNbtAccessor_): void;
+        nbt(): $CompoundTag;
+        getCompound(arg0: string): $LuaNbtAccessor;
         newCompoundTag(): $LuaNbtAccessor;
         constructor(nbt: $CompoundTag_);
     }

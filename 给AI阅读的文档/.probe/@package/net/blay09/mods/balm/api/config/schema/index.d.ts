@@ -75,12 +75,12 @@ declare module "@package/net/blay09/mods/balm/api/config/schema" {
         comment(): string;
         defaultValue(): T;
         category(): string;
+        streamCodec(): $StreamCodec<$ByteBuf, T>;
         getRaw(arg0: $LoadedConfig): T;
         codec(): $Codec<T>;
-        streamCodec(): $StreamCodec<$ByteBuf, T>;
-        setRaw(arg0: $MutableLoadedConfig, arg1: T): void;
-        synced(): boolean;
         parentSchema(): $BalmConfigSchema;
+        synced(): boolean;
+        setRaw(arg0: $MutableLoadedConfig, arg1: T): void;
     }
     export class $ConfiguredDouble {
     }
@@ -107,12 +107,12 @@ declare module "@package/net/blay09/mods/balm/api/config/schema" {
         static create(arg0: $ResourceLocation_): $ConfigSchemaImpl;
     }
     export interface $BalmConfigSchema {
-        defaults(): $LoadedConfig;
         identifier(): $ResourceLocation;
+        defaults(): $LoadedConfig;
         categories(): $Collection<$ConfigCategory>;
+        findRootProperty(arg0: string): $ConfiguredProperty<never>;
         findProperty(arg0: string, arg1: string): $ConfiguredProperty<never>;
         rootProperties(): $Collection<$ConfiguredProperty<never>>;
-        findRootProperty(arg0: string): $ConfiguredProperty<never>;
     }
     export class $ConfiguredList<T> {
     }

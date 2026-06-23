@@ -490,8 +490,10 @@ declare module "@package/java/time" {
         withSecond(arg0: number): $ZonedDateTime;
         withNano(arg0: number): $ZonedDateTime;
         toLocalDate(): $LocalDate;
+        withEarlierOffsetAtOverlap(): $ZonedDateTime;
         static ofLocal(arg0: $LocalDateTime, arg1: $ZoneId, arg2: $ZoneOffset): $ZonedDateTime;
         toOffsetDateTime(): $OffsetDateTime;
+        withLaterOffsetAtOverlap(): $ZonedDateTime;
         static ofStrict(arg0: $LocalDateTime, arg1: $ZoneOffset, arg2: $ZoneId): $ZonedDateTime;
         withFixedOffsetZone(): $ZonedDateTime;
         compareTo(arg0: $ChronoZonedDateTime<never>): number;
@@ -510,8 +512,6 @@ declare module "@package/java/time" {
         toLocalDateTime(): $ChronoLocalDateTime<$LocalDate>;
         withZoneSameInstant(arg0: $ZoneId): $ChronoZonedDateTime<$LocalDate>;
         withZoneSameLocal(arg0: $ZoneId): $ChronoZonedDateTime<$LocalDate>;
-        withLaterOffsetAtOverlap(): $ChronoZonedDateTime<$LocalDate>;
-        withEarlierOffsetAtOverlap(): $ChronoZonedDateTime<$LocalDate>;
         get offset(): $ZoneOffset;
         get nano(): number;
         get year(): number;

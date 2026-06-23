@@ -11,12 +11,12 @@ declare module "@package/xaero/lib/common/config/single" {
         getChannel(): $ConfigChannel;
         getConfig(): C;
         setChannel(arg0: $ConfigChannel): void;
-        setConfig(arg0: C): void;
-        getEffective<T>(arg0: $ConfigOption<T>): T;
-        setRedirectorManager(arg0: $OptionValueRedirectorManager): void;
         getRedirectorManager(): $OptionValueRedirectorManager;
+        setRedirectorManager(arg0: $OptionValueRedirectorManager): void;
         getConfigId(): string;
         setChangeListener(arg0: $IConfigChangeListener): void;
+        getEffective<T>(arg0: $ConfigOption<T>): T;
+        setConfig(arg0: C): void;
         logger: $Logger;
         constructor(arg0: $Logger, arg1: string);
         get configId(): string;

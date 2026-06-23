@@ -11,9 +11,9 @@ import { $Object, $Record } from "@package/java/lang";
 
 declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style/animation" {
     export class $TransitionAnimation<T> implements $IFrameValueHandler<T> {
+        getInitialValue(): T;
         accept(arg0: $AnimationRuntime, arg1: T): void;
         stop(): void;
-        getInitialValue(): T;
         getCurrentValue(): T;
         play(arg0: T, arg1: T): void;
         onFinished(arg0: $AnimationRuntime): void;
@@ -42,14 +42,14 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/style/animation" {
         origin(arg0: $StyleOrigin_): $StyleAnimation;
         style<T>(arg0: $Property<T>, ...arg1: $FloatObjectPair<any>[]): $StyleAnimation;
         style<T>(arg0: $Property<T>, arg1: T): $StyleAnimation;
+        lss(arg0: string, arg1: $Object): $StyleAnimation;
         select(arg0: string): $StyleAnimation;
         select(arg0: $UIElement): $StyleAnimation;
         ease(arg0: $IEase_): $StyleAnimation;
-        lss(arg0: string, arg1: $Object): $StyleAnimation;
-        onFinished(arg0: $Consumer_<$UIElement>): $StyleAnimation;
-        sourceOrder(arg0: number): $StyleAnimation;
-        specificity(arg0: number): $StyleAnimation;
         onInterpolate(arg0: $BiConsumer_<$AnimationRuntime, $UIElement>): $StyleAnimation;
         animationOrigin(arg0: $StyleOrigin_): $StyleAnimation;
+        specificity(arg0: number): $StyleAnimation;
+        onFinished(arg0: $Consumer_<$UIElement>): $StyleAnimation;
+        sourceOrder(arg0: number): $StyleAnimation;
     }
 }

@@ -17,6 +17,7 @@ declare module "@package/com/google/common/cache" {
     export class $LoadingCache<K, V> {
     }
     export interface $LoadingCache<K, V> extends $Cache<K, V>, $Function<K, V> {
+        refresh(key: K): void;
         get(key: K): V;
         /**
          * @deprecated
@@ -25,39 +26,38 @@ declare module "@package/com/google/common/cache" {
         getAll(keys: $Iterable_<K>): $ImmutableMap<K, V>;
         getUnchecked(key: K): V;
         asMap(): $ConcurrentMap<K, V>;
-        refresh(key: K): void;
     }
     export class $CacheStats {
         minus(other: $CacheStats): $CacheStats;
         plus(other: $CacheStats): $CacheStats;
-        missCount(): number;
         missRate(): number;
-        loadCount(): number;
         hitRate(): number;
+        loadCount(): number;
+        missCount(): number;
         hitCount(): number;
+        loadSuccessCount(): number;
+        loadExceptionRate(): number;
+        averageLoadPenalty(): number;
+        evictionCount(): number;
         totalLoadTime(): number;
         requestCount(): number;
         loadExceptionCount(): number;
-        loadExceptionRate(): number;
-        loadSuccessCount(): number;
-        evictionCount(): number;
-        averageLoadPenalty(): number;
         constructor(hitCount: number, missCount: number, loadSuccessCount: number, loadExceptionCount: number, totalLoadTime: number, evictionCount: number);
     }
     export class $Cache<K, V> {
     }
     export interface $Cache<K, V> {
+        invalidate(key: $Object): void;
         size(): number;
         get(key: K, loader: $Callable_<V>): V;
         put(key: K, value: V): void;
         putAll(m: $Map_<K, V>): void;
         asMap(): $ConcurrentMap<K, V>;
         stats(): $CacheStats;
-        invalidateAll(): void;
         invalidateAll(keys: $Iterable_<never>): void;
-        cleanUp(): void;
-        invalidate(key: $Object): void;
+        invalidateAll(): void;
         getIfPresent(key: $Object): V;
         getAllPresent(keys: $Iterable_<never>): $ImmutableMap<K, V>;
+        cleanUp(): void;
     }
 }

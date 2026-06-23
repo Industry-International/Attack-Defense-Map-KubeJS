@@ -28,9 +28,9 @@ declare module "@package/net/fabricmc/fabric/impl/networking" {
         endSession(): void;
         handleDisconnect(): void;
         lateInit(): void;
-        registerChannel(arg0: $ResourceLocation_, arg1: H): boolean;
         registerChannels(arg0: $Map_<$ResourceLocation_, H>): void;
         unregisterChannel(arg0: $ResourceLocation_): H;
+        registerChannel(arg0: $ResourceLocation_, arg1: H): boolean;
         getReceivableChannels(): $Set<$ResourceLocation>;
         get receivableChannels(): $Set<$ResourceLocation>;
     }

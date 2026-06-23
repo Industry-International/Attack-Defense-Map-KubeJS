@@ -4,13 +4,13 @@ import { $StringRepresentable$EnumCodec, $StringRepresentable } from "@package/n
 
 declare module "@package/net/minecraft/world/scores/criteria" {
     export class $ObjectiveCriteria {
+        getDefaultRenderType(): $ObjectiveCriteria$RenderType;
+        static getCustomCriteriaNames(): $Set<string>;
         getName(): string;
         isReadOnly(): boolean;
-        static byName(arg0: string): ($ObjectiveCriteria) | undefined;
-        static getCustomCriteriaNames(): $Set<string>;
-        getDefaultRenderType(): $ObjectiveCriteria$RenderType;
-        static registerCustom(arg0: string): $ObjectiveCriteria;
-        static registerCustom(arg0: string, arg1: boolean, arg2: $ObjectiveCriteria$RenderType_): $ObjectiveCriteria;
+        static byName(name: string): ($ObjectiveCriteria) | undefined;
+        static registerCustom(name: string, readOnly: boolean, renderType: $ObjectiveCriteria$RenderType_): $ObjectiveCriteria;
+        static registerCustom(name: string): $ObjectiveCriteria;
         static DEATH_COUNT: $ObjectiveCriteria;
         static ARMOR: $ObjectiveCriteria;
         static TRIGGER: $ObjectiveCriteria;
@@ -24,19 +24,19 @@ declare module "@package/net/minecraft/world/scores/criteria" {
         static TEAM_KILL: $ObjectiveCriteria[];
         static KILLED_BY_TEAM: $ObjectiveCriteria[];
         static FOOD: $ObjectiveCriteria;
-        constructor(arg0: string, arg1: boolean, arg2: $ObjectiveCriteria$RenderType_);
-        constructor(arg0: string);
+        constructor(name: string, readOnly: boolean, renderType: $ObjectiveCriteria$RenderType_);
+        constructor(name: string);
+        get defaultRenderType(): $ObjectiveCriteria$RenderType;
+        static get customCriteriaNames(): $Set<string>;
         get name(): string;
         get readOnly(): boolean;
-        static get customCriteriaNames(): $Set<string>;
-        get defaultRenderType(): $ObjectiveCriteria$RenderType;
     }
     export class $ObjectiveCriteria$RenderType extends $Enum<$ObjectiveCriteria$RenderType> implements $StringRepresentable {
         static values(): $ObjectiveCriteria$RenderType[];
-        static valueOf(arg0: string): $ObjectiveCriteria$RenderType;
+        static valueOf(renderType: string): $ObjectiveCriteria$RenderType;
         getId(): string;
         getSerializedName(): string;
-        static byId(arg0: string): $ObjectiveCriteria$RenderType;
+        static byId(renderType: string): $ObjectiveCriteria$RenderType;
         getRemappedEnumConstantName(): string;
         static CODEC: $StringRepresentable$EnumCodec<$ObjectiveCriteria$RenderType>;
         static HEARTS: $ObjectiveCriteria$RenderType;

@@ -20,8 +20,8 @@ declare module "@package/xfacthd/framedblocks/api/util" {
         spliterator(): $Spliterator<$CamoContainer<never, never>>;
         forEach(arg0: $Consumer_<$CamoContainer<never, never>>): void;
         reversed(): $CamoList;
-        getCamo(arg0: number): $CamoContainer<never, never>;
         isEmptyOrContentsEmpty(): boolean;
+        getCamo(arg0: number): $CamoContainer<never, never>;
         static CODEC: $Codec<$CamoList>;
         static EMPTY: $CamoList;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $CamoList>;

@@ -14,32 +14,22 @@ declare module "@package/xaero/pac/common/server/claims/protection/api" {
     export class $IChunkProtectionAPI {
     }
     export interface $IChunkProtectionAPI {
-        onEntityPlaceBlock(arg0: $Entity, arg1: $ServerLevel, arg2: $BlockPos_): boolean;
-        getConfig(arg0: $IPlayerChunkClaimAPI): $IPlayerConfigAPI$1;
-        removeFullPass(arg0: $UUID_): void;
-        giveFullPass(arg0: $UUID_): void;
-        /**
-         * @deprecated
-         */
-        onBlockInteraction(arg0: $Entity, arg1: $InteractionHand_, arg2: $ItemStack_, arg3: $ServerLevel, arg4: $BlockPos_, arg5: $Direction_, arg6: boolean, arg7: boolean): boolean;
-        onBlockInteraction(arg0: $Entity, arg1: $InteractionHand_, arg2: $ItemStack_, arg3: $ServerLevel, arg4: $BlockPos_, arg5: $Direction_, arg6: boolean, arg7: boolean, arg8: boolean): boolean;
-        onEntityInteraction(arg0: $Entity, arg1: $Entity, arg2: $Entity, arg3: $ItemStack_, arg4: $InteractionHand_, arg5: boolean, arg6: boolean, arg7: boolean): boolean;
-        /**
-         * @deprecated
-         */
-        onEntityInteraction(arg0: $Entity, arg1: $Entity, arg2: $Entity, arg3: $ItemStack_, arg4: $InteractionHand_, arg5: boolean, arg6: boolean): boolean;
-        onItemPickup(arg0: $Entity, arg1: $ItemEntity): boolean;
+        getConfig(arg0: $IPlayerChunkClaimAPI | null): $IPlayerConfigAPI$1;
         onProjectileHitSpawnedEntity(arg0: $Entity, arg1: $Entity): boolean;
-        checkPlayerGroupExceptionOption(arg0: $IPlayerConfigOptionSpecAPI<string>, arg1: $IPlayerConfigAPI$1, arg2: $Entity): boolean;
+        /**
+         * @deprecated
+         */
+        onBlockInteraction(arg0: $Entity | null, arg1: $InteractionHand_ | null, arg2: $ItemStack_ | null, arg3: $ServerLevel, arg4: $BlockPos_, arg5: $Direction_, arg6: boolean, arg7: boolean): boolean;
+        onBlockInteraction(arg0: $Entity | null, arg1: $InteractionHand_ | null, arg2: $ItemStack_ | null, arg3: $ServerLevel, arg4: $BlockPos_, arg5: $Direction_, arg6: boolean, arg7: boolean, arg8: boolean): boolean;
+        onEntityPlaceBlock(arg0: $Entity | null, arg1: $ServerLevel, arg2: $BlockPos_): boolean;
+        onItemPickup(arg0: $Entity, arg1: $ItemEntity): boolean;
+        /**
+         * @deprecated
+         */
+        onEntityInteraction(arg0: $Entity | null, arg1: $Entity | null, arg2: $Entity, arg3: $ItemStack_ | null, arg4: $InteractionHand_ | null, arg5: boolean, arg6: boolean): boolean;
+        onEntityInteraction(arg0: $Entity | null, arg1: $Entity | null, arg2: $Entity, arg3: $ItemStack_ | null, arg4: $InteractionHand_ | null, arg5: boolean, arg6: boolean, arg7: boolean): boolean;
         checkPlayerGroupExceptionOption(arg0: $IPlayerConfigOptionSpecAPI<string>, arg1: $IPlayerConfigAPI$1, arg2: $UUID_): boolean;
-        /**
-         * @deprecated
-         */
-        checkProtectionLeveledOption(arg0: $IPlayerConfigOptionSpecAPI$1<number>, arg1: $IPlayerConfigAPI, arg2: $Entity): boolean;
-        /**
-         * @deprecated
-         */
-        checkProtectionLeveledOption(arg0: $IPlayerConfigOptionSpecAPI$1<number>, arg1: $IPlayerConfigAPI, arg2: $UUID_): boolean;
+        checkPlayerGroupExceptionOption(arg0: $IPlayerConfigOptionSpecAPI<string>, arg1: $IPlayerConfigAPI$1, arg2: $Entity): boolean;
         /**
          * @deprecated
          */
@@ -48,12 +38,22 @@ declare module "@package/xaero/pac/common/server/claims/protection/api" {
          * @deprecated
          */
         checkExceptionLeveledOption(arg0: $IPlayerConfigOptionSpecAPI$1<number>, arg1: $IPlayerConfigAPI, arg2: $Entity): boolean;
-        onPosAffectedByAnotherPos(arg0: $ServerLevel, arg1: $ChunkPos, arg2: $ServerLevel, arg3: $ChunkPos, arg4: boolean, arg5: boolean, arg6: boolean): boolean;
-        hasChunkAccess(arg0: $IPlayerConfigAPI$1, arg1: $UUID_): boolean;
-        hasChunkAccess(arg0: $IPlayerConfigAPI$1, arg1: $Entity): boolean;
         /**
          * @deprecated
          */
-        getClaimConfig(arg0: $IPlayerChunkClaimAPI): $IPlayerConfigAPI;
+        checkProtectionLeveledOption(arg0: $IPlayerConfigOptionSpecAPI$1<number>, arg1: $IPlayerConfigAPI, arg2: $UUID_): boolean;
+        /**
+         * @deprecated
+         */
+        checkProtectionLeveledOption(arg0: $IPlayerConfigOptionSpecAPI$1<number>, arg1: $IPlayerConfigAPI, arg2: $Entity): boolean;
+        /**
+         * @deprecated
+         */
+        getClaimConfig(arg0: $IPlayerChunkClaimAPI | null): $IPlayerConfigAPI;
+        hasChunkAccess(arg0: $IPlayerConfigAPI$1, arg1: $Entity): boolean;
+        hasChunkAccess(arg0: $IPlayerConfigAPI$1, arg1: $UUID_): boolean;
+        removeFullPass(arg0: $UUID_): void;
+        giveFullPass(arg0: $UUID_): void;
+        onPosAffectedByAnotherPos(arg0: $ServerLevel, arg1: $ChunkPos, arg2: $ServerLevel, arg3: $ChunkPos, arg4: boolean, arg5: boolean, arg6: boolean): boolean;
     }
 }

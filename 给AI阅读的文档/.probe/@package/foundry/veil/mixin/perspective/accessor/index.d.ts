@@ -14,7 +14,7 @@ declare module "@package/foundry/veil/mixin/perspective/accessor" {
     export class $LevelRendererAccessor {
     }
     export interface $LevelRendererAccessor {
-        getCullingFrustum(): $Frustum;
         setCullingFrustum(arg0: $Frustum): void;
+        getCullingFrustum(): $Frustum;
     }
 }

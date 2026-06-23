@@ -19,23 +19,23 @@ declare module "@package/com/simibubi/create/foundation/blockEntity/behaviour" {
         getType(): $BehaviourType<never>;
         unload(): void;
         tick(): void;
-        setLazyTickRate(arg0: number): void;
-        getRequiredItems(): $ItemRequirement;
+        getWorld(): $Level;
         getPos(): $BlockPos;
+        lazyTick(): void;
         isSafeNBT(): boolean;
         writeSafe(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
-        lazyTick(): void;
-        getWorld(): $Level;
+        setLazyTickRate(arg0: number): void;
+        getRequiredItems(): $ItemRequirement;
         onBlockChanged(arg0: $BlockState_): void;
         onNeighborChanged(arg0: $BlockPos_): void;
         blockEntity: $SmartBlockEntity;
         constructor(arg0: $SmartBlockEntity);
         get type(): $BehaviourType<never>;
-        set lazyTickRate(value: number);
-        get requiredItems(): $ItemRequirement;
+        get world(): $Level;
         get pos(): $BlockPos;
         get safeNBT(): boolean;
-        get world(): $Level;
+        set lazyTickRate(value: number);
+        get requiredItems(): $ItemRequirement;
     }
     export class $BehaviourType<T extends $BlockEntityBehaviour> {
         getName(): string;

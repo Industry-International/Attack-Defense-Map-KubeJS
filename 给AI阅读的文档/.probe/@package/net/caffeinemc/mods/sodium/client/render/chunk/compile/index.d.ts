@@ -1,39 +1,37 @@
 import { $ClientLevel } from "@package/net/minecraft/client/multiplayer";
 import { $RenderSection } from "@package/net/caffeinemc/mods/sodium/client/render/chunk";
 import { $BlockRenderCache } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile/pipeline";
-import { $NativeBuffer } from "@package/net/caffeinemc/mods/sodium/client/util";
 import { $ChunkVertexType } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/vertex/format";
 import { $BuiltSectionMeshParts, $BuiltSectionInfo } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/data";
 import { $TerrainRenderPass } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/terrain";
 import { $Map_, $Map } from "@package/java/util";
-import { $IntBuffer } from "@package/java/nio";
-import { $Sorter, $TranslucentData, $DynamicTopoData$DynamicTopoSorter, $SortData } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/translucent_sorting/data";
+import { $Sorter, $TranslucentData, $DynamicTopoData$DynamicTopoSorter } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/translucent_sorting/data";
 export * as tasks from "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile/tasks";
+export * as estimation from "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile/estimation";
 export * as executor from "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile/executor";
 export * as pipeline from "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile/pipeline";
 
 declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile" {
-    export class $ChunkSortOutput extends $BuilderTaskOutput implements $SortData {
-        getIndexBuffer(): $NativeBuffer;
-        getTopoSorter(): $DynamicTopoData$DynamicTopoSorter;
-        copyResultFrom(arg0: $Sorter): void;
+    export class $ChunkSortOutput extends $BuilderTaskOutput {
         markAsReusingUploadedData(): void;
+        getDynamicSorter(): $DynamicTopoData$DynamicTopoSorter;
+        setSorter(arg0: $Sorter): void;
+        getSorter(): $Sorter;
         isReusingUploadedIndexData(): boolean;
-        getIntBuffer(): $IntBuffer;
         submitTime: number;
         render: $RenderSection;
         constructor(arg0: $RenderSection, arg1: number);
         constructor(arg0: $RenderSection, arg1: number, arg2: $Sorter);
-        get indexBuffer(): $NativeBuffer;
-        get topoSorter(): $DynamicTopoData$DynamicTopoSorter;
+        get dynamicSorter(): $DynamicTopoData$DynamicTopoSorter;
         get reusingUploadedIndexData(): boolean;
-        get intBuffer(): $IntBuffer;
     }
     export class $BuilderTaskOutput {
         destroy(): void;
+        getResultSize(): number;
         submitTime: number;
         render: $RenderSection;
         constructor(arg0: $RenderSection, arg1: number);
+        get resultSize(): number;
     }
     export class $ChunkBuildContext {
         cleanup(): void;
@@ -42,6 +40,7 @@ declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile"
         constructor(arg0: $ClientLevel, arg1: $ChunkVertexType);
     }
     export class $ChunkBuildOutput extends $ChunkSortOutput {
+        calculateResultSize(): number;
         getMesh(arg0: $TerrainRenderPass): $BuiltSectionMeshParts;
         submitTime: number;
         translucentData: $TranslucentData;

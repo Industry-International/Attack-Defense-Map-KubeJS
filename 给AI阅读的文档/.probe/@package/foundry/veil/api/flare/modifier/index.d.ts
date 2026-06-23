@@ -46,13 +46,13 @@ declare module "@package/foundry/veil/api/flare/modifier" {
         get(arg0: $Controller): T;
         type(): $PropertyModifierRegistry$PropertyModifierType<T, never>;
         apply<A>(arg0: $EffectHost, arg1: $Property<A>): void;
-        static createCodec<A, T extends $PropertyModifier<A>, O>(arg0: $Function7_<string, string, string, string, $PropertyModifier$PropertyModifierMode, ($List<$MolangExpression>) | undefined, O, T>, arg1: $Function_<T, O>, arg2: $MapCodec_<O>, arg3: number): $MapCodec<T>;
-        static createCodec<A, T extends $PropertyModifier<A>>(arg0: $Function6_<string, string, string, string, $PropertyModifier$PropertyModifierMode, ($List<$MolangExpression>) | undefined, T>, arg1: number): $MapCodec<T>;
-        static modifyProperty(arg0: $EffectHost, arg1: string, arg2: $Property<never>, arg3: $Iterable_<$PropertyModifier<never>>): void;
-        optionalClazz(): (string) | undefined;
-        molangExpressions(): ($List<$MolangExpression>) | undefined;
         inputControllerName(): string;
+        molangExpressions(): ($List<$MolangExpression>) | undefined;
+        optionalClazz(): (string) | undefined;
         getPair(): $Pair<($List<$MolangExpression>) | undefined, $PropertyModifier$PropertyModifierMode>;
+        static modifyProperty(arg0: $EffectHost, arg1: string, arg2: $Property<never>, arg3: $Iterable_<$PropertyModifier<never>>): void;
+        static createCodec<A, T extends $PropertyModifier<A>>(arg0: $Function6_<string, string, string, string, $PropertyModifier$PropertyModifierMode, ($List<$MolangExpression>) | undefined, T>, arg1: number): $MapCodec<T>;
+        static createCodec<A, T extends $PropertyModifier<A>, O>(arg0: $Function7_<string, string, string, string, $PropertyModifier$PropertyModifierMode, ($List<$MolangExpression>) | undefined, O, T>, arg1: $Function_<T, O>, arg2: $MapCodec_<O>, arg3: number): $MapCodec<T>;
         outputPropertyName(): string;
         constructor(arg0: $PropertyModifierRegistry$PropertyModifierType_<T, never>, arg1: string, arg2: string, arg3: string, arg4: string, arg5: $PropertyModifier$PropertyModifierMode_, arg6: ($List_<$MolangExpression_>) | undefined);
         get pair(): $Pair<($List<$MolangExpression>) | undefined, $PropertyModifier$PropertyModifierMode>;

@@ -30,8 +30,8 @@ declare module "@package/com/almostreliable/morejs/features/villager/trades" {
     export class $PotionTrade extends $TransformableTrade<$PotionTrade> {
         item(arg0: $Item_): $PotionTrade;
         potions(...arg0: $Potion_[]): $PotionTrade;
-        noBrewablePotion(): $PotionTrade;
         onlyBrewablePotion(): $PotionTrade;
+        noBrewablePotion(): $PotionTrade;
         constructor(arg0: $TradeItem[]);
     }
     export class $TransformableTrade$Transformer {
@@ -54,15 +54,15 @@ declare module "@package/com/almostreliable/morejs/features/villager/trades" {
     }
     export class $TransformableTrade<T extends $VillagerTrades$ItemListing> implements $VillagerTrades$ItemListing {
         transform(arg0: $TransformableTrade$Transformer_): T;
-        priceMultiplier(arg0: number): T;
         getOffer(arg0: $Entity, arg1: $RandomSource): $MerchantOffer;
         villagerExperience(arg0: number): T;
         maxUses(arg0: number): T;
-        getSecondInput(): $TradeItem;
+        priceMultiplier(arg0: number): T;
         getFirstInput(): $TradeItem;
+        getSecondInput(): $TradeItem;
         constructor(arg0: $TradeItem[]);
-        get secondInput(): $TradeItem;
         get firstInput(): $TradeItem;
+        get secondInput(): $TradeItem;
     }
     export class $StewTrade extends $TransformableTrade<$StewTrade> {
         addEffect(arg0: $MobEffect_, arg1: number): $StewTrade;

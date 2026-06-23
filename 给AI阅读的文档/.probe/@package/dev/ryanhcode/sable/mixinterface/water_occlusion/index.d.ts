@@ -4,8 +4,8 @@ declare module "@package/dev/ryanhcode/sable/mixinterface/water_occlusion" {
     export class $CameraWaterOcclusionExtension {
     }
     export interface $CameraWaterOcclusionExtension {
-        sable$setIgnoreOcclusion(arg0: boolean): void;
         sable$isIgnoreOcclusion(): boolean;
+        sable$setIgnoreOcclusion(arg0: boolean): void;
         sable$isOccluded(): boolean;
     }
     export class $WaterOcclusionContainerHolder {

@@ -47,8 +47,8 @@ declare module "@package/com/atsuishio/superbwarfare/tools" {
      */
     export type $OBB$Part_ = "empty" | "wheel_left" | "wheel_right" | "turret" | "main_engine" | "sub_engine" | "body" | "interactive";
     export class $OBB$Companion {
-        vec3ToVector3d(arg0: $Vec3_): $Vector3d;
         vector3dToVec3(arg0: $Vector3d): $Vec3;
+        vec3ToVector3d(arg0: $Vec3_): $Vector3d;
         isColliding(arg0: $OBB_, arg1: $OBB_): boolean;
         isColliding(arg0: $OBB_, arg1: $AABB_): boolean;
         getLookingObb(arg0: $Player, arg1: number): $OBB;
@@ -61,32 +61,32 @@ declare module "@package/com/atsuishio/superbwarfare/tools" {
         constructor(arg0: $DefaultConstructorMarker);
     }
     export class $OBB extends $Record {
-        inflate(arg0: number, arg1: number, arg2: number): $OBB;
         inflate(arg0: number): $OBB;
+        inflate(arg0: number, arg1: number, arg2: number): $OBB;
         contains(arg0: $Vec3_): boolean;
         copy(arg0: $Vector3d, arg1: $Vector3d, arg2: $Quaterniond, arg3: $OBB$Part_): $OBB;
         move(arg0: $Vec3_): $OBB;
-        clip(arg0: $Vector3d, arg1: $Vector3d): ($Vector3d) | undefined;
+        setCenter(arg0: $Vector3d): void;
+        getVertices(): $Vector3d[];
         component1(): $Vector3d;
+        component2(): $Vector3d;
         component3(): $Quaterniond;
         component4(): $OBB$Part;
-        component2(): $Vector3d;
-        static vec3ToVector3d(arg0: $Vec3_): $Vector3d;
+        getAxes(): $Vector3d[];
+        extents(): $Vector3d;
+        setExtents(arg0: $Vector3d): void;
         static vector3dToVec3(arg0: $Vector3d): $Vec3;
+        static vec3ToVector3d(arg0: $Vec3_): $Vector3d;
+        clip(arg0: $Vector3d, arg1: $Vector3d): ($Vector3d) | undefined;
         rotation(): $Quaterniond;
-        setCenter(arg0: $Vector3d): void;
-        static copy$default(arg0: $OBB_, arg1: $Vector3d, arg2: $Vector3d, arg3: $Quaterniond, arg4: $OBB$Part_, arg5: number, arg6: $Object): $OBB;
-        updateRotation(arg0: $Quaterniond): void;
         static isColliding(arg0: $OBB_, arg1: $OBB_): boolean;
         static isColliding(arg0: $OBB_, arg1: $AABB_): boolean;
-        getVertices(): $Vector3d[];
-        extents(): $Vector3d;
+        static copy$default(arg0: $OBB_, arg1: $Vector3d, arg2: $Vector3d, arg3: $Quaterniond, arg4: $OBB$Part_, arg5: number, arg6: $Object): $OBB;
+        updateRotation(arg0: $Quaterniond): void;
         static getLookingObb(arg0: $Player, arg1: number): $OBB;
-        getAxes(): $Vector3d[];
-        setExtents(arg0: $Vector3d): void;
         static getClosestPointOBB(arg0: $Vector3d, arg1: $OBB_): $Vector3d;
-        getEmbeddingDepth(arg0: $Vec3_): number;
         getEmbeddingFace(arg0: $Vec3_): number;
+        getEmbeddingDepth(arg0: $Vec3_): number;
         static Companion: $OBB$Companion;
         center: $Vector3d;
         part: $OBB$Part;

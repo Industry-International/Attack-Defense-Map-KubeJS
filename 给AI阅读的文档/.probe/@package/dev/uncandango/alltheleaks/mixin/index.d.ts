@@ -8,10 +8,10 @@ export * as core from "@package/dev/uncandango/alltheleaks/mixin/core";
 
 declare module "@package/dev/uncandango/alltheleaks/mixin" {
     export class $Trackable {
-        static startTracking(arg0: $Object): void;
         static getSummary(): $Map<$Class<never>, $Map<$Class<never>, number>>;
         static createWeakRefBasedSet(): $ObjectOpenCustomHashSet<$WeakReference<$Trackable>>;
         static clearNullReferences(): void;
+        static startTracking(arg0: $Object): void;
         static LOCK: $ReentrantLock;
         static WEAK_REFERENCE_STRATEGY: $Hash$Strategy<$WeakReference<$Trackable>>;
         static TRACKABLE_MAP: $IdentityHashMap<$Class<never>, $ObjectOpenCustomHashSet<$WeakReference<$Trackable>>>;

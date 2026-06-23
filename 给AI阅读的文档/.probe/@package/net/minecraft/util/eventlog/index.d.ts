@@ -11,38 +11,38 @@ import { $FileChannel } from "@package/java/nio/channels";
 
 declare module "@package/net/minecraft/util/eventlog" {
     export class $JsonEventLog<T> implements $Closeable {
-        write(arg0: T): void;
+        write(data: T): void;
         close(): void;
-        static open<T>(arg0: $Codec<T>, arg1: $Path_): $JsonEventLog<T>;
-        openReader(): $JsonEventLogReader<T>;
+        static open<T>(codec: $Codec<T>, path: $Path_): $JsonEventLog<T>;
         releaseReference(): void;
+        openReader(): $JsonEventLogReader<T>;
         channel: $FileChannel;
-        constructor(arg0: $Codec<T>, arg1: $FileChannel);
+        constructor(codec: $Codec<T>, channel: $FileChannel);
     }
     export class $EventLogDirectory$RawFile extends $Record implements $EventLogDirectory$File {
         compress(): $EventLogDirectory$CompressedFile;
         id(): $EventLogDirectory$FileId;
         path(): $Path;
-        openReader(): $Reader;
         openChannel(): $FileChannel;
+        openReader(): $Reader;
         constructor(arg0: $Path_, arg1: $EventLogDirectory$FileId_);
     }
     export class $EventLogDirectory {
-        static open(arg0: $Path_, arg1: string): $EventLogDirectory;
-        createNewFile(arg0: $LocalDate): $EventLogDirectory$RawFile;
+        static open(root: $Path_, extension: string): $EventLogDirectory;
+        createNewFile(date: $LocalDate): $EventLogDirectory$RawFile;
         listFiles(): $EventLogDirectory$FileList;
-        static tryCompress(arg0: $Path_, arg1: $Path_): void;
+        static tryCompress(path: $Path_, outputPath: $Path_): void;
         static LOGGER: $Logger;
     }
     export class $EventLogDirectory$FileId extends $Record {
         index(): number;
-        static parse(arg0: string): $EventLogDirectory$FileId;
+        static parse(fileName: string): $EventLogDirectory$FileId;
         date(): $LocalDate;
-        toFileName(arg0: string): string;
+        toFileName(extension: string): string;
         constructor(arg0: $LocalDate, arg1: number);
     }
     export class $JsonEventLogReader<T> {
-        static create<T>(arg0: $Codec<T>, arg1: $Reader): $JsonEventLogReader<T>;
+        static create<T>(codec: $Codec<T>, reader: $Reader): $JsonEventLogReader<T>;
     }
     export interface $JsonEventLogReader<T> extends $Closeable {
         next(): T;
@@ -51,11 +51,11 @@ declare module "@package/net/minecraft/util/eventlog" {
         iterator(): $Iterator<$EventLogDirectory$File>;
         stream(): $Stream<$EventLogDirectory$File>;
         ids(): $Set<$EventLogDirectory$FileId>;
-        prune(arg0: $LocalDate, arg1: number): $EventLogDirectory$FileList;
+        prune(date: $LocalDate, daysToKeep: number): $EventLogDirectory$FileList;
         compressAll(): $EventLogDirectory$FileList;
         spliterator(): $Spliterator<$EventLogDirectory$File>;
         forEach(arg0: $Consumer_<$EventLogDirectory$File>): void;
-        constructor(arg0: $List_<$EventLogDirectory$File>);
+        constructor(files: $List_<$EventLogDirectory$File>);
         [Symbol.iterator](): Iterator<$EventLogDirectory$File>
     }
     export class $EventLogDirectory$File {

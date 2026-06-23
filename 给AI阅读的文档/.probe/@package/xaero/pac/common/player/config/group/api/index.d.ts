@@ -6,8 +6,8 @@ declare module "@package/xaero/pac/common/player/config/group/api" {
         static values(): $PlayerConfigGroupActionError[];
         static valueOf(arg0: string): $PlayerConfigGroupActionError;
         getDesyncScreenMessage(): $Component;
-        getCommandMessage(): $Component;
         shouldRefreshGroupScreen(): boolean;
+        getCommandMessage(): $Component;
         static GROUP_TO_REMOVE_NOT_FOUND: $PlayerConfigGroupActionError;
         static GROUP_ID_TOO_LONG: $PlayerConfigGroupActionError;
         static UNKNOWN_PLAYER: $PlayerConfigGroupActionError;

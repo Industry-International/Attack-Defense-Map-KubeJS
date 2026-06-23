@@ -23,19 +23,19 @@ import { $NeighborUpdater } from "@package/net/minecraft/world/level/redstone";
 declare module "@package/net/createmod/ponder/api/level" {
     export class $PonderLevel extends $SchematicLevel implements $PonderWorldAccessor {
         tick(): void;
-        clearMask(): void;
-        setMask(arg0: $Selection): void;
-        restore(): void;
-        popLight(): void;
-        addParticle(arg0: $Particle): void;
+        setMask(arg0: $Selection | null): void;
         renderParticles(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: $Camera, arg3: number): void;
-        restoreBlocks(arg0: $Selection): void;
         pushFakeLight(arg0: number): void;
+        restoreBlocks(arg0: $Selection): void;
+        clearMask(): void;
         getBlockBreakingProgressions(): $Map<$BlockPos, number>;
+        restore(): void;
         createBackup(): void;
-        renderEntities(arg0: $PoseStack, arg1: $SuperRenderTypeBuffer, arg2: $Camera, arg3: number): void;
+        addParticle(arg0: $Particle | null): void;
         setBlockBreakingProgress(arg0: $BlockPos_, arg1: number): void;
         addBlockDestroyEffects(arg0: $BlockPos_, arg1: $BlockState_): void;
+        renderEntities(arg0: $PoseStack, arg1: $SuperRenderTypeBuffer, arg2: $Camera, arg3: number): void;
+        popLight(): void;
         self(): $EntityGetter;
         ponderjs$makeParticle<T extends $ParticleOptions>(arg0: T, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $Particle;
         restoringBlockSnapshots: boolean;
@@ -67,7 +67,7 @@ declare module "@package/net/createmod/ponder/api/level" {
         blockEntityTickers: $List<$TickingBlockEntity>;
         captureBlockSnapshots: boolean;
         constructor(arg0: $BlockPos_, arg1: $Level_);
-        set mask(value: $Selection);
+        set mask(value: $Selection | null);
         get blockBreakingProgressions(): $Map<$BlockPos, number>;
     }
 }

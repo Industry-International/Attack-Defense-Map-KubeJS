@@ -11,71 +11,71 @@ import { $EnhancedGunDisplay } from "@package/mod/chloeprime/gunsmithlib/client/
 declare module "@package/com/tacz/guns/client/resource/pojo/display/gun" {
     export class $GunDisplay implements $IDisplay, $EnhancedGunDisplay {
         init(): void;
-        is3rdFixedHand(): boolean;
-        getZoomModelFov(): number;
-        getDamageStyle(): $DamageStyle;
-        getModelLocation(): $ResourceLocation;
-        getAmmoCountStyle(): $AmmoCountStyle;
-        isShowCrosshair(): boolean;
-        getLaserConfig(): $LaserConfig;
-        getModelType(): string;
-        getTextShows(): $Map<string, $TextShow>;
-        getModelTexture(): $ResourceLocation;
-        getGunAmmo(): $GunAmmo;
-        getTransform(): $GunTransform;
-        getGunLod(): $GunLod;
-        getSounds(): $Map<string, $ResourceLocation>;
-        getHudTextureLocation(): $ResourceLocation;
-        getSlotTextureLocation(): $ResourceLocation;
-        getHudEmptyTextureLocation(): $ResourceLocation;
-        gunsmith$getGunsmithLibExtension(): $Optional<any>;
         getIronZoom(): number;
-        getMuzzleFlash(): $MuzzleFlash;
-        getPreloadSounds(): $List<string>;
-        getShellEjection(): $ShellEjection;
-        getOffhandShow(): $LayerGunShow;
-        getHotbarShow(): $Map<string, $LayerGunShow>;
-        getStateMachineParam(): $Map<string, $Object>;
+        getSounds(): $Map<string, $ResourceLocation>;
         getThirdPersonAnimation(): string;
-        getPlayerAnimator3rd(): $ResourceLocation;
         getControllableData(): $EnumMap<$FireMode, $ControllableData>;
         getAnimationLocation(): $ResourceLocation;
+        getPlayerAnimator3rd(): $ResourceLocation;
         enablesTransparency(): boolean;
         getDefaultAnimation(): $ResourceLocation;
-        getDefaultAnimationType(): $DefaultAnimationType;
+        getHudTextureLocation(): $ResourceLocation;
         getStateMachineLocation(): $ResourceLocation;
+        getDefaultAnimationType(): $DefaultAnimationType;
+        getSlotTextureLocation(): $ResourceLocation;
+        getHudEmptyTextureLocation(): $ResourceLocation;
+        getStateMachineParam(): $Map<string, $Object>;
+        gunsmith$getGunsmithLibExtension(): $Optional<any>;
+        getGunLod(): $GunLod;
+        getGunAmmo(): $GunAmmo;
+        getModelLocation(): $ResourceLocation;
+        getTextShows(): $Map<string, $TextShow>;
+        is3rdFixedHand(): boolean;
+        getDamageStyle(): $DamageStyle;
+        getModelType(): string;
+        getModelTexture(): $ResourceLocation;
+        isShowCrosshair(): boolean;
+        getAmmoCountStyle(): $AmmoCountStyle;
+        getLaserConfig(): $LaserConfig;
+        getZoomModelFov(): number;
+        getPreloadSounds(): $List<string>;
+        getMuzzleFlash(): $MuzzleFlash;
+        getOffhandShow(): $LayerGunShow;
+        getShellEjection(): $ShellEjection;
+        getHotbarShow(): $Map<string, $LayerGunShow>;
+        getTransform(): $GunTransform;
         constructor();
-        get 3rdFixedHand(): boolean;
-        get zoomModelFov(): number;
-        get damageStyle(): $DamageStyle;
-        get modelLocation(): $ResourceLocation;
-        get ammoCountStyle(): $AmmoCountStyle;
-        get showCrosshair(): boolean;
-        get laserConfig(): $LaserConfig;
-        get modelType(): string;
-        get textShows(): $Map<string, $TextShow>;
-        get modelTexture(): $ResourceLocation;
-        get gunAmmo(): $GunAmmo;
-        get transform(): $GunTransform;
-        get gunLod(): $GunLod;
-        get sounds(): $Map<string, $ResourceLocation>;
-        get hudTextureLocation(): $ResourceLocation;
-        get slotTextureLocation(): $ResourceLocation;
-        get hudEmptyTextureLocation(): $ResourceLocation;
         get ironZoom(): number;
-        get muzzleFlash(): $MuzzleFlash;
-        get preloadSounds(): $List<string>;
-        get shellEjection(): $ShellEjection;
-        get offhandShow(): $LayerGunShow;
-        get hotbarShow(): $Map<string, $LayerGunShow>;
-        get stateMachineParam(): $Map<string, $Object>;
+        get sounds(): $Map<string, $ResourceLocation>;
         get thirdPersonAnimation(): string;
-        get playerAnimator3rd(): $ResourceLocation;
         get controllableData(): $EnumMap<$FireMode, $ControllableData>;
         get animationLocation(): $ResourceLocation;
+        get playerAnimator3rd(): $ResourceLocation;
         get defaultAnimation(): $ResourceLocation;
-        get defaultAnimationType(): $DefaultAnimationType;
+        get hudTextureLocation(): $ResourceLocation;
         get stateMachineLocation(): $ResourceLocation;
+        get defaultAnimationType(): $DefaultAnimationType;
+        get slotTextureLocation(): $ResourceLocation;
+        get hudEmptyTextureLocation(): $ResourceLocation;
+        get stateMachineParam(): $Map<string, $Object>;
+        get gunLod(): $GunLod;
+        get gunAmmo(): $GunAmmo;
+        get modelLocation(): $ResourceLocation;
+        get textShows(): $Map<string, $TextShow>;
+        get 3rdFixedHand(): boolean;
+        get damageStyle(): $DamageStyle;
+        get modelType(): string;
+        get modelTexture(): $ResourceLocation;
+        get showCrosshair(): boolean;
+        get ammoCountStyle(): $AmmoCountStyle;
+        get laserConfig(): $LaserConfig;
+        get zoomModelFov(): number;
+        get preloadSounds(): $List<string>;
+        get muzzleFlash(): $MuzzleFlash;
+        get offhandShow(): $LayerGunShow;
+        get shellEjection(): $ShellEjection;
+        get hotbarShow(): $Map<string, $LayerGunShow>;
+        get transform(): $GunTransform;
     }
     export class $GunLod {
         getModelLocation(): $ResourceLocation;
@@ -106,22 +106,22 @@ declare module "@package/com/tacz/guns/client/resource/pojo/display/gun" {
      */
     export type $DefaultAnimationType_ = "rifle" | "pistol";
     export class $LayerGunShow {
+        getScale(): $Vector3f;
         getPos(): $Vector3f;
         getRotate(): $Vector3f;
-        getScale(): $Vector3f;
         constructor();
+        get scale(): $Vector3f;
         get pos(): $Vector3f;
         get rotate(): $Vector3f;
-        get scale(): $Vector3f;
     }
     export class $ControllableData {
+        getTimeInMs(): number;
         getHighFrequency(): number;
         getLowFrequency(): number;
-        getTimeInMs(): number;
         constructor();
+        get timeInMs(): number;
         get highFrequency(): number;
         get lowFrequency(): number;
-        get timeInMs(): number;
     }
     export class $GunAmmo {
         getParticle(): $AmmoParticle;
@@ -138,20 +138,20 @@ declare module "@package/com/tacz/guns/client/resource/pojo/display/gun" {
         get scale(): number;
     }
     export class $TextShow {
-        isShadow(): boolean;
-        getTextKey(): string;
-        getScale(): number;
         getAlign(): $Align;
+        getScale(): number;
+        isShadow(): boolean;
         setColorInt(arg0: number): void;
         getColorText(): string;
+        getTextKey(): string;
         getColorInt(): number;
         getTextLight(): number;
         constructor();
-        get shadow(): boolean;
-        get textKey(): string;
-        get scale(): number;
         get align(): $Align;
+        get scale(): number;
+        get shadow(): boolean;
         get colorText(): string;
+        get textKey(): string;
         get textLight(): number;
     }
     export class $GunTransform {
@@ -183,15 +183,15 @@ declare module "@package/com/tacz/guns/client/resource/pojo/display/gun" {
     export type $AmmoCountStyle_ = "normal" | "percent";
     export class $ShellEjection {
         getAcceleration(): $Vector3f;
-        getRandomVelocity(): $Vector3f;
-        getInitialVelocity(): $Vector3f;
         getAngularVelocity(): $Vector3f;
+        getInitialVelocity(): $Vector3f;
+        getRandomVelocity(): $Vector3f;
         getLivingTime(): number;
         constructor();
         get acceleration(): $Vector3f;
-        get randomVelocity(): $Vector3f;
-        get initialVelocity(): $Vector3f;
         get angularVelocity(): $Vector3f;
+        get initialVelocity(): $Vector3f;
+        get randomVelocity(): $Vector3f;
         get livingTime(): number;
     }
 }

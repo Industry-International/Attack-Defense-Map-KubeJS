@@ -1,7 +1,6 @@
-import { $Consumer_ } from "@package/java/util/function";
 import { $AtomicReference } from "@package/java/util/concurrent/atomic";
 import { $CompletableFuture, $CompletionStage, $Executor } from "@package/java/util/concurrent";
-import { $Object, $IllegalStateException, $Throwable, $Runnable_, $Runnable } from "@package/java/lang";
+import { $Object, $IllegalStateException, $Runnable_, $Runnable } from "@package/java/lang";
 import { $Completable, $Scheduler } from "@package/io/reactivex/rxjava3/core";
 
 declare module "@package/com/ishland/flowsched/scheduler" {
@@ -10,37 +9,40 @@ declare module "@package/com/ishland/flowsched/scheduler" {
         getKey(): K;
         getFlags(): number;
         getItem(): $AtomicReference<V>;
-        getUserData(): $AtomicReference<UserData>;
         getStatus(): $ItemStatus<K, V, Ctx>;
-        clearFlag(flag: number): void;
-        setFlag(flag: number): void;
+        addTicket(targetStatus: $ItemStatus<K, V, Ctx>, ticket: $ItemTicket): void;
+        getUserData(): $AtomicReference<UserData>;
         getDependencies(status: $ItemStatus<K, V, Ctx>): $KeyStatusPair<K, V, Ctx>[];
         setDependencies(status: $ItemStatus<K, V, Ctx>, dependencies: $KeyStatusPair<K, V, Ctx>[]): void;
-        removeTicket(ticket: $ItemTicket<K, V, Ctx>): void;
-        markDirty(scheduler: $StatusAdvancingScheduler<K, V, Ctx, UserData>): void;
-        addTicket(ticket: $ItemTicket<K, V, Ctx>): void;
-        setStatus(status: $ItemStatus<K, V, Ctx>, isCancellation: boolean): boolean;
-        tryCancelUpgradeAction(): void;
-        addDependencyTicket(scheduler: $StatusAdvancingScheduler<K, V, Ctx, never>, key: K, status: $ItemStatus<K, V, Ctx>, callback: $Runnable_): void;
-        submitUpgradeAction(signaller: $CancellationSignaller, status: $ItemStatus<K, V, Ctx>): void;
-        consolidateMarkDirty(scheduler: $StatusAdvancingScheduler<K, V, Ctx, UserData>): void;
-        removeDependencyTicket(key: K, status: $ItemStatus<K, V, Ctx>): void;
-        getCriticalSectionExecutor(): $Executor;
         getFutureForStatus0(status: $ItemStatus<K, V, Ctx>): $CompletableFuture<void>;
-        cleanupDependencies(scheduler: $StatusAdvancingScheduler<K, V, Ctx, never>): void;
+        clearFlag(flag: number): void;
+        setFlag(flag: number): void;
+        removeTicket(targetStatus: $ItemStatus<K, V, Ctx>, ticket: $ItemTicket): void;
+        scheduleFlushDependencyCache(scheduler: $StatusAdvancingScheduler<K, V, Ctx, never>): void;
+        executeCriticalSectionAndBusy(command: $Runnable_): void;
+        markDirty(scheduler: $StatusAdvancingScheduler<K, V, Ctx, UserData>): void;
+        getCriticalSectionExecutor(): $Executor;
+        removeDependencyTicket(key: K, status: $ItemStatus<K, V, Ctx>): void;
+        consolidateMarkDirty(scheduler: $StatusAdvancingScheduler<K, V, Ctx, UserData>): void;
+        addDependencyTicket(scheduler: $StatusAdvancingScheduler<K, V, Ctx, never>, key: K, status: $ItemStatus<K, V, Ctx>, ticket: $ItemTicket): void;
+        setStatus(status: $ItemStatus<K, V, Ctx>, isCancellation: boolean): boolean;
         submitOpListener(runnable: $Runnable_): void;
-        getFutureForStatus(status: $ItemStatus<K, V, Ctx>): $CompletableFuture<void>;
-        holdsDependency(): boolean;
-        subscribeOp(op: $Completable): void;
-        isDependencyDirty(): boolean;
-        tryMarkDirty(scheduler: $StatusAdvancingScheduler<K, V, Ctx, UserData>): boolean;
-        getTargetStatus(): $ItemStatus<K, V, Ctx>;
-        upgradingStatusTo(): $ItemStatus<K, V, Ctx>;
-        getOpFuture(): $CompletableFuture<void>;
-        getCriticalSectionScheduler(): $Scheduler;
         isBusy(): boolean;
         submitOp(op: $CompletionStage<void>): void;
-        executeCriticalSectionAndBusy(command: $Runnable_): void;
+        swapTicket(origStatus: $ItemStatus<K, V, Ctx>, orig: $ItemTicket, targetStatus: $ItemStatus<K, V, Ctx>, ticket: $ItemTicket): void;
+        getFutureForStatus(status: $ItemStatus<K, V, Ctx>): $CompletableFuture<void>;
+        changingStatusTo(): $ItemStatus<K, V, Ctx>;
+        tryCancelAction(): void;
+        subscribeOp(op: $Completable): void;
+        holdsDependency(): boolean;
+        isDependencyDirty(): boolean;
+        getTargetStatus(): $ItemStatus<K, V, Ctx>;
+        submitAction(cancellation: $Cancellable, status: $ItemStatus<K, V, Ctx>): void;
+        tryMarkDirty(scheduler: $StatusAdvancingScheduler<K, V, Ctx, UserData>): boolean;
+        getOpFuture(): $CompletableFuture<void>;
+        finishAction(): void;
+        getCriticalSectionScheduler(): $Scheduler;
+        flushDependencyCache0(scheduler: $StatusAdvancingScheduler<K, V, Ctx, never>): void;
         static FLAG_HAVE_RETRIED: number;
         static UNLOADED_EXCEPTION: $IllegalStateException;
         static FLAG_REMOVED: number;
@@ -52,11 +54,11 @@ declare module "@package/com/ishland/flowsched/scheduler" {
         get userData(): $AtomicReference<UserData>;
         set flag(value: number);
         get criticalSectionExecutor(): $Executor;
+        get busy(): boolean;
         get dependencyDirty(): boolean;
         get targetStatus(): $ItemStatus<K, V, Ctx>;
         get opFuture(): $CompletableFuture<void>;
         get criticalSectionScheduler(): $Scheduler;
-        get busy(): boolean;
     }
     export class $ItemStatus<K, V, Ctx> {
         static EMPTY_DEPENDENCIES: $KeyStatusPair<any, any, any>[];
@@ -66,11 +68,11 @@ declare module "@package/com/ishland/flowsched/scheduler" {
         getNext(): $ItemStatus<K, V, Ctx>;
         getDependencies(arg0: $ItemHolder<K, V, Ctx, never>): $KeyStatusPair<K, V, Ctx>[];
         getPrev(): $ItemStatus<K, V, Ctx>;
-        preDowngradeFromThis(arg0: Ctx, arg1: $Cancellable): $Completable;
         getDependenciesToRemove(holder: $ItemHolder<K, V, Ctx, never>): $KeyStatusPair<K, V, Ctx>[];
         getDependenciesToAdd(holder: $ItemHolder<K, V, Ctx, never>): $KeyStatusPair<K, V, Ctx>[];
-        postUpgradeToThis(arg0: Ctx): $Completable;
+        preDowngradeFromThis(arg0: Ctx, arg1: $Cancellable): $Completable;
         upgradeToThis(arg0: Ctx, arg1: $Cancellable): $Completable;
+        postUpgradeToThis(arg0: Ctx): $Completable;
         downgradeFromThis(arg0: Ctx, arg1: $Cancellable): $Completable;
         getAllStatuses(): $ItemStatus<K, V, Ctx>[];
         get next(): $ItemStatus<K, V, Ctx>;
@@ -85,37 +87,37 @@ declare module "@package/com/ishland/flowsched/scheduler" {
         get description(): string;
     }
     export class $StatusAdvancingScheduler<K, V, Ctx, UserData> {
-        getHolder(key: K): $ItemHolder<K, V, Ctx, UserData>;
-        itemCount(): number;
-        removeTicket(key: K, targetStatus: $ItemStatus<K, V, Ctx>): void;
-        removeTicket(key: K, type: $ItemTicket$TicketType, source: $Object, targetStatus: $ItemStatus<K, V, Ctx>): void;
         addTicket(key: K, type: $ItemTicket$TicketType, source: $Object, targetStatus: $ItemStatus<K, V, Ctx>, callback: $Runnable_): $ItemHolder<K, V, Ctx, UserData>;
-        addTicket(key: K, source: $Object, targetStatus: $ItemStatus<K, V, Ctx>, callback: $Runnable_): $ItemHolder<K, V, Ctx, UserData>;
         addTicket(key: K, targetStatus: $ItemStatus<K, V, Ctx>, callback: $Runnable_): $ItemHolder<K, V, Ctx, UserData>;
+        addTicket(key: K, source: $Object, targetStatus: $ItemStatus<K, V, Ctx>, callback: $Runnable_): $ItemHolder<K, V, Ctx, UserData>;
+        getHolder(key: K): $ItemHolder<K, V, Ctx, UserData>;
+        removeTicket(key: K, type: $ItemTicket$TicketType, source: $Object, targetStatus: $ItemStatus<K, V, Ctx>): void;
+        removeTicket(key: K, targetStatus: $ItemStatus<K, V, Ctx>): void;
+        itemCount(): number;
+        addTicket0(key: K, targetStatus: $ItemStatus<K, V, Ctx>, ticket: $ItemTicket): $ItemHolder<K, V, Ctx, UserData>;
+        swapTicket(key: K, origStatus: $ItemStatus<K, V, Ctx>, orig: $ItemTicket, targetStatus: $ItemStatus<K, V, Ctx>, ticket: $ItemTicket): void;
+        removeTicket0(key: K, targetStatus: $ItemStatus<K, V, Ctx>, ticket: $ItemTicket): void;
         static NO_OP: $Runnable;
     }
-    export class $ItemTicket<K, V, Ctx> {
+    export class $ItemTicket {
         getType(): $ItemTicket$TicketType;
         getSource(): $Object;
         consumeCallback(): void;
-        getTargetStatus(): $ItemStatus<K, V, Ctx>;
-        constructor(type: $ItemTicket$TicketType, source: $Object, targetStatus: $ItemStatus<K, V, Ctx>, callback: $Runnable_);
+        constructor(type: $ItemTicket$TicketType, source: $Object, callback: $Runnable_);
+        constructor(type: $ItemTicket$TicketType, source: $Object, callback: $Runnable_, consumptions: number);
         get type(): $ItemTicket$TicketType;
         get source(): $Object;
-        get targetStatus(): $ItemStatus<K, V, Ctx>;
-    }
-    export class $CancellationSignaller {
-        cancel(): void;
-        addListener(callback: $Consumer_<$Throwable>): void;
-        fireComplete(throwable: $Throwable): void;
-        static COMPLETED: $CancellationSignaller;
-        constructor(cancel: $Consumer_<$CancellationSignaller>);
     }
     export class $Cancellable {
-        cancel(): void;
+        setup(onCancel: $Runnable_): void;
+        cancel(): boolean;
+        complete(): boolean;
         isCancelled(): boolean;
+        isCompleted(): boolean;
         constructor();
+        set up(value: $Runnable_);
         get cancelled(): boolean;
+        get completed(): boolean;
     }
     export class $KeyStatusPair<K, V, Ctx> {
         key(): K;

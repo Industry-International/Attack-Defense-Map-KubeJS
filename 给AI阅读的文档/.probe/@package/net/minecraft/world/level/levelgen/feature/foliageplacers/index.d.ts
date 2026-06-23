@@ -10,29 +10,37 @@ import { $Products$P3, $Products$P2 } from "@package/com/mojang/datafixers";
 import { $RandomSource } from "@package/net/minecraft/util";
 
 declare module "@package/net/minecraft/world/level/levelgen/feature/foliageplacers" {
-    export interface $FoliagePlacerType extends RegistryMarked<RegistryTypes.WorldgenFoliagePlacerTypeTag, RegistryTypes.WorldgenFoliagePlacerType> {}
+    export interface $FoliagePlacerType<P> extends RegistryMarked<RegistryTypes.WorldgenFoliagePlacerTypeTag, RegistryTypes.WorldgenFoliagePlacerType> {}
     export class $FoliagePlacer {
+        placeLeavesRowWithHangingLeavesBelow(level: $LevelSimulatedReader, foliageSetter: $FoliagePlacer$FoliageSetter, random: $RandomSource, treeConfiguration: $TreeConfiguration, pos: $BlockPos_, range: number, localY: number, large: boolean, hangingLeavesChance: number, hangingLeavesExtensionChance: number): void;
         type(): $FoliagePlacerType<never>;
-        placeLeavesRowWithHangingLeavesBelow(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_, arg5: number, arg6: number, arg7: boolean, arg8: number, arg9: number): void;
-        shouldSkipLocationSigned(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean): boolean;
-        shouldSkipLocation(arg0: $RandomSource, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean): boolean;
-        static tryPlaceLeaf(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_): boolean;
-        createFoliage(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: number, arg5: $FoliagePlacer$FoliageAttachment, arg6: number, arg7: number, arg8: number): void;
-        createFoliage(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: number, arg5: $FoliagePlacer$FoliageAttachment, arg6: number, arg7: number): void;
-        foliageRadius(arg0: $RandomSource, arg1: number): number;
-        static foliagePlacerParts<P extends $FoliagePlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P2<$RecordCodecBuilder$Mu<P>, $IntProvider, $IntProvider>;
-        placeLeavesRow(arg0: $LevelSimulatedReader, arg1: $FoliagePlacer$FoliageSetter, arg2: $RandomSource, arg3: $TreeConfiguration, arg4: $BlockPos_, arg5: number, arg6: number, arg7: boolean): void;
-        foliageHeight(arg0: $RandomSource, arg1: number, arg2: $TreeConfiguration): number;
+        /**
+         * Skips certain positions based on the provided shape, such as rounding corners randomly.
+         * The coordinates are passed in as absolute value, and should be within [0, `range`].
+         */
+        shouldSkipLocationSigned(random: $RandomSource, localX: number, localY: number, localZ: number, range: number, large: boolean): boolean;
+        static tryPlaceLeaf(level: $LevelSimulatedReader, foliageSetter: $FoliagePlacer$FoliageSetter, random: $RandomSource, treeConfiguration: $TreeConfiguration, pos: $BlockPos_): boolean;
+        createFoliage(level: $LevelSimulatedReader, blockSetter: $FoliagePlacer$FoliageSetter, random: $RandomSource, config: $TreeConfiguration, maxFreeTreeHeight: number, attachment: $FoliagePlacer$FoliageAttachment, foliageHeight: number, foliageRadius: number): void;
+        createFoliage(level: $LevelSimulatedReader, blockSetter: $FoliagePlacer$FoliageSetter, random: $RandomSource, config: $TreeConfiguration, maxFreeTreeHeight: number, attachment: $FoliagePlacer$FoliageAttachment, foliageHeight: number, foliageRadius: number, offset: number): void;
+        foliageHeight(random: $RandomSource, height: number, config: $TreeConfiguration): number;
+        placeLeavesRow(level: $LevelSimulatedReader, foliageSetter: $FoliagePlacer$FoliageSetter, random: $RandomSource, treeConfiguration: $TreeConfiguration, pos: $BlockPos_, range: number, localY: number, large: boolean): void;
+        foliageRadius(random: $RandomSource, radius: number): number;
+        static foliagePlacerParts<P extends $FoliagePlacer>(instance: $RecordCodecBuilder$Instance<P>): $Products$P2<$RecordCodecBuilder$Mu<P>, $IntProvider, $IntProvider>;
+        /**
+         * Skips certain positions based on the provided shape, such as rounding corners randomly.
+         * The coordinates are passed in as absolute value, and should be within [0, `range`].
+         */
+        shouldSkipLocation(random: $RandomSource, localX: number, localY: number, localZ: number, range: number, large: boolean): boolean;
         static CODEC: $Codec<$FoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_);
+        constructor(radius: $IntProvider_, offset: $IntProvider_);
     }
     export class $FoliagePlacer$FoliageAttachment {
         pos(): $BlockPos;
         doubleTrunk(): boolean;
         radiusOffset(): number;
-        constructor(arg0: $BlockPos_, arg1: number, arg2: boolean);
+        constructor(pos: $BlockPos_, radiusOffset: number, doubleTrunk: boolean);
     }
     export class $FancyFoliagePlacer extends $BlobFoliagePlacer {
         static CODEC: $MapCodec<$FancyFoliagePlacer>;
@@ -45,13 +53,13 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/foliageplace
         static CODEC: $MapCodec<$RandomSpreadFoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: $IntProvider_, arg3: number);
+        constructor(radius: $IntProvider_, offset: $IntProvider_, foliageHeight: $IntProvider_, leafPlacementAttempts: number);
     }
     export class $PineFoliagePlacer extends $FoliagePlacer {
         static CODEC: $MapCodec<$PineFoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: $IntProvider_);
+        constructor(radius: $IntProvider_, offset: $IntProvider_, height: $IntProvider_);
     }
     export class $FoliagePlacerType<P extends $FoliagePlacer> {
         codec(): $MapCodec<P>;
@@ -66,7 +74,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/foliageplace
         static DARK_OAK_FOLIAGE_PLACER: $FoliagePlacerType<$DarkOakFoliagePlacer>;
         static CHERRY_FOLIAGE_PLACER: $FoliagePlacerType<$CherryFoliagePlacer>;
         static FANCY_FOLIAGE_PLACER: $FoliagePlacerType<$FancyFoliagePlacer>;
-        constructor(arg0: $MapCodec_<P>);
+        constructor(codec: $MapCodec_<P>);
     }
     /**
      * Values that may be interpreted as {@link $FoliagePlacerType}.
@@ -76,7 +84,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/foliageplace
         static CODEC: $MapCodec<$MegaPineFoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: $IntProvider_);
+        constructor(radius: $IntProvider_, offset: $IntProvider_, crownHeight: $IntProvider_);
     }
     export class $DarkOakFoliagePlacer extends $FoliagePlacer {
         static CODEC: $MapCodec<$DarkOakFoliagePlacer>;
@@ -92,31 +100,31 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/foliageplace
         constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: number);
     }
     export class $BlobFoliagePlacer extends $FoliagePlacer {
-        static blobParts<P extends $BlobFoliagePlacer>(arg0: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, $IntProvider, $IntProvider, number>;
+        static blobParts<P extends $BlobFoliagePlacer>(instance: $RecordCodecBuilder$Instance<P>): $Products$P3<$RecordCodecBuilder$Mu<P>, $IntProvider, $IntProvider, number>;
         static CODEC: $MapCodec<$BlobFoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
         height: number;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: number);
+        constructor(radius: $IntProvider_, offset: $IntProvider_, height: number);
     }
     export class $SpruceFoliagePlacer extends $FoliagePlacer {
         static CODEC: $MapCodec<$SpruceFoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: $IntProvider_);
+        constructor(radius: $IntProvider_, offset: $IntProvider_, trunkHeight: $IntProvider_);
     }
     export class $CherryFoliagePlacer extends $FoliagePlacer {
         static CODEC: $MapCodec<$CherryFoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: $IntProvider_, arg3: number, arg4: number, arg5: number, arg6: number);
+        constructor(radius: $IntProvider_, offset: $IntProvider_, height: $IntProvider_, wideBottomLayerHoleChance: number, cornerHoleChance: number, hangingLeavesChance: number, hangingLeavesExtensionChance: number);
     }
     export class $MegaJungleFoliagePlacer extends $FoliagePlacer {
         static CODEC: $MapCodec<$MegaJungleFoliagePlacer>;
         offset: $IntProvider;
         radius: $IntProvider;
         height: number;
-        constructor(arg0: $IntProvider_, arg1: $IntProvider_, arg2: number);
+        constructor(radius: $IntProvider_, offset: $IntProvider_, height: number);
     }
     export class $AcaciaFoliagePlacer extends $FoliagePlacer {
         static CODEC: $MapCodec<$AcaciaFoliagePlacer>;
@@ -127,7 +135,7 @@ declare module "@package/net/minecraft/world/level/levelgen/feature/foliageplace
     export class $FoliagePlacer$FoliageSetter {
     }
     export interface $FoliagePlacer$FoliageSetter {
-        set(arg0: $BlockPos_, arg1: $BlockState_): void;
-        isSet(arg0: $BlockPos_): boolean;
+        set(pos: $BlockPos_, state: $BlockState_): void;
+        isSet(pos: $BlockPos_): boolean;
     }
 }

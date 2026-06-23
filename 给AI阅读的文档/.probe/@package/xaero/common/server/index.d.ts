@@ -12,13 +12,13 @@ declare module "@package/xaero/common/server" {
     export class $MinecraftServerData {
         static get(arg0: $MinecraftServer): $MinecraftServerData;
         getLevelProperties(arg0: $Path_): $LevelMapProperties;
+        getSyncedPlayerTrackerSystemManager(): $SyncedPlayerTrackerSystemManager;
         getModMain(): $IXaeroMinimap;
         getSyncedPlayerTracker(): $SyncedPlayerTracker;
-        getSyncedPlayerTrackerSystemManager(): $SyncedPlayerTrackerSystemManager;
         constructor(arg0: $SyncedPlayerTrackerSystemManager, arg1: $SyncedPlayerTracker, arg2: $IXaeroMinimap);
+        get syncedPlayerTrackerSystemManager(): $SyncedPlayerTrackerSystemManager;
         get modMain(): $IXaeroMinimap;
         get syncedPlayerTracker(): $SyncedPlayerTracker;
-        get syncedPlayerTrackerSystemManager(): $SyncedPlayerTrackerSystemManager;
     }
     export class $IMinecraftServer {
     }

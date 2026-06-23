@@ -9,8 +9,8 @@ declare module "@package/xaero/lib/client/level" {
     }
     export class $ClientLevelData {
         static get(arg0: $ClientLevel): $ClientLevelData;
-        serverHasMod(): boolean;
         setServerHasMod(): void;
+        serverHasMod(): boolean;
         constructor();
     }
 }

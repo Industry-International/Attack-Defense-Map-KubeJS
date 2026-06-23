@@ -5,7 +5,7 @@ declare module "@package/me/muksc/tacztweaks/mixininterface/feature/gameplay/han
         static of(arg0: $LocalPlayerDataHolder): $ManualBoltingData;
     }
     export interface $ManualBoltingData {
-        tacztweaks$setBoltBeforeReload(arg0: boolean): void;
         tacztweaks$getBoltBeforeReload(): boolean;
+        tacztweaks$setBoltBeforeReload(arg0: boolean): void;
     }
 }

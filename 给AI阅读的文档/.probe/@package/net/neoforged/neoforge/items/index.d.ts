@@ -19,63 +19,78 @@ import { $DispenserBlockEntity, $CrafterBlockEntity, $Hopper, $HopperBlockEntity
 export * as wrapper from "@package/net/neoforged/neoforge/items/wrapper";
 
 declare module "@package/net/neoforged/neoforge/items" {
+    /**
+     * Slot class that can be used with immutable `IItemHandler`s
+     * like `ComponentItemHandler`.
+     */
     export class $ItemHandlerCopySlot extends $StackCopySlot {
         getItemHandler(): $IItemHandler;
         container: $Container;
         x: number;
         index: number;
         y: number;
-        constructor(arg0: $IItemHandler, arg1: number, arg2: number, arg3: number);
-        constructor(arg0: $SlotItemHandler);
+        constructor(itemHandler: $IItemHandler, index: number, xPosition: number, yPosition: number);
+        constructor(slotItemHandler: $SlotItemHandler);
         get itemHandler(): $IItemHandler;
     }
     export class $ItemHandlerHelper {
-        static giveItemToPlayer(arg0: $Player, arg1: $ItemStack_, arg2: number): void;
-        static giveItemToPlayer(arg0: $Player, arg1: $ItemStack_): void;
-        static insertItem(arg0: $IItemHandler, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        static calcRedstoneFromInventory(arg0: $IItemHandler): number;
-        static insertItemStacked(arg0: $IItemHandler, arg1: $ItemStack_, arg2: boolean): $ItemStack;
+        static insertItem(dest: $IItemHandler, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        static insertItemStacked(dest: $IItemHandler, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        /**
+         * Inserts the given itemstack into the players inventory.
+         * If the inventory can't hold it, the item will be dropped in the world at the players position.
+         */
+        static giveItemToPlayer(player: $Player, stack: $ItemStack_, preferredSlot: number): void;
+        /**
+         * giveItemToPlayer without preferred slot
+         */
+        static giveItemToPlayer(player: $Player, stack: $ItemStack_): void;
+        /**
+         * This method uses the standard vanilla algorithm to calculate a comparator output for how "full" the inventory is.
+         * This method is an adaptation of Container#calcRedstoneFromInventory(IInventory).
+         */
+        static calcRedstoneFromInventory(inv: $IItemHandler): number;
         constructor();
     }
     export class $ItemStackHandler implements $IItemHandler, $IItemHandlerModifiable, $INBTSerializable<$CompoundTag>, $ItemStackHandlerAccessor {
-        setSize(arg0: number): void;
+        setSize(size: number): void;
+        getStackInSlot(slot: number): $ItemStack;
         getSlots(): number;
-        getStackInSlot(arg0: number): $ItemStack;
-        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $CompoundTag_): void;
-        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
-        getSlotLimit(arg0: number): number;
-        isItemValid(arg0: number, arg1: $ItemStack_): boolean;
-        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
-        insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        kjs$getBlock(level: $Level_): $LevelBlock;
-        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
-        kjs$isMutable(): boolean;
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        serializeNBT(provider: $HolderLookup$Provider): $CompoundTag;
+        deserializeNBT(provider: $HolderLookup$Provider, nbt: $CompoundTag_): void;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
+        setStackInSlot(slot: number, stack: $ItemStack_): void;
+        getSlotLimit(slot: number): number;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         kjs$self(): $IItemHandler;
-        isEmpty(): boolean;
-        getHeight(): number;
-        setChanged(): void;
-        getWidth(): number;
-        asContainer(): $Container;
-        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        countNonEmpty(): number;
-        countNonEmpty(match: $ItemPredicate_): number;
-        getAllItems(): $List<$ItemStack>;
-        count(match: $ItemPredicate_): number;
-        count(): number;
+        kjs$getBlock(level: $Level_): $LevelBlock;
+        kjs$isMutable(): boolean;
+        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
         find(): number;
         find(match: $ItemPredicate_): number;
         clear(): void;
         clear(match: $ItemPredicate_): void;
+        count(): number;
+        count(match: $ItemPredicate_): number;
+        isEmpty(): boolean;
+        countNonEmpty(match: $ItemPredicate_): number;
+        countNonEmpty(): number;
+        getHeight(): number;
+        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getWidth(): number;
+        setChanged(): void;
+        asContainer(): $Container;
+        getAllItems(): $List<$ItemStack>;
         create$getStacks(): $NonNullList<$ItemStack>;
-        getSlotLimit(slot: number): number;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
         insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
         getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        constructor(arg0: $NonNullList<$ItemStack_>);
-        constructor(arg0: number);
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        getSlotLimit(slot: number): number;
+        constructor(stacks: $NonNullList<$ItemStack_>);
+        constructor(size: number);
         constructor();
         set size(value: number);
         get empty(): boolean;
@@ -83,77 +98,184 @@ declare module "@package/net/neoforged/neoforge/items" {
         get width(): number;
         get allItems(): $List<$ItemStack>;
     }
+    /**
+     * Slot to handle immutable itemstack storages (Ex: `ComponentItemHandler`).
+     * 
+     * For an implementation for use with an `IItemHandler` see `ItemHandlerCopySlot`.
+     * 
+     * Vanilla MC code modifies the stack returned by `getStack()` directly, but it
+     * calls `setChanged()` when that happens, so we just cache the returned stack,
+     * and set it when `setChanged()` is called.
+     */
     export class $StackCopySlot extends $Slot {
         container: $Container;
         x: number;
         index: number;
         y: number;
-        constructor(arg0: number, arg1: number);
+        constructor(x: number, y: number);
     }
     export class $IItemHandler {
     }
     export interface $IItemHandler extends $InventoryKJS {
-        getSlots(): number;
-        getStackInSlot(arg0: number): $ItemStack;
-        kjs$getBlock(level: $Level_): $LevelBlock;
-        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
-        getSlotLimit(arg0: number): number;
-        isItemValid(arg0: number, arg1: $ItemStack_): boolean;
-        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
-        kjs$isMutable(): boolean;
-        kjs$self(): $IItemHandler;
-        insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        getSlotLimit(slot: number): number;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
-        getSlots(): number;
+        /**
+         * Returns the ItemStack in a given slot.
+         * 
+         * The result's stack size may be greater than the itemstack's max size.
+         * 
+         * If the result is empty, then the slot is empty.
+         * 
+         * **IMPORTANT:** This ItemStack *MUST NOT* be modified. This method is not for
+         * altering an inventory's contents. Any implementers who are able to detect
+         * modification through this method should throw an exception.
+         * 
+         * ***SERIOUSLY: DO NOT MODIFY THE RETURNED ITEMSTACK***
+         */
         getStackInSlot(slot: number): $ItemStack;
+        /**
+         * Returns the number of slots available
+         */
+        getSlots(): number;
+        kjs$self(): $IItemHandler;
+        /**
+         * Inserts an ItemStack into the given slot and return the remainder.
+         * The ItemStack *should not* be modified in this function!
+         * 
+         * Note: This behaviour is subtly different from `FluidAction)`
+         */
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        kjs$getBlock(level: $Level_): $LevelBlock;
+        /**
+         * This function re-implements the vanilla function `Container#canPlaceItem(int, ItemStack)`.
+         * It should be used instead of simulated insertions in cases where the contents and state of the inventory are
+         * irrelevant, mainly for the purpose of automation and logic (for instance, testing if a minecart can wait
+         * to deposit its items into a full inventory, or if the items in the minecart can never be placed into the
+         * inventory and should move on).
+         * 
+         * - isItemValid is false when insertion of the item is never valid.
+         * - When isItemValid is true, no assumptions can be made and insertion must be simulated case-by-case.
+         * - The actual items in the inventory, its fullness, or any other state are **not** considered by isItemValid.
+         */
         isItemValid(slot: number, stack: $ItemStack_): boolean;
+        kjs$isMutable(): boolean;
+        /**
+         * Retrieves the maximum stack size allowed to exist in the given slot.
+         */
+        getSlotLimit(slot: number): number;
+        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
+        /**
+         * Extracts an ItemStack from the given slot.
+         * 
+         * The returned value must be empty if nothing is extracted,
+         * otherwise its stack size must be less than or equal to `amount` and `ItemStack#getMaxStackSize()`.
+         */
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        /**
+         * This function re-implements the vanilla function `Container#canPlaceItem(int, ItemStack)`.
+         * It should be used instead of simulated insertions in cases where the contents and state of the inventory are
+         * irrelevant, mainly for the purpose of automation and logic (for instance, testing if a minecart can wait
+         * to deposit its items into a full inventory, or if the items in the minecart can never be placed into the
+         * inventory and should move on).
+         * 
+         * - isItemValid is false when insertion of the item is never valid.
+         * - When isItemValid is true, no assumptions can be made and insertion must be simulated case-by-case.
+         * - The actual items in the inventory, its fullness, or any other state are **not** considered by isItemValid.
+         */
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
+        /**
+         * Inserts an ItemStack into the given slot and return the remainder.
+         * The ItemStack *should not* be modified in this function!
+         * 
+         * Note: This behaviour is subtly different from `FluidAction)`
+         */
+        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        /**
+         * Returns the number of slots available
+         */
+        getSlots(): number;
+        /**
+         * Returns the ItemStack in a given slot.
+         * 
+         * The result's stack size may be greater than the itemstack's max size.
+         * 
+         * If the result is empty, then the slot is empty.
+         * 
+         * **IMPORTANT:** This ItemStack *MUST NOT* be modified. This method is not for
+         * altering an inventory's contents. Any implementers who are able to detect
+         * modification through this method should throw an exception.
+         * 
+         * ***SERIOUSLY: DO NOT MODIFY THE RETURNED ITEMSTACK***
+         */
+        getStackInSlot(slot: number): $ItemStack;
+        /**
+         * Extracts an ItemStack from the given slot.
+         * 
+         * The returned value must be empty if nothing is extracted,
+         * otherwise its stack size must be less than or equal to `amount` and `ItemStack#getMaxStackSize()`.
+         */
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        /**
+         * Retrieves the maximum stack size allowed to exist in the given slot.
+         */
+        getSlotLimit(slot: number): number;
     }
     export class $SlotItemHandler extends $Slot {
-        initialize(arg0: $ItemStack_): void;
+        initialize(stack: $ItemStack_): void;
         getItemHandler(): $IItemHandler;
         container: $Container;
         x: number;
         index: number;
         y: number;
-        constructor(arg0: $IItemHandler, arg1: number, arg2: number, arg3: number);
+        constructor(itemHandler: $IItemHandler, index: number, xPosition: number, yPosition: number);
         get itemHandler(): $IItemHandler;
     }
+    /**
+     * Variant of `ItemStackHandler` for use with data components.
+     * 
+     * The actual data storage is managed by a data component, and all changes will write back to that component.
+     * 
+     * To use this class, register a new `DataComponentType` which holds an `ItemContainerContents` for your item.
+     * Then reference that component from your `ICapabilityProvider` passed to `RegisterCapabilitiesEvent#registerItem` to create an instance of this class.
+     * 
+     * Since data components are immutable, this will not work nicely with vanilla's container methods which expect the stack to be mutable.
+     * Use `ItemHandlerCopySlot` to get around this issue.
+     */
     export class $ComponentItemHandler implements $IItemHandlerModifiable {
+        getStackInSlot(slot: number): $ItemStack;
         getSlots(): number;
-        getStackInSlot(arg0: number): $ItemStack;
-        extractItem(arg0: number, arg1: number, arg2: boolean): $ItemStack;
-        getSlotLimit(arg0: number): number;
-        isItemValid(arg0: number, arg1: $ItemStack_): boolean;
-        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
-        insertItem(arg0: number, arg1: $ItemStack_, arg2: boolean): $ItemStack;
-        kjs$getBlock(level: $Level_): $LevelBlock;
-        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
-        kjs$isMutable(): boolean;
+        insertItem(slot: number, toInsert: $ItemStack_, simulate: boolean): $ItemStack;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
+        setStackInSlot(slot: number, stack: $ItemStack_): void;
+        getSlotLimit(slot: number): number;
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
         kjs$self(): $IItemHandler;
-        isEmpty(): boolean;
-        getHeight(): number;
-        setChanged(): void;
-        getWidth(): number;
-        asContainer(): $Container;
-        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        countNonEmpty(): number;
-        countNonEmpty(match: $ItemPredicate_): number;
-        getAllItems(): $List<$ItemStack>;
-        count(match: $ItemPredicate_): number;
-        count(): number;
+        kjs$getBlock(level: $Level_): $LevelBlock;
+        kjs$isMutable(): boolean;
+        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
         find(): number;
         find(match: $ItemPredicate_): number;
         clear(): void;
         clear(match: $ItemPredicate_): void;
-        getSlotLimit(slot: number): number;
-        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
-        insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        count(): number;
+        count(match: $ItemPredicate_): number;
+        isEmpty(): boolean;
+        countNonEmpty(match: $ItemPredicate_): number;
+        countNonEmpty(): number;
+        getHeight(): number;
+        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getWidth(): number;
+        setChanged(): void;
+        asContainer(): $Container;
+        getAllItems(): $List<$ItemStack>;
+        isItemValid(slot: number, stack: $ItemStack_): boolean;
+        insertItem(slot: number, toInsert: $ItemStack_, simulate: boolean): $ItemStack;
         getSlots(): number;
         getStackInSlot(slot: number): $ItemStack;
-        isItemValid(slot: number, stack: $ItemStack_): boolean;
-        constructor(arg0: $MutableDataComponentHolder, arg1: $DataComponentType_<$ItemContainerContents>, arg2: number);
+        extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        getSlotLimit(slot: number): number;
+        /**
+         * Creates a new `ComponentItemHandler` with target size. If the existing component is smaller than the given size, it will be expanded on write.
+         */
+        constructor(parent: $MutableDataComponentHolder, component: $DataComponentType_<$ItemContainerContents>, size: number);
         get empty(): boolean;
         get height(): number;
         get width(): number;
@@ -162,16 +284,34 @@ declare module "@package/net/neoforged/neoforge/items" {
     export class $IItemHandlerModifiable {
     }
     export interface $IItemHandlerModifiable extends $IItemHandler {
-        setStackInSlot(arg0: number, arg1: $ItemStack_): void;
+        /**
+         * Overrides the stack in the given slot. This method is used by the
+         * standard Forge helper methods and classes. It is not intended for
+         * general use by other mods, and the handler may throw an error if it
+         * is called unexpectedly.
+         */
+        setStackInSlot(slot: number, stack: $ItemStack_): void;
     }
     export class $VanillaHopperItemHandler extends $InvWrapper {
-        constructor(arg0: $HopperBlockEntity);
+        constructor(hopper: $HopperBlockEntity);
     }
     export class $VanillaInventoryCodeHooks {
-        static insertCrafterOutput(arg0: $Level_, arg1: $BlockPos_, arg2: $CrafterBlockEntity, arg3: $ItemStack_): $ItemStack;
-        static dropperInsertHook(arg0: $Level_, arg1: $BlockPos_, arg2: $DispenserBlockEntity, arg3: number, arg4: $ItemStack_): boolean;
-        static insertHook(arg0: $HopperBlockEntity): boolean;
-        static extractHook(arg0: $Level_, arg1: $Hopper): boolean;
+        /**
+         * Copied from BlockDropper#dispense and added capability support
+         */
+        static dropperInsertHook(level: $Level_, pos: $BlockPos_, dropper: $DispenserBlockEntity, slot: number, stack: $ItemStack_): boolean;
+        /**
+         * Added capability support for the Crafter dispensing the result
+         */
+        static insertCrafterOutput(level: $Level_, pos: $BlockPos_, crafterBlockEntity: $CrafterBlockEntity, stack: $ItemStack_): $ItemStack;
+        /**
+         * Copied from TileEntityHopper#captureDroppedItems and added capability support
+         */
+        static extractHook(level: $Level_, dest: $Hopper): boolean;
+        /**
+         * Copied from TileEntityHopper#transferItemsOut and added capability support
+         */
+        static insertHook(hopper: $HopperBlockEntity): boolean;
         constructor();
     }
 }

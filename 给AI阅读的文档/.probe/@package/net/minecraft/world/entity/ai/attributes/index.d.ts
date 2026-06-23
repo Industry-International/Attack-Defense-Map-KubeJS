@@ -20,23 +20,23 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
 declare module "@package/net/minecraft/world/entity/ai/attributes" {
     export class $AttributeSupplier {
-        getValue(arg0: $Holder_<$Attribute>): number;
+        getValue(attribute: $Holder_<$Attribute>): number;
         static builder(): $AttributeSupplier$Builder;
-        createInstance(arg0: $Consumer_<$AttributeInstance>, arg1: $Holder_<$Attribute>): $AttributeInstance;
-        hasAttribute(arg0: $Holder_<$Attribute>): boolean;
-        getBaseValue(arg0: $Holder_<$Attribute>): number;
-        hasModifier(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_): boolean;
-        getModifierValue(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_): number;
+        createInstance(onDirty: $Consumer_<$AttributeInstance>, attribute: $Holder_<$Attribute>): $AttributeInstance;
+        hasAttribute(attribute: $Holder_<$Attribute>): boolean;
+        getModifierValue(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): number;
+        hasModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): boolean;
+        getBaseValue(attribute: $Holder_<$Attribute>): number;
         instances: $Map<$Holder<$Attribute>, $AttributeInstance>;
-        constructor(arg0: $Map_<$Holder_<$Attribute>, $AttributeInstance>);
+        constructor(instances: $Map_<$Holder_<$Attribute>, $AttributeInstance>);
     }
     export class $DefaultAttributes implements $DefaultAttributeRegistryAccessor {
         static validate(): void;
-        static hasSupplier(arg0: $EntityType_<never>): boolean;
-        static getSupplier(arg0: $EntityType_<$LivingEntity>): $AttributeSupplier;
-        static getRegistry$fabric_object_builder_api_v1_$md$9aa1a5$0(): $Map<any, any>;
+        static getSupplier(livingEntity: $EntityType_<$LivingEntity>): $AttributeSupplier;
+        static hasSupplier(entityType: $EntityType_<never>): boolean;
+        static getRegistry$fabric_object_builder_api_v1_$md$dd6cb9$0(): $Map<any, any>;
         constructor();
-        static get registry$fabric_object_builder_api_v1_$md$9aa1a5$0(): $Map<any, any>;
+        static get registry$fabric_object_builder_api_v1_$md$dd6cb9$0(): $Map<any, any>;
     }
     export class $AttributeModifier$Operation extends $Enum<$AttributeModifier$Operation> implements $StringRepresentable {
         static values(): $AttributeModifier$Operation[];
@@ -59,49 +59,97 @@ declare module "@package/net/minecraft/world/entity/ai/attributes" {
     export type $AttributeModifier$Operation_ = "add_value" | "add_multiplied_base" | "add_multiplied_total";
     export class $AttributeInstance {
         getModifiers(): $Set<$AttributeModifier>;
-        getModifiers(arg0: $AttributeModifier$Operation_): $Map<$ResourceLocation, $AttributeModifier>;
-        load(arg0: $CompoundTag_): void;
+        getModifiers(operation: $AttributeModifier$Operation_): $Map<$ResourceLocation, $AttributeModifier>;
+        load(nbt: $CompoundTag_): void;
         getValue(): number;
         save(): $CompoundTag;
         getAttribute(): $Holder<$Attribute>;
-        replaceFrom(arg0: $AttributeInstance): void;
-        addTransientModifier(arg0: $AttributeModifier_): void;
-        addOrUpdateTransientModifier(arg0: $AttributeModifier_): void;
-        getBaseValue(): number;
-        setBaseValue(arg0: number): void;
-        getModifier(arg0: $ResourceLocation_): $AttributeModifier;
-        removeModifier(arg0: $AttributeModifier_): void;
-        removeModifier(arg0: $ResourceLocation_): boolean;
-        hasModifier(arg0: $ResourceLocation_): boolean;
-        addOrReplacePermanentModifier(arg0: $AttributeModifier_): void;
-        addPermanentModifier(arg0: $AttributeModifier_): void;
-        removeModifiers(): void;
+        addPermanentModifier(modifier: $AttributeModifier_): void;
+        addOrReplacePermanentModifier(modifier: $AttributeModifier_): void;
+        setBaseValue(baseValue: number): void;
+        addTransientModifier(modifier: $AttributeModifier_): void;
+        replaceFrom(instance: $AttributeInstance): void;
+        hasModifier(id: $ResourceLocation_): boolean;
+        getModifier(id: $ResourceLocation_): $AttributeModifier;
+        removeModifier(modifier: $AttributeModifier_): void;
+        removeModifier(id: $ResourceLocation_): boolean;
         setDirty(): void;
+        addOrUpdateTransientModifier(modifier: $AttributeModifier_): void;
+        getBaseValue(): number;
+        removeModifiers(): void;
         static ID_FIELD: string;
-        constructor(arg0: $Holder_<$Attribute>, arg1: $Consumer_<$AttributeInstance>);
+        constructor(attribute: $Holder_<$Attribute>, onDirty: $Consumer_<$AttributeInstance>);
         get value(): number;
         get attribute(): $Holder<$Attribute>;
     }
+    /**
+     * Defines an entity attribute. These are properties of entities that can be dynamically modified.
+     * @see net.minecraft.core.Registry#ATTRIBUTE
+     */
     export class $Attribute implements $IAttributeExtension {
+        /**
+         * Gets the default value for the attribute.
+         * @return The default value for the attribute.
+         */
         getDefaultValue(): number;
-        setSyncable(arg0: boolean): $Attribute;
-        setSentiment(arg0: $Attribute$Sentiment_): $Attribute;
-        getMergedStyle(arg0: boolean): $TextColor;
+        /**
+         * Sets whether the attribute value should be synced to the client.
+         * @return The same attribute instance being modified.
+         */
+        setSyncable(watch: boolean): $Attribute;
+        setSentiment(sentiment: $Attribute$Sentiment_): $Attribute;
+        /**
+         * Returns the color used by merged attribute modifiers. Only used when `NeoForgeMod#enableMergedAttributeTooltips()` is active.
+         * 
+         * Similarly to `Attribute#getStyle(boolean)`, this method should return a color based on the attribute's `Sentiment`.
+         * The returned color should be distinguishable from the color used by `Attribute#getStyle(boolean)`.
+         */
+        getMergedStyle(isPositive: boolean): $TextColor;
+        /**
+         * Sanitizes the value of the attribute to fit within the expected parameter range of the attribute.
+         * @return The sanitized attribute value.
+         */
+        sanitizeValue(value: number): number;
+        /**
+         * Checks if the attribute value should be kept in sync on the client.
+         * @return Whether the attribute value should be kept in sync on the client.
+         */
         isClientSyncable(): boolean;
-        sanitizeValue(arg0: number): number;
-        getStyle(arg0: boolean): $ChatFormatting;
+        getStyle(isPositive: boolean): $ChatFormatting;
+        /**
+         * Gets the description Id of the attribute. This is most commonly used as a localization key.
+         * @return The description Id of the attribute.
+         */
         getDescriptionId(): string;
-        getBaseId(): $ResourceLocation;
-        toBaseComponent(arg0: number, arg1: number, arg2: boolean, arg3: $TooltipFlag): $MutableComponent;
-        getDebugInfo(arg0: $AttributeModifier_, arg1: $TooltipFlag): $Component;
+        /**
+         * Converts a "base" attribute modifier (as dictated by `#getBaseId()`) into a text component.
+         * 
+         * Similar to `#toComponent`, this method is responsible for adding debug information when the tooltip flag is advanced.
+         */
+        toBaseComponent(value: number, entityBase: number, merged: boolean, flag: $TooltipFlag): $MutableComponent;
         toValueComponent(arg0: $AttributeModifier$Operation_, arg1: number, arg2: $TooltipFlag): $MutableComponent;
-        toComponent(arg0: $AttributeModifier_, arg1: $TooltipFlag): $MutableComponent;
+        /**
+         * Converts an attribute modifier into its tooltip representation.
+         * 
+         * This method does not handle formatting of "base" modifiers, such as Attack Damage or Attack Speed.
+         * 
+         * The returned component may append additional debug information based on the tooltip flag.
+         */
+        toComponent(modif: $AttributeModifier_, flag: $TooltipFlag): $MutableComponent;
+        /**
+         * Computes the additional debug information for a given attribute modifier, if the flag is advanced.
+         */
+        getDebugInfo(modif: $AttributeModifier_, flag: $TooltipFlag): $Component;
+        /**
+         * Gets the specific ID that represents a "base" (green) modifier for this attribute.
+         */
+        getBaseId(): $ResourceLocation;
         static MERGED_GRAY: $TextColor;
         static MERGED_RED: $TextColor;
         static CODEC: $Codec<$Holder<$Attribute>>;
         static MERGED_BLUE: $TextColor;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$Attribute>>;
-        constructor(arg0: string, arg1: number);
+        constructor(descriptionId: string, defaultValue: number);
         get defaultValue(): number;
         set syncable(value: boolean);
         set sentiment(value: $Attribute$Sentiment_);
@@ -114,16 +162,19 @@ declare module "@package/net/minecraft/world/entity/ai/attributes" {
      */
     export type $Attribute_ = RegistryTypes.Attribute;
     export class $AttributeSupplier$Builder {
-        add(arg0: $Holder_<$Attribute>): $AttributeSupplier$Builder;
-        add(arg0: $Holder_<$Attribute>, arg1: number): $AttributeSupplier$Builder;
+        add(attribute: $Holder_<$Attribute>): $AttributeSupplier$Builder;
+        add(attribute: $Holder_<$Attribute>, baseValue: number): $AttributeSupplier$Builder;
         combine(arg0: $AttributeSupplier$Builder): void;
         build(): $AttributeSupplier;
         hasAttribute(arg0: $Holder_<$Attribute>): boolean;
         constructor();
         constructor(arg0: $AttributeSupplier);
     }
+    /**
+     * Contains all entity attributes defined and registered by the vanilla game.
+     */
     export class $Attributes {
-        static bootstrap(arg0: $Registry<$Attribute_>): $Holder<$Attribute>;
+        static bootstrap(registry: $Registry<$Attribute_>): $Holder<$Attribute>;
         static SUBMERGED_MINING_SPEED: $Holder<$Attribute>;
         static FALL_DAMAGE_MULTIPLIER: $Holder<$Attribute>;
         static MOVEMENT_EFFICIENCY: $Holder<$Attribute>;
@@ -158,33 +209,33 @@ declare module "@package/net/minecraft/world/entity/ai/attributes" {
         constructor();
     }
     export class $AttributeMap {
-        load(arg0: $ListTag_): void;
-        getValue(arg0: $Holder_<$Attribute>): number;
-        getInstance(arg0: $Holder_<$Attribute>): $AttributeInstance;
+        addTransientAttributeModifiers(modifiers: $Multimap<$Holder_<$Attribute>, $AttributeModifier_>): void;
+        load(nbt: $ListTag_): void;
+        getValue(attribute: $Holder_<$Attribute>): number;
+        getInstance(attribute: $Holder_<$Attribute>): $AttributeInstance;
         save(): $ListTag;
-        hasAttribute(arg0: $Holder_<$Attribute>): boolean;
-        assignBaseValues(arg0: $AttributeMap): void;
-        addTransientAttributeModifiers(arg0: $Multimap<$Holder_<$Attribute>, $AttributeModifier_>): void;
-        getAttributesToUpdate(): $Set<$AttributeInstance>;
-        removeAttributeModifiers(arg0: $Multimap<$Holder_<$Attribute>, $AttributeModifier_>): void;
-        getBaseValue(arg0: $Holder_<$Attribute>): number;
-        hasModifier(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_): boolean;
-        assignAllValues(arg0: $AttributeMap): void;
-        getModifierValue(arg0: $Holder_<$Attribute>, arg1: $ResourceLocation_): number;
+        hasAttribute(attribute: $Holder_<$Attribute>): boolean;
+        getModifierValue(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): number;
+        assignBaseValues(map: $AttributeMap): void;
         getAttributesToSync(): $Set<$AttributeInstance>;
         getSyncableAttributes(): $Collection<$AttributeInstance>;
-        constructor(arg0: $AttributeSupplier);
-        get attributesToUpdate(): $Set<$AttributeInstance>;
+        hasModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): boolean;
+        getBaseValue(attribute: $Holder_<$Attribute>): number;
+        getAttributesToUpdate(): $Set<$AttributeInstance>;
+        removeAttributeModifiers(modifiers: $Multimap<$Holder_<$Attribute>, $AttributeModifier_>): void;
+        assignAllValues(map: $AttributeMap): void;
+        constructor(supplier: $AttributeSupplier);
         get attributesToSync(): $Set<$AttributeInstance>;
         get syncableAttributes(): $Collection<$AttributeInstance>;
+        get attributesToUpdate(): $Set<$AttributeInstance>;
     }
     export class $AttributeModifier extends $Record {
-        static load(arg0: $CompoundTag_): $AttributeModifier;
+        operation(): $AttributeModifier$Operation;
+        static load(nbt: $CompoundTag_): $AttributeModifier;
         id(): $ResourceLocation;
         save(): $CompoundTag;
-        is(arg0: $ResourceLocation_): boolean;
+        is(id: $ResourceLocation_): boolean;
         amount(): number;
-        operation(): $AttributeModifier$Operation;
         static CODEC: $Codec<$AttributeModifier>;
         static MAP_CODEC: $MapCodec<$AttributeModifier>;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $AttributeModifier>;
@@ -193,7 +244,7 @@ declare module "@package/net/minecraft/world/entity/ai/attributes" {
     export class $Attribute$Sentiment extends $Enum<$Attribute$Sentiment> {
         static values(): $Attribute$Sentiment[];
         static valueOf(arg0: string): $Attribute$Sentiment;
-        getStyle(arg0: boolean): $ChatFormatting;
+        getStyle(isPositive: boolean): $ChatFormatting;
         static POSITIVE: $Attribute$Sentiment;
         static NEGATIVE: $Attribute$Sentiment;
         static NEUTRAL: $Attribute$Sentiment;
@@ -202,15 +253,26 @@ declare module "@package/net/minecraft/world/entity/ai/attributes" {
      * Values that may be interpreted as {@link $Attribute$Sentiment}.
      */
     export type $Attribute$Sentiment_ = "positive" | "neutral" | "negative";
+    /**
+     * Defines an entity attribute that is limited to a range of values.
+     */
     export class $RangedAttribute extends $Attribute {
+        /**
+         * Gets the highest possible value for the attribute.
+         * @return The highest possible value for the attribute; `#maxValue`.
+         */
         getMinValue(): number;
+        /**
+         * Gets the highest possible value for the attribute.
+         * @return The highest possible value for the attribute; `#maxValue`.
+         */
         getMaxValue(): number;
         static MERGED_GRAY: $TextColor;
         static MERGED_RED: $TextColor;
         static CODEC: $Codec<$Holder<$Attribute>>;
         static MERGED_BLUE: $TextColor;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$Attribute>>;
-        constructor(arg0: string, arg1: number, arg2: number, arg3: number);
+        constructor(descriptionId: string, defaultValue: number, arg2: number, min: number);
         get minValue(): number;
         get maxValue(): number;
     }

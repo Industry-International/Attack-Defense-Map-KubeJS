@@ -8,16 +8,16 @@ declare module "@package/me/muksc/tacztweaks/mixininterface/feature/datapack" {
         static of(arg0: $EntityKineticBullet): $TaCZTweaksBullet;
     }
     export interface $TaCZTweaksBullet {
-        tacztweaks$modifyEntityHitDamage(arg0: number, arg1: number): void;
-        tacztweaks$setEntityPierce(arg0: number): void;
-        tacztweaks$setBurstIndex(arg0: number): void;
-        tacztweaks$getPelletIndex(): number;
         tacztweaks$getEntityPierce(): number;
-        tacztweaks$setPelletIndex(arg0: number): void;
+        tacztweaks$setBurstIndex(arg0: number): void;
         tacztweaks$getBurstIndex(): number;
-        tacztweaks$getBlockPierce(): number;
-        tacztweaks$getGunStack(): $ItemStack;
+        tacztweaks$setEntityPierce(arg0: number): void;
         tacztweaks$modifyDamage(arg0: number, arg1: number): void;
+        tacztweaks$getGunStack(): $ItemStack;
+        tacztweaks$setPelletIndex(arg0: number): void;
+        tacztweaks$getPelletIndex(): number;
         tacztweaks$setBlockPierce(arg0: number): void;
+        tacztweaks$getBlockPierce(): number;
+        tacztweaks$modifyEntityHitDamage(arg0: number, arg1: number): void;
     }
 }

@@ -14,10 +14,10 @@ declare module "@package/dev/ryanhcode/sable/mixin/voxel_shape_iteration" {
     }
     export interface $DiscreteVoxelShapeAccessor {
         getYSize(): number;
-        getZSize(): number;
         getXSize(): number;
+        getZSize(): number;
         get YSize(): number;
-        get ZSize(): number;
         get XSize(): number;
+        get ZSize(): number;
     }
 }

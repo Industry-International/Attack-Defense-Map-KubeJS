@@ -17,12 +17,12 @@ declare module "@package/net/minecraft/network/protocol/login/custom" {
     }
     export interface $CustomQueryPayload {
         id(): $ResourceLocation;
-        write(arg0: $FriendlyByteBuf): void;
+        write(buffer: $FriendlyByteBuf): void;
     }
     export class $CustomQueryAnswerPayload {
     }
     export interface $CustomQueryAnswerPayload {
-        write(arg0: $FriendlyByteBuf): void;
+        write(buffer: $FriendlyByteBuf): void;
     }
     /**
      * Values that may be interpreted as {@link $CustomQueryAnswerPayload}.

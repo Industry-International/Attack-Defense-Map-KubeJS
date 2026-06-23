@@ -18,27 +18,27 @@ declare module "@package/net/fabricmc/loader/api" {
         /**
          * @deprecated
          */
+        getRootPath(): $Path;
+        /**
+         * @deprecated
+         */
         getRoot(): $Path;
         /**
          * @deprecated
          */
         getPath(arg0: string): $Path;
-        /**
-         * @deprecated
-         */
-        getRootPath(): $Path;
         getOrigin(): $ModOrigin;
         getMetadata(): $ModMetadata;
         findPath(file: string): ($Path) | undefined;
-        getContainingMod(): ($ModContainer) | undefined;
         getContainedMods(): $Collection<$ModContainer>;
+        getContainingMod(): ($ModContainer) | undefined;
         getRootPaths(): $List<$Path>;
-        get root(): $Path;
         get rootPath(): $Path;
+        get root(): $Path;
         get origin(): $ModOrigin;
         get metadata(): $ModMetadata;
-        get containingMod(): ($ModContainer) | undefined;
         get containedMods(): $Collection<$ModContainer>;
+        get containingMod(): ($ModContainer) | undefined;
         get rootPaths(): $List<$Path>;
     }
 }

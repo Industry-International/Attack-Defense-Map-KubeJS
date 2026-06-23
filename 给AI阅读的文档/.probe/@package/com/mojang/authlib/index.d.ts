@@ -17,20 +17,20 @@ declare module "@package/com/mojang/authlib" {
     export class $ProfileLookupCallback {
     }
     export interface $ProfileLookupCallback {
-        onProfileLookupFailed(arg0: string, arg1: $Exception): void;
         onProfileLookupSucceeded(arg0: $GameProfile): void;
+        onProfileLookupFailed(arg0: string, arg1: $Exception): void;
     }
     export class $Environment extends $Record {
         name(): string;
-        servicesHost(): string;
         sessionHost(): string;
+        servicesHost(): string;
         constructor(sessionHost: string, servicesHost: string, name: string);
     }
     export class $HttpAuthenticationService implements $AuthenticationService {
-        static buildQuery(arg0: $Map_<string, $Object>): string;
         getProxy(): $Proxy;
         static concatenateURL(arg0: $URL, arg1: string): $URL;
         static constantURL(arg0: string): $URL;
+        static buildQuery(arg0: $Map_<string, $Object>): string;
         get proxy(): $Proxy;
     }
     export class $GameProfile {

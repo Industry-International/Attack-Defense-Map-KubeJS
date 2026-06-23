@@ -7,27 +7,27 @@ declare module "@package/mod/chloeprime/gunsmithlib/common/gunpack_extension/sha
     export class $PotionEffectData {
         getDuration(): number;
         getLevel(): number;
-        isVisible(): boolean;
         getEffect(): ($Holder<$MobEffect>) | undefined;
+        getChance(): number;
+        applyTo(arg0: $LivingEntity, arg1: $Entity): void;
+        applyTo(arg0: $AreaEffectCloud3D): boolean;
         isAmbient(): boolean;
-        getAreaCloudChance(): number;
+        isVisible(): boolean;
+        isUsingForceApplyMethod(): boolean;
         getMaxStackLevel(): number;
         willShowIcon(): boolean;
         getAreaCloudLevel(): number;
-        getChance(): number;
-        applyTo(arg0: $AreaEffectCloud3D): boolean;
-        applyTo(arg0: $LivingEntity, arg1: $Entity): void;
-        isUsingForceApplyMethod(): boolean;
+        getAreaCloudChance(): number;
         constructor();
         get duration(): number;
         get level(): number;
-        get visible(): boolean;
         get effect(): ($Holder<$MobEffect>) | undefined;
+        get chance(): number;
         get ambient(): boolean;
-        get areaCloudChance(): number;
+        get visible(): boolean;
+        get usingForceApplyMethod(): boolean;
         get maxStackLevel(): number;
         get areaCloudLevel(): number;
-        get chance(): number;
-        get usingForceApplyMethod(): boolean;
+        get areaCloudChance(): number;
     }
 }

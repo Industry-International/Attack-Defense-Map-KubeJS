@@ -43,8 +43,8 @@ declare module "@package/dev/latvian/mods/kubejs/web" {
         json(): $Lazy<number[]>;
         toBytes(): number[];
         transferTo(connection: $HTTPConnection<never>): void;
-        bodyPublisher(): $HttpRequest$BodyPublisher;
         hasData(): boolean;
+        bodyPublisher(): $HttpRequest$BodyPublisher;
         constructor(json: $Lazy<number[]>);
     }
     export class $KJSHTTPServer$RequestFactory extends $Record implements $Supplier<$KJSHTTPRequest> {
@@ -65,11 +65,11 @@ declare module "@package/dev/latvian/mods/kubejs/web" {
         ws<WSS extends $WSSession<REQ>>(path: string): $WSHandler<$KJSHTTPRequest, WSS>;
         post(path: string, handler: $HTTPHandler_<$KJSHTTPRequest>): void;
         redirect(path: string, redirect: string): void;
-        acceptPostTask(path: string, task: $Runnable_): void;
-        acceptPostString(path: string, handler: $Consumer_<string>): void;
         singleFile(path: string, file: $Path_, responseHandler: $FileResponseHandler_): void;
-        staticFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
+        acceptPostString(path: string, handler: $Consumer_<string>): void;
+        acceptPostTask(path: string, task: $Runnable_): void;
         dynamicFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
+        staticFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
     }
     export class $KJSHTTPRequest extends $HTTPRequest {
         id(): $ResourceLocation;
@@ -105,8 +105,8 @@ declare module "@package/dev/latvian/mods/kubejs/web" {
     }
     export class $LocalWebServer extends $Record {
         url(): string;
-        server(): $KJSHTTPServer;
         endpoints(): $List<$LocalWebServer$Endpoint>;
+        server(): $KJSHTTPServer;
         explorerCode(): string;
         constructor(server: $KJSHTTPServer, url: string, endpoints: $List_<$LocalWebServer$Endpoint_>, explorerCode: string);
     }

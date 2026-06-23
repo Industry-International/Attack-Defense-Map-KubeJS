@@ -9,54 +9,54 @@ import { $Backup, $RealmsServerAddress, $RealmsServer, $WorldTemplate } from "@p
 
 declare module "@package/com/mojang/realmsclient/util/task" {
     export class $DownloadTask extends $LongRunningTask {
-        constructor(arg0: number, arg1: number, arg2: string, arg3: $Screen);
+        constructor(worldId: number, arg1: number, slot: string, downloadName: $Screen);
     }
     export class $ResettingGeneratedWorldTask extends $ResettingWorldTask {
-        constructor(arg0: $WorldGenerationInfo_, arg1: number, arg2: $Component_, arg3: $Runnable_);
+        constructor(generationInfo: $WorldGenerationInfo_, serverId: number, arg2: $Component_, title: $Runnable_);
     }
     export class $CreateSnapshotRealmTask extends $LongRunningTask {
-        constructor(arg0: $RealmsMainScreen, arg1: number, arg2: $WorldGenerationInfo_, arg3: string, arg4: string);
+        constructor(realmsMainScreen: $RealmsMainScreen, parentId: number, arg2: $WorldGenerationInfo_, generationInfo: string, name: string);
     }
     export class $CloseServerTask extends $LongRunningTask {
-        constructor(arg0: $RealmsServer, arg1: $RealmsConfigureWorldScreen);
+        constructor(serverData: $RealmsServer, configureScreen: $RealmsConfigureWorldScreen);
     }
     export class $GetServerDetailsTask extends $LongRunningTask {
-        connectScreen(arg0: $RealmsServerAddress): $RealmsLongRunningMcoTaskScreen;
-        constructor(arg0: $Screen, arg1: $RealmsServer);
+        connectScreen(serverAddress: $RealmsServerAddress): $RealmsLongRunningMcoTaskScreen;
+        constructor(lastScreen: $Screen, server: $RealmsServer);
     }
     export class $OpenServerTask extends $LongRunningTask {
-        constructor(arg0: $RealmsServer, arg1: $Screen, arg2: boolean, arg3: $Minecraft);
+        constructor(serverData: $RealmsServer, returnScreen: $Screen, join: boolean, minecraft: $Minecraft);
     }
     export class $RealmCreationTask extends $LongRunningTask {
-        constructor(arg0: number, arg1: string, arg2: string);
+        constructor(realmId: number, arg1: string, name: string);
     }
     export class $ResettingWorldTask extends $LongRunningTask {
-        constructor(arg0: number, arg1: $Component_, arg2: $Runnable_);
+        constructor(serverId: number, arg1: $Component_, title: $Runnable_);
     }
     export class $SwitchMinigameTask extends $LongRunningTask {
-        constructor(arg0: number, arg1: $WorldTemplate, arg2: $RealmsConfigureWorldScreen);
+        constructor(worldId: number, arg1: $WorldTemplate, worldTemplate: $RealmsConfigureWorldScreen);
     }
     export class $SwitchSlotTask extends $LongRunningTask {
-        constructor(arg0: number, arg1: number, arg2: $Runnable_);
+        constructor(worldId: number, arg1: number, slot: $Runnable_);
     }
     export class $ConnectTask extends $LongRunningTask {
-        constructor(arg0: $Screen, arg1: $RealmsServer, arg2: $RealmsServerAddress);
+        constructor(onlineScreen: $Screen, server: $RealmsServer, address: $RealmsServerAddress);
     }
     export class $LongRunningTask implements $Runnable {
         init(): void;
         tick(): void;
         getTitle(): $Component;
-        static setScreen(arg0: $Screen): void;
-        aborted(): boolean;
+        static setScreen(screen: $Screen): void;
         abortTask(): void;
+        aborted(): boolean;
         constructor();
         get title(): $Component;
         static set screen(value: $Screen);
     }
     export class $RestoreTask extends $LongRunningTask {
-        constructor(arg0: $Backup, arg1: number, arg2: $RealmsConfigureWorldScreen);
+        constructor(backup: $Backup, worldId: number, arg2: $RealmsConfigureWorldScreen);
     }
     export class $ResettingTemplateWorldTask extends $ResettingWorldTask {
-        constructor(arg0: $WorldTemplate, arg1: number, arg2: $Component_, arg3: $Runnable_);
+        constructor(template: $WorldTemplate, serverId: number, arg2: $Component_, title: $Runnable_);
     }
 }

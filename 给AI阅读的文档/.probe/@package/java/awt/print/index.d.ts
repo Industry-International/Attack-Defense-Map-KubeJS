@@ -14,46 +14,46 @@ declare module "@package/java/awt/print" {
      */
     export type $Printable_ = ((arg0: $Graphics, arg1: $PageFormat, arg2: number) => number);
     export class $PageFormat implements $Cloneable {
-        getWidth(): number;
         clone(): $Object;
-        getOrientation(): number;
-        setOrientation(arg0: number): void;
-        getMatrix(): number[];
-        getHeight(): number;
+        getWidth(): number;
         getImageableY(): number;
         getImageableHeight(): number;
         getImageableX(): number;
         getImageableWidth(): number;
         getPaper(): $Paper;
         setPaper(arg0: $Paper): void;
+        setOrientation(arg0: number): void;
+        getOrientation(): number;
+        getHeight(): number;
+        getMatrix(): number[];
         static REVERSE_LANDSCAPE: number;
         static LANDSCAPE: number;
         static PORTRAIT: number;
         constructor();
         get width(): number;
-        get matrix(): number[];
-        get height(): number;
         get imageableY(): number;
         get imageableHeight(): number;
         get imageableX(): number;
         get imageableWidth(): number;
+        get height(): number;
+        get matrix(): number[];
     }
     export class $Paper implements $Cloneable {
-        getWidth(): number;
         clone(): $Object;
         setSize(arg0: number, arg1: number): void;
-        getHeight(): number;
+        getWidth(): number;
         getImageableY(): number;
         getImageableHeight(): number;
         getImageableX(): number;
         getImageableWidth(): number;
+        getHeight(): number;
         setImageableArea(arg0: number, arg1: number, arg2: number, arg3: number): void;
         constructor();
         get width(): number;
-        get height(): number;
         get imageableY(): number;
         get imageableHeight(): number;
         get imageableX(): number;
         get imageableWidth(): number;
+        get height(): number;
     }
 }

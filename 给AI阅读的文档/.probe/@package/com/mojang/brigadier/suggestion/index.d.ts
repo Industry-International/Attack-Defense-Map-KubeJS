@@ -6,25 +6,25 @@ import { $Comparable } from "@package/java/lang";
 
 declare module "@package/com/mojang/brigadier/suggestion" {
     export class $SuggestionsBuilder {
+        getInput(): string;
+        getRemainingLowerCase(): string;
         add(arg0: $SuggestionsBuilder): $SuggestionsBuilder;
         build(): $Suggestions;
         getRemaining(): string;
-        getRemainingLowerCase(): string;
-        getStart(): number;
         restart(): $SuggestionsBuilder;
-        buildFuture(): $CompletableFuture<$Suggestions>;
-        createOffset(arg0: number): $SuggestionsBuilder;
-        getInput(): string;
-        suggest(arg0: string): $SuggestionsBuilder;
+        getStart(): number;
         suggest(arg0: number, arg1: $Message_): $SuggestionsBuilder;
         suggest(arg0: number): $SuggestionsBuilder;
         suggest(arg0: string, arg1: $Message_): $SuggestionsBuilder;
+        suggest(arg0: string): $SuggestionsBuilder;
+        buildFuture(): $CompletableFuture<$Suggestions>;
+        createOffset(arg0: number): $SuggestionsBuilder;
         constructor(arg0: string, arg1: string, arg2: number);
         constructor(arg0: string, arg1: number);
-        get remaining(): string;
-        get remainingLowerCase(): string;
-        get start(): number;
         get input(): string;
+        get remainingLowerCase(): string;
+        get remaining(): string;
+        get start(): number;
     }
     export class $Suggestions {
         isEmpty(): boolean;

@@ -5,9 +5,9 @@ import { $GlslTree } from "@package/io/github/ocelot/glslprocessor/api/node";
 import { $Map } from "@package/java/util";
 export * as compiler from "@package/foundry/veil/api/client/render/shader/compiler";
 export * as texture from "@package/foundry/veil/api/client/render/shader/texture";
-export * as uniform from "@package/foundry/veil/api/client/render/shader/uniform";
 export * as program from "@package/foundry/veil/api/client/render/shader/program";
 export * as block from "@package/foundry/veil/api/client/render/shader/block";
+export * as uniform from "@package/foundry/veil/api/client/render/shader/uniform";
 
 declare module "@package/foundry/veil/api/client/render/shader" {
     export class $ShaderPreDefinitions {
@@ -17,9 +17,9 @@ declare module "@package/foundry/veil/api/client/render/shader" {
         getDefinition(arg0: string): string;
         addListener(arg0: $Consumer_<string>): void;
         getDefinitions(): $Map<string, string>;
-        setStatic(arg0: string, arg1: string): void;
-        setStatic(arg0: string): void;
         getStaticDefinitions(): $Map<string, string>;
+        setStatic(arg0: string): void;
+        setStatic(arg0: string, arg1: string): void;
         constructor();
         get definitions(): $Map<string, string>;
         get staticDefinitions(): $Map<string, string>;

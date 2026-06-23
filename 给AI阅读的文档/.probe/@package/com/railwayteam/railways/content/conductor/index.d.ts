@@ -38,44 +38,44 @@ export * as toolbox from "@package/com/railwayteam/railways/content/conductor/to
 declare module "@package/com/railwayteam/railways/content/conductor" {
     export class $ConductorEntity extends $AbstractGolem {
         setColor(arg0: $DyeColor_): void;
-        static spawn(arg0: $Level_, arg1: $BlockPos_, arg2: $ItemStack_): $ConductorEntity;
-        doCheckFallDamage(arg0: number, arg1: boolean): void;
-        static defaultColor(): $DyeColor;
         getColor(): $DyeColor;
-        canReach(arg0: $Vec3i): boolean;
-        static createAttributes(): $AttributeSupplier$Builder;
-        static isPlayerDisguised(arg0: $Player): boolean;
-        stopViewing(arg0: $ServerPlayer): void;
-        static canSpyInteract(arg0: $BlockState_): boolean;
+        static spawn(arg0: $Level_, arg1: $BlockPos_, arg2: $ItemStack_): $ConductorEntity;
         turnView(arg0: number, arg1: number): void;
-        startViewing(arg0: $ServerPlayer): boolean;
-        getJob(): $ConductorEntity$Job;
-        static idFrom(arg0: $DyeColor_): number;
-        setChunkLoadingDistance(arg0: number): void;
-        getSecondaryHeadStack(): $ItemStack;
-        isHoldingSchedulesClient(): boolean;
-        getToolboxDisplayStack(): $ItemStack;
+        onSpyInteract(arg0: $BlockPos_): void;
+        isInMinecart(): boolean;
+        isCarryingToolbox(): boolean;
+        hasSentChunks(): boolean;
+        canUseBlock(arg0: $BlockState_): boolean;
+        equipToolbox(arg0: $ItemStack_): void;
+        isPossessed(): boolean;
+        unequipToolbox(): $ItemStack;
+        setHasSentChunks(arg0: boolean): void;
+        isHoldingSchedules(): boolean;
+        static defaultColor(): $DyeColor;
+        doCheckFallDamage(arg0: number, arg1: boolean): void;
+        stopViewing(arg0: $ServerPlayer): void;
         getOrCreateToolboxHolder(): $MountedToolbox;
-        isPossessedAndClient(): boolean;
+        getToolboxDisplayStack(): $ItemStack;
         updatePossessionInputs(): void;
+        setChunkLoadingDistance(arg0: number): void;
         isCorrectEngineerCap(arg0: $ItemStack_): boolean;
         static hasRecentlyDismounted(arg0: $Player): boolean;
+        getSecondaryHeadStack(): $ItemStack;
+        isHoldingSchedulesClient(): boolean;
+        isPossessedAndClient(): boolean;
+        static canSpyInteract(arg0: $BlockState_): boolean;
+        startViewing(arg0: $ServerPlayer): boolean;
+        static colorFrom(arg0: number): $DyeColor;
+        getToolbox(): $MountedToolbox;
+        setJob(arg0: $ConductorEntity$Job_): void;
+        static createAttributes(): $AttributeSupplier$Builder;
+        canReach(arg0: $Vec3i): boolean;
+        static isPlayerDisguised(arg0: $Player): boolean;
         addSchedule(arg0: $ItemStack_): void;
         getForwardSignalStrength(): number;
-        static colorFrom(arg0: number): $DyeColor;
-        hasSentChunks(): boolean;
-        isPossessed(): boolean;
-        isCarryingToolbox(): boolean;
-        isInMinecart(): boolean;
-        isHoldingSchedules(): boolean;
-        canUseBlock(arg0: $BlockState_): boolean;
-        setHasSentChunks(arg0: boolean): void;
-        equipToolbox(arg0: $ItemStack_): void;
-        onSpyInteract(arg0: $BlockPos_): void;
-        unequipToolbox(): $ItemStack;
         teleportToForce(arg0: number, arg1: number, arg2: number): void;
-        setJob(arg0: $ConductorEntity$Job_): void;
-        getToolbox(): $MountedToolbox;
+        static idFrom(arg0: $DyeColor_): number;
+        getJob(): $ConductorEntity$Job;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -271,24 +271,24 @@ declare module "@package/com/railwayteam/railways/content/conductor" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         constructor(arg0: $EntityType_<$AbstractGolem>, arg1: $Level_);
+        get inMinecart(): boolean;
+        get carryingToolbox(): boolean;
+        get possessed(): boolean;
+        get holdingSchedules(): boolean;
+        get orCreateToolboxHolder(): $MountedToolbox;
+        get toolboxDisplayStack(): $ItemStack;
         set chunkLoadingDistance(value: number);
         get secondaryHeadStack(): $ItemStack;
         get holdingSchedulesClient(): boolean;
-        get toolboxDisplayStack(): $ItemStack;
-        get orCreateToolboxHolder(): $MountedToolbox;
         get possessedAndClient(): boolean;
-        get forwardSignalStrength(): number;
-        get possessed(): boolean;
-        get carryingToolbox(): boolean;
-        get inMinecart(): boolean;
-        get holdingSchedules(): boolean;
         get toolbox(): $MountedToolbox;
+        get forwardSignalStrength(): number;
     }
     export class $ServerPlayerPossessionAccess {
     }
     export interface $ServerPlayerPossessionAccess {
-        railways$setPossessedConductor(arg0: $ConductorEntity): void;
         railways$getPossessedConductor(): $ConductorEntity;
+        railways$setPossessedConductor(arg0: $ConductorEntity): void;
     }
     export class $ConductorEntity$Job extends $Enum<$ConductorEntity$Job> {
         static values(): $ConductorEntity$Job[];

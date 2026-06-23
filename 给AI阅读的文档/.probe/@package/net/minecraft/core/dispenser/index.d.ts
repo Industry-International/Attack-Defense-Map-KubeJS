@@ -12,20 +12,20 @@ import { $DispenserBlockEntity } from "@package/net/minecraft/world/level/block/
 
 declare module "@package/net/minecraft/core/dispenser" {
     export class $DefaultDispenseItemBehavior implements $DispenseItemBehavior {
-        execute(arg0: $BlockSource_, arg1: $ItemStack_): $ItemStack;
-        static spawnItem(arg0: $Level_, arg1: $ItemStack_, arg2: number, arg3: $Direction_, arg4: $Position): void;
-        dispense(arg0: $BlockSource_, arg1: $ItemStack_): $ItemStack;
-        consumeWithRemainder(arg0: $BlockSource_, arg1: $ItemStack_, arg2: $ItemStack_): $ItemStack;
-        playSound(arg0: $BlockSource_): void;
-        playAnimation(arg0: $BlockSource_, arg1: $Direction_): void;
+        execute(blockSource: $BlockSource_, item: $ItemStack_): $ItemStack;
+        static spawnItem(level: $Level_, stack: $ItemStack_, speed: number, facing: $Direction_, position: $Position): void;
+        consumeWithRemainder(blockSource: $BlockSource_, stack: $ItemStack_, remainder: $ItemStack_): $ItemStack;
+        playSound(blockSource: $BlockSource_): void;
+        dispense(blockSource: $BlockSource_, item: $ItemStack_): $ItemStack;
+        playAnimation(blockSource: $BlockSource_, direction: $Direction_): void;
         constructor();
     }
     export class $ShulkerBoxDispenseBehavior extends $OptionalDispenseItemBehavior {
         constructor();
     }
     export class $BoatDispenseItemBehavior extends $DefaultDispenseItemBehavior {
-        constructor(arg0: $Boat$Type_);
-        constructor(arg0: $Boat$Type_, arg1: boolean);
+        constructor(type: $Boat$Type_);
+        constructor(type: $Boat$Type_, isChestBoat: boolean);
     }
     export class $BlockSource extends $Record {
         state(): $BlockState;
@@ -40,7 +40,7 @@ declare module "@package/net/minecraft/core/dispenser" {
     }
     export class $OptionalDispenseItemBehavior extends $DefaultDispenseItemBehavior {
         isSuccess(): boolean;
-        setSuccess(arg0: boolean): void;
+        setSuccess(success: boolean): void;
         constructor();
     }
     export class $DispenseItemBehavior {
@@ -49,15 +49,15 @@ declare module "@package/net/minecraft/core/dispenser" {
         static LOGGER: $Logger;
     }
     export interface $DispenseItemBehavior {
-        dispense(arg0: $BlockSource_, arg1: $ItemStack_): $ItemStack;
+        dispense(blockSource: $BlockSource_, item: $ItemStack_): $ItemStack;
     }
     /**
      * Values that may be interpreted as {@link $DispenseItemBehavior}.
      */
     export type $DispenseItemBehavior_ = ((arg0: $BlockSource, arg1: $ItemStack) => $ItemStack_);
     export class $ProjectileDispenseBehavior extends $DefaultDispenseItemBehavior implements $ProjectileDispenseBehaviorAccessor {
-        create$getProjectileItem(): $ProjectileItem;
         create$getDispenseConfig(): $ProjectileItem$DispenseConfig;
-        constructor(arg0: $Item_);
+        create$getProjectileItem(): $ProjectileItem;
+        constructor(projectile: $Item_);
     }
 }

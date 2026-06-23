@@ -8,36 +8,36 @@ declare module "@package/dev/vfyjxf/taffy/tree" {
     export class $LayoutOutput extends $Record {
         size(): $FloatSize;
         static hidden(): $LayoutOutput;
-        bottomMargin(): $CollapsibleMarginSet;
-        topMargin(): $CollapsibleMarginSet;
         contentSize(): $FloatSize;
+        topMargin(): $CollapsibleMarginSet;
         static fromSizes(arg0: $FloatSize, arg1: $FloatSize): $LayoutOutput;
+        bottomMargin(): $CollapsibleMarginSet;
         firstBaselines(): $FloatPoint;
         static fromOuterSize(arg0: $FloatSize): $LayoutOutput;
-        static fromSizesAndBaselines(arg0: $FloatSize, arg1: $FloatSize, arg2: $FloatPoint): $LayoutOutput;
         marginsCanCollapseThrough(): boolean;
+        static fromSizesAndBaselines(arg0: $FloatSize, arg1: $FloatSize, arg2: $FloatPoint): $LayoutOutput;
         static HIDDEN: $LayoutOutput;
         static DEFAULT: $LayoutOutput;
         constructor(size: $FloatSize, contentSize: $FloatSize, firstBaselines: $FloatPoint, topMargin: $CollapsibleMarginSet, bottomMargin: $CollapsibleMarginSet, marginsCanCollapseThrough: boolean);
     }
     export class $Layout extends $Record {
-        padding(): $FloatRect;
         size(): $FloatSize;
         location(): $FloatPoint;
         copy(): $Layout;
         order(): number;
-        border(): $FloatRect;
-        scrollHeight(): number;
-        scrollWidth(): number;
         margin(): $FloatRect;
+        padding(): $FloatRect;
         static withOrder(arg0: number): $Layout;
         scrollbarSize(): $FloatSize;
-        contentBoxWidth(): number;
-        contentBoxHeight(): number;
+        border(): $FloatRect;
         contentSize(): $FloatSize;
-        contentBoxX(): number;
+        contentBoxHeight(): number;
+        contentBoxWidth(): number;
+        scrollHeight(): number;
+        scrollWidth(): number;
         contentBoxY(): number;
         contentBoxSize(): $FloatSize;
+        contentBoxX(): number;
         constructor(order: number, location: $FloatPoint, size: $FloatSize, contentSize: $FloatSize, scrollbarSize: $FloatSize, border: $FloatRect, padding: $FloatRect, margin: $FloatRect);
         constructor(arg0: number);
         constructor();
@@ -80,6 +80,7 @@ declare module "@package/dev/vfyjxf/taffy/tree" {
         get id(): number;
     }
     export class $TaffyTree {
+        removeChild(arg0: $NodeId_, arg1: $NodeId_): void;
         remove(arg0: $NodeId_): void;
         clear(): void;
         getParent(arg0: $NodeId_): $NodeId;
@@ -87,50 +88,49 @@ declare module "@package/dev/vfyjxf/taffy/tree" {
         clearCache(arg0: $NodeId_): void;
         getChildren(arg0: $NodeId_): $List<$NodeId>;
         childCount(arg0: $NodeId_): number;
-        addChild(arg0: $NodeId_, arg1: $NodeId_): void;
-        removeChild(arg0: $NodeId_, arg1: $NodeId_): void;
-        getLayout(arg0: $NodeId_): $Layout;
         setLayout(arg0: $NodeId_, arg1: $Layout_): void;
-        containsNode(arg0: $NodeId_): boolean;
         getAllNodes(): $Set<$NodeId>;
-        getStyle(arg0: $NodeId_): $TaffyStyle;
-        computeLayout(arg0: $NodeId_, arg1: $TaffySize<$AvailableSpace>): void;
-        disableRounding(): void;
+        addChild(arg0: $NodeId_, arg1: $NodeId_): void;
         insertChildAtIndex(arg0: $NodeId_, arg1: number, arg2: $NodeId_): void;
-        markDirty(arg0: $NodeId_): void;
-        setStyle(arg0: $NodeId_, arg1: $TaffyStyle): void;
-        setMeasureFunc(arg0: $NodeId_, arg1: $MeasureFunc_): void;
-        acknowledgeSubtree(arg0: $NodeId_): void;
-        storeCacheEntry(arg0: $NodeId_, arg1: $FloatSize, arg2: $TaffySize<$AvailableSpace>, arg3: $RunMode_, arg4: $LayoutOutput_): void;
-        getCacheEntry(arg0: $NodeId_, arg1: $FloatSize, arg2: $TaffySize<$AvailableSpace>, arg3: $RunMode_): $LayoutOutput;
+        computeLayout(arg0: $NodeId_, arg1: $TaffySize<$AvailableSpace>): void;
+        getLayout(arg0: $NodeId_): $Layout;
+        disableRounding(): void;
+        hasDirtyDescendant(arg0: $NodeId_): boolean;
+        acknowledgeLayout(arg0: $NodeId_): void;
+        setUnroundedLayout(arg0: $NodeId_, arg1: $Layout_): void;
+        removeChildAtIndex(arg0: $NodeId_, arg1: number): $NodeId;
+        enableRounding(): void;
         roundingEnabled(): boolean;
-        getMeasureFunc(arg0: $NodeId_): $MeasureFunc;
+        hasNewLayout(arg0: $NodeId_): boolean;
+        newWithChildren(arg0: $TaffyStyle, ...arg1: $NodeId_[]): $NodeId;
+        newWithChildren(arg0: $TaffyStyle, arg1: $List_<$NodeId_>): $NodeId;
+        getUnroundedLayout(arg0: $NodeId_): $Layout;
         newLeafWithMeasure(arg0: $TaffyStyle, arg1: $MeasureFunc_): $NodeId;
         setChildren(arg0: $NodeId_, ...arg1: $NodeId_[]): void;
-        enableRounding(): void;
-        totalNodeCount(): number;
+        acknowledgeSubtree(arg0: $NodeId_): void;
+        getCacheEntry(arg0: $NodeId_, arg1: $FloatSize, arg2: $TaffySize<$AvailableSpace>, arg3: $RunMode_): $LayoutOutput;
         getChildAtIndex(arg0: $NodeId_, arg1: number): $NodeId;
+        getMeasureFunc(arg0: $NodeId_): $MeasureFunc;
+        setMeasureFunc(arg0: $NodeId_, arg1: $MeasureFunc_): void;
+        totalNodeCount(): number;
+        storeCacheEntry(arg0: $NodeId_, arg1: $FloatSize, arg2: $TaffySize<$AvailableSpace>, arg3: $RunMode_, arg4: $LayoutOutput_): void;
         newLeaf(arg0: $TaffyStyle): $NodeId;
-        hasDirtyDescendant(arg0: $NodeId_): boolean;
-        setUnroundedLayout(arg0: $NodeId_, arg1: $Layout_): void;
-        hasNewLayout(arg0: $NodeId_): boolean;
-        removeChildAtIndex(arg0: $NodeId_, arg1: number): $NodeId;
-        acknowledgeLayout(arg0: $NodeId_): void;
-        newWithChildren(arg0: $TaffyStyle, arg1: $List_<$NodeId_>): $NodeId;
-        newWithChildren(arg0: $TaffyStyle, ...arg1: $NodeId_[]): $NodeId;
-        getUnroundedLayout(arg0: $NodeId_): $Layout;
+        containsNode(arg0: $NodeId_): boolean;
+        setStyle(arg0: $NodeId_, arg1: $TaffyStyle): void;
+        getStyle(arg0: $NodeId_): $TaffyStyle;
+        markDirty(arg0: $NodeId_): void;
+        needsVisit(arg0: $NodeId_): boolean;
+        printTree(arg0: $NodeId_): void;
         setLayoutChangeListener(arg0: $LayoutChangeListener_): void;
+        replaceChildAtIndex(arg0: $NodeId_, arg1: number, arg2: $NodeId_): $NodeId;
         getLayoutChangeListener(): $LayoutChangeListener;
+        computeLayoutWithMeasure(arg0: $NodeId_, arg1: $TaffySize<$AvailableSpace>, arg2: $MeasureFunc_): void;
         /**
          * @deprecated
          */
         hasUnconsumedLayout(arg0: $NodeId_): boolean;
-        computeLayoutWithMeasure(arg0: $NodeId_, arg1: $TaffySize<$AvailableSpace>, arg2: $MeasureFunc_): void;
-        replaceChildAtIndex(arg0: $NodeId_, arg1: number, arg2: $NodeId_): $NodeId;
-        needsVisit(arg0: $NodeId_): boolean;
-        printTree(arg0: $NodeId_): void;
-        constructor();
         constructor(arg0: number);
+        constructor();
         get allNodes(): $Set<$NodeId>;
     }
 }

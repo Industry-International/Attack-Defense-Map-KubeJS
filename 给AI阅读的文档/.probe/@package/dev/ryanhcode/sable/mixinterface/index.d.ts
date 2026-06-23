@@ -3,6 +3,7 @@ export * as block_properties from "@package/dev/ryanhcode/sable/mixinterface/blo
 export * as entity from "@package/dev/ryanhcode/sable/mixinterface/entity";
 export * as clip_overwrite from "@package/dev/ryanhcode/sable/mixinterface/clip_overwrite";
 export * as sublevel_render from "@package/dev/ryanhcode/sable/mixinterface/sublevel_render";
+export * as loaded_chunk_debug from "@package/dev/ryanhcode/sable/mixinterface/loaded_chunk_debug";
 export * as toast from "@package/dev/ryanhcode/sable/mixinterface/toast";
 export * as udp from "@package/dev/ryanhcode/sable/mixinterface/udp";
 export * as world_border from "@package/dev/ryanhcode/sable/mixinterface/world_border";

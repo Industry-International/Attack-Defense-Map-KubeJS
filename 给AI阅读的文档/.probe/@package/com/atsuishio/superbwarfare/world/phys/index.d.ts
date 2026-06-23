@@ -3,13 +3,13 @@ import { $Vec3, $EntityHitResult, $Vec3_ } from "@package/net/minecraft/world/ph
 
 declare module "@package/com/atsuishio/superbwarfare/world/phys" {
     export class $EntityResult {
-        getEntity(): $Entity;
         isLegShot(): boolean;
+        getEntity(): $Entity;
         isHeadshot(): boolean;
         getHitPos(): $Vec3;
         constructor(arg0: $Entity, arg1: $Vec3_, arg2: boolean, arg3: boolean);
-        get entity(): $Entity;
         get legShot(): boolean;
+        get entity(): $Entity;
         get headshot(): boolean;
         get hitPos(): $Vec3;
     }

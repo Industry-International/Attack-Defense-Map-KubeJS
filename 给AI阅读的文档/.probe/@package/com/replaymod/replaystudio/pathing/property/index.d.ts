@@ -8,9 +8,9 @@ declare module "@package/com/replaymod/replaystudio/pathing/property" {
     export interface $Property<T> {
         getId(): string;
         getLocalizedName(): string;
-        toJson(arg0: $JsonWriter, arg1: T): void;
         getNewValue(): T;
         getGroup(): $PropertyGroup;
+        toJson(arg0: $JsonWriter, arg1: T): void;
         fromJson(arg0: $JsonReader): T;
         getParts(): $Collection<$PropertyPart<T>>;
         applyToGame(arg0: T, arg1: $Object): void;

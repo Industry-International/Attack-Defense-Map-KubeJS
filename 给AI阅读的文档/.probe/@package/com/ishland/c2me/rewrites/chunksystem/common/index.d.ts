@@ -1,6 +1,6 @@
 import { $ItemHolder, $ItemStatus, $StatusAdvancingScheduler, $KeyStatusPair } from "@package/com/ishland/flowsched/scheduler";
 import { $ChunkPos, $LevelHeightAccessor } from "@package/net/minecraft/world/level";
-import { $ChunkHolder$PlayerProvider_, $ChunkHolder, $ChunkResult, $FullChunkStatus, $ChunkMap, $GenerationChunkHolder } from "@package/net/minecraft/server/level";
+import { $ChunkHolder$PlayerProvider_, $ChunkHolder, $ChunkResult, $FullChunkStatus, $ChunkMap } from "@package/net/minecraft/server/level";
 import { $AtomicReference, $AtomicReferenceArray } from "@package/java/util/concurrent/atomic";
 import { $CompletableFuture } from "@package/java/util/concurrent";
 import { $SchedulingManager } from "@package/com/ishland/c2me/base/common/scheduler";
@@ -9,7 +9,6 @@ import { $LevelChunk, $ProtoChunk, $ChunkAccess } from "@package/net/minecraft/w
 import { $ChunkStatus_, $ChunkStatus } from "@package/net/minecraft/world/level/chunk/status";
 import { $Record, $Runnable } from "@package/java/lang";
 import { $LevelLightEngine } from "@package/net/minecraft/world/level/lighting";
-import { $StaticCache2D } from "@package/net/minecraft/util";
 export * as ducks from "@package/com/ishland/c2me/rewrites/chunksystem/common/ducks";
 export * as async_chunkio from "@package/com/ishland/c2me/rewrites/chunksystem/common/async_chunkio";
 
@@ -17,10 +16,10 @@ declare module "@package/com/ishland/c2me/rewrites/chunksystem/common" {
     export class $ChunkLoadingContext extends $Record {
         holder(): $ItemHolder<$ChunkPos, $ChunkState, $ChunkLoadingContext, $NewChunkHolderVanillaInterface>;
         dependencies(): $KeyStatusPair<$ChunkPos, $ChunkState, $ChunkLoadingContext>[];
-        chunks(): $StaticCache2D<$GenerationChunkHolder>;
-        schedulingManager(): $SchedulingManager;
         tacs(): $ChunkMap;
-        constructor(holder: $ItemHolder<$ChunkPos, $ChunkState_, $ChunkLoadingContext_, $NewChunkHolderVanillaInterface>, tacs: $ChunkMap, schedulingManager: $SchedulingManager, chunks: $StaticCache2D<$GenerationChunkHolder>, dependencies: $KeyStatusPair<$ChunkPos, $ChunkState_, $ChunkLoadingContext_>[]);
+        theChunkSystem(): $TheChunkSystem;
+        schedulingManager(): $SchedulingManager;
+        constructor(holder: $ItemHolder<$ChunkPos, $ChunkState_, $ChunkLoadingContext_, $NewChunkHolderVanillaInterface>, tacs: $ChunkMap, schedulingManager: $SchedulingManager, theChunkSystem: $TheChunkSystem, dependencies: $KeyStatusPair<$ChunkPos, $ChunkState_, $ChunkLoadingContext_>[]);
     }
     export class $ChunkState extends $Record {
         chunk(): $ChunkAccess;
@@ -30,9 +29,10 @@ declare module "@package/com/ishland/c2me/rewrites/chunksystem/common" {
         constructor(chunk: $ChunkAccess, protoChunk: $ProtoChunk, reachedStatus: $ChunkStatus_, wasFullChunk: boolean);
     }
     export class $NewChunkHolderVanillaInterface extends $ChunkHolder implements $IFastChunkHolder {
-        updateDeferredStatus(status: $NewChunkStatus): void;
         triggerDeferredLoad(requestedStatus: $NewChunkStatus): void;
+        updateDeferredStatus(status: $NewChunkStatus): void;
         c2me$immediateWorldChunk(): $LevelChunk;
+        getBackingHolder(): $ItemHolder<$ChunkPos, $ChunkState, $ChunkLoadingContext, $NewChunkHolderVanillaInterface>;
         static UNLOADED_LEVEL_CHUNK_FUTURE: $CompletableFuture<$ChunkResult<$LevelChunk>>;
         currentlyLoading: $LevelChunk;
         pos: $ChunkPos;
@@ -45,6 +45,7 @@ declare module "@package/com/ishland/c2me/rewrites/chunksystem/common" {
         futures: $AtomicReferenceArray<$CompletableFuture<$ChunkResult<$ChunkAccess>>>;
         fullChunkFuture: $CompletableFuture<$ChunkResult<$LevelChunk>>;
         constructor(chunkSystem: $TheChunkSystem, newHolder: $ItemHolder<$ChunkPos, $ChunkState_, $ChunkLoadingContext_, $NewChunkHolderVanillaInterface>, world: $LevelHeightAccessor, lightingProvider: $LevelLightEngine, playersWatchingChunkProvider: $ChunkHolder$PlayerProvider_);
+        get backingHolder(): $ItemHolder<$ChunkPos, $ChunkState, $ChunkLoadingContext, $NewChunkHolderVanillaInterface>;
     }
     export class $TheChunkSystem extends $StatusAdvancingScheduler<$ChunkPos, $ChunkState, $ChunkLoadingContext, $NewChunkHolderVanillaInterface> {
         vanillaIf$setLevel(pos: number, level: number): $ChunkHolder;
@@ -59,8 +60,8 @@ declare module "@package/com/ishland/c2me/rewrites/chunksystem/common" {
         getAllStatuses(): $ItemStatus<$ChunkPos, $ChunkState, $ChunkLoadingContext>[];
         static fromVanillaLevel(level: number): $NewChunkStatus;
         toChunkLevelType(): $FullChunkStatus;
-        toVanillaLevel(): number;
         static fromVanillaStatus(status: $ChunkStatus_): $NewChunkStatus;
+        toVanillaLevel(): number;
         getNext(): $ItemStatus<$ChunkPos, $ChunkState, $ChunkLoadingContext>;
         getPrev(): $ItemStatus<$ChunkPos, $ChunkState, $ChunkLoadingContext>;
         getDependenciesToRemove(holder: $ItemHolder<$ChunkPos, $ChunkState_, $ChunkLoadingContext_, never>): $KeyStatusPair<$ChunkPos, $ChunkState, $ChunkLoadingContext>[];

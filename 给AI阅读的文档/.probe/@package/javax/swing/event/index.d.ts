@@ -394,13 +394,13 @@ declare module "@package/javax/swing/event" {
         get menuSelectionManager(): $MenuSelectionManager;
     }
     export class $ListSelectionEvent extends $EventObject {
+        getFirstIndex(): number;
         getLastIndex(): number;
         getValueIsAdjusting(): boolean;
-        getFirstIndex(): number;
         constructor(arg0: $Object, arg1: number, arg2: number, arg3: boolean);
+        get firstIndex(): number;
         get lastIndex(): number;
         get valueIsAdjusting(): boolean;
-        get firstIndex(): number;
     }
     export class $DocumentEvent$ElementChange {
     }
@@ -469,8 +469,8 @@ declare module "@package/javax/swing/event" {
         ancestorRemoved(arg0: $AncestorEvent): void;
     }
     export class $AncestorEvent extends $AWTEvent {
-        getAncestor(): $Container;
         getComponent(): $JComponent;
+        getAncestor(): $Container;
         getAncestorParent(): $Container;
         static ADJUSTMENT_EVENT_MASK: number;
         static MOUSE_EVENT_MASK: number;
@@ -496,8 +496,8 @@ declare module "@package/javax/swing/event" {
         static MOUSE_MOTION_EVENT_MASK: number;
         static WINDOW_FOCUS_EVENT_MASK: number;
         constructor(arg0: $JComponent, arg1: number, arg2: $Container, arg3: $Container);
-        get ancestor(): $Container;
         get component(): $JComponent;
+        get ancestor(): $Container;
         get ancestorParent(): $Container;
     }
     export class $PopupMenuEvent extends $EventObject {
@@ -534,9 +534,9 @@ declare module "@package/javax/swing/event" {
     export class $ListDataListener {
     }
     export interface $ListDataListener extends $EventListener {
-        contentsChanged(arg0: $ListDataEvent): void;
         intervalAdded(arg0: $ListDataEvent): void;
         intervalRemoved(arg0: $ListDataEvent): void;
+        contentsChanged(arg0: $ListDataEvent): void;
     }
     export class $ChangeEvent extends $EventObject {
         constructor(arg0: $Object);

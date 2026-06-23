@@ -1,6 +1,6 @@
 import { $Codec } from "@package/com/mojang/serialization";
 import { $Item_, $Item, $ItemStack_, $ItemStack } from "@package/net/minecraft/world/item";
-import { $Ingredient_, $Ingredient } from "@package/net/minecraft/world/item/crafting";
+import { $Ingredient, $Ingredient_ } from "@package/net/minecraft/world/item/crafting";
 import { $Component } from "@package/net/minecraft/network/chat";
 import { $FabricBrewingRecipeRegistryBuilder } from "@package/net/fabricmc/fabric/api/registry";
 import { $MobEffectInstance } from "@package/net/minecraft/world/effect";
@@ -20,49 +20,53 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/net/minecraft/world/item/alchemy" {
     export class $PotionBrewing$Builder implements $PotionBrewingBuilderAccessor, $FabricBrewingRecipeRegistryBuilder {
         build(): $PotionBrewing;
-        addContainer(arg0: $Item_): void;
         registerRecipes(arg0: $Ingredient_, arg1: $Holder_<any>): void;
+        addContainer(container: $Item_): void;
+        registerPotionRecipe(arg0: $Holder_<any>, arg1: $Ingredient_, arg2: $Holder_<any>): void;
         addRecipe(arg0: $IBrewingRecipe): void;
         addRecipe(arg0: $Ingredient_, arg1: $Ingredient_, arg2: $ItemStack_): void;
-        registerPotionRecipe(arg0: $Holder_<any>, arg1: $Ingredient_, arg2: $Holder_<any>): void;
-        registerItemRecipe(arg0: $Item_, arg1: $Ingredient_, arg2: $Item_): void;
+        addMix(input: $Holder_<$Potion>, reagent: $Item_, result: $Holder_<$Potion>): void;
+        addStartMix(reagent: $Item_, result: $Holder_<$Potion>): void;
         getEnabledFeatures(): $FeatureFlagSet;
-        addContainerRecipe(arg0: $Item_, arg1: $Item_, arg2: $Item_): void;
-        addStartMix(arg0: $Item_, arg1: $Holder_<$Potion>): void;
-        addMix(arg0: $Holder_<$Potion>, arg1: $Item_, arg2: $Holder_<$Potion>): void;
+        registerItemRecipe(arg0: $Item_, arg1: $Ingredient_, arg2: $Item_): void;
+        addContainerRecipe(input: $Item_, reagent: $Item_, result: $Item_): void;
         morejs$getRecipes(): $List<$IBrewingRecipe>;
+        morejs$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
         morejs$getContainers(): $List<$Ingredient>;
         morejs$getPotionMixes(): $List<$PotionBrewing$Mix<$Potion>>;
-        morejs$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
-        constructor(arg0: $FeatureFlagSet);
+        constructor(enabledFeatures: $FeatureFlagSet);
         get enabledFeatures(): $FeatureFlagSet;
     }
     export class $PotionContents extends $Record {
-        is(arg0: $Holder_<$Potion>): boolean;
-        potion(): ($Holder<$Potion>) | undefined;
-        static createItemStack(arg0: $Item_, arg1: $Holder_<$Potion>): $ItemStack;
-        getColor(): number;
-        static getColor(arg0: $Holder_<$Potion>): number;
-        static getColor(arg0: $Iterable_<$MobEffectInstance>): number;
-        withPotion(arg0: $Holder_<$Potion>): $PotionContents;
+        is(potion: $Holder_<$Potion>): boolean;
         hasEffects(): boolean;
-        withEffectAdded(arg0: $MobEffectInstance): $PotionContents;
-        addPotionTooltip(arg0: $Consumer_<$Component>, arg1: number, arg2: number): void;
-        static addPotionTooltip(arg0: $Iterable_<$MobEffectInstance>, arg1: $Consumer_<$Component>, arg2: number, arg3: number): void;
-        forEachEffect(arg0: $Consumer_<$MobEffectInstance>): void;
+        withPotion(potion: $Holder_<$Potion>): $PotionContents;
+        static createItemStack(item: $Item_, potion: $Holder_<$Potion>): $ItemStack;
+        static getColor(potion: $Holder_<$Potion>): number;
+        getColor(): number;
+        static getColor(effects: $Iterable_<$MobEffectInstance>): number;
+        potion(): ($Holder<$Potion>) | undefined;
+        static addPotionTooltip(effects: $Iterable_<$MobEffectInstance>, tooltipAdder: $Consumer_<$Component>, durationFactor: number, ticksPerSecond: number): void;
+        addPotionTooltip(tooltipAdder: $Consumer_<$Component>, durationFactor: number, ticksPerSecond: number): void;
+        forEachEffect(action: $Consumer_<$MobEffectInstance>): void;
         customEffects(): $List<$MobEffectInstance>;
-        static getColorOptional(arg0: $Iterable_<$MobEffectInstance>): $OptionalInt;
+        static getColorOptional(effects: $Iterable_<$MobEffectInstance>): $OptionalInt;
         customColor(): (number) | undefined;
         getAllEffects(): $Iterable<$MobEffectInstance>;
+        withEffectAdded(effect: $MobEffectInstance): $PotionContents;
         static CODEC: $Codec<$PotionContents>;
         static EMPTY: $PotionContents;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $PotionContents>;
-        constructor(arg0: $Holder_<$Potion>);
+        constructor(potion: $Holder_<$Potion>);
         constructor(potion: ($Holder_<$Potion>) | undefined, customColor: (number) | undefined, customEffects: $List_<$MobEffectInstance>);
         get allEffects(): $Iterable<$MobEffectInstance>;
     }
+    /**
+     * Defines all of the potion types registered by Minecraft itself.
+     * @see net.minecraft.core.Registry#POTION
+     */
     export class $Potions {
-        static bootstrap(arg0: $Registry<$Potion_>): $Holder<$Potion>;
+        static bootstrap(registry: $Registry<$Potion_>): $Holder<$Potion>;
         static SLOWNESS: $Holder<$Potion>;
         static INVISIBILITY: $Holder<$Potion>;
         static STRONG_REGENERATION: $Holder<$Potion>;
@@ -116,28 +120,28 @@ declare module "@package/net/minecraft/world/item/alchemy" {
         /**
          * @deprecated
          */
-        static bootstrap(arg0: $FeatureFlagSet): $PotionBrewing;
-        mix(arg0: $ItemStack_, arg1: $ItemStack_): $ItemStack;
+        static bootstrap(enabledFeatures: $FeatureFlagSet): $PotionBrewing;
+        mix(potion: $ItemStack_, potionItem: $ItemStack_): $ItemStack;
+        hasMix(reagent: $ItemStack_, potionItem: $ItemStack_): boolean;
+        isInput(stack: $ItemStack_): boolean;
+        isIngredient(stack: $ItemStack_): boolean;
         getRecipes(): $List<$IBrewingRecipe>;
-        isIngredient(arg0: $ItemStack_): boolean;
-        hasMix(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
-        isInput(arg0: $ItemStack_): boolean;
-        isBrewablePotion(arg0: $Holder_<$Potion>): boolean;
-        hasPotionMix(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
-        isPotionIngredient(arg0: $ItemStack_): boolean;
-        static addVanillaMixes(arg0: $PotionBrewing$Builder): void;
-        hasContainerMix(arg0: $ItemStack_, arg1: $ItemStack_): boolean;
-        isContainerIngredient(arg0: $ItemStack_): boolean;
+        isBrewablePotion(potion: $Holder_<$Potion>): boolean;
+        static addVanillaMixes(builder: $PotionBrewing$Builder): void;
+        hasContainerMix(reagent: $ItemStack_, potionItem: $ItemStack_): boolean;
+        isPotionIngredient(stack: $ItemStack_): boolean;
+        hasPotionMix(reagent: $ItemStack_, potionItem: $ItemStack_): boolean;
+        isContainerIngredient(stack: $ItemStack_): boolean;
         getConversions(): $List<$PotionMixAccess<$Potion>>;
-        create$isContainer(arg0: $ItemStack_): boolean;
-        create$getPotionMixes(): $List<$PotionBrewing$Mix<$Potion>>;
+        create$isContainer(stack: $ItemStack_): boolean;
         create$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
+        create$getPotionMixes(): $List<$PotionBrewing$Mix<$Potion>>;
         containerMixes: $List<$PotionBrewing$Mix<$Item>>;
         containers: $List<$Ingredient>;
         static BREWING_TIME_SECONDS: number;
         potionMixes: $List<$PotionBrewing$Mix<$Potion>>;
         static EMPTY: $PotionBrewing;
-        constructor(arg0: $List_<$Ingredient_>, arg1: $List_<$PotionBrewing$Mix_<$Potion_>>, arg2: $List_<$PotionBrewing$Mix_<$Item_>>);
+        constructor(containers: $List_<$Ingredient_>, potionMixes: $List_<$PotionBrewing$Mix_<$Potion_>>, containerMixes: $List_<$PotionBrewing$Mix_<$Item_>>);
         constructor(arg0: $List_<$Ingredient_>, arg1: $List_<$PotionBrewing$Mix_<$Potion_>>, arg2: $List_<$PotionBrewing$Mix_<$Item_>>, arg3: $List_<$IBrewingRecipe>);
         get recipes(): $List<$IBrewingRecipe>;
         get conversions(): $List<$PotionMixAccess<$Potion>>;
@@ -152,17 +156,28 @@ declare module "@package/net/minecraft/world/item/alchemy" {
         constructor(from: $Holder_<$Object>, ingredient: $Ingredient_, to: $Holder_<$Object>);
     }
     export interface $Potion extends RegistryMarked<RegistryTypes.PotionTag, RegistryTypes.Potion> {}
+    /**
+     * Defines a type of potion in the game. These are used to associate one or more effects with items such as the bottled potion or the tipped arrows.
+     */
     export class $Potion implements $FeatureElement {
-        static getName(arg0: ($Holder_<$Potion>) | undefined, arg1: string): string;
-        requiredFeatures(...arg0: $FeatureFlag[]): $Potion;
-        requiredFeatures(): $FeatureFlagSet;
+        static getName(potion: ($Holder_<$Potion>) | undefined, descriptionId: string): string;
+        /**
+         * Gets the base effects applied by the potion.
+         * @return The effects applied by the potion.
+         */
         getEffects(): $List<$MobEffectInstance>;
+        requiredFeatures(...requiredFeatures: $FeatureFlag[]): $Potion;
+        requiredFeatures(): $FeatureFlagSet;
+        /**
+         * Checks if the potion contains any instant effects such as instant health or instant damage.
+         * @return Whether the potion contained an instant effect.
+         */
         hasInstantEffects(): boolean;
-        isEnabled(arg0: $FeatureFlagSet): boolean;
+        isEnabled(enabledFeatures: $FeatureFlagSet): boolean;
         static CODEC: $Codec<$Holder<$Potion>>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $Holder<$Potion>>;
-        constructor(...arg0: $MobEffectInstance[]);
-        constructor(arg0: string, ...arg1: $MobEffectInstance[]);
+        constructor(...effects: $MobEffectInstance[]);
+        constructor(name: string | null, ...effects: $MobEffectInstance[]);
         get effects(): $List<$MobEffectInstance>;
     }
     /**

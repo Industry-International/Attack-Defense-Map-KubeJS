@@ -68,23 +68,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -92,17 +86,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(player: $Player, hand: $InteractionHand_, item: $ItemStack_);
         get target(): $KubeRayTraceResult;
@@ -126,16 +126,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     export class $FoodBuilder {
         build(): $FoodProperties;
         /**
+         * Sets seconds it takes to eat the food.
+         */
+        eatSeconds(seconds: number): $FoodBuilder;
+        /**
          * Sets the saturation modifier. Note that the saturation restored is hunger * saturation.
          */
         saturation(s: number): $FoodBuilder;
         /**
-         * Sets a callback that is called when the food is eaten.
-         * 
-         * Note: This is currently not having effect in `ItemEvents.modification`,
-         * as firing this callback requires an `ItemBuilder` instance in the `Item`.
+         * Removes an effect from the food.
          */
-        eaten(e: $Consumer_<$FoodEatenKubeEvent>): $FoodBuilder;
+        removeEffect(mobEffect: $MobEffect_): $FoodBuilder;
         /**
          * Adds an effect to the food. Note that the effect duration is in ticks (20 ticks = 1 second).
          * 
@@ -153,19 +154,18 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          * Sets whether the food is always edible.
          */
         alwaysEdible(flag: boolean): $FoodBuilder;
-        usingConvertsTo(stack: $ItemStack_): $FoodBuilder;
+        /**
+         * Sets a callback that is called when the food is eaten.
+         * 
+         * Note: This is currently not having effect in `ItemEvents.modification`,
+         * as firing this callback requires an `ItemBuilder` instance in the `Item`.
+         */
+        eaten(e: $Consumer_<$FoodEatenKubeEvent>): $FoodBuilder;
         /**
          * Sets the hunger restored.
          */
         nutrition(h: number): $FoodBuilder;
-        /**
-         * Removes an effect from the food.
-         */
-        removeEffect(mobEffect: $MobEffect_): $FoodBuilder;
-        /**
-         * Sets seconds it takes to eat the food.
-         */
-        eatSeconds(seconds: number): $FoodBuilder;
+        usingConvertsTo(stack: $ItemStack_): $FoodBuilder;
         /**
          * Sets the food is fast to eat (having half of the eating time).
          */
@@ -187,23 +187,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -211,17 +205,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(player: $Player, crafted: $ItemStack_, container: $Container);
         get item(): $ItemStack;
@@ -240,23 +240,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         modifyAll(consumer: $Consumer_<$TextActionBuilder>): void;
         modifyAll(requirements: $TooltipRequirements_, consumer: $Consumer_<$TextActionBuilder>): void;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -264,17 +258,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(callback: $Consumer_<$ItemTooltipData>);
     }
     export class $ItemEntityInteractedKubeEvent implements $KubePlayerEvent {
@@ -295,23 +295,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -319,17 +313,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(player: $Player, entity: $Entity, hand: $InteractionHand_, item: $ItemStack_);
         get target(): $Entity;
@@ -360,23 +360,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         registerAll(overwriteId: $ResourceLocation_, callback: $ClampedItemPropertyFunction_): void;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -384,17 +378,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor();
     }
     export class $ItemEnchantmentsWrapper {
@@ -425,23 +425,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -449,17 +443,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(player: $Player, entity: $ItemEntity);
         get item(): $ItemStack;
@@ -484,23 +484,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -508,17 +502,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(player: $Player, smelted: $ItemStack_);
         get item(): $ItemStack;
         get entity(): $Player;
@@ -529,10 +529,10 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     }
     export class $ArmorMaterialBuilder extends $BuilderBase<$ArmorMaterial> {
         layers(v: $ArmorMaterial$Layer[]): this;
+        defense(v: $Map_<$ArmorItem$Type_, number>): this;
+        knockbackResistance(v: number): this;
         toughness(v: number): this;
         equipSound(sound: $Holder_<$SoundEvent>): this;
-        knockbackResistance(v: number): this;
-        defense(v: $Map_<$ArmorItem$Type_, number>): this;
         repairIngredient(v: $Supplier_<$Ingredient>): this;
         enchantmentValue(v: number): this;
         registryKey: $ResourceKey<$Registry<$ArmorMaterial>>;
@@ -541,30 +541,30 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         constructor(i: $ResourceLocation_);
     }
     export class $RangedWrapper implements $InventoryKJS {
-        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
-        kjs$getSlotLimit(slot: number): number;
         kjs$isMutable(): boolean;
-        kjs$extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        kjs$isItemValid(slot: number, stack: $ItemStack_): boolean;
         kjs$insertItem(slot: number, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        kjs$setStackInSlot(slot: number, stack: $ItemStack_): void;
         kjs$getSlots(): number;
         kjs$getStackInSlot(slot: number): $ItemStack;
-        kjs$isItemValid(slot: number, stack: $ItemStack_): boolean;
-        isEmpty(): boolean;
-        getBlock(level: $Level_): $LevelBlock;
-        getHeight(): number;
-        setChanged(): void;
-        getWidth(): number;
-        asContainer(): $Container;
-        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
-        countNonEmpty(): number;
-        countNonEmpty(match: $ItemPredicate_): number;
-        getAllItems(): $List<$ItemStack>;
-        count(match: $ItemPredicate_): number;
-        count(): number;
+        kjs$extractItem(slot: number, amount: number, simulate: boolean): $ItemStack;
+        kjs$getSlotLimit(slot: number): number;
         find(): number;
         find(match: $ItemPredicate_): number;
         clear(): void;
         clear(match: $ItemPredicate_): void;
+        count(): number;
+        count(match: $ItemPredicate_): number;
+        getBlock(level: $Level_): $LevelBlock;
+        isEmpty(): boolean;
+        countNonEmpty(match: $ItemPredicate_): number;
+        countNonEmpty(): number;
+        getHeight(): number;
+        insertItem(stack: $ItemStack_, simulate: boolean): $ItemStack;
+        getWidth(): number;
+        setChanged(): void;
+        asContainer(): $Container;
+        getAllItems(): $List<$ItemStack>;
         constructor(compose: $InventoryKJS, minSlot: number, maxSlotExclusive: number);
         get empty(): boolean;
         get height(): number;
@@ -623,23 +623,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -647,17 +641,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(e: $LivingEntity, is: $ItemStack_);
         get item(): $ItemStack;
         get entity(): $Entity;
@@ -681,24 +681,24 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         constructor();
     }
     export class $MutableToolTier implements $Tier {
-        getSpeed(): number;
-        getUses(): number;
-        getEnchantmentValue(): number;
-        getIncorrectBlocksForDropsTag(): $ResourceLocation;
-        setIncorrectBlocksForDropsTag(tag: $ResourceLocation_): void;
-        setSpeed(f: number): void;
-        getVanillaRepairIngredient(): $Ingredient;
         getIncorrectBlocksForDrops(): $TagKey<$Block>;
+        getVanillaRepairIngredient(): $Ingredient;
+        setUses(i: number): void;
+        getEnchantmentValue(): number;
+        getUses(): number;
+        getSpeed(): number;
+        setSpeed(f: number): void;
         getAttackDamageBonus(): number;
         setAttackDamageBonus(f: number): void;
         setEnchantmentValue(i: number): void;
         setRepairIngredient(arg0: $Ingredient_): void;
-        setUses(i: number): void;
+        getIncorrectBlocksForDropsTag(): $ResourceLocation;
+        setIncorrectBlocksForDropsTag(tag: $ResourceLocation_): void;
         createToolProperties(arg0: $TagKey_<$Block>): $Tool;
         parent: $Tier;
         constructor(p: $Tier_);
-        get vanillaRepairIngredient(): $Ingredient;
         get incorrectBlocksForDrops(): $TagKey<$Block>;
+        get vanillaRepairIngredient(): $Ingredient;
         set repairIngredient(value: $Ingredient_);
     }
     export class $ItemBuilder$NameCallback {
@@ -718,23 +718,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         modify(arg0: $ItemPredicate_, c: $Consumer_<$ItemModificationKubeEvent$ItemModifications>): void;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -742,23 +736,29 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor();
     }
     export class $ItemHandlerUtils {
-        static giveItemToPlayer(player: $Player, stack: $ItemStack_, preferredSlot: number): void;
         static insertItem(dest: $InventoryKJS, stack: $ItemStack_, simulate: boolean): $ItemStack;
         static insertItemStacked(inventory: $InventoryKJS, stack: $ItemStack_, simulate: boolean): $ItemStack;
+        static giveItemToPlayer(player: $Player, stack: $ItemStack_, preferredSlot: number): void;
         constructor();
     }
     export class $KubeJSItemStackData {
@@ -782,23 +782,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -806,17 +800,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(e: $PlayerDestroyItemEvent);
         get item(): $ItemStack;
@@ -830,23 +830,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     export class $DynamicItemTooltipsKubeEvent implements $KubeEvent {
         add(text: $List_<$Component_>): void;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -854,17 +848,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         item: $ItemStack;
         advanced: boolean;
         ctrl: boolean;
@@ -884,7 +884,6 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          * @deprecated
          */
         group(g: string): this;
-        component<T>(type: $DataComponentType_<T>, value: T): this;
         /**
          * Determines if player will start using the item.
          * 
@@ -904,13 +903,33 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         maxStackSize(v: number): this;
         /**
-         * Set the food nutrition and saturation of the item.
+         * Adds subtypes to the item. The function should return a collection of item stacks, each with a different subtype.
+         * 
+         * Each subtype will appear as a separate item in JEI and the creative inventory.
          */
-        food(nutrition: number, saturation: number): this;
+        subtypes(fn: $Function_<$ItemStack, $Collection<$ItemStack>>): this;
         /**
          * Set the food properties of the item.
          */
         food(b: $Consumer_<$FoodBuilder>): this;
+        /**
+         * Set the food nutrition and saturation of the item.
+         */
+        food(nutrition: number, saturation: number): this;
+        /**
+         * Gets called when the item is used to hurt an entity.
+         * 
+         * For example, when using a sword to hit a mob, this is called.
+         */
+        hurtEnemy(context: $Predicate_<$ItemBuilder$HurtEnemyContext>): this;
+        /**
+         * When players did not finish using the item but released the right mouse button halfway through.
+         * 
+         * An example is the bow, where the arrow is shot when the player releases the right mouse button.
+         * 
+         * To ensure the bow won't finish using, Minecraft sets the `useDuration` to a very high number (1h).
+         */
+        releaseUsing(releaseUsing: $ItemBuilder$ReleaseUsingCallback_): this;
         /**
          * When players finish using the item.
          * 
@@ -927,37 +946,19 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         useDuration(useDuration: $ToIntBiFunction_<$ItemStack, $LivingEntity>): this;
         /**
-         * Sets the item's rarity.
-         */
-        rarity(v: $Rarity_): this;
-        /**
          * Adds a tooltip to the item.
          */
         tooltip(text: $Component_): this;
         /**
-         * When players did not finish using the item but released the right mouse button halfway through.
-         * 
-         * An example is the bow, where the arrow is shot when the player releases the right mouse button.
-         * 
-         * To ensure the bow won't finish using, Minecraft sets the `useDuration` to a very high number (1h).
+         * Makes the item glow like enchanted, even if it's not enchanted.
          */
-        releaseUsing(releaseUsing: $ItemBuilder$ReleaseUsingCallback_): this;
-        /**
-         * Sets the item's max damage. Default is 0 (No durability).
-         */
-        maxDamage(v: number): this;
-        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>, showInTooltip: boolean): this;
-        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>): this;
+        glow(v: boolean): this;
         /**
          * Determines the width of the item's durability bar. Defaulted to vanilla behavior.
          * 
          * The function should return a value between 0 and 13 (max width of the bar).
          */
         barWidth(barWidth: $ToIntFunction_<$ItemStack>): this;
-        /**
-         * Makes the item glow like enchanted, even if it's not enchanted.
-         */
-        glow(v: boolean): this;
         /**
          * Sets the item's burn time. Default is 0 (Not a fuel).
          */
@@ -967,6 +968,10 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         barColor(barColor: $Function_<$ItemStack, $KubeColor>): this;
         /**
+         * Sets the item's rarity.
+         */
+        rarity(v: $Rarity_): this;
+        /**
          * Makes the item fire resistant like netherite tools.
          */
         fireResistant(): this;
@@ -974,22 +979,12 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          * Makes the item fire resistant like netherite tools (or not).
          */
         fireResistant(isFireResistant: boolean): this;
+        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>): this;
+        jukeboxPlayable(song: $ResourceKey_<$JukeboxSong>, showInTooltip: boolean): this;
         /**
-         * Gets called when the item is used to hurt an entity.
-         * 
-         * For example, when using a sword to hit a mob, this is called.
+         * Sets the item's max damage. Default is 0 (No durability).
          */
-        hurtEnemy(context: $Predicate_<$ItemBuilder$HurtEnemyContext>): this;
-        /**
-         * Adds subtypes to the item. The function should return a collection of item stacks, each with a different subtype.
-         * 
-         * Each subtype will appear as a separate item in JEI and the creative inventory.
-         */
-        subtypes(fn: $Function_<$ItemStack, $Collection<$ItemStack>>): this;
-        /**
-         * Determines the animation of the item when used, e.g. eating food.
-         */
-        useAnimation(animation: $UseAnim_): this;
+        maxDamage(v: number): this;
         /**
          * Sets the item's container item, e.g. a bucket for a milk bucket.
          */
@@ -999,12 +994,20 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          * Makes the item not stackable, equivalent to setting the item's max stack size to 1.
          */
         unstackable(): this;
+        /**
+         * Determines the animation of the item when used, e.g. eating food.
+         */
+        useAnimation(animation: $UseAnim_): this;
         disableRepair(): this;
         createItemProperties(): $Item$Properties;
         sourceLine: $SourceLine;
         id: $ResourceLocation;
         registryKey: $ResourceKey<$Registry<$Item>>;
         constructor(id: $ResourceLocation_);
+        /**
+         * Add a default component to the item. Can be used for attribute modifiers, default enchantments... and so on.
+         */
+        component<T extends keyof DataComponentTypes.InputMap>(type: T, data: DataComponentTypes.InputMap[T]): this;
     }
     export class $ItemPickedUpKubeEvent implements $KubePlayerEvent {
         /**
@@ -1020,23 +1023,17 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -1044,17 +1041,23 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(player: $Player, entity: $ItemEntity, stack: $ItemStack_);
         get item(): $ItemStack;
@@ -1072,131 +1075,131 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     }
     export class $ItemModificationKubeEvent$ItemModifications extends $Record implements $ItemComponentFunctions {
         item(): $Item;
+        setBurnTime(i: $TickDuration_): void;
         setNameKey(key: string): void;
         getComponentMap(): $DataComponentMap;
-        setBurnTime(i: $TickDuration_): void;
         disableRepair(): void;
-        setTier(builder: $Consumer_<$MutableToolTier>): void;
         setCraftingRemainder(item: $Item_): void;
+        setTier(builder: $Consumer_<$MutableToolTier>): void;
+        setUnbreakableWithTooltip(): void;
         setBundleContents(items: $List_<$ItemStack_>): void;
-        setBucketEntityData(tag: $CompoundTag_): void;
         setNoteBlockSound(id: $ResourceLocation_): void;
+        setFireResistant(): void;
+        setBucketEntityData(tag: $CompoundTag_): void;
+        setMaxStackSize(size: number): void;
         setChargedProjectiles(items: $List_<$ItemStack_>): void;
         setMapItemColor(color: $KubeColor_): void;
-        getAttributeModifiers(): $ItemAttributeModifiers;
-        setMaxStackSize(size: number): void;
-        setFireResistant(): void;
-        setBlockEntityData(tag: $CompoundTag_): void;
         setFireworkExplosion(explosion: $FireworkExplosion_): void;
-        setUnbreakable(): void;
+        setBlockEntityData(tag: $CompoundTag_): void;
+        getAttributeModifiers(): $ItemAttributeModifiers;
         setMaxDamage(maxDamage: number): void;
-        setDamage(damage: number): void;
-        setRepairCost(repairCost: number): void;
-        setTool(tool: $Tool_): void;
-        modifyFood(foodBuilder: $Consumer_<$FoodBuilder>): void;
-        setInstrument(instrument: $Holder_<$Instrument>): void;
-        setFood(foodProperties: $FoodProperties_): void;
-        setFood(nutrition: number, saturation: number): void;
-        setFireworks(fireworks: $Fireworks_): void;
         setItemName(component: $Component_): void;
-        setUnbreakableWithTooltip(): void;
-        setAdditionalTooltipHidden(): void;
-        setDyedColorWithTooltip(color: $KubeColor_): void;
-        setBlockStateProperties(properties: $Map_<string, string>): void;
-        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>, seed: number): void;
-        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>): void;
-        resetComponents(): $ComponentFunctions;
+        modifyFood(foodBuilder: $Consumer_<$FoodBuilder>): void;
+        setUnbreakable(): void;
+        setDamage(damage: number): void;
+        setTool(tool: $Tool_): void;
+        setFireworks(fireworks: $Fireworks_): void;
+        setInstrument(instrument: $Holder_<$Instrument>): void;
+        setRepairCost(repairCost: number): void;
+        setFood(nutrition: number, saturation: number): void;
+        setFood(foodProperties: $FoodProperties_): void;
+        setTooltipHidden(): void;
         setGlintOverride(override: boolean): void;
         setCustomModelData(data: number): void;
+        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>): void;
+        setContainerLootTable(lootTable: $ResourceKey_<$LootTable>, seed: number): void;
         getComponentString(): string;
+        resetComponents(): $ComponentFunctions;
         setPotionContents(contents: $PotionContents_): void;
-        setTooltipHidden(): void;
-        setBaseColor(color: $DyeColor_): void;
-        setLockCode(lock: string): void;
-        setProfile(name: string, uuid: $UUID_): void;
-        setProfile(profile: $GameProfile): void;
+        setDyedColorWithTooltip(color: $KubeColor_): void;
+        setBlockStateProperties(properties: $Map_<string, string>): void;
+        setAdditionalTooltipHidden(): void;
+        remove(type: $DataComponentType_<never>): $ComponentFunctions;
+        patch(components: $DataComponentPatch_): $ComponentFunctions;
+        getCustomData(): $CompoundTag;
         setEntityData(tag: $CompoundTag_): void;
         setDyedColor(color: $KubeColor_): void;
         setPotionId(potion: $Holder_<$Potion>): void;
-        getCustomData(): $CompoundTag;
         setUnit(component: $DataComponentType_<$Unit_>): $ComponentFunctions;
-        setCustomData(tag: $CompoundTag_): void;
         setRarity(rarity: $Rarity_): void;
+        setLockCode(lock: string): void;
         setCustomName(name: $Component_): void;
         getCustomName(): $Component;
-        setLore(lines: $List_<$Component_>, styledLines: $List_<$Component_>): void;
         setLore(lines: $List_<$Component_>): void;
-        remove(type: $DataComponentType_<never>): $ComponentFunctions;
-        patch(components: $DataComponentPatch_): $ComponentFunctions;
-        setAttributeModifiersWithTooltip(modifiers: $List_<$ItemAttributeModifiers$Entry_>): void;
-        getAttributeModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): $AttributeModifier;
-        getBaseAttackSpeed(): number;
-        /**
-         * Overrides the *base* attack damage of this item to be the given value, keeping other modifiers intact.
-         * Note that since players have a default attack damage of 1.0, total damage will be (dmg + 1.0) before other modifiers.
-         */
-        setBaseAttackDamage(dmg: number): void;
+        setLore(lines: $List_<$Component_>, styledLines: $List_<$Component_>): void;
+        setProfile(name: string, uuid: $UUID_): void;
+        setProfile(profile: $GameProfile): void;
+        setCustomData(tag: $CompoundTag_): void;
+        setBaseColor(color: $DyeColor_): void;
         addAttributeModifier(attribute: $Holder_<$Attribute>, mod: $AttributeModifier_, slot: $EquipmentSlotGroup_): void;
         hasAttributeModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): boolean;
+        setAttributeModifiers(modifiers: $List_<$ItemAttributeModifiers$Entry_>): void;
+        getBaseAttackDamage(): number;
+        getAttributeModifier(attribute: $Holder_<$Attribute>, id: $ResourceLocation_): $AttributeModifier;
+        getBaseAttackSpeed(): number;
         /**
          * Sets the attack damage of this item to the given value, **removing** all other modifiers to attack damage.
          * Note that since players have a default attack damage of 1.0, total damage will be (dmg + 1.0) before other modifiers.
          * (In practice, this simply means that most weapons have this value set to 1 less than what you might think.)
          */
         setAttackDamage(dmg: number): void;
-        setAttributeModifiers(modifiers: $List_<$ItemAttributeModifiers$Entry_>): void;
-        getBaseAttackDamage(): number;
         getAttackDamage(): number;
         /**
          * Overrides the *base* attack speed of this item to be the given value, keeping other modifiers intact.
          * Note that players have a default attack speed of 4.0, so this modifier is added on top of that.
          */
         setBaseAttackSpeed(speed: number): void;
-        getAttackSpeed(): number;
+        /**
+         * Overrides the *base* attack damage of this item to be the given value, keeping other modifiers intact.
+         * Note that since players have a default attack damage of 1.0, total damage will be (dmg + 1.0) before other modifiers.
+         */
+        setBaseAttackDamage(dmg: number): void;
+        setAttributeModifiersWithTooltip(modifiers: $List_<$ItemAttributeModifiers$Entry_>): void;
         /**
          * Sets the attack speed of this item to the given value, **removing** all other modifiers to attack speed.
          * Note that players have a default attack speed of 4.0, so this modifier is added on top of that.
          * (Example: Swords have an attack speed of -2.4, leading to a total value of 1.6 without any other changes.)
          */
         setAttackSpeed(speed: number): void;
+        getAttackSpeed(): number;
         constructor(item: $Item_);
         get<T extends keyof DataComponentTypes.OutputMap>(type: T): DataComponentTypes.OutputMap[T] | null;
         getOrDefault<T extends keyof DataComponentTypes.OutputMap>(type: T, _default: DataComponentTypes.OutputMap[T]): DataComponentTypes.OutputMap[T];
         set(components: $DataComponentMap_): this;
         set<T extends keyof DataComponentTypes.InputMap>(type: T, data: DataComponentTypes.InputMap[T]): this;
+        set burnTime(value: $TickDuration_);
         set nameKey(value: string);
         get componentMap(): $DataComponentMap;
-        set burnTime(value: $TickDuration_);
-        set tier(value: $Consumer_<$MutableToolTier>);
         set craftingRemainder(value: $Item_);
+        set tier(value: $Consumer_<$MutableToolTier>);
         set bundleContents(value: $List_<$ItemStack_>);
-        set bucketEntityData(value: $CompoundTag_);
         set noteBlockSound(value: $ResourceLocation_);
+        set bucketEntityData(value: $CompoundTag_);
+        set maxStackSize(value: number);
         set chargedProjectiles(value: $List_<$ItemStack_>);
         set mapItemColor(value: $KubeColor_);
-        set maxStackSize(value: number);
-        set blockEntityData(value: $CompoundTag_);
         set fireworkExplosion(value: $FireworkExplosion_);
+        set blockEntityData(value: $CompoundTag_);
         set maxDamage(value: number);
-        set damage(value: number);
-        set repairCost(value: number);
-        set tool(value: $Tool_);
-        set instrument(value: $Holder_<$Instrument>);
-        set fireworks(value: $Fireworks_);
         set itemName(value: $Component_);
-        set dyedColorWithTooltip(value: $KubeColor_);
-        set blockStateProperties(value: $Map_<string, string>);
+        set damage(value: number);
+        set tool(value: $Tool_);
+        set fireworks(value: $Fireworks_);
+        set instrument(value: $Holder_<$Instrument>);
+        set repairCost(value: number);
         set glintOverride(value: boolean);
         set customModelData(value: number);
         get componentString(): string;
         set potionContents(value: $PotionContents_);
-        set baseColor(value: $DyeColor_);
-        set lockCode(value: string);
+        set dyedColorWithTooltip(value: $KubeColor_);
+        set blockStateProperties(value: $Map_<string, string>);
         set entityData(value: $CompoundTag_);
         set dyedColor(value: $KubeColor_);
         set potionId(value: $Holder_<$Potion>);
         set unit(value: $DataComponentType_<$Unit_>);
         set rarity(value: $Rarity_);
+        set lockCode(value: string);
+        set baseColor(value: $DyeColor_);
         set attributeModifiersWithTooltip(value: $List_<$ItemAttributeModifiers$Entry_>);
     }
     export class $ItemPredicate {
@@ -1207,25 +1210,25 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     }
     export interface $ItemPredicate extends $Predicate<$ItemStack>, $IngredientSupplierKJS {
         test(itemStack: $ItemStack_): boolean;
-        asIngredient(): $Ingredient;
-        getItemIds(): $Set<string>;
-        getStackArray(): $ItemStack[];
-        getFirst(): $ItemStack;
-        getStacks(): $ItemStackSet;
-        testItem(item: $Item_): boolean;
-        getItemStream(): $Stream<$Item>;
-        getItemTypes(): $Set<$Item>;
-        isWildcard(): boolean;
         getDisplayStacks(): $ItemStackSet;
         canBeUsedForMatching(): boolean;
-        get itemIds(): $Set<string>;
-        get stackArray(): $ItemStack[];
+        asIngredient(): $Ingredient;
+        getItemTypes(): $Set<$Item>;
+        testItem(item: $Item_): boolean;
+        getFirst(): $ItemStack;
+        getStacks(): $ItemStackSet;
+        getItemIds(): $Set<string>;
+        getStackArray(): $ItemStack[];
+        getItemStream(): $Stream<$Item>;
+        isWildcard(): boolean;
+        get displayStacks(): $ItemStackSet;
+        get itemTypes(): $Set<$Item>;
         get first(): $ItemStack;
         get stacks(): $ItemStackSet;
+        get itemIds(): $Set<string>;
+        get stackArray(): $ItemStack[];
         get itemStream(): $Stream<$Item>;
-        get itemTypes(): $Set<$Item>;
         get wildcard(): boolean;
-        get displayStacks(): $ItemStackSet;
     }
     /**
      * Values that may be interpreted as {@link $ItemPredicate}.
@@ -1259,15 +1262,15 @@ declare module "@package/dev/latvian/mods/kubejs/item" {
     export class $FoodBuilder$EffectSupplier implements $Supplier<$MobEffectInstance> {
     }
     export class $KubeJSItemEventHandler {
+        static rightClick(event: $PlayerInteractEvent$RightClickItem): void;
         static crafted(event: $PlayerEvent$ItemCraftedEvent): void;
         static smelted(event: $PlayerEvent$ItemSmeltedEvent): void;
-        static rightClick(event: $PlayerInteractEvent$RightClickItem): void;
-        static itemDrop(event: $ItemTossEvent): void;
-        static leftClickEmpty(event: $PlayerInteractEvent$LeftClickEmpty): void;
         static itemPickupPost(event: $ItemEntityPickupEvent$Post): void;
+        static itemPickupPre(event: $ItemEntityPickupEvent$Pre): void;
         static entityInteract(event: $PlayerInteractEvent$EntityInteract): void;
         static itemDestroyed(event: $PlayerDestroyItemEvent): void;
-        static itemPickupPre(event: $ItemEntityPickupEvent$Pre): void;
+        static leftClickEmpty(event: $PlayerInteractEvent$LeftClickEmpty): void;
+        static itemDrop(event: $ItemTossEvent): void;
         constructor();
     }
 }

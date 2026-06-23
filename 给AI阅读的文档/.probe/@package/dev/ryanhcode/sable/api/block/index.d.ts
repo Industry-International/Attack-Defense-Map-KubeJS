@@ -25,8 +25,8 @@ declare module "@package/dev/ryanhcode/sable/api/block" {
     export class $BlockSubLevelAssemblyListener {
     }
     export interface $BlockSubLevelAssemblyListener {
-        beforeMove(arg0: $ServerLevel, arg1: $ServerLevel, arg2: $BlockState_, arg3: $BlockPos_, arg4: $BlockPos_): void;
         afterMove(arg0: $ServerLevel, arg1: $ServerLevel, arg2: $BlockState_, arg3: $BlockPos_, arg4: $BlockPos_): void;
+        beforeMove(arg0: $ServerLevel, arg1: $ServerLevel, arg2: $BlockState_, arg3: $BlockPos_, arg4: $BlockPos_): void;
     }
     /**
      * Values that may be interpreted as {@link $BlockSubLevelAssemblyListener}.
@@ -37,12 +37,12 @@ declare module "@package/dev/ryanhcode/sable/api/block" {
     export interface $BlockEntitySubLevelActor {
         sable$getConnectionDependencies(): $Iterable<$SubLevel>;
         sable$getLoadingDependencies(): $Iterable<$SubLevel>;
-        sable$physicsTick(arg0: $ServerSubLevel, arg1: $RigidBodyHandle, arg2: number): void;
         sable$tick(arg0: $ServerSubLevel): void;
+        sable$physicsTick(arg0: $ServerSubLevel, arg1: $RigidBodyHandle, arg2: number): void;
     }
     export class $BlockWithSubLevelCollisionCallback {
-        static hasCallback(arg0: $BlockState_): boolean;
         static sable$getCallback(arg0: $BlockState_): $BlockSubLevelCollisionCallback;
+        static hasCallback(arg0: $BlockState_): boolean;
     }
     export interface $BlockWithSubLevelCollisionCallback {
         sable$getCallback(): $BlockSubLevelCollisionCallback;

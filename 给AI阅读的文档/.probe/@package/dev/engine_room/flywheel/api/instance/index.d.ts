@@ -6,9 +6,9 @@ declare module "@package/dev/engine_room/flywheel/api/instance" {
     export class $InstanceHandle {
     }
     export interface $InstanceHandle {
+        setChanged(): void;
         setVisible(arg0: boolean): void;
         isVisible(): boolean;
-        setChanged(): void;
         setDeleted(): void;
     }
     export class $InstancerProvider {
@@ -52,8 +52,8 @@ declare module "@package/dev/engine_room/flywheel/api/instance" {
         type(): $InstanceType<never>;
         "delete"(): void;
         handle(): $InstanceHandle;
-        setVisible(visible: boolean): void;
         setChanged(): void;
+        setVisible(visible: boolean): void;
         set visible(value: boolean);
     }
 }

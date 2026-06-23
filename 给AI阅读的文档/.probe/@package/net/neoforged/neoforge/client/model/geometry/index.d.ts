@@ -12,116 +12,244 @@ import { $List, $Map_, $Set, $List_ } from "@package/java/util";
 import { $Transformation } from "@package/com/mojang/math";
 
 declare module "@package/net/neoforged/neoforge/client/model/geometry" {
+    /**
+     * A geometry baking context that is bound to a `BlockModel`.
+     * 
+     * Users should not be instantiating this themselves.
+     */
     export class $BlockGeometryBakingContext implements $IGeometryBakingContext {
-        copyFrom(arg0: $BlockGeometryBakingContext): void;
-        getMaterial(arg0: string): $Material;
+        copyFrom(other: $BlockGeometryBakingContext): void;
         useAmbientOcclusion(): boolean;
-        getTransforms(): $ItemTransforms;
-        setGui3d(arg0: boolean): void;
-        isGui3d(): boolean;
-        bake(arg0: $ModelBaker, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState, arg3: $ItemOverrides): $BakedModel;
+        getMaterial(name: string): $Material;
         useBlockLight(): boolean;
+        isGui3d(): boolean;
+        getTransforms(): $ItemTransforms;
+        bake(baker: $ModelBaker, bakedTextureGetter: $Function_<$Material, $TextureAtlasSprite>, modelTransform: $ModelState, overrides: $ItemOverrides): $BakedModel;
         getModelName(): string;
+        hasMaterial(name: string): boolean;
+        isComponentVisible(part: string, fallback: boolean): boolean;
         getRootTransform(): $Transformation;
-        isComponentVisible(arg0: string, arg1: boolean): boolean;
-        hasMaterial(arg0: string): boolean;
         getRenderTypeHint(): $ResourceLocation;
+        setGui3d(gui3d: boolean): void;
         getCustomGeometry(): $IUnbakedGeometry<never>;
         hasCustomGeometry(): boolean;
-        setCustomGeometry(arg0: $IUnbakedGeometry_<never>): void;
-        setRootTransform(arg0: $Transformation): void;
-        setRenderTypeHint(arg0: $ResourceLocation_): void;
-        getRenderType(arg0: $ResourceLocation_): $RenderTypeGroup;
+        setCustomGeometry(geometry: $IUnbakedGeometry_<never>): void;
+        setRenderTypeHint(renderTypeHint: $ResourceLocation_): void;
+        setRootTransform(rootTransform: $Transformation): void;
+        /**
+         * @return a `RenderTypeGroup` with the given name, or the empty group if not found.
+         */
+        getRenderType(name: $ResourceLocation_): $RenderTypeGroup;
         owner: $BlockModel;
         visibilityData: $BlockGeometryBakingContext$VisibilityData;
-        constructor(arg0: $BlockModel);
+        constructor(owner: $BlockModel);
         get transforms(): $ItemTransforms;
         get modelName(): string;
     }
+    /**
+     * Helper for dealing with unbaked models and geometries.
+     */
     export class $UnbakedGeometryHelper {
-        static composeRootTransformIntoModelState(arg0: $ModelState, arg1: $Transformation): $ModelState;
-        static createUnbakedItemMaskElements(arg0: number, arg1: $TextureAtlasSprite): $List<$BlockElement>;
-        static createUnbakedItemMaskElements(arg0: number, arg1: $TextureAtlasSprite, arg2: $ExtraFaceData_): $List<$BlockElement>;
-        static bake(arg0: $BlockModel, arg1: $ModelBaker, arg2: $BlockModel, arg3: $Function_<$Material, $TextureAtlasSprite>, arg4: $ModelState, arg5: boolean): $BakedModel;
-        static createUnbakedItemElements(arg0: number, arg1: $TextureAtlasSprite, arg2: $ExtraFaceData_): $List<$BlockElement>;
-        static createUnbakedItemElements(arg0: number, arg1: $TextureAtlasSprite): $List<$BlockElement>;
-        static resolveDirtyMaterial(arg0: string, arg1: $IGeometryBakingContext): $Material;
-        static bakeElements(arg0: $IModelBuilder<never>, arg1: $List_<$BlockElement>, arg2: $Function_<$Material, $TextureAtlasSprite>, arg3: $ModelState): void;
-        static bakeElements(arg0: $List_<$BlockElement>, arg1: $Function_<$Material, $TextureAtlasSprite>, arg2: $ModelState): $List<$BakedQuad>;
-        static applyRootTransform(arg0: $ModelState, arg1: $Transformation): $IQuadTransformer;
-        static bakeElementFace(arg0: $BlockElement, arg1: $BlockElementFace_, arg2: $TextureAtlasSprite, arg3: $Direction_, arg4: $ModelState): $BakedQuad;
+        /**
+         * Helper for baking `BlockModel` instances. Handles baking custom geometries and deferring item model baking.
+         */
+        static bake(blockModel: $BlockModel, modelBaker: $ModelBaker, owner: $BlockModel, spriteGetter: $Function_<$Material, $TextureAtlasSprite>, modelState: $ModelState, guiLight3d: boolean): $BakedModel;
+        /**
+         * @return a `ModelState` that combines the existing model state and the root transform
+         */
+        static composeRootTransformIntoModelState(modelState: $ModelState, rootTransform: $Transformation): $ModelState;
+        static createUnbakedItemMaskElements(layerIndex: number, sprite: $TextureAtlasSprite): $List<$BlockElement>;
+        /**
+         * Creates a list of block elements in the shape of the specified sprite contents.
+         * These can later be baked using the same, or another texture.
+         * 
+         * The `Direction#NORTH` and `Direction#SOUTH` faces take up the whole surface.
+         */
+        static createUnbakedItemMaskElements(layerIndex: number, sprite: $TextureAtlasSprite, faceData: $ExtraFaceData_): $List<$BlockElement>;
+        /**
+         * Bakes a list of block elements and returns the list of baked quads.
+         */
+        static bakeElements(elements: $List_<$BlockElement>, spriteGetter: $Function_<$Material, $TextureAtlasSprite>, modelState: $ModelState): $List<$BakedQuad>;
+        /**
+         * Bakes a list of block elements and feeds the baked quads to a model builder.
+         */
+        static bakeElements(builder: $IModelBuilder<never>, elements: $List_<$BlockElement>, spriteGetter: $Function_<$Material, $TextureAtlasSprite>, modelState: $ModelState): void;
+        /**
+         * Create an `IQuadTransformer` to apply a `Transformation` that undoes the `ModelState`
+         * transform (blockstate transform), applies the given root transform and then re-applies the
+         * blockstate transform.
+         */
+        static applyRootTransform(modelState: $ModelState, rootTransform: $Transformation): $IQuadTransformer;
+        /**
+         * Turns a single `BlockElementFace` into a `BakedQuad`.
+         */
+        static bakeElementFace(element: $BlockElement, face: $BlockElementFace_, sprite: $TextureAtlasSprite, direction: $Direction_, state: $ModelState): $BakedQuad;
+        /**
+         * Resolves a material that may have been defined with a filesystem path instead of a proper `ResourceLocation`.
+         * 
+         * The target atlas will always be `TextureAtlas#LOCATION_BLOCKS`.
+         */
+        static resolveDirtyMaterial(tex: string, owner: $IGeometryBakingContext): $Material;
+        /**
+         * Creates a list of block elements in the shape of the specified sprite contents.
+         * These can later be baked using the same, or another texture.
+         * 
+         * The `Direction#NORTH` and `Direction#SOUTH` faces take up the whole surface.
+         */
+        static createUnbakedItemElements(layerIndex: number, sprite: $TextureAtlasSprite, faceData: $ExtraFaceData_): $List<$BlockElement>;
+        static createUnbakedItemElements(layerIndex: number, sprite: $TextureAtlasSprite): $List<$BlockElement>;
         constructor();
     }
+    /**
+     * Base class for implementations of `IUnbakedGeometry` which do not wish to handle model creation themselves,
+     * instead supplying baked quads through a builder.
+     */
     export class $SimpleUnbakedGeometry<T extends $SimpleUnbakedGeometry<T>> implements $IUnbakedGeometry<T> {
-        bake(arg0: $IGeometryBakingContext, arg1: $ModelBaker, arg2: $Function_<$Material, $TextureAtlasSprite>, arg3: $ModelState, arg4: $ItemOverrides): $BakedModel;
-        resolveParents(arg0: $Function_<$ResourceLocation, $UnbakedModel>, arg1: $IGeometryBakingContext): void;
+        bake(context: $IGeometryBakingContext, baker: $ModelBaker, spriteGetter: $Function_<$Material, $TextureAtlasSprite>, modelState: $ModelState, overrides: $ItemOverrides): $BakedModel;
+        /**
+         * Resolve parents of nested `BlockModel`s which are later used in
+         * `IUnbakedGeometry#bake(IGeometryBakingContext, ModelBaker, Function, ModelState, ItemOverrides)`
+         * via `BlockModel#resolveParents(Function)`
+         */
+        resolveParents(modelGetter: $Function_<$ResourceLocation, $UnbakedModel>, context: $IGeometryBakingContext): void;
+        /**
+         * @return a set of all the components whose visibility may be configured via `IGeometryBakingContext`
+         */
         getConfigurableComponentNames(): $Set<string>;
         constructor();
         get configurableComponentNames(): $Set<string>;
     }
+    /**
+     * The context in which a geometry is being baked, providing information such as lighting and
+     * transforms, and allowing the user to create materials and query
+     * render types.
+     */
     export class $IGeometryBakingContext {
     }
     export interface $IGeometryBakingContext {
-        getMaterial(arg0: string): $Material;
+        /**
+         * @return a `RenderTypeGroup` with the given name, or the empty group if not found.
+         */
+        getRenderType(name: $ResourceLocation_): $RenderTypeGroup;
+        /**
+         * @return true if this model should render in 3D in a GUI, false otherwise
+         */
         useAmbientOcclusion(): boolean;
-        getTransforms(): $ItemTransforms;
-        getRenderType(arg0: $ResourceLocation_): $RenderTypeGroup;
-        isGui3d(): boolean;
+        /**
+         * Resolves the final texture name, taking into account texture aliases and replacements.
+         */
+        getMaterial(name: string): $Material;
+        /**
+         * @return true if this model should render in 3D in a GUI, false otherwise
+         */
         useBlockLight(): boolean;
+        /**
+         * @return true if this model should render in 3D in a GUI, false otherwise
+         */
+        isGui3d(): boolean;
+        /**
+         * @return the transforms for display in item form.
+         */
+        getTransforms(): $ItemTransforms;
+        /**
+         * @return the name of the model being baked for logging and caching purposes.
+         */
         getModelName(): string;
+        /**
+         * Checks if a material is present in the model.
+         */
+        hasMaterial(name: string): boolean;
+        /**
+         * Queries the visibility of a component of this model.
+         */
+        isComponentVisible(component: string, fallback: boolean): boolean;
+        /**
+         * @return the root transformation to be applied to all variants of this model, regardless of item transforms.
+         */
         getRootTransform(): $Transformation;
-        isComponentVisible(arg0: string, arg1: boolean): boolean;
-        hasMaterial(arg0: string): boolean;
+        /**
+         * @return a hint of the render type this model should use. Custom loaders may ignore this.
+         */
         getRenderTypeHint(): $ResourceLocation;
-        get transforms(): $ItemTransforms;
         get gui3d(): boolean;
+        get transforms(): $ItemTransforms;
         get modelName(): string;
         get rootTransform(): $Transformation;
         get renderTypeHint(): $ResourceLocation;
     }
+    /**
+     * A geometry baking context that is not bound to block/item model loading.
+     */
     export class $StandaloneGeometryBakingContext implements $IGeometryBakingContext {
         static builder(): $StandaloneGeometryBakingContext$Builder;
         static builder(arg0: $IGeometryBakingContext): $StandaloneGeometryBakingContext$Builder;
-        static create(arg0: $ResourceLocation_): $StandaloneGeometryBakingContext;
-        static create(arg0: $Map_<string, $ResourceLocation_>): $StandaloneGeometryBakingContext;
-        static create(arg0: $ResourceLocation_, arg1: $Map_<string, $ResourceLocation_>): $StandaloneGeometryBakingContext;
-        getMaterial(arg0: string): $Material;
+        static create(modelName: $ResourceLocation_): $StandaloneGeometryBakingContext;
+        static create(modelName: $ResourceLocation_, textures: $Map_<string, $ResourceLocation_>): $StandaloneGeometryBakingContext;
+        static create(textures: $Map_<string, $ResourceLocation_>): $StandaloneGeometryBakingContext;
         useAmbientOcclusion(): boolean;
-        getTransforms(): $ItemTransforms;
-        isGui3d(): boolean;
+        getMaterial(name: string): $Material;
         useBlockLight(): boolean;
+        isGui3d(): boolean;
+        getTransforms(): $ItemTransforms;
         getModelName(): string;
+        hasMaterial(name: string): boolean;
+        isComponentVisible(component: string, fallback: boolean): boolean;
         getRootTransform(): $Transformation;
-        isComponentVisible(arg0: string, arg1: boolean): boolean;
-        hasMaterial(arg0: string): boolean;
         getRenderTypeHint(): $ResourceLocation;
-        getRenderType(arg0: $ResourceLocation_): $RenderTypeGroup;
+        /**
+         * @return a `RenderTypeGroup` with the given name, or the empty group if not found.
+         */
+        getRenderType(name: $ResourceLocation_): $RenderTypeGroup;
         static LOCATION: $ResourceLocation;
         static INSTANCE: $StandaloneGeometryBakingContext;
-        get transforms(): $ItemTransforms;
         get gui3d(): boolean;
+        get transforms(): $ItemTransforms;
         get modelName(): string;
         get rootTransform(): $Transformation;
         get renderTypeHint(): $ResourceLocation;
     }
     export class $BlockGeometryBakingContext$VisibilityData {
         copyFrom(arg0: $BlockGeometryBakingContext$VisibilityData): void;
-        isVisible(arg0: string, arg1: boolean): boolean;
-        hasCustomVisibility(arg0: string): boolean;
-        setVisibilityState(arg0: string, arg1: boolean): void;
+        isVisible(part: string, fallback: boolean): boolean;
+        hasCustomVisibility(part: string): boolean;
+        setVisibilityState(partName: string, type: boolean): void;
         constructor();
     }
+    /**
+     * Manager for geometry loaders.
+     * 
+     * Provides a lookup.
+     */
     export class $GeometryLoaderManager {
-        static get(arg0: $ResourceLocation_): $IGeometryLoader<never>;
+        /**
+         * Finds the `IGeometryLoader` for a given name, or null if not found.
+         */
+        static get(name: $ResourceLocation_): $IGeometryLoader<never>;
         static init(): void;
+        /**
+         * Retrieves a comma-separated list of all active loaders, for use in error messages.
+         */
         static getLoaderList(): string;
         static get loaderList(): string;
     }
+    /**
+     * General interface for any model that can be baked, superset of vanilla `UnbakedModel`.
+     * 
+     * Instances of this class ar usually created via `IGeometryLoader`.
+     */
     export class $IUnbakedGeometry<T extends $IUnbakedGeometry<T>> {
     }
     export interface $IUnbakedGeometry<T extends $IUnbakedGeometry<T>> {
-        resolveParents(arg0: $Function_<$ResourceLocation, $UnbakedModel>, arg1: $IGeometryBakingContext): void;
-        bake(arg0: $IGeometryBakingContext, arg1: $ModelBaker, arg2: $Function_<$Material, $TextureAtlasSprite>, arg3: $ModelState, arg4: $ItemOverrides): $BakedModel;
+        /**
+         * Resolve parents of nested `BlockModel`s which are later used in
+         * `IUnbakedGeometry#bake(IGeometryBakingContext, ModelBaker, Function, ModelState, ItemOverrides)`
+         * via `BlockModel#resolveParents(Function)`
+         */
+        resolveParents(modelGetter: $Function_<$ResourceLocation, $UnbakedModel>, context: $IGeometryBakingContext): void;
+        bake(context: $IGeometryBakingContext, baker: $ModelBaker, spriteGetter: $Function_<$Material, $TextureAtlasSprite>, modelState: $ModelState, overrides: $ItemOverrides): $BakedModel;
+        /**
+         * @return a set of all the components whose visibility may be configured via `IGeometryBakingContext`
+         */
         getConfigurableComponentNames(): $Set<string>;
         get configurableComponentNames(): $Set<string>;
     }
@@ -129,6 +257,12 @@ declare module "@package/net/neoforged/neoforge/client/model/geometry" {
      * Values that may be interpreted as {@link $IUnbakedGeometry}.
      */
     export type $IUnbakedGeometry_<T> = ((arg0: $IGeometryBakingContext, arg1: $ModelBaker, arg2: $Function<$Material, $TextureAtlasSprite>, arg3: $ModelState, arg4: $ItemOverrides) => $BakedModel);
+    /**
+     * A loader for custom model geometries.
+     * 
+     * If you do any caching, you should implement `ResourceManagerReloadListener` and register it with
+     * `RegisterClientReloadListenersEvent`.
+     */
     export class $IGeometryLoader<T extends $IUnbakedGeometry<T>> {
     }
     export interface $IGeometryLoader<T extends $IUnbakedGeometry<T>> {
@@ -139,16 +273,16 @@ declare module "@package/net/neoforged/neoforge/client/model/geometry" {
      */
     export type $IGeometryLoader_<T> = ((arg0: $JsonObject, arg1: $JsonDeserializationContext) => T);
     export class $StandaloneGeometryBakingContext$Builder {
-        build(arg0: $ResourceLocation_): $StandaloneGeometryBakingContext;
-        withGui3d(arg0: boolean): $StandaloneGeometryBakingContext$Builder;
-        withRenderTypeHint(arg0: $ResourceLocation_): $StandaloneGeometryBakingContext$Builder;
-        withTransforms(arg0: $ItemTransforms): $StandaloneGeometryBakingContext$Builder;
-        withMaterials(arg0: $Map_<string, $Material>, arg1: $Material): $StandaloneGeometryBakingContext$Builder;
-        withRootTransform(arg0: $Transformation): $StandaloneGeometryBakingContext$Builder;
+        build(modelName: $ResourceLocation_): $StandaloneGeometryBakingContext;
         withTextures(arg0: $ResourceLocation_, arg1: $Map_<string, $ResourceLocation_>, arg2: $ResourceLocation_): $StandaloneGeometryBakingContext$Builder;
         withTextures(arg0: $Map_<string, $ResourceLocation_>, arg1: $ResourceLocation_): $StandaloneGeometryBakingContext$Builder;
-        withUseAmbientOcclusion(arg0: boolean): $StandaloneGeometryBakingContext$Builder;
-        withVisibleComponents(arg0: $Object2BooleanMap<string>): $StandaloneGeometryBakingContext$Builder;
+        withRenderTypeHint(arg0: $ResourceLocation_): $StandaloneGeometryBakingContext$Builder;
+        withMaterials(arg0: $Map_<string, $Material>, arg1: $Material): $StandaloneGeometryBakingContext$Builder;
+        withTransforms(arg0: $ItemTransforms): $StandaloneGeometryBakingContext$Builder;
+        withRootTransform(arg0: $Transformation): $StandaloneGeometryBakingContext$Builder;
+        withGui3d(arg0: boolean): $StandaloneGeometryBakingContext$Builder;
         withUseBlockLight(arg0: boolean): $StandaloneGeometryBakingContext$Builder;
+        withVisibleComponents(arg0: $Object2BooleanMap<string>): $StandaloneGeometryBakingContext$Builder;
+        withUseAmbientOcclusion(arg0: boolean): $StandaloneGeometryBakingContext$Builder;
     }
 }

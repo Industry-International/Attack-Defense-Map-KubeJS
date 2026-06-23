@@ -23,17 +23,17 @@ import { $NeighborUpdater } from "@package/net/minecraft/world/level/redstone";
 declare module "@package/com/lowdragmc/lowdraglib2/utils/virtuallevel" {
     export class $DummyWorld extends $Level {
         getBounds(): $AABB;
+        addEntity(arg0: $Entity): void;
         getParticleManager(): $ParticleManager;
-        tickWorld(): void;
-        setParticleManager(arg0: $ParticleManager): void;
         tickEntities(): void;
-        prepareLighting(arg0: $BlockPos_): void;
-        isFilledBlock(arg0: $BlockPos_): boolean;
-        getFilledBlocks(): $LongSet;
-        getAsClientWorld(): $Supplier<$ClientLevel>;
+        tickWorld(): void;
         removeEntity(arg0: number, arg1: $Entity$RemovalReason_): void;
         createParticle(arg0: $ParticleOptions_, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number): $Particle;
-        addEntity(arg0: $Entity): void;
+        getFilledBlocks(): $LongSet;
+        isFilledBlock(arg0: $BlockPos_): boolean;
+        getAsClientWorld(): $Supplier<$ClientLevel>;
+        prepareLighting(arg0: $BlockPos_): void;
+        setParticleManager(arg0: $ParticleManager): void;
         self(): $EntityGetter;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;
@@ -60,19 +60,19 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils/virtuallevel" {
         static MIN_ENTITY_SPAWN_Y: number;
         blockEntityTickers: $List<$TickingBlockEntity>;
         captureBlockSnapshots: boolean;
-        constructor();
         constructor(arg0: $RegistryAccess);
+        constructor();
         get bounds(): $AABB;
         get filledBlocks(): $LongSet;
         get asClientWorld(): $Supplier<$ClientLevel>;
     }
     export class $TrackedDummyWorld extends $DummyWorld {
         clear(): void;
-        addBlocks(arg0: $Map_<$BlockPos_, $BlockInfo>): void;
         getAllRenderedEntities(): $Iterable<$Entity>;
-        setBlockFilter(arg0: $Predicate_<$BlockPos>): void;
         removeBlock(arg0: $BlockPos_): void;
+        setBlockFilter(arg0: $Predicate_<$BlockPos>): void;
         addBlock(arg0: $BlockPos_, arg1: $BlockInfo): void;
+        addBlocks(arg0: $Map_<$BlockPos_, $BlockInfo>): void;
         self(): $EntityGetter;
         restoringBlockSnapshots: boolean;
         neighborUpdater: $NeighborUpdater;

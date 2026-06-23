@@ -31,9 +31,9 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         isActive(mobEffect: $Holder_<$MobEffect>): boolean;
         getMap(): $Map<$Holder<$MobEffect>, $MobEffectInstance>;
         getDuration(mobEffect: $Holder_<$MobEffect>): number;
-        isApplicable(effect: $MobEffectInstance): boolean;
-        getActive(): $Collection<$MobEffectInstance>;
         getActive(mobEffect: $Holder_<$MobEffect>): $MobEffectInstance;
+        getActive(): $Collection<$MobEffectInstance>;
+        isApplicable(effect: $MobEffectInstance): boolean;
         constructor(e: $LivingEntity);
         get map(): $Map<$Holder<$MobEffect>, $MobEffectInstance>;
     }
@@ -58,23 +58,17 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -82,17 +76,23 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         x: number;
         y: number;
@@ -123,16 +123,16 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
     export type $KubeEntityEvent_ = (() => $Entity);
     export class $AttributeBuilder extends $BuilderBase<$Attribute> {
         range(defaultValue: number, min: number, max: number): this;
-        sentiment(sentiment: $Attribute$Sentiment_): this;
-        syncable(watch: boolean): this;
         bool(defaultValue: boolean): this;
-        transformObject(attribute: $Attribute_): $Attribute;
-        attachToPlayers(): this;
-        negativeSentiment(): this;
-        neutralSentiment(): this;
-        attachToCategory(category: $MobCategory_): this;
-        attachToMonsters(): this;
         attachTo(entityType: $Predicate_<$EntityType<never>>): this;
+        syncable(watch: boolean): this;
+        sentiment(sentiment: $Attribute$Sentiment_): this;
+        transformObject(attribute: $Attribute_): $Attribute;
+        negativeSentiment(): this;
+        attachToMonsters(): this;
+        attachToCategory(category: $MobCategory_): this;
+        attachToPlayers(): this;
+        neutralSentiment(): this;
         registryKey: $ResourceKey<$Registry<$Attribute>>;
         sourceLine: $SourceLine;
         predicateList: $List<$Predicate<$EntityType<never>>>;
@@ -157,23 +157,17 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -181,17 +175,23 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(entity: $LivingEntity, source: $DamageSource_);
         get source(): $DamageSource;
         get entity(): $LivingEntity;
@@ -213,23 +213,17 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -237,17 +231,23 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(entity: $Entity, level: $Level_);
         get level(): $Level;
         get entity(): $Entity;
@@ -263,21 +263,15 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          * The damage source.
          */
         getSource(): $DamageSource;
-        setDamage(damage: number): void;
         /**
          * The amount of damage.
          */
         getDamage(): number;
+        setDamage(damage: number): void;
         getLevel(): $Level;
         getPlayer(): $Player;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -285,11 +279,11 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -297,17 +291,23 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(event: $LivingDamageEvent$Pre);
         get source(): $DamageSource;
@@ -319,8 +319,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
     }
     export class $LivingEntityDropsKubeEvent implements $KubeLivingEntityEvent {
         getSource(): $DamageSource;
-        isRecentlyHit(): boolean;
         getDrops(): $List<$ItemEntity>;
+        isRecentlyHit(): boolean;
         addDrop(stack: $ItemStack_, chance: number): $ItemEntity;
         addDrop(stack: $ItemStack_): $ItemEntity;
         getLevel(): $Level;
@@ -328,23 +328,17 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -352,23 +346,29 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         eventDrops: $List<$ItemEntity>;
         constructor(e: $LivingDropsEvent);
         get source(): $DamageSource;
-        get recentlyHit(): boolean;
         get drops(): $List<$ItemEntity>;
+        get recentlyHit(): boolean;
         get level(): $Level;
         get player(): $Player;
         get registries(): $RegistryAccess;
@@ -402,23 +402,17 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
-        /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `exit` denotes a `default` outcome.
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -426,17 +420,23 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         constructor(event: $LivingDamageEvent$Post);
         get source(): $DamageSource;
         get entity(): $LivingEntity;
@@ -447,8 +447,8 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         get server(): $MinecraftServer;
     }
     export class $KubeRayTraceResult {
-        getHitY(): number;
         getHitX(): number;
+        getHitY(): number;
         getHitZ(): number;
         hit: $Vec3;
         fromEntity: $Entity;
@@ -459,17 +459,17 @@ declare module "@package/dev/latvian/mods/kubejs/entity" {
         entity: $Entity;
         constructor(from: $Entity, result: $HitResult, d: number);
         constructor(from: $Entity, result: $HitResult);
-        get hitY(): number;
         get hitX(): number;
+        get hitY(): number;
         get hitZ(): number;
     }
     export class $KubeJSEntityEventHandler {
-        static livingDrops(event: $LivingDropsEvent): void;
         static checkSpawn(event: $FinalizeSpawnEvent): void;
+        static livingDrops(event: $LivingDropsEvent): void;
+        static entitySpawned(event: $EntityJoinLevelEvent): void;
+        static beforeLivingHurt(event: $LivingDamageEvent$Pre): void;
         static livingDeath(event: $LivingDeathEvent): void;
         static afterLivingHurt(event: $LivingDamageEvent$Post): void;
-        static beforeLivingHurt(event: $LivingDamageEvent$Pre): void;
-        static entitySpawned(event: $EntityJoinLevelEvent): void;
         constructor();
     }
     export class $KubeLivingEntityEvent {

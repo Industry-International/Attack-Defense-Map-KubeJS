@@ -13,29 +13,29 @@ declare module "@package/xaero/pac/common/server/player/config/group/api" {
     export interface $IServerPlayerConfigGroupManagerAPI extends $ICustomPlayerConfigGroupDataManagerAPI {
         get(arg0: string): $IPlayerConfigGroupAPI;
         dataExists(arg0: string): boolean;
-        removeCustom(arg0: string): ($PlayerConfigGroupActionError) | undefined;
         getCustom(arg0: string): $ICustomPlayerConfigGroupAPI;
         addCustom(arg0: string): $Either<$ICustomPlayerConfigGroupAPI, $PlayerConfigGroupActionError>;
-        getMaxGroups(): number;
-        getUnwrapped(arg0: string): $IPlayerConfigGroupAPI;
-        getAllIdsSorted(): $List<string>;
-        addCustomLimited(arg0: string): $Either<$ICustomPlayerConfigGroupAPI, $PlayerConfigGroupActionError>;
         getGroupSpace(): number;
-        get maxGroups(): number;
-        get allIdsSorted(): $List<string>;
+        getAllIdsSorted(): $List<string>;
+        getMaxGroups(): number;
+        addCustomLimited(arg0: string): $Either<$ICustomPlayerConfigGroupAPI, $PlayerConfigGroupActionError>;
+        getUnwrapped(arg0: string): $IPlayerConfigGroupAPI;
+        removeCustom(arg0: string): ($PlayerConfigGroupActionError) | undefined;
         get groupSpace(): number;
+        get allIdsSorted(): $List<string>;
+        get maxGroups(): number;
     }
     export class $IPlayerConfigGroupAPI {
     }
     export interface $IPlayerConfigGroupAPI {
         getId(): string;
-        isInGroup(arg0: $IPlayerConfigAPI, arg1: $ServerPlayer): boolean;
+        supportsConfigType(arg0: $PlayerConfigType_): boolean;
         isInGroup(arg0: $IPlayerConfigAPI, arg1: $UUID_): boolean;
-        isInGroup(arg0: $IPlayerConfigAPI, arg1: $ServerPlayer, arg2: $UUID_): boolean;
+        isInGroup(arg0: $IPlayerConfigAPI, arg1: $ServerPlayer): boolean;
+        isInGroup(arg0: $IPlayerConfigAPI, arg1: $ServerPlayer | null, arg2: $UUID_ | null): boolean;
         isDirectlyInGroup(arg0: $IPlayerConfigAPI, arg1: $ServerPlayer): boolean;
         isDirectlyInGroup(arg0: $IPlayerConfigAPI, arg1: $UUID_): boolean;
-        isDirectlyInGroup(arg0: $IPlayerConfigAPI, arg1: $ServerPlayer, arg2: $UUID_): boolean;
-        supportsConfigType(arg0: $PlayerConfigType_): boolean;
+        isDirectlyInGroup(arg0: $IPlayerConfigAPI, arg1: $ServerPlayer | null, arg2: $UUID_ | null): boolean;
         get id(): string;
     }
 }

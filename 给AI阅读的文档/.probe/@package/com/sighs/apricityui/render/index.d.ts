@@ -7,15 +7,15 @@ import { $Element } from "@package/com/sighs/apricityui/init";
 declare module "@package/com/sighs/apricityui/render" {
     export class $Rect {
         static of(arg0: $Element): $Rect;
-        getBodyRectSize(): $Size;
-        getContentPosition(): $Position;
         drawBorder(arg0: $PoseStack): void;
-        drawBody(arg0: $PoseStack, arg1: $Size_): void;
         drawBody(arg0: $PoseStack): void;
-        drawShadow(arg0: $PoseStack): void;
+        drawBody(arg0: $PoseStack, arg1: $Size_): void;
         getBodyRectPosition(): $Position;
-        getVisualBounds(): $AABB;
+        getContentPosition(): $Position;
+        getBodyRectSize(): $Size;
         getBodyRadius(): number[];
+        drawShadow(arg0: $PoseStack): void;
+        getVisualBounds(): $AABB;
         getShadowSize(): $Size;
         getShadowPosition(): $Position;
         background: $Background;
@@ -23,11 +23,11 @@ declare module "@package/com/sighs/apricityui/render" {
         position: $Position;
         documentPath: string;
         constructor(arg0: $Element);
-        get bodyRectSize(): $Size;
-        get contentPosition(): $Position;
         get bodyRectPosition(): $Position;
-        get visualBounds(): $AABB;
+        get contentPosition(): $Position;
+        get bodyRectSize(): $Size;
         get bodyRadius(): number[];
+        get visualBounds(): $AABB;
         get shadowSize(): $Size;
         get shadowPosition(): $Position;
     }
@@ -60,9 +60,9 @@ declare module "@package/com/sighs/apricityui/render" {
         isValid(): boolean;
         intersects(arg0: $AABB_): boolean;
         height(): number;
+        maxY(): number;
         intersection(arg0: $AABB_): $AABB;
         maxX(): number;
-        maxY(): number;
         constructor(x: number, y: number, width: number, height: number);
         get valid(): boolean;
     }

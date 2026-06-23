@@ -1,6 +1,6 @@
 import { $EventRegistrations } from "@package/de/johni0702/minecraft/gui/utils";
 import { $LevelRenderer } from "@package/net/minecraft/client/renderer";
-import { $RenderInfo, $WorldRenderer, $CaptureData } from "@package/com/replaymod/render/capturer";
+import { $WorldRenderer, $RenderInfo, $CaptureData } from "@package/com/replaymod/render/capturer";
 import { $VirtualWindow } from "@package/com/replaymod/render/gui/progress";
 import { $Minecraft } from "@package/net/minecraft/client";
 import { $RenderSettings } from "@package/com/replaymod/render";

@@ -16,14 +16,14 @@ import { $BlockEntity, $TickingBlockEntity } from "@package/net/minecraft/world/
 declare module "@package/com/simibubi/create/foundation/virtualWorld" {
     export class $VirtualRenderWorld extends $Level implements $VisualizationLevel {
         clear(): void;
-        static nextMultipleOf16(arg0: number): number;
-        getBlockState(arg0: number, arg1: number, arg2: number): $BlockState;
-        runLightEngine(): void;
-        setBlockEntities(arg0: $Collection_<$BlockEntity>): void;
-        resetExternalLight(): void;
         setExternalLight(arg0: number): void;
+        resetExternalLight(): void;
+        setBlockEntities(arg0: $Collection_<$BlockEntity>): void;
+        getBlockState(arg0: number, arg1: number, arg2: number): $BlockState;
         getChunkAtImmediately(arg0: number, arg1: number): $LevelChunk;
         getAnyChunkImmediately(arg0: number, arg1: number): $ChunkAccess;
+        static nextMultipleOf16(arg0: number): number;
+        runLightEngine(): void;
         supportsVisualization(): boolean;
         self(): $EntityGetter;
         getChunk(arg0: number, arg1: number): $ChunkAccess;
@@ -53,7 +53,7 @@ declare module "@package/com/simibubi/create/foundation/virtualWorld" {
         blockEntityTickers: $List<$TickingBlockEntity>;
         captureBlockSnapshots: boolean;
         constructor(arg0: $Level_, arg1: number, arg2: number, arg3: $Vec3i, arg4: $Runnable_);
-        set blockEntities(value: $Collection_<$BlockEntity>);
         set externalLight(value: number);
+        set blockEntities(value: $Collection_<$BlockEntity>);
     }
 }

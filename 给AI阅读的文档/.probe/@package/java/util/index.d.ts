@@ -16,12 +16,12 @@ export * as random from "@package/java/util/random";
 
 declare module "@package/java/util" {
     export class $UUID implements $Serializable, $Comparable<$UUID> {
+        static fromString(arg0: string): $UUID;
         version(): number;
         compareTo(arg0: $UUID_): number;
         timestamp(): number;
         node(): number;
         variant(): number;
-        static fromString(arg0: string): $UUID;
         static nameUUIDFromBytes(arg0: number[]): $UUID;
         getLeastSignificantBits(): number;
         getMostSignificantBits(): number;
@@ -1262,6 +1262,7 @@ declare module "@package/java/util" {
         next(): E;
     }
     export class $Vector<E> extends $AbstractList<E> implements $List<E>, $RandomAccess, $Cloneable, $Serializable {
+        removeAllElements(): void;
         clone(): $Object;
         indexOf(arg0: $Object, arg1: number): number;
         lastIndexOf(arg0: $Object, arg1: number): number;
@@ -1278,13 +1279,12 @@ declare module "@package/java/util" {
         firstElement(): E;
         lastElement(): E;
         setElementAt(arg0: E, arg1: number): void;
-        removeAllElements(): void;
         removeElementAt(arg0: number): void;
         reversed(): $SequencedCollection<E>;
+        constructor(arg0: number, arg1: number);
         constructor(arg0: $Collection_<E>);
         constructor();
         constructor(arg0: number);
-        constructor(arg0: number, arg1: number);
     }
     export class $Spliterator$OfLong {
     }
@@ -1408,12 +1408,12 @@ declare module "@package/java/util" {
         get timezoneOffset(): number;
     }
     export class $Base64$Encoder {
-        wrap(arg0: $OutputStream): $OutputStream;
-        encode(arg0: $ByteBuffer): $ByteBuffer;
-        encode(arg0: number[]): number[];
-        encode(arg0: number[], arg1: number[]): number;
         encodeToString(arg0: number[]): string;
         withoutPadding(): $Base64$Encoder;
+        wrap(arg0: $OutputStream): $OutputStream;
+        encode(arg0: number[], arg1: number[]): number;
+        encode(arg0: number[]): number[];
+        encode(arg0: $ByteBuffer): $ByteBuffer;
     }
     export class $SortedSet<E> {
     }
@@ -1484,12 +1484,12 @@ declare module "@package/java/util" {
         and(arg0: $BitSet): void;
         xor(arg0: $BitSet): void;
         andNot(arg0: $BitSet): void;
+        cardinality(): number;
         nextSetBit(arg0: number): number;
         toLongArray(): number[];
         previousSetBit(arg0: number): number;
         previousClearBit(arg0: number): number;
         intersects(arg0: $BitSet): boolean;
-        cardinality(): number;
         constructor(arg0: number);
         constructor();
         get empty(): boolean;

@@ -9,8 +9,8 @@ declare module "@package/java/awt/im" {
         static getInstance(): $InputContext;
         getLocale(): $Locale;
         dispose(): void;
-        dispatchEvent(arg0: $AWTEvent): void;
         removeNotify(arg0: $Component): void;
+        dispatchEvent(arg0: $AWTEvent): void;
         endComposition(): void;
         selectInputMethod(arg0: $Locale): boolean;
         setCharacterSubsets(arg0: $Character$Subset[]): void;
@@ -45,8 +45,8 @@ declare module "@package/java/awt/im" {
     export class $InputMethodRequests {
     }
     export interface $InputMethodRequests {
-        getLocationOffset(arg0: number, arg1: number): $TextHitInfo;
         getSelectedText(arg0: $AttributedCharacterIterator$Attribute[]): $AttributedCharacterIterator;
+        getLocationOffset(arg0: number, arg1: number): $TextHitInfo;
         getTextLocation(arg0: $TextHitInfo): $Rectangle;
         getInsertPositionOffset(): number;
         getCommittedText(arg0: number, arg1: number, arg2: $AttributedCharacterIterator$Attribute[]): $AttributedCharacterIterator;

@@ -7,19 +7,19 @@ declare module "@package/com/tacz/guns/resource/pojo/data/attachment" {
     export class $EffectData {
         getTime(): number;
         getAmplifier(): number;
-        isHideParticles(): boolean;
         getEffectId(): $ResourceLocation;
+        isHideParticles(): boolean;
         constructor();
         get time(): number;
         get amplifier(): number;
-        get hideParticles(): boolean;
         get effectId(): $ResourceLocation;
+        get hideParticles(): boolean;
     }
     export class $AttachmentData implements $EnhancedAttachmentData {
         getWeight(): number;
+        gunsmith$getGunsmithLibExtension(): $Optional<any>;
         getMeleeData(): $MeleeData;
         getModifier(): $Map<string, $JsonProperty<never>>;
-        gunsmith$getGunsmithLibExtension(): $Optional<any>;
         addModifier(arg0: string, arg1: $JsonProperty<never>): void;
         getExtendedMagLevel(): number;
         constructor();
@@ -31,17 +31,17 @@ declare module "@package/com/tacz/guns/resource/pojo/data/attachment" {
     export class $MeleeData {
         getDistance(): number;
         getEffects(): $List<$EffectData>;
-        getCooldown(): number;
-        getKnockback(): number;
         getDamage(): number;
+        getKnockback(): number;
+        getCooldown(): number;
         getRangeAngle(): number;
         getPrepTime(): number;
         constructor();
         get distance(): number;
         get effects(): $List<$EffectData>;
-        get cooldown(): number;
-        get knockback(): number;
         get damage(): number;
+        get knockback(): number;
+        get cooldown(): number;
         get rangeAngle(): number;
         get prepTime(): number;
     }

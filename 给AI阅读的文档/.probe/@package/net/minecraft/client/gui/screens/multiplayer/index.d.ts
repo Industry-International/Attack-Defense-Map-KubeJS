@@ -26,7 +26,7 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
          */
         list: $AbstractSelectionList<$ServerSelectionList$Entry>;
         serverData: $LanServer;
-        constructor(arg0: $JoinMultiplayerScreen, arg1: $LanServer);
+        constructor(screen: $JoinMultiplayerScreen, serverData: $LanServer);
         get serverNarration(): $Component;
     }
     export class $ServerSelectionList$Entry extends $ObjectSelectionList$Entry<$ServerSelectionList$Entry> implements $AutoCloseable {
@@ -38,11 +38,11 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         constructor();
     }
     export class $JoinMultiplayerScreen extends $Screen {
-        setSelected(arg0: $ServerSelectionList$Entry): void;
-        joinSelectedServer(): void;
-        onSelectedChange(): void;
         getPinger(): $ServerStatusPinger;
         getServers(): $ServerList;
+        setSelected(selected: $ServerSelectionList$Entry): void;
+        onSelectedChange(): void;
+        joinSelectedServer(): void;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static LOWER_ROW_BUTTON_WIDTH: number;
@@ -65,10 +65,10 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen);
-        set selected(value: $ServerSelectionList$Entry);
+        constructor(lastScreen: $Screen);
         get pinger(): $ServerStatusPinger;
         get servers(): $ServerList;
+        set selected(value: $ServerSelectionList$Entry);
     }
     export class $SafetyScreen extends $WarningScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -90,7 +90,7 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen);
+        constructor(previous: $Screen);
     }
     export class $ServerReconfigScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -110,7 +110,7 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $Connection);
+        constructor(title: $Component_, connection: $Connection);
     }
     export class $WarningScreen extends $Screen {
         addFooterButtons(): $Layout;
@@ -133,8 +133,8 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $Component_, arg2: $Component_);
-        constructor(arg0: $Component_, arg1: $Component_, arg2: $Component_, arg3: $Component_);
+        constructor(title: $Component_, content: $Component_, narration: $Component_);
+        constructor(title: $Component_, content: $Component_, check: $Component_ | null, narration: $Component_);
     }
     export class $ServerLinksScreen$LinkListEntry extends $ContainerObjectSelectionList$Entry<$ServerLinksScreen$LinkListEntry> {
         /**
@@ -144,11 +144,11 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
     }
     export class $ServerSelectionList extends $ObjectSelectionList<$ServerSelectionList$Entry> {
         removed(): void;
-        setSelected(arg0: $ServerSelectionList$Entry): void;
-        static access$000(arg0: $ServerSelectionList, arg1: $AbstractSelectionList$Entry<any>): void;
         static access$100(arg0: $ServerSelectionList, arg1: number): number;
-        updateOnlineServers(arg0: $ServerList): void;
-        updateNetworkServers(arg0: $List_<$LanServer>): void;
+        static access$000(arg0: $ServerSelectionList, arg1: $AbstractSelectionList$Entry<any>): void;
+        setSelected(entry: $ServerSelectionList$Entry | null): void;
+        updateOnlineServers(servers: $ServerList): void;
+        updateNetworkServers(lanServers: $List_<$LanServer>): void;
         minecraft: $Minecraft;
         static PINGING_2_SPRITE: $ResourceLocation;
         static PING_1_SPRITE: $ResourceLocation;
@@ -194,19 +194,19 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         hovered: $ServerSelectionList$Entry;
         static MOVE_DOWN_HIGHLIGHTED_SPRITE: $ResourceLocation;
         static JOIN_SPRITE: $ResourceLocation;
-        constructor(arg0: $JoinMultiplayerScreen, arg1: $Minecraft, arg2: number, arg3: number, arg4: number, arg5: number);
-        set selected(value: $ServerSelectionList$Entry);
+        constructor(screen: $JoinMultiplayerScreen, minecraft: $Minecraft, width: number, height: number, y: number, itemHeight: number);
+        set selected(value: $ServerSelectionList$Entry | null);
     }
     export class $ServerSelectionList$OnlineServerEntry extends $ServerSelectionList$Entry {
         getServerData(): $ServerData;
-        drawIcon(arg0: $GuiGraphics, arg1: number, arg2: number, arg3: $ResourceLocation_): void;
+        drawIcon(guiGraphics: $GuiGraphics, x: number, y: number, icon: $ResourceLocation_): void;
         updateServerList(): void;
         this$0: $ServerSelectionList;
         /**
          * @deprecated
          */
         list: $AbstractSelectionList<$ServerSelectionList$Entry>;
-        constructor(arg0: $ServerSelectionList, arg1: $JoinMultiplayerScreen, arg2: $ServerData);
+        constructor(screen: $ServerSelectionList, serverData: $JoinMultiplayerScreen, arg2: $ServerData);
         get serverData(): $ServerData;
     }
     export class $ServerSelectionList$LANHeader extends $ServerSelectionList$Entry {
@@ -256,6 +256,6 @@ declare module "@package/net/minecraft/client/gui/screens/multiplayer" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $ServerLinks_);
+        constructor(lastScreen: $Screen, links: $ServerLinks_);
     }
 }

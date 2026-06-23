@@ -31,23 +31,23 @@ declare module "@package/net/mehvahdjukaar/moonlight/api/misc" {
         getName(): string;
         getData(arg0: $Level_): D;
         setData(arg0: $Level_, arg1: D): void;
-        getCodec(): $Codec<D>;
         getStreamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
+        getCodec(): $Codec<D>;
         isSyncable(): boolean;
         static CODEC: $Codec<$WorldSavedDataType<$WorldSavedData>>;
         static STREAM_CODEC: $StreamCodec<$RegistryFriendlyByteBuf, $WorldSavedDataType<$WorldSavedData>>;
         constructor(arg0: $ResourceLocation_, arg1: $Function_<$ServerLevel, D>, arg2: $Supplier_<$Codec<D>>, arg3: $Supplier_<$StreamCodec<$RegistryFriendlyByteBuf, D>>);
         constructor(arg0: $ResourceLocation_, arg1: $Function_<$ServerLevel, D>, arg2: $Supplier_<$Codec<D>>, arg3: $Supplier_<$StreamCodec<$RegistryFriendlyByteBuf, D>>, arg4: $WorldSavedDataType$Scope_);
         get name(): string;
-        get codec(): $Codec<D>;
         get streamCodec(): $StreamCodec<$RegistryFriendlyByteBuf, D>;
+        get codec(): $Codec<D>;
         get syncable(): boolean;
     }
     /**
      * Values that may be interpreted as {@link $WorldSavedDataType}.
      */
     export type $WorldSavedDataType_<D> = RegistryTypes.MoonlightWorldSavedDataType;
-    export interface $WorldSavedDataType extends RegistryMarked<RegistryTypes.MoonlightWorldSavedDataTypeTag, RegistryTypes.MoonlightWorldSavedDataType> {}
+    export interface $WorldSavedDataType<D> extends RegistryMarked<RegistryTypes.MoonlightWorldSavedDataTypeTag, RegistryTypes.MoonlightWorldSavedDataType> {}
     export class $Triplet<L, M, R> extends $Record {
         static of<A, B, C>(arg0: A, arg1: B, arg2: C): $Triplet<A, B, C>;
         left(): L;

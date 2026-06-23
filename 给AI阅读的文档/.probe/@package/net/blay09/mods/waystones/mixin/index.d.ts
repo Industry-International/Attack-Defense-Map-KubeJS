@@ -7,9 +7,9 @@ declare module "@package/net/blay09/mods/waystones/mixin" {
     export class $StructureTemplatePoolAccessor {
     }
     export interface $StructureTemplatePoolAccessor {
+        getTemplates(): $ObjectArrayList<$StructurePoolElement>;
+        setRawTemplates(arg0: $List_<$Pair<$StructurePoolElement, number>>): void;
         getRawTemplates(): $List<$Pair<$StructurePoolElement, number>>;
         setTemplates(arg0: $ObjectArrayList<$StructurePoolElement>): void;
-        setRawTemplates(arg0: $List_<$Pair<$StructurePoolElement, number>>): void;
-        getTemplates(): $ObjectArrayList<$StructurePoolElement>;
     }
 }

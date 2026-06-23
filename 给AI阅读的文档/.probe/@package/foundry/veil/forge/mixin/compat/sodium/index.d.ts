@@ -7,10 +7,10 @@ declare module "@package/foundry/veil/forge/mixin/compat/sodium" {
     export class $RenderSectionManagerAccessor {
     }
     export interface $RenderSectionManagerAccessor {
-        getChunkRenderer(): $ChunkRenderer;
         getSectionByPosition(): $Long2ReferenceMap<$RenderSection>;
-        get chunkRenderer(): $ChunkRenderer;
+        getChunkRenderer(): $ChunkRenderer;
         get sectionByPosition(): $Long2ReferenceMap<$RenderSection>;
+        get chunkRenderer(): $ChunkRenderer;
     }
     export class $SodiumWorldRendererAccessor {
     }

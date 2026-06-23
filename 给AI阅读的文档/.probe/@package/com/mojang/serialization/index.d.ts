@@ -1,6 +1,6 @@
 import { $Supplier_, $Consumer_, $BiFunction, $Function, $BiConsumer, $Consumer, $Function_, $UnaryOperator_, $BiFunction_, $Supplier } from "@package/java/util/function";
 import { $LongStream, $Stream, $IntStream } from "@package/java/util/stream";
-import { $Function4_, $Function13_, $Function3_, $Unit, $Function14_, $Function11_, $Function6_, $Function5_, $Either, $Function12_, $Function3, $Function4, $Function5, $Pair, $Function6, $Function7, $Function8_, $Function8, $Function9, $Function10_, $Function7_, $Function15_, $Function16_, $Function9_ } from "@package/com/mojang/datafixers/util";
+import { $Function4_, $Function13_, $Function3_, $Unit, $Function14_, $Function11_, $Function6_, $Function5_, $Either, $Function12_, $Function3, $Function4, $Function5, $Pair, $Function6, $Function8_, $Function7, $Function8, $Function9, $Function10_, $Function7_, $Function15_, $Function16_, $Function9_ } from "@package/com/mojang/datafixers/util";
 import { RegistryMarked, RegistryTypes } from "@special/types";
 import { $SimpleMapCodec, $PrimitiveCodec, $RecordCodecBuilder, $UnboundedMapCodec } from "@package/com/mojang/serialization/codecs";
 import { $Map, $List, $Map_, $List_ } from "@package/java/util";
@@ -18,17 +18,17 @@ declare module "@package/com/mojang/serialization" {
     export interface $Encoder<A> {
         encode<T>(arg0: A, arg1: $DynamicOps<T>, arg2: T): $DataResult<T>;
         comap<B>(arg0: $Function_<B, A>): $Encoder<B>;
-        fieldOf(arg0: string): $MapEncoder<A>;
         flatComap<B>(arg0: $Function_<B, $DataResult<A>>): $Encoder<B>;
-        withLifecycle(arg0: $Lifecycle): $Encoder<A>;
+        fieldOf(arg0: string): $MapEncoder<A>;
         encodeStart<T>(arg0: $DynamicOps<T>, arg1: A): $DataResult<T>;
+        withLifecycle(arg0: $Lifecycle): $Encoder<A>;
     }
     /**
      * Values that may be interpreted as {@link $Encoder}.
      */
     export type $Encoder_<A> = ((arg0: A, arg1: $DynamicOps<any>, arg2: any) => $DataResult<any>);
     export class $DynamicLike<T> {
-        asInt(arg0: number): number;
+        asByteBuffer(): $ByteBuffer;
         get(arg0: string): $OptionalDynamic<T>;
         decode<A>(arg0: $Decoder_<A>): $DataResult<$Pair<A, T>>;
         emptyList(): $Dynamic<T>;
@@ -41,48 +41,48 @@ declare module "@package/com/mojang/serialization" {
         createString(arg0: string): $Dynamic<T>;
         getElement(arg0: string, arg1: T): T;
         getElement(arg0: string): $DataResult<T>;
-        asDouble(arg0: number): number;
-        asLong(arg0: number): number;
+        asInt(arg0: number): number;
         asMap<K, V>(arg0: $Function_<$Dynamic<T>, K>, arg1: $Function_<$Dynamic<T>, V>): $Map<K, V>;
-        asByteBufferOpt(): $DataResult<$ByteBuffer>;
-        asLongStreamOpt(): $DataResult<$LongStream>;
-        getElementGeneric(arg0: T, arg1: T): T;
-        getElementGeneric(arg0: T): $DataResult<T>;
-        asStreamOpt(): $DataResult<$Stream<$Dynamic<T>>>;
-        asIntStreamOpt(): $DataResult<$IntStream>;
         asString(): $DataResult<string>;
         asString(arg0: string): string;
         createList(arg0: $Stream<$Dynamic<never>>): $Dynamic<T>;
+        asDouble(arg0: number): number;
+        asLong(arg0: number): number;
+        createByte(arg0: number): $Dynamic<T>;
+        createInt(arg0: number): $Dynamic<T>;
+        getGeneric(arg0: T): $DataResult<T>;
+        getOps(): $DynamicOps<T>;
         createFloat(arg0: number): $Dynamic<T>;
         createDouble(arg0: number): $Dynamic<T>;
-        getGeneric(arg0: T): $DataResult<T>;
-        createInt(arg0: number): $Dynamic<T>;
-        createByte(arg0: number): $Dynamic<T>;
-        getOps(): $DynamicOps<T>;
-        createIntList(arg0: $IntStream): $Dynamic<never>;
-        createLongList(arg0: $LongStream): $Dynamic<never>;
-        createShort(arg0: number): $Dynamic<T>;
         createBoolean(arg0: boolean): $Dynamic<T>;
         createByteList(arg0: $ByteBuffer): $Dynamic<never>;
+        createLongList(arg0: $LongStream): $Dynamic<never>;
+        createShort(arg0: number): $Dynamic<T>;
         createNumeric(arg0: $Number): $Dynamic<T>;
+        createIntList(arg0: $IntStream): $Dynamic<never>;
         asBoolean(): $DataResult<boolean>;
         asBoolean(arg0: boolean): boolean;
         asIntStream(): $IntStream;
-        asByteBuffer(): $ByteBuffer;
-        asStream(): $Stream<$Dynamic<T>>;
-        asShort(arg0: number): number;
-        asMapOpt<K, V>(arg0: $Function_<$Dynamic<T>, K>, arg1: $Function_<$Dynamic<T>, V>): $DataResult<$Map<K, V>>;
-        asMapOpt(): $DataResult<$Stream<$Pair<$Dynamic<T>, $Dynamic<T>>>>;
+        asByteBufferOpt(): $DataResult<$ByteBuffer>;
+        asStreamOpt(): $DataResult<$Stream<$Dynamic<T>>>;
+        asIntStreamOpt(): $DataResult<$IntStream>;
+        asLongStreamOpt(): $DataResult<$LongStream>;
+        getElementGeneric(arg0: T): $DataResult<T>;
+        getElementGeneric(arg0: T, arg1: T): T;
         asNumber(): $DataResult<$Number>;
         asNumber(arg0: $Number): $Number;
-        asFloat(arg0: number): number;
-        asByte(arg0: number): number;
         asListOpt<U>(arg0: $Function_<$Dynamic<T>, U>): $DataResult<$List<U>>;
-        readList<E>(arg0: $Function_<$Dynamic<never>, $DataResult<E>>): $DataResult<$List<E>>;
-        readList<E>(arg0: $Decoder_<E>): $DataResult<$List<E>>;
+        asByte(arg0: number): number;
+        asStream(): $Stream<$Dynamic<T>>;
         readMap<R>(arg0: $DataResult<R>, arg1: $Function3_<R, $Dynamic<T>, $Dynamic<T>, $DataResult<R>>): $DataResult<R>;
         readMap<K, V>(arg0: $Decoder_<K>, arg1: $Decoder_<V>): $DataResult<$List<$Pair<K, V>>>;
         readMap<K, V>(arg0: $Decoder_<K>, arg1: $Function_<K, $Decoder<V>>): $DataResult<$List<$Pair<K, V>>>;
+        asMapOpt(): $DataResult<$Stream<$Pair<$Dynamic<T>, $Dynamic<T>>>>;
+        asMapOpt<K, V>(arg0: $Function_<$Dynamic<T>, K>, arg1: $Function_<$Dynamic<T>, V>): $DataResult<$Map<K, V>>;
+        asFloat(arg0: number): number;
+        readList<E>(arg0: $Decoder_<E>): $DataResult<$List<E>>;
+        readList<E>(arg0: $Function_<$Dynamic<never>, $DataResult<E>>): $DataResult<$List<E>>;
+        asShort(arg0: number): number;
         constructor(arg0: $DynamicOps<T>);
         get ops(): $DynamicOps<T>;
     }
@@ -110,18 +110,18 @@ declare module "@package/com/mojang/serialization" {
         decoder(): $Decoder<A>;
         ap<E>(arg0: $MapDecoder<$Function_<A, E>>): $MapDecoder<E>;
         compressor<T>(arg0: $DynamicOps<T>): $KeyCompressor<T>;
-        compressedDecode<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<A>;
         withLifecycle(arg0: $Lifecycle): $MapDecoder<A>;
+        compressedDecode<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<A>;
     }
     export class $RecordBuilder$AbstractBuilder<T, R> implements $RecordBuilder<T> {
-        build(arg0: T): $DataResult<T>;
-        withErrorsFrom(arg0: $DataResult<never>): $RecordBuilder<T>;
-        setLifecycle(arg0: $Lifecycle): $RecordBuilder<T>;
-        mapError(arg0: $UnaryOperator_<string>): $RecordBuilder<T>;
         ops(): $DynamicOps<T>;
-        add(arg0: string, arg1: $DataResult<T>): $RecordBuilder<T>;
-        add(arg0: string, arg1: T): $RecordBuilder<T>;
+        build(arg0: T): $DataResult<T>;
+        mapError(arg0: $UnaryOperator_<string>): $RecordBuilder<T>;
+        setLifecycle(arg0: $Lifecycle): $RecordBuilder<T>;
+        withErrorsFrom(arg0: $DataResult<never>): $RecordBuilder<T>;
         add<E>(arg0: string, arg1: E, arg2: $Encoder_<E>): $RecordBuilder<T>;
+        add(arg0: string, arg1: T): $RecordBuilder<T>;
+        add(arg0: string, arg1: $DataResult<T>): $RecordBuilder<T>;
         build(arg0: $DataResult<T>): $DataResult<T>;
         set lifecycle(value: $Lifecycle);
     }
@@ -137,25 +137,25 @@ declare module "@package/com/mojang/serialization" {
         merge(arg0: $Dynamic<never>): $OptionalDynamic<T>;
         merge(arg0: $Dynamic<never>, arg1: $Dynamic<never>): $OptionalDynamic<T>;
         set(arg0: string, arg1: $Dynamic<never>): $Dynamic<T>;
-        renameField(arg0: string, arg1: string): $Dynamic<T>;
-        replaceField(arg0: string, arg1: string, arg2: ($Dynamic<never>) | undefined): $Dynamic<T>;
-        updateMapValues(arg0: $Function_<$Pair<$Dynamic<never>, $Dynamic<never>>, $Pair<$Dynamic<never>, $Dynamic<never>>>): $Dynamic<T>;
-        setFieldIfPresent(arg0: string, arg1: ($Dynamic<never>) | undefined): $Dynamic<T>;
-        renameAndFixField(arg0: string, arg1: string, arg2: $UnaryOperator_<$Dynamic<never>>): $Dynamic<T>;
-        static copyAndFixField<T>(arg0: $Dynamic<T>, arg1: string, arg2: $Dynamic<never>, arg3: string, arg4: $UnaryOperator_<$Dynamic<T>>): $Dynamic<never>;
         updateGeneric(arg0: T, arg1: $Function_<T, T>): $Dynamic<T>;
         getMapValues(): $DataResult<$Map<$Dynamic<T>, $Dynamic<T>>>;
-        castTyped<U>(arg0: $DynamicOps<U>): $Dynamic<U>;
+        updateMapValues(arg0: $Function_<$Pair<$Dynamic<never>, $Dynamic<never>>, $Pair<$Dynamic<never>, $Dynamic<never>>>): $Dynamic<T>;
+        static copyAndFixField<T>(arg0: $Dynamic<T>, arg1: string, arg2: $Dynamic<never>, arg3: string, arg4: $UnaryOperator_<$Dynamic<T>>): $Dynamic<never>;
+        setFieldIfPresent(arg0: string, arg1: ($Dynamic<never>) | undefined): $Dynamic<T>;
+        renameField(arg0: string, arg1: string): $Dynamic<T>;
+        replaceField(arg0: string, arg1: string, arg2: ($Dynamic<never>) | undefined): $Dynamic<T>;
+        renameAndFixField(arg0: string, arg1: string, arg2: $UnaryOperator_<$Dynamic<never>>): $Dynamic<T>;
         into<V>(arg0: $Function_<$Dynamic<T>, V>): V;
+        castTyped<U>(arg0: $DynamicOps<U>): $Dynamic<U>;
         constructor(arg0: $DynamicOps<T>);
-        constructor(arg0: $DynamicOps<T>, arg1: T);
+        constructor(arg0: $DynamicOps<T>, arg1: T | null);
         get value(): T;
         get mapValues(): $DataResult<$Map<$Dynamic<T>, $Dynamic<T>>>;
     }
     export class $Decoder<A> {
         static error<A>(arg0: string): $Decoder<A>;
-        static unit<A>(arg0: $Supplier_<A>): $MapDecoder<A>;
         static unit<A>(arg0: A): $MapDecoder<A>;
+        static unit<A>(arg0: $Supplier_<A>): $MapDecoder<A>;
         static ofTerminal<A>(arg0: $Decoder$Terminal_<A>): $Decoder<A>;
         static ofSimple<A>(arg0: $Decoder$Simple_<A>): $Decoder<A>;
         static ofBoxed<A>(arg0: $Decoder$Boxed_<A>): $Decoder<A>;
@@ -171,14 +171,14 @@ declare module "@package/com/mojang/serialization" {
         terminal(): $Decoder$Terminal<A>;
         fieldOf(arg0: string): $MapDecoder<A>;
         simple(): $Decoder$Simple<A>;
-        withLifecycle(arg0: $Lifecycle): $Decoder<A>;
         promotePartial(arg0: $Consumer_<string>): $Decoder<A>;
+        withLifecycle(arg0: $Lifecycle): $Decoder<A>;
     }
     /**
      * Values that may be interpreted as {@link $Decoder}.
      */
     export type $Decoder_<A> = ((arg0: $DynamicOps<any>, arg1: any) => $DataResult<$Pair<A, any>>);
-    export interface $MapCodec extends RegistryMarked<RegistryTypes.EnchantmentProviderTypeTag, RegistryTypes.EnchantmentProviderType> {}
+    export interface $MapCodec<A> extends RegistryMarked<RegistryTypes.NeoforgeStructureModifierSerializersTag, RegistryTypes.NeoforgeStructureModifierSerializers> {}
     export class $MapCodec$ResultFunction<A> {
     }
     export interface $MapCodec$ResultFunction<A> {
@@ -187,8 +187,8 @@ declare module "@package/com/mojang/serialization" {
     }
     export class $Lifecycle {
         add(arg0: $Lifecycle): $Lifecycle;
-        static deprecated(arg0: number): $Lifecycle;
         static stable(): $Lifecycle;
+        static deprecated(arg0: number): $Lifecycle;
         static experimental(): $Lifecycle;
     }
     export class $MapEncoder<A> {
@@ -197,11 +197,11 @@ declare module "@package/com/mojang/serialization" {
     export interface $MapEncoder<A> extends $Keyable {
         encode<T>(arg0: A, arg1: $DynamicOps<T>, arg2: $RecordBuilder<T>): $RecordBuilder<T>;
         encoder(): $Encoder<A>;
-        compressor<T>(arg0: $DynamicOps<T>): $KeyCompressor<T>;
-        compressedBuilder<T>(arg0: $DynamicOps<T>): $RecordBuilder<T>;
         comap<B>(arg0: $Function_<B, A>): $MapEncoder<B>;
         flatComap<B>(arg0: $Function_<B, $DataResult<A>>): $MapEncoder<B>;
+        compressor<T>(arg0: $DynamicOps<T>): $KeyCompressor<T>;
         withLifecycle(arg0: $Lifecycle): $MapEncoder<A>;
+        compressedBuilder<T>(arg0: $DynamicOps<T>): $RecordBuilder<T>;
     }
     export class $Decoder$Boxed<A> {
     }
@@ -219,31 +219,31 @@ declare module "@package/com/mojang/serialization" {
     export class $ListBuilder<T> {
     }
     export interface $ListBuilder<T> {
+        ops(): $DynamicOps<T>;
+        add<E>(arg0: E, arg1: $Encoder_<E>): $ListBuilder<T>;
         add(arg0: $DataResult<T>): $ListBuilder<T>;
         add(arg0: T): $ListBuilder<T>;
-        add<E>(arg0: E, arg1: $Encoder_<E>): $ListBuilder<T>;
         addAll<E>(arg0: $Iterable_<E>, arg1: $Encoder_<E>): $ListBuilder<T>;
-        build(arg0: T): $DataResult<T>;
         build(arg0: $DataResult<T>): $DataResult<T>;
-        withErrorsFrom(arg0: $DataResult<never>): $ListBuilder<T>;
+        build(arg0: T): $DataResult<T>;
         mapError(arg0: $UnaryOperator_<string>): $ListBuilder<T>;
-        ops(): $DynamicOps<T>;
+        withErrorsFrom(arg0: $DataResult<never>): $ListBuilder<T>;
     }
     export class $RecordBuilder<T> {
     }
     export interface $RecordBuilder<T> {
-        add(arg0: string, arg1: $DataResult<T>): $RecordBuilder<T>;
-        add(arg0: string, arg1: T): $RecordBuilder<T>;
-        add(arg0: $DataResult<T>, arg1: $DataResult<T>): $RecordBuilder<T>;
+        ops(): $DynamicOps<T>;
         add<E>(arg0: string, arg1: E, arg2: $Encoder_<E>): $RecordBuilder<T>;
-        add(arg0: T, arg1: T): $RecordBuilder<T>;
+        add(arg0: string, arg1: T): $RecordBuilder<T>;
+        add(arg0: string, arg1: $DataResult<T>): $RecordBuilder<T>;
         add(arg0: T, arg1: $DataResult<T>): $RecordBuilder<T>;
+        add(arg0: T, arg1: T): $RecordBuilder<T>;
+        add(arg0: $DataResult<T>, arg1: $DataResult<T>): $RecordBuilder<T>;
         build(arg0: T): $DataResult<T>;
         build(arg0: $DataResult<T>): $DataResult<T>;
-        withErrorsFrom(arg0: $DataResult<never>): $RecordBuilder<T>;
-        setLifecycle(arg0: $Lifecycle): $RecordBuilder<T>;
         mapError(arg0: $UnaryOperator_<string>): $RecordBuilder<T>;
-        ops(): $DynamicOps<T>;
+        setLifecycle(arg0: $Lifecycle): $RecordBuilder<T>;
+        withErrorsFrom(arg0: $DataResult<never>): $RecordBuilder<T>;
         set lifecycle(value: $Lifecycle);
     }
     export class $DataResult<R> {
@@ -264,28 +264,28 @@ declare module "@package/com/mojang/serialization" {
         flatMap<R2>(arg0: $Function_<R, $DataResult<R2>>): $DataResult<R2>;
         error(): ($DataResult$Error<R>) | undefined;
         isError(): boolean;
-        resultOrPartial(): (R) | undefined;
-        resultOrPartial(arg0: $Consumer_<string>): (R) | undefined;
         ap<R2>(arg0: $DataResult<$Function_<R, R2>>): $DataResult<R2>;
-        apply2<R2, S>(arg0: $BiFunction_<R, R2, S>, arg1: $DataResult<R2>): $DataResult<S>;
-        isSuccess(): boolean;
-        apply3<R2, R3, S>(arg0: $Function3_<R, R2, R3, S>, arg1: $DataResult<R2>, arg2: $DataResult<R3>): $DataResult<S>;
-        setLifecycle(arg0: $Lifecycle): $DataResult<R>;
-        getOrThrow(): R;
-        getOrThrow<E extends $Throwable>(arg0: $Function_<string, E>): R;
-        lifecycle(): $Lifecycle;
-        promotePartial(arg0: $Consumer_<string>): $DataResult<R>;
-        setPartial(arg0: $Supplier_<R>): $DataResult<R>;
-        setPartial(arg0: R): $DataResult<R>;
         mapError(arg0: $UnaryOperator_<string>): $DataResult<R>;
+        ifError(arg0: $Consumer_<$DataResult$Error<R>>): $DataResult<R>;
         ifSuccess(arg0: $Consumer_<R>): $DataResult<R>;
         mapOrElse<T>(arg0: $Function_<R, T>, arg1: $Function_<$DataResult$Error<R>, T>): T;
-        ifError(arg0: $Consumer_<$DataResult$Error<R>>): $DataResult<R>;
-        addLifecycle(arg0: $Lifecycle): $DataResult<R>;
-        hasResultOrPartial(): boolean;
+        getOrThrow(): R;
+        getOrThrow<E extends $Throwable>(arg0: $Function_<string, E>): R;
+        isSuccess(): boolean;
+        lifecycle(): $Lifecycle;
+        apply2<R2, S>(arg0: $BiFunction_<R, R2, S>, arg1: $DataResult<R2>): $DataResult<S>;
+        apply3<R2, R3, S>(arg0: $Function3_<R, R2, R3, S>, arg1: $DataResult<R2>, arg2: $DataResult<R3>): $DataResult<S>;
+        setPartial(arg0: $Supplier_<R>): $DataResult<R>;
+        setPartial(arg0: R): $DataResult<R>;
+        promotePartial(arg0: $Consumer_<string>): $DataResult<R>;
+        setLifecycle(arg0: $Lifecycle): $DataResult<R>;
+        resultOrPartial(): (R) | undefined;
+        resultOrPartial(arg0: $Consumer_<string>): (R) | undefined;
         apply2stable<R2, S>(arg0: $BiFunction_<R, R2, S>, arg1: $DataResult<R2>): $DataResult<S>;
-        getPartialOrThrow(): R;
+        addLifecycle(arg0: $Lifecycle): $DataResult<R>;
         getPartialOrThrow<E extends $Throwable>(arg0: $Function_<string, E>): R;
+        getPartialOrThrow(): R;
+        hasResultOrPartial(): boolean;
     }
     export class $MapCodec<A> extends $CompressorHolder implements $MapDecoder<A>, $MapEncoder<A> {
         static of<A>(arg0: $MapEncoder<A>, arg1: $MapDecoder<A>, arg2: $Supplier_<string>): $MapCodec<A>;
@@ -294,32 +294,32 @@ declare module "@package/com/mojang/serialization" {
         orElse(arg0: A): $MapCodec<A>;
         orElse(arg0: $Consumer_<string>, arg1: A): $MapCodec<A>;
         orElse(arg0: $UnaryOperator_<string>, arg1: A): $MapCodec<A>;
-        static unit<A>(arg0: $Supplier_<A>): $MapCodec<A>;
         static unit<A>(arg0: A): $MapCodec<A>;
-        orElseGet(arg0: $Supplier_<A>): $MapCodec<A>;
-        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<A>): $MapCodec<A>;
+        static unit<A>(arg0: $Supplier_<A>): $MapCodec<A>;
         orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<A>): $MapCodec<A>;
+        orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<A>): $MapCodec<A>;
+        orElseGet(arg0: $Supplier_<A>): $MapCodec<A>;
         static recursive<A>(arg0: string, arg1: $Function_<$Codec<A>, $MapCodec<A>>): $MapCodec<A>;
         dependent<E>(arg0: $MapCodec_<E>, arg1: $Function_<A, $Pair<E, $MapCodec<E>>>, arg2: $BiFunction_<A, E, A>): $MapCodec<A>;
-        static assumeMapUnsafe<A>(arg0: $Codec<A>): $MapCodec<A>;
-        deprecated(arg0: number): $MapCodec<A>;
         forGetter<O>(arg0: $Function_<O, A>): $RecordCodecBuilder<O, A>;
-        mapResult(arg0: $MapCodec$ResultFunction<A>): $MapCodec<A>;
-        fieldOf(arg0: string): $MapCodec<A>;
-        codec(): $Codec<A>;
-        flatXmap<S>(arg0: $Function_<A, $DataResult<S>>, arg1: $Function_<S, $DataResult<A>>): $MapCodec<S>;
         xmap<S>(arg0: $Function_<A, S>, arg1: $Function_<S, A>): $MapCodec<S>;
         stable(): $MapCodec<A>;
+        flatXmap<S>(arg0: $Function_<A, $DataResult<S>>, arg1: $Function_<S, $DataResult<A>>): $MapCodec<S>;
+        fieldOf(arg0: string): $MapCodec<A>;
+        mapResult(arg0: $MapCodec$ResultFunction<A>): $MapCodec<A>;
+        codec(): $Codec<A>;
+        deprecated(arg0: number): $MapCodec<A>;
         setPartial(arg0: $Supplier_<A>): $MapCodec<A>;
+        static assumeMapUnsafe<A>(arg0: $Codec<A>): $MapCodec<A>;
         map<B>(arg0: $Function_<A, B>): $MapDecoder<B>;
         flatMap<B>(arg0: $Function_<A, $DataResult<B>>): $MapDecoder<B>;
         decoder(): $Decoder<A>;
         ap<E>(arg0: $MapDecoder<$Function_<A, E>>): $MapDecoder<E>;
         compressedDecode<T>(arg0: $DynamicOps<T>, arg1: T): $DataResult<A>;
         encoder(): $Encoder<A>;
-        compressedBuilder<T>(arg0: $DynamicOps<T>): $RecordBuilder<T>;
         comap<B>(arg0: $Function_<B, A>): $MapEncoder<B>;
         flatComap<B>(arg0: $Function_<B, $DataResult<A>>): $MapEncoder<B>;
+        compressedBuilder<T>(arg0: $DynamicOps<T>): $RecordBuilder<T>;
         withLifecycle(arg0: $Lifecycle): $MapDecoder<A>;
         constructor();
         set partial(value: $Supplier_<A>);
@@ -327,7 +327,7 @@ declare module "@package/com/mojang/serialization" {
     /**
      * Values that may be interpreted as {@link $MapCodec}.
      */
-    export type $MapCodec_<A> = RegistryTypes.NeoforgeGlobalLootModifierSerializers | RegistryTypes.CreatePotatoProjectileRenderMode | RegistryTypes.WorldgenMaterialCondition | RegistryTypes.NeoforgeConditionCodecs | RegistryTypes.NeoforgeBiomeModifierSerializers | RegistryTypes.CreatePotatoProjectileBlockHitAction | RegistryTypes.WorldgenChunkGenerator | RegistryTypes.CreatePotatoProjectileEntityHitAction | RegistryTypes.BlockType | RegistryTypes.WorldgenDensityFunctionType | RegistryTypes.EnchantmentValueEffectType | RegistryTypes.WorldgenPoolAliasBinding | RegistryTypes.WorldgenMaterialRule | RegistryTypes.EnchantmentLevelBasedValueType | RegistryTypes.MoonlightVillagerTrades | RegistryTypes.EntitySubPredicateType | RegistryTypes.WorldgenBiomeSource | RegistryTypes.EnchantmentEntityEffectType | RegistryTypes.EnchantmentLocationBasedEffectType | RegistryTypes.NeoforgeStructureModifierSerializers | RegistryTypes.EnchantmentProviderType;
+    export type $MapCodec_<A> = RegistryTypes.CreatePotatoProjectileEntityHitAction | RegistryTypes.MoonlightVillagerTrades | RegistryTypes.WorldgenDensityFunctionType | RegistryTypes.EnchantmentLocationBasedEffectType | RegistryTypes.EnchantmentProviderType | RegistryTypes.EnchantmentValueEffectType | RegistryTypes.WorldgenMaterialRule | RegistryTypes.WorldgenBiomeSource | RegistryTypes.EnchantmentEntityEffectType | RegistryTypes.NeoforgeBiomeModifierSerializers | RegistryTypes.EnchantmentLevelBasedValueType | RegistryTypes.CreatePotatoProjectileRenderMode | RegistryTypes.WorldgenMaterialCondition | RegistryTypes.EntitySubPredicateType | RegistryTypes.BlockType | RegistryTypes.WorldgenChunkGenerator | RegistryTypes.NeoforgeConditionCodecs | RegistryTypes.NeoforgeGlobalLootModifierSerializers | RegistryTypes.WorldgenPoolAliasBinding | RegistryTypes.CreatePotatoProjectileBlockHitAction | RegistryTypes.NeoforgeStructureModifierSerializers;
     export class $Keyable {
         static forStrings(arg0: $Supplier_<$Stream<string>>): $Keyable;
     }
@@ -347,39 +347,39 @@ declare module "@package/com/mojang/serialization" {
         map<T, R>(arg0: $Function_<T, R>, arg1: $App<$DataResult$Mu, T>): $App<$DataResult$Mu, R>;
         point<A>(arg0: A): $App<$DataResult$Mu, A>;
         ap<A, R>(arg0: $App<$DataResult$Mu, $Function_<A, R>>, arg1: $App<$DataResult$Mu, A>): $App<$DataResult$Mu, R>;
+        ap3<T1, T2, T3, R>(arg0: $App<$DataResult$Mu, $Function3_<T1, T2, T3, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>): $App<$DataResult$Mu, R>;
         ap2<A, B, R>(arg0: $App<$DataResult$Mu, $BiFunction_<A, B, R>>, arg1: $App<$DataResult$Mu, A>, arg2: $App<$DataResult$Mu, B>): $App<$DataResult$Mu, R>;
         lift1<A, R>(arg0: $App<$DataResult$Mu, $Function_<A, R>>): $Function<$App<$DataResult$Mu, A>, $App<$DataResult$Mu, R>>;
-        ap3<T1, T2, T3, R>(arg0: $App<$DataResult$Mu, $Function3_<T1, T2, T3, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>): $App<$DataResult$Mu, R>;
-        lift9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(arg0: $App<$DataResult$Mu, $Function9_<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>>): $Function9<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, T7>, $App<$DataResult$Mu, T8>, $App<$DataResult$Mu, T9>, $App<$DataResult$Mu, R>>;
-        ap10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R>(arg0: $App<$DataResult$Mu, $Function10_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>): $App<$DataResult$Mu, R>;
-        lift8<T1, T2, T3, T4, T5, T6, T7, T8, R>(arg0: $App<$DataResult$Mu, $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>>): $Function8<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, T7>, $App<$DataResult$Mu, T8>, $App<$DataResult$Mu, R>>;
-        ap11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R>(arg0: $App<$DataResult$Mu, $Function11_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>): $App<$DataResult$Mu, R>;
-        ap12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R>(arg0: $App<$DataResult$Mu, $Function12_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>): $App<$DataResult$Mu, R>;
-        lift4<T1, T2, T3, T4, R>(arg0: $App<$DataResult$Mu, $Function4_<T1, T2, T3, T4, R>>): $Function4<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, R>>;
-        lift6<T1, T2, T3, T4, T5, T6, R>(arg0: $App<$DataResult$Mu, $Function6_<T1, T2, T3, T4, T5, T6, R>>): $Function6<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, R>>;
-        ap9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(arg0: $App<$DataResult$Mu, $Function9_<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>): $App<$DataResult$Mu, R>;
-        lift7<T1, T2, T3, T4, T5, T6, T7, R>(arg0: $App<$DataResult$Mu, $Function7_<T1, T2, T3, T4, T5, T6, T7, R>>): $Function7<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, T7>, $App<$DataResult$Mu, R>>;
-        lift5<T1, T2, T3, T4, T5, R>(arg0: $App<$DataResult$Mu, $Function5_<T1, T2, T3, T4, T5, R>>): $Function5<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, R>>;
-        lift2<A, B, R>(arg0: $App<$DataResult$Mu, $BiFunction_<A, B, R>>): $BiFunction<$App<$DataResult$Mu, A>, $App<$DataResult$Mu, B>, $App<$DataResult$Mu, R>>;
-        lift3<T1, T2, T3, R>(arg0: $App<$DataResult$Mu, $Function3_<T1, T2, T3, R>>): $Function3<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, R>>;
         ap<A, R>(arg0: $Function_<A, R>, arg1: $App<$DataResult$Mu, A>): $App<$DataResult$Mu, R>;
-        apply8<T1, T2, T3, T4, T5, T6, T7, T8, R>(arg0: $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>): $App<$DataResult$Mu, R>;
-        apply4<T1, T2, T3, T4, R>(arg0: $Function4_<T1, T2, T3, T4, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>): $App<$DataResult$Mu, R>;
-        apply2<A, B, R>(arg0: $BiFunction_<A, B, R>, arg1: $App<$DataResult$Mu, A>, arg2: $App<$DataResult$Mu, B>): $App<$DataResult$Mu, R>;
-        apply9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(arg0: $Function9_<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>): $App<$DataResult$Mu, R>;
-        ap14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R>(arg0: $App<$DataResult$Mu, $Function14_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>, arg14: $App<$DataResult$Mu, T14>): $App<$DataResult$Mu, R>;
-        ap13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R>(arg0: $App<$DataResult$Mu, $Function13_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>): $App<$DataResult$Mu, R>;
-        apply7<T1, T2, T3, T4, T5, T6, T7, R>(arg0: $Function7_<T1, T2, T3, T4, T5, T6, T7, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>): $App<$DataResult$Mu, R>;
-        apply5<T1, T2, T3, T4, T5, R>(arg0: $Function5_<T1, T2, T3, T4, T5, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>): $App<$DataResult$Mu, R>;
-        ap16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R>(arg0: $App<$DataResult$Mu, $Function16_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>, arg14: $App<$DataResult$Mu, T14>, arg15: $App<$DataResult$Mu, T15>, arg16: $App<$DataResult$Mu, T16>): $App<$DataResult$Mu, R>;
-        apply3<T1, T2, T3, R>(arg0: $Function3_<T1, T2, T3, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>): $App<$DataResult$Mu, R>;
-        ap15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R>(arg0: $App<$DataResult$Mu, $Function15_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>, arg14: $App<$DataResult$Mu, T14>, arg15: $App<$DataResult$Mu, T15>): $App<$DataResult$Mu, R>;
-        apply6<T1, T2, T3, T4, T5, T6, R>(arg0: $Function6_<T1, T2, T3, T4, T5, T6, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>): $App<$DataResult$Mu, R>;
-        ap4<T1, T2, T3, T4, R>(arg0: $App<$DataResult$Mu, $Function4_<T1, T2, T3, T4, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>): $App<$DataResult$Mu, R>;
+        lift8<T1, T2, T3, T4, T5, T6, T7, T8, R>(arg0: $App<$DataResult$Mu, $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>>): $Function8<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, T7>, $App<$DataResult$Mu, T8>, $App<$DataResult$Mu, R>>;
+        ap9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(arg0: $App<$DataResult$Mu, $Function9_<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>): $App<$DataResult$Mu, R>;
+        lift5<T1, T2, T3, T4, T5, R>(arg0: $App<$DataResult$Mu, $Function5_<T1, T2, T3, T4, T5, R>>): $Function5<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, R>>;
         ap6<T1, T2, T3, T4, T5, T6, R>(arg0: $App<$DataResult$Mu, $Function6_<T1, T2, T3, T4, T5, T6, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>): $App<$DataResult$Mu, R>;
         ap5<T1, T2, T3, T4, T5, R>(arg0: $App<$DataResult$Mu, $Function5_<T1, T2, T3, T4, T5, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>): $App<$DataResult$Mu, R>;
         ap7<T1, T2, T3, T4, T5, T6, T7, R>(arg0: $App<$DataResult$Mu, $Function7_<T1, T2, T3, T4, T5, T6, T7, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>): $App<$DataResult$Mu, R>;
+        ap10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R>(arg0: $App<$DataResult$Mu, $Function10_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>): $App<$DataResult$Mu, R>;
+        lift3<T1, T2, T3, R>(arg0: $App<$DataResult$Mu, $Function3_<T1, T2, T3, R>>): $Function3<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, R>>;
+        lift6<T1, T2, T3, T4, T5, T6, R>(arg0: $App<$DataResult$Mu, $Function6_<T1, T2, T3, T4, T5, T6, R>>): $Function6<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, R>>;
+        lift9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(arg0: $App<$DataResult$Mu, $Function9_<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>>): $Function9<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, T7>, $App<$DataResult$Mu, T8>, $App<$DataResult$Mu, T9>, $App<$DataResult$Mu, R>>;
+        lift2<A, B, R>(arg0: $App<$DataResult$Mu, $BiFunction_<A, B, R>>): $BiFunction<$App<$DataResult$Mu, A>, $App<$DataResult$Mu, B>, $App<$DataResult$Mu, R>>;
+        ap12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R>(arg0: $App<$DataResult$Mu, $Function12_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>): $App<$DataResult$Mu, R>;
+        ap13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R>(arg0: $App<$DataResult$Mu, $Function13_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>): $App<$DataResult$Mu, R>;
+        ap14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R>(arg0: $App<$DataResult$Mu, $Function14_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>, arg14: $App<$DataResult$Mu, T14>): $App<$DataResult$Mu, R>;
+        lift4<T1, T2, T3, T4, R>(arg0: $App<$DataResult$Mu, $Function4_<T1, T2, T3, T4, R>>): $Function4<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, R>>;
+        ap16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R>(arg0: $App<$DataResult$Mu, $Function16_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>, arg14: $App<$DataResult$Mu, T14>, arg15: $App<$DataResult$Mu, T15>, arg16: $App<$DataResult$Mu, T16>): $App<$DataResult$Mu, R>;
+        apply2<A, B, R>(arg0: $BiFunction_<A, B, R>, arg1: $App<$DataResult$Mu, A>, arg2: $App<$DataResult$Mu, B>): $App<$DataResult$Mu, R>;
+        ap15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R>(arg0: $App<$DataResult$Mu, $Function15_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>, arg12: $App<$DataResult$Mu, T12>, arg13: $App<$DataResult$Mu, T13>, arg14: $App<$DataResult$Mu, T14>, arg15: $App<$DataResult$Mu, T15>): $App<$DataResult$Mu, R>;
+        apply3<T1, T2, T3, R>(arg0: $Function3_<T1, T2, T3, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>): $App<$DataResult$Mu, R>;
         ap8<T1, T2, T3, T4, T5, T6, T7, T8, R>(arg0: $App<$DataResult$Mu, $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>): $App<$DataResult$Mu, R>;
+        lift7<T1, T2, T3, T4, T5, T6, T7, R>(arg0: $App<$DataResult$Mu, $Function7_<T1, T2, T3, T4, T5, T6, T7, R>>): $Function7<$App<$DataResult$Mu, T1>, $App<$DataResult$Mu, T2>, $App<$DataResult$Mu, T3>, $App<$DataResult$Mu, T4>, $App<$DataResult$Mu, T5>, $App<$DataResult$Mu, T6>, $App<$DataResult$Mu, T7>, $App<$DataResult$Mu, R>>;
+        ap11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R>(arg0: $App<$DataResult$Mu, $Function11_<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>, arg10: $App<$DataResult$Mu, T10>, arg11: $App<$DataResult$Mu, T11>): $App<$DataResult$Mu, R>;
+        apply4<T1, T2, T3, T4, R>(arg0: $Function4_<T1, T2, T3, T4, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>): $App<$DataResult$Mu, R>;
+        apply5<T1, T2, T3, T4, T5, R>(arg0: $Function5_<T1, T2, T3, T4, T5, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>): $App<$DataResult$Mu, R>;
+        ap4<T1, T2, T3, T4, R>(arg0: $App<$DataResult$Mu, $Function4_<T1, T2, T3, T4, R>>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>): $App<$DataResult$Mu, R>;
+        apply6<T1, T2, T3, T4, T5, T6, R>(arg0: $Function6_<T1, T2, T3, T4, T5, T6, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>): $App<$DataResult$Mu, R>;
+        apply8<T1, T2, T3, T4, T5, T6, T7, T8, R>(arg0: $Function8_<T1, T2, T3, T4, T5, T6, T7, T8, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>): $App<$DataResult$Mu, R>;
+        apply7<T1, T2, T3, T4, T5, T6, T7, R>(arg0: $Function7_<T1, T2, T3, T4, T5, T6, T7, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>): $App<$DataResult$Mu, R>;
+        apply9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(arg0: $Function9_<T1, T2, T3, T4, T5, T6, T7, T8, T9, R>, arg1: $App<$DataResult$Mu, T1>, arg2: $App<$DataResult$Mu, T2>, arg3: $App<$DataResult$Mu, T3>, arg4: $App<$DataResult$Mu, T4>, arg5: $App<$DataResult$Mu, T5>, arg6: $App<$DataResult$Mu, T6>, arg7: $App<$DataResult$Mu, T7>, arg8: $App<$DataResult$Mu, T8>, arg9: $App<$DataResult$Mu, T9>): $App<$DataResult$Mu, R>;
         group<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(arg0: $App<$DataResult$Mu, T1>, arg1: $App<$DataResult$Mu, T2>, arg2: $App<$DataResult$Mu, T3>, arg3: $App<$DataResult$Mu, T4>, arg4: $App<$DataResult$Mu, T5>, arg5: $App<$DataResult$Mu, T6>, arg6: $App<$DataResult$Mu, T7>, arg7: $App<$DataResult$Mu, T8>, arg8: $App<$DataResult$Mu, T9>, arg9: $App<$DataResult$Mu, T10>, arg10: $App<$DataResult$Mu, T11>): $Products$P11<$DataResult$Mu, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>;
         group<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(arg0: $App<$DataResult$Mu, T1>, arg1: $App<$DataResult$Mu, T2>, arg2: $App<$DataResult$Mu, T3>, arg3: $App<$DataResult$Mu, T4>, arg4: $App<$DataResult$Mu, T5>, arg5: $App<$DataResult$Mu, T6>, arg6: $App<$DataResult$Mu, T7>, arg7: $App<$DataResult$Mu, T8>, arg8: $App<$DataResult$Mu, T9>, arg9: $App<$DataResult$Mu, T10>): $Products$P10<$DataResult$Mu, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>;
         group<T1, T2, T3, T4, T5, T6, T7, T8, T9>(arg0: $App<$DataResult$Mu, T1>, arg1: $App<$DataResult$Mu, T2>, arg2: $App<$DataResult$Mu, T3>, arg3: $App<$DataResult$Mu, T4>, arg4: $App<$DataResult$Mu, T5>, arg5: $App<$DataResult$Mu, T6>, arg6: $App<$DataResult$Mu, T7>, arg7: $App<$DataResult$Mu, T8>, arg8: $App<$DataResult$Mu, T9>): $Products$P9<$DataResult$Mu, T1, T2, T3, T4, T5, T6, T7, T8, T9>;
@@ -410,31 +410,31 @@ declare module "@package/com/mojang/serialization" {
         map<T>(arg0: $Function_<R, T>): $DataResult$Error<T>;
         result(): (R) | undefined;
         message(): string;
-        flatMap<R2>(arg0: $Function_<R, $DataResult<R2>>): $DataResult$Error<R2>;
         error(): ($DataResult$Error<R>) | undefined;
         messageSupplier(): $Supplier<string>;
-        resultOrPartial(arg0: $Consumer_<string>): (R) | undefined;
-        resultOrPartial(): (R) | undefined;
         ap<R2>(arg0: $DataResult<$Function_<R, R2>>): $DataResult$Error<R2>;
-        isSuccess(): boolean;
-        getOrThrow<E extends $Throwable>(arg0: $Function_<string, E>): R;
-        lifecycle(): $Lifecycle;
-        promotePartial(arg0: $Consumer_<string>): $DataResult<R>;
         mapError(arg0: $UnaryOperator_<string>): $DataResult$Error<R>;
+        ifError(arg0: $Consumer_<$DataResult$Error<R>>): $DataResult<R>;
         ifSuccess(arg0: $Consumer_<R>): $DataResult<R>;
         mapOrElse<T>(arg0: $Function_<R, T>, arg1: $Function_<$DataResult$Error<R>, T>): T;
-        ifError(arg0: $Consumer_<$DataResult$Error<R>>): $DataResult<R>;
+        getOrThrow<E extends $Throwable>(arg0: $Function_<string, E>): R;
+        isSuccess(): boolean;
+        lifecycle(): $Lifecycle;
+        promotePartial(arg0: $Consumer_<string>): $DataResult<R>;
         partialValue(): (R) | undefined;
-        hasResultOrPartial(): boolean;
+        setLifecycle(arg0: $Lifecycle): $DataResult$Error<R>;
+        resultOrPartial(): (R) | undefined;
+        resultOrPartial(arg0: $Consumer_<string>): (R) | undefined;
         getPartialOrThrow<E extends $Throwable>(arg0: $Function_<string, E>): R;
+        hasResultOrPartial(): boolean;
         isError(): boolean;
+        getOrThrow(): R;
         apply2<R2, S>(arg0: $BiFunction_<R, R2, S>, arg1: $DataResult<R2>): $DataResult<S>;
         apply3<R2, R3, S>(arg0: $Function3_<R, R2, R3, S>, arg1: $DataResult<R2>, arg2: $DataResult<R3>): $DataResult<S>;
-        getOrThrow(): R;
-        addLifecycle(arg0: $Lifecycle): $DataResult<R>;
         apply2stable<R2, S>(arg0: $BiFunction_<R, R2, S>, arg1: $DataResult<R2>): $DataResult<S>;
+        addLifecycle(arg0: $Lifecycle): $DataResult<R>;
         getPartialOrThrow(): R;
-        setLifecycle(arg0: $Lifecycle): $DataResult<R>;
+        flatMap<R2>(arg0: $Function_<R, $DataResult<R2>>): $DataResult<R2>;
         setPartial(arg0: $Supplier_<R>): $DataResult<R>;
         setPartial(arg0: $Supplier_<R>): $DataResult<R>;
         constructor(messageSupplier: $Supplier_<string>, partialValue: (R) | undefined, lifecycle: $Lifecycle);
@@ -493,43 +493,43 @@ declare module "@package/com/mojang/serialization" {
         createLong(arg0: number): T;
         createString(arg0: string): T;
         getStream(arg0: T): $DataResult<$Stream<T>>;
+        createList(arg0: $Stream<T>): T;
         getBooleanValue(arg0: T): $DataResult<boolean>;
         getStringValue(arg0: T): $DataResult<string>;
-        createList(arg0: $Stream<T>): T;
-        createFloat(arg0: number): T;
-        createDouble(arg0: number): T;
+        createByte(arg0: number): T;
+        getList(arg0: T): $DataResult<$Consumer<$Consumer<T>>>;
+        mergeToMap(arg0: T, arg1: $Map_<T, T>): $DataResult<T>;
+        mergeToMap(arg0: T, arg1: $MapLike<T>): $DataResult<T>;
+        mergeToMap(arg0: T, arg1: T, arg2: T): $DataResult<T>;
         convertTo<U>(arg0: $DynamicOps<U>, arg1: T): U;
-        getGeneric(arg0: T, arg1: T): $DataResult<T>;
         createInt(arg0: number): T;
         mapBuilder(): $RecordBuilder<T>;
-        createByte(arg0: number): T;
-        withParser<E>(arg0: $Decoder_<E>): $Function<T, $DataResult<E>>;
         convertMap<U>(arg0: $DynamicOps<U>, arg1: T): U;
-        mergeToMap(arg0: T, arg1: $MapLike<T>): $DataResult<T>;
-        mergeToMap(arg0: T, arg1: $Map_<T, T>): $DataResult<T>;
-        mergeToMap(arg0: T, arg1: T, arg2: T): $DataResult<T>;
-        getList(arg0: T): $DataResult<$Consumer<$Consumer<T>>>;
-        listBuilder(): $ListBuilder<T>;
-        convertList<U>(arg0: $DynamicOps<U>, arg1: T): U;
-        updateGeneric(arg0: T, arg1: T, arg2: $Function_<T, T>): T;
-        withEncoder<E>(arg0: $Encoder_<E>): $Function<E, $DataResult<T>>;
-        withDecoder<E>(arg0: $Decoder_<E>): $Function<T, $DataResult<$Pair<E, T>>>;
-        mergeToPrimitive(arg0: T, arg1: T): $DataResult<T>;
+        withParser<E>(arg0: $Decoder_<E>): $Function<T, $DataResult<E>>;
+        getGeneric(arg0: T, arg1: T): $DataResult<T>;
+        createFloat(arg0: number): T;
+        createDouble(arg0: number): T;
         getNumberValue(arg0: T): $DataResult<$Number>;
         getNumberValue(arg0: T, arg1: $Number): $Number;
-        createIntList(arg0: $IntStream): T;
-        createLongList(arg0: $LongStream): T;
+        getMapEntries(arg0: T): $DataResult<$Consumer<$BiConsumer<T, T>>>;
+        createBoolean(arg0: boolean): T;
         getLongStream(arg0: T): $DataResult<$LongStream>;
+        listBuilder(): $ListBuilder<T>;
+        createByteList(arg0: $ByteBuffer): T;
+        createLongList(arg0: $LongStream): T;
+        mergeToPrimitive(arg0: T, arg1: T): $DataResult<T>;
+        withEncoder<E>(arg0: $Encoder_<E>): $Function<E, $DataResult<T>>;
         createShort(arg0: number): T;
-        compressMaps(): boolean;
+        createNumeric(arg0: $Number): T;
+        createIntList(arg0: $IntStream): T;
+        updateGeneric(arg0: T, arg1: T, arg2: $Function_<T, T>): T;
+        getIntStream(arg0: T): $DataResult<$IntStream>;
+        withDecoder<E>(arg0: $Decoder_<E>): $Function<T, $DataResult<$Pair<E, T>>>;
         mergeToList(arg0: T, arg1: T): $DataResult<T>;
         mergeToList(arg0: T, arg1: $List_<T>): $DataResult<T>;
-        createBoolean(arg0: boolean): T;
-        getMapEntries(arg0: T): $DataResult<$Consumer<$BiConsumer<T, T>>>;
-        createByteList(arg0: $ByteBuffer): T;
-        getIntStream(arg0: T): $DataResult<$IntStream>;
+        convertList<U>(arg0: $DynamicOps<U>, arg1: T): U;
+        compressMaps(): boolean;
         getMapValues(arg0: T): $DataResult<$Stream<$Pair<T, T>>>;
-        createNumeric(arg0: $Number): T;
     }
     export class $Codec<A> {
         static of<A>(arg0: $MapEncoder<A>, arg1: $MapDecoder<A>, arg2: $Supplier_<string>): $MapCodec<A>;
@@ -545,22 +545,22 @@ declare module "@package/com/mojang/serialization" {
         static pair<F, S>(arg0: $Codec<F>, arg1: $Codec<S>): $Codec<$Pair<F, S>>;
         static checkRange<N extends $Number>(arg0: N, arg1: N): $Function<N, $DataResult<N>>;
         static xor<F, S>(arg0: $Codec<F>, arg1: $Codec<S>): $Codec<$Either<F, S>>;
-        static mapPair<F, S>(arg0: $MapCodec_<F>, arg1: $MapCodec_<S>): $MapCodec<$Pair<F, S>>;
-        static mapEither<F, S>(arg0: $MapCodec_<F>, arg1: $MapCodec_<S>): $MapCodec<$Either<F, S>>;
-        static intRange(arg0: number, arg1: number): $Codec<number>;
-        static floatRange(arg0: number, arg1: number): $Codec<number>;
         static either<F, S>(arg0: $Codec<F>, arg1: $Codec<S>): $Codec<$Either<F, S>>;
+        static mapEither<F, S>(arg0: $MapCodec_<F>, arg1: $MapCodec_<S>): $MapCodec<$Either<F, S>>;
+        static floatRange(arg0: number, arg1: number): $Codec<number>;
+        static mapPair<F, S>(arg0: $MapCodec_<F>, arg1: $MapCodec_<S>): $MapCodec<$Pair<F, S>>;
+        static intRange(arg0: number, arg1: number): $Codec<number>;
         static simpleMap<K, V>(arg0: $Codec<K>, arg1: $Codec<V>, arg2: $Keyable_): $SimpleMapCodec<K, V>;
-        static sizeLimitedString(arg0: number): $Codec<string>;
-        static stringResolver<E>(arg0: $Function_<E, string>, arg1: $Function_<string, E>): $Codec<E>;
-        static dispatchedMap<K, V>(arg0: $Codec<K>, arg1: $Function_<K, $Codec<V>>): $Codec<$Map<K, V>>;
-        static compoundList<K, V>(arg0: $Codec<K>, arg1: $Codec<V>): $Codec<$List<$Pair<K, V>>>;
-        static doubleRange(arg0: number, arg1: number): $Codec<number>;
-        static withAlternative<T>(arg0: $Codec<T>, arg1: $Codec<T>): $Codec<T>;
-        static withAlternative<T, U>(arg0: $Codec<T>, arg1: $Codec<U>, arg2: $Function_<U, T>): $Codec<T>;
-        static lazyInitialized<A>(arg0: $Supplier_<$Codec<A>>): $Codec<A>;
-        static optionalField<F>(arg0: string, arg1: $Codec<F>, arg2: boolean): $MapCodec<(F) | undefined>;
         static unboundedMap<K, V>(arg0: $Codec<K>, arg1: $Codec<V>): $UnboundedMapCodec<K, V>;
+        static withAlternative<T, U>(arg0: $Codec<T>, arg1: $Codec<U>, arg2: $Function_<U, T>): $Codec<T>;
+        static withAlternative<T>(arg0: $Codec<T>, arg1: $Codec<T>): $Codec<T>;
+        static compoundList<K, V>(arg0: $Codec<K>, arg1: $Codec<V>): $Codec<$List<$Pair<K, V>>>;
+        static dispatchedMap<K, V>(arg0: $Codec<K>, arg1: $Function_<K, $Codec<V>>): $Codec<$Map<K, V>>;
+        static stringResolver<E>(arg0: $Function_<E, string>, arg1: $Function_<string, E>): $Codec<E>;
+        static lazyInitialized<A>(arg0: $Supplier_<$Codec<A>>): $Codec<A>;
+        static doubleRange(arg0: number, arg1: number): $Codec<number>;
+        static optionalField<F>(arg0: string, arg1: $Codec<F>, arg2: boolean): $MapCodec<(F) | undefined>;
+        static sizeLimitedString(arg0: number): $Codec<string>;
         static FLOAT: $PrimitiveCodec<number>;
         static INT: $PrimitiveCodec<number>;
         static SHORT: $PrimitiveCodec<number>;
@@ -582,34 +582,34 @@ declare module "@package/com/mojang/serialization" {
         orElse(arg0: $UnaryOperator_<string>, arg1: A): $Codec<A>;
         orElse(arg0: A): $Codec<A>;
         orElse(arg0: $Consumer_<string>, arg1: A): $Codec<A>;
-        orElseGet(arg0: $Supplier_<A>): $Codec<A>;
         orElseGet(arg0: $Consumer_<string>, arg1: $Supplier_<A>): $Codec<A>;
         orElseGet(arg0: $UnaryOperator_<string>, arg1: $Supplier_<A>): $Codec<A>;
-        listOf(): $Codec<$List<A>>;
-        listOf(arg0: number, arg1: number): $Codec<$List<A>>;
-        deprecated(arg0: number): $Codec<A>;
-        mapResult(arg0: $Codec$ResultFunction<A>): $Codec<A>;
-        flatXmap<S>(arg0: $Function_<A, $DataResult<S>>, arg1: $Function_<S, $DataResult<A>>): $Codec<S>;
-        xmap<S>(arg0: $Function_<A, S>, arg1: $Function_<S, A>): $Codec<S>;
-        stable(): $Codec<A>;
-        lenientOptionalFieldOf(arg0: string, arg1: A): $MapCodec<A>;
-        lenientOptionalFieldOf(arg0: string, arg1: A, arg2: $Lifecycle): $MapCodec<A>;
-        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: A, arg3: $Lifecycle): $MapCodec<A>;
+        orElseGet(arg0: $Supplier_<A>): $Codec<A>;
         lenientOptionalFieldOf(arg0: string): $MapCodec<(A) | undefined>;
-        dispatchMap<E>(arg0: string, arg1: $Function_<E, A>, arg2: $Function_<A, $MapCodec<E>>): $MapCodec<E>;
-        dispatchMap<E>(arg0: $Function_<E, A>, arg1: $Function_<A, $MapCodec<E>>): $MapCodec<E>;
+        lenientOptionalFieldOf(arg0: string, arg1: A): $MapCodec<A>;
+        lenientOptionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: A, arg3: $Lifecycle): $MapCodec<A>;
+        lenientOptionalFieldOf(arg0: string, arg1: A, arg2: $Lifecycle): $MapCodec<A>;
+        xmap<S>(arg0: $Function_<A, S>, arg1: $Function_<S, A>): $Codec<S>;
+        listOf(arg0: number, arg1: number): $Codec<$List<A>>;
+        listOf(): $Codec<$List<A>>;
+        stable(): $Codec<A>;
+        flatXmap<S>(arg0: $Function_<A, $DataResult<S>>, arg1: $Function_<S, $DataResult<A>>): $Codec<S>;
+        mapResult(arg0: $Codec$ResultFunction<A>): $Codec<A>;
+        deprecated(arg0: number): $Codec<A>;
         partialDispatch<E>(arg0: string, arg1: $Function_<E, $DataResult<A>>, arg2: $Function_<A, $DataResult<$MapCodec<E>>>): $Codec<E>;
-        dispatchStable<E>(arg0: $Function_<E, A>, arg1: $Function_<A, $MapCodec<E>>): $Codec<E>;
         sizeLimitedListOf(arg0: number): $Codec<$List<A>>;
+        dispatchMap<E>(arg0: $Function_<E, A>, arg1: $Function_<A, $MapCodec<E>>): $MapCodec<E>;
+        dispatchMap<E>(arg0: string, arg1: $Function_<E, A>, arg2: $Function_<A, $MapCodec<E>>): $MapCodec<E>;
         flatComapMap<S>(arg0: $Function_<A, S>, arg1: $Function_<S, $DataResult<A>>): $Codec<S>;
-        comapFlatMap<S>(arg0: $Function_<A, $DataResult<S>>, arg1: $Function_<S, A>): $Codec<S>;
-        withLifecycle(arg0: $Lifecycle): $Codec<A>;
+        dispatchStable<E>(arg0: $Function_<E, A>, arg1: $Function_<A, $MapCodec<E>>): $Codec<E>;
         optionalFieldOf(arg0: string, arg1: A, arg2: $Lifecycle): $MapCodec<A>;
-        optionalFieldOf(arg0: string, arg1: A): $MapCodec<A>;
-        optionalFieldOf(arg0: string): $MapCodec<(A) | undefined>;
         optionalFieldOf(arg0: string, arg1: $Lifecycle, arg2: A, arg3: $Lifecycle): $MapCodec<A>;
+        optionalFieldOf(arg0: string): $MapCodec<(A) | undefined>;
+        optionalFieldOf(arg0: string, arg1: A): $MapCodec<A>;
+        comapFlatMap<S>(arg0: $Function_<A, $DataResult<S>>, arg1: $Function_<S, A>): $Codec<S>;
         fieldOf(arg0: string): $MapEncoder<A>;
         promotePartial(arg0: $Consumer_<string>): $Decoder<A>;
+        withLifecycle(arg0: $Lifecycle): $Encoder<A>;
     }
     export class $MapLike<T> {
         static forMap<T>(arg0: $Map_<T, T>, arg1: $DynamicOps<T>): $MapLike<T>;

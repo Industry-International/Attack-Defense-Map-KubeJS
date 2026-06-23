@@ -6,14 +6,14 @@ import { $Source, $Result } from "@package/javax/xml/transform";
 
 declare module "@package/javax/xml/validation" {
     export class $ValidatorHandler implements $ContentHandler {
+        getContentHandler(): $ContentHandler;
         getProperty(arg0: string): $Object;
         setProperty(arg0: string, arg1: $Object): void;
+        setContentHandler(arg0: $ContentHandler): void;
         setErrorHandler(arg0: $ErrorHandler): void;
         getErrorHandler(): $ErrorHandler;
-        setContentHandler(arg0: $ContentHandler): void;
         getFeature(arg0: string): boolean;
         setFeature(arg0: string, arg1: boolean): void;
-        getContentHandler(): $ContentHandler;
         setResourceResolver(arg0: $LSResourceResolver_): void;
         getResourceResolver(): $LSResourceResolver;
         getTypeInfoProvider(): $TypeInfoProvider;
@@ -21,8 +21,8 @@ declare module "@package/javax/xml/validation" {
         get typeInfoProvider(): $TypeInfoProvider;
     }
     export class $TypeInfoProvider {
-        isIdAttribute(arg0: number): boolean;
         isSpecified(arg0: number): boolean;
+        isIdAttribute(arg0: number): boolean;
         getElementTypeInfo(): $TypeInfo;
         getAttributeTypeInfo(arg0: number): $TypeInfo;
         get elementTypeInfo(): $TypeInfo;

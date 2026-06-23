@@ -32,10 +32,10 @@ declare module "@package/net/neoforged/neoforge/network/payload" {
         constructor(versions: $List_<number>);
     }
     export class $ClientboundCustomSetTimePayload extends $Record implements $CustomPacketPayload {
-        type(): $CustomPacketPayload$Type<$ClientboundCustomSetTimePayload>;
         dayTime(): number;
-        dayTimeFraction(): number;
+        type(): $CustomPacketPayload$Type<$ClientboundCustomSetTimePayload>;
         dayTimePerTick(): number;
+        dayTimeFraction(): number;
         gameTime(): number;
         gameRule(): boolean;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
@@ -74,6 +74,9 @@ declare module "@package/net/neoforged/neoforge/network/payload" {
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ModdedNetworkPayload>;
         constructor(setup: $NetworkPayloadSetup_);
     }
+    /**
+     * Protocol utilities for communicating over Dinnerbone's protocol.
+     */
     export class $DinnerboneProtocolUtils {
         static CHANNELS_CODEC: $StreamCodec<$FriendlyByteBuf, $Set<$ResourceLocation>>;
         static LOGGER: $Logger;
@@ -125,8 +128,8 @@ declare module "@package/net/neoforged/neoforge/network/payload" {
     export class $AdvancedOpenScreenPayload extends $Record implements $CustomPacketPayload {
         name(): $Component;
         type(): $CustomPacketPayload$Type<$AdvancedOpenScreenPayload>;
-        additionalData(): number[];
         windowId(): number;
+        additionalData(): number[];
         menuType(): $MenuType<never>;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;
         toVanillaClientbound(): $ClientboundCustomPayloadPacket;
@@ -272,6 +275,9 @@ declare module "@package/net/neoforged/neoforge/network/payload" {
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $CommonRegisterPayload>;
         constructor(version: number, protocol: $ConnectionProtocol_, channels: $Set_<$ResourceLocation_>);
     }
+    /**
+     * This payload is sent to the client when the server has finished sending all the frozen registries.
+     */
     export class $FrozenRegistrySyncCompletedPayload implements $CustomPacketPayload {
         type(): $CustomPacketPayload$Type<$FrozenRegistrySyncCompletedPayload>;
         toVanillaServerbound(): $ServerboundCustomPayloadPacket;

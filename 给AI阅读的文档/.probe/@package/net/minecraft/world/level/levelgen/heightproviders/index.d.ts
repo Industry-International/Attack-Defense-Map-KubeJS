@@ -7,23 +7,23 @@ import { $RandomSource } from "@package/net/minecraft/util";
 declare module "@package/net/minecraft/world/level/levelgen/heightproviders" {
     export class $WeightedListHeight extends $HeightProvider {
         static CODEC: $MapCodec<$WeightedListHeight>;
-        constructor(arg0: $SimpleWeightedRandomList<$HeightProvider>);
+        constructor(distribution: $SimpleWeightedRandomList<$HeightProvider>);
     }
     export class $HeightProvider {
         getType(): $HeightProviderType<never>;
-        sample(arg0: $RandomSource, arg1: $WorldGenerationContext): number;
+        sample(random: $RandomSource, context: $WorldGenerationContext): number;
         static CODEC: $Codec<$HeightProvider>;
         constructor();
         get type(): $HeightProviderType<never>;
     }
-    export interface $HeightProviderType extends RegistryMarked<RegistryTypes.HeightProviderTypeTag, RegistryTypes.HeightProviderType> {}
+    export interface $HeightProviderType<P> extends RegistryMarked<RegistryTypes.HeightProviderTypeTag, RegistryTypes.HeightProviderType> {}
     export class $BiasedToBottomHeight extends $HeightProvider {
-        static of(arg0: $VerticalAnchor_, arg1: $VerticalAnchor_, arg2: number): $BiasedToBottomHeight;
+        static of(minInclusive: $VerticalAnchor_, maxInclusive: $VerticalAnchor_, inner: number): $BiasedToBottomHeight;
         static CODEC: $MapCodec<$BiasedToBottomHeight>;
     }
     export class $TrapezoidHeight extends $HeightProvider {
-        static of(arg0: $VerticalAnchor_, arg1: $VerticalAnchor_): $TrapezoidHeight;
-        static of(arg0: $VerticalAnchor_, arg1: $VerticalAnchor_, arg2: number): $TrapezoidHeight;
+        static of(minInclusive: $VerticalAnchor_, maxInclusive: $VerticalAnchor_): $TrapezoidHeight;
+        static of(minInclusive: $VerticalAnchor_, maxInclusive: $VerticalAnchor_, plateau: number): $TrapezoidHeight;
         static CODEC: $MapCodec<$TrapezoidHeight>;
     }
     export class $HeightProviderType<P extends $HeightProvider> {
@@ -43,17 +43,17 @@ declare module "@package/net/minecraft/world/level/levelgen/heightproviders" {
     export type $HeightProviderType_<P> = RegistryTypes.HeightProviderType | (() => $MapCodec_<P>);
     export class $ConstantHeight extends $HeightProvider {
         getValue(): $VerticalAnchor;
-        static of(arg0: $VerticalAnchor_): $ConstantHeight;
+        static of(value: $VerticalAnchor_): $ConstantHeight;
         static ZERO: $ConstantHeight;
         static CODEC: $MapCodec<$ConstantHeight>;
         get value(): $VerticalAnchor;
     }
     export class $UniformHeight extends $HeightProvider {
-        static of(arg0: $VerticalAnchor_, arg1: $VerticalAnchor_): $UniformHeight;
+        static of(minInclusive: $VerticalAnchor_, maxInclusive: $VerticalAnchor_): $UniformHeight;
         static CODEC: $MapCodec<$UniformHeight>;
     }
     export class $VeryBiasedToBottomHeight extends $HeightProvider {
-        static of(arg0: $VerticalAnchor_, arg1: $VerticalAnchor_, arg2: number): $VeryBiasedToBottomHeight;
+        static of(minInclusive: $VerticalAnchor_, maxInclusive: $VerticalAnchor_, inner: number): $VeryBiasedToBottomHeight;
         static CODEC: $MapCodec<$VeryBiasedToBottomHeight>;
     }
 }

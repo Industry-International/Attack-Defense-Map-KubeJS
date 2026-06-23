@@ -125,7 +125,7 @@ declare module "@package/net/minecraft/world/entity/ai/memory" {
         static SONIC_BOOM_SOUND_COOLDOWN: $MemoryModuleType<$Unit>;
         static HOME: $MemoryModuleType<$GlobalPos>;
         static UNIVERSAL_ANGER: $MemoryModuleType<boolean>;
-        constructor(arg0: ($Codec<U>) | undefined);
+        constructor(optionalCodec: ($Codec<U>) | undefined);
         get codec(): ($Codec<$ExpirableValue<U>>) | undefined;
     }
     /**
@@ -147,35 +147,44 @@ declare module "@package/net/minecraft/world/entity/ai/memory" {
         getTarget(): $PositionTracker;
         getSpeedModifier(): number;
         getCloseEnoughDist(): number;
-        constructor(arg0: $PositionTracker, arg1: number, arg2: number);
-        constructor(arg0: $Entity, arg1: number, arg2: number);
-        constructor(arg0: $Vec3_, arg1: number, arg2: number);
-        constructor(arg0: $BlockPos_, arg1: number, arg2: number);
+        constructor(target: $PositionTracker, speedModifier: number, closeEnoughDist: number);
+        /**
+         * Constructs a walk target that tracks an entity's position
+         */
+        constructor(targetEntity: $Entity, speedModifier: number, closeEnoughDist: number);
+        /**
+         * Constructs a walk target using a vector that's directly converted to a BlockPos.
+         */
+        constructor(vectorPos: $Vec3_, speedModifier: number, closeEnoughDist: number);
+        /**
+         * Constructs a walk target that tracks a position
+         */
+        constructor(pos: $BlockPos_, speedModifier: number, closeEnoughDist: number);
         get target(): $PositionTracker;
         get speedModifier(): number;
         get closeEnoughDist(): number;
     }
-    export interface $MemoryModuleType extends RegistryMarked<RegistryTypes.MemoryModuleTypeTag, RegistryTypes.MemoryModuleType> {}
+    export interface $MemoryModuleType<U> extends RegistryMarked<RegistryTypes.MemoryModuleTypeTag, RegistryTypes.MemoryModuleType> {}
     export class $ExpirableValue<T> {
         getValue(): T;
-        static of<T>(arg0: T): $ExpirableValue<T>;
-        static of<T>(arg0: T, arg1: number): $ExpirableValue<T>;
+        static of<T>(value: T): $ExpirableValue<T>;
+        static of<T>(value: T, timeToLive: number): $ExpirableValue<T>;
         tick(): void;
         getTimeToLive(): number;
-        static codec<T>(arg0: $Codec<T>): $Codec<$ExpirableValue<T>>;
-        hasExpired(): boolean;
+        static codec<T>(valueCodec: $Codec<T>): $Codec<$ExpirableValue<T>>;
         canExpire(): boolean;
-        constructor(arg0: T, arg1: number);
+        hasExpired(): boolean;
+        constructor(value: T, timeToLive: number);
         get value(): T;
         get timeToLive(): number;
     }
     export class $NearestVisibleLivingEntities {
-        contains(arg0: $Predicate_<$LivingEntity>): boolean;
-        contains(arg0: $LivingEntity): boolean;
+        contains(predicate: $Predicate_<$LivingEntity>): boolean;
+        contains(entity: $LivingEntity): boolean;
         static empty(): $NearestVisibleLivingEntities;
-        find(arg0: $Predicate_<$LivingEntity>): $Stream<$LivingEntity>;
-        findAll(arg0: $Predicate_<$LivingEntity>): $Iterable<$LivingEntity>;
-        findClosest(arg0: $Predicate_<$LivingEntity>): ($LivingEntity) | undefined;
-        constructor(arg0: $LivingEntity, arg1: $List_<$LivingEntity>);
+        find(predicate: $Predicate_<$LivingEntity>): $Stream<$LivingEntity>;
+        findAll(predicate: $Predicate_<$LivingEntity>): $Iterable<$LivingEntity>;
+        findClosest(predicate: $Predicate_<$LivingEntity>): ($LivingEntity) | undefined;
+        constructor(livingEntity: $LivingEntity, nearbyLivingEntities: $List_<$LivingEntity>);
     }
 }

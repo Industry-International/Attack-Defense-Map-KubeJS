@@ -6,12 +6,15 @@ import { $DataProvider, $CachedOutput_, $PackOutput } from "@package/net/minecra
 
 declare module "@package/net/minecraft/data/metadata" {
     export class $PackMetadataGenerator implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        add<T>(arg0: $MetadataSectionType<T>, arg1: T): $PackMetadataGenerator;
-        static forFeaturePack(arg0: $PackOutput, arg1: $Component_, arg2: $FeatureFlagSet): $PackMetadataGenerator;
-        static forFeaturePack(arg0: $PackOutput, arg1: $Component_): $PackMetadataGenerator;
-        constructor(arg0: $PackOutput);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        add<T>(type: $MetadataSectionType<T>, value: T): $PackMetadataGenerator;
+        static forFeaturePack(output: $PackOutput, description: $Component_, flags: $FeatureFlagSet): $PackMetadataGenerator;
+        static forFeaturePack(output: $PackOutput, description: $Component_): $PackMetadataGenerator;
+        constructor(output: $PackOutput);
         get name(): string;
     }
 }

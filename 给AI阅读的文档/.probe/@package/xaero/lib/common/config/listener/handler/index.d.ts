@@ -8,7 +8,7 @@ declare module "@package/xaero/lib/common/config/listener/handler" {
         register(arg0: $ConfigOption<never>, arg1: $Consumer_<$Config>): void;
         onChange(arg0: $Config, arg1: $ConfigOption<never>): void;
         postLoad(): void;
-        onRemoved(arg0: $Config): void;
         onFullChange(arg0: $Config): void;
+        onRemoved(arg0: $Config): void;
     }
 }

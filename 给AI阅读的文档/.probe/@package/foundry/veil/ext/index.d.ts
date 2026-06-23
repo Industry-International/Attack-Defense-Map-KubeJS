@@ -30,9 +30,9 @@ declare module "@package/foundry/veil/ext" {
     export class $VertexBufferExtension {
     }
     export interface $VertexBufferExtension {
+        veil$drawInstanced(arg0: number): void;
         veil$drawIndirect(arg0: number, arg1: number, arg2: number): void;
         veil$getIndexCount(): number;
-        veil$drawInstanced(arg0: number): void;
     }
     export class $PerformanceRenderTargetExtension {
     }
@@ -61,20 +61,20 @@ declare module "@package/foundry/veil/ext" {
     export class $AutoStorageIndexBufferExtension {
     }
     export interface $AutoStorageIndexBufferExtension {
-        veil$getBuffer(): number;
         veil$ensureStorage(arg0: number): void;
+        veil$getBuffer(): number;
     }
     export class $PackResourcesExtension {
-        static findDevPath(arg0: $Path_, arg1: $Path_): $Path;
         static findDevPaths(arg0: $Path_, arg1: $Path_): $List<$Path>;
+        static findDevPath(arg0: $Path_, arg1: $Path_): $Path;
         static BUILD_RESOURCES_NAME: string;
     }
     export interface $PackResourcesExtension {
         veil$getRawResourceRoots(): $List<$Path>;
-        veil$getIcon(): $IoSupplier<$InputStream>;
+        veil$listPacks(): $Stream<$PackResources>;
         veil$listResources(arg0: $PackResourcesExtension$PackResourceConsumer_): void;
         veil$blurIcon(): boolean;
-        veil$listPacks(): $Stream<$PackResources>;
+        veil$getIcon(): $IoSupplier<$InputStream>;
         veil$isStatic(): boolean;
     }
     export class $FrustumExtension {
@@ -95,16 +95,6 @@ declare module "@package/foundry/veil/ext" {
      * Values that may be interpreted as {@link $TextureAtlasExtension}.
      */
     export type $TextureAtlasExtension_ = ((arg0: $ResourceLocation) => boolean);
-    export class $ShaderInstanceExtension {
-    }
-    export interface $ShaderInstanceExtension {
-        veil$recompile(arg0: boolean, arg1: string, arg2: number): void;
-        veil$getShaderSources(): $Collection<$ResourceLocation>;
-        veil$getActiveBuffers(): number;
-        veil$isRecompileReady(arg0: number): boolean;
-        veil$applyCompile(): boolean;
-        veil$swapBuffers(arg0: number): boolean;
-    }
     export class $CompositeStateExtension {
     }
     export interface $CompositeStateExtension {

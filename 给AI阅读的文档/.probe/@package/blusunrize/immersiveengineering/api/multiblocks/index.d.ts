@@ -18,9 +18,9 @@ declare module "@package/blusunrize/immersiveengineering/api/multiblocks" {
     export class $ClientMultiblocks$MultiblockManualData {
     }
     export interface $ClientMultiblocks$MultiblockManualData {
-        canRenderFormedStructure(): boolean;
-        renderFormedStructure(arg0: $PoseStack, arg1: $MultiBufferSource_): void;
         getTotalMaterials(): $NonNullList<$ItemStack>;
+        renderFormedStructure(arg0: $PoseStack, arg1: $MultiBufferSource_): void;
+        canRenderFormedStructure(): boolean;
         get totalMaterials(): $NonNullList<$ItemStack>;
     }
     export class $MultiblockHandler$IMultiblock {
@@ -28,30 +28,30 @@ declare module "@package/blusunrize/immersiveengineering/api/multiblocks" {
     export interface $MultiblockHandler$IMultiblock {
         getSize(arg0: $Level_): $Vec3i;
         getDisplayName(): $Component;
-        getBlock(): $Block;
-        getUniqueName(): $ResourceLocation;
         disassemble(arg0: $Level_, arg1: $BlockPos_, arg2: boolean, arg3: $Direction_): void;
-        createStructure(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $Player): boolean;
-        initializeClient(arg0: $Consumer_<$ClientMultiblocks$MultiblockManualData>): void;
-        getStructure(arg0: $Level_): $List<$StructureTemplate$StructureBlockInfo>;
         getManualScale(): number;
         getTriggerOffset(): $BlockPos;
+        getUniqueName(): $ResourceLocation;
+        getBlock(): $Block;
+        getStructure(arg0: $Level_): $List<$StructureTemplate$StructureBlockInfo>;
         isBlockTrigger(arg0: $BlockState_, arg1: $Direction_, arg2: $Level_): boolean;
+        createStructure(arg0: $Level_, arg1: $BlockPos_, arg2: $Direction_, arg3: $Player): boolean;
+        initializeClient(arg0: $Consumer_<$ClientMultiblocks$MultiblockManualData>): void;
         get displayName(): $Component;
-        get block(): $Block;
-        get uniqueName(): $ResourceLocation;
         get manualScale(): number;
         get triggerOffset(): $BlockPos;
+        get uniqueName(): $ResourceLocation;
+        get block(): $Block;
     }
     export class $MultiblockHandler$MultiblockFormEvent extends $PlayerEvent implements $ICancellableEvent {
         getMultiblock(): $MultiblockHandler$IMultiblock;
-        getClickedBlock(): $BlockPos;
         getHammer(): $ItemStack;
-        setCanceled(arg0: boolean): void;
+        getClickedBlock(): $BlockPos;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $Player, arg1: $MultiblockHandler$IMultiblock, arg2: $BlockPos_, arg3: $ItemStack_);
         get multiblock(): $MultiblockHandler$IMultiblock;
-        get clickedBlock(): $BlockPos;
         get hammer(): $ItemStack;
+        get clickedBlock(): $BlockPos;
     }
 }

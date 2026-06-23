@@ -12,17 +12,17 @@ export * as data from "@package/com/replaymod/replaystudio/protocol/data";
 
 declare module "@package/com/replaymod/replaystudio/protocol" {
     export class $Packet {
+        atMost(protocolVersion: $ProtocolVersion): boolean;
         getId(): number;
         reader(): $Packet$Reader;
         getType(): $PacketType;
         copy(): $Packet;
         release(): boolean;
         atLeast(protocolVersion: $ProtocolVersion): boolean;
-        atMost(protocolVersion: $ProtocolVersion): boolean;
         overwrite(): $Packet$Writer;
         retain(): $Packet;
-        getRegistry(): $PacketTypeRegistry;
         olderThan(protocolVersion: $ProtocolVersion): boolean;
+        getRegistry(): $PacketTypeRegistry;
         getProtocolVersion(): $ProtocolVersion;
         getBuf(): $ByteBuf;
         constructor(registry: $PacketTypeRegistry, id: number, type: $PacketType_, buf: $ByteBuf);
@@ -37,26 +37,26 @@ declare module "@package/com/replaymod/replaystudio/protocol" {
     }
     export class $Packet$Writer extends $ByteBufNetOutput implements $AutoCloseable {
         close(): void;
-        static writeList<T>(registry: $PacketTypeRegistry, out: $NetOutput, list: $List_<T>, entryWriter: $IOConsumer_<T>): void;
-        writeList<T>(list: $List_<T>, entryWriter: $IOConsumer_<T>): void;
-        static writeNBT(registry: $PacketTypeRegistry, out: $NetOutput, tag: $Tag): void;
-        writeNBT(tag: $Tag): void;
-        writeBitSet(bitSet: $BitSet): void;
-        static writeBitSet(registry: $PacketTypeRegistry, out: $NetOutput, bitSet: $BitSet): void;
-        writeText(value: $StringOrNbtText): void;
         writePosition(pos: $IPosition): void;
         static writePosition(registry: $PacketTypeRegistry, out: $NetOutput, pos: $IPosition): void;
-        writeGlobalPosition(pos: $IGlobalPosition): void;
+        writeNBT(tag: $Tag): void;
+        static writeNBT(registry: $PacketTypeRegistry, out: $NetOutput, tag: $Tag): void;
+        writeText(value: $StringOrNbtText): void;
+        static writeBitSet(registry: $PacketTypeRegistry, out: $NetOutput, bitSet: $BitSet): void;
+        writeBitSet(bitSet: $BitSet): void;
+        static writeList<T>(registry: $PacketTypeRegistry, out: $NetOutput, list: $List_<T>, entryWriter: $IOConsumer_<T>): void;
+        writeList<T>(list: $List_<T>, entryWriter: $IOConsumer_<T>): void;
         static writeGlobalPosition(registry: $PacketTypeRegistry, out: $NetOutput, pos: $IGlobalPosition): void;
+        writeGlobalPosition(pos: $IGlobalPosition): void;
     }
     export class $PacketTypeRegistry {
+        atMost(protocolVersion: $ProtocolVersion): boolean;
         static get(version: $ProtocolVersion, state: $State_): $PacketTypeRegistry;
         getId(type: $PacketType_): number;
         getState(): $State;
         getType(id: number): $PacketType;
         getVersion(): $ProtocolVersion;
         atLeast(protocolVersion: $ProtocolVersion): boolean;
-        atMost(protocolVersion: $ProtocolVersion): boolean;
         olderThan(protocolVersion: $ProtocolVersion): boolean;
         withState(state: $State_): $PacketTypeRegistry;
         withLoginSuccess(): $PacketTypeRegistry;
@@ -68,9 +68,9 @@ declare module "@package/com/replaymod/replaystudio/protocol" {
         static valueOf(name: string): $PacketType;
         getState(): $State;
         isUnknown(): boolean;
+        getInitialVersion(): $ProtocolVersion;
         getRemovedVersion(): $ProtocolVersion;
         getInitialId(): number;
-        getInitialVersion(): $ProtocolVersion;
         static DestroyEntities: $PacketType;
         static Difficulty: $PacketType;
         static CloseWindow: $PacketType;
@@ -175,9 +175,9 @@ declare module "@package/com/replaymod/replaystudio/protocol" {
         static TabComplete: $PacketType;
         get state(): $State;
         get unknown(): boolean;
+        get initialVersion(): $ProtocolVersion;
         get removedVersion(): $ProtocolVersion;
         get initialId(): number;
-        get initialVersion(): $ProtocolVersion;
     }
     /**
      * Values that may be interpreted as {@link $PacketType}.
@@ -187,14 +187,14 @@ declare module "@package/com/replaymod/replaystudio/protocol" {
         close(): void;
         readBitSet(): $BitSet;
         static readBitSet(registry: $PacketTypeRegistry, arg1: $NetInput): $BitSet;
-        readGlobalPosition(): $IGlobalPosition;
-        static readGlobalPosition(registry: $PacketTypeRegistry, arg1: $NetInput): $IGlobalPosition;
-        static readPosition(registry: $PacketTypeRegistry, arg1: $NetInput): $IPosition;
-        readPosition(): $IPosition;
         static readNBT(registry: $PacketTypeRegistry, arg1: $NetInput): $CompoundTag;
         readNBT(): $CompoundTag;
-        static readList<T>(registry: $PacketTypeRegistry, arg1: $NetInput, entryReader: $IOSupplier_<T>): $List<T>;
-        readList<T>(entryReader: $IOSupplier_<T>): $List<T>;
         readText(): $StringOrNbtText;
+        readList<T>(entryReader: $IOSupplier_<T>): $List<T>;
+        static readList<T>(registry: $PacketTypeRegistry, arg1: $NetInput, entryReader: $IOSupplier_<T>): $List<T>;
+        readPosition(): $IPosition;
+        static readPosition(registry: $PacketTypeRegistry, arg1: $NetInput): $IPosition;
+        readGlobalPosition(): $IGlobalPosition;
+        static readGlobalPosition(registry: $PacketTypeRegistry, arg1: $NetInput): $IGlobalPosition;
     }
 }

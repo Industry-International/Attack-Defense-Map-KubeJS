@@ -1,7 +1,7 @@
 import { $DeferredHolder } from "@package/net/neoforged/neoforge/registries";
 import { $DefaultConstructorMarker } from "@package/kotlin/jvm/internal";
 import { $GunData } from "@package/com/atsuishio/superbwarfare/data/gun";
-import { $CompoundTag, $ListTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
+import { $ListTag, $CompoundTag, $CompoundTag_ } from "@package/net/minecraft/nbt";
 import { $ReloadState, $IntValue, $AttachmentType_, $Timer, $ReloadState_, $BooleanValue, $Starter } from "@package/com/atsuishio/superbwarfare/data/gun/value";
 import { $PerkItem } from "@package/com/atsuishio/superbwarfare/item/misc";
 import { $Perk$Type_, $Perk, $PerkInstance_, $PerkInstance, $Perk_ } from "@package/com/atsuishio/superbwarfare/perk";
@@ -37,17 +37,17 @@ declare module "@package/com/atsuishio/superbwarfare/data/gun/subdata" {
         set(arg0: $Perk_, arg1: number): void;
         set(arg0: $PerkInstance_): void;
         removeAll(arg0: $Perk$Type_): void;
-        getLevel(arg0: $Perk_): number;
         getLevel(arg0: $PerkItem<never>): number;
         getLevel(arg0: $DeferredHolder<$Perk_, $Perk_>): number;
+        getLevel(arg0: $Perk_): number;
         has(arg0: $Perk_): boolean;
         has(arg0: $Perk$Type_): boolean;
         getTag(arg0: $DeferredHolder<$Perk_, $Perk_>): $CompoundTag;
         getTag(arg0: $Perk_): $CompoundTag;
-        getInstances(arg0: $Perk$Type_): $List<$PerkInstance>;
-        getOrCreateList(arg0: $Perk$Type_): $ListTag;
         getOrCreateTag(arg0: $Perk_): $CompoundTag;
+        getInstances(arg0: $Perk$Type_): $List<$PerkInstance>;
         reduceCooldown(arg0: $Perk_, arg1: string): void;
+        getOrCreateList(arg0: $Perk$Type_): $ListTag;
         constructor(arg0: $GunData);
     }
     export class $Charge {
@@ -68,8 +68,8 @@ declare module "@package/com/atsuishio/superbwarfare/data/gun/subdata" {
         reset(arg0: string): void;
         reset(): void;
         set(arg0: string, arg1: number, arg2: number): void;
-        getAmmo(arg0: string): number;
         getVirtualAmmo(arg0: string): number;
+        getAmmo(arg0: string): number;
         static Companion: $AmmoSlot$Companion;
         static AMMO_SLOT: string;
         constructor(arg0: $CompoundTag_);

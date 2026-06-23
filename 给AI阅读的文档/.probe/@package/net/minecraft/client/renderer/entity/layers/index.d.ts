@@ -27,229 +27,229 @@ import { $WitherBoss } from "@package/net/minecraft/world/entity/boss/wither";
 
 declare module "@package/net/minecraft/client/renderer/entity/layers" {
     export class $StuckInBodyLayer<T extends $LivingEntity, M extends $PlayerModel<T>> extends $RenderLayer<T, M> {
-        renderStuckItem(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Entity, arg4: number, arg5: number, arg6: number, arg7: number): void;
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        numStuck(arg0: T): number;
-        constructor(arg0: $LivingEntityRenderer<T, M>);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        renderStuckItem(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, entity: $Entity, x: number, y: number, z: number, partialTick: number): void;
+        numStuck(entity: T): number;
+        constructor(renderer: $LivingEntityRenderer<T, M>);
     }
     export class $IronGolemFlowerLayer extends $RenderLayer<$IronGolem, $IronGolemModel<$IronGolem>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $IronGolem, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$IronGolem, $IronGolemModel<$IronGolem>>, arg1: $BlockRenderDispatcher);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $IronGolem, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$IronGolem, $IronGolemModel<$IronGolem>>, blockRenderer: $BlockRenderDispatcher);
     }
     export class $VillagerProfessionLayer<T extends $LivingEntity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        getHatData<K>(arg0: $Object2ObjectMap<K, $VillagerMetaDataSection$Hat_>, arg1: string, arg2: $DefaultedRegistry<K>, arg3: K): $VillagerMetaDataSection$Hat;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $ResourceManager, arg2: string);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        getHatData<K>(cache: $Object2ObjectMap<K, $VillagerMetaDataSection$Hat_>, folder: string, villagerTypeRegistry: $DefaultedRegistry<K>, key: K): $VillagerMetaDataSection$Hat;
+        constructor(renderer: $RenderLayerParent<T, M>, resourceManager: $ResourceManager, path: string);
     }
     export class $LlamaDecorLayer extends $RenderLayer<$Llama, $LlamaModel<$Llama>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Llama, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Llama, $LlamaModel<$Llama>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Llama, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Llama, $LlamaModel<$Llama>>, modelSet: $EntityModelSet);
     }
     export class $ArrowLayer<T extends $LivingEntity, M extends $PlayerModel<T>> extends $StuckInBodyLayer<T, M> {
-        constructor(arg0: $EntityRendererProvider$Context, arg1: $LivingEntityRenderer<T, M>);
+        constructor(context: $EntityRendererProvider$Context, renderer: $LivingEntityRenderer<T, M>);
     }
     export class $PhantomEyesLayer<T extends $Phantom> extends $EyesLayer<T, $PhantomModel<T>> {
         constructor(arg0: $RenderLayerParent<T, $PhantomModel<T>>);
     }
     export class $SlimeOuterLayer<T extends $LivingEntity> extends $RenderLayer<T, $SlimeModel<T>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<T, $SlimeModel<T>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<T, $SlimeModel<T>>, modelSet: $EntityModelSet);
     }
     export class $BreezeEyesLayer extends $RenderLayer<$Breeze, $BreezeModel<$Breeze>> {
         render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Breeze, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
         constructor(arg0: $RenderLayerParent<$Breeze, $BreezeModel<$Breeze>>);
     }
     export class $ParrotOnShoulderLayer<T extends $Player> extends $RenderLayer<T, $PlayerModel<T>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<T, $PlayerModel<T>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<T, $PlayerModel<T>>, modelSet: $EntityModelSet);
     }
     export class $WitchItemLayer<T extends $LivingEntity> extends $CrossedArmsItemLayer<T, $WitchModel<T>> {
-        constructor(arg0: $RenderLayerParent<T, $WitchModel<T>>, arg1: $ItemInHandRenderer);
+        constructor(renderer: $RenderLayerParent<T, $WitchModel<T>>, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $ItemInHandLayer<T extends $LivingEntity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        renderArmWithItem(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number): void;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $ItemInHandRenderer);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        renderArmWithItem(livingEntity: $LivingEntity, itemStack: $ItemStack_, displayContext: $ItemDisplayContext_, arm: $HumanoidArm_, poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number): void;
+        constructor(renderer: $RenderLayerParent<T, M>, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $DolphinCarryingItemLayer extends $RenderLayer<$Dolphin, $DolphinModel<$Dolphin>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Dolphin, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Dolphin, $DolphinModel<$Dolphin>>, arg1: $ItemInHandRenderer);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Dolphin, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Dolphin, $DolphinModel<$Dolphin>>, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $HorseArmorLayer extends $RenderLayer<$Horse, $HorseModel<$Horse>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Horse, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Horse, $HorseModel<$Horse>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Horse, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Horse, $HorseModel<$Horse>>, modelSet: $EntityModelSet);
     }
     export class $ShulkerHeadLayer extends $RenderLayer<$Shulker, $ShulkerModel<$Shulker>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Shulker, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Shulker, $ShulkerModel<$Shulker>>);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Shulker, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Shulker, $ShulkerModel<$Shulker>>);
     }
     export class $SpiderEyesLayer<T extends $Entity, M extends $SpiderModel<T>> extends $EyesLayer<T, M> {
         constructor(arg0: $RenderLayerParent<T, M>);
     }
     export class $SpinAttackEffectLayer<T extends $LivingEntity> extends $RenderLayer<T, $PlayerModel<T>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
         static createLayer(): $LayerDefinition;
         static TEXTURE: $ResourceLocation;
         static BOX: string;
-        constructor(arg0: $RenderLayerParent<T, $PlayerModel<T>>, arg1: $EntityModelSet);
+        constructor(renderer: $RenderLayerParent<T, $PlayerModel<T>>, modelSet: $EntityModelSet);
     }
     export class $TropicalFishPatternLayer extends $RenderLayer<$TropicalFish, $ColorableHierarchicalModel<$TropicalFish>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $TropicalFish, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$TropicalFish, $ColorableHierarchicalModel<$TropicalFish>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $TropicalFish, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$TropicalFish, $ColorableHierarchicalModel<$TropicalFish>>, modelSet: $EntityModelSet);
     }
     export class $BreezeWindLayer extends $RenderLayer<$Breeze, $BreezeModel<$Breeze>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Breeze, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $EntityRendererProvider$Context, arg1: $RenderLayerParent<$Breeze, $BreezeModel<$Breeze>>);
+        render(poseStack: $PoseStack, bufferSource: $MultiBufferSource_, packedLight: number, livingEntity: $Breeze, limbSwing: number, limbSwingAmount: number, partialTick: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(context: $EntityRendererProvider$Context, renderer: $RenderLayerParent<$Breeze, $BreezeModel<$Breeze>>);
     }
     export class $WardenEmissiveLayer<T extends $Warden, M extends $WardenModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $ResourceLocation_, arg2: $WardenEmissiveLayer$AlphaFunction_<T>, arg3: $WardenEmissiveLayer$DrawSelector_<T, M>);
+        render(poseStack: $PoseStack, bufferSource: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTick: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<T, M>, texture: $ResourceLocation_, alphaFunction: $WardenEmissiveLayer$AlphaFunction_<T>, drawSelector: $WardenEmissiveLayer$DrawSelector_<T, M>);
     }
     export class $CrossedArmsItemLayer<T extends $LivingEntity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $ItemInHandRenderer);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<T, M>, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $HumanoidArmorLayer<T extends $LivingEntity, M extends $HumanoidModel<T>, A extends $HumanoidModel<T>> extends $RenderLayer<T, M> implements $HumanoidArmorLayerAccessor {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        wrapWithCondition$eaa000$geckolib$wrapArmorPieceRender(arg0: $HumanoidArmorLayer<any, any, any>, arg1: $PoseStack, arg2: $MultiBufferSource_, arg3: $LivingEntity, arg4: $EquipmentSlot_, arg5: number, arg6: $HumanoidModel<any>, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number): boolean;
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        setPartVisibility(model: A, slot: $EquipmentSlot_): void;
         getArmorModelHook(arg0: T, arg1: $ItemStack_, arg2: $EquipmentSlot_, arg3: A): $Model;
-        setPartVisibility(arg0: A, arg1: $EquipmentSlot_): void;
-        static getArmorLocationCache$create_$md$9aa1a5$0(): $Map<any, any>;
-        create$getOuterModel(): $HumanoidModel<never>;
+        wrapWithCondition$dkp000$geckolib$wrapArmorPieceRender(arg0: $HumanoidArmorLayer<any, any, any>, arg1: $PoseStack, arg2: $MultiBufferSource_, arg3: $LivingEntity, arg4: $EquipmentSlot_, arg5: number, arg6: $HumanoidModel<any>, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number): boolean;
+        static getArmorLocationCache$create_$md$dd6cb9$0(): $Map<any, any>;
         create$getInnerModel(): $HumanoidModel<never>;
-        create$callSetPartVisibility(arg0: $HumanoidModel<never>, arg1: $EquipmentSlot_): void;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: A, arg2: A, arg3: $ModelManager);
-        static get armorLocationCache$create_$md$9aa1a5$0(): $Map<any, any>;
+        create$getOuterModel(): $HumanoidModel<never>;
+        create$callSetPartVisibility(model: $HumanoidModel<never>, slot: $EquipmentSlot_): void;
+        constructor(renderer: $RenderLayerParent<T, M>, innerModel: A, outerModel: A, modelManager: $ModelManager);
+        static get armorLocationCache$create_$md$dd6cb9$0(): $Map<any, any>;
     }
     export class $EnderEyesLayer<T extends $LivingEntity> extends $EyesLayer<T, $EndermanModel<T>> {
         constructor(arg0: $RenderLayerParent<T, $EndermanModel<T>>);
     }
     export class $PlayerItemInHandLayer<T extends $Player, M extends $EntityModel<T>> extends $ItemInHandLayer<T, M> {
-        handler$eii000$superbwarfare$renderArmWithItem(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number, arg7: $CallbackInfo): void;
-        handler$goo000$moonlight$poseRightArm(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number, arg7: $CallbackInfo): void;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $ItemInHandRenderer);
+        handler$gkg000$moonlight$poseRightArm(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number, arg7: $CallbackInfo): void;
+        handler$edh000$superbwarfare$renderArmWithItem(arg0: $LivingEntity, arg1: $ItemStack_, arg2: $ItemDisplayContext_, arg3: $HumanoidArm_, arg4: $PoseStack, arg5: $MultiBufferSource_, arg6: number, arg7: $CallbackInfo): void;
+        constructor(renderer: $RenderLayerParent<T, M>, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $ElytraLayer<T extends $LivingEntity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
         shouldRender(arg0: $ItemStack_, arg1: T): boolean;
         getElytraTexture(arg0: $ItemStack_, arg1: T): $ResourceLocation;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $EntityModelSet);
+        constructor(renderer: $RenderLayerParent<T, M>, modelSet: $EntityModelSet);
     }
     export class $CreeperPowerLayer extends $EnergySwirlLayer<$Creeper, $CreeperModel<$Creeper>> {
-        constructor(arg0: $RenderLayerParent<$Creeper, $CreeperModel<$Creeper>>, arg1: $EntityModelSet);
+        constructor(renderer: $RenderLayerParent<$Creeper, $CreeperModel<$Creeper>>, modelSet: $EntityModelSet);
     }
     export class $DrownedOuterLayer<T extends $Drowned> extends $RenderLayer<T, $DrownedModel<T>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<T, $DrownedModel<T>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<T, $DrownedModel<T>>, modelSet: $EntityModelSet);
     }
     export class $SnowGolemHeadLayer extends $RenderLayer<$SnowGolem, $SnowGolemModel<$SnowGolem>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $SnowGolem, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$SnowGolem, $SnowGolemModel<$SnowGolem>>, arg1: $BlockRenderDispatcher, arg2: $ItemRenderer);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $SnowGolem, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$SnowGolem, $SnowGolemModel<$SnowGolem>>, blockRenderer: $BlockRenderDispatcher, itemRenderer: $ItemRenderer);
     }
     export class $WolfArmorLayer extends $RenderLayer<$Wolf, $WolfModel<$Wolf>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Wolf, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Wolf, $WolfModel<$Wolf>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, bufferSource: $MultiBufferSource_, packedLight: number, livingEntity: $Wolf, limbSwing: number, limbSwingAmount: number, partialTick: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Wolf, $WolfModel<$Wolf>>, models: $EntityModelSet);
     }
     export class $Deadmau5EarsLayer extends $RenderLayer<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $AbstractClientPlayer, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>>);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $AbstractClientPlayer, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>>);
     }
     export class $MushroomCowMushroomLayer<T extends $MushroomCow> extends $RenderLayer<T, $CowModel<T>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<T, $CowModel<T>>, arg1: $BlockRenderDispatcher);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<T, $CowModel<T>>, blockRenderer: $BlockRenderDispatcher);
     }
     export class $HorseMarkingLayer extends $RenderLayer<$Horse, $HorseModel<$Horse>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Horse, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Horse, $HorseModel<$Horse>>);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Horse, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Horse, $HorseModel<$Horse>>);
     }
     export class $IronGolemCrackinessLayer extends $RenderLayer<$IronGolem, $IronGolemModel<$IronGolem>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $IronGolem, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$IronGolem, $IronGolemModel<$IronGolem>>);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $IronGolem, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$IronGolem, $IronGolemModel<$IronGolem>>);
     }
     export class $PandaHoldsItemLayer extends $RenderLayer<$Panda, $PandaModel<$Panda>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Panda, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Panda, $PandaModel<$Panda>>, arg1: $ItemInHandRenderer);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Panda, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Panda, $PandaModel<$Panda>>, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $EnergySwirlLayer<T extends $Entity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
         model(): $EntityModel<T>;
-        xOffset(arg0: number): number;
+        xOffset(tickCount: number): number;
         getTextureLocation(): $ResourceLocation;
-        constructor(arg0: $RenderLayerParent<T, M>);
+        constructor(renderer: $RenderLayerParent<T, M>);
         get textureLocation(): $ResourceLocation;
     }
     export class $BeeStingerLayer<T extends $LivingEntity, M extends $PlayerModel<T>> extends $StuckInBodyLayer<T, M> {
-        constructor(arg0: $LivingEntityRenderer<T, M>);
+        constructor(renderer: $LivingEntityRenderer<T, M>);
     }
     export class $CapeLayer extends $RenderLayer<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $AbstractClientPlayer, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        handler$cno000$fabric_rendering_v1$injectCapeRenderCheck(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $AbstractClientPlayer, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CallbackInfo): void;
-        constructor(arg0: $RenderLayerParent<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>>);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $AbstractClientPlayer, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        handler$cjb000$fabric_rendering_v1$injectCapeRenderCheck(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $AbstractClientPlayer, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number, arg10: $CallbackInfo): void;
+        constructor(renderer: $RenderLayerParent<$AbstractClientPlayer, $PlayerModel<$AbstractClientPlayer>>);
     }
     export class $SkeletonClothingLayer<T extends $Mob, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $EntityModelSet, arg2: $ModelLayerLocation, arg3: $ResourceLocation_);
+        render(poseStack: $PoseStack, bufferSource: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTick: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<T, M>, models: $EntityModelSet, modelLayerLocation: $ModelLayerLocation, clothesLocation: $ResourceLocation_);
     }
     export class $WardenEmissiveLayer$DrawSelector<T extends $Warden, M extends $EntityModel<T>> {
     }
     export interface $WardenEmissiveLayer$DrawSelector<T extends $Warden, M extends $EntityModel<T>> {
-        getPartsToDraw(arg0: M): $List<$ModelPart>;
+        getPartsToDraw(parentModel: M): $List<$ModelPart>;
     }
     /**
      * Values that may be interpreted as {@link $WardenEmissiveLayer$DrawSelector}.
      */
     export type $WardenEmissiveLayer$DrawSelector_<T, M> = ((arg0: M) => $List_<$ModelPart>);
     export class $CustomHeadLayer<T extends $LivingEntity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        static translateToHead(arg0: $PoseStack, arg1: boolean): void;
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $EntityModelSet, arg2: $ItemInHandRenderer);
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: $EntityModelSet, arg2: number, arg3: number, arg4: number, arg5: $ItemInHandRenderer);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        static translateToHead(poseStack: $PoseStack, isVillager: boolean): void;
+        constructor(renderer: $RenderLayerParent<T, M>, modelSet: $EntityModelSet, itemInHandRenderer: $ItemInHandRenderer);
+        constructor(renderer: $RenderLayerParent<T, M>, modelSet: $EntityModelSet, scaleX: number, scaleY: number, scaleZ: number, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $CarriedBlockLayer extends $RenderLayer<$EnderMan, $EndermanModel<$EnderMan>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $EnderMan, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$EnderMan, $EndermanModel<$EnderMan>>, arg1: $BlockRenderDispatcher);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $EnderMan, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$EnderMan, $EndermanModel<$EnderMan>>, blockRenderer: $BlockRenderDispatcher);
     }
     export class $WardenEmissiveLayer$AlphaFunction<T extends $Warden> {
     }
     export interface $WardenEmissiveLayer$AlphaFunction<T extends $Warden> {
-        apply(arg0: T, arg1: number, arg2: number): number;
+        apply(livingEntity: T, partialTick: number, ageInTicks: number): number;
     }
     /**
      * Values that may be interpreted as {@link $WardenEmissiveLayer$AlphaFunction}.
      */
     export type $WardenEmissiveLayer$AlphaFunction_<T> = ((arg0: T, arg1: number, arg2: number) => number);
     export class $SheepFurLayer extends $RenderLayer<$Sheep, $SheepModel<$Sheep>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Sheep, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Sheep, $SheepModel<$Sheep>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Sheep, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Sheep, $SheepModel<$Sheep>>, modelSet: $EntityModelSet);
     }
     export class $RenderLayer<T extends $Entity, M extends $EntityModel<T>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: T, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        getTextureLocation(arg0: T): $ResourceLocation;
-        static coloredCutoutModelCopyLayerRender<T extends $LivingEntity>(arg0: $EntityModel<T>, arg1: $EntityModel<T>, arg2: $ResourceLocation_, arg3: $PoseStack, arg4: $MultiBufferSource_, arg5: number, arg6: T, arg7: number, arg8: number, arg9: number, arg10: number, arg11: number, arg12: number, arg13: number): void;
-        static renderColoredCutoutModel<T extends $LivingEntity>(arg0: $EntityModel<T>, arg1: $ResourceLocation_, arg2: $PoseStack, arg3: $MultiBufferSource_, arg4: number, arg5: T, arg6: number): void;
+        render(poseStack: $PoseStack, bufferSource: $MultiBufferSource_, packedLight: number, livingEntity: T, limbSwing: number, limbSwingAmount: number, partialTick: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        getTextureLocation(entity: T): $ResourceLocation;
         getParentModel(): M;
-        constructor(arg0: $RenderLayerParent<T, M>);
+        static coloredCutoutModelCopyLayerRender<T extends $LivingEntity>(modelParent: $EntityModel<T>, model: $EntityModel<T>, textureLocation: $ResourceLocation_, poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, entity: T, limbSwing: number, limbSwingAmount: number, ageInTicks: number, netHeadYaw: number, headPitch: number, partialTick: number, color: number): void;
+        static renderColoredCutoutModel<T extends $LivingEntity>(model: $EntityModel<T>, textureLocation: $ResourceLocation_, poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, entity: T, color: number): void;
+        constructor(renderer: $RenderLayerParent<T, M>);
         get parentModel(): M;
     }
     export class $FoxHeldItemLayer extends $RenderLayer<$Fox, $FoxModel<$Fox>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Fox, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Fox, $FoxModel<$Fox>>, arg1: $ItemInHandRenderer);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Fox, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Fox, $FoxModel<$Fox>>, itemInHandRenderer: $ItemInHandRenderer);
     }
     export class $WitherArmorLayer extends $EnergySwirlLayer<$WitherBoss, $WitherBossModel<$WitherBoss>> {
-        constructor(arg0: $RenderLayerParent<$WitherBoss, $WitherBossModel<$WitherBoss>>, arg1: $EntityModelSet);
+        constructor(renderer: $RenderLayerParent<$WitherBoss, $WitherBossModel<$WitherBoss>>, modelSet: $EntityModelSet);
     }
     export class $EyesLayer<T extends $Entity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
         renderType(): $RenderType;
-        constructor(arg0: $RenderLayerParent<T, M>);
+        constructor(renderer: $RenderLayerParent<T, M>);
     }
     export class $CatCollarLayer extends $RenderLayer<$Cat, $CatModel<$Cat>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Cat, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Cat, $CatModel<$Cat>>, arg1: $EntityModelSet);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Cat, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Cat, $CatModel<$Cat>>, modelSet: $EntityModelSet);
     }
     export class $SaddleLayer<T extends $Entity, M extends $EntityModel<T>> extends $RenderLayer<T, M> {
-        constructor(arg0: $RenderLayerParent<T, M>, arg1: M, arg2: $ResourceLocation_);
+        constructor(renderer: $RenderLayerParent<T, M>, model: M, textureLocation: $ResourceLocation_);
     }
     export class $WolfCollarLayer extends $RenderLayer<$Wolf, $WolfModel<$Wolf>> {
-        render(arg0: $PoseStack, arg1: $MultiBufferSource_, arg2: number, arg3: $Wolf, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: number): void;
-        constructor(arg0: $RenderLayerParent<$Wolf, $WolfModel<$Wolf>>);
+        render(poseStack: $PoseStack, buffer: $MultiBufferSource_, packedLight: number, livingEntity: $Wolf, limbSwing: number, limbSwingAmount: number, partialTicks: number, ageInTicks: number, netHeadYaw: number, headPitch: number): void;
+        constructor(renderer: $RenderLayerParent<$Wolf, $WolfModel<$Wolf>>);
     }
 }

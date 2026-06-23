@@ -60,25 +60,45 @@ declare module "@package/net/minecraft/world/entity/animal/sniffer" {
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
     }
     export class $SnifferAi {
-        static updateActivity(arg0: $Sniffer): void;
-        static makeBrain(arg0: $Brain<$Sniffer>): $Brain<never>;
+        static updateActivity(sniffer: $Sniffer): void;
+        static makeBrain(brain: $Brain<$Sniffer>): $Brain<never>;
         static getTemptations(): $Predicate<$ItemStack>;
-        static resetSniffing(arg0: $Sniffer): $Sniffer;
+        static resetSniffing(sniffer: $Sniffer): $Sniffer;
         static MEMORY_TYPES: $List<$MemoryModuleType<never>>;
         static SENSOR_TYPES: $List<$SensorType<$Sensor<$Sniffer>>>;
         constructor();
         static get temptations(): $Predicate<$ItemStack>;
     }
     export class $Sniffer extends $Animal {
-        onDiggingComplete(arg0: boolean): $Sniffer;
-        transitionTo(arg0: $Sniffer$State_): $Sniffer;
-        isSearching(): boolean;
-        calculateDigPosition(): ($BlockPos) | undefined;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
         canPlayDiggingSound(): boolean;
-        canSniff(): boolean;
-        canDig(): boolean;
-        isTempted(): boolean;
+        calculateDigPosition(): ($BlockPos) | undefined;
         static createAttributes(): $AttributeSupplier$Builder;
+        transitionTo(state: $Sniffer$State_): $Sniffer;
+        onDiggingComplete(storeExploredPosition: boolean): $Sniffer;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isSearching(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        canSniff(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isTempted(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        canDig(): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -256,7 +276,7 @@ declare module "@package/net/minecraft/world/entity/animal/sniffer" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Animal>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Animal>, level: $Level_);
         get searching(): boolean;
         get tempted(): boolean;
     }

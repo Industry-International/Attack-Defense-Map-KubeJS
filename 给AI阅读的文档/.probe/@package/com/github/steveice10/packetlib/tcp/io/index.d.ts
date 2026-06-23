@@ -16,15 +16,15 @@ declare module "@package/com/github/steveice10/packetlib/tcp/io" {
         writeLong(l: number): void;
         writeDouble(d: number): void;
         writeString(s: string): void;
-        writeUUID(uuid: $UUID_): void;
-        writeVarInt(i: number): void;
-        writeVarLong(l: number): void;
         writeInts(i: number[], length: number): void;
         writeInts(i: number[]): void;
         writeLongs(l: number[]): void;
         writeLongs(l: number[], length: number): void;
-        writeShorts(s: number[], length: number): void;
         writeShorts(s: number[]): void;
+        writeShorts(s: number[], length: number): void;
+        writeVarLong(l: number): void;
+        writeVarInt(i: number): void;
+        writeUUID(uuid: $UUID_): void;
         constructor(buf: $ByteBuf);
     }
     export class $ByteBufNetInput implements $NetInput {
@@ -44,8 +44,8 @@ declare module "@package/com/github/steveice10/packetlib/tcp/io" {
         readDouble(): number;
         readString(): string;
         readVarInt(): number;
-        readUUID(): $UUID;
         readVarLong(): number;
+        readUUID(): $UUID;
         readInts(i: number[], offset: number, length: number): number;
         readInts(i: number[]): number;
         readInts(length: number): number[];

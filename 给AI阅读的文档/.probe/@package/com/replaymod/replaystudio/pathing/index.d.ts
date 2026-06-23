@@ -11,7 +11,7 @@ declare module "@package/com/replaymod/replaystudio/pathing" {
     }
     export interface $PathingRegistry {
         createTimeline(): $Timeline;
-        serializeInterpolator(arg0: $JsonWriter, arg1: $Interpolator): void;
         deserializeInterpolator(arg0: $JsonReader): $Interpolator;
+        serializeInterpolator(arg0: $JsonWriter, arg1: $Interpolator): void;
     }
 }

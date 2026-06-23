@@ -1,26 +1,34 @@
 import { $CancellationToken } from "@package/net/caffeinemc/mods/sodium/client/util/task";
 import { $RenderSection } from "@package/net/caffeinemc/mods/sodium/client/render/chunk";
 import { $BuilderTaskOutput, $ChunkBuildOutput, $ChunkBuildContext, $ChunkSortOutput } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile";
+import { $JobDurationEstimator, $MeshTaskSizeEstimator, $UploadDurationEstimator } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile/estimation";
+import { $SortBehavior_ } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/translucent_sorting";
 import { $ChunkRenderContext } from "@package/net/caffeinemc/mods/sodium/client/world/cloned";
-import { $Sorter, $CombinedCameraPos } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/translucent_sorting/data";
+import { $DynamicSorter, $CombinedCameraPos } from "@package/net/caffeinemc/mods/sodium/client/render/chunk/translucent_sorting/data";
 import { $Vector3dc, $Vector3fc } from "@package/org/joml";
 
 declare module "@package/net/caffeinemc/mods/sodium/client/render/chunk/compile/tasks" {
     export class $ChunkBuilderSortingTask extends $ChunkBuilderTask<$ChunkSortOutput> {
         static createTask(arg0: $RenderSection, arg1: number, arg2: $Vector3dc): $ChunkBuilderSortingTask;
-        constructor(arg0: $RenderSection, arg1: number, arg2: $Vector3dc, arg3: $Sorter);
+        constructor(arg0: $RenderSection, arg1: number, arg2: $Vector3dc, arg3: $DynamicSorter);
     }
     export class $ChunkBuilderMeshingTask extends $ChunkBuilderTask<$ChunkBuildOutput> {
-        constructor(arg0: $RenderSection, arg1: number, arg2: $Vector3dc, arg3: $ChunkRenderContext);
+        constructor(arg0: $RenderSection, arg1: number, arg2: $Vector3dc, arg3: $ChunkRenderContext, arg4: $SortBehavior_, arg5: boolean);
     }
     export class $ChunkBuilderTask<OUTPUT extends $BuilderTaskOutput> implements $CombinedCameraPos {
         execute(arg0: $ChunkBuildContext, arg1: $CancellationToken): OUTPUT;
-        getEffort(): number;
-        getRelativeCameraPos(): $Vector3fc;
+        getEstimatedSize(): number;
+        estimateTaskSizeWith(arg0: $MeshTaskSizeEstimator): number;
+        getEstimatedDuration(): number;
         getAbsoluteCameraPos(): $Vector3dc;
+        getRelativeCameraPos(): $Vector3fc;
+        calculateEstimations(arg0: $JobDurationEstimator, arg1: $MeshTaskSizeEstimator, arg2: $UploadDurationEstimator): void;
+        getEstimatedUploadDuration(): number;
         constructor(arg0: $RenderSection, arg1: number, arg2: $Vector3dc);
-        get effort(): number;
-        get relativeCameraPos(): $Vector3fc;
+        get estimatedSize(): number;
+        get estimatedDuration(): number;
         get absoluteCameraPos(): $Vector3dc;
+        get relativeCameraPos(): $Vector3fc;
+        get estimatedUploadDuration(): number;
     }
 }

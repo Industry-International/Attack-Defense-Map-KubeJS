@@ -7,22 +7,22 @@ import { $Ticker, $Stopwatch } from "@package/com/google/common/base";
 
 declare module "@package/net/minecraft/client/telemetry/events" {
     export class $GameLoadTimesEvent {
-        send(arg0: $TelemetryEventSender_): void;
-        beginStep(arg0: $TelemetryProperty_<$GameLoadTimesEvent$Measurement_>): void;
-        beginStep(arg0: $TelemetryProperty_<$GameLoadTimesEvent$Measurement_>, arg1: $Stopwatch): void;
-        endStep(arg0: $TelemetryProperty_<$GameLoadTimesEvent$Measurement_>): void;
-        setBootstrapTime(arg0: number): void;
+        send(sender: $TelemetryEventSender_): void;
+        endStep(measurement: $TelemetryProperty_<$GameLoadTimesEvent$Measurement_>): void;
+        beginStep(measurement: $TelemetryProperty_<$GameLoadTimesEvent$Measurement_>): void;
+        beginStep(measurement: $TelemetryProperty_<$GameLoadTimesEvent$Measurement_>, stopwatch: $Stopwatch): void;
+        setBootstrapTime(bootstrapTime: number): void;
         static INSTANCE: $GameLoadTimesEvent;
-        constructor(arg0: $Ticker);
+        constructor(timeSource: $Ticker);
         set bootstrapTime(value: number);
     }
     export class $WorldLoadTimesEvent {
-        send(arg0: $TelemetryEventSender_): void;
-        constructor(arg0: boolean, arg1: $Duration_);
+        send(sender: $TelemetryEventSender_): void;
+        constructor(newWorld: boolean, wordLoadDuration: $Duration_ | null);
     }
     export class $WorldUnloadEvent {
-        setTime(arg0: number): void;
-        send(arg0: $TelemetryEventSender_): void;
+        setTime(time: number): void;
+        send(sender: $TelemetryEventSender_): void;
         onPlayerInfoReceived(): void;
         constructor();
         set time(value: number);
@@ -30,12 +30,12 @@ declare module "@package/net/minecraft/client/telemetry/events" {
     export class $AggregatedTelemetryEvent {
         start(): void;
         stop(): void;
-        tick(arg0: $TelemetryEventSender_): void;
-        sendEvent(arg0: $TelemetryEventSender_): void;
+        tick(sender: $TelemetryEventSender_): void;
+        sendEvent(sender: $TelemetryEventSender_): void;
         getSampleCount(): number;
-        takeSample(): void;
-        shouldTakeSample(): boolean;
         shouldSentEvent(): boolean;
+        shouldTakeSample(): boolean;
+        takeSample(): void;
         constructor();
         get sampleCount(): number;
     }
@@ -48,11 +48,11 @@ declare module "@package/net/minecraft/client/telemetry/events" {
         constructor();
     }
     export class $WorldLoadEvent {
-        setGameMode(arg0: $GameType_, arg1: boolean): void;
-        send(arg0: $TelemetryEventSender_): boolean;
-        addProperties(arg0: $TelemetryPropertyMap$Builder): void;
-        setServerBrand(arg0: string): void;
-        constructor(arg0: string);
+        send(sender: $TelemetryEventSender_): boolean;
+        setGameMode(gameMode: $GameType_, isHardcore: boolean): void;
+        addProperties(builder: $TelemetryPropertyMap$Builder): void;
+        setServerBrand(minigameName: string): void;
+        constructor(minigameName: string | null);
         set serverBrand(value: string);
     }
 }

@@ -5,26 +5,41 @@ import { $Enum, $Record } from "@package/java/lang";
 import { $StreamCodec } from "@package/net/minecraft/network/codec";
 
 declare module "@package/net/minecraft/network/protocol/handshake" {
+    /**
+     * PacketListener for the server side of the HANDSHAKING protocol.
+     */
     export class $ServerHandshakePacketListener {
     }
     export interface $ServerHandshakePacketListener extends $ServerPacketListener {
         protocol(): $ConnectionProtocol;
-        handleIntention(arg0: $ClientIntentionPacket_): void;
+        /**
+         * There are two recognized intentions for initiating a handshake: logging in and acquiring server status. The NetworkManager's protocol will be reconfigured according to the specified intention, although a login-intention must pass a versioncheck or receive a disconnect otherwise
+         */
+        handleIntention(packet: $ClientIntentionPacket_): void;
     }
     export class $ClientIntentionPacket extends $Record implements $Packet<$ServerHandshakePacketListener> {
         type(): $PacketType<$ClientIntentionPacket>;
         port(): number;
-        handle(arg0: $ServerHandshakePacketListener): void;
+        /**
+         * Passes this Packet on to the NetHandler for processing.
+         */
+        handle(handler: $ServerHandshakePacketListener): void;
         hostName(): string;
         protocolVersion(): number;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isTerminal(): boolean;
         intention(): $ClientIntent;
+        /**
+         * Whether decoding errors will be ignored for this packet.
+         */
         isSkippable(): boolean;
         static STREAM_CODEC: $StreamCodec<$FriendlyByteBuf, $ClientIntentionPacket>;
         /**
          * @deprecated
          */
-        constructor(arg0: number, arg1: string, arg2: number, arg3: $ClientIntent_);
+        constructor(protocolVersion: number, hostName: string, port: number, intention: $ClientIntent_);
         get terminal(): boolean;
         get skippable(): boolean;
     }
@@ -37,7 +52,7 @@ declare module "@package/net/minecraft/network/protocol/handshake" {
         static values(): $ClientIntent[];
         static valueOf(arg0: string): $ClientIntent;
         id(): number;
-        static byId(arg0: number): $ClientIntent;
+        static byId(id: number): $ClientIntent;
         static STATUS: $ClientIntent;
         static TRANSFER: $ClientIntent;
         static LOGIN: $ClientIntent;

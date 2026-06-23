@@ -23,14 +23,14 @@ declare module "@package/dev/ryanhcode/sable/api/physics/force" {
     export interface $ForceGroup extends RegistryMarked<RegistryTypes.SableForceGroupsTag, RegistryTypes.SableForceGroups> {}
     export class $ForceTotal {
         reset(): void;
-        applyImpulseAtPoint(arg0: $ServerSubLevel, arg1: $Vector3dc, arg2: $Vector3dc): void;
-        applyImpulseAtPoint(arg0: $MassData, arg1: $Vector3dc, arg2: $Vector3dc): void;
+        applyTorqueImpulse(arg0: $Vector3dc): void;
+        applyLinearImpulse(arg0: $Vector3dc): void;
         applyImpulseAtPoint(arg0: $MassTracker, arg1: $Vec3_, arg2: $Vec3_): void;
+        applyImpulseAtPoint(arg0: $MassData, arg1: $Vector3dc, arg2: $Vector3dc): void;
+        applyImpulseAtPoint(arg0: $ServerSubLevel, arg1: $Vector3dc, arg2: $Vector3dc): void;
+        applyForces(arg0: $RigidBodyHandle): void;
         applyAngularImpulse(arg0: $Vector3dc): void;
         applyLinearAndAngularImpulse(arg0: $Vector3dc, arg1: $Vector3dc): void;
-        applyLinearImpulse(arg0: $Vector3dc): void;
-        applyForces(arg0: $RigidBodyHandle): void;
-        applyTorqueImpulse(arg0: $Vector3dc): void;
         getLocalForce(): $Vector3d;
         getLocalTorque(): $Vector3d;
         applyForceTotal(arg0: $ForceTotal): void;
@@ -40,13 +40,13 @@ declare module "@package/dev/ryanhcode/sable/api/physics/force" {
     }
     export class $QueuedForceGroup {
         reset(): void;
-        getRecordedPointForces(): $List<$QueuedForceGroup$PointForce>;
-        recordPointForce(arg0: $Vector3dc, arg1: $Vector3dc): void;
-        applyAndRecordPointForce(arg0: $Vector3dc, arg1: $Vector3dc): void;
         getForceTotal(): $ForceTotal;
+        applyAndRecordPointForce(arg0: $Vector3dc, arg1: $Vector3dc): void;
+        recordPointForce(arg0: $Vector3dc, arg1: $Vector3dc): void;
+        getRecordedPointForces(): $List<$QueuedForceGroup$PointForce>;
         constructor(arg0: $ServerSubLevel);
-        get recordedPointForces(): $List<$QueuedForceGroup$PointForce>;
         get forceTotal(): $ForceTotal;
+        get recordedPointForces(): $List<$QueuedForceGroup$PointForce>;
     }
     export class $QueuedForceGroup$PointForce extends $Record {
         force(): $Vector3dc;

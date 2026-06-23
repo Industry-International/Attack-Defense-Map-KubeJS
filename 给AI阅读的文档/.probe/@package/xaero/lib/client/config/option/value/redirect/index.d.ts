@@ -10,8 +10,8 @@ declare module "@package/xaero/lib/client/config/option/value/redirect" {
         getName(arg0: $ConfigOption<never>): $Component;
         register<T>(arg0: $ConfigOption<T>, arg1: $Supplier_<T>, arg2: $Predicate_<$ConfigChannel>, arg3: $Function_<$Screen, $Screen>, arg4: $Component_, arg5: $Supplier_<$Component>): void;
         getTooltip(arg0: $ConfigOption<never>): $Component;
-        shouldDeactivateWidget(arg0: $ConfigOption<never>): boolean;
-        redirectScreen(arg0: $ConfigOption<never>): boolean;
         redirectScreen(arg0: $ConfigOption<never>, arg1: $Screen): $Screen;
+        redirectScreen(arg0: $ConfigOption<never>): boolean;
+        shouldDeactivateWidget(arg0: $ConfigOption<never>): boolean;
     }
 }

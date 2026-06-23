@@ -12,11 +12,11 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/holder" {
     export class $IModularUIHolder {
     }
     export interface $IModularUIHolder extends $IUISyncManagerHolder {
-        getSyncManager(): $UISyncManager;
-        hasModularUI(): boolean;
         getModularUI(): $ModularUI;
-        get syncManager(): $UISyncManager;
+        hasModularUI(): boolean;
+        getSyncManager(): $UISyncManager;
         get modularUI(): $ModularUI;
+        get syncManager(): $UISyncManager;
     }
     /**
      * Values that may be interpreted as {@link $IModularUIHolder}.
@@ -53,22 +53,22 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/holder" {
     export class $IModularUIHolderMenu {
     }
     export interface $IModularUIHolderMenu extends $IModularUIHolder, $IItemSlotHolderMenu {
+        addSlot(arg0: $ItemSlot): void;
         ldlib2$getModularUI(): $ModularUI;
         ldlib2$setModularUI(arg0: $ModularUI): void;
-        setModularUI(arg0: $ModularUI): void;
-        ldlib2$getItemSlot(arg0: $Slot): $ItemSlot;
-        getItemSlot(arg0: $Slot): $ItemSlot;
-        ldlib2$addSlot(arg0: $ItemSlot): void;
         getModularUI(): $ModularUI;
-        addSlot(arg0: $ItemSlot): void;
+        ldlib2$getItemSlot(arg0: $Slot): $ItemSlot;
+        ldlib2$addSlot(arg0: $ItemSlot): void;
+        setModularUI(arg0: $ModularUI): void;
+        getItemSlot(arg0: $Slot): $ItemSlot;
     }
     export class $IItemSlotHolderMenu {
     }
     export interface $IItemSlotHolderMenu {
         self(): $AbstractContainerMenu;
-        getItemSlot(arg0: $Slot): $ItemSlot;
         addSlot(arg0: $ItemSlot): void;
         isItemSlot(arg0: $Slot): boolean;
+        getItemSlot(arg0: $Slot): $ItemSlot;
     }
     /**
      * Values that may be interpreted as {@link $IItemSlotHolderMenu}.

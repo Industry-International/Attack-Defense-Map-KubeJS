@@ -10,27 +10,27 @@ declare module "@package/com/tacz/guns/api/client/gameplay" {
     export interface $IClientPlayerGunOperator {
         reload(): void;
         aim(arg0: boolean): void;
+        getClientAimingProgress(arg0: number): number;
+        getClientShootCoolDown(): number;
         draw(arg0: $ItemStack_): void;
+        getDataHolder(): $LocalPlayerDataHolder;
+        inspect(): void;
+        isCharging(): boolean;
+        resetDraw(): void;
+        crawl(arg0: boolean): void;
         bolt(): void;
-        melee(): void;
-        shoot(): $ShootResult;
         isCrawl(): boolean;
         fireSelect(): void;
-        crawl(arg0: boolean): void;
         isAim(): boolean;
-        resetDraw(): void;
-        isCharging(): boolean;
-        inspect(): void;
-        getClientShootCoolDown(): number;
-        getClientAimingProgress(arg0: number): number;
-        getDataHolder(): $LocalPlayerDataHolder;
-        getChargeProgress(): number;
-        isReadyToDraw(): boolean;
+        shoot(): $ShootResult;
+        melee(): void;
         chargeShoot(arg0: boolean): boolean;
-        get charging(): boolean;
+        isReadyToDraw(): boolean;
+        getChargeProgress(): number;
         get clientShootCoolDown(): number;
         get dataHolder(): $LocalPlayerDataHolder;
-        get chargeProgress(): number;
+        get charging(): boolean;
         get readyToDraw(): boolean;
+        get chargeProgress(): number;
     }
 }

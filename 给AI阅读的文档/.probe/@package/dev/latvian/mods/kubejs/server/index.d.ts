@@ -11,7 +11,6 @@ import { $KubeEvent } from "@package/dev/latvian/mods/kubejs/event";
 import { $ItemEntityPickupEvent$Pre } from "@package/net/neoforged/neoforge/event/entity/player";
 import { $Supplier_, $Consumer_ } from "@package/java/util/function";
 import { $RegistryAccess } from "@package/net/minecraft/core";
-import { $ServerPlayer } from "@package/net/minecraft/server/level";
 import { $ScheduledEvents$ScheduledEvent, $ScheduledEvents } from "@package/dev/latvian/mods/kubejs/util";
 import { $PackResources } from "@package/net/minecraft/server/packs";
 import { $RecipeSchemaStorage } from "@package/dev/latvian/mods/kubejs/recipe/schema";
@@ -22,6 +21,7 @@ import { $Level } from "@package/net/minecraft/world/level";
 import { $ProfilerFiller } from "@package/net/minecraft/util/profiling";
 import { $PreTagKubeEvent } from "@package/dev/latvian/mods/kubejs/server/tag";
 import { $Component_, $Component } from "@package/net/minecraft/network/chat";
+import { $Player } from "@package/net/minecraft/world/entity/player";
 import { $RegisterCommandsEvent, $CommandEvent, $AddReloadListenerEvent } from "@package/net/neoforged/neoforge/event";
 import { $ServerScriptManagerAccessor } from "@package/com/lowdragmc/lowdraglib2/core/mixins/kjs";
 import { $KubeEntityEvent } from "@package/dev/latvian/mods/kubejs/entity";
@@ -44,17 +44,17 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
     export class $DataExport {
         add(path: string, data: $Callable_<number[]>): void;
         static exportData(): void;
-        addJson(path: string, json: $JsonElement_): void;
         addString(path: string, data: string): void;
+        addJson(path: string, json: $JsonElement_): void;
         source: $CommandSourceStack;
         constructor();
     }
     export class $ServerScriptManager extends $ScriptManager implements $ServerScriptManagerAccessor {
         static release(): $ServerScriptManager;
-        static getStaticInstance$ldlib2_$md$9aa1a5$0(): $ServerScriptManager;
         static createPackResources(original: $List_<$PackResources>): $List<$PackResources>;
-        reloadAndCapture(): void;
         static createForDataGen(): $ServerScriptManager;
+        reloadAndCapture(): void;
+        static getStaticInstance$ldlib2_$md$dd6cb9$0(): $ServerScriptManager;
         virtualPacks: $Map<$GeneratedDataStage, $VirtualDataPack>;
         scriptType: $ScriptType;
         registriesDataPack: $VirtualDataPack;
@@ -67,7 +67,7 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
         preTagEvents: $Map<$ResourceKey<never>, $PreTagKubeEvent>;
         serverData: $SyncServerDataPayload;
         contextFactory: $KubeJSContextFactory;
-        static get staticInstance$ldlib2_$md$9aa1a5$0(): $ServerScriptManager;
+        static get staticInstance$ldlib2_$md$dd6cb9$0(): $ServerScriptManager;
     }
     export class $ScheduledServerEvent extends $ScheduledEvents$ScheduledEvent {
         getServer(): $MinecraftServer;
@@ -92,10 +92,10 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
     export class $ServerScriptManager$AdditionalServerRegistryHandler extends $Record implements $AdditionalObjectRegistry {
     }
     export class $CommandKubeEvent extends $ServerKubeEvent {
+        getInput(): string;
         getException(): $Throwable;
         setException(exception: $Throwable): void;
         setParseResults(parse: $ParseResults<$CommandSourceStack>): void;
-        getInput(): string;
         getParseResults(): $ParseResults<$CommandSourceStack>;
         getCommandName(): string;
         server: $MinecraftServer;
@@ -107,18 +107,11 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
         getId(): string;
         getLevel(): $Level;
         getEntity(): $Entity;
-        getBlock(): $LevelBlock;
-        getPlayer(): $ServerPlayer;
-        respondLazily(text: $Supplier_<$Component>, informAdmins: boolean): void;
         respond(text: $Component_): void;
+        getBlock(): $LevelBlock;
+        respondLazily(text: $Supplier_<$Component>, informAdmins: boolean): void;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -126,11 +119,11 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -138,35 +131,36 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
+        getPlayer(): $Player;
         input: string;
         id: string;
         constructor(source: $CommandSourceStack, id: string, input: string);
         get level(): $Level;
         get entity(): $Entity;
         get block(): $LevelBlock;
-        get player(): $ServerPlayer;
         get registries(): $RegistryAccess;
         get server(): $MinecraftServer;
+        get player(): $Player;
     }
     export class $ServerKubeEvent implements $KubeEvent {
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -174,11 +168,11 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -186,31 +180,37 @@ declare module "@package/dev/latvian/mods/kubejs/server" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         server: $MinecraftServer;
         constructor(s: $MinecraftServer);
     }
     export class $KubeJSServerEventHandler {
         static command(event: $CommandEvent): void;
-        static serverStarting(event: $ServerStartingEvent): void;
-        static registerCommands(event: $RegisterCommandsEvent): void;
-        static preventPickupDuringChestGUI(event: $ItemEntityPickupEvent$Pre): void;
         static serverStopping(event: $ServerStoppingEvent): void;
+        static registerCommands(event: $RegisterCommandsEvent): void;
         static serverStopped(event: $ServerStoppedEvent): void;
+        static serverStarting(event: $ServerStartingEvent): void;
+        static addReloadListeners(event: $AddReloadListenerEvent): void;
+        static preventPickupDuringChestGUI(event: $ItemEntityPickupEvent$Pre): void;
         static serverBeforeStart(event: $ServerAboutToStartEvent): void;
         static serverLevelLoaded(event: $LevelEvent$Load): void;
         static serverLevelSaved(event: $LevelEvent$Save): void;
-        static addReloadListeners(event: $AddReloadListenerEvent): void;
         constructor();
     }
 }

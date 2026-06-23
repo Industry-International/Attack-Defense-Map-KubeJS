@@ -1,5 +1,5 @@
 import { $BlockPos, $SectionPos } from "@package/net/minecraft/core";
-import { $Frustum_ } from "@package/net/caffeinemc/mods/sodium/client/render/viewport/frustum";
+import { $Frustum } from "@package/net/caffeinemc/mods/sodium/client/render/viewport/frustum";
 import { $Vector3d } from "@package/org/joml";
 export * as frustum from "@package/net/caffeinemc/mods/sodium/client/render/viewport/frustum";
 
@@ -14,13 +14,20 @@ declare module "@package/net/caffeinemc/mods/sodium/client/render/viewport" {
      */
     export type $ViewportProvider_ = (() => $Viewport);
     export class $Viewport {
-        getTransform(): $CameraTransform;
-        isBoxVisible(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): boolean;
         getChunkCoord(): $SectionPos;
+        getTransform(): $CameraTransform;
+        isBoxVisible(arg0: number, arg1: number, arg2: number): boolean;
+        isBoxVisibleDirect(arg0: number, arg1: number, arg2: number, arg3: number): boolean;
         getBlockCoord(): $BlockPos;
-        constructor(arg0: $Frustum_, arg1: $Vector3d);
-        get transform(): $CameraTransform;
+        isBoxVisibleLooser(arg0: number, arg1: number, arg2: number): boolean;
+        getBoxIntersectionDirect(arg0: number, arg1: number, arg2: number, arg3: number): number;
+        static CHUNK_SECTION_RADIUS: number;
+        static CHUNK_SECTION_MARGIN: number;
+        static CHUNK_SECTION_NEARBY_MARGIN: number;
+        static CHUNK_SECTION_PADDED_RADIUS: number;
+        constructor(arg0: $Frustum, arg1: $Vector3d);
         get chunkCoord(): $SectionPos;
+        get transform(): $CameraTransform;
         get blockCoord(): $BlockPos;
     }
     export class $CameraTransform {

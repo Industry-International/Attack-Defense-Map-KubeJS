@@ -14,17 +14,17 @@ declare module "@package/xaero/hud/pushbox" {
         isActive(): boolean;
         push(arg0: $PushboxHandler$State, arg1: number, arg2: number): void;
         getY(arg0: number, arg1: number): number;
-        getX(arg0: number, arg1: number): number;
-        getAnchorX(): number;
         getAnchorY(): number;
+        getAnchorX(): number;
         setActive(arg0: boolean): void;
         getW(arg0: number, arg1: number): number;
-        getVerticalBias(): number;
+        getX(arg0: number, arg1: number): number;
         postUpdate(): void;
         getH(arg0: number, arg1: number): number;
+        getVerticalBias(): number;
         constructor(arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number);
-        get anchorX(): number;
         get anchorY(): number;
+        get anchorX(): number;
         get verticalBias(): number;
     }
     export class $PushboxManager {

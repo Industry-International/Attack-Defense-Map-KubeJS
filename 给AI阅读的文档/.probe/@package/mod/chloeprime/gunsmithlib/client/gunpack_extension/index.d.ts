@@ -23,16 +23,16 @@ declare module "@package/mod/chloeprime/gunsmithlib/client/gunpack_extension" {
     export class $GunsmithLibGunDisplayExtension {
         static of(arg0: $ItemStack_): ($GunsmithLibGunDisplayExtension) | undefined;
         hideHeatBarOverlay(): boolean;
-        getCurrentAmmoDisplayType(): $CurrentAmmoDisplayType;
-        getDescriptionalAffixData(): $DescriptionalAffixData;
         getVariantName(): string;
         getVariantIcon(): $ResourceLocation;
         unlocksTransparency(): boolean;
+        getDescriptionalAffixData(): $DescriptionalAffixData;
+        getCurrentAmmoDisplayType(): $CurrentAmmoDisplayType;
         constructor();
-        get currentAmmoDisplayType(): $CurrentAmmoDisplayType;
-        get descriptionalAffixData(): $DescriptionalAffixData;
         get variantName(): string;
         get variantIcon(): $ResourceLocation;
+        get descriptionalAffixData(): $DescriptionalAffixData;
+        get currentAmmoDisplayType(): $CurrentAmmoDisplayType;
     }
     export class $CurrentAmmoDisplayType extends $Enum<$CurrentAmmoDisplayType> {
         static values(): $CurrentAmmoDisplayType[];

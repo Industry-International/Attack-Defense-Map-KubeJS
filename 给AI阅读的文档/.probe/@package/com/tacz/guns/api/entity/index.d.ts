@@ -43,18 +43,18 @@ declare module "@package/com/tacz/guns/api/entity" {
         static values(): $ReloadState$StateType[];
         static valueOf(arg0: string): $ReloadState$StateType;
         isReloading(): boolean;
-        isReloadingEmpty(): boolean;
         isReloadingTactical(): boolean;
         isReloadFinishing(): boolean;
+        isReloadingEmpty(): boolean;
         static TACTICAL_RELOAD_FEEDING: $ReloadState$StateType;
         static TACTICAL_RELOAD_FINISHING: $ReloadState$StateType;
         static EMPTY_RELOAD_FEEDING: $ReloadState$StateType;
         static EMPTY_RELOAD_FINISHING: $ReloadState$StateType;
         static NOT_RELOADING: $ReloadState$StateType;
         get reloading(): boolean;
-        get reloadingEmpty(): boolean;
         get reloadingTactical(): boolean;
         get reloadFinishing(): boolean;
+        get reloadingEmpty(): boolean;
     }
     /**
      * Values that may be interpreted as {@link $ReloadState$StateType}.
@@ -67,48 +67,48 @@ declare module "@package/com/tacz/guns/api/entity" {
         reload(): void;
         aim(arg0: boolean): void;
         draw(arg0: $Supplier_<$ItemStack>): void;
-        zoom(): void;
-        bolt(): void;
-        melee(): void;
-        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>, arg2: number, arg3: number): $ShootResult;
-        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>, arg2: number): $ShootResult;
-        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>): $ShootResult;
-        fireSelect(): void;
-        crawl(arg0: boolean): void;
-        getSynShootCoolDown(): number;
-        getSynAimingProgress(): number;
-        updateCacheProperty(arg0: $AttachmentCacheProperty): void;
-        getSynMeleeCoolDown(): number;
-        getProcessedSprintStatus(arg0: boolean): boolean;
-        getSynDrawCoolDown(): number;
-        consumesAmmoOrNot(): boolean;
-        getSynReloadState(): $ReloadState;
-        cancelReload(): void;
-        getSynIsBolting(): boolean;
-        getSynIsAiming(): boolean;
-        getDataHolder(): $ShooterDataHolder;
         getCacheProperty(): $AttachmentCacheProperty;
+        getDataHolder(): $ShooterDataHolder;
+        nextBulletIsTracer(arg0: number): boolean;
+        consumesAmmoOrNot(): boolean;
+        cancelReload(): void;
+        getSynIsAiming(): boolean;
+        getSynReloadState(): $ReloadState;
+        initialData(): void;
         getSynSprintTime(): number;
         needCheckAmmo(): boolean;
-        nextBulletIsTracer(arg0: number): boolean;
-        initialData(): void;
-        get synShootCoolDown(): number;
-        get synAimingProgress(): number;
-        get synMeleeCoolDown(): number;
-        get synDrawCoolDown(): number;
-        get synReloadState(): $ReloadState;
-        get synIsBolting(): boolean;
-        get synIsAiming(): boolean;
-        get dataHolder(): $ShooterDataHolder;
+        getSynDrawCoolDown(): number;
+        getSynIsBolting(): boolean;
+        getSynShootCoolDown(): number;
+        getSynMeleeCoolDown(): number;
+        getSynAimingProgress(): number;
+        getProcessedSprintStatus(arg0: boolean): boolean;
+        updateCacheProperty(arg0: $AttachmentCacheProperty): void;
+        crawl(arg0: boolean): void;
+        bolt(): void;
+        fireSelect(): void;
+        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>, arg2: number, arg3: number): $ShootResult;
+        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>): $ShootResult;
+        shoot(arg0: $Supplier_<number>, arg1: $Supplier_<number>, arg2: number): $ShootResult;
+        melee(): void;
+        zoom(): void;
         get cacheProperty(): $AttachmentCacheProperty;
+        get dataHolder(): $ShooterDataHolder;
+        get synIsAiming(): boolean;
+        get synReloadState(): $ReloadState;
         get synSprintTime(): number;
+        get synDrawCoolDown(): number;
+        get synIsBolting(): boolean;
+        get synShootCoolDown(): number;
+        get synMeleeCoolDown(): number;
+        get synAimingProgress(): number;
     }
     export class $KnockBackModifier {
         static fromLivingEntity(arg0: $LivingEntity): $KnockBackModifier;
     }
     export interface $KnockBackModifier {
-        getKnockBackStrength(): number;
         setKnockBackStrength(arg0: number): void;
         resetKnockBackStrength(): void;
+        getKnockBackStrength(): number;
     }
 }

@@ -4,8 +4,8 @@ import { $ClientboundRulesPacket } from "@package/xaero/map/message/basic";
 
 declare module "@package/xaero/map/mcworld" {
     export class $WorldMapClientWorldData {
-        getSyncedRules(): $ClientboundRulesPacket;
         setSyncedRules(arg0: $ClientboundRulesPacket): void;
+        getSyncedRules(): $ClientboundRulesPacket;
         setServerModNetworkVersion(arg0: number): void;
         getServerModNetworkVersion(): number;
         usedSpawn: $BlockPos;

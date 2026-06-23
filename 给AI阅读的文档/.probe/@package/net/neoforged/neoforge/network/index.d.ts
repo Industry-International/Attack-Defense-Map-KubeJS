@@ -25,46 +25,84 @@ export * as bundle from "@package/net/neoforged/neoforge/network/bundle";
 
 declare module "@package/net/neoforged/neoforge/network" {
     export class $ConfigSync {
+        static receiveSyncedConfig(contents: number[], fileName: string): void;
         static syncConfigs(): $List<$ConfigFilePayload>;
-        static receiveSyncedConfig(arg0: number[], arg1: string): void;
     }
     export class $DualStackUtils {
-        static logInitialPreferences(): void;
-        static checkIPv6(arg0: string): boolean;
-        static checkIPv6(arg0: $InetAddress): boolean;
+        /**
+         * Get the device's local IP address, taking into account scenarios where the client's network adapter
+         * supports IPv6 and has it enabled but the router's LAN does not.
+         */
         static getLocalAddress(): $InetAddress;
-        static getAddressString(arg0: $SocketAddress): string;
-        static getMulticastGroup(): string;
+        /**
+         * Called by `NeoForge` to load this class so that the initial network
+         * property constants are set before any of the other methods in this class are called. This is so we can
+         * distinguish what Java's read once on JVM start vs what we've set for Netty.
+         */
+        static logInitialPreferences(): void;
+        /**
+         * Called by `NeoForge` to load this class so that the initial network
+         * property constants are set before any of the other methods in this class are called. This is so we can
+         * distinguish what Java's read once on JVM start vs what we've set for Netty.
+         */
         static initialise(): void;
+        /**
+         * Resolve the address and see if Java and the OS return an IPv6 or IPv4 one, then let Netty know
+         * accordingly (it doesn't understand the `java.net.preferIPv6Addresses=system` property).
+         */
+        static checkIPv6(hostAddress: string): boolean;
+        /**
+         * Checks if an address is an IPv6 one or an IPv4 one, lets Netty know accordingly and returns the result.
+         */
+        static checkIPv6(inetAddress: $InetAddress): boolean;
+        /**
+         * Used for the "Open to LAN" feature.
+         */
+        static getMulticastGroup(): string;
+        /**
+         * `SocketAddress#toString()` but with IPv6 address compression support
+         */
+        static getAddressString(address: $SocketAddress): string;
         constructor();
         static get localAddress(): $InetAddress;
         static get multicastGroup(): string;
     }
     export class $ConfigurationInitialization {
-        static configureEarlyTasks(arg0: $ServerConfigurationPacketListener, arg1: $Consumer_<$ConfigurationTask>): void;
+        /**
+         * Method called to add configuration tasks that should run before all others,
+         * and most importantly before vanilla's own `SynchronizeRegistriesTask`.
+         */
+        static configureEarlyTasks(listener: $ServerConfigurationPacketListener, tasks: $Consumer_<$ConfigurationTask>): void;
         constructor();
     }
     export class $NetworkInitialization {
         constructor();
     }
+    /**
+     * This extension of `MenuSupplier` allows a mod to handle the extra data it sent to the client
+     * when creating the client-side copy of a menu.
+     */
     export class $IContainerFactory<T extends $AbstractContainerMenu> {
     }
     export interface $IContainerFactory<T extends $AbstractContainerMenu> extends $MenuType$MenuSupplier<T> {
         create(arg0: number, arg1: $Inventory, arg2: $RegistryFriendlyByteBuf): T;
-        create(arg0: number, arg1: $Inventory): T;
+        create(containerId: number, playerInventory: $Inventory): T;
     }
     /**
      * Values that may be interpreted as {@link $IContainerFactory}.
      */
     export type $IContainerFactory_<T> = ((arg0: number, arg1: $Inventory, arg2: $RegistryFriendlyByteBuf) => T);
+    /**
+     * Means to distribute packets in various ways
+     */
     export class $PacketDistributor {
-        static sendToPlayersTrackingEntityAndSelf(arg0: $Entity, arg1: $CustomPacketPayload_, ...arg2: $CustomPacketPayload_[]): void;
-        static sendToPlayer(arg0: $ServerPlayer, arg1: $CustomPacketPayload_, ...arg2: $CustomPacketPayload_[]): void;
-        static sendToPlayersTrackingChunk(arg0: $ServerLevel, arg1: $ChunkPos, arg2: $CustomPacketPayload_, ...arg3: $CustomPacketPayload_[]): void;
         static sendToAllPlayers(arg0: $CustomPacketPayload_, ...arg1: $CustomPacketPayload_[]): void;
-        static sendToPlayersInDimension(arg0: $ServerLevel, arg1: $CustomPacketPayload_, ...arg2: $CustomPacketPayload_[]): void;
-        static sendToPlayersNear(arg0: $ServerLevel, arg1: $ServerPlayer, arg2: number, arg3: number, arg4: number, arg5: number, arg6: $CustomPacketPayload_, ...arg7: $CustomPacketPayload_[]): void;
         static sendToPlayersTrackingEntity(arg0: $Entity, arg1: $CustomPacketPayload_, ...arg2: $CustomPacketPayload_[]): void;
         static sendToServer(arg0: $CustomPacketPayload_, ...arg1: $CustomPacketPayload_[]): void;
+        static sendToPlayersTrackingEntityAndSelf(arg0: $Entity, arg1: $CustomPacketPayload_, ...arg2: $CustomPacketPayload_[]): void;
+        static sendToPlayer(arg0: $ServerPlayer, arg1: $CustomPacketPayload_, ...arg2: $CustomPacketPayload_[]): void;
+        static sendToPlayersNear(arg0: $ServerLevel, arg1: $ServerPlayer, arg2: number, arg3: number, arg4: number, arg5: number, arg6: $CustomPacketPayload_, ...arg7: $CustomPacketPayload_[]): void;
+        static sendToPlayersInDimension(arg0: $ServerLevel, arg1: $CustomPacketPayload_, ...arg2: $CustomPacketPayload_[]): void;
+        static sendToPlayersTrackingChunk(arg0: $ServerLevel, arg1: $ChunkPos, arg2: $CustomPacketPayload_, ...arg3: $CustomPacketPayload_[]): void;
     }
 }

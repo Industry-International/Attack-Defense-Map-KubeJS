@@ -8,52 +8,15 @@ import { $KeyMapping } from "@package/net/minecraft/client";
 
 declare module "@package/xaero/common/settings" {
     export class $ModSettings {
-        static getTranslation(arg0: boolean): string;
-        writeSettings(arg0: $PrintWriter): void;
-        loadSettings(arg0: boolean): void;
+        isIgnoreHeightmaps(): boolean;
         /**
          * @deprecated
          */
         getMinimap(): boolean;
-        waypointsGUI(arg0: $MinimapSession): boolean;
-        /**
-         * @deprecated
-         */
-        waypointsGUI(arg0: $WaypointsManager): boolean;
+        saveSettings(): void;
         getUIScale(arg0: number, arg1: number, arg2: number): number;
-        caveMapsDisabled(): boolean;
-        minimapDisabled(): boolean;
-        resetServerSettings(): void;
-        showWaypointsDisabled(): boolean;
-        deathpointsDisabled(): boolean;
-        static canEditIngameSettings(): boolean;
-        /**
-         * @deprecated
-         */
-        saveAllWaypoints(arg0: $WaypointsManager): void;
-        static setServerSettings(): void;
-        readSetting(arg0: string[]): void;
-        /**
-         * @deprecated
-         */
-        getSlimeChunksSeed(arg0: $XaeroPath): number;
-        /**
-         * @deprecated
-         */
-        setSlimeChunksSeed(arg0: number, arg1: $XaeroPath): void;
-        /**
-         * @deprecated
-         */
-        isKeyRepeat(arg0: $KeyMapping): boolean;
-        /**
-         * @deprecated
-         */
-        getSlimeChunks(arg0: $WaypointsManager): boolean;
-        /**
-         * @deprecated
-         */
-        getSlimeChunks(arg0: $MinimapSession): boolean;
-        getMinimapScale(): number;
+        static getTranslation(arg0: boolean): string;
+        getEntityRadarBackwardsCompatibilityConfig(): $EntityRadarBackwardsCompatibilityConfig;
         getAutoUIScale(): number;
         /**
          * @deprecated
@@ -63,19 +26,56 @@ declare module "@package/xaero/common/settings" {
          * @deprecated
          */
         saveWaypoints(arg0: $WaypointWorld): void;
+        /**
+         * @deprecated
+         */
+        getSlimeChunks(arg0: $MinimapSession): boolean;
+        /**
+         * @deprecated
+         */
+        getSlimeChunks(arg0: $WaypointsManager): boolean;
+        getMinimapScale(): number;
+        removeLegacySlimeChunksSeed(arg0: $XaeroPath): number;
         resetEntityRadarBackwardsCompatibilityConfig(): void;
-        isIgnoreHeightmaps(): boolean;
+        static canEditIngameSettings(): boolean;
+        loadSettings(arg0: boolean): void;
+        writeSettings(arg0: $PrintWriter): void;
+        /**
+         * @deprecated
+         */
+        waypointsGUI(arg0: $WaypointsManager): boolean;
+        waypointsGUI(arg0: $MinimapSession): boolean;
+        resetServerSettings(): void;
+        caveMapsDisabled(): boolean;
+        minimapDisabled(): boolean;
+        deathpointsDisabled(): boolean;
+        showWaypointsDisabled(): boolean;
+        /**
+         * @deprecated
+         */
+        getSlimeChunksSeed(arg0: $XaeroPath): number;
+        /**
+         * @deprecated
+         */
+        saveAllWaypoints(arg0: $WaypointsManager): void;
+        /**
+         * @deprecated
+         */
+        setSlimeChunksSeed(arg0: number, arg1: $XaeroPath): void;
+        readSetting(arg0: string[]): void;
+        static setServerSettings(): void;
+        /**
+         * @deprecated
+         */
+        isKeyRepeat(arg0: $KeyMapping): boolean;
+        getLoadedWaypointLines(): string;
+        loadDefaultSettings(arg0: boolean): void;
         foundOldRadarSettings(): boolean;
+        removeLoadedWaypointLines(): void;
         /**
          * @deprecated
          */
         getLegacySlimeChunksSeed(arg0: $XaeroPath): number;
-        getLoadedWaypointLines(): string;
-        loadDefaultSettings(arg0: boolean): void;
-        removeLoadedWaypointLines(): void;
-        saveSettings(): void;
-        getEntityRadarBackwardsCompatibilityConfig(): $EntityRadarBackwardsCompatibilityConfig;
-        removeLegacySlimeChunksSeed(arg0: $XaeroPath): number;
         /**
          * @deprecated
          */
@@ -176,11 +176,11 @@ declare module "@package/xaero/common/settings" {
          */
         static keyToggleRadar: $KeyMapping;
         constructor(arg0: $IXaeroMinimap);
-        get minimap(): boolean;
-        get minimapScale(): number;
-        get autoUIScale(): number;
         get ignoreHeightmaps(): boolean;
-        get loadedWaypointLines(): string;
+        get minimap(): boolean;
         get entityRadarBackwardsCompatibilityConfig(): $EntityRadarBackwardsCompatibilityConfig;
+        get autoUIScale(): number;
+        get minimapScale(): number;
+        get loadedWaypointLines(): string;
     }
 }

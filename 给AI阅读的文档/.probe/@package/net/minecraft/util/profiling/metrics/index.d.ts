@@ -9,49 +9,49 @@ export * as storage from "@package/net/minecraft/util/profiling/metrics/storage"
 declare module "@package/net/minecraft/util/profiling/metrics" {
     export class $MetricSampler$MetricSamplerBuilder<T> {
         build(): $MetricSampler;
-        withThresholdAlert(arg0: $MetricSampler$ThresholdTest_): $MetricSampler$MetricSamplerBuilder<T>;
-        withBeforeTick(arg0: $Consumer_<T>): $MetricSampler$MetricSamplerBuilder<T>;
-        constructor(arg0: string, arg1: $MetricCategory_, arg2: $ToDoubleFunction_<T>, arg3: T);
+        withThresholdAlert(thresholdTest: $MetricSampler$ThresholdTest_): $MetricSampler$MetricSamplerBuilder<T>;
+        withBeforeTick(beforeTick: $Consumer_<T>): $MetricSampler$MetricSamplerBuilder<T>;
+        constructor(name: string, category: $MetricCategory_, sampler: $ToDoubleFunction_<T>, context: T);
     }
     export class $MetricSampler$SamplerResult {
-        getFirstTick(): number;
+        valueAtTick(tick: number): number;
         getLastTick(): number;
-        valueAtTick(arg0: number): number;
-        constructor(arg0: number, arg1: number, arg2: $Int2DoubleMap);
-        get firstTick(): number;
+        getFirstTick(): number;
+        constructor(firstTick: number, lastTick: number, recording: $Int2DoubleMap);
         get lastTick(): number;
+        get firstTick(): number;
     }
     export class $MetricSampler$ThresholdTest {
     }
     export interface $MetricSampler$ThresholdTest {
-        test(arg0: number): boolean;
+        test(value: number): boolean;
     }
     /**
      * Values that may be interpreted as {@link $MetricSampler$ThresholdTest}.
      */
     export type $MetricSampler$ThresholdTest_ = ((arg0: number) => boolean);
     export class $MetricSampler {
-        getName(): string;
-        static builder<T>(arg0: string, arg1: $MetricCategory_, arg2: $ToDoubleFunction_<T>, arg3: T): $MetricSampler$MetricSamplerBuilder<T>;
-        result(): $MetricSampler$SamplerResult;
-        static create<T>(arg0: string, arg1: $MetricCategory_, arg2: T, arg3: $ToDoubleFunction_<T>): $MetricSampler;
-        static create(arg0: string, arg1: $MetricCategory_, arg2: $DoubleSupplier_): $MetricSampler;
-        getCategory(): $MetricCategory;
-        onEndTick(arg0: number): void;
-        onFinished(): void;
-        triggersThreshold(): boolean;
-        onStartTick(): void;
         getSampler(): $DoubleSupplier;
+        getName(): string;
+        static builder<T>(name: string, category: $MetricCategory_, sampler: $ToDoubleFunction_<T>, context: T): $MetricSampler$MetricSamplerBuilder<T>;
+        result(): $MetricSampler$SamplerResult;
+        static create<T>(name: string, category: $MetricCategory_, context: T, sampler: $ToDoubleFunction_<T>): $MetricSampler;
+        static create(name: string, category: $MetricCategory_, sampler: $DoubleSupplier_): $MetricSampler;
+        getCategory(): $MetricCategory;
+        triggersThreshold(): boolean;
+        onEndTick(tickTime: number): void;
+        onFinished(): void;
+        onStartTick(): void;
         thresholdTest: $MetricSampler$ThresholdTest;
-        constructor(arg0: string, arg1: $MetricCategory_, arg2: $DoubleSupplier_, arg3: $Runnable_, arg4: $MetricSampler$ThresholdTest_);
+        constructor(name: string, category: $MetricCategory_, sampler: $DoubleSupplier_, beforeTick: $Runnable_ | null, thresholdTest: $MetricSampler$ThresholdTest_ | null);
+        get sampler(): $DoubleSupplier;
         get name(): string;
         get category(): $MetricCategory;
-        get sampler(): $DoubleSupplier;
     }
     export class $MetricsSamplerProvider {
     }
     export interface $MetricsSamplerProvider {
-        samplers(arg0: $Supplier_<$ProfileCollector>): $Set<$MetricSampler>;
+        samplers(profiles: $Supplier_<$ProfileCollector>): $Set<$MetricSampler>;
     }
     /**
      * Values that may be interpreted as {@link $MetricsSamplerProvider}.
@@ -67,7 +67,7 @@ declare module "@package/net/minecraft/util/profiling/metrics" {
      */
     export type $ProfilerMeasured_ = (() => $List_<$MetricSampler>);
     export class $MetricsRegistry {
-        add(arg0: $ProfilerMeasured_): void;
+        add(key: $ProfilerMeasured_): void;
         getRegisteredSamplers(): $List<$MetricSampler>;
         static INSTANCE: $MetricsRegistry;
         get registeredSamplers(): $List<$MetricSampler>;
@@ -76,9 +76,9 @@ declare module "@package/net/minecraft/util/profiling/metrics" {
         thresholdTest: $MetricSampler$ThresholdTest;
     }
     export class $MetricCategory extends $Enum<$MetricCategory> {
+        getDescription(): string;
         static values(): $MetricCategory[];
         static valueOf(arg0: string): $MetricCategory;
-        getDescription(): string;
         static JVM: $MetricCategory;
         static PATH_FINDING: $MetricCategory;
         static EVENT_LOOPS: $MetricCategory;
@@ -95,7 +95,7 @@ declare module "@package/net/minecraft/util/profiling/metrics" {
      */
     export type $MetricCategory_ = "path_finding" | "event_loops" | "mail_boxes" | "tick_loop" | "jvm" | "chunk_rendering" | "chunk_rendering_dispatching" | "cpu" | "gpu";
     export class $MetricSampler$ValueIncreasedByPercentage implements $MetricSampler$ThresholdTest {
-        test(arg0: number): boolean;
-        constructor(arg0: number);
+        test(value: number): boolean;
+        constructor(percentageIncreaseThreshold: number);
     }
 }

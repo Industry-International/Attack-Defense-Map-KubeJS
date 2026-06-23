@@ -96,26 +96,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         andThen<T>(arg0: $Function_<number, T>): $Function$1<boolean, T>;
-        andThenLong(arg0: $Double2LongFunction_): $Boolean2LongFunction;
-        andThenDouble(arg0: $Double2DoubleFunction_): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2DoubleFunction<T>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2DoubleFunction;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2DoubleFunction;
-        andThenByte(arg0: $Double2ByteFunction_): $Boolean2ByteFunction;
-        andThenShort(arg0: $Double2ShortFunction_): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Double2FloatFunction_): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2DoubleFunction;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2DoubleFunction;
-        andThenObject<T>(arg0: $Double2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Double2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Double2CharFunction_): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2DoubleFunction;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2DoubleFunction;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2DoubleFunction<T>;
-        defaultReturnValue(arg0: number): void;
-        defaultReturnValue(): number;
         composeInt(arg0: $Int2BooleanFunction_): $Int2DoubleFunction;
         andThenInt(arg0: $Double2IntFunction_): $Boolean2IntFunction;
+        andThenByte(arg0: $Double2ByteFunction_): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2DoubleFunction;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2DoubleFunction;
+        andThenLong(arg0: $Double2LongFunction_): $Boolean2LongFunction;
+        andThenShort(arg0: $Double2ShortFunction_): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Double2DoubleFunction_): $Boolean2DoubleFunction;
+        defaultReturnValue(): number;
+        defaultReturnValue(arg0: number): void;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2DoubleFunction;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2DoubleFunction;
+        andThenChar(arg0: $Double2CharFunction_): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2DoubleFunction;
+        andThenFloat(arg0: $Double2FloatFunction_): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Double2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2DoubleFunction<T>;
+        andThenReference<T>(arg0: $Double2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2DoubleFunction;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2DoubleFunction<T>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2DoubleFunction}.
@@ -157,26 +157,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         andThen<T>(arg0: $Function_<number, T>): $Function$1<boolean, T>;
-        andThenLong(arg0: $Long2LongFunction_): $Boolean2LongFunction;
-        andThenDouble(arg0: $Long2DoubleFunction_): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2LongFunction<T>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2LongFunction;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2LongFunction;
-        andThenByte(arg0: $Long2ByteFunction_): $Boolean2ByteFunction;
-        andThenShort(arg0: $Long2ShortFunction_): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Long2FloatFunction_): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2LongFunction;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2LongFunction;
-        andThenObject<T>(arg0: $Long2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Long2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Long2CharFunction_): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2LongFunction;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2LongFunction;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2LongFunction<T>;
-        defaultReturnValue(arg0: number): void;
-        defaultReturnValue(): number;
         composeInt(arg0: $Int2BooleanFunction_): $Int2LongFunction;
         andThenInt(arg0: $Long2IntFunction_): $Boolean2IntFunction;
+        andThenByte(arg0: $Long2ByteFunction_): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2LongFunction;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2LongFunction;
+        andThenLong(arg0: $Long2LongFunction_): $Boolean2LongFunction;
+        andThenShort(arg0: $Long2ShortFunction_): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Long2DoubleFunction_): $Boolean2DoubleFunction;
+        defaultReturnValue(): number;
+        defaultReturnValue(arg0: number): void;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2LongFunction;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2LongFunction;
+        andThenChar(arg0: $Long2CharFunction_): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2LongFunction;
+        andThenFloat(arg0: $Long2FloatFunction_): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Long2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2LongFunction<T>;
+        andThenReference<T>(arg0: $Long2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2LongFunction;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2LongFunction<T>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2LongFunction}.
@@ -218,26 +218,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         andThen<T>(arg0: $Function_<number, T>): $Function$1<boolean, T>;
-        andThenLong(arg0: $Float2LongFunction_): $Boolean2LongFunction;
-        andThenDouble(arg0: $Float2DoubleFunction_): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2FloatFunction<T>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2FloatFunction;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2FloatFunction;
-        andThenByte(arg0: $Float2ByteFunction_): $Boolean2ByteFunction;
-        andThenShort(arg0: $Float2ShortFunction_): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Float2FloatFunction_): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2FloatFunction;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2FloatFunction;
-        andThenObject<T>(arg0: $Float2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Float2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Float2CharFunction_): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2FloatFunction;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2FloatFunction;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2FloatFunction<T>;
-        defaultReturnValue(arg0: number): void;
-        defaultReturnValue(): number;
         composeInt(arg0: $Int2BooleanFunction_): $Int2FloatFunction;
         andThenInt(arg0: $Float2IntFunction_): $Boolean2IntFunction;
+        andThenByte(arg0: $Float2ByteFunction_): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2FloatFunction;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2FloatFunction;
+        andThenLong(arg0: $Float2LongFunction_): $Boolean2LongFunction;
+        andThenShort(arg0: $Float2ShortFunction_): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Float2DoubleFunction_): $Boolean2DoubleFunction;
+        defaultReturnValue(): number;
+        defaultReturnValue(arg0: number): void;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2FloatFunction;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2FloatFunction;
+        andThenChar(arg0: $Float2CharFunction_): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2FloatFunction;
+        andThenFloat(arg0: $Float2FloatFunction_): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Float2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2FloatFunction<T>;
+        andThenReference<T>(arg0: $Float2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2FloatFunction;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2FloatFunction<T>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2FloatFunction}.
@@ -279,26 +279,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         andThen<T>(arg0: $Function_<number, T>): $Function$1<boolean, T>;
-        andThenLong(arg0: $Int2LongFunction_): $Boolean2LongFunction;
-        andThenDouble(arg0: $Int2DoubleFunction_): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2IntFunction<T>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2IntFunction;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2IntFunction;
-        andThenByte(arg0: $Int2ByteFunction_): $Boolean2ByteFunction;
-        andThenShort(arg0: $Int2ShortFunction_): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Int2FloatFunction_): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2IntFunction;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2IntFunction;
-        andThenObject<T>(arg0: $Int2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Int2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Int2CharFunction_): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2IntFunction;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2IntFunction;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2IntFunction<T>;
-        defaultReturnValue(arg0: number): void;
-        defaultReturnValue(): number;
         composeInt(arg0: $Int2BooleanFunction_): $Int2IntFunction;
         andThenInt(arg0: $Int2IntFunction_): $Boolean2IntFunction;
+        andThenByte(arg0: $Int2ByteFunction_): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2IntFunction;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2IntFunction;
+        andThenLong(arg0: $Int2LongFunction_): $Boolean2LongFunction;
+        andThenShort(arg0: $Int2ShortFunction_): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Int2DoubleFunction_): $Boolean2DoubleFunction;
+        defaultReturnValue(): number;
+        defaultReturnValue(arg0: number): void;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2IntFunction;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2IntFunction;
+        andThenChar(arg0: $Int2CharFunction_): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2IntFunction;
+        andThenFloat(arg0: $Int2FloatFunction_): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Int2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2IntFunction<T>;
+        andThenReference<T>(arg0: $Int2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2IntFunction;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2IntFunction<T>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2IntFunction}.
@@ -340,26 +340,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         andThen<T>(arg0: $Function_<number, T>): $Function$1<boolean, T>;
-        andThenLong(arg0: $Short2LongFunction_): $Boolean2LongFunction;
-        andThenDouble(arg0: $Short2DoubleFunction_): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ShortFunction<T>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2ShortFunction;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2ShortFunction;
-        andThenByte(arg0: $Short2ByteFunction_): $Boolean2ByteFunction;
-        andThenShort(arg0: $Short2ShortFunction_): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Short2FloatFunction_): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ShortFunction;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2ShortFunction;
-        andThenObject<T>(arg0: $Short2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Short2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Short2CharFunction_): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2ShortFunction;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2ShortFunction;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ShortFunction<T>;
-        defaultReturnValue(arg0: number): void;
-        defaultReturnValue(): number;
         composeInt(arg0: $Int2BooleanFunction_): $Int2ShortFunction;
         andThenInt(arg0: $Short2IntFunction_): $Boolean2IntFunction;
+        andThenByte(arg0: $Short2ByteFunction_): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2ShortFunction;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2ShortFunction;
+        andThenLong(arg0: $Short2LongFunction_): $Boolean2LongFunction;
+        andThenShort(arg0: $Short2ShortFunction_): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Short2DoubleFunction_): $Boolean2DoubleFunction;
+        defaultReturnValue(): number;
+        defaultReturnValue(arg0: number): void;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ShortFunction;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2ShortFunction;
+        andThenChar(arg0: $Short2CharFunction_): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2ShortFunction;
+        andThenFloat(arg0: $Short2FloatFunction_): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Short2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ShortFunction<T>;
+        andThenReference<T>(arg0: $Short2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2ShortFunction;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ShortFunction<T>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2ShortFunction}.
@@ -401,26 +401,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         andThen<T>(arg0: $Function_<string, T>): $Function$1<boolean, T>;
-        andThenLong(arg0: $Char2LongFunction_): $Boolean2LongFunction;
-        andThenDouble(arg0: $Char2DoubleFunction_): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2CharFunction<T>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2CharFunction;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2CharFunction;
-        andThenByte(arg0: $Char2ByteFunction_): $Boolean2ByteFunction;
-        andThenShort(arg0: $Char2ShortFunction_): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Char2FloatFunction_): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2CharFunction;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2CharFunction;
-        andThenObject<T>(arg0: $Char2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Char2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Char2CharFunction_): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2CharFunction;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2CharFunction;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2CharFunction<T>;
-        defaultReturnValue(arg0: string): void;
-        defaultReturnValue(): string;
         composeInt(arg0: $Int2BooleanFunction_): $Int2CharFunction;
         andThenInt(arg0: $Char2IntFunction_): $Boolean2IntFunction;
+        andThenByte(arg0: $Char2ByteFunction_): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2CharFunction;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2CharFunction;
+        andThenLong(arg0: $Char2LongFunction_): $Boolean2LongFunction;
+        andThenShort(arg0: $Char2ShortFunction_): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Char2DoubleFunction_): $Boolean2DoubleFunction;
+        defaultReturnValue(): string;
+        defaultReturnValue(arg0: string): void;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2CharFunction;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2CharFunction;
+        andThenChar(arg0: $Char2CharFunction_): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2CharFunction;
+        andThenFloat(arg0: $Char2FloatFunction_): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Char2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2CharFunction<T>;
+        andThenReference<T>(arg0: $Char2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2CharFunction;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2CharFunction<T>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2CharFunction}.
@@ -462,26 +462,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         andThen<T>(arg0: $Function_<number, T>): $Function$1<boolean, T>;
-        andThenLong(arg0: $Byte2LongFunction_): $Boolean2LongFunction;
-        andThenDouble(arg0: $Byte2DoubleFunction_): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ByteFunction<T>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2ByteFunction;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2ByteFunction;
-        andThenByte(arg0: $Byte2ByteFunction_): $Boolean2ByteFunction;
-        andThenShort(arg0: $Byte2ShortFunction_): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Byte2FloatFunction_): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ByteFunction;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2ByteFunction;
-        andThenObject<T>(arg0: $Byte2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Byte2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Byte2CharFunction_): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2ByteFunction;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2ByteFunction;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ByteFunction<T>;
-        defaultReturnValue(arg0: number): void;
-        defaultReturnValue(): number;
         composeInt(arg0: $Int2BooleanFunction_): $Int2ByteFunction;
         andThenInt(arg0: $Byte2IntFunction_): $Boolean2IntFunction;
+        andThenByte(arg0: $Byte2ByteFunction_): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2ByteFunction;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2ByteFunction;
+        andThenLong(arg0: $Byte2LongFunction_): $Boolean2LongFunction;
+        andThenShort(arg0: $Byte2ShortFunction_): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Byte2DoubleFunction_): $Boolean2DoubleFunction;
+        defaultReturnValue(): number;
+        defaultReturnValue(arg0: number): void;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ByteFunction;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2ByteFunction;
+        andThenChar(arg0: $Byte2CharFunction_): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2ByteFunction;
+        andThenFloat(arg0: $Byte2FloatFunction_): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Byte2ObjectFunction_<T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ByteFunction<T>;
+        andThenReference<T>(arg0: $Byte2ReferenceFunction_<T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2ByteFunction;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ByteFunction<T>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2ByteFunction}.
@@ -525,26 +525,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
     export class $Boolean2ReferenceFunction<V> {
     }
     export interface $Boolean2ReferenceFunction<V> extends $Function<boolean, V> {
-        remove(arg0: boolean): V;
         /**
          * @deprecated
          */
         remove(arg0: $Object): V;
+        remove(arg0: boolean): V;
         /**
          * @deprecated
          */
         get(arg0: $Object): V;
         get(arg0: boolean): V;
-        put(arg0: boolean, arg1: V): V;
         /**
          * @deprecated
          */
         put(arg0: boolean, arg1: V): V;
+        put(arg0: boolean, arg1: V): V;
+        containsKey(arg0: boolean): boolean;
         /**
          * @deprecated
          */
         containsKey(arg0: $Object): boolean;
-        containsKey(arg0: boolean): boolean;
         getOrDefault(arg0: boolean, arg1: V): V;
         /**
          * @deprecated
@@ -554,26 +554,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         compose<T>(arg0: $Function_<T, boolean>): $Function$1<T, V>;
-        andThenLong(arg0: $Reference2LongFunction_<V>): $Boolean2LongFunction;
-        andThenDouble(arg0: $Reference2DoubleFunction_<V>): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ReferenceFunction<T, V>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2ReferenceFunction<V>;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2ReferenceFunction<V>;
-        andThenByte(arg0: $Reference2ByteFunction_<V>): $Boolean2ByteFunction;
-        andThenShort(arg0: $Reference2ShortFunction_<V>): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Reference2FloatFunction_<V>): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ReferenceFunction<V>;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2ReferenceFunction<V>;
-        andThenObject<T>(arg0: $Reference2ObjectFunction_<V, T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Reference2ReferenceFunction_<V, T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Reference2CharFunction_<V>): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2ReferenceFunction<V>;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2ReferenceFunction<V>;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ReferenceFunction<T, V>;
-        defaultReturnValue(arg0: V): void;
-        defaultReturnValue(): V;
         composeInt(arg0: $Int2BooleanFunction_): $Int2ReferenceFunction<V>;
         andThenInt(arg0: $Reference2IntFunction_<V>): $Boolean2IntFunction;
+        andThenByte(arg0: $Reference2ByteFunction_<V>): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2ReferenceFunction<V>;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2ReferenceFunction<V>;
+        andThenLong(arg0: $Reference2LongFunction_<V>): $Boolean2LongFunction;
+        andThenShort(arg0: $Reference2ShortFunction_<V>): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Reference2DoubleFunction_<V>): $Boolean2DoubleFunction;
+        defaultReturnValue(arg0: V): void;
+        defaultReturnValue(): V;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ReferenceFunction<V>;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2ReferenceFunction<V>;
+        andThenChar(arg0: $Reference2CharFunction_<V>): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2ReferenceFunction<V>;
+        andThenFloat(arg0: $Reference2FloatFunction_<V>): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Reference2ObjectFunction_<V, T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ReferenceFunction<T, V>;
+        andThenReference<T>(arg0: $Reference2ReferenceFunction_<V, T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2ReferenceFunction<V>;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ReferenceFunction<T, V>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2ReferenceFunction}.
@@ -589,16 +589,16 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          */
         test(arg0: boolean): boolean;
         test(arg0: boolean): boolean;
+        or(arg0: $BooleanPredicate_): $BooleanPredicate;
         /**
          * @deprecated
          */
         or(arg0: $Predicate_<boolean>): $Predicate<boolean>;
-        or(arg0: $BooleanPredicate_): $BooleanPredicate;
-        and(arg0: $BooleanPredicate_): $BooleanPredicate;
         /**
          * @deprecated
          */
         and(arg0: $Predicate_<boolean>): $Predicate<boolean>;
+        and(arg0: $BooleanPredicate_): $BooleanPredicate;
         negate(): $Predicate<boolean>;
     }
     /**
@@ -608,26 +608,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
     export class $Boolean2ObjectFunction<V> {
     }
     export interface $Boolean2ObjectFunction<V> extends $Function<boolean, V> {
-        remove(arg0: boolean): V;
         /**
          * @deprecated
          */
         remove(arg0: $Object): V;
+        remove(arg0: boolean): V;
         /**
          * @deprecated
          */
         get(arg0: $Object): V;
         get(arg0: boolean): V;
-        put(arg0: boolean, arg1: V): V;
         /**
          * @deprecated
          */
         put(arg0: boolean, arg1: V): V;
+        put(arg0: boolean, arg1: V): V;
+        containsKey(arg0: boolean): boolean;
         /**
          * @deprecated
          */
         containsKey(arg0: $Object): boolean;
-        containsKey(arg0: boolean): boolean;
         getOrDefault(arg0: boolean, arg1: V): V;
         /**
          * @deprecated
@@ -637,26 +637,26 @@ declare module "@package/it/unimi/dsi/fastutil/booleans" {
          * @deprecated
          */
         compose<T>(arg0: $Function_<T, boolean>): $Function$1<T, V>;
-        andThenLong(arg0: $Object2LongFunction_<V>): $Boolean2LongFunction;
-        andThenDouble(arg0: $Object2DoubleFunction_<V>): $Boolean2DoubleFunction;
-        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ObjectFunction<T, V>;
-        composeDouble(arg0: $Double2BooleanFunction_): $Double2ObjectFunction<V>;
-        composeShort(arg0: $Short2BooleanFunction_): $Short2ObjectFunction<V>;
-        andThenByte(arg0: $Object2ByteFunction_<V>): $Boolean2ByteFunction;
-        andThenShort(arg0: $Object2ShortFunction_<V>): $Boolean2ShortFunction;
-        andThenFloat(arg0: $Object2FloatFunction_<V>): $Boolean2FloatFunction;
-        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ObjectFunction<V>;
-        composeFloat(arg0: $Float2BooleanFunction_): $Float2ObjectFunction<V>;
-        andThenObject<T>(arg0: $Object2ObjectFunction_<V, T>): $Boolean2ObjectFunction<T>;
-        andThenReference<T>(arg0: $Object2ReferenceFunction_<V, T>): $Boolean2ReferenceFunction<T>;
-        andThenChar(arg0: $Object2CharFunction_<V>): $Boolean2CharFunction;
-        composeChar(arg0: $Char2BooleanFunction_): $Char2ObjectFunction<V>;
-        composeLong(arg0: $Long2BooleanFunction_): $Long2ObjectFunction<V>;
-        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ObjectFunction<T, V>;
-        defaultReturnValue(arg0: V): void;
-        defaultReturnValue(): V;
         composeInt(arg0: $Int2BooleanFunction_): $Int2ObjectFunction<V>;
         andThenInt(arg0: $Object2IntFunction_<V>): $Boolean2IntFunction;
+        andThenByte(arg0: $Object2ByteFunction_<V>): $Boolean2ByteFunction;
+        composeFloat(arg0: $Float2BooleanFunction_): $Float2ObjectFunction<V>;
+        composeDouble(arg0: $Double2BooleanFunction_): $Double2ObjectFunction<V>;
+        andThenLong(arg0: $Object2LongFunction_<V>): $Boolean2LongFunction;
+        andThenShort(arg0: $Object2ShortFunction_<V>): $Boolean2ShortFunction;
+        andThenDouble(arg0: $Object2DoubleFunction_<V>): $Boolean2DoubleFunction;
+        defaultReturnValue(arg0: V): void;
+        defaultReturnValue(): V;
+        composeByte(arg0: $Byte2BooleanFunction_): $Byte2ObjectFunction<V>;
+        composeShort(arg0: $Short2BooleanFunction_): $Short2ObjectFunction<V>;
+        andThenChar(arg0: $Object2CharFunction_<V>): $Boolean2CharFunction;
+        composeChar(arg0: $Char2BooleanFunction_): $Char2ObjectFunction<V>;
+        andThenFloat(arg0: $Object2FloatFunction_<V>): $Boolean2FloatFunction;
+        andThenObject<T>(arg0: $Object2ObjectFunction_<V, T>): $Boolean2ObjectFunction<T>;
+        composeObject<T>(arg0: $Object2BooleanFunction_<T>): $Object2ObjectFunction<T, V>;
+        andThenReference<T>(arg0: $Object2ReferenceFunction_<V, T>): $Boolean2ReferenceFunction<T>;
+        composeLong(arg0: $Long2BooleanFunction_): $Long2ObjectFunction<V>;
+        composeReference<T>(arg0: $Reference2BooleanFunction_<T>): $Reference2ObjectFunction<T, V>;
     }
     /**
      * Values that may be interpreted as {@link $Boolean2ObjectFunction}.

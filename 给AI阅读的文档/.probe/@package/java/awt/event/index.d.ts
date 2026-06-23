@@ -17,16 +17,16 @@ declare module "@package/java/awt/event" {
          */
         getModifiers(): number;
         consume(): void;
+        isAltDown(): boolean;
+        isConsumed(): boolean;
+        getWhen(): number;
+        isShiftDown(): boolean;
         getModifiersEx(): number;
         static getMaskForButton(arg0: number): number;
         static getModifiersExText(arg0: number): string;
         isControlDown(): boolean;
         isMetaDown(): boolean;
         isAltGraphDown(): boolean;
-        isShiftDown(): boolean;
-        isAltDown(): boolean;
-        isConsumed(): boolean;
-        getWhen(): number;
         static ADJUSTMENT_EVENT_MASK: number;
         static MOUSE_EVENT_MASK: number;
         /**
@@ -94,14 +94,14 @@ declare module "@package/java/awt/event" {
         static META_MASK: number;
         static COMPONENT_RESIZED: number;
         get modifiers(): number;
+        get altDown(): boolean;
+        get consumed(): boolean;
+        get when(): number;
+        get shiftDown(): boolean;
         get modifiersEx(): number;
         get controlDown(): boolean;
         get metaDown(): boolean;
         get altGraphDown(): boolean;
-        get shiftDown(): boolean;
-        get altDown(): boolean;
-        get consumed(): boolean;
-        get when(): number;
     }
     export class $InputMethodEvent extends $AWTEvent {
         getText(): $AttributedCharacterIterator;
@@ -153,16 +153,16 @@ declare module "@package/java/awt/event" {
     }
     export class $MouseEvent extends $InputEvent {
         getY(): number;
-        getX(): number;
-        translatePoint(arg0: number, arg1: number): void;
-        static getMouseModifiersText(arg0: number): string;
-        getLocationOnScreen(): $Point;
         getButton(): number;
-        getPoint(): $Point;
         getXOnScreen(): number;
         getYOnScreen(): number;
         getClickCount(): number;
         isPopupTrigger(): boolean;
+        getPoint(): $Point;
+        getX(): number;
+        getLocationOnScreen(): $Point;
+        translatePoint(arg0: number, arg1: number): void;
+        static getMouseModifiersText(arg0: number): string;
         static ADJUSTMENT_EVENT_MASK: number;
         static MOUSE_FIRST: number;
         /**
@@ -247,20 +247,20 @@ declare module "@package/java/awt/event" {
         constructor(arg0: $Component, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: boolean);
         constructor(arg0: $Component, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: boolean, arg10: number);
         get y(): number;
-        get x(): number;
-        get locationOnScreen(): $Point;
         get button(): number;
-        get point(): $Point;
         get XOnScreen(): number;
         get YOnScreen(): number;
         get clickCount(): number;
         get popupTrigger(): boolean;
+        get point(): $Point;
+        get x(): number;
+        get locationOnScreen(): $Point;
     }
     export class $MouseMotionListener {
     }
     export interface $MouseMotionListener extends $EventListener {
-        mouseMoved(arg0: $MouseEvent): void;
         mouseDragged(arg0: $MouseEvent): void;
+        mouseMoved(arg0: $MouseEvent): void;
     }
     export class $MouseListener {
     }
@@ -275,8 +275,8 @@ declare module "@package/java/awt/event" {
     }
     export interface $KeyListener extends $EventListener {
         keyTyped(arg0: $KeyEvent): void;
-        keyPressed(arg0: $KeyEvent): void;
         keyReleased(arg0: $KeyEvent): void;
+        keyPressed(arg0: $KeyEvent): void;
     }
     export class $AdjustmentListener {
     }
@@ -290,13 +290,13 @@ declare module "@package/java/awt/event" {
     export class $WindowListener {
     }
     export interface $WindowListener extends $EventListener {
+        windowClosing(arg0: $WindowEvent): void;
         windowOpened(arg0: $WindowEvent): void;
         windowClosed(arg0: $WindowEvent): void;
         windowIconified(arg0: $WindowEvent): void;
         windowDeiconified(arg0: $WindowEvent): void;
         windowActivated(arg0: $WindowEvent): void;
         windowDeactivated(arg0: $WindowEvent): void;
-        windowClosing(arg0: $WindowEvent): void;
     }
     export class $ComponentEvent extends $AWTEvent {
         getComponent(): $Component;
@@ -403,17 +403,17 @@ declare module "@package/java/awt/event" {
         /**
          * @deprecated
          */
-        static getKeyModifiersText(arg0: number): string;
+        setModifiers(arg0: number): void;
+        setKeyChar(arg0: string): void;
+        getKeyChar(): string;
+        getExtendedKeyCode(): number;
+        getKeyCode(): number;
+        isActionKey(): boolean;
+        static getKeyText(arg0: number): string;
         /**
          * @deprecated
          */
-        setModifiers(arg0: number): void;
-        isActionKey(): boolean;
-        getKeyChar(): string;
-        getKeyCode(): number;
-        setKeyChar(arg0: string): void;
-        static getKeyText(arg0: number): string;
-        getExtendedKeyCode(): number;
+        static getKeyModifiersText(arg0: number): string;
         static getExtendedKeyCodeForChar(arg0: number): number;
         setKeyCode(arg0: number): void;
         getKeyLocation(): number;
@@ -690,8 +690,8 @@ declare module "@package/java/awt/event" {
          */
         constructor(arg0: $Component, arg1: number, arg2: number, arg3: number, arg4: number);
         set modifiers(value: number);
-        get actionKey(): boolean;
         get extendedKeyCode(): number;
+        get actionKey(): boolean;
         get keyLocation(): number;
     }
     export class $WindowStateListener {
@@ -821,8 +821,8 @@ declare module "@package/java/awt/event" {
     export type $AWTEventListener_ = ((arg0: $AWTEvent) => void);
     export class $ActionEvent extends $AWTEvent {
         getModifiers(): number;
-        getActionCommand(): string;
         getWhen(): number;
+        getActionCommand(): string;
         static ADJUSTMENT_EVENT_MASK: number;
         static MOUSE_EVENT_MASK: number;
         static COMPONENT_EVENT_MASK: number;
@@ -854,8 +854,8 @@ declare module "@package/java/awt/event" {
         constructor(arg0: $Object, arg1: number, arg2: string, arg3: number);
         constructor(arg0: $Object, arg1: number, arg2: string);
         get modifiers(): number;
-        get actionCommand(): string;
         get when(): number;
+        get actionCommand(): string;
     }
     export class $FocusEvent extends $ComponentEvent {
         getCause(): $FocusEvent$Cause;
@@ -906,10 +906,10 @@ declare module "@package/java/awt/event" {
         componentRemoved(arg0: $ContainerEvent): void;
     }
     export class $MouseWheelEvent extends $MouseEvent {
+        getScrollAmount(): number;
         getScrollType(): number;
         getWheelRotation(): number;
         getPreciseWheelRotation(): number;
-        getScrollAmount(): number;
         getUnitsToScroll(): number;
         static ADJUSTMENT_EVENT_MASK: number;
         static MOUSE_FIRST: number;
@@ -996,10 +996,10 @@ declare module "@package/java/awt/event" {
         constructor(arg0: $Component, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: boolean, arg10: number, arg11: number, arg12: number, arg13: number);
         constructor(arg0: $Component, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: boolean, arg10: number, arg11: number, arg12: number);
         constructor(arg0: $Component, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: boolean, arg8: number, arg9: number, arg10: number);
+        get scrollAmount(): number;
         get scrollType(): number;
         get wheelRotation(): number;
         get preciseWheelRotation(): number;
-        get scrollAmount(): number;
         get unitsToScroll(): number;
     }
     export class $FocusListener {

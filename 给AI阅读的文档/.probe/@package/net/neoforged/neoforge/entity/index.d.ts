@@ -94,19 +94,60 @@ declare module "@package/net/neoforged/neoforge/entity" {
         constructor(arg0: $CompoundTag_);
         get parent(): $CompoundTag;
     }
+    /**
+     * Event to determine which player an XP Orb should follow.
+     * 
+     * This is fired once a second when an XP Orbit find itself without a player to move toward.
+     * 
+     * The default (nearest player within `#getScanDistance()`) can be overridden with
+     * either a new (Fake)Player or null to cancel the attraction.
+     * 
+     * Note that providing a player that is more than 8 blocks away does work, but it will
+     * cause this event to be fired again after 20 ticks.
+     * 
+     * See also: `PickupXp` for cancelling the pickup.
+     * 
+     * This event is fired on both server and client on the `NeoForge#EVENT_BUS`.
+     */
     export class $XpOrbTargetingEvent extends $Event {
-        getFollowingPlayer(): $Player;
-        setFollowingPlayer(arg0: $Player): void;
-        getScanDistance(): number;
+        /**
+         * The `ExperienceOrb` that's looking for a player to follow.
+         * 
+         * You can get the `Level` from this.
+         */
         getXpOrb(): $ExperienceOrb;
-        constructor(arg0: $ExperienceOrb, arg1: number);
-        get scanDistance(): number;
+        /**
+         * The result of the event.
+         */
+        getFollowingPlayer(): $Player;
+        /**
+         * Sets a new result. Can be null to cancel the default search.
+         */
+        setFollowingPlayer(newFollowingPlayer: $Player): void;
+        /**
+         * The maximum distance to scan for players. This is 8 for vanilla orbs.
+         */
+        getScanDistance(): number;
+        constructor(xpOrb: $ExperienceOrb, scanDistance: number);
         get xpOrb(): $ExperienceOrb;
+        get scanDistance(): number;
     }
+    /**
+     * An interface for Entities that need extra information to be communicated
+     * between the server and client when they are spawned.
+     */
     export class $IEntityWithComplexSpawn {
     }
     export interface $IEntityWithComplexSpawn {
-        writeSpawnData(arg0: $RegistryFriendlyByteBuf): void;
-        readSpawnData(arg0: $RegistryFriendlyByteBuf): void;
+        /**
+         * Called by the server when constructing the spawn packet.
+         * Data should be added to the provided stream.
+         */
+        writeSpawnData(buffer: $RegistryFriendlyByteBuf): void;
+        /**
+         * Called by the server when constructing the spawn packet.
+         * Data should be added to the provided stream.
+         */
+        readSpawnData(buffer: $RegistryFriendlyByteBuf): void;
     }
 }

@@ -11,12 +11,12 @@ declare module "@package/dev/lambdaurora/spruceui" {
         static origin(): $Position;
         move(x: number, y: number): $Position;
         getY(): number;
-        getX(): number;
-        static center(parent: $SpruceWidget, y: number): $Position;
         static center(width: number, y: number): $Position;
         static center(anchor: $SprucePositioned, width: number, y: number): $Position;
-        setAnchor(anchor: $SprucePositioned): void;
+        static center(parent: $SpruceWidget, y: number): $Position;
         getAnchor(): $SprucePositioned;
+        getX(): number;
+        setAnchor(anchor: $SprucePositioned): void;
         getRelativeY(): number;
         getRelativeX(): number;
         setRelativeX(x: number): void;

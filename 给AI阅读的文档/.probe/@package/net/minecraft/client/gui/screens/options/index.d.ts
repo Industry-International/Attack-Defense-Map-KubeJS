@@ -41,7 +41,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $SkinCustomizationScreen extends $OptionsSubScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -65,13 +65,13 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $OptionsSubScreen extends $Screen implements $AccessOptionsSubScreen {
         addOptions(): void;
+        addContents(): void;
         addFooter(): void;
         addTitle(): void;
-        addContents(): void;
         controlling$getLastScreen(): $Screen;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -94,7 +94,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options, arg2: $Component_);
+        constructor(lastScreen: $Screen, options: $Options, title: $Component_);
     }
     export class $AccessibilityOptionsScreen extends $OptionsSubScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -119,7 +119,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $MouseSettingsScreen extends $OptionsSubScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -143,13 +143,13 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $LanguageSelectScreen extends $OptionsSubScreen {
         static access$000(arg0: $LanguageSelectScreen): $Font;
         static access$200(arg0: $LanguageSelectScreen): $Font;
         onDone(): void;
-        wrapOperation$gei000$chloride$redirect$resourcesReload(arg0: $Minecraft, arg1: $Operation_<any>): $CompletableFuture<any>;
+        wrapOperation$fpj000$chloride$redirect$resourcesReload(arg0: $Minecraft, arg1: $Operation_<any>): $CompletableFuture<any>;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
         static INWORLD_FOOTER_SEPARATOR: $ResourceLocation;
@@ -172,7 +172,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options, arg2: $LanguageManager);
+        constructor(lastScreen: $Screen, options: $Options, languageManager: $LanguageManager);
     }
     export class $FontOptionsScreen extends $OptionsSubScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -196,7 +196,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $LanguageSelectScreen$LanguageSelectionList extends $ObjectSelectionList<$LanguageSelectScreen$LanguageSelectionList$Entry> {
         minecraft: $Minecraft;
@@ -221,7 +221,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
     export class $UnsupportedGraphicsWarningScreen$ButtonOption {
         onPress: $Button$OnPress;
         message: $Component;
-        constructor(arg0: $Component_, arg1: $Button$OnPress_);
+        constructor(message: $Component_, onPress: $Button$OnPress_);
     }
     export class $UnsupportedGraphicsWarningScreen extends $Screen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -241,7 +241,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Component_, arg1: $List_<$Component_>, arg2: $ImmutableList<$UnsupportedGraphicsWarningScreen$ButtonOption>);
+        constructor(title: $Component_, message: $List_<$Component_>, buttonOptions: $ImmutableList<$UnsupportedGraphicsWarningScreen$ButtonOption>);
     }
     export class $SoundOptionsScreen extends $OptionsSubScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -265,7 +265,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $OnlineOptionsScreen extends $OptionsSubScreen {
         static MENU_BACKGROUND: $ResourceLocation;
@@ -289,11 +289,11 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
     }
     export class $OptionsScreen extends $Screen {
-        handler$hhg000$sable$createSableButton(arg0: $CallbackInfoReturnable<any>): void;
-        static createDifficultyButton(arg0: number, arg1: number, arg2: string, arg3: $Minecraft): $CycleButton<$Difficulty>;
+        handler$hda000$sable$createSableButton(arg0: $CallbackInfoReturnable<any>): void;
+        static createDifficultyButton(x: number, y: number, name: string, minecraft: $Minecraft): $CycleButton<$Difficulty>;
         getOptionsButton(): $TexturedButtonWidget_neoforge;
         static MENU_BACKGROUND: $ResourceLocation;
         minecraft: $Minecraft;
@@ -313,7 +313,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Options);
+        constructor(lastScreen: $Screen, options: $Options);
         get optionsButton(): $TexturedButtonWidget_neoforge;
     }
     export class $VideoSettingsScreen extends $OptionsSubScreen {
@@ -338,7 +338,7 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
         static HEADER_SEPARATOR: $ResourceLocation;
         height: number;
         font: $Font;
-        constructor(arg0: $Screen, arg1: $Minecraft, arg2: $Options);
+        constructor(lastScreen: $Screen, minecraft: $Minecraft, options: $Options);
     }
     export class $LanguageSelectScreen$LanguageSelectionList$Entry extends $ObjectSelectionList$Entry<$LanguageSelectScreen$LanguageSelectionList$Entry> {
         code: string;
@@ -347,6 +347,6 @@ declare module "@package/net/minecraft/client/gui/screens/options" {
          * @deprecated
          */
         list: $AbstractSelectionList<$LanguageSelectScreen$LanguageSelectionList$Entry>;
-        constructor(arg0: $LanguageSelectScreen$LanguageSelectionList, arg1: string, arg2: $LanguageInfo_);
+        constructor(code: $LanguageSelectScreen$LanguageSelectionList, languageInfo: string, arg2: $LanguageInfo_);
     }
 }

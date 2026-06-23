@@ -10,9 +10,9 @@ declare module "@package/dev/latvian/mods/kubejs/text/action" {
         clear(): void;
         add(text: $List_<$Component_>): void;
         dynamic(id: string): void;
-        removeExactText(match: $Component_): void;
-        removeLine(line: number): void;
         removeText(match: $Component_): void;
+        removeLine(line: number): void;
+        removeExactText(match: $Component_): void;
         constructor();
     }
     export class $DynamicTextAction extends $Record implements $TextAction {

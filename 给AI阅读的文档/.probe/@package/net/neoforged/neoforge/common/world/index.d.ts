@@ -1,6 +1,6 @@
 import { $Codec, $MapCodec } from "@package/com/mojang/serialization";
 import { $ListTag, $ListTag_ } from "@package/net/minecraft/nbt";
-import { $AmbientParticleSettings, $Biome$ClimateSettings, $MobSpawnSettings$Builder, $AmbientAdditionsSettings, $BiomeGenerationSettings$PlainBuilder, $BiomeGenerationSettings, $BiomeSpecialEffects, $BiomeSpecialEffects$Builder, $Biome, $Biome$TemperatureModifier_, $AmbientMoodSettings, $MobSpawnSettings$MobSpawnCost, $Biome$TemperatureModifier, $MobSpawnSettings$SpawnerData, $MobSpawnSettings, $BiomeSpecialEffects$GrassColorModifier, $MobSpawnSettings$MobSpawnCost_, $Biome$ClimateSettings_ } from "@package/net/minecraft/world/level/biome";
+import { $AmbientParticleSettings, $Biome$ClimateSettings, $MobSpawnSettings$Builder, $AmbientAdditionsSettings, $BiomeGenerationSettings$PlainBuilder, $BiomeGenerationSettings, $BiomeSpecialEffects, $BiomeSpecialEffects$Builder, $Biome, $Biome$TemperatureModifier_, $AmbientMoodSettings, $MobSpawnSettings$MobSpawnCost, $Biome$TemperatureModifier, $MobSpawnSettings, $MobSpawnSettings$SpawnerData, $BiomeSpecialEffects$GrassColorModifier, $MobSpawnSettings$MobSpawnCost_, $Biome$ClimateSettings_ } from "@package/net/minecraft/world/level/biome";
 import { $EntityType_, $MobCategory_, $EntityType, $MobCategory } from "@package/net/minecraft/world/entity";
 import { $LevelChunk } from "@package/net/minecraft/world/level/chunk";
 import { $ClientboundLevelChunkWithLightPacket } from "@package/net/minecraft/network/protocol/game";
@@ -24,57 +24,60 @@ export * as chunk from "@package/net/neoforged/neoforge/common/world/chunk";
 declare module "@package/net/neoforged/neoforge/common/world" {
     export class $BiomeModifiers$AddCarversBiomeModifier extends $Record implements $BiomeModifier {
         step(): $GenerationStep$Carving;
+        codec(): $MapCodec<$BiomeModifier>;
         biomes(): $HolderSet<$Biome>;
         carvers(): $HolderSet<$ConfiguredWorldCarver<never>>;
-        codec(): $MapCodec<$BiomeModifier>;
         modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         constructor(biomes: $HolderSet_<$Biome>, carvers: $HolderSet_<$ConfiguredWorldCarver<never>>, step: $GenerationStep$Carving_);
     }
     export class $BiomeModifiers$RemoveSpawnsBiomeModifier extends $Record implements $BiomeModifier {
-        biomes(): $HolderSet<$Biome>;
-        codec(): $MapCodec<$BiomeModifier>;
         entityTypes(): $HolderSet<$EntityType<never>>;
+        codec(): $MapCodec<$BiomeModifier>;
+        biomes(): $HolderSet<$Biome>;
         modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         constructor(biomes: $HolderSet_<$Biome>, entityTypes: $HolderSet_<$EntityType<never>>);
     }
     export class $BiomeGenerationSettingsBuilder extends $BiomeGenerationSettings$PlainBuilder {
-        getCarvers(arg0: $GenerationStep$Carving_): $List<$Holder<$ConfiguredWorldCarver<never>>>;
-        getFeatures(arg0: $GenerationStep$Decoration_): $List<$Holder<$PlacedFeature>>;
+        getCarvers(stage: $GenerationStep$Carving_): $List<$Holder<$ConfiguredWorldCarver<never>>>;
+        getFeatures(stage: $GenerationStep$Decoration_): $List<$Holder<$PlacedFeature>>;
         features: $List<$List<$Holder<$PlacedFeature>>>;
         carvers: $Map<$GenerationStep$Carving, $List<$Holder<$ConfiguredWorldCarver<never>>>>;
-        constructor(arg0: $BiomeGenerationSettings);
+        constructor(orig: $BiomeGenerationSettings);
     }
     export class $LevelChunkAuxiliaryLightManager implements $AuxiliaryLightManager, $INBTSerializable<$ListTag> {
-        setLightAt(arg0: $BlockPos_, arg1: number): void;
-        serializeNBT(arg0: $HolderLookup$Provider): $ListTag;
-        deserializeNBT(arg0: $HolderLookup$Provider, arg1: $ListTag_): void;
-        getLightAt(arg0: $BlockPos_): number;
-        sendLightDataTo(arg0: $ClientboundLevelChunkWithLightPacket): $Packet<never>;
-        handleLightDataSync(arg0: $Map_<$BlockPos_, number>): void;
-        removeLightAt(arg0: $BlockPos_): void;
+        setLightAt(pos: $BlockPos_, value: number): void;
+        serializeNBT(provider: $HolderLookup$Provider): $ListTag;
+        deserializeNBT(provider: $HolderLookup$Provider, list: $ListTag_): void;
+        getLightAt(pos: $BlockPos_): number;
+        sendLightDataTo(chunkPacket: $ClientboundLevelChunkWithLightPacket): $Packet<never>;
+        handleLightDataSync(lights: $Map_<$BlockPos_, number>): void;
+        /**
+         * Remove the light value at the given position
+         */
+        removeLightAt(pos: $BlockPos_): void;
         static LIGHT_NBT_KEY: string;
-        constructor(arg0: $LevelChunk);
+        constructor(owner: $LevelChunk);
     }
     export class $BiomeModifiers$RemoveCarversBiomeModifier extends $Record implements $BiomeModifier {
         steps(): $Set<$GenerationStep$Carving>;
+        codec(): $MapCodec<$BiomeModifier>;
         biomes(): $HolderSet<$Biome>;
         carvers(): $HolderSet<$ConfiguredWorldCarver<never>>;
-        codec(): $MapCodec<$BiomeModifier>;
         modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         static allSteps(arg0: $HolderSet_<$Biome>, arg1: $HolderSet_<$ConfiguredWorldCarver<never>>): $BiomeModifiers$RemoveCarversBiomeModifier;
         constructor(biomes: $HolderSet_<$Biome>, carvers: $HolderSet_<$ConfiguredWorldCarver<never>>, steps: $Set_<$GenerationStep$Carving_>);
     }
     export class $MobSpawnSettingsBuilder extends $MobSpawnSettings$Builder {
-        getSpawner(arg0: $MobCategory_): $List<$MobSpawnSettings$SpawnerData>;
-        getCost(arg0: $EntityType_<never>): $MobSpawnSettings$MobSpawnCost;
         getSpawnerTypes(): $Set<$MobCategory>;
         getEntityTypes(): $Set<$EntityType<never>>;
         removeSpawnCost(...arg0: $EntityType_<never>[]): $MobSpawnSettingsBuilder;
+        getSpawner(type: $MobCategory_): $List<$MobSpawnSettings$SpawnerData>;
+        getCost(type: $EntityType_<never>): $MobSpawnSettings$MobSpawnCost;
         getProbability(): number;
         disablePlayerSpawn(): $MobSpawnSettingsBuilder;
         mobSpawnCosts: $Map<$EntityType<never>, $MobSpawnSettings$MobSpawnCost>;
         spawners: $Map<$MobCategory, $List<$MobSpawnSettings$SpawnerData>>;
-        constructor(arg0: $MobSpawnSettings);
+        constructor(orig: $MobSpawnSettings);
         get spawnerTypes(): $Set<$MobCategory>;
         get entityTypes(): $Set<$EntityType<never>>;
         get probability(): number;
@@ -95,6 +98,9 @@ declare module "@package/net/neoforged/neoforge/common/world" {
         get mobSpawnSettings(): $MobSpawnSettingsBuilder;
         get climateSettings(): $ClimateSettingsBuilder;
     }
+    /**
+     * Implement this interface in a `StructurePiece` class extension to modify its `Beardifier` behavior.
+     */
     export class $PieceBeardifierModifier {
     }
     export interface $PieceBeardifierModifier {
@@ -106,36 +112,75 @@ declare module "@package/net/neoforged/neoforge/common/world" {
         get terrainAdjustment(): $TerrainAdjustment;
     }
     export class $BiomeModifiers$RemoveSpawnCostsBiomeModifier extends $Record implements $BiomeModifier {
-        biomes(): $HolderSet<$Biome>;
-        codec(): $MapCodec<$BiomeModifier>;
         entityTypes(): $HolderSet<$EntityType<never>>;
+        codec(): $MapCodec<$BiomeModifier>;
+        biomes(): $HolderSet<$Biome>;
         modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         constructor(biomes: $HolderSet_<$Biome>, entityTypes: $HolderSet_<$EntityType<never>>);
     }
+    /**
+     * Builder for `ClimateSettings`.
+     */
     export class $ClimateSettingsBuilder {
         static copyOf(arg0: $Biome$ClimateSettings_): $ClimateSettingsBuilder;
         static create(arg0: boolean, arg1: number, arg2: $Biome$TemperatureModifier_, arg3: number): $ClimateSettingsBuilder;
         build(): $Biome$ClimateSettings;
+        /**
+         * @return Synced to clients, affects foliage color, freezing, and weather effects
+         * Vanilla values are in the range [-0.5, 2.0].
+         */
         getTemperature(): number;
         hasPrecipitation(): boolean;
+        /**
+         * @return Synced to clients, affects foliage color, freezing, and weather effects
+         * Vanilla values are in the range [-0.5, 2.0].
+         */
         getDownfall(): number;
-        setTemperature(arg0: number): void;
-        setDownfall(arg0: number): void;
-        getTemperatureModifier(): $Biome$TemperatureModifier;
-        setHasPrecipitation(arg0: boolean): void;
+        setTemperature(temperature: number): void;
+        setDownfall(temperature: number): void;
         setTemperatureModifier(arg0: $Biome$TemperatureModifier_): void;
+        getTemperatureModifier(): $Biome$TemperatureModifier;
+        setHasPrecipitation(hasPrecipitation: boolean): void;
     }
     export class $StructureSettingsBuilder$StructureSpawnOverrideBuilder {
+        /**
+         * Adds a spawn to the overrides.
+         */
+        addSpawn(spawn: $MobSpawnSettings$SpawnerData): void;
         static copyOf(arg0: $StructureSpawnOverride_): $StructureSettingsBuilder$StructureSpawnOverrideBuilder;
         build(): $StructureSpawnOverride;
-        addSpawn(arg0: $MobSpawnSettings$SpawnerData): void;
-        getSpawns(): $List<$MobSpawnSettings$SpawnerData>;
-        setBoundingBox(arg0: $StructureSpawnOverride$BoundingBoxType_): void;
-        removeSpawns(arg0: $Predicate_<$MobSpawnSettings$SpawnerData>): void;
+        removeSpawns(spawnPredicate: $Predicate_<$MobSpawnSettings$SpawnerData>): void;
+        /**
+         * Gets the type of bounding box for this structures spawn overrides.
+         */
         getBoundingBox(): $StructureSpawnOverride$BoundingBoxType;
-        removeSpawn(arg0: $MobSpawnSettings$SpawnerData): void;
+        /**
+         * Sets the way the structure checks for spawn overrides. Whether it is on a piece by piece basis or within the bounds of the overall structure.
+         */
+        setBoundingBox(boundingBox: $StructureSpawnOverride$BoundingBoxType_): void;
+        /**
+         * Adds a spawn to the overrides.
+         */
+        removeSpawn(spawn: $MobSpawnSettings$SpawnerData): void;
+        /**
+         * Unmodifiable view of the possible spawns.
+         */
+        getSpawns(): $List<$MobSpawnSettings$SpawnerData>;
         get spawns(): $List<$MobSpawnSettings$SpawnerData>;
     }
+    /**
+     * JSON-serializable structure modifier.
+     * Requires a `Codec` to deserialize structure modifiers from structure modifier jsons.
+     * 
+     * Structure modifier jsons have the following json format:
+     * 
+     * {
+     * "type": "yourmod:yourserializer", // Indicates a registered structure modifier serializer
+     * // Additional fields can be specified here according to the codec
+     * }
+     * 
+     * Datapacks can also disable a structure modifier by overriding the json and using `"type": "neoforge:none"`.
+     */
     export class $StructureModifier {
         static DIRECT_CODEC: $Codec<$StructureModifier>;
         static LIST_CODEC: $Codec<$HolderSet<$StructureModifier>>;
@@ -150,9 +195,9 @@ declare module "@package/net/neoforged/neoforge/common/world" {
      */
     export type $StructureModifier_ = RegistryTypes.NeoforgeStructureModifier;
     export class $StructureModifiers$ClearSpawnsStructureModifier extends $Record implements $StructureModifier {
-        structures(): $HolderSet<$Structure>;
         categories(): $Set<$MobCategory>;
         codec(): $MapCodec<$StructureModifier>;
+        structures(): $HolderSet<$Structure>;
         modify(arg0: $Holder_<$Structure>, arg1: $StructureModifier$Phase_, arg2: $ModifiableStructureInfo$StructureInfo$Builder): void;
         constructor(structures: $HolderSet_<$Structure>, categories: $Set_<$MobCategory_>);
     }
@@ -171,6 +216,19 @@ declare module "@package/net/neoforged/neoforge/common/world" {
      * Values that may be interpreted as {@link $BiomeModifier$Phase}.
      */
     export type $BiomeModifier$Phase_ = "before_everything" | "add" | "remove" | "modify" | "after_everything";
+    /**
+     * JSON-serializable biome modifier.
+     * Requires a `Codec` to deserialize biome modifiers from biome modifier jsons.
+     * 
+     * Biome modifier jsons have the following json format:
+     * 
+     * {
+     * "type": "yourmod:yourserializer", // Indicates a registered biome modifier serializer
+     * // Additional fields can be specified here according to the codec
+     * }
+     * 
+     * Datapacks can also disable a biome modifier by overriding the json and using `"type": "neoforge:none"`.
+     */
     export class $BiomeModifier {
         static DIRECT_CODEC: $Codec<$BiomeModifier>;
         static LIST_CODEC: $Codec<$HolderSet<$BiomeModifier>>;
@@ -185,30 +243,45 @@ declare module "@package/net/neoforged/neoforge/common/world" {
      */
     export type $BiomeModifier_ = RegistryTypes.NeoforgeBiomeModifier;
     export class $StructureModifiers$AddSpawnsStructureModifier extends $Record implements $StructureModifier {
-        structures(): $HolderSet<$Structure>;
-        spawners(): $List<$MobSpawnSettings$SpawnerData>;
         codec(): $MapCodec<$StructureModifier>;
-        modify(arg0: $Holder_<$Structure>, arg1: $StructureModifier$Phase_, arg2: $ModifiableStructureInfo$StructureInfo$Builder): void;
+        structures(): $HolderSet<$Structure>;
         static singleSpawn(arg0: $HolderSet_<$Structure>, arg1: $MobSpawnSettings$SpawnerData): $StructureModifiers$AddSpawnsStructureModifier;
+        spawners(): $List<$MobSpawnSettings$SpawnerData>;
+        modify(arg0: $Holder_<$Structure>, arg1: $StructureModifier$Phase_, arg2: $ModifiableStructureInfo$StructureInfo$Builder): void;
         constructor(structures: $HolderSet_<$Structure>, spawners: $List_<$MobSpawnSettings$SpawnerData>);
     }
     export class $StructureSettingsBuilder {
+        getBiomes(): $HolderSet<$Biome>;
         static copyOf(arg0: $Structure$StructureSettings_): $StructureSettingsBuilder;
         build(): $Structure$StructureSettings;
-        getBiomes(): $HolderSet<$Biome>;
         getSpawnOverrides(arg0: $MobCategory_): $StructureSettingsBuilder$StructureSpawnOverrideBuilder;
-        getOrAddSpawnOverrides(arg0: $MobCategory_): $StructureSettingsBuilder$StructureSpawnOverrideBuilder;
-        removeSpawnOverrides(arg0: $MobCategory_): void;
-        getDecorationStep(): $GenerationStep$Decoration;
-        setDecorationStep(arg0: $GenerationStep$Decoration_): void;
-        setTerrainAdaptation(arg0: $TerrainAdjustment_): void;
+        /**
+         * Gets the way the structure adapts to the terrain during generation.
+         */
         getTerrainAdaptation(): $TerrainAdjustment;
-        setBiomes(arg0: $HolderSet_<$Biome>): void;
+        /**
+         * Sets the way the structure adapts to the terrain during generation.
+         */
+        setTerrainAdaptation(terrainAdaptation: $TerrainAdjustment_): void;
+        getOrAddSpawnOverrides(arg0: $MobCategory_): $StructureSettingsBuilder$StructureSpawnOverrideBuilder;
+        /**
+         * Removes the spawn overrides for the given mob category.
+         */
+        removeSpawnOverrides(category: $MobCategory_): void;
+        setBiomes(biomes: $HolderSet_<$Biome>): void;
+        /**
+         * Sets the world generation decoration step the structure spawns during.
+         */
+        setDecorationStep(step: $GenerationStep$Decoration_): void;
+        /**
+         * Gets the world generation decoration step the structure spawns during.
+         */
+        getDecorationStep(): $GenerationStep$Decoration;
     }
     export class $StructureModifiers$RemoveSpawnsStructureModifier extends $Record implements $StructureModifier {
-        structures(): $HolderSet<$Structure>;
-        codec(): $MapCodec<$StructureModifier>;
         entityTypes(): $HolderSet<$EntityType<never>>;
+        codec(): $MapCodec<$StructureModifier>;
+        structures(): $HolderSet<$Structure>;
         modify(arg0: $Holder_<$Structure>, arg1: $StructureModifier$Phase_, arg2: $ModifiableStructureInfo$StructureInfo$Builder): void;
         constructor(structures: $HolderSet_<$Structure>, entityTypes: $HolderSet_<$EntityType<never>>);
     }
@@ -226,9 +299,9 @@ declare module "@package/net/neoforged/neoforge/common/world" {
     }
     export class $BiomeModifiers$RemoveFeaturesBiomeModifier extends $Record implements $BiomeModifier {
         steps(): $Set<$GenerationStep$Decoration>;
-        biomes(): $HolderSet<$Biome>;
         features(): $HolderSet<$PlacedFeature>;
         codec(): $MapCodec<$BiomeModifier>;
+        biomes(): $HolderSet<$Biome>;
         modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         static allSteps(arg0: $HolderSet_<$Biome>, arg1: $HolderSet_<$PlacedFeature>): $BiomeModifiers$RemoveFeaturesBiomeModifier;
         constructor(biomes: $HolderSet_<$Biome>, features: $HolderSet_<$PlacedFeature>, steps: $Set_<$GenerationStep$Decoration_>);
@@ -242,43 +315,68 @@ declare module "@package/net/neoforged/neoforge/common/world" {
     }
     export class $BiomeModifiers$AddFeaturesBiomeModifier extends $Record implements $BiomeModifier {
         step(): $GenerationStep$Decoration;
-        biomes(): $HolderSet<$Biome>;
         features(): $HolderSet<$PlacedFeature>;
         codec(): $MapCodec<$BiomeModifier>;
+        biomes(): $HolderSet<$Biome>;
         modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         constructor(biomes: $HolderSet_<$Biome>, features: $HolderSet_<$PlacedFeature>, step: $GenerationStep$Decoration_);
     }
+    /**
+     * Manager for light values controlled by dynamic data in `BlockEntity`s.
+     */
     export class $AuxiliaryLightManager {
     }
     export interface $AuxiliaryLightManager extends $AuxiliaryLightManagerMixin, $SodiumAuxiliaryLightManager {
-        setLightAt(arg0: $BlockPos_, arg1: number): void;
-        getLightAt(arg0: $BlockPos_): number;
-        removeLightAt(arg0: $BlockPos_): void;
+        /**
+         * Set the light value at the given position to the given value
+         */
+        setLightAt(pos: $BlockPos_, value: number): void;
+        /**
+         * @return the light value at the given position or 0 if none is present
+         */
+        getLightAt(pos: $BlockPos_): number;
+        /**
+         * Remove the light value at the given position
+         */
+        removeLightAt(pos: $BlockPos_): void;
     }
+    /**
+     * Holds lazy-evaluable modified structure info.
+     * Memoizers are not used because it's important to return null
+     * without evaluating the structure info if it's accessed outside of a server context.
+     */
     export class $ModifiableStructureInfo {
         get(): $ModifiableStructureInfo$StructureInfo;
-        applyStructureModifiers(arg0: $Holder_<$Structure>, arg1: $List_<$StructureModifier_>): void;
         getOriginalStructureInfo(): $ModifiableStructureInfo$StructureInfo;
+        /**
+         * Internal NeoForge method. Will do nothing if this modifier had already been applied.
+         * Creates and caches the modified structure info.
+         */
+        applyStructureModifiers(structure: $Holder_<$Structure>, structureModifiers: $List_<$StructureModifier_>): void;
         getModifiedStructureInfo(): $ModifiableStructureInfo$StructureInfo;
         constructor(arg0: $ModifiableStructureInfo$StructureInfo_);
         get originalStructureInfo(): $ModifiableStructureInfo$StructureInfo;
         get modifiedStructureInfo(): $ModifiableStructureInfo$StructureInfo;
     }
+    /**
+     * Extension of the vanilla builder but also provides read access and a copy-from-existing-data helper.
+     * Also, the base builder crashes if certain values aren't specified on build, so this enforces the setting of those.
+     */
     export class $BiomeSpecialEffectsBuilder extends $BiomeSpecialEffects$Builder {
-        static copyOf(arg0: $BiomeSpecialEffects): $BiomeSpecialEffectsBuilder;
-        static create(arg0: number, arg1: number, arg2: number, arg3: number): $BiomeSpecialEffectsBuilder;
-        waterColor(): number;
-        getGrassColorOverride(): (number) | undefined;
+        static copyOf(baseEffects: $BiomeSpecialEffects): $BiomeSpecialEffectsBuilder;
+        static create(fogColor: number, waterColor: number, waterFogColor: number, skyColor: number): $BiomeSpecialEffectsBuilder;
         getGrassColorModifier(): $BiomeSpecialEffects$GrassColorModifier;
         getFoliageColorOverride(): (number) | undefined;
-        getAmbientParticle(): ($AmbientParticleSettings) | undefined;
-        getSkyColor(): number;
-        getFogColor(): number;
-        getWaterFogColor(): number;
+        getGrassColorOverride(): (number) | undefined;
         getBackgroundMusic(): ($Music) | undefined;
+        waterColor(): number;
         getAmbientLoopSound(): ($Holder<$SoundEvent>) | undefined;
-        getAmbientMoodSound(): ($AmbientMoodSettings) | undefined;
         getAmbientAdditionsSound(): ($AmbientAdditionsSettings) | undefined;
+        getAmbientMoodSound(): ($AmbientMoodSettings) | undefined;
+        getSkyColor(): number;
+        getWaterFogColor(): number;
+        getAmbientParticle(): ($AmbientParticleSettings) | undefined;
+        getFogColor(): number;
         ambientLoopSoundEvent: ($Holder<$SoundEvent>) | undefined;
         ambientAdditionsSettings: ($AmbientAdditionsSettings) | undefined;
         ambientMoodSettings: ($AmbientMoodSettings) | undefined;
@@ -288,30 +386,39 @@ declare module "@package/net/neoforged/neoforge/common/world" {
     export class $ModifiableBiomeInfo$BiomeInfo extends $Record {
         effects(): $BiomeSpecialEffects;
         climateSettings(): $Biome$ClimateSettings;
-        mobSpawnSettings(): $MobSpawnSettings;
         generationSettings(): $BiomeGenerationSettings;
+        mobSpawnSettings(): $MobSpawnSettings;
         constructor(climateSettings: $Biome$ClimateSettings_, effects: $BiomeSpecialEffects, generationSettings: $BiomeGenerationSettings, mobSpawnSettings: $MobSpawnSettings);
     }
     export class $BiomeModifiers$AddSpawnCostsBiomeModifier extends $Record implements $BiomeModifier {
-        biomes(): $HolderSet<$Biome>;
-        codec(): $MapCodec<$BiomeModifier>;
         entityTypes(): $HolderSet<$EntityType<never>>;
-        modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
+        codec(): $MapCodec<$BiomeModifier>;
         spawnCost(): $MobSpawnSettings$MobSpawnCost;
+        biomes(): $HolderSet<$Biome>;
+        modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         constructor(biomes: $HolderSet_<$Biome>, entityTypes: $HolderSet_<$EntityType<never>>, spawnCost: $MobSpawnSettings$MobSpawnCost_);
     }
     export class $BiomeModifiers$AddSpawnsBiomeModifier extends $Record implements $BiomeModifier {
-        biomes(): $HolderSet<$Biome>;
-        spawners(): $List<$MobSpawnSettings$SpawnerData>;
         codec(): $MapCodec<$BiomeModifier>;
-        modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
+        biomes(): $HolderSet<$Biome>;
         static singleSpawn(arg0: $HolderSet_<$Biome>, arg1: $MobSpawnSettings$SpawnerData): $BiomeModifiers$AddSpawnsBiomeModifier;
+        spawners(): $List<$MobSpawnSettings$SpawnerData>;
+        modify(arg0: $Holder_<$Biome>, arg1: $BiomeModifier$Phase_, arg2: $ModifiableBiomeInfo$BiomeInfo$Builder): void;
         constructor(biomes: $HolderSet_<$Biome>, spawners: $List_<$MobSpawnSettings$SpawnerData>);
     }
+    /**
+     * Holds lazy-evaluable modified biome info.
+     * Memoizers are not used because it's important to return null
+     * without evaluating the biome info if it's accessed outside of a server context.
+     */
     export class $ModifiableBiomeInfo {
         get(): $ModifiableBiomeInfo$BiomeInfo;
         getOriginalBiomeInfo(): $ModifiableBiomeInfo$BiomeInfo;
-        applyBiomeModifiers(arg0: $Holder_<$Biome>, arg1: $List_<$BiomeModifier_>, arg2: $RegistryAccess): boolean;
+        /**
+         * Internal NeoForge method. Will do nothing if this modifier had already been applied.
+         * Creates and caches the modified biome info.
+         */
+        applyBiomeModifiers(biome: $Holder_<$Biome>, biomeModifiers: $List_<$BiomeModifier_>, registryAccess: $RegistryAccess): boolean;
         getModifiedBiomeInfo(): $ModifiableBiomeInfo$BiomeInfo;
         constructor(arg0: $ModifiableBiomeInfo$BiomeInfo_);
         get originalBiomeInfo(): $ModifiableBiomeInfo$BiomeInfo;

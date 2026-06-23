@@ -20,43 +20,43 @@ export * as common from "@package/xaero/hud/minimap/common";
 
 declare module "@package/xaero/hud/minimap" {
     export class $Minimap {
-        setCrashedWith(arg0: $Throwable): void;
+        checkCrashes(): void;
+        getCrashedWith(): $Throwable;
+        getCompassRenderer(): $CompassRenderer;
         getWorldRendererHandler(): $MinimapElementWorldRendererHandler;
         getOverMapRendererHandler(): $MinimapElementOverMapRendererHandler;
         getInfoDisplays(): $InfoDisplays;
-        getModMain(): $HudMod;
-        usingFBO(): boolean;
-        checkCrashes(): void;
-        getCompassRenderer(): $CompassRenderer;
-        getCrashedWith(): $Throwable;
-        getWaypointMapRenderer(): $WaypointMapRenderer;
+        setCrashedWith(arg0: $Throwable): void;
+        /**
+         * @deprecated
+         */
+        getWaypointsGuiRenderer(): $WaypointsGuiRenderer;
         /**
          * @deprecated
          */
         getWaypointsIngameRenderer(): $WaypointsIngameRenderer;
         getMinimapSafeModeRenderer(): $MinimapSafeModeRenderer;
-        /**
-         * @deprecated
-         */
-        getWaypointGuiRenderer(): $WaypointsGuiRenderer$1;
         getWaypointWorldRenderer(): $WaypointWorldRenderer;
+        getWaypointMapRenderer(): $WaypointMapRenderer;
         getMinimapFBORenderer(): $MinimapFBORenderer;
         /**
          * @deprecated
          */
-        getWaypointsGuiRenderer(): $WaypointsGuiRenderer;
+        getWaypointGuiRenderer(): $WaypointsGuiRenderer$1;
+        getModMain(): $HudMod;
+        usingFBO(): boolean;
         constructor(arg0: $HudMod);
+        get compassRenderer(): $CompassRenderer;
         get worldRendererHandler(): $MinimapElementWorldRendererHandler;
         get overMapRendererHandler(): $MinimapElementOverMapRendererHandler;
         get infoDisplays(): $InfoDisplays;
-        get modMain(): $HudMod;
-        get compassRenderer(): $CompassRenderer;
-        get waypointMapRenderer(): $WaypointMapRenderer;
+        get waypointsGuiRenderer(): $WaypointsGuiRenderer;
         get waypointsIngameRenderer(): $WaypointsIngameRenderer;
         get minimapSafeModeRenderer(): $MinimapSafeModeRenderer;
-        get waypointGuiRenderer(): $WaypointsGuiRenderer$1;
         get waypointWorldRenderer(): $WaypointWorldRenderer;
+        get waypointMapRenderer(): $WaypointMapRenderer;
         get minimapFBORenderer(): $MinimapFBORenderer;
-        get waypointsGuiRenderer(): $WaypointsGuiRenderer;
+        get waypointGuiRenderer(): $WaypointsGuiRenderer$1;
+        get modMain(): $HudMod;
     }
 }

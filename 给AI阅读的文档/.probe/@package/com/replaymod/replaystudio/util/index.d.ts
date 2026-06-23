@@ -20,19 +20,19 @@ declare module "@package/com/replaymod/replaystudio/util" {
     export type $IOConsumer_<T> = ((arg0: T) => void);
     export class $IPosition {
         getY(): number;
-        getX(): number;
         getZ(): number;
+        getX(): number;
         static NULL: $IPosition;
         constructor(x: number, y: number, z: number);
         get y(): number;
-        get x(): number;
         get z(): number;
+        get x(): number;
     }
     export class $IGlobalPosition {
-        getDimension(): string;
         getPosition(): $IPosition;
+        getDimension(): string;
         constructor(dimension: string, position: $IPosition);
-        get dimension(): string;
         get position(): $IPosition;
+        get dimension(): string;
     }
 }

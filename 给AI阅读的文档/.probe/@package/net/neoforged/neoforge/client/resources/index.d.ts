@@ -3,7 +3,7 @@ import { $List } from "@package/java/util";
 
 declare module "@package/net/neoforged/neoforge/client/resources" {
     export class $NeoForgeSplashHooks {
-        static loadSplashes(arg0: $ResourceManager): $List<string>;
+        static loadSplashes(resourceManager: $ResourceManager): $List<string>;
         constructor();
     }
 }

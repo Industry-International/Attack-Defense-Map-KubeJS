@@ -8,7 +8,7 @@ import { $List, $UUID_, $List_ } from "@package/java/util";
 import { $LevelStorageSource } from "@package/net/minecraft/world/level/storage";
 import { $RealmsHttpException } from "@package/com/mojang/realmsclient/exception";
 import { $InputStreamEntity } from "@package/org/apache/http/entity";
-import { $UploadInfo, $RealmsServer, $RealmsServerPlayerLists, $Subscription, $PendingInvitesList, $RealmsWorldOptions, $RealmsNews, $ServerActivityList, $RealmsServerAddress, $Ops, $RealmsServerList, $BackupList, $WorldTemplatePaginatedList, $RegionPingResult, $PingResult, $WorldDownload, $RealmsServer$WorldType_, $RealmsNotification } from "@package/com/mojang/realmsclient/dto";
+import { $UploadInfo, $RealmsServer, $RealmsServerPlayerLists, $PendingInvitesList, $Subscription, $RealmsWorldOptions, $RealmsNews, $ServerActivityList, $RealmsServerAddress, $Ops, $RealmsServerList, $BackupList, $WorldTemplatePaginatedList, $RegionPingResult, $PingResult, $WorldDownload, $RealmsServer$WorldType_, $RealmsNotification } from "@package/com/mojang/realmsclient/dto";
 import { $CountingOutputStream } from "@package/org/apache/commons/io/output";
 import { $Consumer_ } from "@package/java/util/function";
 import { $Proxy, $HttpURLConnection } from "@package/java/net";
@@ -19,19 +19,23 @@ declare module "@package/com/mojang/realmsclient/client" {
     export class $RealmsError$AuthenticationError extends $Record implements $RealmsError {
         message(): string;
         logMessage(): string;
-        errorMessage(): $Component;
         errorCode(): number;
+        errorMessage(): $Component;
         static ERROR_CODE: number;
         constructor(arg0: string);
     }
     export class $FileDownload {
+        contentLength(uri: string): number;
         cancel(): void;
         isError(): boolean;
-        download(arg0: $WorldDownload, arg1: string, arg2: $RealmsDownloadLatestWorldScreen$DownloadStatus, arg3: $LevelStorageSource): void;
         isExtracting(): boolean;
+        download(download: $WorldDownload, worldName: string, status: $RealmsDownloadLatestWorldScreen$DownloadStatus, source: $LevelStorageSource): void;
         isFinished(): boolean;
-        contentLength(arg0: string): number;
-        static findAvailableFolderName(arg0: string): string;
+        /**
+         * Modifies a folder name to make sure it is valid to store on disk.
+         * @return the modified folder name
+         */
+        static findAvailableFolderName(folderName: string): string;
         constructor();
         get error(): boolean;
         get extracting(): boolean;
@@ -42,78 +46,78 @@ declare module "@package/com/mojang/realmsclient/client" {
         message(): string;
         reason(): string;
         logMessage(): string;
-        errorMessage(): $Component;
         errorCode(): number;
+        errorMessage(): $Component;
         httpCode(): number;
-        constructor(arg0: number, arg1: number, arg2: string, arg3: string);
+        constructor(arg0: number, arg1: number, arg2: string | null, arg3: string | null);
     }
     export class $RealmsClient {
-        update(arg0: number, arg1: string, arg2: string): void;
-        join(arg0: number): $RealmsServerAddress;
-        op(arg0: number, arg1: $UUID_): $Ops;
-        close(arg0: number): boolean;
-        open(arg0: number): boolean;
+        update(worldId: number, arg1: string, name: string): void;
+        join(serverId: number): $RealmsServerAddress;
+        op(worldId: number, arg1: $UUID_): $Ops;
+        close(worldId: number): boolean;
+        open(worldId: number): boolean;
         static create(): $RealmsClient;
-        static create(arg0: $Minecraft): $RealmsClient;
+        static create(minecraft: $Minecraft): $RealmsClient;
         getNotifications(): $List<$RealmsNotification>;
-        getActivity(arg0: number): $ServerActivityList;
-        sendPingResults(arg0: $PingResult): void;
-        notificationsSeen(arg0: $List_<$UUID_>): void;
-        notificationsDismiss(arg0: $List_<$UUID_>): void;
-        pendingInvitesCount(): number;
-        listSnapshotEligibleRealms(): $List<$RealmsServer>;
-        getLiveStats(): $RealmsServerPlayerLists;
-        trialAvailable(): boolean;
-        updateSlot(arg0: number, arg1: number, arg2: $RealmsWorldOptions): void;
-        invite(arg0: number, arg1: string): $RealmsServer;
-        backupsFor(arg0: number): $BackupList;
-        switchSlot(arg0: number, arg1: number): boolean;
-        uninvite(arg0: number, arg1: $UUID_): void;
-        agreeToTos(): void;
-        deop(arg0: number, arg1: $UUID_): $Ops;
-        putIntoMinigameMode(arg0: number, arg1: string): boolean;
-        fetchWorldTemplates(arg0: number, arg1: number, arg2: $RealmsServer$WorldType_): $WorldTemplatePaginatedList;
-        requestDownloadInfo(arg0: number, arg1: number): $WorldDownload;
-        resetWorldWithTemplate(arg0: number, arg1: string): boolean;
-        createSnapshotRealm(arg0: number): $RealmsServer;
         getNews(): $RealmsNews;
         listRealms(): $RealmsServerList;
-        pendingInvites(): $PendingInvitesList;
+        sendPingResults(pingResult: $PingResult): void;
+        notificationsSeen(uuidList: $List_<$UUID_>): void;
+        getActivity(worldId: number): $ServerActivityList;
+        invite(worldId: number, arg1: string): $RealmsServer;
+        updateSlot(worldId: number, arg1: number, slotId: $RealmsWorldOptions): void;
+        notificationsDismiss(uuidList: $List_<$UUID_>): void;
+        trialAvailable(): boolean;
+        getLiveStats(): $RealmsServerPlayerLists;
+        uninvite(worldId: number, arg1: $UUID_): void;
+        switchSlot(worldId: number, arg1: number): boolean;
+        agreeToTos(): void;
+        backupsFor(worldId: number): $BackupList;
+        deop(worldId: number, arg1: $UUID_): $Ops;
+        pendingInvitesCount(): number;
+        listSnapshotEligibleRealms(): $List<$RealmsServer>;
+        createSnapshotRealm(parentId: number): $RealmsServer;
+        resetWorldWithTemplate(worldId: number, arg1: string): boolean;
+        fetchWorldTemplates(page: number, pageSize: number, worldType: $RealmsServer$WorldType_): $WorldTemplatePaginatedList;
+        requestDownloadInfo(worldId: number, arg1: number): $WorldDownload;
+        putIntoMinigameMode(worldId: number, arg1: string): boolean;
         hasParentalConsent(): boolean;
-        subscriptionFor(arg0: number): $Subscription;
         clientCompatible(): $RealmsClient$CompatibleVersionResponse;
-        deleteRealm(arg0: number): void;
-        requestUploadInfo(arg0: number, arg1: string): $UploadInfo;
-        acceptInvitation(arg0: string): void;
-        restoreWorld(arg0: number, arg1: string): void;
-        initializeRealm(arg0: number, arg1: string, arg2: string): void;
-        getOwnRealm(arg0: number): $RealmsServer;
-        uninviteMyselfFrom(arg0: number): void;
-        resetWorldWithSeed(arg0: number, arg1: $WorldGenerationInfo_): boolean;
-        rejectInvitation(arg0: string): void;
+        resetWorldWithSeed(worldId: number, arg1: $WorldGenerationInfo_): boolean;
+        initializeRealm(worldId: number, arg1: string, name: string): void;
+        uninviteMyselfFrom(worldId: number): void;
+        acceptInvitation(inviteId: string): void;
+        requestUploadInfo(worldId: number, arg1: string | null): $UploadInfo;
+        getOwnRealm(id: number): $RealmsServer;
+        restoreWorld(worldId: number, arg1: string): void;
+        pendingInvites(): $PendingInvitesList;
+        rejectInvitation(inviteId: string): void;
+        subscriptionFor(worldId: number): $Subscription;
+        deleteRealm(worldId: number): void;
         static ENVIRONMENT: $RealmsClient$Environment;
-        constructor(arg0: string, arg1: string, arg2: $Minecraft);
+        constructor(sessionId: string, username: string, minecraft: $Minecraft);
         get notifications(): $List<$RealmsNotification>;
-        get liveStats(): $RealmsServerPlayerLists;
         get news(): $RealmsNews;
+        get liveStats(): $RealmsServerPlayerLists;
     }
     export class $RealmsError$CustomError extends $Record implements $RealmsError {
         payload(): $Component;
-        static retry(arg0: number): $RealmsError$CustomError;
+        static retry(httpCode: number): $RealmsError$CustomError;
         logMessage(): string;
-        errorMessage(): $Component;
         errorCode(): number;
-        static unknownCompatibilityResponse(arg0: string): $RealmsError$CustomError;
-        static noPayload(arg0: number): $RealmsError$CustomError;
-        static connectivityError(arg0: $RealmsHttpException): $RealmsError$CustomError;
+        errorMessage(): $Component;
+        static unknownCompatibilityResponse(payload: string): $RealmsError$CustomError;
+        static noPayload(httpCode: number): $RealmsError$CustomError;
+        static connectivityError(payload: $RealmsHttpException): $RealmsError$CustomError;
         httpCode(): number;
         static SERVICE_BUSY: $RealmsError$CustomError;
         static RETRY_MESSAGE: $Component;
-        constructor(arg0: number, arg1: $Component_);
+        constructor(arg0: number, arg1: $Component_ | null);
     }
     export class $Request$Post extends $Request<$Request$Post> {
         doConnect(): $Request$Post;
-        constructor(arg0: string, arg1: string, arg2: number, arg3: number);
+        constructor(url: string, content: string, connectTimeout: number, readTimeout: number);
     }
     export class $UploadStatus {
         bytesWritten: number;
@@ -122,17 +126,17 @@ declare module "@package/com/mojang/realmsclient/client" {
     }
     export class $Request$Put extends $Request<$Request$Put> {
         doConnect(): $Request$Put;
-        constructor(arg0: string, arg1: string, arg2: number, arg3: number);
+        constructor(url: string, content: string, connectTimeout: number, readTimeout: number);
     }
     export class $RealmsError {
-        static parse(arg0: number, arg1: string): $RealmsError;
+        static parse(httpCode: number, payload: string): $RealmsError;
         static LOGGER: $Logger;
         static NO_MESSAGE: $Component;
     }
     export interface $RealmsError {
         logMessage(): string;
-        errorMessage(): $Component;
         errorCode(): number;
+        errorMessage(): $Component;
     }
     export class $Ping$Region extends $Enum<$Ping$Region> {
     }
@@ -143,7 +147,7 @@ declare module "@package/com/mojang/realmsclient/client" {
     export class $RealmsClient$Environment extends $Enum<$RealmsClient$Environment> {
         static values(): $RealmsClient$Environment[];
         static valueOf(arg0: string): $RealmsClient$Environment;
-        static byName(arg0: string): ($RealmsClient$Environment) | undefined;
+        static byName(name: string): ($RealmsClient$Environment) | undefined;
         baseUrl: string;
         protocol: string;
         static STAGE: $RealmsClient$Environment;
@@ -170,8 +174,8 @@ declare module "@package/com/mojang/realmsclient/client" {
     export class $RealmsError$ErrorWithRawPayload extends $Record implements $RealmsError {
         payload(): string;
         logMessage(): string;
-        errorMessage(): $Component;
         errorCode(): number;
+        errorMessage(): $Component;
         httpCode(): number;
         constructor(arg0: number, arg1: string);
     }
@@ -180,8 +184,8 @@ declare module "@package/com/mojang/realmsclient/client" {
         constructor(arg0: string, arg1: number, arg2: number);
     }
     export class $RealmsClientConfig {
-        static setProxy(arg0: $Proxy): void;
         static getProxy(): $Proxy;
+        static setProxy(proxy: $Proxy): void;
         constructor();
     }
     export class $Request$Get extends $Request<$Request$Get> {
@@ -193,34 +197,34 @@ declare module "@package/com/mojang/realmsclient/client" {
     export class $FileUpload$CustomInputStreamEntity extends $InputStreamEntity {
     }
     export class $Ping {
-        static ping(...arg0: $Ping$Region_[]): $List<$RegionPingResult>;
         static pingAllRegions(): $List<$RegionPingResult>;
+        static ping(...regions: $Ping$Region_[]): $List<$RegionPingResult>;
         constructor();
     }
     export class $Request<T extends $Request<T>> {
-        static get(arg0: string): $Request<never>;
-        static get(arg0: string, arg1: number, arg2: number): $Request<never>;
-        static put(arg0: string, arg1: string, arg2: number, arg3: number): $Request<never>;
-        static put(arg0: string, arg1: string): $Request<never>;
-        static "delete"(arg0: string): $Request<never>;
+        static get(url: string): $Request<never>;
+        static get(url: string, connectTimeout: number, readTimeout: number): $Request<never>;
+        static put(url: string, content: string, connectTimeout: number, readTimeout: number): $Request<never>;
+        static put(url: string, content: string): $Request<never>;
+        static "delete"(url: string): $Request<never>;
         text(): string;
-        static post(arg0: string, arg1: string, arg2: number, arg3: number): $Request<never>;
-        static post(arg0: string, arg1: string): $Request<never>;
-        static getHeader(arg0: $HttpURLConnection, arg1: string): string;
-        getHeader(arg0: string): string;
-        static cookie(arg0: $HttpURLConnection, arg1: string, arg2: string): void;
-        cookie(arg0: string, arg1: string): void;
+        static post(url: string, content: string, connectTimeout: number, readTimeout: number): $Request<never>;
+        static post(url: string, content: string): $Request<never>;
+        static getHeader(connection: $HttpURLConnection, name: string): string;
+        getHeader(name: string): string;
+        static cookie(connection: $HttpURLConnection, key: string, value: string): void;
+        cookie(key: string, value: string): void;
         responseCode(): number;
-        static getRetryAfterHeader(arg0: $HttpURLConnection): number;
+        static getRetryAfterHeader(connection: $HttpURLConnection): number;
         getRetryAfterHeader(): number;
-        addSnapshotHeader(arg0: boolean): void;
-        constructor(arg0: string, arg1: number, arg2: number);
+        addSnapshotHeader(isSnapshot: boolean): void;
+        constructor(url: string, connectTimeout: number, readTimeout: number);
     }
     export class $FileUpload {
         cancel(): void;
+        upload(resultConsumer: $Consumer_<$UploadResult>): void;
         isFinished(): boolean;
-        upload(arg0: $Consumer_<$UploadResult>): void;
-        constructor(arg0: $File_, arg1: number, arg2: number, arg3: $UploadInfo, arg4: $User, arg5: string, arg6: string, arg7: $UploadStatus);
+        constructor(file: $File_, realmId: number, arg2: number, slotId: $UploadInfo, uploadInfo: $User, user: string, clientVersiob: string, worldVersion: $UploadStatus);
         get finished(): boolean;
     }
     export class $FileDownload$ResourcePackProgressListener implements $ActionListener {

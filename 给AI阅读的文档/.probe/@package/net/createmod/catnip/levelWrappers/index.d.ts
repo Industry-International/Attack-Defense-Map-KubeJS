@@ -5,6 +5,7 @@ import { $ChunkSource } from "@package/net/minecraft/world/level/chunk";
 import { $WritableLevelData } from "@package/net/minecraft/world/level/storage";
 import { $ArrayList, $List, $Map, $Set } from "@package/java/util";
 import { $RandomSource } from "@package/net/minecraft/util";
+import { $ServerLevel } from "@package/net/minecraft/server/level";
 import { $BlockSnapshot } from "@package/net/neoforged/neoforge/common/util";
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
 import { $BlockState } from "@package/net/minecraft/world/level/block/state";
@@ -18,13 +19,14 @@ import { $NeighborUpdater } from "@package/net/minecraft/world/level/redstone";
 declare module "@package/net/createmod/catnip/levelWrappers" {
     export class $SchematicLevel extends $WrappedLevel implements $ServerLevelAccessor, $SchematicLevelAccessor, $SchematicLevelExtension {
         getBounds(): $BoundingBox;
+        getLevel(): $ServerLevel;
         setBounds(arg0: $BoundingBox): void;
+        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
         getBlockEntities(): $Iterable<$BlockEntity>;
+        getBlockMap(): $Map<$BlockPos, $BlockState>;
+        sable$getSubLevels(): $List<any>;
         getAllPositions(): $Set<$BlockPos>;
         getEntityList(): $List<$Entity>;
-        sable$getSubLevels(): $List<any>;
-        getBlockMap(): $Map<$BlockPos, $BlockState>;
-        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
         addFreshEntityWithPassengers(arg0: $Entity): void;
         self(): $EntityGetter;
         restoringBlockSnapshots: boolean;
@@ -56,11 +58,12 @@ declare module "@package/net/createmod/catnip/levelWrappers" {
         captureBlockSnapshots: boolean;
         constructor(arg0: $Level_);
         constructor(arg0: $BlockPos_, arg1: $Level_);
+        get level(): $ServerLevel;
+        get renderedBlockEntities(): $Iterable<$BlockEntity>;
         get blockEntities(): $Iterable<$BlockEntity>;
+        get blockMap(): $Map<$BlockPos, $BlockState>;
         get allPositions(): $Set<$BlockPos>;
         get entityList(): $List<$Entity>;
-        get blockMap(): $Map<$BlockPos, $BlockState>;
-        get renderedBlockEntities(): $Iterable<$BlockEntity>;
     }
     export class $WrappedLevel extends $Level {
         getLevel(): $Level;
@@ -100,15 +103,15 @@ declare module "@package/net/createmod/catnip/levelWrappers" {
     export interface $SchematicLevelAccessor extends $LevelAccessor {
         getBounds(): $BoundingBox;
         setBounds(arg0: $BoundingBox): void;
+        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
         getBlockEntities(): $Iterable<$BlockEntity>;
+        getBlockMap(): $Map<$BlockPos, $BlockState>;
         getAllPositions(): $Set<$BlockPos>;
         getEntityList(): $List<$Entity>;
-        getBlockMap(): $Map<$BlockPos, $BlockState>;
-        getRenderedBlockEntities(): $Iterable<$BlockEntity>;
+        get renderedBlockEntities(): $Iterable<$BlockEntity>;
         get blockEntities(): $Iterable<$BlockEntity>;
+        get blockMap(): $Map<$BlockPos, $BlockState>;
         get allPositions(): $Set<$BlockPos>;
         get entityList(): $List<$Entity>;
-        get blockMap(): $Map<$BlockPos, $BlockState>;
-        get renderedBlockEntities(): $Iterable<$BlockEntity>;
     }
 }

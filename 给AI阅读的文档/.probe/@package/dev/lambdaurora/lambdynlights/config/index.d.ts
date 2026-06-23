@@ -9,6 +9,7 @@ declare module "@package/dev/lambdaurora/lambdynlights/config" {
         constructor(key: string, defaultValue: boolean, config: $Config, tooltip: $Component_);
     }
     export class $SettingEntry<T> {
+        getOption(): $SpruceOption;
         reset(): void;
         get(): T;
         load(config: $Config): void;
@@ -16,7 +17,6 @@ declare module "@package/dev/lambdaurora/lambdynlights/config" {
         key(): string;
         save(): void;
         withOnSet(onSet: $Consumer_<T>): $SettingEntry<T>;
-        getOption(): $SpruceOption;
         get option(): $SpruceOption;
     }
     export class $LightSourceSettingEntry extends $BooleanSettingEntry {

@@ -11,19 +11,19 @@ declare module "@package/kotlinx/serialization/descriptors" {
     export interface $SerialDescriptor {
         getAnnotations(): $List<$Annotation>;
         getElementName(arg0: number): string;
-        getElementDescriptor(arg0: number): $SerialDescriptor;
-        getKind(): $SerialKind;
-        getElementsCount(): number;
-        getElementIndex(arg0: string): number;
-        isElementOptional(arg0: number): boolean;
         isNullable(): boolean;
+        getKind(): $SerialKind;
+        getElementDescriptor(arg0: number): $SerialDescriptor;
+        isElementOptional(arg0: number): boolean;
+        getElementIndex(arg0: string): number;
+        getElementsCount(): number;
         isInline(): boolean;
-        getElementAnnotations(arg0: number): $List<$Annotation>;
         getSerialName(): string;
+        getElementAnnotations(arg0: number): $List<$Annotation>;
         get annotations(): $List<$Annotation>;
+        get nullable(): boolean;
         get kind(): $SerialKind;
         get elementsCount(): number;
-        get nullable(): boolean;
         get inline(): boolean;
         get serialName(): string;
     }

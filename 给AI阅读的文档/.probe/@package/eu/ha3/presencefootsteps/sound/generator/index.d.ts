@@ -10,35 +10,35 @@ declare module "@package/eu/ha3/presencefootsteps/sound/generator" {
     export class $StepSoundGenerator {
     }
     export interface $StepSoundGenerator {
-        generateFootsteps(): void;
         getMotionTracker(): $MotionTracker;
+        generateFootsteps(): void;
         get motionTracker(): $MotionTracker;
     }
     export class $MotionTracker {
         getHorizontalSpeed(): number;
-        getSpeedScalingRatio(arg0: $LivingEntity): number;
         simulateMotionData(arg0: $LivingEntity): void;
         isStationary(): boolean;
-        getMotionY(): number;
-        getMotionZ(): number;
-        pickState(arg0: $LivingEntity, arg1: $State_, arg2: $State_): $State;
+        getSpeedScalingRatio(arg0: $LivingEntity): number;
         getMotionX(): number;
+        getMotionY(): number;
+        pickState(arg0: $LivingEntity, arg1: $State_, arg2: $State_): $State;
+        getMotionZ(): number;
         constructor(arg0: $TerrestrialStepSoundGenerator);
         get horizontalSpeed(): number;
         get stationary(): boolean;
+        get motionX(): number;
         get motionY(): number;
         get motionZ(): number;
-        get motionX(): number;
     }
     export class $Locomotion extends $Enum<$Locomotion> {
+        getOptionTooltip(): $Component;
         static values(): $Locomotion[];
         static valueOf(arg0: string): $Locomotion;
         static byName(arg0: string): $Locomotion;
-        getOptionTooltip(): $Component;
-        static forPlayer(arg0: $Player, arg1: $Locomotion_): $Locomotion;
-        supplyGenerator(arg0: $LivingEntity, arg1: $SoundEngine): ($StepSoundGenerator) | undefined;
-        getOptionName(): $Component;
         static forLiving(arg0: $Entity, arg1: $Locomotion_): $Locomotion;
+        static forPlayer(arg0: $Player, arg1: $Locomotion_): $Locomotion;
+        getOptionName(): $Component;
+        supplyGenerator(arg0: $LivingEntity, arg1: $SoundEngine): ($StepSoundGenerator) | undefined;
         static QUADRUPED: $Locomotion;
         static FLYING_BIPED: $Locomotion;
         static FLYING: $Locomotion;

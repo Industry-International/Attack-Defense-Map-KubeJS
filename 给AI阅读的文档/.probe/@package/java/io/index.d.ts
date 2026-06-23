@@ -41,18 +41,18 @@ declare module "@package/java/io" {
         available(): number;
     }
     export class $Reader implements $Readable, $Closeable {
+        ready(): boolean;
+        static nullReader(): $Reader;
         reset(): void;
-        read(arg0: string[]): number;
         read(arg0: string[], arg1: number, arg2: number): number;
         read(arg0: $CharBuffer): number;
         read(): number;
+        read(arg0: string[]): number;
         close(): void;
         mark(arg0: number): void;
         transferTo(arg0: $Writer): number;
         skip(arg0: number): number;
         markSupported(): boolean;
-        ready(): boolean;
-        static nullReader(): $Reader;
     }
     export class $InputStream implements $Closeable {
         reset(): void;

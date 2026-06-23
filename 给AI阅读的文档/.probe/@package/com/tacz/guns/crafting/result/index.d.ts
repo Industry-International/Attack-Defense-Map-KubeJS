@@ -29,10 +29,10 @@ declare module "@package/com/tacz/guns/crafting/result" {
     }
     export class $RawGunTableResult {
         static init(arg0: $HolderLookup$Provider, arg1: $RawGunTableResult): $GunSmithTableResult;
-        setExtraData(arg0: $GunResult): void;
         setNbt(arg0: $CompoundTag_): void;
+        setExtraData(arg0: $GunResult): void;
         constructor(arg0: string, arg1: $ResourceLocation_, arg2: number);
-        set extraData(value: $GunResult);
         set nbt(value: $CompoundTag_);
+        set extraData(value: $GunResult);
     }
 }

@@ -3,24 +3,24 @@ import { $Enum, $Record } from "@package/java/lang";
 
 declare module "@package/software/bernie/geckolib/loading/json/raw" {
     export class $ModelProperties extends $Record {
-        static deserializer(): $JsonDeserializer<$ModelProperties>;
         identifier(): string;
+        animationSingleArmAnimation(): boolean;
+        animationStatueOfLibertyArms(): boolean;
+        animationSingleLegAnimation(): boolean;
+        static deserializer(): $JsonDeserializer<$ModelProperties>;
+        textureWidth(): number;
+        textureHeight(): number;
+        visibleBoundsOffset(): number[];
         animationArmsOutFront(): boolean;
-        visibleBoundsHeight(): number;
+        animationDontShowArmor(): boolean;
         animationInvertedCrouch(): boolean;
         animationStationaryLegs(): boolean;
         animationUpsideDown(): boolean;
-        animationDontShowArmor(): boolean;
-        visibleBoundsOffset(): number[];
-        animationSingleArmAnimation(): boolean;
-        animationSingleLegAnimation(): boolean;
-        animationStatueOfLibertyArms(): boolean;
+        visibleBoundsHeight(): number;
         animationNoHeadBob(): boolean;
+        visibleBoundsWidth(): number;
         preserveModelPose(): boolean;
         animationArmsDown(): boolean;
-        visibleBoundsWidth(): number;
-        textureWidth(): number;
-        textureHeight(): number;
         constructor(animationArmsDown: boolean, animationArmsOutFront: boolean, animationDontShowArmor: boolean, animationInvertedCrouch: boolean, animationNoHeadBob: boolean, animationSingleArmAnimation: boolean, animationSingleLegAnimation: boolean, animationStationaryLegs: boolean, animationStatueOfLibertyArms: boolean, animationUpsideDown: boolean, identifier: string, preserveModelPose: boolean, textureHeight: number, textureWidth: number, visibleBoundsHeight: number, visibleBoundsOffset: number[], visibleBoundsWidth: number);
     }
     export class $FaceUV$Rotation extends $Enum<$FaceUV$Rotation> {

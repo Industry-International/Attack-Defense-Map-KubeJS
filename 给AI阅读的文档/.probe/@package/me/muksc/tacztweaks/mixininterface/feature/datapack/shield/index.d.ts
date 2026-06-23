@@ -6,7 +6,7 @@ declare module "@package/me/muksc/tacztweaks/mixininterface/feature/datapack/shi
         static of(arg0: $LivingEntity): $CustomShieldEntity;
     }
     export interface $CustomShieldEntity {
-        tacztweaks$getShieldResult(): $CustomShieldResult;
         tacztweaks$setShieldResult(arg0: $CustomShieldResult): void;
+        tacztweaks$getShieldResult(): $CustomShieldResult;
     }
 }

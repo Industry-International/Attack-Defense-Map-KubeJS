@@ -1,4 +1,5 @@
 import { $Level_ } from "@package/net/minecraft/world/level";
+import { $KineticNetworkAccessor } from "@package/com/hlysine/create_connected/mixin/kineticbattery";
 import { $BlockPos_ } from "@package/net/minecraft/core";
 import { $KineticBlockEntity } from "@package/com/simibubi/create/content/kinetics/base";
 import { $Map } from "@package/java/util";
@@ -11,29 +12,31 @@ export * as mechanicalArm from "@package/com/simibubi/create/content/kinetics/me
 export * as deployer from "@package/com/simibubi/create/content/kinetics/deployer";
 
 declare module "@package/com/simibubi/create/content/kinetics" {
-    export class $KineticNetwork {
+    export class $KineticNetwork implements $KineticNetworkAccessor {
         remove(arg0: $KineticBlockEntity): void;
         add(arg0: $KineticBlockEntity): void;
         getSize(): number;
         sync(): void;
-        updateNetwork(): void;
-        addSilently(arg0: $KineticBlockEntity, arg1: number, arg2: number): void;
         initFromTE(arg0: number, arg1: number, arg2: number): void;
+        addSilently(arg0: $KineticBlockEntity, arg1: number, arg2: number): void;
+        updateNetwork(): void;
+        updateStress(): void;
         updateCapacityFor(arg0: $KineticBlockEntity, arg1: number): void;
         updateStressFor(arg0: $KineticBlockEntity, arg1: number): void;
-        updateStress(): void;
-        calculateCapacity(): number;
-        redirect$edb000$simulated$extraKineticsStress(arg0: $Level_, arg1: $BlockPos_): $BlockEntity;
-        redirect$edb000$simulated$extraKineticsCapacity(arg0: $Level_, arg1: $BlockPos_): $BlockEntity;
+        getActualCapacityOf(arg0: $KineticBlockEntity): number;
+        redirect$doa000$simulated$extraKineticsStress(arg0: $Level_, arg1: $BlockPos_): $BlockEntity;
+        redirect$doa000$simulated$extraKineticsCapacity(arg0: $Level_, arg1: $BlockPos_): $BlockEntity;
         calculateStress(): number;
         getActualStressOf(arg0: $KineticBlockEntity): number;
+        calculateCapacity(): number;
         updateCapacity(): void;
-        getActualCapacityOf(arg0: $KineticBlockEntity): number;
+        getUnloadedStress(): number;
         sources: $Map<$KineticBlockEntity, number>;
         members: $Map<$KineticBlockEntity, number>;
         initialized: boolean;
         id: number;
         constructor();
         get size(): number;
+        get unloadedStress(): number;
     }
 }

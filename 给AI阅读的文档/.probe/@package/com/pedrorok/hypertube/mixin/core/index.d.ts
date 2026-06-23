@@ -13,9 +13,9 @@ declare module "@package/com/pedrorok/hypertube/mixin/core" {
     export class $CameraAccessorMixin {
     }
     export interface $CameraAccessorMixin {
+        createHypertube$callMove(arg0: number, arg1: number, arg2: number): void;
         createHypertube$callGetMaxZoom(arg0: number): number;
         createHypertube$callSetPosition(arg0: number, arg1: number, arg2: number): void;
         createHypertube$callSetRotation(arg0: number, arg1: number): void;
-        createHypertube$callMove(arg0: number, arg1: number, arg2: number): void;
     }
 }

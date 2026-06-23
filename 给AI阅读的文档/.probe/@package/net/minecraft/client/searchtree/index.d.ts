@@ -6,47 +6,68 @@ import { $Comparator, $List_, $Iterator, $List } from "@package/java/util";
 
 declare module "@package/net/minecraft/client/searchtree" {
     export class $SuffixArray<T> {
-        add(arg0: T, arg1: string): void;
-        search(arg0: string): $List<T>;
+        add(object: T, contents: string): void;
+        search(query: string): $List<T>;
+        /**
+         * Prints the entire array to the logger, on debug level
+         */
         generate(): void;
         list: $List<T>;
         constructor();
     }
     export class $ResourceLocationSearchTree<T> {
         static empty<T>(): $ResourceLocationSearchTree<T>;
-        static create<T>(arg0: $List_<T>, arg1: $Function_<T, $Stream<$ResourceLocation>>): $ResourceLocationSearchTree<T>;
+        static create<T>(contents: $List_<T>, idGetter: $Function_<T, $Stream<$ResourceLocation>>): $ResourceLocationSearchTree<T>;
     }
     export interface $ResourceLocationSearchTree<T> {
-        searchPath(arg0: string): $List<T>;
-        searchNamespace(arg0: string): $List<T>;
+        searchNamespace(query: string): $List<T>;
+        searchPath(query: string): $List<T>;
     }
     export class $IdSearchTree<T> implements $SearchTree<T> {
-        search(arg0: string): $List<T>;
-        searchResourceLocation(arg0: string, arg1: string): $List<T>;
-        searchPlainText(arg0: string): $List<T>;
+        /**
+         * Searches this search tree for the given text.
+         * 
+         * If the query does not contain a `:`, then only `#byName` is searched. If it does contain a colon, both `#byName` and `#byId` are searched and the results are merged using a `MergingIterator`.
+         * @return A list of all matching items in this search tree.
+         */
+        search(query: string): $List<T>;
+        /**
+         * Searches this search tree for the given text.
+         * 
+         * If the query does not contain a `:`, then only `#byName` is searched. If it does contain a colon, both `#byName` and `#byId` are searched and the results are merged using a `MergingIterator`.
+         * @return A list of all matching items in this search tree.
+         */
+        searchPlainText(query: string): $List<T>;
+        searchResourceLocation(namespace: string, path: string): $List<T>;
         resourceLocationSearchTree: $ResourceLocationSearchTree<T>;
         additionOrder: $Comparator<T>;
-        constructor(arg0: $Function_<T, $Stream<$ResourceLocation>>, arg1: $List_<T>);
+        constructor(idGetter: $Function_<T, $Stream<$ResourceLocation>>, contents: $List_<T>);
     }
     export class $FullTextSearchTree<T> extends $IdSearchTree<T> {
         resourceLocationSearchTree: $ResourceLocationSearchTree<T>;
         additionOrder: $Comparator<T>;
-        constructor(arg0: $Function_<T, $Stream<string>>, arg1: $Function_<T, $Stream<$ResourceLocation>>, arg2: $List_<T>);
+        constructor(filter: $Function_<T, $Stream<string>>, idGetter: $Function_<T, $Stream<$ResourceLocation>>, contents: $List_<T>);
     }
     export class $MergingUniqueIterator<T> extends $AbstractIterator<T> {
         computeNext(): T;
-        constructor(arg0: $Iterator<T>, arg1: $Iterator<T>, arg2: $Comparator<T>);
+        constructor(firstIterator: $Iterator<T>, secondIterator: $Iterator<T>, comparator: $Comparator<T>);
     }
     export class $IntersectionIterator<T> extends $AbstractIterator<T> {
         computeNext(): T;
-        constructor(arg0: $Iterator<T>, arg1: $Iterator<T>, arg2: $Comparator<T>);
+        constructor(firstIterator: $Iterator<T>, secondIterator: $Iterator<T>, comparator: $Comparator<T>);
     }
     export class $SearchTree<T> {
         static empty<T>(): $SearchTree<T>;
-        static plainText<T>(arg0: $List_<T>, arg1: $Function_<T, $Stream<string>>): $SearchTree<T>;
+        static plainText<T>(contents: $List_<T>, filter: $Function_<T, $Stream<string>>): $SearchTree<T>;
     }
     export interface $SearchTree<T> {
-        search(arg0: string): $List<T>;
+        /**
+         * Searches this search tree for the given text.
+         * 
+         * If the query does not contain a `:`, then only `#byName` is searched. If it does contain a colon, both `#byName` and `#byId` are searched and the results are merged using a `MergingIterator`.
+         * @return A list of all matching items in this search tree.
+         */
+        search(query: string): $List<T>;
     }
     /**
      * Values that may be interpreted as {@link $SearchTree}.

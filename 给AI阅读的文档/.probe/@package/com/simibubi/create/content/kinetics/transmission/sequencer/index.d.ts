@@ -10,8 +10,8 @@ declare module "@package/com/simibubi/create/content/kinetics/transmission/seque
         static values(): $SequencerInstructions[];
         static valueOf(arg0: string): $SequencerInstructions;
         needsPropagation(): boolean;
-        static invokeInit$create_connected_$md$9aa1a5$0(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_): $SequencerInstructions;
-        static invokeInit$create_connected_$md$9aa1a5$1(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_, arg4: boolean, arg5: boolean, arg6: number, arg7: number, arg8: number): $SequencerInstructions;
+        static invokeInit$create_connected_$md$dd6cb9$1(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_, arg4: boolean, arg5: boolean, arg6: number, arg7: number, arg8: number): $SequencerInstructions;
+        static invokeInit$create_connected_$md$dd6cb9$0(arg0: string, arg1: number, arg2: string, arg3: $AllGuiTextures_): $SequencerInstructions;
         translationKey: string;
         maxValue: number;
         defaultValue: number;
@@ -33,13 +33,13 @@ declare module "@package/com/simibubi/create/content/kinetics/transmission/seque
      */
     export type $SequencerInstructions_ = "turn_angle" | "turn_distance" | "delay" | "await" | "end" | "turn_await" | "turn_time" | "loop";
     export class $SequencedGearshiftBlockEntity$SequenceContext extends $Record implements $ISnappingSequenceContext {
-        instruction(): $SequencerInstructions;
         static fromNBT(arg0: $CompoundTag_): $SequencedGearshiftBlockEntity$SequenceContext;
+        static fromGearshift(arg0: $SequencerInstructions_, arg1: number, arg2: number): $SequencedGearshiftBlockEntity$SequenceContext;
+        instruction(): $SequencerInstructions;
         serializeNBT(): $CompoundTag;
         shouldSnapToZero(): boolean;
         getEffectiveValue(arg0: number): number;
         relativeValue(): number;
-        static fromGearshift(arg0: $SequencerInstructions_, arg1: number, arg2: number): $SequencedGearshiftBlockEntity$SequenceContext;
         setSnapToZero(arg0: boolean): void;
         constructor(instruction: $SequencerInstructions_, relativeValue: number);
         set snapToZero(value: boolean);

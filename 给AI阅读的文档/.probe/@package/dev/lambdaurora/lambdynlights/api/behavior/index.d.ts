@@ -10,10 +10,10 @@ declare module "@package/dev/lambdaurora/lambdynlights/api/behavior" {
         z(): number;
         y(): $OptionalInt;
         level(): $Level;
-        luminance(): number;
-        getBoundingBox(): $DynamicLightBehavior$BoundingBox;
-        hasChanged(): boolean;
         lightAtPos(pos: $BlockPos_, falloffRatio: number): number;
+        hasChanged(): boolean;
+        getBoundingBox(): $DynamicLightBehavior$BoundingBox;
+        luminance(): number;
         isRemoved(): boolean;
         constructor(x: number, z: number, luminance: number, level: $Level_);
         constructor(x: number, y: $OptionalInt, z: number, luminance: number, level: $Level_);
@@ -23,25 +23,25 @@ declare module "@package/dev/lambdaurora/lambdynlights/api/behavior" {
     export class $DynamicLightBehavior {
     }
     export interface $DynamicLightBehavior {
+        lightAtPos(arg0: $BlockPos_, arg1: number): number;
+        hasChanged(): boolean;
         isRemoved(): boolean;
         getBoundingBox(): $DynamicLightBehavior$BoundingBox;
-        hasChanged(): boolean;
-        lightAtPos(arg0: $BlockPos_, arg1: number): number;
         get removed(): boolean;
         get boundingBox(): $DynamicLightBehavior$BoundingBox;
     }
     export class $LineLightBehavior implements $DynamicLightBehavior {
+        lightAtPos(pos: $BlockPos_, falloffRatio: number): number;
+        hasChanged(): boolean;
         setLuminance(luminance: number): void;
         getLuminance(): number;
-        setStartPoint(x: number, y: number, z: number): void;
-        setStartPoint(startPoint: $Vector3d): void;
         getEndPoint(): $Vector3d;
+        getStartPoint(): $Vector3d;
         setEndPoint(x: number, y: number, z: number): void;
         setEndPoint(endPoint: $Vector3d): void;
-        getStartPoint(): $Vector3d;
+        setStartPoint(startPoint: $Vector3d): void;
+        setStartPoint(x: number, y: number, z: number): void;
         getBoundingBox(): $DynamicLightBehavior$BoundingBox;
-        hasChanged(): boolean;
-        lightAtPos(pos: $BlockPos_, falloffRatio: number): number;
         isRemoved(): boolean;
         constructor(startPoint: $Vector3d, endPoint: $Vector3d, luminance: number);
         get boundingBox(): $DynamicLightBehavior$BoundingBox;
@@ -49,11 +49,11 @@ declare module "@package/dev/lambdaurora/lambdynlights/api/behavior" {
     }
     export class $DynamicLightBehavior$BoundingBox extends $Record {
         endX(): number;
-        startY(): number;
-        startX(): number;
         startZ(): number;
-        endZ(): number;
         endY(): number;
+        endZ(): number;
+        startX(): number;
+        startY(): number;
         constructor(startX: number, startY: number, startZ: number, endX: number, endY: number, endZ: number);
     }
 }

@@ -17,16 +17,16 @@ declare module "@package/com/simibubi/create/api/registry" {
     export interface $SimpleRegistry$Multi<K, V> extends $SimpleRegistry<K, $List<V>> {
         add(arg0: K, arg1: $List_<V>): void;
         addProvider(arg0: $SimpleRegistry$Provider_<K, $List<V>>): void;
-        get(arg0: K): $List<V>;
-        get(arg0: K): $List<V>;
+        get(arg0: $StateHolder<K, never>): $List<V>;
+        get(arg0: $StateHolder<K, never>): $List<V>;
     }
     export class $SimpleRegistry$Provider<K, V> {
-        static forItemTag<V>(arg0: $TagKey_<$Item>, arg1: V): $SimpleRegistry$Provider<$Item, V>;
         static forTag<K, V>(arg0: $TagKey_<K>, arg1: $Function_<K, $Holder<K>>, arg2: V): $SimpleRegistry$Provider<K, V>;
+        static forItemTag<V>(arg0: $TagKey_<$Item>, arg1: V): $SimpleRegistry$Provider<$Item, V>;
         static forBlockTag<V>(arg0: $TagKey_<$Block>, arg1: V): $SimpleRegistry$Provider<$Block, V>;
+        static forBlockEntityTag<V>(arg0: $TagKey_<$BlockEntityType<never>>, arg1: V): $SimpleRegistry$Provider<$BlockEntityType<never>, V>;
         static forEntityTag<V>(arg0: $TagKey_<$EntityType<never>>, arg1: V): $SimpleRegistry$Provider<$EntityType<never>, V>;
         static forFluidTag<V>(arg0: $TagKey_<$Fluid>, arg1: V): $SimpleRegistry$Provider<$Fluid, V>;
-        static forBlockEntityTag<V>(arg0: $TagKey_<$BlockEntityType<never>>, arg1: V): $SimpleRegistry$Provider<$BlockEntityType<never>, V>;
     }
     export interface $SimpleRegistry$Provider<K, V> {
         get(arg0: K): V;
@@ -40,10 +40,10 @@ declare module "@package/com/simibubi/create/api/registry" {
         static create<K, V>(): $SimpleRegistry<K, V>;
     }
     export interface $SimpleRegistry<K, V> {
-        get(arg0: K): V;
-        get(arg0: $StateHolder<K, never>): V;
-        register(arg0: K, arg1: V): void;
         invalidate(): void;
         registerProvider(arg0: $SimpleRegistry$Provider_<K, V>): void;
+        get(arg0: $StateHolder<K, never>): V;
+        get(arg0: K): V;
+        register(arg0: K, arg1: V): void;
     }
 }

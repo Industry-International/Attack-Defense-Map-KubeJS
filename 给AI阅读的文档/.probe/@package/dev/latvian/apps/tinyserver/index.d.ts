@@ -16,28 +16,28 @@ export * as content from "@package/dev/latvian/apps/tinyserver/content";
 
 declare module "@package/dev/latvian/apps/tinyserver" {
     export class $OptionalString extends $Record {
-        asInt(def: number): number;
-        asInt(): number;
         value(): string;
         static of(str: string): $OptionalString;
         isPresent(): boolean;
-        as<T>(mapper: $Function_<string, T>, def: T): T;
         as<T>(mapper: $Function_<string, T>): T;
-        asDouble(): number;
+        as<T>(mapper: $Function_<string, T>, def: T): T;
+        asInt(): number;
+        asInt(def: number): number;
+        asString(): string;
+        asString(def: string): string;
         asDouble(def: number): number;
+        asDouble(): number;
         asLong(): number;
         asLong(def: number): number;
-        asString(def: string): string;
-        asString(): string;
+        isMissing(): boolean;
         asBoolean(): boolean;
         asBoolean(def: boolean): boolean;
         require(): $OptionalString;
-        isMissing(): boolean;
-        asFloat(): number;
         asFloat(def: number): number;
-        asZoneId(): $ZoneId;
+        asFloat(): number;
         asULong(): number;
         asULong(def: number): number;
+        asZoneId(): $ZoneId;
         static MISSING: $OptionalString;
         static EMPTY: $OptionalString;
         constructor(value: string);
@@ -88,38 +88,38 @@ declare module "@package/dev/latvian/apps/tinyserver" {
         start(): number;
         stop(): void;
         handlers(): $Stream<$HTTPPathHandler<REQ>>;
-        http(method: $HTTPMethod_, path: string, handler: $HTTPHandler_<REQ>): void;
         isRunning(): boolean;
-        setPort(range: $IntStream): void;
-        setPort(port: number): void;
-        createBuilder(req: REQ, handler: $HTTPHandler_<REQ>): $HTTPPayload;
         setBufferSize(bufferSize: number): void;
-        connections(): $Set<$HTTPConnection<REQ>>;
+        setPort(port: number): void;
+        setPort(range: $IntStream): void;
+        createBuilder(req: REQ, handler: $HTTPHandler_<REQ>): $HTTPPayload;
+        http(method: $HTTPMethod_, path: string, handler: $HTTPHandler_<REQ>): void;
         setServerName(name: string): void;
-        setAddress(address: string): void;
+        connections(): $Set<$HTTPConnection<REQ>>;
         setMaxKeepAliveConnections(max: number): void;
         setKeepAliveTimeout(duration: $Duration_): void;
+        setAddress(address: string): void;
         get(path: string, handler: $HTTPHandler_<REQ>): void;
         put(path: string, handler: $HTTPHandler_<REQ>): void;
         "delete"(path: string, handler: $HTTPHandler_<REQ>): void;
         patch(path: string, handler: $HTTPHandler_<REQ>): void;
-        ws<WSS extends $WSSession<REQ>>(path: string): $WSHandler<REQ, WSS>;
         ws<WSS extends $WSSession<REQ>>(path: string, factory: $WSSessionFactory_<REQ, WSS>): $WSHandler<REQ, WSS>;
+        ws<WSS extends $WSSession<REQ>>(path: string): $WSHandler<REQ, WSS>;
         post(path: string, handler: $HTTPHandler_<REQ>): void;
         redirect(path: string, redirect: string): void;
-        acceptPostTask(path: string, task: $Runnable_): void;
-        acceptPostString(path: string, handler: $Consumer_<string>): void;
         singleFile(path: string, file: $Path_, responseHandler: $FileResponseHandler_): void;
-        staticFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
+        acceptPostString(path: string, handler: $Consumer_<string>): void;
+        acceptPostTask(path: string, task: $Runnable_): void;
         dynamicFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
+        staticFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
         constructor(requestFactory: $Supplier_<REQ>);
         set daemon(value: boolean);
         get running(): boolean;
         set bufferSize(value: number);
         set serverName(value: string);
-        set address(value: string);
         set maxKeepAliveConnections(value: number);
         set keepAliveTimeout(value: $Duration_);
+        set address(value: string);
     }
     export class $CompiledPath extends $Record {
         matches(path: string[]): string[];
@@ -138,16 +138,16 @@ declare module "@package/dev/latvian/apps/tinyserver" {
         put(path: string, handler: $HTTPHandler_<REQ>): void;
         "delete"(path: string, handler: $HTTPHandler_<REQ>): void;
         patch(path: string, handler: $HTTPHandler_<REQ>): void;
-        ws<WSS extends $WSSession<REQ>>(path: string): $WSHandler<REQ, WSS>;
         ws<WSS extends $WSSession<REQ>>(path: string, factory: $WSSessionFactory_<REQ, WSS>): $WSHandler<REQ, WSS>;
+        ws<WSS extends $WSSession<REQ>>(path: string): $WSHandler<REQ, WSS>;
         post(path: string, handler: $HTTPHandler_<REQ>): void;
         redirect(path: string, redirect: string): void;
-        acceptPostTask(path: string, task: $Runnable_): void;
-        acceptPostString(path: string, handler: $Consumer_<string>): void;
         http(method: $HTTPMethod_, path: string, handler: $HTTPHandler_<REQ>): void;
         singleFile(path: string, file: $Path_, responseHandler: $FileResponseHandler_): void;
-        staticFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
+        acceptPostString(path: string, handler: $Consumer_<string>): void;
+        acceptPostTask(path: string, task: $Runnable_): void;
         dynamicFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
+        staticFiles(path: string, directory: $Path_, responseHandler: $FileResponseHandler_, autoIndex: boolean): void;
     }
     /**
      * Values that may be interpreted as {@link $ServerRegistry}.

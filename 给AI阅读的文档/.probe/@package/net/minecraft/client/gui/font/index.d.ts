@@ -39,20 +39,20 @@ declare module "@package/net/minecraft/client/gui/font" {
      */
     export type $FontOption_ = "uniform" | "jp";
     export class $FontTexture extends $AbstractTexture implements $Dumpable {
-        add(arg0: $SheetGlyphInfo): $BakedGlyph;
-        dumpContents(arg0: $ResourceLocation_, arg1: $Path_): void;
+        add(glyphInfo: $SheetGlyphInfo): $BakedGlyph;
+        dumpContents(resourceLocation: $ResourceLocation_, path: $Path_): void;
         static NOT_ASSIGNED: number;
         mipmap: boolean;
         blur: boolean;
         id: number;
-        constructor(arg0: $GlyphRenderTypes_, arg1: boolean);
+        constructor(renderTypes: $GlyphRenderTypes_, colored: boolean);
     }
     export class $FontSet$GlyphInfoFilter extends $Record {
     }
     export class $CodepointMap$Output<T> {
     }
     export interface $CodepointMap$Output<T> {
-        accept(arg0: number, arg1: T): void;
+        accept(index: number, object: T): void;
     }
     /**
      * Values that may be interpreted as {@link $CodepointMap$Output}.
@@ -71,21 +71,21 @@ declare module "@package/net/minecraft/client/gui/font" {
      */
     export type $TextFieldHelper$CursorStep_ = "character" | "word";
     export class $CodepointMap<T> {
-        remove(arg0: number): T;
-        get(arg0: number): T;
-        put(arg0: number, arg1: T): T;
+        remove(index: number): T;
+        get(index: number): T;
+        put(index: number, value: T): T;
         clear(): void;
-        forEach(arg0: $CodepointMap$Output_<T>): void;
-        computeIfAbsent(arg0: number, arg1: $IntFunction_<T>): T;
+        forEach(output: $CodepointMap$Output_<T>): void;
+        computeIfAbsent(index: number, valueIfAbsentGetter: $IntFunction_<T>): T;
         keySet(): $IntSet;
-        constructor(arg0: $IntFunction_<T[]>, arg1: $IntFunction_<T[][]>);
+        constructor(blockConstructor: $IntFunction_<T[]>, blockMapConstructor: $IntFunction_<T[][]>);
     }
     export class $FontOption$Filter {
-        apply(arg0: $Set_<$FontOption_>): boolean;
-        merge(arg0: $FontOption$Filter): $FontOption$Filter;
+        apply(options: $Set_<$FontOption_>): boolean;
+        merge(filter: $FontOption$Filter): $FontOption$Filter;
         static CODEC: $Codec<$FontOption$Filter>;
         static ALWAYS_PASS: $FontOption$Filter;
-        constructor(arg0: $Map_<$FontOption_, boolean>);
+        constructor(values: $Map_<$FontOption_, boolean>);
     }
     export class $FontManager$UnresolvedBuilderBundle extends $Record implements $DependencySorter$Entry<$ResourceLocation> {
     }
@@ -93,27 +93,27 @@ declare module "@package/net/minecraft/client/gui/font" {
     }
     export class $GlyphRenderTypes extends $Record {
         normal(): $RenderType;
-        select(arg0: $Font$DisplayMode_): $RenderType;
+        select(displayMode: $Font$DisplayMode_): $RenderType;
         polygonOffset(): $RenderType;
-        static createForColorTexture(arg0: $ResourceLocation_): $GlyphRenderTypes;
-        static createForIntensityTexture(arg0: $ResourceLocation_): $GlyphRenderTypes;
         seeThrough(): $RenderType;
+        static createForIntensityTexture(id: $ResourceLocation_): $GlyphRenderTypes;
+        static createForColorTexture(id: $ResourceLocation_): $GlyphRenderTypes;
         constructor(arg0: $RenderType, arg1: $RenderType, arg2: $RenderType);
     }
     export class $FontManager implements $PreparableReloadListener, $AutoCloseable, $AccessFontManager, $FontResourceManagerAccess, $IdentifiableResourceReloadListener {
         close(): void;
-        reload(preparationBarrier: $PreparableReloadListener$PreparationBarrier_, resourceManager: $ResourceManager, preparationProfiler: $ProfilerFiller, reloadProfiler: $ProfilerFiller, preparationExecutor: $Executor_, reloadExecutor: $Executor_): $CompletableFuture<any>;
+        reload(preparationBarrier: $PreparableReloadListener$PreparationBarrier_, resourceManager: $ResourceManager, preparationsProfiler: $ProfilerFiller, reloadProfiler: $ProfilerFiller, backgroundExecutor: $Executor_, gameExecutor: $Executor_): $CompletableFuture<any>;
         createFontFilterFishy(): $Font;
-        updateOptions(arg0: $Options): void;
-        getFabricId(): $ResourceLocation;
         createFont(): $Font;
+        updateOptions(options: $Options): void;
+        getFabricId(): $ResourceLocation;
         getName(): string;
         getFabricDependencies(): $Collection<$ResourceLocation>;
         getFontSets(): $Map<$ResourceLocation, $FontSet>;
         static LOGGER: $Logger;
         fontSets: $Map<$ResourceLocation, $FontSet>;
         static MISSING_FONT: $ResourceLocation;
-        constructor(arg0: $TextureManager);
+        constructor(textureManager: $TextureManager);
         get fabricId(): $ResourceLocation;
         get name(): string;
         get fabricDependencies(): $Collection<$ResourceLocation>;
@@ -123,51 +123,51 @@ declare module "@package/net/minecraft/client/gui/font" {
     export class $FontSet implements $AutoCloseable {
         name(): $ResourceLocation;
         close(): void;
-        reload(arg0: $List_<$GlyphProvider$Conditional_>, arg1: $Set_<$FontOption_>): void;
-        reload(arg0: $Set_<$FontOption_>): void;
-        getGlyphInfo(arg0: number, arg1: boolean): $GlyphInfo;
+        reload(options: $Set_<$FontOption_>): void;
+        reload(allProviders: $List_<$GlyphProvider$Conditional_>, options: $Set_<$FontOption_>): void;
+        getGlyph(character: number): $BakedGlyph;
+        getGlyphInfo(character: number, filterFishyGlyphs: boolean): $GlyphInfo;
         whiteGlyph(): $BakedGlyph;
-        getGlyph(arg0: number): $BakedGlyph;
-        getRandomGlyph(arg0: $GlyphInfo): $BakedGlyph;
-        constructor(arg0: $TextureManager, arg1: $ResourceLocation_);
+        getRandomGlyph(glyph: $GlyphInfo): $BakedGlyph;
+        constructor(textureManager: $TextureManager, name: $ResourceLocation_);
     }
     export class $TextFieldHelper {
         copy(): void;
+        setCursorPos(direction: number): void;
+        setCursorPos(direction: number, keepSelection: boolean): void;
+        setSelectionPos(direction: number): void;
+        static getClipboardContents(minecraft: $Minecraft): string;
+        removeCharsFromCursor(direction: number): void;
+        static setClipboardContents(text: $Minecraft, arg1: string): void;
         getCursorPos(): number;
-        setCursorPos(arg0: number): void;
-        setCursorPos(arg0: number, arg1: boolean): void;
-        cut(): void;
-        moveBy(arg0: number, arg1: boolean, arg2: $TextFieldHelper$CursorStep_): void;
-        keyPressed(arg0: number): boolean;
-        insertText(arg0: string): void;
-        charTyped(arg0: string): boolean;
         paste(): void;
         selectAll(): void;
-        moveByChars(arg0: number): void;
-        moveByChars(arg0: number, arg1: boolean): void;
         isSelecting(): boolean;
+        moveByWords(direction: number): void;
+        moveByWords(direction: number, keepSelection: boolean): void;
         setCursorToEnd(): void;
-        setCursorToEnd(arg0: boolean): void;
-        moveByWords(arg0: number, arg1: boolean): void;
-        moveByWords(arg0: number): void;
+        setCursorToEnd(keepSelection: boolean): void;
+        setSelectionRange(selectionStart: number, selectionEnd: number): void;
+        moveByChars(direction: number): void;
+        moveByChars(direction: number, keepSelection: boolean): void;
         getSelectionPos(): number;
-        setSelectionRange(arg0: number, arg1: number): void;
-        removeFromCursor(arg0: number, arg1: $TextFieldHelper$CursorStep_): void;
-        setCursorToStart(arg0: boolean): void;
+        keyPressed(key: number): boolean;
+        insertText(text: string): void;
+        charTyped(character: string): boolean;
+        moveBy(direction: number, keepSelection: boolean, cursorStep: $TextFieldHelper$CursorStep_): void;
+        setCursorToStart(keepSelection: boolean): void;
         setCursorToStart(): void;
-        setSelectionPos(arg0: number): void;
-        removeCharsFromCursor(arg0: number): void;
-        static setClipboardContents(arg0: $Minecraft, arg1: string): void;
-        static getClipboardContents(arg0: $Minecraft): string;
-        static createClipboardSetter(arg0: $Minecraft): $Consumer<string>;
-        static createClipboardGetter(arg0: $Minecraft): $Supplier<string>;
-        removeWordsFromCursor(arg0: number): void;
-        constructor(arg0: $Supplier_<string>, arg1: $Consumer_<string>, arg2: $Supplier_<string>, arg3: $Consumer_<string>, arg4: $Predicate_<string>);
+        removeFromCursor(direction: number, step: $TextFieldHelper$CursorStep_): void;
+        cut(): void;
+        static createClipboardSetter(minecraft: $Minecraft): $Consumer<string>;
+        static createClipboardGetter(minecraft: $Minecraft): $Supplier<string>;
+        removeWordsFromCursor(direction: number): void;
+        constructor(getMessage: $Supplier_<string>, setMessage: $Consumer_<string>, getClipboard: $Supplier_<string>, setClipboard: $Consumer_<string>, stringValidator: $Predicate_<string>);
         get selecting(): boolean;
     }
     export class $AllMissingGlyphProvider implements $GlyphProvider {
-        getGlyph(arg0: number): $GlyphInfo;
         getSupportedGlyphs(): $IntSet;
+        getGlyph(arg0: number): $GlyphInfo;
         close(): void;
         constructor();
         get supportedGlyphs(): $IntSet;

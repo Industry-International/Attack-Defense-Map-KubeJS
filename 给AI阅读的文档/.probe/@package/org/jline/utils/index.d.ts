@@ -10,44 +10,44 @@ declare module "@package/org/jline/utils" {
         getMask(): number;
         background(arg0: number, arg1: number, arg2: number): $AttributedStyle;
         background(arg0: number): $AttributedStyle;
-        foreground(arg0: number): $AttributedStyle;
         foreground(arg0: number, arg1: number, arg2: number): $AttributedStyle;
+        foreground(arg0: number): $AttributedStyle;
         inverse(): $AttributedStyle;
         hidden(): $AttributedStyle;
+        boldOff(): $AttributedStyle;
+        bold(): $AttributedStyle;
+        italic(): $AttributedStyle;
         blink(): $AttributedStyle;
+        getStyle(): number;
+        underline(): $AttributedStyle;
+        toAnsi(): string;
+        blinkOff(): $AttributedStyle;
+        conceal(): $AttributedStyle;
+        hiddenOff(): $AttributedStyle;
+        inverseOff(): $AttributedStyle;
+        inverseNeg(): $AttributedStyle;
+        faintOff(): $AttributedStyle;
+        crossedOut(): $AttributedStyle;
         italicOff(): $AttributedStyle;
         faint(): $AttributedStyle;
         concealOff(): $AttributedStyle;
-        inverseNeg(): $AttributedStyle;
-        conceal(): $AttributedStyle;
-        blinkOff(): $AttributedStyle;
-        crossedOut(): $AttributedStyle;
-        inverseOff(): $AttributedStyle;
-        hiddenOff(): $AttributedStyle;
-        faintOff(): $AttributedStyle;
-        getStyle(): number;
-        italic(): $AttributedStyle;
-        bold(): $AttributedStyle;
-        underline(): $AttributedStyle;
-        boldOff(): $AttributedStyle;
-        faintDefault(): $AttributedStyle;
-        backgroundOff(): $AttributedStyle;
-        blinkDefault(): $AttributedStyle;
-        underlineDefault(): $AttributedStyle;
-        underlineOff(): $AttributedStyle;
-        concealDefault(): $AttributedStyle;
-        crossedOutOff(): $AttributedStyle;
         boldDefault(): $AttributedStyle;
-        crossedOutDefault(): $AttributedStyle;
-        hiddenDefault(): $AttributedStyle;
-        backgroundDefault(): $AttributedStyle;
-        inverseDefault(): $AttributedStyle;
-        foregroundDefault(): $AttributedStyle;
-        backgroundRgb(arg0: number): $AttributedStyle;
+        blinkDefault(): $AttributedStyle;
+        underlineOff(): $AttributedStyle;
         foregroundRgb(arg0: number): $AttributedStyle;
-        foregroundOff(): $AttributedStyle;
+        backgroundRgb(arg0: number): $AttributedStyle;
+        crossedOutOff(): $AttributedStyle;
         italicDefault(): $AttributedStyle;
-        toAnsi(): string;
+        backgroundDefault(): $AttributedStyle;
+        hiddenDefault(): $AttributedStyle;
+        foregroundDefault(): $AttributedStyle;
+        inverseDefault(): $AttributedStyle;
+        crossedOutDefault(): $AttributedStyle;
+        faintDefault(): $AttributedStyle;
+        foregroundOff(): $AttributedStyle;
+        underlineDefault(): $AttributedStyle;
+        concealDefault(): $AttributedStyle;
+        backgroundOff(): $AttributedStyle;
         static BOLD_OFF: $AttributedStyle;
         static WHITE: number;
         static HIDDEN_OFF: $AttributedStyle;
@@ -563,8 +563,8 @@ declare module "@package/org/jline/utils" {
         setColor(arg0: number, arg1: number): void;
         setDistance(arg0: string): void;
         getColor(arg0: number): number;
-        canChange(): boolean;
         loadPalette(): boolean;
+        canChange(): boolean;
         getDistanceName(): string;
         static XTERM_INITC: string;
         static DEFAULT: $ColorPalette;
@@ -615,8 +615,25 @@ declare module "@package/org/jline/utils" {
         contains(arg0: string): boolean;
         print(arg0: $Terminal): void;
         styleAt(arg0: number): $AttributedStyle;
-        runStart(arg0: number): number;
         runLimit(arg0: number): number;
+        runStart(arg0: number): number;
+        toAnsi(arg0: number, arg1: $AttributedCharSequence$ForceMode_): string;
+        toAnsi(): string;
+        /**
+         * @deprecated
+         */
+        toAnsi(arg0: number, arg1: boolean, arg2: string, arg3: string): string;
+        toAnsi(arg0: $Terminal): string;
+        toAnsi(arg0: number, arg1: $AttributedCharSequence$ForceMode_, arg2: $ColorPalette): string;
+        toAnsi(arg0: number, arg1: $AttributedCharSequence$ForceMode_, arg2: $ColorPalette, arg3: string, arg4: string): string;
+        /**
+         * @deprecated
+         */
+        toAnsi(arg0: number, arg1: boolean): string;
+        /**
+         * @deprecated
+         */
+        static rgbColor(arg0: number): number;
         columnLength(): number;
         /**
          * @deprecated
@@ -626,27 +643,10 @@ declare module "@package/org/jline/utils" {
          * @deprecated
          */
         static roundRgbColor(arg0: number, arg1: number, arg2: number, arg3: number): number;
-        /**
-         * @deprecated
-         */
-        toAnsi(arg0: number, arg1: boolean, arg2: string, arg3: string): string;
-        /**
-         * @deprecated
-         */
-        toAnsi(arg0: number, arg1: boolean): string;
-        toAnsi(arg0: $Terminal): string;
-        toAnsi(): string;
-        toAnsi(arg0: number, arg1: $AttributedCharSequence$ForceMode_, arg2: $ColorPalette, arg3: string, arg4: string): string;
-        toAnsi(arg0: number, arg1: $AttributedCharSequence$ForceMode_): string;
-        toAnsi(arg0: number, arg1: $AttributedCharSequence$ForceMode_, arg2: $ColorPalette): string;
-        /**
-         * @deprecated
-         */
-        static rgbColor(arg0: number): number;
+        toAttributedString(): $AttributedString;
         columnSplitLength(arg0: number, arg1: boolean, arg2: boolean): $List<$AttributedString>;
         columnSplitLength(arg0: number): $List<$AttributedString>;
         columnSubSequence(arg0: number, arg1: number): $AttributedString;
-        toAttributedString(): $AttributedString;
         isEmpty(): boolean;
         codePoints(): $IntStream;
         chars(): $IntStream;

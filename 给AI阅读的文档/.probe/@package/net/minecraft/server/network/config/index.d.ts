@@ -10,12 +10,12 @@ import { $List_, $Set_ } from "@package/java/util";
 declare module "@package/net/minecraft/server/network/config" {
     export class $SynchronizeRegistriesTask implements $ConfigurationTask {
         type(): $ConfigurationTask$Type;
-        start(arg0: $Consumer_<$Packet<never>>): void;
-        handleResponse(arg0: $List_<$KnownPack_>, arg1: $Consumer_<$Packet<never>>): void;
-        handler$gcm000$fabric_resource_loader_v0$onSelectKnownPacks(arg0: $List_<any>, arg1: $Consumer_<any>, arg2: $CallbackInfo): void;
-        handler$gcm000$fabric_resource_loader_v0$syncRegistryAndTags(arg0: $Consumer_<any>, arg1: $Set_<any>, arg2: $CallbackInfo): void;
+        start(task: $Consumer_<$Packet<never>>): void;
+        handleResponse(packs: $List_<$KnownPack_>, packetSender: $Consumer_<$Packet<never>>): void;
+        handler$fnn000$fabric_resource_loader_v0$onSelectKnownPacks(arg0: $List_<any>, arg1: $Consumer_<any>, arg2: $CallbackInfo): void;
+        handler$fnn000$fabric_resource_loader_v0$syncRegistryAndTags(arg0: $Consumer_<any>, arg1: $Set_<any>, arg2: $CallbackInfo): void;
         static TYPE: $ConfigurationTask$Type;
-        constructor(arg0: $List_<$KnownPack_>, arg1: $LayeredRegistryAccess<$RegistryLayer_>);
+        constructor(requestedPacks: $List_<$KnownPack_>, registries: $LayeredRegistryAccess<$RegistryLayer_>);
     }
     export class $JoinWorldTask implements $ConfigurationTask {
         type(): $ConfigurationTask$Type;
@@ -25,8 +25,8 @@ declare module "@package/net/minecraft/server/network/config" {
     }
     export class $ServerResourcePackConfigurationTask implements $ConfigurationTask {
         type(): $ConfigurationTask$Type;
-        start(arg0: $Consumer_<$Packet<never>>): void;
+        start(task: $Consumer_<$Packet<never>>): void;
         static TYPE: $ConfigurationTask$Type;
-        constructor(arg0: $MinecraftServer$ServerResourcePackInfo_);
+        constructor(info: $MinecraftServer$ServerResourcePackInfo_);
     }
 }

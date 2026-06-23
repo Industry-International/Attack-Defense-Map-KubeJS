@@ -18,7 +18,7 @@ export * as placement from "@package/net/minecraft/data/worldgen/placement";
 
 declare module "@package/net/minecraft/data/worldgen" {
     export class $ProcessorLists {
-        static bootstrap(arg0: $BootstrapContext<$StructureProcessorList_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureProcessorList_>): void;
         static STREET_SAVANNA: $ResourceKey<$StructureProcessorList>;
         static FOSSIL_ROT: $ResourceKey<$StructureProcessorList>;
         static FOSSIL_DIAMONDS: $ResourceKey<$StructureProcessorList>;
@@ -62,50 +62,50 @@ declare module "@package/net/minecraft/data/worldgen" {
         constructor();
     }
     export class $BastionBridgePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         constructor();
     }
     export class $AncientCityStructurePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         constructor();
     }
     export class $TerrainProvider {
-        static overworldOffset<C, I extends $ToFloatFunction<C>>(arg0: I, arg1: I, arg2: I, arg3: boolean): $CubicSpline<C, I>;
-        static buildErosionOffsetSpline<C, I extends $ToFloatFunction<C>>(arg0: I, arg1: I, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean, arg9: boolean, arg10: $ToFloatFunction<number>): $CubicSpline<C, I>;
-        static overworldFactor<C, I extends $ToFloatFunction<C>>(arg0: I, arg1: I, arg2: I, arg3: I, arg4: boolean): $CubicSpline<C, I>;
-        static overworldJaggedness<C, I extends $ToFloatFunction<C>>(arg0: I, arg1: I, arg2: I, arg3: I, arg4: boolean): $CubicSpline<C, I>;
+        static overworldOffset<C, I extends $ToFloatFunction<C>>(continents: I, erosion: I, ridgesFolded: I, amplified: boolean): $CubicSpline<C, I>;
+        static overworldFactor<C, I extends $ToFloatFunction<C>>(continents: I, erosion: I, ridges: I, ridgesFolded: I, amplified: boolean): $CubicSpline<C, I>;
+        static buildErosionOffsetSpline<C, I extends $ToFloatFunction<C>>(erosion: I, ridgesFolded: I, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean, arg9: boolean, transform: $ToFloatFunction<number>): $CubicSpline<C, I>;
+        static overworldJaggedness<C, I extends $ToFloatFunction<C>>(continents: I, erosion: I, ridges: I, ridgesFolded: I, amplified: boolean): $CubicSpline<C, I>;
         constructor();
     }
     export class $SnowyVillagePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $Pools {
-        static register(arg0: $BootstrapContext<$StructureTemplatePool_>, arg1: string, arg2: $StructureTemplatePool_): void;
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
-        static parseKey(arg0: string): $ResourceKey<$StructureTemplatePool>;
-        static createKey(arg0: string): $ResourceKey<$StructureTemplatePool>;
+        static register(context: $BootstrapContext<$StructureTemplatePool_>, name: string, pool: $StructureTemplatePool_): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
+        static parseKey(name: string): $ResourceKey<$StructureTemplatePool>;
+        static createKey(name: string): $ResourceKey<$StructureTemplatePool>;
         static EMPTY: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $BastionHousingUnitsPools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         constructor();
     }
     export class $PillagerOutpostPools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $StructureSets {
-        static bootstrap(arg0: $BootstrapContext<$StructureSet_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureSet_>): void;
     }
     export interface $StructureSets {
     }
     export class $TrialChambersStructurePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
-        static spawner(arg0: string): string;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
+        static spawner(name: string): string;
         static HALLWAY_FALLBACK: $ResourceKey<$StructureTemplatePool>;
         static START: $ResourceKey<$StructureTemplatePool>;
         static ALIAS_BINDINGS: $List<$PoolAliasBinding>;
@@ -115,53 +115,53 @@ declare module "@package/net/minecraft/data/worldgen" {
     export class $BootstrapContext<T> {
     }
     export interface $BootstrapContext<T> {
-        lookup<S>(arg0: $ResourceKey_<$Registry<S>>): $HolderGetter<S>;
-        register(arg0: $ResourceKey_<T>, arg1: T, arg2: $Lifecycle): $Holder$Reference<T>;
-        register(arg0: $ResourceKey_<T>, arg1: T): $Holder$Reference<T>;
+        lookup<S>(registryKey: $ResourceKey_<$Registry<S>>): $HolderGetter<S>;
+        register(key: $ResourceKey_<T>, value: T, registryLifecycle: $Lifecycle): $Holder$Reference<T>;
+        register(key: $ResourceKey_<T>, value: T): $Holder$Reference<T>;
         registryLookup<S>(arg0: $ResourceKey_<$Registry<S>>): ($HolderLookup$RegistryLookup<S>) | undefined;
     }
     export class $SavannaVillagePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $TaigaVillagePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $SurfaceRuleData {
-        static end(): $SurfaceRules$RuleSource;
-        static air(): $SurfaceRules$RuleSource;
         static nether(): $SurfaceRules$RuleSource;
+        static end(): $SurfaceRules$RuleSource;
+        static overworldLike(aboveGround: boolean, bedrockRoof: boolean, bedrockFloor: boolean): $SurfaceRules$RuleSource;
         static overworld(): $SurfaceRules$RuleSource;
-        static overworldLike(arg0: boolean, arg1: boolean, arg2: boolean): $SurfaceRules$RuleSource;
+        static air(): $SurfaceRules$RuleSource;
         constructor();
     }
     export class $BastionPieces {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $BastionHoglinStablePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         constructor();
     }
     export class $BastionTreasureRoomPools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         constructor();
     }
     export class $VillagePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         constructor();
     }
     export class $PlainVillagePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $Carvers {
-        static bootstrap(arg0: $BootstrapContext<$ConfiguredWorldCarver_<never>>): void;
+        static bootstrap(context: $BootstrapContext<$ConfiguredWorldCarver_<never>>): void;
         static CAVE: $ResourceKey<$ConfiguredWorldCarver<never>>;
         static CANYON: $ResourceKey<$ConfiguredWorldCarver<never>>;
         static CAVE_EXTRA_UNDERGROUND: $ResourceKey<$ConfiguredWorldCarver<never>>;
@@ -169,25 +169,25 @@ declare module "@package/net/minecraft/data/worldgen" {
         constructor();
     }
     export class $AncientCityStructurePieces {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $DesertVillagePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $Structures {
-        static bootstrap(arg0: $BootstrapContext<$Structure_>): void;
+        static bootstrap(context: $BootstrapContext<$Structure_>): void;
         constructor();
     }
     export class $DimensionTypes {
-        static bootstrap(arg0: $BootstrapContext<$DimensionType_>): void;
+        static bootstrap(context: $BootstrapContext<$DimensionType_>): void;
         constructor();
     }
     export class $NoiseData {
-        static bootstrap(arg0: $BootstrapContext<$NormalNoise$NoiseParameters_>): void;
+        static bootstrap(context: $BootstrapContext<$NormalNoise$NoiseParameters_>): void;
         /**
          * @deprecated
          */
@@ -195,105 +195,105 @@ declare module "@package/net/minecraft/data/worldgen" {
         constructor();
     }
     export class $BiomeDefaultFeatures {
-        static monsters(arg0: $MobSpawnSettings$Builder, arg1: number, arg2: number, arg3: number, arg4: boolean): void;
-        static endSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static addExtraEmeralds(arg0: $BiomeGenerationSettings$Builder): void;
-        static addExtraGold(arg0: $BiomeGenerationSettings$Builder): void;
-        static addInfestedStone(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultOres(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultOres(arg0: $BiomeGenerationSettings$Builder, arg1: boolean): void;
-        static addSwampClayDisk(arg0: $BiomeGenerationSettings$Builder): void;
-        static addMossyStoneBlock(arg0: $BiomeGenerationSettings$Builder): void;
-        static addRareBerryBushes(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDripstone(arg0: $BiomeGenerationSettings$Builder): void;
-        static addTaigaTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addBirchTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addTallBirchTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addBadlandGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addJungleTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addWarmFlowers(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSavannaTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSavannaGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addPlainGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addOtherBirchTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addWaterTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addGroveTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addTaigaGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addForestFlowers(arg0: $BiomeGenerationSettings$Builder): void;
-        static addBadlandsTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addMountainTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addForestGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultFlowers(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSnowyTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addJungleGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addPlainVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSwampVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addJungleMelons(arg0: $BiomeGenerationSettings$Builder): void;
-        static addJungleVines(arg0: $BiomeGenerationSettings$Builder): void;
-        static warmOceanSpawns(arg0: $MobSpawnSettings$Builder, arg1: number, arg2: number): void;
-        static snowySpawns(arg0: $MobSpawnSettings$Builder): void;
-        static mooshroomSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static farmAnimals(arg0: $MobSpawnSettings$Builder): void;
-        static desertSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static addAncientDebris(arg0: $BiomeGenerationSettings$Builder): void;
-        static oceanSpawns(arg0: $MobSpawnSettings$Builder, arg1: number, arg2: number, arg3: number): void;
-        static addLukeWarmKelp(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultSprings(arg0: $BiomeGenerationSettings$Builder): void;
-        static plainsSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static addSurfaceFreezing(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultSeagrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addIcebergs(arg0: $BiomeGenerationSettings$Builder): void;
-        static commonSpawns(arg0: $MobSpawnSettings$Builder, arg1: number): void;
-        static commonSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static baseJungleSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static addFrozenSprings(arg0: $BiomeGenerationSettings$Builder): void;
-        static caveSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static addBlueIce(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSculk(arg0: $BiomeGenerationSettings$Builder): void;
-        static addFerns(arg0: $BiomeGenerationSettings$Builder): void;
-        static addCommonBerryBushes(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultMonsterRoom(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSparseJungleTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDesertVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addMountainForestTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addMangroveSwampDisks(arg0: $BiomeGenerationSettings$Builder): void;
-        static addMangroveSwampVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addLightBambooVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultSoftDisks(arg0: $BiomeGenerationSettings$Builder): void;
-        static addShatteredSavannaTrees(arg0: $BiomeGenerationSettings$Builder): void;
-        static addLushCavesSpecialOres(arg0: $BiomeGenerationSettings$Builder): void;
-        static addShatteredSavannaGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addBambooVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSavannaExtraGrass(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultCarversAndLakes(arg0: $BiomeGenerationSettings$Builder): void;
-        static addMushroomFieldVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultMushrooms(arg0: $BiomeGenerationSettings$Builder): void;
-        static addBadlandExtraVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addGiantTaigaVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultExtraVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static dripstoneCavesSpawns(arg0: $MobSpawnSettings$Builder): void;
-        static addMeadowVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addFossilDecoration(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDesertExtraDecoration(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDesertExtraVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSparseJungleMelons(arg0: $BiomeGenerationSettings$Builder): void;
-        static addNetherDefaultOres(arg0: $BiomeGenerationSettings$Builder): void;
-        static addCherryGroveVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addSwampExtraVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addLushCavesVegetationFeatures(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultUndergroundVariety(arg0: $BiomeGenerationSettings$Builder): void;
-        static addColdOceanExtraVegetation(arg0: $BiomeGenerationSettings$Builder): void;
-        static addDefaultCrystalFormations(arg0: $BiomeGenerationSettings$Builder): void;
+        static endSpawns(builder: $MobSpawnSettings$Builder): void;
+        static addJungleMelons(builder: $BiomeGenerationSettings$Builder): void;
+        static addJungleVines(builder: $BiomeGenerationSettings$Builder): void;
+        static addSavannaTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addWarmFlowers(builder: $BiomeGenerationSettings$Builder): void;
+        static addInfestedStone(builder: $BiomeGenerationSettings$Builder): void;
+        static oceanSpawns(builder: $MobSpawnSettings$Builder, squidWeight: number, squidMaxCount: number, codWeight: number): void;
+        static mooshroomSpawns(builder: $MobSpawnSettings$Builder): void;
+        static addBirchTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultFlowers(builder: $BiomeGenerationSettings$Builder): void;
+        static addPlainGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addSnowyTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultSeagrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addIcebergs(builder: $BiomeGenerationSettings$Builder): void;
+        static addRareBerryBushes(builder: $BiomeGenerationSettings$Builder): void;
+        static addWaterTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addLukeWarmKelp(builder: $BiomeGenerationSettings$Builder): void;
+        static addSavannaGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addTaigaTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addTallBirchTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addJungleGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addJungleTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addMossyStoneBlock(builder: $BiomeGenerationSettings$Builder): void;
+        static addBadlandsTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addMountainTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addForestGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addSwampVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addTaigaGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addFrozenSprings(builder: $BiomeGenerationSettings$Builder): void;
+        static addOtherBirchTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addGroveTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addSurfaceFreezing(builder: $BiomeGenerationSettings$Builder): void;
+        static addSwampClayDisk(builder: $BiomeGenerationSettings$Builder): void;
+        static commonSpawns(builder: $MobSpawnSettings$Builder, skeletonWeight: number): void;
+        static commonSpawns(builder: $MobSpawnSettings$Builder): void;
+        static warmOceanSpawns(builder: $MobSpawnSettings$Builder, squidWeight: number, squidMinCount: number): void;
+        static snowySpawns(builder: $MobSpawnSettings$Builder): void;
+        static baseJungleSpawns(builder: $MobSpawnSettings$Builder): void;
+        static addForestFlowers(builder: $BiomeGenerationSettings$Builder): void;
+        static plainsSpawns(builder: $MobSpawnSettings$Builder): void;
+        static addBadlandGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addPlainVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static farmAnimals(builder: $MobSpawnSettings$Builder): void;
+        static desertSpawns(builder: $MobSpawnSettings$Builder): void;
+        static addDefaultSprings(builder: $BiomeGenerationSettings$Builder): void;
+        static addDripstone(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultOres(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultOres(builder: $BiomeGenerationSettings$Builder, largeOres: boolean): void;
+        static addExtraGold(builder: $BiomeGenerationSettings$Builder): void;
+        static addExtraEmeralds(builder: $BiomeGenerationSettings$Builder): void;
+        static monsters(builder: $MobSpawnSettings$Builder, zombieWeight: number, zombieVillagerWeight: number, skeletonWeight: number, isUnderwater: boolean): void;
+        static addAncientDebris(builder: $BiomeGenerationSettings$Builder): void;
+        static addSculk(builder: $BiomeGenerationSettings$Builder): void;
+        static addFerns(builder: $BiomeGenerationSettings$Builder): void;
+        static addBlueIce(builder: $BiomeGenerationSettings$Builder): void;
+        static caveSpawns(builder: $MobSpawnSettings$Builder): void;
+        static addNetherDefaultOres(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultMushrooms(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultMonsterRoom(builder: $BiomeGenerationSettings$Builder): void;
+        static addBambooVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addLightBambooVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addSparseJungleTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addMushroomFieldVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addCommonBerryBushes(builder: $BiomeGenerationSettings$Builder): void;
+        static addSparseJungleMelons(builder: $BiomeGenerationSettings$Builder): void;
+        static addMangroveSwampVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultSoftDisks(builder: $BiomeGenerationSettings$Builder): void;
+        static addDesertExtraVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addMeadowVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addSwampExtraVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addShatteredSavannaGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addCherryGroveVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addLushCavesSpecialOres(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultExtraVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addShatteredSavannaTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addDesertVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultCarversAndLakes(builder: $BiomeGenerationSettings$Builder): void;
+        static addGiantTaigaVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static addBadlandExtraVegetation(builder: $BiomeGenerationSettings$Builder): void;
+        static dripstoneCavesSpawns(builder: $MobSpawnSettings$Builder): void;
+        static addFossilDecoration(builder: $BiomeGenerationSettings$Builder): void;
+        static addDesertExtraDecoration(builder: $BiomeGenerationSettings$Builder): void;
+        static addSavannaExtraGrass(builder: $BiomeGenerationSettings$Builder): void;
+        static addMangroveSwampDisks(builder: $BiomeGenerationSettings$Builder): void;
+        static addMountainForestTrees(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultUndergroundVariety(builder: $BiomeGenerationSettings$Builder): void;
+        static addDefaultCrystalFormations(builder: $BiomeGenerationSettings$Builder): void;
+        static addLushCavesVegetationFeatures(builder: $BiomeGenerationSettings$Builder): void;
+        static addColdOceanExtraVegetation(builder: $BiomeGenerationSettings$Builder): void;
         constructor();
     }
     export class $TrailRuinsStructurePools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         static START: $ResourceKey<$StructureTemplatePool>;
         constructor();
     }
     export class $BastionSharedPools {
-        static bootstrap(arg0: $BootstrapContext<$StructureTemplatePool_>): void;
+        static bootstrap(context: $BootstrapContext<$StructureTemplatePool_>): void;
         constructor();
     }
 }

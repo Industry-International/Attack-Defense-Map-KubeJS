@@ -27,16 +27,16 @@ declare module "@package/com/simibubi/create/content/equipment/potatoCannon" {
         getItem(): $ItemStack;
         writeSpawnData(arg0: $RegistryFriendlyByteBuf): void;
         readSpawnData(arg0: $RegistryFriendlyByteBuf): void;
-        setEnchantmentEffectsFromCannon(arg0: $ItemStack_): void;
-        setItem(arg0: $ItemStack_): void;
         aeronautics$setDamageMultiplier(arg0: number): void;
-        static playLaunchSound(arg0: $Level_, arg1: $Vec3_, arg2: number): void;
-        static playHitSound(arg0: $Level_, arg1: $Vec3_): void;
-        setStuckEntity(arg0: $Entity): void;
-        getStuckEntity(): $Entity;
+        aeronautics$setIsFromMountedPotatoCannon(arg0: boolean): void;
         getRenderMode(): $PotatoProjectileRenderMode;
         getProjectileType(): $PotatoCannonProjectileType;
-        aeronautics$setIsFromMountedPotatoCannon(arg0: boolean): void;
+        static playLaunchSound(arg0: $Level_, arg1: $Vec3_, arg2: number): void;
+        setStuckEntity(arg0: $Entity): void;
+        getStuckEntity(): $Entity;
+        static playHitSound(arg0: $Level_, arg1: $Vec3_): void;
+        setItem(arg0: $ItemStack_): void;
+        setEnchantmentEffectsFromCannon(arg0: $ItemStack_): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -116,8 +116,8 @@ declare module "@package/com/simibubi/create/content/equipment/potatoCannon" {
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
         constructor(arg0: $EntityType_<$AbstractHurtingProjectile>, arg1: $Level_);
-        set enchantmentEffectsFromCannon(value: $ItemStack_);
         get renderMode(): $PotatoProjectileRenderMode;
         get projectileType(): $PotatoCannonProjectileType;
+        set enchantmentEffectsFromCannon(value: $ItemStack_);
     }
 }

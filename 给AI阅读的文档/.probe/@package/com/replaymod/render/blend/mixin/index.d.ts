@@ -4,18 +4,18 @@ declare module "@package/com/replaymod/render/blend/mixin" {
     export class $ParticleAccessor {
     }
     export interface $ParticleAccessor {
-        getPosY(): number;
         getPosX(): number;
-        getXo(): number;
+        getPosY(): number;
         getPosZ(): number;
-        getYo(): number;
         getZo(): number;
-        get posY(): number;
+        getXo(): number;
+        getYo(): number;
         get posX(): number;
-        get xo(): number;
+        get posY(): number;
         get posZ(): number;
-        get yo(): number;
         get zo(): number;
+        get xo(): number;
+        get yo(): number;
     }
     export class $ItemRendererAccessor {
     }

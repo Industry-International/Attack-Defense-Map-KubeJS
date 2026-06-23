@@ -37,20 +37,20 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/net/minecraft/world/entity/animal/armadillo" {
     export class $Armadillo$ArmadilloState extends $Enum<$Armadillo$ArmadilloState> implements $StringRepresentable {
         static values(): $Armadillo$ArmadilloState[];
-        static valueOf(arg0: string): $Armadillo$ArmadilloState;
-        shouldHideInShell(arg0: number): boolean;
-        animationDuration(): number;
-        static fromName(arg0: string): $Armadillo$ArmadilloState;
-        isThreatened(): boolean;
+        static valueOf(name: string): $Armadillo$ArmadilloState;
         getSerializedName(): string;
+        static fromName(name: string): $Armadillo$ArmadilloState;
+        shouldHideInShell(inStateTicks: number): boolean;
+        animationDuration(): number;
+        isThreatened(): boolean;
         getRemappedEnumConstantName(): string;
         static SCARED: $Armadillo$ArmadilloState;
         static ROLLING: $Armadillo$ArmadilloState;
         static IDLE: $Armadillo$ArmadilloState;
         static UNROLLING: $Armadillo$ArmadilloState;
         static STREAM_CODEC: $StreamCodec<$ByteBuf, $Armadillo$ArmadilloState>;
-        get threatened(): boolean;
         get serializedName(): string;
+        get threatened(): boolean;
         get remappedEnumConstantName(): string;
     }
     /**
@@ -59,17 +59,43 @@ declare module "@package/net/minecraft/world/entity/animal/armadillo" {
     export type $Armadillo$ArmadilloState_ = "idle" | "rolling" | "scared" | "unrolling";
     export class $Armadillo extends $Animal {
         getState(): $Armadillo$ArmadilloState;
-        shouldHideInShell(): boolean;
-        switchToState(arg0: $Armadillo$ArmadilloState_): void;
-        canStayRolledUp(): boolean;
-        brushOffScute(): boolean;
-        shouldSwitchToScaredState(): boolean;
-        static checkArmadilloSpawnRules(arg0: $EntityType_<$Armadillo>, arg1: $LevelAccessor, arg2: $MobSpawnType_, arg3: $BlockPos_, arg4: $RandomSource): boolean;
-        isScared(): boolean;
+        /**
+         * Called to update the entity's position/logic.
+         */
         rollUp(): void;
-        isScaredBy(arg0: $LivingEntity): boolean;
+        /**
+         * Called to update the entity's position/logic.
+         */
         rollOut(): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        isScared(): boolean;
+        isScaredBy(entity: $LivingEntity): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        shouldHideInShell(): boolean;
+        switchToState(state: $Armadillo$ArmadilloState_): void;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        canStayRolledUp(): boolean;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        brushOffScute(): boolean;
         static createAttributes(): $AttributeSupplier$Builder;
+        /**
+         * If a rider of this entity can interact with this entity. Should return true on the
+         * ridden entity if so.
+         */
+        shouldSwitchToScaredState(): boolean;
+        static checkArmadilloSpawnRules(entityType: $EntityType_<$Armadillo>, level: $LevelAccessor, spawnType: $MobSpawnType_, pos: $BlockPos_, random: $RandomSource): boolean;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -249,7 +275,7 @@ declare module "@package/net/minecraft/world/entity/animal/armadillo" {
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
         age: number;
-        constructor(arg0: $EntityType_<$Animal>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Animal>, level: $Level_);
         get state(): $Armadillo$ArmadilloState;
         get scared(): boolean;
     }
@@ -260,11 +286,11 @@ declare module "@package/net/minecraft/world/entity/animal/armadillo" {
         constructor(arg0: number);
     }
     export class $ArmadilloAi$ArmadilloBallUp extends $Behavior<$Armadillo> {
-        start(arg0: $ServerLevel, arg1: $Armadillo, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: $Armadillo, arg2: number): void;
-        tick(arg0: $ServerLevel, arg1: $Armadillo, arg2: number): void;
-        canStillUse(arg0: $ServerLevel, arg1: $Armadillo, arg2: number): boolean;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Armadillo): boolean;
+        start(level: $ServerLevel, entity: $Armadillo, gameTime: number): void;
+        stop(level: $ServerLevel, entity: $Armadillo, gameTime: number): void;
+        tick(level: $ServerLevel, entity: $Armadillo, gameTime: number): void;
+        canStillUse(level: $ServerLevel, entity: $Armadillo, gameTime: number): boolean;
+        checkExtraStartConditions(level: $ServerLevel, owner: $Armadillo): boolean;
         nextPeekTimer: number;
         static DEFAULT_DURATION: number;
         dangerWasAround: boolean;
@@ -275,10 +301,10 @@ declare module "@package/net/minecraft/world/entity/animal/armadillo" {
         constructor();
     }
     export class $ArmadilloAi {
-        static updateActivity(arg0: $Armadillo): void;
-        static makeBrain(arg0: $Brain<$Armadillo>): $Brain<never>;
-        static brainProvider(): $Brain$Provider<$Armadillo>;
+        static updateActivity(armadillo: $Armadillo): void;
+        static makeBrain(brain: $Brain<$Armadillo>): $Brain<never>;
         static getTemptations(): $Predicate<$ItemStack>;
+        static brainProvider(): $Brain$Provider<$Armadillo>;
         constructor();
         static get temptations(): $Predicate<$ItemStack>;
     }

@@ -9,22 +9,22 @@ declare module "@package/net/minecraft/client/resources/metadata/animation" {
         getHat(): $VillagerMetaDataSection$Hat;
         static SECTION_NAME: string;
         static SERIALIZER: $VillagerMetadataSectionSerializer;
-        constructor(arg0: $VillagerMetaDataSection$Hat_);
+        constructor(hat: $VillagerMetaDataSection$Hat_);
         get hat(): $VillagerMetaDataSection$Hat;
     }
     export class $AnimationFrame {
         getIndex(): number;
-        getTime(arg0: number): number;
+        getTime(defaultValue: number): number;
         static UNKNOWN_FRAME_TIME: number;
-        constructor(arg0: number);
-        constructor(arg0: number, arg1: number);
+        constructor(index: number);
+        constructor(index: number, time: number);
         get index(): number;
     }
     export class $VillagerMetaDataSection$Hat extends $Enum<$VillagerMetaDataSection$Hat> {
         getName(): string;
         static values(): $VillagerMetaDataSection$Hat[];
-        static valueOf(arg0: string): $VillagerMetaDataSection$Hat;
-        static getByName(arg0: string): $VillagerMetaDataSection$Hat;
+        static valueOf(name: string): $VillagerMetaDataSection$Hat;
+        static getByName(name: string): $VillagerMetaDataSection$Hat;
         static PARTIAL: $VillagerMetaDataSection$Hat;
         static NONE: $VillagerMetaDataSection$Hat;
         static FULL: $VillagerMetaDataSection$Hat;
@@ -34,14 +34,14 @@ declare module "@package/net/minecraft/client/resources/metadata/animation" {
      */
     export type $VillagerMetaDataSection$Hat_ = "none" | "partial" | "full";
     export class $AnimationMetadataSection implements $AnimationMetadataSectionAccessor {
-        calculateFrameSize(arg0: number, arg1: number): $FrameSize;
-        forEachFrame(arg0: $AnimationMetadataSection$FrameOutput_): void;
+        calculateFrameSize(width: number, height: number): $FrameSize;
+        forEachFrame(output: $AnimationMetadataSection$FrameOutput_): void;
         getDefaultFrameTime(): number;
         isInterpolatedFrames(): boolean;
-        getFrameHeight(): number;
-        getFrameWidth(): number;
         setFrameHeight(arg0: number): void;
+        getFrameWidth(): number;
         setFrameWidth(arg0: number): void;
+        getFrameHeight(): number;
         static SECTION_NAME: string;
         frameHeight: number;
         frameWidth: number;
@@ -50,19 +50,25 @@ declare module "@package/net/minecraft/client/resources/metadata/animation" {
         static UNKNOWN_SIZE: number;
         static DEFAULT_FRAME_TIME: number;
         static EMPTY: $AnimationMetadataSection;
-        constructor(arg0: $List_<$AnimationFrame>, arg1: number, arg2: number, arg3: number, arg4: boolean);
+        constructor(frames: $List_<$AnimationFrame>, frameWidth: number, frameHeight: number, defaultFrameTime: number, interpolatedFrames: boolean);
         get defaultFrameTime(): number;
         get interpolatedFrames(): boolean;
     }
     export class $AnimationMetadataSectionSerializer implements $MetadataSectionSerializer<$AnimationMetadataSection> {
+        /**
+         * The name of this section type as it appears in JSON.
+         */
         getMetadataSectionName(): string;
-        fromJson(arg0: $JsonObject_): $AnimationMetadataSection;
+        fromJson(json: $JsonObject_): $AnimationMetadataSection;
         constructor();
         get metadataSectionName(): string;
     }
     export class $VillagerMetadataSectionSerializer implements $MetadataSectionSerializer<$VillagerMetaDataSection> {
+        /**
+         * The name of this section type as it appears in JSON.
+         */
         getMetadataSectionName(): string;
-        fromJson(arg0: $JsonObject_): $VillagerMetaDataSection;
+        fromJson(json: $JsonObject_): $VillagerMetaDataSection;
         constructor();
         get metadataSectionName(): string;
     }
@@ -74,7 +80,7 @@ declare module "@package/net/minecraft/client/resources/metadata/animation" {
     export class $AnimationMetadataSection$FrameOutput {
     }
     export interface $AnimationMetadataSection$FrameOutput {
-        accept(arg0: number, arg1: number): void;
+        accept(index: number, time: number): void;
     }
     /**
      * Values that may be interpreted as {@link $AnimationMetadataSection$FrameOutput}.

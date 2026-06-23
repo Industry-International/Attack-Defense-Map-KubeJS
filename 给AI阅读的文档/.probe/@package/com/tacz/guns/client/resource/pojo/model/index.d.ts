@@ -5,39 +5,39 @@ declare module "@package/com/tacz/guns/client/resource/pojo/model" {
     export class $CubesItem {
         getSize(): $List<number>;
         getOrigin(): $List<number>;
-        setMirror(arg0: boolean): void;
+        isMirror(): boolean;
+        getFaceUv(): $FaceUVsItem;
+        getUv(): $List<number>;
+        getInflate(): number;
         getRotation(): $List<number>;
         getPivot(): $List<number>;
-        getInflate(): number;
-        getFaceUv(): $FaceUVsItem;
-        isMirror(): boolean;
-        getUv(): $List<number>;
         isHasMirror(): boolean;
+        setMirror(arg0: boolean): void;
         constructor();
         get size(): $List<number>;
         get origin(): $List<number>;
-        get rotation(): $List<number>;
-        get pivot(): $List<number>;
-        get inflate(): number;
         get faceUv(): $FaceUVsItem;
         get uv(): $List<number>;
+        get inflate(): number;
+        get rotation(): $List<number>;
+        get pivot(): $List<number>;
         get hasMirror(): boolean;
     }
     export class $GeometryModelLegacy {
         deco(): $GeometryModelLegacy;
+        getBones(): $List<$BonesItem>;
         getTextureWidth(): number;
         getTextureHeight(): number;
+        getVisibleBoundsWidth(): number;
         getVisibleBoundsHeight(): number;
         getVisibleBoundsOffset(): $List<number>;
-        getVisibleBoundsWidth(): number;
-        getBones(): $List<$BonesItem>;
         constructor();
+        get bones(): $List<$BonesItem>;
         get textureWidth(): number;
         get textureHeight(): number;
+        get visibleBoundsWidth(): number;
         get visibleBoundsHeight(): number;
         get visibleBoundsOffset(): $List<number>;
-        get visibleBoundsWidth(): number;
-        get bones(): $List<$BonesItem>;
     }
     export class $GeometryModelNew {
         getDescription(): $Description;
@@ -59,17 +59,17 @@ declare module "@package/com/tacz/guns/client/resource/pojo/model" {
     export class $BonesItem {
         getName(): string;
         getParent(): string;
+        isMirror(): boolean;
+        getCubes(): $List<$CubesItem>;
         getRotation(): $List<number>;
         getPivot(): $List<number>;
-        getCubes(): $List<$CubesItem>;
-        isMirror(): boolean;
         constructor();
         get name(): string;
         get parent(): string;
+        get mirror(): boolean;
+        get cubes(): $List<$CubesItem>;
         get rotation(): $List<number>;
         get pivot(): $List<number>;
-        get cubes(): $List<$CubesItem>;
-        get mirror(): boolean;
     }
     export class $BedrockVersion extends $Enum<$BedrockVersion> {
         static values(): $BedrockVersion[];
@@ -88,14 +88,14 @@ declare module "@package/com/tacz/guns/client/resource/pojo/model" {
     export class $Description {
         getTextureWidth(): number;
         getTextureHeight(): number;
+        getVisibleBoundsWidth(): number;
         getVisibleBoundsHeight(): number;
         getVisibleBoundsOffset(): $List<number>;
-        getVisibleBoundsWidth(): number;
         constructor();
         get textureWidth(): number;
         get textureHeight(): number;
+        get visibleBoundsWidth(): number;
         get visibleBoundsHeight(): number;
         get visibleBoundsOffset(): $List<number>;
-        get visibleBoundsWidth(): number;
     }
 }

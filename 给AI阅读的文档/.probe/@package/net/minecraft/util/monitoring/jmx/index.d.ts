@@ -4,13 +4,13 @@ import { $Object } from "@package/java/lang";
 
 declare module "@package/net/minecraft/util/monitoring/jmx" {
     export class $MinecraftServerStatistics implements $DynamicMBean {
+        invoke(actionName: string, params: $Object[], signature: string[]): $Object;
+        getAttributes(attributes: string[]): $AttributeList;
+        setAttribute(attribute: $Attribute): void;
+        getAttribute(name: string): $Object;
         getMBeanInfo(): $MBeanInfo;
-        setAttributes(arg0: $AttributeList): $AttributeList;
-        invoke(arg0: string, arg1: $Object[], arg2: string[]): $Object;
-        getAttributes(arg0: string[]): $AttributeList;
-        setAttribute(arg0: $Attribute): void;
-        getAttribute(arg0: string): $Object;
-        static registerJmxMonitoring(arg0: $MinecraftServer): void;
+        setAttributes(attributes: $AttributeList): $AttributeList;
+        static registerJmxMonitoring(server: $MinecraftServer): void;
         get MBeanInfo(): $MBeanInfo;
     }
     export class $MinecraftServerStatistics$AttributeDescription {

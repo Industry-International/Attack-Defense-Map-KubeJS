@@ -1,9 +1,10 @@
 import { $Logger } from "@package/org/slf4j";
 import { $InetSocketAddress } from "@package/java/net";
+import { $Optional } from "@package/java/util";
 
 declare module "@package/net/minecraft/client/multiplayer/resolver" {
     export class $ResolvedServerAddress {
-        static from(arg0: $InetSocketAddress): $ResolvedServerAddress;
+        static from(inetSocketAddress: $InetSocketAddress): $ResolvedServerAddress;
     }
     export interface $ResolvedServerAddress {
         getPort(): number;
@@ -18,13 +19,13 @@ declare module "@package/net/minecraft/client/multiplayer/resolver" {
         static createFromService(): $AddressCheck;
     }
     export interface $AddressCheck {
-        isAllowed(arg0: $ResolvedServerAddress): boolean;
-        isAllowed(arg0: $ServerAddress): boolean;
+        isAllowed(resolvedServerAddress: $ResolvedServerAddress): boolean;
+        isAllowed(serverAddress: $ServerAddress): boolean;
     }
     export class $ServerNameResolver {
-        resolveAddress(arg0: $ServerAddress): ($ResolvedServerAddress) | undefined;
+        resolveAddress(serverAddress: $ServerAddress): ($ResolvedServerAddress) | undefined;
         static DEFAULT: $ServerNameResolver;
-        constructor(arg0: $ServerAddressResolver_, arg1: $ServerRedirectHandler_, arg2: $AddressCheck);
+        constructor(resolver: $ServerAddressResolver_, redirectHandler: $ServerRedirectHandler_, addressCheck: $AddressCheck);
     }
     export class $ServerRedirectHandler {
         static createDnsSrvRedirectHandler(): $ServerRedirectHandler;
@@ -32,18 +33,19 @@ declare module "@package/net/minecraft/client/multiplayer/resolver" {
         static EMPTY: $ServerRedirectHandler;
     }
     export interface $ServerRedirectHandler {
-        lookupRedirect(arg0: $ServerAddress): ($ServerAddress) | undefined;
+        lookupRedirect(serverAddress: $ServerAddress): ($ServerAddress) | undefined;
     }
     /**
      * Values that may be interpreted as {@link $ServerRedirectHandler}.
      */
     export type $ServerRedirectHandler_ = ((arg0: $ServerAddress) => ($ServerAddress) | undefined);
     export class $ServerAddressResolver {
+        static lambda$static$0(serverAddress: $ServerAddress): $Optional<any>;
         static SYSTEM: $ServerAddressResolver;
         static LOGGER: $Logger;
     }
     export interface $ServerAddressResolver {
-        resolve(arg0: $ServerAddress): ($ResolvedServerAddress) | undefined;
+        resolve(serverAddress: $ServerAddress): ($ResolvedServerAddress) | undefined;
     }
     /**
      * Values that may be interpreted as {@link $ServerAddressResolver}.
@@ -52,10 +54,10 @@ declare module "@package/net/minecraft/client/multiplayer/resolver" {
     export class $ServerAddress {
         getHost(): string;
         getPort(): number;
-        static parseString(arg0: string): $ServerAddress;
-        static parsePort(arg0: string): number;
-        static isValidAddress(arg0: string): boolean;
-        constructor(arg0: string, arg1: number);
+        static parseString(ip: string): $ServerAddress;
+        static parsePort(port: string): number;
+        static isValidAddress(hostAndPort: string): boolean;
+        constructor(host: string, port: number);
         get host(): string;
         get port(): number;
     }

@@ -17,8 +17,8 @@ declare module "@package/com/rafacasari/fairylights/server/fastener" {
     export class $FastenerType extends $Enum<$FastenerType> {
         static values(): $FastenerType[];
         static valueOf(arg0: string): $FastenerType;
-        static deserialize(arg0: $CompoundTag_): $FastenerAccessor;
         static serialize(arg0: $FastenerAccessor): $CompoundTag;
+        static deserialize(arg0: $CompoundTag_): $FastenerAccessor;
         createAccessor(): $FastenerAccessor;
         static PLAYER: $FastenerType;
         static BLOCK: $FastenerType;
@@ -48,20 +48,20 @@ declare module "@package/com/rafacasari/fairylights/server/fastener" {
     }
     export interface $FastenerReference {
         setColor(arg0: number): boolean;
-        getPos(): $BlockPos;
-        resistSnap(arg0: $Vec3_): void;
-        getWorld(): $Level;
-        createAccessor(): $FastenerAccessor;
-        getFacing(): $Direction;
         getConnectionPoint(): $Vec3;
-        isMoving(): boolean;
+        getWorld(): $Level;
+        resistSnap(arg0: $Vec3_): void;
+        getPos(): $BlockPos;
+        getFacing(): $Direction;
         removeConnection(arg0: $UUID_): boolean;
         hasNoConnections(): boolean;
+        createAccessor(): $FastenerAccessor;
+        isMoving(): boolean;
         set color(value: number);
-        get pos(): $BlockPos;
-        get world(): $Level;
-        get facing(): $Direction;
         get connectionPoint(): $Vec3;
+        get world(): $Level;
+        get pos(): $BlockPos;
+        get facing(): $Direction;
         get moving(): boolean;
     }
     export class $Fastener<F extends $FastenerAccessor> {
@@ -73,38 +73,38 @@ declare module "@package/com/rafacasari/fairylights/server/fastener" {
         getBounds(): $AABB;
         connect(arg0: $Level_, arg1: $Fastener<never>, arg2: $ConnectionType<never>, arg3: $CompoundTag_, arg4: boolean): $Connection;
         setColor(arg0: number): boolean;
-        getColor(): number;
-        createOutgoingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>, arg4: $CompoundTag_, arg5: boolean): $Connection;
-        createIncomingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>): void;
-        resistSnap(arg0: $Vec3_): void;
-        getAllConnections(): $List<$Connection>;
         getWorld(): $Level;
+        resistSnap(arg0: $Vec3_): void;
+        getColor(): number;
         setWorld(arg0: $Level_): void;
-        createAccessor(): F;
-        reconnect(arg0: $Level_, arg1: $Connection, arg2: $Fastener<never>): boolean;
-        getFirstConnection(): ($Connection) | undefined;
+        getConnectionTo(arg0: $FastenerAccessor): $Connection;
         serializeNBT(): $CompoundTag;
         deserializeNBT(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): void;
-        hasConnectionWith(arg0: $Fastener<never>): boolean;
-        dropItems(arg0: $Level_, arg1: $BlockPos_): void;
-        setDirty(): void;
-        isMoving(): boolean;
-        removeConnection(arg0: $UUID_): boolean;
+        reconnect(arg0: $Level_, arg1: $Connection, arg2: $Fastener<never>): boolean;
+        getAllConnections(): $List<$Connection>;
         removeConnection(arg0: $Connection): boolean;
+        removeConnection(arg0: $UUID_): boolean;
         hasNoConnections(): boolean;
+        getFirstConnection(): ($Connection) | undefined;
         getOwnConnections(): $List<$Connection>;
-        getConnectionTo(arg0: $FastenerAccessor): $Connection;
+        createAccessor(): F;
+        dropItems(arg0: $Level_, arg1: $BlockPos_): void;
+        isMoving(): boolean;
+        setDirty(): void;
+        createOutgoingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>, arg4: $CompoundTag_, arg5: boolean): $Connection;
+        createIncomingConnection(arg0: $Level_, arg1: $UUID_, arg2: $Fastener<never>, arg3: $ConnectionType<never>): void;
+        hasConnectionWith(arg0: $Fastener<never>): boolean;
         get bounds(): $AABB;
         get allConnections(): $List<$Connection>;
         get firstConnection(): ($Connection) | undefined;
-        get moving(): boolean;
         get ownConnections(): $List<$Connection>;
+        get moving(): boolean;
     }
     export class $BlockView {
     }
     export interface $BlockView {
-        unrotate(arg0: $Level_, arg1: $BlockPos_, arg2: $Matrix, arg3: number): void;
         getPosition(arg0: $Level_, arg1: $BlockPos_, arg2: $Vec3_): $Vec3;
+        unrotate(arg0: $Level_, arg1: $BlockPos_, arg2: $Matrix, arg3: number): void;
         isMoving(arg0: $Level_, arg1: $BlockPos_): boolean;
     }
 }

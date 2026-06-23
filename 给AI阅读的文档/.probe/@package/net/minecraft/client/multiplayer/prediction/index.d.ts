@@ -13,7 +13,7 @@ declare module "@package/net/minecraft/client/multiplayer/prediction" {
     export class $PredictiveAction {
     }
     export interface $PredictiveAction {
-        predict(arg0: number): $Packet<$ServerGamePacketListener>;
+        predict(sequence: number): $Packet<$ServerGamePacketListener>;
     }
     /**
      * Values that may be interpreted as {@link $PredictiveAction}.
@@ -21,13 +21,13 @@ declare module "@package/net/minecraft/client/multiplayer/prediction" {
     export type $PredictiveAction_ = ((arg0: number) => $Packet<$ServerGamePacketListener>);
     export class $BlockStatePredictionHandler implements $AutoCloseable {
         close(): void;
-        updateKnownServerState(arg0: $BlockPos_, arg1: $BlockState_): boolean;
-        retainKnownServerState(arg0: $BlockPos_, arg1: $BlockState_, arg2: $LocalPlayer): void;
-        retainSnapshot(arg0: $BlockPos_, arg1: $BlockSnapshot): void;
         isPredicting(): boolean;
-        endPredictionsUpTo(arg0: number, arg1: $ClientLevel): void;
-        currentSequence(): number;
+        retainSnapshot(arg0: $BlockPos_, arg1: $BlockSnapshot): void;
+        endPredictionsUpTo(sequence: number, level: $ClientLevel): void;
+        updateKnownServerState(pos: $BlockPos_, state: $BlockState_): boolean;
+        retainKnownServerState(pos: $BlockPos_, state: $BlockState_, player: $LocalPlayer): void;
         startPredicting(): $BlockStatePredictionHandler;
+        currentSequence(): number;
         constructor();
         get predicting(): boolean;
     }

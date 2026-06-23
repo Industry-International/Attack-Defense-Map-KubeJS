@@ -9,18 +9,18 @@ export * as annotation from "@package/com/lowdragmc/lowdraglib2/configurator/ann
 
 declare module "@package/com/lowdragmc/lowdraglib2/configurator" {
     export class $SerializableRecordAction<T extends $INBTSerializable<never>> implements $EditAction {
+        undo(): void;
         static of<T extends $INBTSerializable<never>>(arg0: T): $SerializableRecordAction<T>;
         execute(): void;
-        setOnUndo(arg0: $Consumer_<T>): $SerializableRecordAction<T>;
-        undo(): void;
         setOnExecute(arg0: $Consumer_<T>): $SerializableRecordAction<T>;
+        setOnUndo(arg0: $Consumer_<T>): $SerializableRecordAction<T>;
         updateSnapshot(): void;
         setOnAction(arg0: $Consumer_<T>): $SerializableRecordAction<T>;
         mergeExecuteAfter(arg0: $EditAction): $EditAction;
         mergeExecuteBefore(arg0: $EditAction): $EditAction;
         serializable: T;
-        set onUndo(value: $Consumer_<T>);
         set onExecute(value: $Consumer_<T>);
+        set onUndo(value: $Consumer_<T>);
         set onAction(value: $Consumer_<T>);
     }
     export class $IConfigurableHistory {
@@ -37,26 +37,26 @@ declare module "@package/com/lowdragmc/lowdraglib2/configurator" {
         static create(arg0: $Consumer_<$ConfiguratorGroup>): $IConfigurable;
     }
     export interface $IConfigurable {
-        createHistoryRecorder(): $IConfigurableHistory;
-        getConfigurableName(): string;
-        createDirectConfigurator(): $Configurator;
         buildConfigurator(arg0: $ConfiguratorGroup): void;
+        createHistoryRecorder(): $IConfigurableHistory;
+        createDirectConfigurator(): $Configurator;
+        getConfigurableName(): string;
         get configurableName(): string;
     }
     export class $IConfigurableHistory$Handle {
     }
     export interface $IConfigurableHistory$Handle {
-        setOnUndo(arg0: $Runnable_): $IConfigurableHistory$Handle;
         setOnExecute(arg0: $Runnable_): $IConfigurableHistory$Handle;
-        set onUndo(value: $Runnable_);
+        setOnUndo(arg0: $Runnable_): $IConfigurableHistory$Handle;
         set onExecute(value: $Runnable_);
+        set onUndo(value: $Runnable_);
     }
     export class $EditAction {
         static of(arg0: $Runnable_, arg1: $Runnable_): $EditAction;
     }
     export interface $EditAction {
-        execute(): void;
         undo(): void;
+        execute(): void;
         mergeExecuteAfter(arg0: $EditAction): $EditAction;
         mergeExecuteBefore(arg0: $EditAction): $EditAction;
     }

@@ -11,22 +11,22 @@ import { $UUID, $List, $Map_, $UUID_, $Date, $Set_, $Comparator, $Map, $Set } fr
 
 declare module "@package/com/mojang/realmsclient/dto" {
     export class $RealmsText {
-        static parse(arg0: $JsonObject_): $RealmsText;
-        createComponent(arg0: $Component_): $Component;
+        static parse(json: $JsonObject_): $RealmsText;
+        createComponent(defaultValue: $Component_): $Component;
         createComponent(): $Component;
     }
     export class $Ops extends $ValueObject {
-        static parse(arg0: string): $Ops;
+        static parse(json: string): $Ops;
         ops: $Set<string>;
         constructor();
     }
     export class $PendingInvitesList extends $ValueObject {
-        static parse(arg0: string): $PendingInvitesList;
+        static parse(json: string): $PendingInvitesList;
         pendingInvites: $List<$PendingInvite>;
         constructor();
     }
     export class $ServerActivityList extends $ValueObject {
-        static parse(arg0: string): $ServerActivityList;
+        static parse(json: string): $ServerActivityList;
         periodInMillis: number;
         serverActivities: $List<$ServerActivity>;
         constructor();
@@ -42,18 +42,18 @@ declare module "@package/com/mojang/realmsclient/dto" {
      */
     export type $Subscription$SubscriptionType_ = "normal" | "recurring";
     export class $UploadInfo extends $ValueObject {
-        static parse(arg0: string): $UploadInfo;
+        static parse(json: string): $UploadInfo;
         getToken(): string;
-        static createRequest(arg0: string): string;
         getUploadEndpoint(): $URI;
         isWorldClosed(): boolean;
-        static assembleUri(arg0: string, arg1: number): $URI;
+        static assembleUri(uri: string, port: number): $URI;
+        static createRequest(token: string | null): string;
         get token(): string;
         get uploadEndpoint(): $URI;
         get worldClosed(): boolean;
     }
     export class $WorldTemplate extends $ValueObject {
-        static parse(arg0: $JsonObject_): $WorldTemplate;
+        static parse(json: $JsonObject_): $WorldTemplate;
         trailer: string;
         image: string;
         author: string;
@@ -66,39 +66,39 @@ declare module "@package/com/mojang/realmsclient/dto" {
         constructor();
     }
     export class $RealmsServerPlayerLists extends $ValueObject {
-        static parse(arg0: string): $RealmsServerPlayerLists;
-        getProfileResultsFor(arg0: number): $List<$ProfileResult>;
+        static parse(json: string): $RealmsServerPlayerLists;
+        getProfileResultsFor(index: number): $List<$ProfileResult>;
         servers: $Map<number, $List<$ProfileResult>>;
         constructor();
     }
     export class $RealmsNotification {
-        uuid(): $UUID;
-        static parseList(arg0: string): $List<$RealmsNotification>;
         seen(): boolean;
+        uuid(): $UUID;
         dismissable(): boolean;
+        static parseList(json: string): $List<$RealmsNotification>;
     }
     export class $PlayerInfo extends $ValueObject implements $ReflectionBasedSerialization {
         getName(): string;
-        setName(arg0: string): void;
-        setUuid(arg0: $UUID_): void;
-        isOperator(): boolean;
-        getUuid(): $UUID;
-        setOperator(arg0: boolean): void;
-        setOnline(arg0: boolean): void;
-        setAccepted(arg0: boolean): void;
+        setName(name: string): void;
+        setOnline(accepted: boolean): void;
+        setAccepted(accepted: boolean): void;
         getAccepted(): boolean;
+        getUuid(): $UUID;
+        isOperator(): boolean;
+        setUuid(uuid: $UUID_): void;
+        setOperator(accepted: boolean): void;
         getOnline(): boolean;
         constructor();
     }
     export class $RealmsServerAddress extends $ValueObject {
-        static parse(arg0: string): $RealmsServerAddress;
+        static parse(json: string): $RealmsServerAddress;
         address: string;
         resourcePackHash: string;
         resourcePackUrl: string;
         constructor();
     }
     export class $PendingInvite extends $ValueObject {
-        static parse(arg0: $JsonObject_): $PendingInvite;
+        static parse(json: $JsonObject_): $PendingInvite;
         date: $Date;
         realmName: string;
         realmOwnerUuid: $UUID;
@@ -107,7 +107,7 @@ declare module "@package/com/mojang/realmsclient/dto" {
         constructor();
     }
     export class $RealmsServer$McoServerComparator implements $Comparator<$RealmsServer> {
-        compare(arg0: $RealmsServer, arg1: $RealmsServer): number;
+        compare(first: $RealmsServer, second: $RealmsServer): number;
         reversed(): $Comparator<$RealmsServer>;
         thenComparing<U>(arg0: $Function_<$RealmsServer, U>, arg1: $Comparator<U>): $Comparator<$RealmsServer>;
         thenComparing(arg0: $Comparator<$RealmsServer>): $Comparator<$RealmsServer>;
@@ -115,19 +115,19 @@ declare module "@package/com/mojang/realmsclient/dto" {
         thenComparingInt(arg0: $ToIntFunction_<$RealmsServer>): $Comparator<$RealmsServer>;
         thenComparingLong(arg0: $ToLongFunction_<$RealmsServer>): $Comparator<$RealmsServer>;
         thenComparingDouble(arg0: $ToDoubleFunction_<$RealmsServer>): $Comparator<$RealmsServer>;
-        constructor(arg0: string);
+        constructor(refOwner: string);
     }
     export class $RealmsServerList extends $ValueObject {
-        static parse(arg0: string): $RealmsServerList;
+        static parse(json: string): $RealmsServerList;
         servers: $List<$RealmsServer>;
         constructor();
     }
     export class $RegionPingResult extends $ValueObject implements $ReflectionBasedSerialization {
         ping(): number;
-        constructor(arg0: string, arg1: number);
+        constructor(regionName: string, ping: number);
     }
     export class $ServerActivity extends $ValueObject {
-        static parse(arg0: $JsonObject_): $ServerActivity;
+        static parse(json: $JsonObject_): $ServerActivity;
         leaveTime: number;
         profileUuid: string;
         joinTime: number;
@@ -139,23 +139,23 @@ declare module "@package/com/mojang/realmsclient/dto" {
         constructor();
     }
     export class $RealmsServer extends $ValueObject {
-        getName(): string;
-        clone(): $RealmsServer;
-        setName(arg0: string): void;
-        static parse(arg0: $JsonObject_): $RealmsServer;
-        static parse(arg0: string): $RealmsServer;
-        isCompatible(): boolean;
-        setDescription(arg0: string): void;
-        static getCompatibility(arg0: string): $RealmsServer$Compatibility;
         getDescription(): string;
+        getName(): string;
+        clone(): $Object;
+        setName(motd: string): void;
+        static parse(json: $JsonObject_): $RealmsServer;
+        static parse(json: string): $RealmsServer;
         isSnapshotRealm(): boolean;
-        isMinigameActive(): boolean;
         needsUpgrade(): boolean;
-        cloneSlots(arg0: $Map_<number, $RealmsWorldOptions>): $Map<number, $RealmsWorldOptions>;
+        isMinigameActive(): boolean;
+        setDescription(motd: string): void;
+        cloneSlots(slots: $Map_<number, $RealmsWorldOptions>): $Map<number, $RealmsWorldOptions>;
+        static getCompatibility(id: string | null): $RealmsServer$Compatibility;
+        toServerData(ip: string): $ServerData;
         getMinigameName(): string;
-        getWorldName(arg0: number): string;
-        toServerData(arg0: string): $ServerData;
         needsDowngrade(): boolean;
+        getWorldName(slot: number): string;
+        isCompatible(): boolean;
         owner: string;
         motd: string;
         worldType: $RealmsServer$WorldType;
@@ -178,27 +178,27 @@ declare module "@package/com/mojang/realmsclient/dto" {
         remoteSubscriptionId: string;
         compatibility: $RealmsServer$Compatibility;
         constructor();
-        get compatible(): boolean;
         get snapshotRealm(): boolean;
         get minigameActive(): boolean;
+        get compatible(): boolean;
     }
     export class $WorldDownload extends $ValueObject {
-        static parse(arg0: string): $WorldDownload;
+        static parse(json: string): $WorldDownload;
         resourcePackHash: string;
         downloadLink: string;
         resourcePackUrl: string;
         constructor();
     }
     export class $GuardedSerializer {
-        toJson(arg0: $JsonElement_): string;
-        toJson(arg0: $ReflectionBasedSerialization): string;
-        fromJson<T extends $ReflectionBasedSerialization>(arg0: string, arg1: $Class<T>): T;
+        toJson(json: $JsonElement_): string;
+        toJson(reflectionBasedSerialization: $ReflectionBasedSerialization): string;
+        fromJson<T extends $ReflectionBasedSerialization>(json: string, classOfT: $Class<T>): T;
         constructor();
     }
     export class $Backup extends $ValueObject {
-        static parse(arg0: $JsonElement_): $Backup;
+        static parse(json: $JsonElement_): $Backup;
+        setUploadedVersion(uploadedVersion: boolean): void;
         isUploadedVersion(): boolean;
-        setUploadedVersion(arg0: boolean): void;
         metadata: $Map<string, string>;
         size: number;
         lastModifiedDate: $Date;
@@ -210,36 +210,36 @@ declare module "@package/com/mojang/realmsclient/dto" {
         constructor();
     }
     export class $WorldTemplatePaginatedList extends $ValueObject {
-        static parse(arg0: string): $WorldTemplatePaginatedList;
+        static parse(json: string): $WorldTemplatePaginatedList;
         isLastPage(): boolean;
         total: number;
         size: number;
         templates: $List<$WorldTemplate>;
         page: number;
         constructor();
-        constructor(arg0: number);
+        constructor(size: number);
         get lastPage(): boolean;
     }
     export class $RealmsNews extends $ValueObject {
-        static parse(arg0: string): $RealmsNews;
+        static parse(json: string): $RealmsNews;
         newsLink: string;
         constructor();
     }
     export class $RealmsWorldResetDto extends $ValueObject implements $ReflectionBasedSerialization {
-        constructor(arg0: string, arg1: number, arg2: number, arg3: boolean, arg4: $Set_<string>);
+        constructor(seed: string, worldTemplateId: number, arg2: number, levelType: boolean, generateStructures: $Set_<string>);
     }
     export class $RealmsNotification$VisitUrl extends $RealmsNotification {
         getMessage(): $Component;
-        static parse(arg0: $RealmsNotification, arg1: $JsonObject_): $RealmsNotification$VisitUrl;
-        buildOpenLinkButton(arg0: $Screen): $Button;
+        static parse(notification: $RealmsNotification, json: $JsonObject_): $RealmsNotification$VisitUrl;
+        buildOpenLinkButton(lastScreen: $Screen): $Button;
         get message(): $Component;
     }
     export class $RealmsServer$Compatibility extends $Enum<$RealmsServer$Compatibility> {
         static values(): $RealmsServer$Compatibility[];
         static valueOf(arg0: string): $RealmsServer$Compatibility;
-        isCompatible(): boolean;
         needsUpgrade(): boolean;
         needsDowngrade(): boolean;
+        isCompatible(): boolean;
         static COMPATIBLE: $RealmsServer$Compatibility;
         static NEEDS_DOWNGRADE: $RealmsServer$Compatibility;
         static UNVERIFIABLE: $RealmsServer$Compatibility;
@@ -254,13 +254,13 @@ declare module "@package/com/mojang/realmsclient/dto" {
     export type $RealmsServer$Compatibility_ = "unverifiable" | "incompatible" | "release_type_incompatible" | "needs_downgrade" | "needs_upgrade" | "compatible";
     export class $RealmsWorldOptions extends $ValueObject {
         clone(): $Object;
-        static parse(arg0: $JsonObject_): $RealmsWorldOptions;
+        static parse(json: $JsonObject_): $RealmsWorldOptions;
+        setEmpty(empty: boolean): void;
         toJson(): string;
-        setEmpty(arg0: boolean): void;
-        static createEmptyDefaults(): $RealmsWorldOptions;
-        getSlotName(arg0: number): string;
         static createDefaults(): $RealmsWorldOptions;
-        getDefaultSlotName(arg0: number): string;
+        getSlotName(slotIndex: number): string;
+        static createEmptyDefaults(): $RealmsWorldOptions;
+        getDefaultSlotName(slotIndex: number): string;
         spawnMonsters: boolean;
         spawnProtection: number;
         commandBlocks: boolean;
@@ -275,7 +275,7 @@ declare module "@package/com/mojang/realmsclient/dto" {
         gameMode: number;
         forceGameMode: boolean;
         compatibility: $RealmsServer$Compatibility;
-        constructor(arg0: boolean, arg1: boolean, arg2: boolean, arg3: boolean, arg4: number, arg5: boolean, arg6: number, arg7: number, arg8: boolean, arg9: string, arg10: string, arg11: $RealmsServer$Compatibility_);
+        constructor(pvp: boolean, spawnAnimals: boolean, spawnMonsters: boolean, spawnNPCs: boolean, spawnProtection: number, commandBlocks: boolean, difficulty: number, gameMode: number, forceGameMode: boolean, slotName: string, version: string, compatibility: $RealmsServer$Compatibility_);
     }
     export class $RealmsServer$State extends $Enum<$RealmsServer$State> {
         static values(): $RealmsServer$State[];
@@ -302,14 +302,14 @@ declare module "@package/com/mojang/realmsclient/dto" {
      */
     export type $WorldTemplate$WorldTemplateType_ = "world_template" | "minigame" | "adventuremap" | "experience" | "inspiration";
     export class $Subscription extends $ValueObject {
-        static parse(arg0: string): $Subscription;
+        static parse(json: string): $Subscription;
         daysLeft: number;
         type: $Subscription$SubscriptionType;
         startDate: number;
         constructor();
     }
     export class $BackupList extends $ValueObject {
-        static parse(arg0: string): $BackupList;
+        static parse(json: string): $BackupList;
         backups: $List<$Backup>;
         constructor();
     }
@@ -318,11 +318,11 @@ declare module "@package/com/mojang/realmsclient/dto" {
     export class $RealmsDescriptionDto extends $ValueObject implements $ReflectionBasedSerialization {
         name: string;
         description: string;
-        constructor(arg0: string, arg1: string);
+        constructor(name: string, description: string);
     }
     export class $RealmsNotification$InfoPopup extends $RealmsNotification {
-        static parse(arg0: $RealmsNotification, arg1: $JsonObject_): $RealmsNotification$InfoPopup;
-        buildScreen(arg0: $Screen, arg1: $Consumer_<$UUID>): $PopupScreen;
+        static parse(notification: $RealmsNotification, json: $JsonObject_): $RealmsNotification$InfoPopup;
+        buildScreen(backgroundScreen: $Screen, uuidOutput: $Consumer_<$UUID>): $PopupScreen;
     }
     export class $ReflectionBasedSerialization {
     }

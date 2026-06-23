@@ -1,6 +1,6 @@
 import { $ItemDisplayContext_ } from "@package/net/minecraft/world/item";
 import { $PoseStack, $VertexConsumer } from "@package/com/mojang/blaze3d/vertex";
-import { $IFunctionalRenderer, $BedrockGunModel } from "@package/com/tacz/guns/client/model";
+import { $BedrockGunModel, $IFunctionalRenderer } from "@package/com/tacz/guns/client/model";
 import { $Vector3f } from "@package/org/joml";
 
 declare module "@package/com/tacz/guns/client/model/functional" {

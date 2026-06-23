@@ -20,15 +20,15 @@ declare module "@package/net/minecraft/server/gui" {
         static HORIZONTAL_WRAP: number;
         static TOP_ALIGNMENT: number;
         static WHEN_IN_FOCUSED_WINDOW: number;
-        constructor(arg0: $MinecraftServer);
+        constructor(server: $MinecraftServer);
     }
     export class $MinecraftServerGui extends $JComponent {
         start(): void;
-        print(arg0: $JTextArea, arg1: $JScrollPane, arg2: string): void;
+        print(textArea: $JTextArea, scrollPane: $JScrollPane, line: string): void;
         close(): void;
-        static showFrameFor(arg0: $DedicatedServer): $MinecraftServerGui;
+        static showFrameFor(server: $DedicatedServer): $MinecraftServerGui;
+        addFinalizer(finalizer: $Runnable_): void;
         runFinalizers(): void;
-        addFinalizer(arg0: $Runnable_): void;
         static WHEN_FOCUSED: number;
         static WHEN_ANCESTOR_OF_FOCUSED_COMPONENT: number;
         static CENTER_ALIGNMENT: number;
@@ -53,6 +53,6 @@ declare module "@package/net/minecraft/server/gui" {
         static TOP_ALIGNMENT: number;
         static WHEN_IN_FOCUSED_WINDOW: number;
         static UNDEFINED_CONDITION: number;
-        constructor(arg0: $MinecraftServer);
+        constructor(server: $MinecraftServer);
     }
 }

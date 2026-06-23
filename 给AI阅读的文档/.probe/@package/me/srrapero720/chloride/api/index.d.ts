@@ -24,7 +24,7 @@ declare module "@package/me/srrapero720/chloride/api" {
     export class $IGameLeaves {
     }
     export interface $IGameLeaves {
-        chloride$neighborCount(): number;
         chloride$getRL(): $ResourceLocation;
+        chloride$neighborCount(): number;
     }
 }

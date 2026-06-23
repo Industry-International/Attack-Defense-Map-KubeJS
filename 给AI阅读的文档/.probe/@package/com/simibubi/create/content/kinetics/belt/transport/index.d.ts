@@ -9,10 +9,10 @@ declare module "@package/com/simibubi/create/content/kinetics/belt/transport" {
         compareTo(arg0: $TransportedItemStack): number;
         static read(arg0: $CompoundTag_, arg1: $HolderLookup$Provider): $TransportedItemStack;
         copy(): $TransportedItemStack;
-        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
-        getSimilar(): $TransportedItemStack;
         clearFanProcessingData(): void;
         getTargetSideOffset(): number;
+        serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
+        getSimilar(): $TransportedItemStack;
         lockedExternally: boolean;
         stack: $ItemStack;
         beltPosition: number;
@@ -26,7 +26,7 @@ declare module "@package/com/simibubi/create/content/kinetics/belt/transport" {
         processedBy: $FanProcessingType;
         processingTime: number;
         constructor(arg0: $ItemStack_);
-        get similar(): $TransportedItemStack;
         get targetSideOffset(): number;
+        get similar(): $TransportedItemStack;
     }
 }

@@ -6,13 +6,13 @@ declare module "@package/net/minecraft/server/chase" {
     export class $ChaseServer {
         start(): void;
         stop(): void;
-        constructor(arg0: string, arg1: number, arg2: $PlayerList, arg3: number);
+        constructor(serverBindAddress: string, serverPort: number, playerList: $PlayerList, broadcastIntervalMs: number);
     }
     export class $ChaseClient {
         run(): void;
         start(): void;
         stop(): void;
-        constructor(arg0: string, arg1: number, arg2: $MinecraftServer);
+        constructor(serverHost: string, serverPort: number, server: $MinecraftServer);
     }
     export class $ChaseClient$TeleportTarget extends $Record {
     }

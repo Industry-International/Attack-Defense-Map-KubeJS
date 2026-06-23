@@ -6,6 +6,7 @@ import { $IClientPlayerConfigGroupManagerAPI } from "@package/xaero/pac/client/p
 import { $IPlayerConfigOptionSpecAPI } from "@package/xaero/pac/common/server/player/config/api/v2";
 import { $UUID, $List } from "@package/java/util";
 import { $Comparable, $Object, $Class } from "@package/java/lang";
+import { $IPlayerConfigPermissionAPI } from "@package/xaero/pac/common/player/config/api";
 import { $IPlayerConfigStringableOptionClientStorageAPI as $IPlayerConfigStringableOptionClientStorageAPI$1 } from "@package/xaero/pac/client/player/config/api/v2";
 export * as v2 from "@package/xaero/pac/client/player/config/api/v2";
 
@@ -13,37 +14,39 @@ declare module "@package/xaero/pac/client/player/config/api" {
     export class $IPlayerConfigClientStorageAPI {
     }
     export interface $IPlayerConfigClientStorageAPI {
+        getOption<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): $IPlayerConfigStringableOptionClientStorageAPI$1<T>;
+        getPermissions(): $IPlayerConfigPermissionAPI;
         getType(): $PlayerConfigType;
         options(): $Stream<$IPlayerConfigStringableOptionClientStorageAPI$1<never>>;
         getOwner(): $UUID;
+        getMain(): $IPlayerConfigClientStorageAPI;
         getEffectiveSubConfig(arg0: string): $IPlayerConfigClientStorageAPI;
-        getOption<T>(arg0: $IPlayerConfigOptionSpecAPI<T>): $IPlayerConfigStringableOptionClientStorageAPI$1<T>;
-        getSubConfigLimit(): number;
         getSubConfig(arg0: string): $IPlayerConfigClientStorageAPI;
+        getSubConfigLimit(): number;
         getSubCount(): number;
-        getPlayerGroups(): $IClientPlayerConfigGroupManagerAPI;
         subConfigExists(arg0: string): boolean;
+        getPlayerGroups(): $IClientPlayerConfigGroupManagerAPI;
+        getSubConfigAPIStream(): $Stream<$IPlayerConfigClientStorageAPI>;
+        getSubConfigIds(): $List<string>;
         isBeingDeleted(): boolean;
         /**
          * @deprecated
          */
-        optionStream(): $Stream<$IPlayerConfigStringableOptionClientStorageAPI<never>>;
+        getOptionStorage<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI$1<T>): $IPlayerConfigStringableOptionClientStorageAPI<never>;
         /**
          * @deprecated
          */
-        getOptionStorage<T extends $Comparable<T>>(arg0: $IPlayerConfigOptionSpecAPI$1<T>): $IPlayerConfigStringableOptionClientStorageAPI<never>;
-        getSubConfigIds(): $List<string>;
-        getSubConfigAPIStream(): $Stream<$IPlayerConfigClientStorageAPI>;
-        getMain(): $IPlayerConfigClientStorageAPI;
+        optionStream(): $Stream<$IPlayerConfigStringableOptionClientStorageAPI<never>>;
+        get permissions(): $IPlayerConfigPermissionAPI;
         get type(): $PlayerConfigType;
         get owner(): $UUID;
+        get main(): $IPlayerConfigClientStorageAPI;
         get subConfigLimit(): number;
         get subCount(): number;
         get playerGroups(): $IClientPlayerConfigGroupManagerAPI;
-        get beingDeleted(): boolean;
-        get subConfigIds(): $List<string>;
         get subConfigAPIStream(): $Stream<$IPlayerConfigClientStorageAPI>;
-        get main(): $IPlayerConfigClientStorageAPI;
+        get subConfigIds(): $List<string>;
+        get beingDeleted(): boolean;
     }
     /**
      * @deprecated
@@ -51,6 +54,7 @@ declare module "@package/xaero/pac/client/player/config/api" {
     export class $IPlayerConfigStringableOptionClientStorageAPI<T extends $Comparable<T>> {
     }
     export interface $IPlayerConfigStringableOptionClientStorageAPI<T extends $Comparable<T>> extends $IPlayerConfigOptionClientStorageAPI<T> {
+        getOption(): $IPlayerConfigOptionSpecAPI$1<T>;
         getValue(): T;
         getId(): string;
         getType(): $Class<T>;
@@ -58,7 +62,7 @@ declare module "@package/xaero/pac/client/player/config/api" {
         getValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
         getTranslation(): string;
         isMutable(): boolean;
-        getOption(): $IPlayerConfigOptionSpecAPI$1<T>;
+        getTooltipPrefix(): string;
         /**
          * @deprecated
          */
@@ -66,13 +70,13 @@ declare module "@package/xaero/pac/client/player/config/api" {
         /**
          * @deprecated
          */
-        getStringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
+        getCommandInputParser(): $Function<string, T>;
         /**
          * @deprecated
          */
-        getCommandInputParser(): $Function<string, T>;
+        getStringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
         isDefaulted(): boolean;
-        getTooltipPrefix(): string;
+        get option(): $IPlayerConfigOptionSpecAPI$1<T>;
         get value(): T;
         get id(): string;
         get type(): $Class<T>;
@@ -80,11 +84,10 @@ declare module "@package/xaero/pac/client/player/config/api" {
         get validator(): $BiPredicate<$IPlayerConfigClientStorageAPI, T>;
         get translation(): string;
         get mutable(): boolean;
-        get option(): $IPlayerConfigOptionSpecAPI$1<T>;
-        get commandOutputWriterCast(): $Function<$Object, $Component>;
-        get stringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
-        get commandInputParser(): $Function<string, T>;
-        get defaulted(): boolean;
         get tooltipPrefix(): string;
+        get commandOutputWriterCast(): $Function<$Object, $Component>;
+        get commandInputParser(): $Function<string, T>;
+        get stringValidator(): $BiPredicate<$IPlayerConfigClientStorageAPI, string>;
+        get defaulted(): boolean;
     }
 }

@@ -25,44 +25,44 @@ declare module "@package/com/tacz/guns/api/client/animation" {
         update(arg0: boolean): void;
         stop(): void;
         transition(arg0: $ObjectAnimationRunner, arg1: number): void;
-        isStopped(): boolean;
         isRunning(): boolean;
-        isHolding(): boolean;
-        setProgressNs(arg0: number): void;
-        getTransitionTo(): $ObjectAnimationRunner;
-        getProgressNs(): number;
-        updateSoundOnly(): void;
-        getTransitionTimeNs(): number;
-        setTransitionProgressNs(arg0: number): void;
-        getTransitionProgressNs(): number;
-        pause(): void;
+        isStopped(): boolean;
         hold(): void;
         isPausing(): boolean;
+        pause(): void;
+        updateSoundOnly(): void;
+        getProgressNs(): number;
+        getTransitionTo(): $ObjectAnimationRunner;
+        setProgressNs(arg0: number): void;
+        isHolding(): boolean;
         getAnimation(): $ObjectAnimation;
-        isTransitioning(): boolean;
         stopTransition(): void;
+        isTransitioning(): boolean;
+        getTransitionTimeNs(): number;
+        getTransitionProgressNs(): number;
+        setTransitionProgressNs(arg0: number): void;
         constructor(arg0: $ObjectAnimation);
-        get stopped(): boolean;
         get running(): boolean;
-        get holding(): boolean;
-        get transitionTo(): $ObjectAnimationRunner;
-        get transitionTimeNs(): number;
+        get stopped(): boolean;
         get pausing(): boolean;
+        get transitionTo(): $ObjectAnimationRunner;
+        get holding(): boolean;
         get animation(): $ObjectAnimation;
         get transitioning(): boolean;
+        get transitionTimeNs(): number;
     }
     export class $ObjectAnimation {
         update(arg0: boolean, arg1: number): void;
         getMaxEndTimeS(): number;
+        getSoundChannel(): $ObjectAnimationSoundChannel;
         getChannels(): $Map<string, $List<$ObjectAnimationChannel>>;
         applyAnimationListeners(arg0: $AnimationListenerSupplier_): void;
-        getSoundChannel(): $ObjectAnimationSoundChannel;
         playType: $ObjectAnimation$PlayType;
         name: string;
         constructor(arg0: $ObjectAnimation);
         get maxEndTimeS(): number;
-        get channels(): $Map<string, $List<$ObjectAnimationChannel>>;
         get soundChannel(): $ObjectAnimationSoundChannel;
+        get channels(): $Map<string, $List<$ObjectAnimationChannel>>;
     }
     export class $AnimationListener {
     }
@@ -76,10 +76,10 @@ declare module "@package/com/tacz/guns/api/client/animation" {
         iterator(): $Iterator<number>;
         ensureCapacity(arg0: number): void;
         getByIndex(arg0: number): $List<number>;
-        addTrackLine(): number;
-        ensureTrackAmount(arg0: number, arg1: number): void;
         getTrackLineSize(): number;
         assignNewTrack(arg0: number): number;
+        addTrackLine(): number;
+        ensureTrackAmount(arg0: number, arg1: number): void;
         spliterator(): $Spliterator<number>;
         forEach(arg0: $Consumer_<number>): void;
         constructor();
@@ -88,14 +88,14 @@ declare module "@package/com/tacz/guns/api/client/animation" {
     }
     export class $AnimationController {
         update(): void;
+        providePrototypeIfAbsent(arg0: string, arg1: $Supplier_<$ObjectAnimation>): void;
+        updateSoundOnly(): void;
         runAnimation(arg0: number, arg1: string, arg2: $ObjectAnimation$PlayType_, arg3: number): void;
         setBlending(arg0: number, arg1: boolean): void;
         containPrototype(arg0: string): boolean;
-        updateSoundOnly(): void;
-        getUpdatingTrackArray(): $Iterable<number>;
-        setUpdatingTrackArray(arg0: $Iterable_<number>): void;
         getAnimation(arg0: number): $ObjectAnimationRunner;
-        providePrototypeIfAbsent(arg0: string, arg1: $Supplier_<$ObjectAnimation>): void;
+        setUpdatingTrackArray(arg0: $Iterable_<number> | null): void;
+        getUpdatingTrackArray(): $Iterable<number>;
         removeAnimation(arg0: number): void;
         queueAnimation(arg0: number, arg1: $Queue<$AnimationPlan>): void;
         constructor(arg0: $List_<$ObjectAnimation>, arg1: $AnimationListenerSupplier_);

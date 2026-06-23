@@ -8,7 +8,7 @@ import { $EntityType_, $Entity$RemovalReason, $Pose, $PortalProcessor, $Entity }
 import { $FluidType } from "@package/net/neoforged/neoforge/fluids";
 import { $Player } from "@package/net/minecraft/world/entity/player";
 import { $ImmutableList } from "@package/com/google/common/collect";
-import { $AbstractHurtingProjectile, $ItemSupplier } from "@package/net/minecraft/world/entity/projectile";
+import { $ItemSupplier, $AbstractHurtingProjectile } from "@package/net/minecraft/world/entity/projectile";
 import { $UUID } from "@package/java/util";
 import { $RandomSource } from "@package/net/minecraft/util";
 import { $SynchedEntityData, $EntityDataAccessor } from "@package/net/minecraft/network/syncher";
@@ -22,7 +22,7 @@ import { $EntityInLevelCallback } from "@package/net/minecraft/world/level/entit
 declare module "@package/net/minecraft/world/entity/projectile/windcharge" {
     export class $AbstractWindCharge extends $AbstractHurtingProjectile implements $ItemSupplier {
         getItem(): $ItemStack;
-        explode(arg0: $Vec3_): void;
+        explode(pos: $Vec3_): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -102,9 +102,9 @@ declare module "@package/net/minecraft/world/entity/projectile/windcharge" {
         static BASE_SAFE_FALL_DISTANCE: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $EntityType_<$AbstractWindCharge>, arg1: number, arg2: number, arg3: number, arg4: $Vec3_, arg5: $Level_);
-        constructor(arg0: $EntityType_<$AbstractWindCharge>, arg1: $Level_, arg2: $Entity, arg3: number, arg4: number, arg5: number);
-        constructor(arg0: $EntityType_<$AbstractWindCharge>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$AbstractWindCharge>, x: number, arg2: number, y: number, arg4: $Vec3_, z: $Level_);
+        constructor(entityType: $EntityType_<$AbstractWindCharge>, level: $Level_, owner: $Entity, x: number, arg4: number, y: number);
+        constructor(entityType: $EntityType_<$AbstractWindCharge>, level: $Level_);
         get item(): $ItemStack;
     }
     export class $WindCharge extends $AbstractWindCharge {
@@ -187,9 +187,9 @@ declare module "@package/net/minecraft/world/entity/projectile/windcharge" {
         static BASE_SAFE_FALL_DISTANCE: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $Level_, arg1: number, arg2: number, arg3: number, arg4: $Vec3_);
-        constructor(arg0: $Player, arg1: $Level_, arg2: number, arg3: number, arg4: number);
-        constructor(arg0: $EntityType_<$AbstractWindCharge>, arg1: $Level_);
+        constructor(level: $Level_, x: number, arg2: number, y: number, arg4: $Vec3_);
+        constructor(player: $Player, level: $Level_, x: number, arg3: number, y: number);
+        constructor(entityType: $EntityType_<$AbstractWindCharge>, level: $Level_);
     }
     export class $BreezeWindCharge extends $AbstractWindCharge {
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
@@ -271,7 +271,7 @@ declare module "@package/net/minecraft/world/entity/projectile/windcharge" {
         static BASE_SAFE_FALL_DISTANCE: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $EntityType_<$AbstractWindCharge>, arg1: $Level_);
-        constructor(arg0: $Breeze, arg1: $Level_);
+        constructor(entityType: $EntityType_<$AbstractWindCharge>, level: $Level_);
+        constructor(breeze: $Breeze, level: $Level_);
     }
 }

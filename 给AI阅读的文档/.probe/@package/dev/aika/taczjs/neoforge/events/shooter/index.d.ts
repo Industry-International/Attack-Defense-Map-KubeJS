@@ -22,19 +22,13 @@ declare module "@package/dev/aika/taczjs/neoforge/events/shooter" {
         constructor(entity: $LivingEntity, gunItem: $ItemStack_);
     }
     export class $AbstractShooterEvent implements $KubeLivingEntityEvent {
-        getShooter(): $LivingEntity;
         getGunId(): $ResourceLocation;
+        getShooter(): $LivingEntity;
         getGunItem(): $ItemStack;
         getLevel(): $Level;
         getPlayer(): $Player;
         getRegistries(): $RegistryAccess;
         getServer(): $MinecraftServer;
-        /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
-         * 
-         * `exit` denotes a `default` outcome.
-         */
-        exit(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -42,11 +36,11 @@ declare module "@package/dev/aika/taczjs/neoforge/events/shooter" {
          */
         exit(value: $Object): $Object;
         /**
-         * Cancels the event with default exit value. Execution will be stopped **immediately**.
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `cancel` denotes a `false` outcome.
+         * `exit` denotes a `default` outcome.
          */
-        cancel(): $Object;
+        exit(): $Object;
         /**
          * Cancels the event with the given exit value. Execution will be stopped **immediately**.
          * 
@@ -54,21 +48,27 @@ declare module "@package/dev/aika/taczjs/neoforge/events/shooter" {
          */
         cancel(value: $Object): $Object;
         /**
-         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * Cancels the event with default exit value. Execution will be stopped **immediately**.
          * 
-         * `success` denotes a `true` outcome.
+         * `cancel` denotes a `false` outcome.
          */
-        success(): $Object;
+        cancel(): $Object;
         /**
          * Stops the event with the given exit value. Execution will be stopped **immediately**.
          * 
          * `success` denotes a `true` outcome.
          */
         success(value: $Object): $Object;
+        /**
+         * Stops the event with default exit value. Execution will be stopped **immediately**.
+         * 
+         * `success` denotes a `true` outcome.
+         */
+        success(): $Object;
         getEntity(): $LivingEntity;
         constructor(entity: $LivingEntity, gunItem: $ItemStack_);
-        get shooter(): $LivingEntity;
         get gunId(): $ResourceLocation;
+        get shooter(): $LivingEntity;
         get gunItem(): $ItemStack;
         get level(): $Level;
         get player(): $Player;

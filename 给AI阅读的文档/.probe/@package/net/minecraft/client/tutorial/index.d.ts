@@ -13,119 +13,284 @@ import { $HitResult } from "@package/net/minecraft/world/phys";
 
 declare module "@package/net/minecraft/client/tutorial" {
     export class $MovementTutorialStepInstance implements $TutorialStepInstance {
+        /**
+         * Called when the player opens his inventory
+         */
         clear(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
-        onMouse(arg0: number, arg1: number): void;
-        onInput(arg0: $Input): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
+        /**
+         * Handles the player movement
+         */
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        /**
+         * Called when a player hits block to destroy it.
+         */
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        /**
+         * Called when the player opens his inventory
+         */
         onOpenInventory(): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        constructor(arg0: $Tutorial);
+        /**
+         * Handles blocks and entities hovering
+         */
+        onLookAt(level: $ClientLevel, result: $HitResult): void;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
+        constructor(tutorial: $Tutorial);
     }
     export class $Tutorial$TimedToast {
     }
     export class $CraftPlanksTutorialStep implements $TutorialStepInstance {
+        /**
+         * Called when the player opens his inventory
+         */
         clear(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
-        onGetItem(arg0: $ItemStack_): void;
-        static hasCraftedPlanksPreviously(arg0: $LocalPlayer, arg1: $TagKey_<$Item>): boolean;
-        onMouse(arg0: number, arg1: number): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
-        onInput(arg0: $Input): void;
+        static hasCraftedPlanksPreviously(player: $LocalPlayer, items: $TagKey_<$Item>): boolean;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
+        /**
+         * Called when a player hits block to destroy it.
+         */
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        /**
+         * Called when the player opens his inventory
+         */
         onOpenInventory(): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        constructor(arg0: $Tutorial);
+        /**
+         * Handles blocks and entities hovering
+         */
+        onLookAt(level: $ClientLevel, result: $HitResult): void;
+        /**
+         * Handles the player movement
+         */
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        constructor(tutorial: $Tutorial);
     }
     export class $TutorialStepInstance {
     }
     export interface $TutorialStepInstance {
+        /**
+         * Called when a player hits block to destroy it.
+         */
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        /**
+         * Called when the player opens his inventory
+         */
         clear(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
-        onMouse(arg0: number, arg1: number): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
-        onInput(arg0: $Input): void;
+        /**
+         * Called when the player opens his inventory
+         */
         onOpenInventory(): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
+        /**
+         * Handles blocks and entities hovering
+         */
+        onLookAt(level: $ClientLevel, result: $HitResult): void;
+        /**
+         * Handles the player movement
+         */
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
     }
     export class $BundleTutorial {
-        onInventoryAction(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $ClickAction_): void;
-        constructor(arg0: $Tutorial, arg1: $Options);
+        onInventoryAction(carriedStack: $ItemStack_, slottedStack: $ItemStack_, action: $ClickAction_): void;
+        constructor(tutorial: $Tutorial, options: $Options);
     }
     export class $FindTreeTutorialStepInstance implements $TutorialStepInstance {
+        /**
+         * Called when the player opens his inventory
+         */
         clear(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        static hasPunchedTreesPreviously(arg0: $LocalPlayer): boolean;
-        onMouse(arg0: number, arg1: number): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
-        onInput(arg0: $Input): void;
+        static hasPunchedTreesPreviously(player: $LocalPlayer): boolean;
+        /**
+         * Handles blocks and entities hovering
+         */
+        onLookAt(level: $ClientLevel, result: $HitResult): void;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
+        /**
+         * Called when a player hits block to destroy it.
+         */
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        /**
+         * Called when the player opens his inventory
+         */
         onOpenInventory(): void;
-        constructor(arg0: $Tutorial);
+        /**
+         * Handles the player movement
+         */
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        constructor(tutorial: $Tutorial);
     }
     export class $CompletedTutorialStepInstance implements $TutorialStepInstance {
+        /**
+         * Called when a player hits block to destroy it.
+         */
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        /**
+         * Called when the player opens his inventory
+         */
         clear(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
-        onMouse(arg0: number, arg1: number): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
-        onInput(arg0: $Input): void;
+        /**
+         * Called when the player opens his inventory
+         */
         onOpenInventory(): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        constructor(arg0: $Tutorial);
+        /**
+         * Handles blocks and entities hovering
+         */
+        onLookAt(level: $ClientLevel, result: $HitResult): void;
+        /**
+         * Handles the player movement
+         */
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
+        constructor(tutorial: $Tutorial);
     }
     export class $Tutorial {
-        static key(arg0: string): $Component;
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        static key(keybind: string): $Component;
+        /**
+         * Called when the player opens his inventory
+         */
         start(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         stop(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
-        setStep(arg0: $TutorialSteps_): void;
-        onMouse(arg0: number, arg1: number): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
-        onInput(arg0: $Input): void;
-        onOpenInventory(): void;
-        addTimedToast(arg0: $TutorialToast, arg1: number): void;
-        removeTimedToast(arg0: $TutorialToast): void;
-        getMinecraft(): $Minecraft;
-        onGetItem(arg0: $ItemStack_): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
         isSurvival(): boolean;
-        onInventoryAction(arg0: $ItemStack_, arg1: $ItemStack_, arg2: $ClickAction_): void;
-        constructor(arg0: $Minecraft, arg1: $Options);
-        set step(value: $TutorialSteps_);
-        get minecraft(): $Minecraft;
+        removeTimedToast(toast: $TutorialToast): void;
+        /**
+         * Called when the player opens his inventory
+         */
+        onOpenInventory(): void;
+        addTimedToast(toast: $TutorialToast, durationTicks: number): void;
+        onLookAt(level: $ClientLevel | null, result: $HitResult | null): void;
+        getMinecraft(): $Minecraft;
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        /**
+         * Sets a new step to the tutorial
+         */
+        setStep(step: $TutorialSteps_): void;
+        onInventoryAction(carriedStack: $ItemStack_, slottedStack: $ItemStack_, action: $ClickAction_): void;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
+        constructor(minecraft: $Minecraft, options: $Options);
         get survival(): boolean;
+        get minecraft(): $Minecraft;
+        set step(value: $TutorialSteps_);
     }
     export class $OpenInventoryTutorialStep implements $TutorialStepInstance {
+        /**
+         * Called when the player opens his inventory
+         */
         clear(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         onOpenInventory(): void;
-        onMouse(arg0: number, arg1: number): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
-        onInput(arg0: $Input): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        constructor(arg0: $Tutorial);
+        /**
+         * Called when a player hits block to destroy it.
+         */
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        /**
+         * Handles blocks and entities hovering
+         */
+        onLookAt(level: $ClientLevel, result: $HitResult): void;
+        /**
+         * Handles the player movement
+         */
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
+        constructor(tutorial: $Tutorial);
     }
     export class $PunchTreeTutorialStepInstance implements $TutorialStepInstance {
+        /**
+         * Called when a player hits block to destroy it.
+         */
+        onDestroyBlock(level: $ClientLevel, pos: $BlockPos_, state: $BlockState_, diggingStage: number): void;
+        /**
+         * Called when the player opens his inventory
+         */
         clear(): void;
+        /**
+         * Called when the player opens his inventory
+         */
         tick(): void;
-        onDestroyBlock(arg0: $ClientLevel, arg1: $BlockPos_, arg2: $BlockState_, arg3: number): void;
-        onGetItem(arg0: $ItemStack_): void;
-        onMouse(arg0: number, arg1: number): void;
-        onInput(arg0: $Input): void;
+        /**
+         * Called when the player pick up an ItemStack
+         */
+        onGetItem(stack: $ItemStack_): void;
+        /**
+         * Called when the player opens his inventory
+         */
         onOpenInventory(): void;
-        onLookAt(arg0: $ClientLevel, arg1: $HitResult): void;
-        constructor(arg0: $Tutorial);
+        /**
+         * Handles blocks and entities hovering
+         */
+        onLookAt(level: $ClientLevel, result: $HitResult): void;
+        /**
+         * Handles the player movement
+         */
+        onInput(input: $Input): void;
+        onMouse(velocityX: number, arg1: number): void;
+        constructor(tutorial: $Tutorial);
     }
     export class $TutorialSteps extends $Enum<$TutorialSteps> {
         getName(): string;
         static values(): $TutorialSteps[];
-        static valueOf(arg0: string): $TutorialSteps;
-        create(arg0: $Tutorial): $TutorialStepInstance;
-        static getByName(arg0: string): $TutorialSteps;
+        static valueOf(name: string): $TutorialSteps;
+        create(tutorial: $Tutorial): $TutorialStepInstance;
+        static getByName(name: string): $TutorialSteps;
         static PUNCH_TREE: $TutorialSteps;
         static MOVEMENT: $TutorialSteps;
         static FIND_TREE: $TutorialSteps;

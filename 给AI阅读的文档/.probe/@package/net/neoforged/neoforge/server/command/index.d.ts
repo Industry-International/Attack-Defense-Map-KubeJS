@@ -19,10 +19,10 @@ export * as generation from "@package/net/neoforged/neoforge/server/command/gene
 
 declare module "@package/net/neoforged/neoforge/server/command" {
     export class $EnumArgument$Info<T extends $Enum<T>> implements $ArgumentTypeInfo<$EnumArgument<T>, $EnumArgument$Info$Template> {
-        unpack(arg0: $EnumArgument<$EnumArgument$Info$Template>): $EnumArgument$Info$Template;
-        serializeToJson(arg0: $EnumArgument$Info$Template, arg1: $JsonObject_): void;
         serializeToNetwork(arg0: $EnumArgument$Info$Template, arg1: $FriendlyByteBuf): void;
-        deserializeFromNetwork(arg0: $FriendlyByteBuf): $EnumArgument$Info$Template;
+        serializeToJson(arg0: $EnumArgument$Info$Template, arg1: $JsonObject_): void;
+        unpack(arg0: $EnumArgument<$EnumArgument$Info$Template>): $EnumArgument$Info$Template;
+        deserializeFromNetwork(buffer: $FriendlyByteBuf): $EnumArgument$Info$Template;
         constructor();
     }
     export class $TrackCommand$ResetTrackingCommand {
@@ -37,31 +37,41 @@ declare module "@package/net/neoforged/neoforge/server/command" {
     }
     export class $EnumArgument$Info$Template implements $ArgumentTypeInfo$Template<$EnumArgument<T>> {
         type(): $ArgumentTypeInfo<$EnumArgument<T>, never>;
-        instantiate(arg0: $CommandBuildContext): $EnumArgument<T>;
+        instantiate(p_223435_: $CommandBuildContext): $EnumArgument<T>;
     }
     export class $ConfigCommand$ShowFile {
         constructor();
     }
+    /**
+     * Utility class for various command-related operations.
+     * 
+     * **For modders and NeoForge to both use.**
+     */
     export class $CommandUtils {
-        static getResourceKey<T>(arg0: $CommandContext<$CommandSourceStack>, arg1: string, arg2: $ResourceKey_<$Registry<T>>): ($ResourceKey<T>) | undefined;
-        static makeTranslatableWithFallback(arg0: string): $MutableComponent;
+        static getResourceKey<T>(ctx: $CommandContext<$CommandSourceStack>, name: string, registryKey: $ResourceKey_<$Registry<T>>): ($ResourceKey<T>) | undefined;
         static makeTranslatableWithFallback(arg0: string, ...arg1: $Object[]): $MutableComponent;
-        static suggestFromRegistry<T extends $Registry<never>>(arg0: $Function_<$Registry<never>, $Iterable<$ResourceLocation>>, arg1: string, arg2: $ResourceKey_<$Registry<T>>): $SuggestionProvider<$CommandSourceStack>;
-        static suggestRegistries(arg0: $CommandContext<$CommandSourceStack>, arg1: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
+        static makeTranslatableWithFallback(key: string): $MutableComponent;
+        static suggestFromRegistry<T extends $Registry<never>>(namesFunction: $Function_<$Registry<never>, $Iterable<$ResourceLocation>>, argumentString: string, registryKey: $ResourceKey_<$Registry<T>>): $SuggestionProvider<$CommandSourceStack>;
+        static suggestRegistries(ctx: $CommandContext<$CommandSourceStack>, builder: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
     }
+    /**
+     * Internal utility class for various command-related operations.
+     * 
+     * **For internal Forge use only.**
+     */
     export class $CommandHelper {
         static mergeCommandNode<S, T>(arg0: $CommandNode<S>, arg1: $CommandNode<T>, arg2: $Map_<$CommandNode<S>, $CommandNode<T>>, arg3: S, arg4: $Command_<T>, arg5: $Function_<$SuggestionProvider<S>, $SuggestionProvider<T>>): void;
     }
     export class $NeoForgeCommand {
-        static register(arg0: $CommandDispatcher<$CommandSourceStack>): void;
+        static register(dispatcher: $CommandDispatcher<$CommandSourceStack>): void;
         constructor();
     }
     export class $TimeSpeedCommand {
     }
     export class $EnumArgument<T extends $Enum<T>> implements $ArgumentType<T> {
         getExamples(): $Collection<string>;
-        listSuggestions<S>(arg0: $CommandContext<S>, arg1: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
-        static enumArgument<R extends $Enum<R>>(arg0: $Class<R>): $EnumArgument<R>;
+        listSuggestions<S>(context: $CommandContext<S>, builder: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
+        static enumArgument<R extends $Enum<R>>(enumClass: $Class<R>): $EnumArgument<R>;
         parse<S>(arg0: $StringReader, arg1: S): T;
         parse(arg0: $StringReader): T;
         get examples(): $Collection<string>;
@@ -69,10 +79,10 @@ declare module "@package/net/neoforged/neoforge/server/command" {
     export class $TagsCommand {
     }
     export class $ModIdArgument implements $ArgumentType<string> {
-        parse(arg0: $StringReader): string;
-        getExamples(): $Collection<string>;
+        parse(reader: $StringReader): string;
         static modIdArgument(): $ModIdArgument;
-        listSuggestions<S>(arg0: $CommandContext<S>, arg1: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
+        getExamples(): $Collection<string>;
+        listSuggestions<S>(context: $CommandContext<S>, builder: $SuggestionsBuilder): $CompletableFuture<$Suggestions>;
         parse<S>(arg0: $StringReader, arg1: S): string;
         constructor();
         get examples(): $Collection<string>;
@@ -82,8 +92,8 @@ declare module "@package/net/neoforged/neoforge/server/command" {
     export class $DataComponentCommand {
     }
     export class $ConfigCommand {
-        static register(arg0: $CommandDispatcher<$CommandSourceStack>): void;
-        static onClientCommandsRegister(arg0: $RegisterClientCommandsEvent): void;
+        static register(dispatcher: $CommandDispatcher<$CommandSourceStack>): void;
+        static onClientCommandsRegister(event: $RegisterClientCommandsEvent): void;
         constructor();
     }
     export class $TrackCommand$StartTrackingCommand {

@@ -10,8 +10,8 @@ declare module "@package/com/almostreliable/morejs/mixin" {
     }
     export interface $PotionBrewingBuilderAccessor {
         morejs$getRecipes(): $List<$IBrewingRecipe>;
+        morejs$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
         morejs$getContainers(): $List<$Ingredient>;
         morejs$getPotionMixes(): $List<$PotionBrewing$Mix<$Potion>>;
-        morejs$getContainerMixes(): $List<$PotionBrewing$Mix<$Item>>;
     }
 }

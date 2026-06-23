@@ -1,6 +1,6 @@
 import { $InputStream } from "@package/java/io";
 import { $ItemStack } from "@package/net/minecraft/world/item";
-import { $Ingredient, $Ingredient_ } from "@package/net/minecraft/world/item/crafting";
+import { $Ingredient_, $Ingredient } from "@package/net/minecraft/world/item/crafting";
 import { $CompoundTag } from "@package/net/minecraft/nbt";
 import { $MutableComponent, $Style } from "@package/net/minecraft/network/chat";
 import { $FluidStack } from "@package/net/neoforged/neoforge/fluids";
@@ -32,45 +32,45 @@ declare module "@package/com/lowdragmc/lowdraglib2/utils" {
         static getAsInt(arg0: $Element, arg1: string, arg2: number): number;
         static getAsLong(arg0: $Element, arg1: string, arg2: number): number;
         static getAsBoolean(arg0: $Element, arg1: string, arg2: boolean): boolean;
-        static getAsString(arg0: $Element, arg1: string, arg2: string): string;
-        static getAsFloat(arg0: $Element, arg1: string, arg2: number): number;
         static loadXml(arg0: $ResourceLocation_): $Document;
         static loadXml(arg0: $InputStream): $Document;
         static loadXml(arg0: string): $Document;
         static setBlockState(arg0: $BlockState_, arg1: $Element): $BlockState;
-        static getComponents(arg0: $Element, arg1: $Style): $List<$MutableComponent>;
-        static getComponents(arg0: $Element): $DataComponentMap;
-        static getIngredient(arg0: $Element): $XmlUtils$SizedIngredient;
+        static getAsString(arg0: $Element, arg1: string, arg2: string): string;
         static getAsEnum<T extends $Enum<T>>(arg0: $Element, arg1: string, arg2: $Class<T>, arg3: T): T;
+        static getAsFloat(arg0: $Element, arg1: string, arg2: number): number;
         static getItemStack(arg0: $Element): $ItemStack;
-        static getFluidStack(arg0: $Element): $FluidStack;
+        static getComponents(arg0: $Element): $DataComponentMap;
+        static getComponents(arg0: $Element, arg1: $Style): $List<$MutableComponent>;
+        static getIngredient(arg0: $Element): $XmlUtils$SizedIngredient;
         static getCompoundTag(arg0: $Element): $CompoundTag;
+        static getFluidStack(arg0: $Element): $FluidStack;
+        static getAsBlockPos(arg0: $Element, arg1: string, arg2: $BlockPos_): $BlockPos;
+        static getEntityInfo(arg0: $Element): $EntityInfo;
+        static getAsVector3f(arg0: $Element, arg1: string, arg2: $Vector3f): $Vector3f;
+        static getBlockInfo(arg0: $Element): $BlockInfo;
         static getAsColor(arg0: $Element, arg1: string, arg2: number): number;
         static getAsVec2(arg0: $Element, arg1: string, arg2: $Vec2): $Vec2;
-        static getAsVector3f(arg0: $Element, arg1: string, arg2: $Vector3f): $Vector3f;
-        static getEntityInfo(arg0: $Element): $EntityInfo;
-        static getAsBlockPos(arg0: $Element, arg1: string, arg2: $BlockPos_): $BlockPos;
-        static getBlockInfo(arg0: $Element): $BlockInfo;
         static documentBuilderFactory: $DocumentBuilderFactory;
     }
     export class $HistoryStack<T> {
-        getMaxSize(): number;
+        undo(): boolean;
         clear(): void;
         record(arg0: T): void;
         setMaxSize(arg0: number): void;
-        undo(): boolean;
+        getMaxSize(): number;
+        replaceCurrent(arg0: T): void;
         trackedSize(): number;
+        getCurrent(): T;
         redo(): boolean;
         canUndo(): boolean;
         canRedo(): boolean;
-        getCurrent(): T;
-        replaceCurrent(arg0: T): void;
         undoSize(): number;
         redoSize(): number;
         isDedupeConsecutive(): boolean;
         setDedupeConsecutive(arg0: boolean): void;
-        constructor(arg0: number, arg1: boolean);
         constructor(arg0: number);
+        constructor(arg0: number, arg1: boolean);
         get current(): T;
     }
 }

@@ -5,15 +5,15 @@ declare module "@package/net/fabricmc/fabric/impl/item" {
     export class $ItemStackExtensions {
     }
     export interface $ItemStackExtensions {
-        fabric_getLivingEntity(): $LivingEntity;
         fabric_setLivingEntity(arg0: $LivingEntity): void;
+        fabric_getLivingEntity(): $LivingEntity;
     }
     export class $ItemExtensions {
     }
     export interface $ItemExtensions {
-        fabric_setCustomDamageHandler(arg0: $CustomDamageHandler_): void;
         fabric_setEquipmentSlotProvider(arg0: $EquipmentSlotProvider_): void;
-        fabric_getEquipmentSlotProvider(): $EquipmentSlotProvider;
+        fabric_setCustomDamageHandler(arg0: $CustomDamageHandler_): void;
         fabric_getCustomDamageHandler(): $CustomDamageHandler;
+        fabric_getEquipmentSlotProvider(): $EquipmentSlotProvider;
     }
 }

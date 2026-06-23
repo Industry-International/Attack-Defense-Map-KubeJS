@@ -35,15 +35,15 @@ import { $DamageSource } from "@package/net/minecraft/world/damagesource";
 
 declare module "@package/net/minecraft/world/entity/monster/breeze" {
     export class $Slide extends $Behavior<$Breeze> {
-        start(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
+        start(level: $ServerLevel, entity: $Breeze, gameTime: number): void;
+        checkExtraStartConditions(level: $ServerLevel, owner: $Breeze): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
     }
     export class $BreezeUtil {
-        static hasLineOfSight(arg0: $Breeze, arg1: $Vec3_): boolean;
-        static randomPointBehindTarget(arg0: $LivingEntity, arg1: $RandomSource): $Vec3;
+        static hasLineOfSight(breeze: $Breeze, pos: $Vec3_): boolean;
+        static randomPointBehindTarget(target: $LivingEntity, random: $RandomSource): $Vec3;
         constructor();
     }
     export class $BreezeAi$SlideToTargetSink extends $MoveToTargetSink {
@@ -52,12 +52,12 @@ declare module "@package/net/minecraft/world/entity/monster/breeze" {
         constructor(arg0: number, arg1: number);
     }
     export class $LongJump extends $Behavior<$Breeze> {
-        start(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        tick(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        static canRun(arg0: $ServerLevel, arg1: $Breeze): boolean;
-        canStillUse(arg0: $ServerLevel, arg1: $Breeze, arg2: number): boolean;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
+        start(level: $ServerLevel, entity: $Breeze, gameTime: number): void;
+        stop(level: $ServerLevel, entity: $Breeze, gameTime: number): void;
+        tick(level: $ServerLevel, entity: $Breeze, gameTime: number): void;
+        static canRun(level: $ServerLevel, breeze: $Breeze): boolean;
+        canStillUse(level: $ServerLevel, entity: $Breeze, gameTime: number): boolean;
+        checkExtraStartConditions(level: $ServerLevel, breeze: $Breeze): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
@@ -72,14 +72,20 @@ declare module "@package/net/minecraft/world/entity/monster/breeze" {
     }
     export class $Breeze extends $Monster {
         getHurtBy(): ($LivingEntity) | undefined;
-        handler$dfm000$immersiveengineering$deflection(arg0: $Projectile, arg1: $CallbackInfoReturnable<any>): void;
+        handler$dbb000$immersiveengineering$deflection(arg0: $Projectile, arg1: $CallbackInfoReturnable<any>): void;
+        /**
+         * Plays living's sound at its position
+         */
         playWhirlSound(): void;
-        resetJumpTrail(): $Breeze;
         getSnoutYPosition(): number;
+        resetJumpTrail(): $Breeze;
         static createAttributes(): $AttributeSupplier$Builder;
-        emitGroundParticles(arg0: number): void;
+        /**
+         * Plays living's sound at its position
+         */
         emitJumpTrailParticles(): void;
-        withinInnerCircleRange(arg0: $Vec3_): boolean;
+        withinInnerCircleRange(pos: $Vec3_): boolean;
+        emitGroundParticles(count: number): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -252,24 +258,24 @@ declare module "@package/net/minecraft/world/entity/monster/breeze" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$Monster>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$Monster>, level: $Level_);
         get hurtBy(): ($LivingEntity) | undefined;
         get snoutYPosition(): number;
     }
     export class $Shoot extends $Behavior<$Breeze> {
-        start(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        stop(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        tick(arg0: $ServerLevel, arg1: $Breeze, arg2: number): void;
-        canStillUse(arg0: $ServerLevel, arg1: $Breeze, arg2: number): boolean;
-        checkExtraStartConditions(arg0: $ServerLevel, arg1: $Breeze): boolean;
-        static isFacingTarget(arg0: $Breeze, arg1: $LivingEntity): boolean;
+        start(level: $ServerLevel, entity: $Breeze, gameTime: number): void;
+        stop(level: $ServerLevel, entity: $Breeze, gameTime: number): void;
+        tick(level: $ServerLevel, entity: $Breeze, gameTime: number): void;
+        canStillUse(level: $ServerLevel, entity: $Breeze, gameTime: number): boolean;
+        checkExtraStartConditions(level: $ServerLevel, owner: $Breeze): boolean;
+        static isFacingTarget(breeze: $Breeze, target: $LivingEntity): boolean;
         static DEFAULT_DURATION: number;
         entryCondition: $Map<$MemoryModuleType<never>, $MemoryStatus>;
         constructor();
     }
     export class $BreezeAi {
-        static updateActivity(arg0: $Breeze): void;
-        static makeBrain(arg0: $Breeze, arg1: $Brain<$Breeze>): $Brain<never>;
+        static updateActivity(breeze: $Breeze): void;
+        static makeBrain(breeze: $Breeze, brain: $Brain<$Breeze>): $Brain<never>;
         static JUMP_CIRCLE_INNER_RADIUS: number;
         static MEMORY_TYPES: $List<$MemoryModuleType<never>>;
         static JUMP_CIRCLE_MIDDLE_RADIUS: number;

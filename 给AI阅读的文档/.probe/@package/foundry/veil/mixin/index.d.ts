@@ -1,5 +1,4 @@
 export * as pipeline from "@package/foundry/veil/mixin/pipeline";
-export * as dynamicbuffer from "@package/foundry/veil/mixin/dynamicbuffer";
 export * as resource from "@package/foundry/veil/mixin/resource";
 export * as debug from "@package/foundry/veil/mixin/debug";
 export * as registry from "@package/foundry/veil/mixin/registry";

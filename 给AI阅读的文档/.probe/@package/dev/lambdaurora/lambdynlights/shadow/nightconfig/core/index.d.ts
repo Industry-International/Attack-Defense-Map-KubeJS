@@ -37,12 +37,12 @@ declare module "@package/dev/lambdaurora/lambdynlights/shadow/nightconfig/core" 
     export class $ConfigFormat<C extends $Config> {
     }
     export interface $ConfigFormat<C extends $Config> {
-        createParser(): $ConfigParser<C>;
         createConfig(arg0: $Supplier_<$Map<string, $Object>>): C;
         createConfig(): C;
-        createWriter(): $ConfigWriter;
+        createParser(): $ConfigParser<C>;
         supportsComments(): boolean;
         supportsType(type: $Class<never>): boolean;
+        createWriter(): $ConfigWriter;
         initEmptyFile(ws: $WriterSupplier_): void;
         initEmptyFile(f: $Path_): void;
         initEmptyFile(writer: $Writer): void;
@@ -55,19 +55,19 @@ declare module "@package/dev/lambdaurora/lambdynlights/shadow/nightconfig/core" 
         static wrap(map: $Map_<string, $Object>, format: $ConfigFormat<never>): $Config;
         static of(format: $ConfigFormat<$Config>): $Config;
         static of(mapCreator: $Supplier_<$Map<string, $Object>>, format: $ConfigFormat<never>): $Config;
-        static copy(config: $UnmodifiableConfig, mapCreator: $Supplier_<$Map<string, $Object>>): $Config;
-        static copy(config: $UnmodifiableConfig, mapCreator: $Supplier_<$Map<string, $Object>>, format: $ConfigFormat<never>): $Config;
         static copy(config: $UnmodifiableConfig, format: $ConfigFormat<never>): $Config;
         static copy(config: $UnmodifiableConfig): $Config;
+        static copy(config: $UnmodifiableConfig, mapCreator: $Supplier_<$Map<string, $Object>>): $Config;
+        static copy(config: $UnmodifiableConfig, mapCreator: $Supplier_<$Map<string, $Object>>, format: $ConfigFormat<never>): $Config;
+        /**
+         * @deprecated
+         */
+        static ofConcurrent(format: $ConfigFormat<$Config>): $Config;
         static inMemoryUniversal(): $Config;
         /**
          * @deprecated
          */
         static inMemoryConcurrent(): $Config;
-        /**
-         * @deprecated
-         */
-        static ofConcurrent(format: $ConfigFormat<$Config>): $Config;
         /**
          * @deprecated
          */
@@ -107,8 +107,8 @@ declare module "@package/dev/lambdaurora/lambdynlights/shadow/nightconfig/core" 
         set<T>(arg0: $List_<string>, arg1: $Object): T;
         checked(): $Config;
         removeAll(config: $UnmodifiableConfig): void;
-        unmodifiable(): $UnmodifiableConfig;
         createSubConfig(): $Config;
+        unmodifiable(): $UnmodifiableConfig;
         /**
          * @deprecated
          */
@@ -133,58 +133,58 @@ declare module "@package/dev/lambdaurora/lambdynlights/shadow/nightconfig/core" 
         isEmpty(): boolean;
         apply<T>(path: string): T;
         apply<T>(path: $List_<string>): T;
-        contains(path: string): boolean;
         contains(arg0: $List_<string>): boolean;
+        contains(path: string): boolean;
         entrySet(): $Set<$UnmodifiableConfig$Entry>;
         isNull(path: $List_<string>): boolean;
         isNull(path: string): boolean;
-        configFormat(): $ConfigFormat<never>;
-        getOptionalLong(path: $List_<string>): $OptionalLong;
-        getOptionalLong(path: string): $OptionalLong;
-        getLongOrElse(path: string, defaultValue: number): number;
-        getLongOrElse(path: $List_<string>, defaultValue: number): number;
-        getLongOrElse(path: string, defaultValueSupplier: $LongSupplier_): number;
-        getLongOrElse(path: $List_<string>, defaultValueSupplier: $LongSupplier_): number;
-        getIntOrElse(path: $List_<string>, defaultValueSupplier: $IntSupplier_): number;
-        getIntOrElse(path: $List_<string>, defaultValue: number): number;
-        getIntOrElse(path: string, defaultValueSupplier: $IntSupplier_): number;
-        getIntOrElse(path: string, defaultValue: number): number;
-        getCharOrElse(path: string, defaultValue: string): string;
-        getCharOrElse(path: $List_<string>, defaultValue: string): string;
-        getShortOrElse(path: $List_<string>, defaultValue: number): number;
-        getShortOrElse(path: string, defaultValue: number): number;
-        getOptional<T>(path: string): (T) | undefined;
-        getOptional<T>(path: $List_<string>): (T) | undefined;
-        getByteOrElse(path: string, defaultValue: number): number;
-        getByteOrElse(path: $List_<string>, defaultValue: number): number;
         getOptionalInt(path: string): $OptionalInt;
         getOptionalInt(path: $List_<string>): $OptionalInt;
+        configFormat(): $ConfigFormat<never>;
+        getOptional<T>(path: $List_<string>): (T) | undefined;
+        getOptional<T>(path: string): (T) | undefined;
+        getOptionalLong(path: string): $OptionalLong;
+        getOptionalLong(path: $List_<string>): $OptionalLong;
+        getLongOrElse(path: string, defaultValue: number): number;
+        getLongOrElse(path: $List_<string>, defaultValueSupplier: $LongSupplier_): number;
+        getLongOrElse(path: $List_<string>, defaultValue: number): number;
+        getLongOrElse(path: string, defaultValueSupplier: $LongSupplier_): number;
+        getShortOrElse(path: $List_<string>, defaultValue: number): number;
+        getShortOrElse(path: string, defaultValue: number): number;
         getEnumOrElse<T extends $Enum<T>>(path: $List_<string>, defaultValue: T, method: $EnumGetMethod_): T;
         getEnumOrElse<T extends $Enum<T>>(path: $List_<string>, defaultValue: T): T;
-        getEnumOrElse<T extends $Enum<T>>(path: string, enumType: $Class<T>, method: $EnumGetMethod_, defaultValueSupplier: $Supplier_<T>): T;
         getEnumOrElse<T extends $Enum<T>>(path: string, defaultValue: T): T;
-        getEnumOrElse<T extends $Enum<T>>(path: string, enumType: $Class<T>, defaultValueSupplier: $Supplier_<T>): T;
-        getEnumOrElse<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>, method: $EnumGetMethod_, defaultValueSupplier: $Supplier_<T>): T;
-        getEnumOrElse<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>, defaultValueSupplier: $Supplier_<T>): T;
         getEnumOrElse<T extends $Enum<T>>(path: string, defaultValue: T, method: $EnumGetMethod_): T;
-        getOptionalEnum<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>): (T) | undefined;
+        getEnumOrElse<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>, defaultValueSupplier: $Supplier_<T>): T;
+        getEnumOrElse<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>, method: $EnumGetMethod_, defaultValueSupplier: $Supplier_<T>): T;
+        getEnumOrElse<T extends $Enum<T>>(path: string, enumType: $Class<T>, defaultValueSupplier: $Supplier_<T>): T;
+        getEnumOrElse<T extends $Enum<T>>(path: string, enumType: $Class<T>, method: $EnumGetMethod_, defaultValueSupplier: $Supplier_<T>): T;
         getOptionalEnum<T extends $Enum<T>>(path: string, enumType: $Class<T>): (T) | undefined;
         getOptionalEnum<T extends $Enum<T>>(path: string, enumType: $Class<T>, method: $EnumGetMethod_): (T) | undefined;
         getOptionalEnum<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>, method: $EnumGetMethod_): (T) | undefined;
+        getOptionalEnum<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>): (T) | undefined;
+        getCharOrElse(path: $List_<string>, defaultValue: string): string;
+        getCharOrElse(path: string, defaultValue: string): string;
+        getByteOrElse(path: string, defaultValue: number): number;
+        getByteOrElse(path: $List_<string>, defaultValue: number): number;
+        getIntOrElse(path: string, defaultValueSupplier: $IntSupplier_): number;
+        getIntOrElse(path: $List_<string>, defaultValueSupplier: $IntSupplier_): number;
+        getIntOrElse(path: $List_<string>, defaultValue: number): number;
+        getIntOrElse(path: string, defaultValue: number): number;
         /**
          * @deprecated
          */
         valueMap(): $Map<string, $Object>;
-        getRaw<T>(arg0: $List_<string>): T;
         getRaw<T>(path: string): T;
-        getEnum<T extends $Enum<T>>(path: string, enumType: $Class<T>, method: $EnumGetMethod_): T;
-        getEnum<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>): T;
-        getEnum<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>, method: $EnumGetMethod_): T;
-        getEnum<T extends $Enum<T>>(path: string, enumType: $Class<T>): T;
-        getOrElse<T>(path: string, defaultValue: T): T;
+        getRaw<T>(arg0: $List_<string>): T;
+        getOrElse<T>(path: $List_<string>, defaultValueSupplier: $Supplier_<T>): T;
         getOrElse<T>(path: string, defaultValueSupplier: $Supplier_<T>): T;
         getOrElse<T>(path: $List_<string>, defaultValue: T): T;
-        getOrElse<T>(path: $List_<string>, defaultValueSupplier: $Supplier_<T>): T;
+        getOrElse<T>(path: string, defaultValue: T): T;
+        getEnum<T extends $Enum<T>>(path: string, enumType: $Class<T>, method: $EnumGetMethod_): T;
+        getEnum<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>, method: $EnumGetMethod_): T;
+        getEnum<T extends $Enum<T>>(path: string, enumType: $Class<T>): T;
+        getEnum<T extends $Enum<T>>(path: $List_<string>, enumType: $Class<T>): T;
         get empty(): boolean;
     }
     export class $UnmodifiableConfig$Entry {
@@ -198,14 +198,14 @@ declare module "@package/dev/lambdaurora/lambdynlights/shadow/nightconfig/core" 
         getValue<T>(): T;
         getKey(): string;
         isNull(): boolean;
+        getOptionalInt(): $OptionalInt;
+        getOptional<T>(): (T) | undefined;
         getOptionalLong(): $OptionalLong;
         getLongOrElse(defaultValue: number): number;
-        getIntOrElse(defaultValue: number): number;
-        getCharOrElse(defaultValue: string): string;
         getShortOrElse(defaultValue: number): number;
-        getOptional<T>(): (T) | undefined;
+        getCharOrElse(defaultValue: string): string;
         getByteOrElse(defaultValue: number): number;
-        getOptionalInt(): $OptionalInt;
+        getIntOrElse(defaultValue: number): number;
         getRawValue<T>(): T;
         getOrElse<T>(defaultValue: T): T;
         get byte(): number;
@@ -216,9 +216,9 @@ declare module "@package/dev/lambdaurora/lambdynlights/shadow/nightconfig/core" 
         get value(): T;
         get key(): string;
         get null(): boolean;
-        get optionalLong(): $OptionalLong;
-        get optional(): (T) | undefined;
         get optionalInt(): $OptionalInt;
+        get optional(): (T) | undefined;
+        get optionalLong(): $OptionalLong;
         get rawValue(): T;
     }
 }

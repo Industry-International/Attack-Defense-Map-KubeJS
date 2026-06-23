@@ -6,48 +6,47 @@ import { $Object } from "@package/java/lang";
 
 declare module "@package/xaero/hud/category/serialization/data" {
     export class $ObjectCategoryDataSerializer<D extends $ObjectCategoryData<D>, S> {
-        deserialize(arg0: S): D;
         serialize(arg0: D): S;
+        deserialize(arg0: S): D;
     }
     export class $ObjectCategoryDataNbtSerializer<D extends $ObjectCategoryData<D>, DB extends $ObjectCategoryData$Builder<D, DB>> extends $ObjectCategoryDataSerializer<D, $CompoundTag> {
         deserialize(arg0: $CompoundTag_): D;
     }
     export class $FilterObjectCategoryData<D extends $FilterObjectCategoryData<D>> extends $ObjectCategoryData<D> {
-        getIncludeListInSuperCategory(): boolean;
-        getHardInclude(): string;
         getExcludeMode(): $ExcludeListMode;
-        getIncludeListIterator(): $Iterator<string>;
+        getHardInclude(): string;
         getExcludeListIterator(): $Iterator<string>;
-        get includeListInSuperCategory(): boolean;
-        get hardInclude(): string;
+        getIncludeListIterator(): $Iterator<string>;
+        getIncludeListInSuperCategory(): boolean;
         get excludeMode(): $ExcludeListMode;
-        get includeListIterator(): $Iterator<string>;
+        get hardInclude(): string;
         get excludeListIterator(): $Iterator<string>;
+        get includeListIterator(): $Iterator<string>;
+        get includeListInSuperCategory(): boolean;
     }
     export class $FilterObjectCategoryData$Builder<D extends $FilterObjectCategoryData<D>, B extends $FilterObjectCategoryData$Builder<D, B>> extends $ObjectCategoryData$Builder<D, B> {
         build(): D;
-        setIncludeListInSuperCategory(arg0: boolean): B;
-        setHardInclude(arg0: string): void;
-        addToExcludeList(arg0: string): B;
         setExcludeMode(arg0: $ExcludeListMode): void;
+        setHardInclude(arg0: string): void;
         addToIncludeList(arg0: string): B;
+        addToExcludeList(arg0: string): B;
+        setIncludeListInSuperCategory(arg0: boolean): B;
         constructor(arg0: $ListFactory, arg1: $MapFactory);
-        set includeListInSuperCategory(value: boolean);
-        set hardInclude(value: string);
         set excludeMode(value: $ExcludeListMode);
+        set hardInclude(value: string);
+        set includeListInSuperCategory(value: boolean);
     }
     export class $ObjectCategoryData<D extends $ObjectCategoryData<D>> {
         getName(): string;
-        getSettingOverrideIterator(): $Iterator<$Map$Entry<string, $Object>>;
-        getSubCategoryIterator(): $Iterator<D>;
         getProtection(): boolean;
+        getSubCategoryIterator(): $Iterator<D>;
+        getSettingOverrideIterator(): $Iterator<$Map$Entry<string, $Object>>;
         get name(): string;
-        get settingOverrideIterator(): $Iterator<$Map$Entry<string, $Object>>;
-        get subCategoryIterator(): $Iterator<D>;
         get protection(): boolean;
+        get subCategoryIterator(): $Iterator<D>;
+        get settingOverrideIterator(): $Iterator<$Map$Entry<string, $Object>>;
     }
     export class $ObjectCategoryDataGsonSerializer<D extends $ObjectCategoryData<D>> extends $ObjectCategoryDataSerializer<D, string> {
         deserialize(arg0: string): D;
-        serialize(arg0: D): string;
     }
 }

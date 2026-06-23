@@ -52,6 +52,7 @@ declare module "@package/jdk/jfr/consumer" {
         get truncated(): boolean;
     }
     export class $RecordedObject {
+        getInstant(arg0: string): $Instant;
         getClass(arg0: string): $RecordedClass;
         getBoolean(arg0: string): boolean;
         getByte(arg0: string): number;
@@ -65,9 +66,8 @@ declare module "@package/jdk/jfr/consumer" {
         getFields(): $List<$ValueDescriptor>;
         getString(arg0: string): string;
         getDuration(arg0: string): $Duration;
-        getInstant(arg0: string): $Instant;
-        hasField(arg0: string): boolean;
         getThread(arg0: string): $RecordedThread;
+        hasField(arg0: string): boolean;
         get fields(): $List<$ValueDescriptor>;
     }
     export class $RecordedThreadGroup extends $RecordedObject {
@@ -95,14 +95,14 @@ declare module "@package/jdk/jfr/consumer" {
     export class $RecordedEvent extends $RecordedObject {
         getStackTrace(): $RecordedStackTrace;
         getDuration(): $Duration;
-        getEndTime(): $Instant;
         getStartTime(): $Instant;
+        getEndTime(): $Instant;
         getThread(): $RecordedThread;
         getEventType(): $EventType;
         get stackTrace(): $RecordedStackTrace;
         get duration(): $Duration;
-        get endTime(): $Instant;
         get startTime(): $Instant;
+        get endTime(): $Instant;
         get thread(): $RecordedThread;
         get eventType(): $EventType;
     }

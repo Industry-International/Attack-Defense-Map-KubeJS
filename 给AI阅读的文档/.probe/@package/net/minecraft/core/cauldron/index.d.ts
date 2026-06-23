@@ -17,11 +17,11 @@ declare module "@package/net/minecraft/core/cauldron" {
         constructor(arg0: string, arg1: $Map_<$Item_, $CauldronInteraction_>);
     }
     export class $CauldronInteraction {
-        static emptyBucket(arg0: $Level_, arg1: $BlockPos_, arg2: $Player, arg3: $InteractionHand_, arg4: $ItemStack_, arg5: $BlockState_, arg6: $SoundEvent_): $ItemInteractionResult;
-        static newInteractionMap(arg0: string): $CauldronInteraction$InteractionMap;
+        static addDefaultInteractions(interactionsMap: $Map_<$Item_, $CauldronInteraction_>): void;
         static bootStrap(): void;
-        static addDefaultInteractions(arg0: $Map_<$Item_, $CauldronInteraction_>): void;
-        static fillBucket(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Player, arg4: $InteractionHand_, arg5: $ItemStack_, arg6: $ItemStack_, arg7: $Predicate_<$BlockState>, arg8: $SoundEvent_): $ItemInteractionResult;
+        static fillBucket(state: $BlockState_, level: $Level_, pos: $BlockPos_, player: $Player, hand: $InteractionHand_, emptyStack: $ItemStack_, filledStack: $ItemStack_, statePredicate: $Predicate_<$BlockState>, fillSound: $SoundEvent_): $ItemInteractionResult;
+        static emptyBucket(level: $Level_, pos: $BlockPos_, player: $Player, hand: $InteractionHand_, filledStack: $ItemStack_, state: $BlockState_, emptySound: $SoundEvent_): $ItemInteractionResult;
+        static newInteractionMap(name: string): $CauldronInteraction$InteractionMap;
         static CODEC: $Codec<$CauldronInteraction$InteractionMap>;
         static LAVA: $CauldronInteraction$InteractionMap;
         static FILL_POWDER_SNOW: $CauldronInteraction;
@@ -36,7 +36,7 @@ declare module "@package/net/minecraft/core/cauldron" {
         static WATER: $CauldronInteraction$InteractionMap;
     }
     export interface $CauldronInteraction {
-        interact(arg0: $BlockState_, arg1: $Level_, arg2: $BlockPos_, arg3: $Player, arg4: $InteractionHand_, arg5: $ItemStack_): $ItemInteractionResult;
+        interact(state: $BlockState_, level: $Level_, pos: $BlockPos_, player: $Player, hand: $InteractionHand_, stack: $ItemStack_): $ItemInteractionResult;
     }
     /**
      * Values that may be interpreted as {@link $CauldronInteraction}.

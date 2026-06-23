@@ -15,55 +15,55 @@ declare module "@package/org/spongepowered/asm/mixin/extensibility" {
     }
     export interface $IMixinConfigPlugin {
         onLoad(arg0: string): void;
-        getRefMapperConfig(): string;
-        shouldApplyMixin(arg0: string, arg1: string): boolean;
+        preApply(arg0: string, arg1: $ClassNode, arg2: string, arg3: $IMixinInfo): void;
         getMixins(): $List<string>;
         postApply(arg0: string, arg1: $ClassNode, arg2: string, arg3: $IMixinInfo): void;
-        preApply(arg0: string, arg1: $ClassNode, arg2: string, arg3: $IMixinInfo): void;
+        getRefMapperConfig(): string;
+        shouldApplyMixin(arg0: string, arg1: string): boolean;
         acceptTargets(arg0: $Set_<string>, arg1: $Set_<string>): void;
-        get refMapperConfig(): string;
         get mixins(): $List<string>;
+        get refMapperConfig(): string;
     }
     export class $IMixinInfo {
     }
     export interface $IMixinInfo {
+        getClassBytes(): number[];
         getName(): string;
         getPriority(): number;
         getClassName(): string;
-        getClassBytes(): number[];
-        getClassNode(arg0: number): $ClassNode;
         getConfig(): $IMixinConfig;
+        getClassNode(arg0: number): $ClassNode;
         getPhase(): $MixinEnvironment$Phase;
         getTargetClasses(): $List<string>;
-        getClassRef(): string;
         isDetachedSuper(): boolean;
+        getClassRef(): string;
+        get classBytes(): number[];
         get name(): string;
         get priority(): number;
         get className(): string;
-        get classBytes(): number[];
         get config(): $IMixinConfig;
         get phase(): $MixinEnvironment$Phase;
         get targetClasses(): $List<string>;
-        get classRef(): string;
         get detachedSuper(): boolean;
+        get classRef(): string;
     }
     export class $IRemapper {
     }
     export interface $IRemapper {
+        unmap(arg0: string): string;
         map(arg0: string): string;
-        mapFieldName(arg0: string, arg1: string, arg2: string): string;
-        mapMethodName(arg0: string, arg1: string, arg2: string): string;
         mapDesc(arg0: string): string;
         unmapDesc(arg0: string): string;
-        unmap(arg0: string): string;
+        mapFieldName(arg0: string, arg1: string, arg2: string): string;
+        mapMethodName(arg0: string, arg1: string, arg2: string): string;
     }
     export class $IMixinConfigSource {
     }
     export interface $IMixinConfigSource {
-        getId(): string;
         getDescription(): string;
-        get id(): string;
+        getId(): string;
         get description(): string;
+        get id(): string;
     }
     export class $IMixinConfig {
         static DEFAULT_PRIORITY: number;
@@ -75,20 +75,20 @@ declare module "@package/org/spongepowered/asm/mixin/extensibility" {
         getEnvironment(): $MixinEnvironment;
         getTargets(): $Set<string>;
         isRequired(): boolean;
-        getDecoration<V>(arg0: string): V;
-        getCleanSourceId(): string;
-        getMixinPackage(): string;
-        hasDecoration(arg0: string): boolean;
         decorate<V>(arg0: string, arg1: V): void;
         getPlugin(): $IMixinConfigPlugin;
+        hasDecoration(arg0: string): boolean;
+        getCleanSourceId(): string;
+        getMixinPackage(): string;
+        getDecoration<V>(arg0: string): V;
         get name(): string;
         get priority(): number;
         get source(): $IMixinConfigSource;
         get environment(): $MixinEnvironment;
         get targets(): $Set<string>;
         get required(): boolean;
+        get plugin(): $IMixinConfigPlugin;
         get cleanSourceId(): string;
         get mixinPackage(): string;
-        get plugin(): $IMixinConfigPlugin;
     }
 }

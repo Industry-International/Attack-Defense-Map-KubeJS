@@ -7,12 +7,11 @@ import { $Object, $Throwable, $Class } from "@package/java/lang";
 
 declare module "@package/com/google/common/reflect" {
     export class $Invokable<T, R> implements $AnnotatedElement, $Member {
-        getOwnerType(): $TypeToken<T>;
         invoke(receiver: T, ...args: $Object[]): R;
         getName(): string;
         getModifiers(): number;
-        static from(method: $Method): $Invokable<never, $Object>;
         static from<T>(arg0: $Constructor<T>): $Invokable<T, T>;
+        static from(method: $Method): $Invokable<never, $Object>;
         getTypeParameters(): $TypeVariable<never>[];
         getReturnType(): $TypeToken<R>;
         isSynthetic(): boolean;
@@ -36,6 +35,7 @@ declare module "@package/com/google/common/reflect" {
         isPrivate(): boolean;
         isNative(): boolean;
         isSynchronized(): boolean;
+        getOwnerType(): $TypeToken<T>;
         isOverridable(): boolean;
         isPackagePrivate(): boolean;
         returning<R1 extends R>(returnType: $TypeToken<R1>): $Invokable<T, R1>;
@@ -44,7 +44,6 @@ declare module "@package/com/google/common/reflect" {
         getDeclaredAnnotation<T extends $Annotation>(arg0: $Class<T>): T;
         getDeclaredAnnotationsByType<T extends $Annotation>(arg0: $Class<T>): T[];
         accessFlags(): $Set<$AccessFlag>;
-        get ownerType(): $TypeToken<T>;
         get name(): string;
         get modifiers(): number;
         get typeParameters(): $TypeVariable<never>[];
@@ -65,6 +64,7 @@ declare module "@package/com/google/common/reflect" {
         get private(): boolean;
         get native(): boolean;
         get synchronized(): boolean;
+        get ownerType(): $TypeToken<T>;
         get overridable(): boolean;
         get packagePrivate(): boolean;
     }
@@ -76,6 +76,8 @@ declare module "@package/com/google/common/reflect" {
     export class $TypeCapture<T> {
     }
     export class $TypeToken<T> extends $TypeCapture<T> implements $Serializable {
+        where<X>(typeParam: $TypeParameter<X>, typeArg: $Class<X>): $TypeToken<T>;
+        where<X>(typeParam: $TypeParameter<X>, typeArg: $TypeToken<X>): $TypeToken<T>;
         method(method: $Method): $Invokable<T, $Object>;
         isArray(): boolean;
         isPrimitive(): boolean;
@@ -87,16 +89,14 @@ declare module "@package/com/google/common/reflect" {
         getType(): $Type;
         unwrap(): $TypeToken<T>;
         getRawType(): $Class<T>;
-        where<X>(typeParam: $TypeParameter<X>, typeArg: $TypeToken<X>): $TypeToken<T>;
-        where<X>(typeParam: $TypeParameter<X>, typeArg: $Class<X>): $TypeToken<T>;
-        getSupertype(superclass: $Class<T>): $TypeToken<T>;
-        isSubtypeOf(supertype: $Type): boolean;
         isSubtypeOf(type: $TypeToken<never>): boolean;
+        isSubtypeOf(supertype: $Type): boolean;
         resolveType(type: $Type): $TypeToken<never>;
-        getSubtype(subclass: $Class<never>): $TypeToken<T>;
-        getTypes(): $TypeToken$TypeSet;
-        isSupertypeOf(type: $TypeToken<never>): boolean;
         isSupertypeOf(type: $Type): boolean;
+        isSupertypeOf(type: $TypeToken<never>): boolean;
+        getSupertype(superclass: $Class<T>): $TypeToken<T>;
+        getTypes(): $TypeToken$TypeSet;
+        getSubtype(subclass: $Class<never>): $TypeToken<T>;
         get array(): boolean;
         get primitive(): boolean;
         get componentType(): $TypeToken<never>;

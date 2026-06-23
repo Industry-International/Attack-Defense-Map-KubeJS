@@ -7,28 +7,28 @@ import { $KClass } from "@package/kotlin/reflect";
 
 declare module "@package/kotlinx/serialization/modules" {
     export class $SerializersModule {
-        getHasInterfaceContextualSerializers$kotlinx_serialization_core(): boolean;
-        dumpTo(arg0: $SerializersModuleCollector): void;
+        static getContextual$default(arg0: $SerializersModule, arg1: $KClass<any>, arg2: $List_<any>, arg3: number, arg4: $Object): $KSerializer<any>;
         static getHasInterfaceContextualSerializers$kotlinx_serialization_core$annotations(): void;
-        getContextual(arg0: $KClass<any>): $KSerializer<any>;
-        getContextual<T>(arg0: $KClass<T>, arg1: $List_<$KSerializer<never>>): $KSerializer<T>;
+        dumpTo(arg0: $SerializersModuleCollector): void;
+        getHasInterfaceContextualSerializers$kotlinx_serialization_core(): boolean;
         getPolymorphic<T>(arg0: $KClass<T>, arg1: string): $DeserializationStrategy<T>;
         getPolymorphic<T>(arg0: $KClass<T>, arg1: T): $SerializationStrategy<T>;
-        static getContextual$default(arg0: $SerializersModule, arg1: $KClass<any>, arg2: $List_<any>, arg3: number, arg4: $Object): $KSerializer<any>;
+        getContextual(arg0: $KClass<any>): $KSerializer<any>;
+        getContextual<T>(arg0: $KClass<T>, arg1: $List_<$KSerializer<never>>): $KSerializer<T>;
         constructor(arg0: $DefaultConstructorMarker);
-        get hasInterfaceContextualSerializers$kotlinx_serialization_core(): boolean;
         static get hasInterfaceContextualSerializers$kotlinx_serialization_core$annotations(): void;
+        get hasInterfaceContextualSerializers$kotlinx_serialization_core(): boolean;
     }
     export class $SerializersModuleCollector {
-        static access$polymorphicDefault$jd(arg0: $SerializersModuleCollector, arg1: $KClass<any>, arg2: $Function1_<any, any>): void;
         static access$contextual$jd(arg0: $SerializersModuleCollector, arg1: $KClass<any>, arg2: $KSerializer<any>): void;
+        static access$polymorphicDefault$jd(arg0: $SerializersModuleCollector, arg1: $KClass<any>, arg2: $Function1_<any, any>): void;
     }
     export interface $SerializersModuleCollector {
         contextual<T>(arg0: $KClass<T>, arg1: $KSerializer<T>): void;
         contextual<T>(arg0: $KClass<T>, arg1: $Function1_<$List<$KSerializer<never>>, $KSerializer<never>>): void;
-        polymorphicDefaultDeserializer<Base>(arg0: $KClass<Base>, arg1: $Function1_<string, $DeserializationStrategy<Base>>): void;
-        polymorphicDefaultSerializer<Base>(arg0: $KClass<Base>, arg1: $Function1_<Base, $SerializationStrategy<Base>>): void;
-        polymorphicDefault<Base>(arg0: $KClass<Base>, arg1: $Function1_<string, $DeserializationStrategy<Base>>): void;
         polymorphic<Base, Sub extends Base>(arg0: $KClass<Base>, arg1: $KClass<Sub>, arg2: $KSerializer<Sub>): void;
+        polymorphicDefault<Base>(arg0: $KClass<Base>, arg1: $Function1_<string, $DeserializationStrategy<Base>>): void;
+        polymorphicDefaultSerializer<Base>(arg0: $KClass<Base>, arg1: $Function1_<Base, $SerializationStrategy<Base>>): void;
+        polymorphicDefaultDeserializer<Base>(arg0: $KClass<Base>, arg1: $Function1_<string, $DeserializationStrategy<Base>>): void;
     }
 }

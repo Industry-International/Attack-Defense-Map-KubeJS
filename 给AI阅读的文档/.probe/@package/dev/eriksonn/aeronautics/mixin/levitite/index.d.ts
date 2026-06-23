@@ -3,10 +3,10 @@ import { $BitSet, $List_ } from "@package/java/util";
 
 declare module "@package/dev/eriksonn/aeronautics/mixin/levitite" {
     export class $ChunkRenderTypeSetAccessor {
-        static setChunkRenderTypesList(arg0: $List_<$RenderType>): void;
         static setChunkRenderTypes(arg0: $RenderType[]): void;
-        static set chunkRenderTypesList(value: $List_<$RenderType>);
+        static setChunkRenderTypesList(arg0: $List_<$RenderType>): void;
         static set chunkRenderTypes(value: $RenderType[]);
+        static set chunkRenderTypesList(value: $List_<$RenderType>);
     }
     export interface $ChunkRenderTypeSetAccessor {
         getBits(): $BitSet;

@@ -7,8 +7,8 @@ import { $Set_, $List, $List_, $Map, $Set } from "@package/java/util";
 declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor/language" {
     export class $StyleManager {
         getDefaultStyle(): $Style;
-        setDefaultStyle(arg0: $Style): void;
         getStyleMap(): $Map<string, $Style>;
+        setDefaultStyle(arg0: $Style): void;
         getStyleForTokenType(arg0: $TokenType): $Style;
         defaultStyle: $Style;
         static DEFAULT: $StyleManager;
@@ -30,17 +30,17 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor/la
     }
     export class $LanguageDefinition implements $ILanguageDefinition {
         getName(): string;
-        getTokenType(arg0: $Matcher): $TokenType;
         getTypesInOrder(): $List<$TokenType>;
-        getIndentations(): $Set<string>;
         getTokenPattern(): $Pattern;
-        shouldIncreaseIndentation(arg0: string): boolean;
+        getIndentations(): $Set<string>;
+        getTokenType(arg0: $Matcher): $TokenType;
         compileTokenPattern(): $LanguageDefinition;
+        shouldIncreaseIndentation(arg0: string): boolean;
         constructor(arg0: string, arg1: $List_<$TokenType>, arg2: $Set_<string>);
         get name(): string;
         get typesInOrder(): $List<$TokenType>;
-        get indentations(): $Set<string>;
         get tokenPattern(): $Pattern;
+        get indentations(): $Set<string>;
     }
     export class $Languages {
         static JAVASCRIPT: $LanguageDefinition;
@@ -48,12 +48,12 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor/la
         static LSS: $LanguageDefinition;
     }
     export class $TokenType implements $Predicate<$Matcher> {
+        getPattern(): string;
         test(arg0: $Matcher): boolean;
         setPattern(arg0: string): $TokenType;
-        getPattern(): string;
-        hasPattern(): boolean;
-        getMatcher(): $Predicate<$Matcher>;
         setMatcher(arg0: $Predicate_<$Matcher>): $TokenType;
+        getMatcher(): $Predicate<$Matcher>;
+        hasPattern(): boolean;
         or(arg0: $Predicate_<$Matcher>): $Predicate<$Matcher>;
         negate(): $Predicate<$Matcher>;
         and(arg0: $Predicate_<$Matcher>): $Predicate<$Matcher>;
@@ -64,8 +64,8 @@ declare module "@package/com/lowdragmc/lowdraglib2/gui/ui/elements/codeeditor/la
     }
     export interface $ILanguageDefinition {
         getName(): string;
-        getTokenType(arg0: $Matcher): $TokenType;
         getTokenPattern(): $Pattern;
+        getTokenType(arg0: $Matcher): $TokenType;
         shouldIncreaseIndentation(arg0: string): boolean;
         get name(): string;
         get tokenPattern(): $Pattern;

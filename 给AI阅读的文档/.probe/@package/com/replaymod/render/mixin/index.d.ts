@@ -5,8 +5,8 @@ declare module "@package/com/replaymod/render/mixin" {
     export class $ChunkRenderingDataPreparerAccessor {
     }
     export interface $ChunkRenderingDataPreparerAccessor {
-        fullUpdateFuture(): $Future<never>;
         builtChunkStorage(): $ViewArea;
+        fullUpdateFuture(): $Future<never>;
         shouldUpdate(): boolean;
     }
     export class $WorldRendererAccessor {

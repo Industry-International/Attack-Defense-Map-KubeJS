@@ -12,10 +12,10 @@ declare module "@package/com/replaymod/replaystudio/lib/guava/base" {
         or(arg0: $Optional<T>): $Optional<T>;
         or(arg0: T): T;
         asSet(): $Set<T>;
-        static presentInstances<T>(optionals: $Iterable_<$Optional<T>>): $Iterable<T>;
-        static fromNullable<T>(nullableReference: T): $Optional<T>;
         static absent<T>(): $Optional<T>;
         orNull(): T;
+        static presentInstances<T>(optionals: $Iterable_<$Optional<T>>): $Iterable<T>;
+        static fromNullable<T>(nullableReference: T | null): $Optional<T>;
         get present(): boolean;
     }
     export class $Supplier<T> {
@@ -30,7 +30,7 @@ declare module "@package/com/replaymod/replaystudio/lib/guava/base" {
     export class $Function<F, T> {
     }
     export interface $Function<F, T> {
-        equals(arg0: $Object): boolean;
-        apply(arg0: F): T;
+        equals(arg0: $Object | null): boolean;
+        apply(arg0: F | null): T;
     }
 }

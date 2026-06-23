@@ -1,6 +1,6 @@
 import { $File } from "@package/java/io";
 import { $Consumer_ } from "@package/java/util/function";
-import { $FileSystem, $Path_, $WatchKey, $FileStore, $WatchEvent$Kind, $WatchService, $Path } from "@package/java/nio/file";
+import { $FileSystem, $Path_, $WatchKey, $FileStore, $WatchEvent$Kind, $Path, $WatchService } from "@package/java/nio/file";
 import { $BasicFileAttributes } from "@package/java/nio/file/attribute";
 import { $Record } from "@package/java/lang";
 import { $Spliterator, $Iterator, $List_, $Map_, $Map } from "@package/java/util";
@@ -18,7 +18,7 @@ declare module "@package/net/minecraft/server/packs/linkfs" {
         resolveSibling(arg0: string): $Path;
         spliterator(): $Spliterator<$Path>;
         forEach(arg0: $Consumer_<$Path>): void;
-        compareTo(arg0: $Path_): number;
+        compareTo(other: $Path_): number;
         [Symbol.iterator](): Iterator<$Path>
     }
     export class $PathContents$FileContents extends $Record implements $PathContents {
@@ -34,9 +34,9 @@ declare module "@package/net/minecraft/server/packs/linkfs" {
     export class $LinkFileSystem$DirectoryEntry extends $Record {
     }
     export class $LinkFileSystem$Builder {
-        put(arg0: $List_<string>, arg1: $Path_): $LinkFileSystem$Builder;
-        put(arg0: $List_<string>, arg1: string, arg2: $Path_): $LinkFileSystem$Builder;
-        build(arg0: string): $FileSystem;
+        put(pathString: $List_<string>, filePath: $Path_): $LinkFileSystem$Builder;
+        put(pathString: $List_<string>, fileName: string, filePath: $Path_): $LinkFileSystem$Builder;
+        build(name: string): $FileSystem;
         constructor();
     }
     export class $LinkFileSystem extends $FileSystem {
@@ -44,7 +44,7 @@ declare module "@package/net/minecraft/server/packs/linkfs" {
         static builder(): $LinkFileSystem$Builder;
         rootPath(): $LinkFSPath;
         static PATH_SEPARATOR: string;
-        constructor(arg0: string, arg1: $LinkFileSystem$DirectoryEntry_);
+        constructor(name: string, root: $LinkFileSystem$DirectoryEntry_);
     }
     export class $DummyFileAttributes implements $BasicFileAttributes {
     }

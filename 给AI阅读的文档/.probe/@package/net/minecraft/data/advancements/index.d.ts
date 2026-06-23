@@ -11,16 +11,19 @@ declare module "@package/net/minecraft/data/advancements" {
      * @deprecated
      */
     export class $AdvancementProvider implements $DataProvider {
+        /**
+         * Gets a name for this provider, to use in logging.
+         */
         getName(): string;
-        run(arg0: $CachedOutput_): $CompletableFuture<never>;
-        constructor(arg0: $PackOutput, arg1: $CompletableFuture<$HolderLookup$Provider>, arg2: $List_<$AdvancementSubProvider_>);
+        run(output: $CachedOutput_): $CompletableFuture<never>;
+        constructor(output: $PackOutput, registries: $CompletableFuture<$HolderLookup$Provider>, subProviders: $List_<$AdvancementSubProvider_>);
         get name(): string;
     }
     export class $AdvancementSubProvider {
-        static createPlaceholder(arg0: string): $AdvancementHolder;
+        static createPlaceholder(location: string): $AdvancementHolder;
     }
     export interface $AdvancementSubProvider {
-        generate(arg0: $HolderLookup$Provider, arg1: $Consumer_<$AdvancementHolder>): void;
+        generate(registries: $HolderLookup$Provider, writer: $Consumer_<$AdvancementHolder>): void;
     }
     /**
      * Values that may be interpreted as {@link $AdvancementSubProvider}.

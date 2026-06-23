@@ -1,12 +1,12 @@
-import { $Reader } from "@package/java/io";
 import { $Gson } from "@package/com/google/gson";
+import { $Reader } from "@package/java/io";
 import { $BlockPos, $BlockPos_ } from "@package/net/minecraft/core";
 import { $SoundEngine } from "@package/eu/ha3/presencefootsteps/sound";
 import { $BlockState_, $BlockState } from "@package/net/minecraft/world/level/block/state";
 import { $ResourceLocation_ } from "@package/net/minecraft/resources";
 import { $LivingEntity } from "@package/net/minecraft/world/entity";
 import { $BlockReport$Reportable } from "@package/eu/ha3/presencefootsteps/util";
-import { $Block, $Block_ } from "@package/net/minecraft/world/level/block";
+import { $Block_, $Block } from "@package/net/minecraft/world/level/block";
 import { $Record } from "@package/java/lang";
 import { $Map, $Set } from "@package/java/util";
 
@@ -38,46 +38,46 @@ declare module "@package/eu/ha3/presencefootsteps/world" {
         constructor(arg0: $LivingEntity, arg1: $SoundEngine);
     }
     export class $Association extends $Record {
+        isResult(): boolean;
         static of(arg0: $BlockState_, arg1: $BlockPos_, arg2: $LivingEntity, arg3: $SoundsKey_, arg4: $SoundsKey_, arg5: $SoundsKey_): $Association;
         source(): $LivingEntity;
         state(): $BlockState;
         pos(): $BlockPos;
-        isSilent(): boolean;
-        wet(): $SoundsKey;
-        dry(): $SoundsKey;
-        dataEquals(arg0: $Association_): boolean;
-        isResult(): boolean;
         foliage(): $SoundsKey;
+        isSilent(): boolean;
+        dataEquals(arg0: $Association_): boolean;
+        dry(): $SoundsKey;
+        wet(): $SoundsKey;
         static NOT_EMITTER: $Association;
         constructor(state: $BlockState_, pos: $BlockPos_, source: $LivingEntity, dry: $SoundsKey_, wet: $SoundsKey_, foliage: $SoundsKey_);
-        get silent(): boolean;
         get result(): boolean;
+        get silent(): boolean;
     }
     export class $HeuristicStateLookup {
         getMostSimilar(arg0: $Block_): $Block;
         constructor();
     }
     export class $SoundsKey extends $Record {
+        isResult(): boolean;
         static of(arg0: string): $SoundsKey;
         names(): string[];
         raw(): string;
-        isSilent(): boolean;
         isEmitter(): boolean;
-        isResult(): boolean;
+        isSilent(): boolean;
         static UNASSIGNED: $SoundsKey;
         static SWIM: $SoundsKey;
         constructor(raw: string, names: string[]);
-        get silent(): boolean;
-        get emitter(): boolean;
         get result(): boolean;
+        get emitter(): boolean;
+        get silent(): boolean;
     }
     export class $Lookup<T> {
     }
     export interface $Lookup<T> extends $Loadable, $BlockReport$Reportable {
         contains(arg0: T): boolean;
+        getAssociation(arg0: T, arg1: string): $SoundsKey;
         getSubstrates(): $Set<string>;
         getAssociations(arg0: T): $Map<string, $SoundsKey>;
-        getAssociation(arg0: T, arg1: string): $SoundsKey;
         get substrates(): $Set<string>;
     }
     export class $Index<K, V> {

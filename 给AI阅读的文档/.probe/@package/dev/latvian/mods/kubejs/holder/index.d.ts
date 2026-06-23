@@ -12,9 +12,9 @@ import { $StreamCodec } from "@package/net/minecraft/network/codec";
 declare module "@package/dev/latvian/mods/kubejs/holder" {
     export class $HolderWrapper {
         static wrap(from: $Object, param: $TypeInfo_): $Holder<never>;
+        static wrapSimpleSet<T>(registry: $Registry<T>, from: $Object): $HolderSet<T>;
         static wrapSet(from: $Object, param: $TypeInfo_): $HolderSet<never>;
         static wrapRef(from: $Object, param: $TypeInfo_): $Holder$Reference<never>;
-        static wrapSimpleSet<T>(registry: $Registry<T>, from: $Object): $HolderSet<T>;
         static HOLDER: $TypeInfo;
         static HOLDER_SET: $TypeInfo;
     }
@@ -30,16 +30,16 @@ declare module "@package/dev/latvian/mods/kubejs/holder" {
     export class $RegExHolderSet<T> extends $HolderSet$ListBacked<T> implements $ICustomHolderSet<T> {
         type(): $HolderSetType;
         static of<T>(registryLookup: $HolderLookup$RegistryLookup<T>, pattern: $Pattern): $HolderSet<T>;
-        static codec<T>(registryKey: $ResourceKey_<$Registry<T>>): $MapCodec<$RegExHolderSet<T>>;
         static streamCodec<T>(registryKey: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, $RegExHolderSet<T>>;
+        static codec<T>(registryKey: $ResourceKey_<$Registry<T>>): $MapCodec<$RegExHolderSet<T>>;
         registryLookup: $HolderLookup$RegistryLookup<T>;
         pattern: $Pattern;
     }
     export class $NamespaceHolderSet<T> extends $HolderSet$ListBacked<T> implements $ICustomHolderSet<T> {
         type(): $HolderSetType;
         static of<T>(registryLookup: $HolderLookup$RegistryLookup<T>, namespace: string): $HolderSet<T>;
-        static codec<T>(registryKey: $ResourceKey_<$Registry<T>>): $MapCodec<$NamespaceHolderSet<T>>;
         static streamCodec<T>(registryKey: $ResourceKey_<$Registry<T>>): $StreamCodec<$RegistryFriendlyByteBuf, $NamespaceHolderSet<T>>;
+        static codec<T>(registryKey: $ResourceKey_<$Registry<T>>): $MapCodec<$NamespaceHolderSet<T>>;
         registryLookup: $HolderLookup$RegistryLookup<T>;
         namespace: string;
     }

@@ -118,10 +118,10 @@ declare module "@package/java/lang/constant" {
         resolveConstantDesc(arg0: $MethodHandles$Lookup): T;
         bootstrapMethod(): $DirectMethodHandleDesc;
         static ofNamed<T>(arg0: $DirectMethodHandleDesc, arg1: string, arg2: $ClassDesc, ...arg3: $ConstantDesc_[]): $DynamicConstantDesc<T>;
+        bootstrapArgsList(): $List<$ConstantDesc>;
         constantName(): string;
         constantType(): $ClassDesc;
         bootstrapArgs(): $ConstantDesc[];
         static ofCanonical<T>(arg0: $DirectMethodHandleDesc, arg1: string, arg2: $ClassDesc, arg3: $ConstantDesc_[]): $ConstantDesc;
-        bootstrapArgsList(): $List<$ConstantDesc>;
     }
 }

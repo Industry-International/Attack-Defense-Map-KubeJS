@@ -15,27 +15,27 @@ declare module "@package/net/createmod/catnip/animation" {
      */
     export type $LerpedFloat$Chaser_ = ((arg0: number, arg1: number, arg2: number) => number);
     export class $LerpedFloat {
-        getValue(): number;
         getValue(arg0: number): number;
+        getValue(): number;
         setValue(arg0: number): void;
-        static linear(): $LerpedFloat;
-        static angular(): $LerpedFloat;
+        tickChaser(): void;
+        chase(arg0: number, arg1: number, arg2: $LerpedFloat$Chaser_): $LerpedFloat;
+        getChaseTarget(): number;
+        startWithValue(arg0: number): $LerpedFloat;
+        settled(): boolean;
         writeNBT(): $CompoundTag;
         readNBT(arg0: $CompoundTag_, arg1: boolean): void;
-        chase(arg0: number, arg1: number, arg2: $LerpedFloat$Chaser_): $LerpedFloat;
-        tickChaser(): void;
-        startWithValue(arg0: number): $LerpedFloat;
         chaseTimed(arg0: number, arg1: number): $LerpedFloat;
-        updateChaseTarget(arg0: number): void;
         setValueNoUpdate(arg0: number): void;
-        getChaseTarget(): number;
-        settled(): boolean;
+        static angular(): $LerpedFloat;
+        static linear(): $LerpedFloat;
+        updateChaseTarget(arg0: number): void;
         updateChaseSpeed(arg0: number): boolean;
         forceNextSync(): void;
         disableSmartAngleChasing(): $LerpedFloat;
         constructor(arg0: $LerpedFloat$Interpolator_);
-        set valueNoUpdate(value: number);
         get chaseTarget(): number;
+        set valueNoUpdate(value: number);
     }
     export class $LerpedFloat$Interpolator {
     }

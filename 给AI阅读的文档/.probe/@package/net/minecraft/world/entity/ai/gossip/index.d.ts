@@ -37,17 +37,17 @@ declare module "@package/net/minecraft/world/entity/ai/gossip" {
     export class $GossipContainer$EntityGossips {
     }
     export class $GossipContainer {
-        remove(arg0: $GossipType_): void;
-        remove(arg0: $UUID_, arg1: $GossipType_, arg2: number): void;
-        remove(arg0: $UUID_, arg1: $GossipType_): void;
-        update(arg0: $Dynamic<never>): void;
-        store<T>(arg0: $DynamicOps<T>): T;
-        add(arg0: $UUID_, arg1: $GossipType_, arg2: number): void;
-        getReputation(arg0: $UUID_, arg1: $Predicate_<$GossipType>): number;
-        transferFrom(arg0: $GossipContainer, arg1: $RandomSource, arg2: number): void;
+        transferFrom(container: $GossipContainer, randomSource: $RandomSource, amount: number): void;
+        remove(identifier: $UUID_, gossipType: $GossipType_): void;
+        remove(gossipType: $GossipType_): void;
+        remove(identifier: $UUID_, gossipType: $GossipType_, gossipValue: number): void;
+        update(dynamic: $Dynamic<never>): void;
+        store<T>(ops: $DynamicOps<T>): T;
+        add(identifier: $UUID_, gossipType: $GossipType_, gossipValue: number): void;
         decay(): void;
+        getReputation(identifier: $UUID_, gossip: $Predicate_<$GossipType>): number;
         getGossipEntries(): $Map<$UUID, $Object2IntMap<$GossipType>>;
-        getCountForType(arg0: $GossipType_, arg1: $DoublePredicate_): number;
+        getCountForType(gossipType: $GossipType_, gossipPredicate: $DoublePredicate_): number;
         static DISCARD_THRESHOLD: number;
         constructor();
         get gossipEntries(): $Map<$UUID, $Object2IntMap<$GossipType>>;

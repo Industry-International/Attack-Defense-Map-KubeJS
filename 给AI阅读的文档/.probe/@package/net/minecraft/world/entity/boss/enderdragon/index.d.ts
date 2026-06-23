@@ -34,10 +34,13 @@ export * as phases from "@package/net/minecraft/world/entity/boss/enderdragon/ph
 
 declare module "@package/net/minecraft/world/entity/boss/enderdragon" {
     export class $EndCrystal extends $Entity {
-        setBeamTarget(arg0: $BlockPos_): void;
+        setBeamTarget(beamTarget: $BlockPos_ | null): void;
         getBeamTarget(): $BlockPos;
+        /**
+         * Returns `true` if other Entities should be prevented from moving through this Entity.
+         */
         showsBottom(): boolean;
-        setShowBottom(arg0: boolean): void;
+        setShowBottom(showBottom: boolean): void;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         firstTick: boolean;
         wasEyeInWater: boolean;
@@ -110,27 +113,44 @@ declare module "@package/net/minecraft/world/entity/boss/enderdragon" {
         static BASE_SAFE_FALL_DISTANCE: number;
         wasTouchingWater: boolean;
         horizontalCollision: boolean;
-        constructor(arg0: $EntityType_<$EndCrystal>, arg1: $Level_);
-        constructor(arg0: $Level_, arg1: number, arg2: number, arg3: number);
+        constructor(entityType: $EntityType_<$EndCrystal>, level: $Level_);
+        constructor(level: $Level_, x: number, arg2: number, y: number);
         set showBottom(value: boolean);
     }
     export class $EnderDragon extends $Mob implements $Enemy {
-        findPath(arg0: number, arg1: number, arg2: $Node): $Path;
-        hurt(arg0: $EnderDragonPart, arg1: $DamageSource_, arg2: number): boolean;
-        static createAttributes(): $AttributeSupplier$Builder;
-        setDragonFight(arg0: $EndDragonFight): void;
+        /**
+         * Called when the entity is attacked.
+         */
+        reallyHurt(source: $DamageSource_, amount: number): boolean;
+        hurt(part: $EnderDragonPart, source: $DamageSource_, damage: number): boolean;
+        setDragonFight(dragonFight: $EndDragonFight): void;
         getDragonFight(): $EndDragonFight;
-        onCrystalDestroyed(arg0: $EndCrystal, arg1: $BlockPos_, arg2: $DamageSource_): void;
-        findClosestNode(): number;
-        findClosestNode(arg0: number, arg1: number, arg2: number): number;
-        getHeadPartYOffset(arg0: number, arg1: number[], arg2: number[]): number;
-        getFightOrigin(): $BlockPos;
-        setFightOrigin(arg0: $BlockPos_): void;
+        /**
+         * Find and return a path among the circles described by pathPoints, or null if the shortest path would just be directly between the start and finish with no intermediate points.
+         * 
+         * Starting with pathPoint[startIdx], it searches the neighboring points (and their neighboring points, and so on) until it reaches pathPoint[finishIdx], at which point it calls makePath to seal the deal.
+         */
+        findPath(startIndex: number, finishIndex: number, andThen: $Node | null): $Path;
+        getHeadPartYOffset(partIndex: number, spineEndOffsets: number[], headPartOffsets: number[]): number;
         getPhaseManager(): $EnderDragonPhaseManager;
-        getHeadLookVector(arg0: number): $Vec3;
-        getLatencyPos(arg0: number, arg1: number): number[];
+        getFightOrigin(): $BlockPos;
+        /**
+         * Returns a double[3] array with movement offsets, used to calculate trailing tail/neck positions. [0] = yaw offset, [1] = y offset, [2] = unused, always 0. Parameters: buffer index offset, partial ticks.
+         */
+        getLatencyPos(bufferIndexOffset: number, partialTicks: number): number[];
+        setFightOrigin(fightOrigin: $BlockPos_): void;
         getSubEntities(): $EnderDragonPart[];
-        reallyHurt(arg0: $DamageSource_, arg1: number): boolean;
+        /**
+         * Generates values for the fields pathPoints, and neighbors, and then returns the nearest pathPoint to the specified position.
+         */
+        findClosestNode(): number;
+        /**
+         * Returns the index into pathPoints of the nearest PathPoint.
+         */
+        findClosestNode(x: number, arg1: number, y: number): number;
+        onCrystalDestroyed(crystal: $EndCrystal, pos: $BlockPos_, damageSource: $DamageSource_): void;
+        getHeadLookVector(partialTicks: number): $Vec3;
+        static createAttributes(): $AttributeSupplier$Builder;
         serializeNBT(arg0: $HolderLookup$Provider): $CompoundTag;
         static MAX_WEARING_ARMOR_CHANCE: number;
         lastHurtByPlayerTime: number;
@@ -307,7 +327,7 @@ declare module "@package/net/minecraft/world/entity/boss/enderdragon" {
         invulnerableDuration: number;
         removeStingerTime: number;
         static BASE_SAFE_FALL_DISTANCE: number;
-        constructor(arg0: $EntityType_<$EnderDragon>, arg1: $Level_);
+        constructor(entityType: $EntityType_<$EnderDragon>, level: $Level_);
         get phaseManager(): $EnderDragonPhaseManager;
         get subEntities(): $EnderDragonPart[];
     }

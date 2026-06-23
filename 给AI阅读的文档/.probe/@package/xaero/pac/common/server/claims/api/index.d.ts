@@ -25,39 +25,39 @@ declare module "@package/xaero/pac/common/server/claims/api" {
     export class $IServerClaimsManagerAPI {
     }
     export interface $IServerClaimsManagerAPI extends $IClaimsManagerAPI {
-        get(arg0: $ResourceLocation_, arg1: number, arg2: number): $IPlayerChunkClaimAPI;
         get(arg0: $ResourceLocation_, arg1: $ChunkPos): $IPlayerChunkClaimAPI;
         get(arg0: $ResourceLocation_, arg1: $BlockPos_): $IPlayerChunkClaimAPI;
-        tryToClaim(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: boolean): $ClaimResult<$IPlayerChunkClaimAPI>;
+        get(arg0: $ResourceLocation_, arg1: number, arg2: number): $IPlayerChunkClaimAPI;
         getDimension(arg0: $ResourceLocation_): $IServerDimensionClaimsManagerAPI;
+        tryToClaim(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: boolean): $ClaimResult<$IPlayerChunkClaimAPI>;
         claim(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: boolean): $IPlayerChunkClaimAPI;
-        getTracker(): $IClaimsManagerTrackerAPI;
-        unclaim(arg0: $ResourceLocation_, arg1: number, arg2: number): void;
-        hasPlayerInfo(arg0: $UUID_): boolean;
-        getDimensionStream(): $Stream<$IServerDimensionClaimsManagerAPI>;
         getPlayerBaseForceloadLimit(arg0: $ServerPlayer): number;
         getPlayerBaseForceloadLimit(arg0: $UUID_): number;
+        getTracker(): $IClaimsManagerTrackerAPI;
+        unclaim(arg0: $ResourceLocation_, arg1: number, arg2: number): void;
         getPlayerInfoStream(): $Stream<$IServerPlayerClaimInfoAPI>;
         getPlayerBaseClaimLimit(arg0: $ServerPlayer): number;
         getPlayerBaseClaimLimit(arg0: $UUID_): number;
-        tryToForceload(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean, arg7: boolean): $ClaimResult<$IPlayerChunkClaimAPI>;
-        tryToUnclaim(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean): $ClaimResult<$IPlayerChunkClaimAPI>;
-        isClaimable(arg0: $ResourceLocation_): boolean;
         tryToClaimArea(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: number, arg9: boolean): $AreaClaimResult;
         tryToUnclaimArea(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean): $AreaClaimResult;
+        isClaimable(arg0: $ResourceLocation_): boolean;
         tryToForceloadArea(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number, arg8: boolean, arg9: boolean): $AreaClaimResult;
+        tryToUnclaim(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean): $ClaimResult<$IPlayerChunkClaimAPI>;
+        tryToForceload(arg0: $ResourceLocation_, arg1: $UUID_, arg2: number, arg3: number, arg4: number, arg5: number, arg6: boolean, arg7: boolean): $ClaimResult<$IPlayerChunkClaimAPI>;
+        hasPlayerInfo(arg0: $UUID_): boolean;
+        getDimensionStream(): $Stream<$IServerDimensionClaimsManagerAPI>;
         getPlayerInfo(arg0: $UUID_): $IPlayerClaimInfoAPI;
         get tracker(): $IClaimsManagerTrackerAPI;
-        get dimensionStream(): $Stream<$IServerDimensionClaimsManagerAPI>;
         get playerInfoStream(): $Stream<$IServerPlayerClaimInfoAPI>;
+        get dimensionStream(): $Stream<$IServerDimensionClaimsManagerAPI>;
     }
     export class $IServerRegionClaimsAPI {
     }
     export interface $IServerRegionClaimsAPI extends $IRegionClaimsAPI {
         get(arg0: number, arg1: number): $IPlayerChunkClaimAPI;
-        getX(): number;
         getZ(): number;
-        get x(): number;
+        getX(): number;
         get z(): number;
+        get x(): number;
     }
 }

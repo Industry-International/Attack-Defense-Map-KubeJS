@@ -1,7 +1,7 @@
 import { $Consumer_ } from "@package/java/util/function";
 import { $ClassVisitor, $FieldVisitor, $Label, $MethodVisitor, $AnnotationVisitor, $ModuleVisitor, $Attribute, $RecordComponentVisitor, $TypePath } from "@package/org/objectweb/asm";
 import { $Object, $Iterable } from "@package/java/lang";
-import { $Spliterator, $List, $Map_, $ListIterator, $List_ } from "@package/java/util";
+import { $Spliterator, $Iterator, $List, $Map_, $ListIterator, $List_ } from "@package/java/util";
 
 declare module "@package/org/objectweb/asm/tree" {
     export class $FieldNode extends $FieldVisitor {
@@ -151,31 +151,32 @@ declare module "@package/org/objectweb/asm/tree" {
         constructor(arg0: $LabelNode, arg1: $LabelNode, arg2: $LabelNode, arg3: string);
     }
     export class $InsnList implements $Iterable<$AbstractInsnNode> {
+        insertBefore(arg0: $AbstractInsnNode, arg1: $AbstractInsnNode): void;
+        insertBefore(arg0: $AbstractInsnNode, arg1: $InsnList): void;
         remove(arg0: $AbstractInsnNode): void;
         size(): number;
         get(arg0: number): $AbstractInsnNode;
         indexOf(arg0: $AbstractInsnNode): number;
         insert(arg0: $AbstractInsnNode): void;
-        insert(arg0: $InsnList): void;
         insert(arg0: $AbstractInsnNode, arg1: $AbstractInsnNode): void;
         insert(arg0: $AbstractInsnNode, arg1: $InsnList): void;
+        insert(arg0: $InsnList): void;
         clear(): void;
-        add(arg0: $AbstractInsnNode): void;
         add(arg0: $InsnList): void;
+        add(arg0: $AbstractInsnNode): void;
         toArray(): $AbstractInsnNode[];
-        iterator(): $ListIterator<$AbstractInsnNode>;
         iterator(arg0: number): $ListIterator<$AbstractInsnNode>;
         contains(arg0: $AbstractInsnNode): boolean;
         set(arg0: $AbstractInsnNode, arg1: $AbstractInsnNode): void;
         accept(arg0: $MethodVisitor): void;
         getFirst(): $AbstractInsnNode;
         getLast(): $AbstractInsnNode;
-        insertBefore(arg0: $AbstractInsnNode, arg1: $InsnList): void;
-        insertBefore(arg0: $AbstractInsnNode, arg1: $AbstractInsnNode): void;
         resetLabels(): void;
         spliterator(): $Spliterator<$AbstractInsnNode>;
         forEach(arg0: $Consumer_<$AbstractInsnNode>): void;
+        iterator(): $Iterator<$AbstractInsnNode>;
         constructor();
+        [Symbol.iterator](): Iterator<$AbstractInsnNode>
         get first(): $AbstractInsnNode;
         get last(): $AbstractInsnNode;
     }
@@ -253,8 +254,8 @@ declare module "@package/org/objectweb/asm/tree" {
         accept(arg0: $MethodVisitor): void;
         getType(): number;
         getOpcode(): number;
-        getPrevious(): $AbstractInsnNode;
         getNext(): $AbstractInsnNode;
+        getPrevious(): $AbstractInsnNode;
         static INT_INSN: number;
         visibleTypeAnnotations: $List<$TypeAnnotationNode>;
         static INSN: number;
@@ -275,8 +276,8 @@ declare module "@package/org/objectweb/asm/tree" {
         static JUMP_INSN: number;
         get type(): number;
         get opcode(): number;
-        get previous(): $AbstractInsnNode;
         get next(): $AbstractInsnNode;
+        get previous(): $AbstractInsnNode;
     }
     export class $ModuleOpenNode {
         accept(arg0: $ModuleVisitor): void;

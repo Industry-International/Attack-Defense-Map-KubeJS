@@ -13,13 +13,13 @@ declare module "@package/cpw/mods/jarhandling" {
     export class $SecureJar$ModuleDataProvider {
     }
     export interface $SecureJar$ModuleDataProvider {
+        verifyAndGetSigners(arg0: string, arg1: number[]): $CodeSigner[];
+        findFile(arg0: string): ($URI) | undefined;
         name(): string;
         descriptor(): $ModuleDescriptor;
         uri(): $URI;
         open(arg0: string): ($InputStream) | undefined;
         getManifest(): $Manifest;
-        findFile(arg0: string): ($URI) | undefined;
-        verifyAndGetSigners(arg0: string, arg1: number[]): $CodeSigner[];
         get manifest(): $Manifest;
     }
     export class $JarMetadata {
@@ -41,14 +41,11 @@ declare module "@package/cpw/mods/jarhandling" {
         providers(): $List<$SecureJar$Provider>;
     }
     export class $SecureJar {
+        static from(...arg0: $Path_[]): $SecureJar;
         static from(arg0: $JarContents, arg1: $JarMetadata): $SecureJar;
         static from(arg0: $JarContents): $SecureJar;
-        static from(...arg0: $Path_[]): $SecureJar;
     }
     export interface $SecureJar {
-        name(): string;
-        close(): void;
-        getPath(arg0: string, ...arg1: string[]): $Path;
         moduleDataProvider(): $SecureJar$ModuleDataProvider;
         hasSecurityData(): boolean;
         getManifestSigners(): $CodeSigner[];
@@ -57,6 +54,9 @@ declare module "@package/cpw/mods/jarhandling" {
         getTrustedManifestEntries(arg0: string): $Attributes;
         verifyPath(arg0: $Path_): $SecureJar$Status;
         getRootPath(): $Path;
+        name(): string;
+        close(): void;
+        getPath(arg0: string, ...arg1: string[]): $Path;
         get manifestSigners(): $CodeSigner[];
         get primaryPath(): $Path;
         get rootPath(): $Path;
@@ -66,21 +66,21 @@ declare module "@package/cpw/mods/jarhandling" {
         static of(arg0: $Collection_<$Path_>): $JarContents;
     }
     export interface $JarContents extends $Closeable {
-        getPackages(): $Set<string>;
-        getManifest(): $Manifest;
-        findFile(arg0: string): ($URI) | undefined;
         getPrimaryPath(): $Path;
         getMetaInfServices(): $List<$SecureJar$Provider>;
         getPackagesExcluding(...arg0: string[]): $Set<string>;
-        get packages(): $Set<string>;
-        get manifest(): $Manifest;
+        findFile(arg0: string): ($URI) | undefined;
+        getPackages(): $Set<string>;
+        getManifest(): $Manifest;
         get primaryPath(): $Path;
         get metaInfServices(): $List<$SecureJar$Provider>;
+        get packages(): $Set<string>;
+        get manifest(): $Manifest;
     }
     export class $SecureJar$Provider extends $Record {
+        static fromPath(arg0: $Path_, arg1: $UnionPathFilter_): $SecureJar$Provider;
         providers(): $List<string>;
         serviceName(): string;
-        static fromPath(arg0: $Path_, arg1: $UnionPathFilter_): $SecureJar$Provider;
         constructor(serviceName: string, providers: $List_<string>);
     }
     export class $SecureJar$Status extends $Enum<$SecureJar$Status> {

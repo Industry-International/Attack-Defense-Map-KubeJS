@@ -1,4 +1,4 @@
-import { $Ingredient, $Ingredient_ } from "@package/net/minecraft/world/item/crafting";
+import { $Ingredient_, $Ingredient } from "@package/net/minecraft/world/item/crafting";
 import { $Codec } from "@package/com/mojang/serialization";
 import { $RegistryFriendlyByteBuf } from "@package/net/minecraft/network";
 import { $StreamCodec } from "@package/net/minecraft/network/codec";

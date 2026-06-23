@@ -9,10 +9,10 @@ declare module "@package/com/tacz/guns/client/resource/index" {
         static getInstance(arg0: $GunIndexPOJO): $ClientGunIndex;
         getType(): string;
         getGunData(): $GunData;
-        setVanillaInteract(v: boolean): void;
         getDefaultDisplay(): $GunDisplayInstance;
-        isVanillaInteract(): boolean;
+        setVanillaInteract(v: boolean): void;
         getItemType(): string;
+        isVanillaInteract(): boolean;
         get name(): string;
         get type(): string;
         get gunData(): $GunData;

@@ -5,11 +5,11 @@ export * as poi from "@package/net/minecraft/world/entity/ai/village/poi";
 
 declare module "@package/net/minecraft/world/entity/ai/village" {
     export class $VillageSiege implements $CustomSpawner {
-        tick(arg0: $ServerLevel, arg1: boolean, arg2: boolean): number;
+        tick(level: $ServerLevel, spawnHostiles: boolean, spawnPassives: boolean): number;
         constructor();
     }
     export class $ReputationEventType {
-        static register(arg0: string): $ReputationEventType;
+        static register(key: string): $ReputationEventType;
         static TRADE: $ReputationEventType;
         static VILLAGER_HURT: $ReputationEventType;
         static GOLEM_KILLED: $ReputationEventType;

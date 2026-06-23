@@ -17,50 +17,50 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/common" {
         constructor(arg0: $Level_, arg1: $HitResult, arg2: $EntityKineticBullet);
     }
     export class $BulletCreateEvent extends $EntityEvent {
-        getBullet(): $Projectile;
-        getShooter(): $LivingEntity;
         getGunInfo(): $GunInfo;
+        getShooter(): $LivingEntity;
+        getBullet(): $Projectile;
         getGun(): $ItemStack;
         constructor(arg0: $Projectile, arg1: $LivingEntity, arg2: $GunInfo_);
-        get bullet(): $Projectile;
-        get shooter(): $LivingEntity;
         get gunInfo(): $GunInfo;
+        get shooter(): $LivingEntity;
+        get bullet(): $Projectile;
         get gun(): $ItemStack;
     }
     export class $GunReloadFeedEvent$Pre extends $GunReloadFeedEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $LivingEntity, arg1: $GunInfo_, arg2: boolean);
     }
     export class $AmmoHitEntityEvent extends $Event implements $ICancellableEvent {
         getLevel(): $Level;
-        getHitResult(): $EntityHitResult;
-        getAmmo(): $EntityKineticBullet;
-        isHeadshot(): boolean;
         getHitTarget(): $Entity;
-        setCanceled(arg0: boolean): void;
+        isHeadshot(): boolean;
+        getAmmo(): $EntityKineticBullet;
+        getHitResult(): $EntityHitResult;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $Level_, arg1: $EntityHitResult, arg2: $Entity, arg3: $EntityKineticBullet, arg4: boolean);
         get level(): $Level;
-        get hitResult(): $EntityHitResult;
-        get ammo(): $EntityKineticBullet;
-        get headshot(): boolean;
         get hitTarget(): $Entity;
+        get headshot(): boolean;
+        get ammo(): $EntityKineticBullet;
+        get hitResult(): $EntityHitResult;
     }
     export class $AmmoHitAnythingEvent$Pre extends $AmmoHitAnythingEvent implements $ICancellableEvent {
-        setCanceled(arg0: boolean): void;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $Level_, arg1: $HitResult, arg2: $EntityKineticBullet);
     }
     export class $CommonScriptingExtension {
     }
     export interface $CommonScriptingExtension extends $VanillaCooldownAPI, $RangefinderAPI, $BetterAsyncAPI {
+        gunsmithlib_extension(): $GunsmithLibCommonScriptExtension;
         /**
          * @deprecated
          */
         gunsmith_getChargingTime(): number;
         gunsmith_getGunId(): string;
-        gunsmithlib_extension(): $GunsmithLibCommonScriptExtension;
     }
     export class $AmmoSelfExplodeEvent$Post extends $AmmoHitAnythingEvent$Post {
         constructor(arg0: $Level_, arg1: $EntityKineticBullet);
@@ -73,12 +73,12 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/common" {
     }
     export class $AmmoHitAnythingEvent extends $Event {
         getLevel(): $Level;
-        getHitResult(): $HitResult;
         getAmmo(): $EntityKineticBullet;
+        getHitResult(): $HitResult;
         constructor(arg0: $Level_, arg1: $HitResult, arg2: $EntityKineticBullet);
         get level(): $Level;
-        get hitResult(): $HitResult;
         get ammo(): $EntityKineticBullet;
+        get hitResult(): $HitResult;
     }
     export class $GunReloadFeedEvent extends $LivingEvent {
         getGunInfo(): $GunInfo;
@@ -91,18 +91,18 @@ declare module "@package/mod/chloeprime/gunsmithlib/api/common" {
     export class $RicochetEvent extends $EntityEvent implements $ICancellableEvent {
         getLevel(): $Level;
         getBulletEntity(): $Projectile;
-        getHitResult(): $HitResult;
-        setMaterialBouncinessOfHitTarget(arg0: number): void;
         getMaterialBouncinessOfHitTarget(): number;
+        setMaterialBouncinessOfHitTarget(arg0: number): void;
         getLogicalSide(): $LogicalSide;
         getNormal(): $Vec3;
-        setCanceled(arg0: boolean): void;
+        getHitResult(): $HitResult;
         isCanceled(): boolean;
+        setCanceled(arg0: boolean): void;
         constructor(arg0: $Projectile, arg1: $Level_, arg2: $HitResult, arg3: $Vec3_);
         get level(): $Level;
         get bulletEntity(): $Projectile;
-        get hitResult(): $HitResult;
         get logicalSide(): $LogicalSide;
         get normal(): $Vec3;
+        get hitResult(): $HitResult;
     }
 }

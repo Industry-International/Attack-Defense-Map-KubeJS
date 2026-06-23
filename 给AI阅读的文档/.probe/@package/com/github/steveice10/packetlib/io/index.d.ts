@@ -16,15 +16,15 @@ declare module "@package/com/github/steveice10/packetlib/io" {
         writeLong(arg0: number): void;
         writeDouble(arg0: number): void;
         writeString(arg0: string): void;
-        writeUUID(arg0: $UUID_): void;
-        writeVarInt(arg0: number): void;
-        writeVarLong(arg0: number): void;
         writeInts(arg0: number[], arg1: number): void;
         writeInts(arg0: number[]): void;
         writeLongs(arg0: number[]): void;
         writeLongs(arg0: number[], arg1: number): void;
-        writeShorts(arg0: number[], arg1: number): void;
         writeShorts(arg0: number[]): void;
+        writeShorts(arg0: number[], arg1: number): void;
+        writeVarLong(arg0: number): void;
+        writeVarInt(arg0: number): void;
+        writeUUID(arg0: $UUID_): void;
     }
     export class $NetInput {
     }
@@ -45,8 +45,8 @@ declare module "@package/com/github/steveice10/packetlib/io" {
         readDouble(): number;
         readString(): string;
         readVarInt(): number;
-        readUUID(): $UUID;
         readVarLong(): number;
+        readUUID(): $UUID;
         readInts(arg0: number[]): number;
         readInts(arg0: number): number[];
         readInts(arg0: number[], arg1: number, arg2: number): number;
