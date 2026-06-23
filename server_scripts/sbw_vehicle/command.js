@@ -135,6 +135,71 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
+   * /sbw_vehicle debug_inspect <team> <vehicleId> — 调试：查看载具详细诊断信息
+   * 显示配置值、存活数、状态机数据、区块加载状态等。
+   */
+  function executeDebugInspect(ctx) {
+    let source = ctx.getSource()
+    let server = source.getServer()
+    let teamName = ctx.getArgument('team')
+    let vehicleId = ctx.getArgument('vehicleId')
+
+    let teamCfg = VEHICLE_CFG.teams[teamName]
+    if (!teamCfg) {
+      source.sendFailure(Component.literal('§c未找到队伍 [' + teamName + '] 的配置'))
+      return 0
+    }
+
+    let cfg = findVehicleConfig(vehicleId)
+    if (!cfg) {
+      source.sendFailure(Component.literal('§c未找到载具 [' + vehicleId + '] 的配置'))
+      return 0
+    }
+
+    let state = getVehicleState(server, vehicleId)
+    let tag = getFullTag(vehicleId)
+    let aliveCount = countAliveByTag(server, tag)
+    let dim = getVehicleDimension(cfg)
+    let chunkX = Math.floor(cfg.pos[0] / 16)
+    let chunkZ = Math.floor(cfg.pos[2] / 16)
+    let chunkLoaded = isChunkLoaded(server, cfg.pos[0], cfg.pos[2], dim)
+
+    let lines = []
+    lines.push('§6=== 载具调试信息: ' + vehicleId + ' ===')
+    lines.push('§e队伍: §f' + teamName)
+    lines.push('§e类型: §f' + cfg.vehicleType)
+    lines.push('§e坐标: §f' + cfg.pos.join(', '))
+    lines.push('§e维度: §f' + dim)
+    lines.push('')
+    lines.push('§6--- 配置值 ---')
+    lines.push('§emaxCount: §f' + (cfg.maxCount || '∞'))
+    lines.push('§erespawnDelay: §f' + (cfg.respawnDelay || '1200') + ' tick (' + ((cfg.respawnDelay || 1200) / 20) + 's)')
+    lines.push('')
+    lines.push('§6--- 运行时数据 ---')
+    lines.push('§e当前存活数: §f' + aliveCount + ' §7(标签: ' + tag + ')')
+    lines.push('§e区块坐标: §f[' + chunkX + ', ' + chunkZ + ']')
+    lines.push('§e区块加载状态: §f' + (chunkLoaded ? '§a已加载' : '§c未加载'))
+    if (state) {
+      lines.push('§e状态机状态: §f' + state.status)
+      if (state.status === 'timing') {
+        let remainingTicks = state.remainingTicks || 0
+        lines.push('§e倒计时剩余: §f' + remainingTicks + ' tick (' + (remainingTicks / 20).toFixed(1) + 's)')
+      }
+      if (state.uuid) lines.push('§eUUID: §f' + state.uuid)
+    } else {
+      lines.push('§e状态机: §7未初始化')
+    }
+
+    let msg = $Component.literal('')
+    for (let i = 0; i < lines.length; i++) {
+      msg = msg.append(Text.of(lines[i]))
+      if (i < lines.length - 1) msg = msg.append('\n')
+    }
+    source.sendSuccess(msg, false)
+    return 1
+  }
+
+  /**
    * /sbw_vehicle redeploy — 强制重新部署所有载具
    * 流程：取消所有排期 → 按前缀清除旧实体 → 清空 store → 重新部署
    */
@@ -277,6 +342,18 @@ ServerEvents.commandRegistry(event => {
       .then(
         cmd.literal('time')
           .executes(executeTime)
+      )
+
+      // ---- debug_inspect <team> <vehicleId> ----
+      .then(
+        cmd.literal('debug_inspect')
+          .then(
+            cmd.argument('team', args.STRING.create(event))
+              .then(
+                cmd.argument('vehicleId', args.STRING.create(event))
+                  .executes(executeDebugInspect)
+              )
+          )
       )
 
       // ---- 默认 → 用法提示 ----

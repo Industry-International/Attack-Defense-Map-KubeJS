@@ -114,8 +114,8 @@ function mergeDeployNBT(target, source) {
  *       status: "idle" | "timing" | "waiting_chunk",
  *       team, vehicleType,
  *       uuid: string | null,
- *       timerStart: number | null,
- *       respawnDelay: number
+ *       remainingTicks: number | null,    // 倒计时剩余 tick 数（归零即部署）
+ *       respawnDelay: number              // 初始延迟（用于显示总时长）
  *     }
  *   }
  * }
@@ -287,7 +287,7 @@ function spawnVehicleEntity(server, vehicleCfg) {
  */
 function forceStateToIdle(state) {
   state.status = 'idle'
-  state.timerStart = null
+  state.remainingTicks = null
 }
 
 /**
@@ -309,7 +309,7 @@ function ensureVehicleEntry(server, vehicleId, vehicleCfg, teamName) {
       team: teamName || findVehicleTeam(vehicleId),
       vehicleType: vehicleCfg.vehicleType,
       uuid: null,
-      timerStart: null,
+      remainingTicks: null,
       respawnDelay: vehicleCfg.respawnDelay || 1200
     }
     saveStore(server, store)
@@ -331,14 +331,15 @@ function getAllReplenishEntries() {
 
 /**
  * 补员检测核心函数（3状态机）
+ * ★ 计时采用倒计数方式：remainingTicks 每 tick 减 1，归零即到期 ★
+ * 不依赖 server.ticks 绝对值，服务器重启后倒计时值不变。
  *
  * 状态流转：
- *   idle           → (数量短缺)              → timing (启动计时器)
+ *   idle           → (数量短缺)              → timing (启动倒计时)
  *   idle           → (数量达标)              → idle (无变化)
  *   timing         → (数量达标)              → idle (取消计时)
- *   timing         → (未到期 + 数量短缺)     → timing (不动，等到期)
- *   timing         → (到期 + 区块已加载)     → idle (部署成功)
- *   timing         → (到期 + 区块未加载)     → waiting_chunk (等待区块)
+ *   timing         → (倒计时归零 + 区块已加载) → idle (部署成功)
+ *   timing         → (倒计时归零 + 区块未加载) → waiting_chunk (等待区块)
  *   waiting_chunk  → (数量达标)              → idle (取消等待)
  *   waiting_chunk  → (数量短缺)              → waiting_chunk (不动，tick兜底处理)
  *
@@ -364,48 +365,46 @@ function checkReplenish(server, vehicleId, vehicleCfg) {
   // ======== 数量短缺，根据当前状态决策 ========
 
   if (state.status === 'idle') {
-    // 首次检测到短缺 → 启动计时
+    // 首次检测到短缺 → 启动倒计时
     let delay = vehicleCfg.respawnDelay || 1200
     state.status = 'timing'
-    state.timerStart = server.ticks
-    state.respawnDelay = delay
+    state.remainingTicks = delay
     sbwLog('[补员] [' + vehicleId + '] 短缺 ' + (maxCount - aliveCount) + ' 辆，' + (delay / 20) + 's 后补员')
     saveStore(server, store)
 
   } else if (state.status === 'timing') {
-    // 计时器已存在，检查是否到期（未到期则什么都不做）
-    let delay = state.respawnDelay || vehicleCfg.respawnDelay || 1200
-    let timerStart = state.timerStart || server.ticks
+    // 倒计时进行中，每 tick 减 1
+    state.remainingTicks = (state.remainingTicks || 0) - 1
 
-    if (server.ticks - timerStart >= delay) {
-      // 计时到期
+    if (state.remainingTicks <= 0) {
+      // 倒计时归零 → 尝试部署
       let dim = getVehicleDimension(vehicleCfg)
       if (isChunkLoaded(server, vehicleCfg.pos[0], vehicleCfg.pos[2], dim)) {
-        // 区块已加载 → 部署成功
-        sbwLog('[补员] [' + vehicleId + '] 计时到，区块已加载，部署')
+        sbwLog('[补员] [' + vehicleId + '] 倒计时结束，区块已加载，部署')
         spawnVehicleEntity(server, vehicleCfg)
         state.status = 'idle'
-        state.timerStart = null
+        state.remainingTicks = null
         state.uuid = null
       } else {
-        // 区块未加载 → 切 waiting_chunk，等待区块加载事件
-        sbwLog('[补员] [' + vehicleId + '] 计时到但区块未加载，进入 waiting_chunk')
+        sbwLog('[补员] [' + vehicleId + '] 倒计时结束但区块未加载，进入 waiting_chunk')
         state.status = 'waiting_chunk'
-        state.timerStart = null
+        state.remainingTicks = null
       }
       saveStore(server, store)
+    } else {
+      // 倒计时未归零 → 保存递减后的值（仅"计时中"条目写入，性能开销可忽略）
+      saveStore(server, store)
     }
-    // 未到期 → 什么都不做，等待下一轮检测
 
   } else if (state.status === 'waiting_chunk') {
     // 已在等待区块加载 → 什么都不做
-    // tick 兜底的 processWaitingChunk 会处理
+    // processWaitingChunk 会主动加载区块并部署
   }
 }
 
 /**
- * 兜底处理 waiting_chunk 条目（由 tick 循环调用）
- * 防止区块事件在线程竞争下丢失，或区块在监听前已加载
+ * 处理 waiting_chunk 条目（由 tick 循环调用）
+ * ★ 会主动加载目标区块（level.getChunk），确保部署点和实体状态可获取 ★
  */
 function processWaitingChunk(server) {
   let store = getStore(server)
@@ -419,31 +418,42 @@ function processWaitingChunk(server) {
     let cfg = findVehicleConfig(vehicleId)
     if (!cfg) continue
 
-    // 检查区块是否已加载
     let dim = getVehicleDimension(cfg)
-    if (isChunkLoaded(server, cfg.pos[0], cfg.pos[2], dim)) {
+    let x = cfg.pos[0], z = cfg.pos[2]
+    let chunkX = Math.floor(x / 16), chunkZ = Math.floor(z / 16)
+
+    // ★ 使用 forceload 安全加载区块（部署完毕后会释放）
+    server.runCommandSilent('execute in ' + dim + ' run forceload add ' + chunkX + ' ' + chunkZ)
+
+    // 检查区块是否已加载
+    if (isChunkLoaded(server, x, z, dim)) {
       // 再确认数量（防止在等待期间数量已恢复）
       let tag = getFullTag(vehicleId)
       let maxCount = cfg.maxCount || 1
       if (countAliveByTag(server, tag) < maxCount) {
-        sbwLog('[兜底] waiting_chunk [' + vehicleId + '] 区块已加载，执行部署')
+        sbwLog('[等待] waiting_chunk [' + vehicleId + '] 区块已加载，执行部署')
         spawnVehicleEntity(server, cfg)
       } else {
-        sbwLog('[兜底] waiting_chunk [' + vehicleId + '] 区块已加载但数量已达标，放弃')
+        sbwLog('[等待] waiting_chunk [' + vehicleId + '] 区块已加载但数量已达标，放弃')
       }
+
+      // ★ 释放区块（载具已生成，区块因有实体不会立即卸载）
+      server.runCommandSilent('execute in ' + dim + ' run forceload remove ' + chunkX + ' ' + chunkZ)
+
       state.status = 'idle'
       state.uuid = null
-      state.timerStart = null
+      state.remainingTicks = null
       modified = true
     }
+    // 区块仍未加载 → 下一 tick 继续尝试（forceload 正在生效）
   }
 
   if (modified) saveStore(server, store)
 }
 
 // 注意：KubeJS 7 服务端无 ChunkEvents API，
-// waiting_chunk 的处理完全由 tick 循环中的 processWaitingChunk 兜底。
-// 配置 checkInterval: 1 时每 tick 检测一次，效率等价于事件驱动。
+// waiting_chunk 由 processWaitingChunk 处理，使用 forceload 临时加载区块，
+// 部署完毕后立即释放，避免区块长期占用。
 
 // ========== 主动部署接口 ==========
 
@@ -461,20 +471,20 @@ function deployVehicle(server, teamName, vehicleCfg) {
     return
   }
 
-  // 检查区块
+  // 检查区块（summon 虽会加载区块，但无法获取未加载区块的实体状态）
   if (isChunkLoaded(server, vehicleCfg.pos[0], vehicleCfg.pos[2], getVehicleDimension(vehicleCfg))) {
     // 区块已加载 → 立即部署
     sbwLog('[部署] [' + vehicleId + '] 区块已加载，立即部署')
     spawnVehicleEntity(server, vehicleCfg)
     state.status = 'idle'
     state.uuid = null
-    state.timerStart = null
+    state.remainingTicks = null
     saveStore(server, getStore(server))
   } else {
-    // 区块未加载 → 进入 waiting_chunk 等待区块加载
+    // 区块未加载 → 进入 waiting_chunk（processWaitingChunk 会主动加载区块）
     sbwLog('[部署] [' + vehicleId + '] 区块未加载，进入 waiting_chunk')
     state.status = 'waiting_chunk'
-    state.timerStart = null
+    state.remainingTicks = null
     saveStore(server, getStore(server))
   }
 }
@@ -566,7 +576,7 @@ function getAmmoSummary(items) {
 }
 
 function getStatusLines(server) {
-  let store = getStore(server), currentTick = server.ticks, lines = []
+  let store = getStore(server), lines = []
   for (let teamName in VEHICLE_CFG.teams) {
     if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
     lines.push(''); lines.push('§6=== ' + teamName.toUpperCase() + ' ===')
@@ -605,9 +615,9 @@ function getStatusLines(server) {
         }
       } else if (state) {
         if (state.status === 'timing') {
-          let delay = state.respawnDelay || v.respawnDelay || 1200
-          let remaining = Math.max(0, delay - (currentTick - (state.timerStart || currentTick)))
-          lines.push(header + ' §e⟳ 补员中 §7' + Math.ceil(remaining / 20) + 's / ' + Math.ceil(delay / 20) + 's')
+          let remainingTicks = state.remainingTicks || 0
+          let totalDelay = state.respawnDelay || v.respawnDelay || 1200
+          lines.push(header + ' §e⟳ 补员中 §7' + Math.ceil(remainingTicks / 20) + 's / ' + Math.ceil(totalDelay / 20) + 's')
         } else if (state.status === 'waiting_chunk') {
           lines.push(header + ' §7◐ 等待区块')
         } else {
@@ -623,7 +633,7 @@ function getStatusLines(server) {
 }
 
 function getRespawnTimeLines(server) {
-  let store = getStore(server), currentTick = server.ticks, lines = [], has = false
+  let store = getStore(server), lines = [], has = false
   for (let teamName in VEHICLE_CFG.teams) {
     if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
     let vehicles = VEHICLE_CFG.teams[teamName].vehicles
@@ -632,9 +642,9 @@ function getRespawnTimeLines(server) {
       if (!state) continue
       if (state.status === 'timing') {
         has = true
-        let delay = state.respawnDelay || v.respawnDelay || 1200
-        let remaining = Math.max(0, delay - (currentTick - (state.timerStart || currentTick)))
-        lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §e⟳ ' + Math.ceil(remaining / 20) + 's §7/ ' + Math.ceil(delay / 20) + 's')
+        let remainingTicks = state.remainingTicks || 0
+        let totalDelay = state.respawnDelay || v.respawnDelay || 1200
+        lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §e⟳ ' + Math.ceil(remainingTicks / 20) + 's §7/ ' + Math.ceil(totalDelay / 20) + 's')
       } else if (state.status === 'waiting_chunk') {
         has = true
         lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §7◐ 等待区块')
@@ -648,7 +658,7 @@ function getRespawnTimeLines(server) {
 // ========== ActionBar ==========
 
 function buildActionBarText(server) {
-  let store = getStore(server), currentTick = server.ticks, parts = []
+  let store = getStore(server), parts = []
   for (let teamName in VEHICLE_CFG.teams) {
     if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
     for (let v of VEHICLE_CFG.teams[teamName].vehicles) {
@@ -660,9 +670,8 @@ function buildActionBarText(server) {
         let h = entity.getNbt().contains('Health') ? entity.getNbt().getFloat('Health') : -1
         parts.push((h > 200 ? '§a' : (h > 0 ? '§e' : '§c')) + '✓' + sn)
       } else if (state && state.status === 'timing') {
-        let delay = state.respawnDelay || v.respawnDelay || 1200
-        let remaining = Math.max(0, delay - (currentTick - (state.timerStart || currentTick)))
-        parts.push('§e⟳' + sn + '(' + Math.ceil(remaining / 20) + 's)')
+        let remainingTicks = state.remainingTicks || 0
+        parts.push('§e⟳' + sn + '(' + Math.ceil(remainingTicks / 20) + 's)')
       } else if (state && state.status === 'waiting_chunk') {
         parts.push('§7◐' + sn)
       } else {
