@@ -89,7 +89,7 @@
 如果将来某个新模块也想用 $ListTag / $FloatTag 等，
 可以安全地用 var 声明，但如果已有 const 版本，就不要用同名的 var。
 
-来源文件: server_scripts/sbw_vehicle/tools.js（重构后：原 main.js 中的工具类声明全部迁移至此）
+来源文件: server_scripts/sbw_vehicle/tools/a_java_refs.js（拆分后：Java 类引用独立至此文件）
 
   var $UUID       = Java.loadClass('java.util.UUID')
   var $ListTag    = Java.loadClass('net.minecraft.nbt.ListTag')
@@ -127,7 +127,7 @@
     const VEHICLE_CFG = SBW_VEHICLE_CONFIG
     const SBW_PREFIX = '[SBW载具]'
 
-  server_scripts/sbw_vehicle/tools.js（重构后新增，运行时状态）
+  server_scripts/sbw_vehicle/tools/a_java_refs.js（拆分后：运行时状态）
     var $actionBarPlayers = new $HashSet()             // 单人 ActionBar 玩家集合
 
   server_scripts/team_revive/main.js
@@ -238,39 +238,45 @@
     （重构后精简，仅保留：）
     EntityEvents.death                         — 载具死亡日志记录
 
-  ======== sbw_vehicle/tools.js (工具函数库) ========
-    （重构后新增：原 main.js 全部工具函数 + clearVehicles 迁移至此）
-    sbwLog() / sbwWarn() / sbwError()         — 日志工具
-    toNBT(obj)                                — JS对象→NBT转换
-    mergeDeployNBT(target, source)             — 合并deployNBT
-    getStore(server)                           — 读取持久化
-    saveStore(server, data)                    — 写入持久化
-    getVehicleState(server, vehicleId)         — 获取载具状态
-    getFullTag(vehicleId)                      — 获取完整标签名
-    isSystemActive(server)                     — 系统是否激活
-    setSystemActive(server, active)            — 设置系统激活
-    findEntityByUUID(server, uuidStr)          — UUID查找实体
-    findEntityByTag(server, tag)               — 标签查找实体
-    entityHasStringTag(entity, tag)            — 检查实体标签
-    findVehicleEntity(server, state, tag)      — 查找载具实体
-    isChunkLoaded(server, x, z, dimension)     — 检查区块是否已加载
-    getVehicleDimension(vehicleCfg)            — 获取维度配置
-    discardAllByTagPrefix(server)              — 批量清除实体
-    countAliveByTag(server, tag)               — 统计存活数
-    spawnVehicleEntity(server, vehicleCfg)     — 执行 summon
-    deployVehicle(server, teamName, cfg)       — 部署单辆载具
-    deployTeamVehicles(server, teamName)       — 部署队伍载具
-    deployAllVehicles(server)                  — 部署所有载具
-    clearVehicles(server, teamName)            — 清除载具实体 + 重置状态
-    extractVehicleIdFromEntity(entity)         — 提取载具ID
-    findVehicleConfig(vehicleId)               — 查找载具配置
-    findVehicleTeam(vehicleId)                 — 查找载具所属队伍
-    resetAll(server)                           — 重置所有载具
-    getAmmoSummary(items)                      — 弹药摘要
-    getStatusLines(server)                     — 状态文本
-    getRespawnTimeLines(server)                — 重生时间文本
-    buildActionBarText(server)                 — ActionBar文本
-    updateTimeActionBar(server)                — 更新ActionBar
+  ======== sbw_vehicle/tools/ 目录（工具分类拆分）========
+
+  已从单文件 tools.js 按类别拆分为 8 个文件：
+
+  tools/a_java_refs.js — Java类引用 + 运行时状态
+    var $UUID / $ListTag / $FloatTag / $StringTag / $DoubleTag / $LongTag / $ShortTag
+    var $HashMap / $HashSet / $Component / $ResourceLocation / $ArrayList
+    var $actionBarPlayers（ActionBar 玩家集合）
+
+  tools/log.js — 日志工具
+    sbwLog() / sbwWarn() / sbwError()
+
+  tools/nbt.js — JSON → NBT 转换
+    toNBT(obj) / mergeDeployNBT(target, source)
+
+  tools/persist.js — 持久化数据 + 系统开关
+    getStore(server) / saveStore(server, data)
+    getVehicleState(server, vehicleId) / getFullTag(vehicleId)
+    isSystemActive(server) / setSystemActive(server, active)
+
+  tools/entity.js — 实体查找 / 区块检测 / 批量清理 / 数量统计
+    findEntityByUUID(server, uuidStr) / findEntityByTag(server, tag)
+    entityHasStringTag(entity, tag) / findVehicleEntity(server, state, tag)
+    isChunkLoaded(server, x, z, dimension) / getVehicleDimension(vehicleCfg)
+    discardAllByTagPrefix(server) / countAliveByTag(server, tag)
+
+  tools/deploy.js — 载具部署 + 部署接口
+    spawnVehicleEntity(server, vehicleCfg)
+    deployVehicle(server, teamName, cfg)
+    deployTeamVehicles(server, teamName) / deployAllVehicles(server)
+
+  tools/misc.js — 杂项（ID提取 / 配置查找 / 清除 / 重置）
+    extractVehicleIdFromEntity(entity)
+    findVehicleConfig(vehicleId) / findVehicleTeam(vehicleId)
+    clearVehicles(server, teamName) / resetAll(server)
+
+  tools/status.js — 状态查询 & ActionBar
+    getAmmoSummary(items) / getStatusLines(server) / getRespawnTimeLines(server)
+    buildActionBarText(server) / updateTimeActionBar(server)
 
   ======== sbw_vehicle/replenish.js (自动补员系统) ========
     已清空，待重新实现。原逻辑（forceStateToIdle, checkReplenish, processWaitingChunk等）全部移除。
