@@ -1,130 +1,85 @@
 // ============================================================
-// SBW 载具 - 每tick监控循环（独立文件，方便修改轮回逻辑）
-// 依赖：main.js 必须先加载（所有部署函数、查找函数在 main.js）
+// SBW 载具 - 定时补员检测循环
+// 依赖：main.js（checkReplenish, getAllReplenishEntries 等）
 //
-// 加载顺序：command.js → config.js → main.js → ticker.js
+// 核心逻辑：
+//   每隔 config.checkInterval tick 执行一次全量补员检测：
+//     遍历所有补员ID → 检查存活数 → 驱动 3 状态机
+//
+//   waiting_chunk 条目通过轮询处理：每轮检测检查目标区块
+//   是否已加载，若已加载则执行延迟部署。
 // ============================================================
 
-// ========== 载具计时器管理 ==========
+// ========== 定时补员检测 ==========
 
 /**
- * 每个 vehicleId 当前重生倒计时剩余 tick
- * key = teamName + "|" + vehicleId（每队每ID独立）
- * value = 剩余 tick 数（正数=倒计时中）
+ * 执行一轮完整的补员检测
+ * 遍历所有配置的补员ID，对每个执行 checkReplenish
+ * 同时轮询处理 waiting_chunk 条目
  */
-var $respawnTimers = new $HashMap()
+function tickReplenish(server) {
+  let entries = getAllReplenishEntries()
 
-// ========== 核心轮回函数 ==========
-
-/**
- * 每tick执行：检查所有载具存活数 + 管理倒计时
- *
- * 核心逻辑：
- *   每tick遍历所有已配载具：
- *     存活数 >= maxCount → 取消计时器
- *     存活数 <  maxCount → 无计时器则启动，有计时器则递减
- *     计时器归零       → 部署载具
- */
-function tickVehicles(server) {
-  // 遍历所有配置的载具
-  for (let teamName in VEHICLE_CFG.teams) {
-    if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
-    let vList = VEHICLE_CFG.teams[teamName].vehicles
-
-    for (let i = 0; i < vList.length; i++) {
-      let v = vList[i]
-      let timerKey = teamName + '|' + v.id
-      let tag = getFullTag(v.id)
-      let aliveCount = countAliveByTag(server, tag)
-      let maxCount = v.maxCount || 1
-
-      if (aliveCount >= maxCount) {
-        // 存活数达标：如果有计时器则取消
-        if ($respawnTimers.containsKey(timerKey)) {
-          $respawnTimers.remove(timerKey)
-        }
-        continue
-      }
-
-      // 存活数不足
-      let remaining = $respawnTimers.get(timerKey)
-      if (remaining == null) {
-        // 无计时器 → 启动新计时器
-        let delay = v.respawnDelay || 1200
-        $respawnTimers.put(timerKey, delay)
-        sbwLog('[倒计时] [' + teamName + '] 载具 [' + v.id + '] 存活 ' + aliveCount + '/' + maxCount
-          + '，启动 ' + (delay / 20) + ' 秒倒计时')
-      }
+  // 第一步：对每个条目执行标准补员检测
+  for (let i = 0; i < entries.length; i++) {
+    try {
+      checkReplenish(server, entries[i].vehicleId, entries[i].vehicleCfg)
+    } catch(e) {
+      sbwError('[补员] 检测 [' + entries[i].vehicleId + '] 时出错: ' + e)
     }
   }
 
-  // 处理所有计时器：递减 + 归零部署
-  var deployBatch = []
-  var timerIter = $respawnTimers.keySet().iterator()
-  while (timerIter.hasNext()) {
-    var timerKey = timerIter.next()
-    var ticksLeft = $respawnTimers.get(timerKey) - 1
+  // 第二步：轮询处理 waiting_chunk 条目（区块加载事件不可用时的替代方案）
+  let store = getStore(server)
+  let needsSave = false
+  for (let vid in store.vehicles) {
+    if (!Object.prototype.hasOwnProperty.call(store.vehicles, vid)) continue
+    let s = store.vehicles[vid]
+    if (s.status !== 'waiting_chunk') continue
 
-    if (ticksLeft <= 0) {
-      // 倒计时归零 → 加入部署队列，移除计时器
-      deployBatch.push(timerKey)
-      timerIter.remove()
-    } else {
-      $respawnTimers.put(timerKey, ticksLeft)
+    let cfg = findVehicleConfig(vid)
+    if (!cfg) continue
+
+    // 检查目标区块是否已加载
+    let dim = getVehicleDimension(cfg)
+    if (isChunkLoaded(server, cfg.pos[0], cfg.pos[2], dim)) {
+      sbwLog('[轮询] 载具 [' + vid + '] 区块已加载，尝试部署')
+      tryDeployWaitingVehicle(server, vid, cfg)
+      needsSave = true
     }
   }
-
-  // 执行部署（从 timerKey 解析队伍和ID）
-  for (var di = 0; di < deployBatch.length; di++) {
-    var parts = deployBatch[di].split('|')
-    var teamName = parts[0]
-    var vehicleId = parts[1]
-    var vehicleCfg = findVehicleConfig(vehicleId)
-    if (vehicleCfg) {
-      sbwLog('[倒计时] 倒计时结束，部署 [' + teamName + '] 载具 [' + vehicleId + ']')
-      deployVehicle(server, teamName, vehicleCfg)
-    }
-  }
+  if (needsSave) { store = getStore(server) }
 }
 
-// ========== 计时器管理接口 ==========
+// ========== 计时器管理接口（兼容旧版调用）==========
 
-/**
- * 清除指定载具的计时器（用于 debug clear）
- */
 function clearVehicleTimer(vehicleId) {
-  var teamName = findVehicleTeam(vehicleId)
-  if (teamName) {
-    $respawnTimers.remove(teamName + '|' + vehicleId)
-  }
+  // 新版由 store 状态管理，无需单独清除
 }
 
-/**
- * 清除所有计时器
- */
 function clearAllTimers() {
-  $respawnTimers.clear()
+  // 新版由 store 状态管理，无需单独清除
 }
 
-// ========== 每tick处理循环 ==========
+// ========== 定时循环 ==========
 
 /**
- * 每tick执行一次：检查存活数 + 管理倒计时 + ActionBar
- *
- * 使用 ServerEvents.loaded 启动递归 scheduleInTicks(1, ...)，
- * 因为 ServerEvents.tick 在某些环境下可能不触发，
- * 而 server.scheduleInTicks 已验证可用。
+ * 以 config.checkInterval tick 为间隔执行补员检测
+ * 使用 ServerEvents.loaded 启动递归 scheduleInTicks
  */
 ServerEvents.loaded(event => {
   let server = event.server
-  sbwLog('[循环] 载具监控循环已启动（每tick）')
+  let interval = VEHICLE_CFG.checkInterval || 20
+  sbwLog('[循环] 补员检测循环已启动（间隔 ' + interval + ' tick = ' + (interval / 20) + ' 秒）')
 
   function loop() {
-    server.scheduleInTicks(1, function() {
+    // 使用 checkInterval 作为检测间隔（而不是每tick）
+    server.scheduleInTicks(interval, function() {
       try {
         if (isSystemActive(server)) {
-          tickVehicles(server)
+          tickReplenish(server)
         }
+        // ActionBar 仍然每 interval 更新一次（足够实时）
         updateTimeActionBar(server)
       } catch(e) {
         sbwError('[循环] 捕获到错误: ' + e)

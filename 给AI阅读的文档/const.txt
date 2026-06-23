@@ -76,6 +76,7 @@
   const LOCOMETAL_NORMAL     = [...]  // railways 普通登机金属
   const LOCOMETAL_ANTIBLAST  = [...]  // railways 防爆登机金属
   const LOCOMETAL_ANTIPEN    = [...]  // railways 防穿登机金属
+  const CREATE_CASINGS       = [...]  // Create 机壳方块
 
 注意：naval_balance_block_properties.js 中的 const 在 startup_scripts
 目录下，属于 startup 作用域，与 server_scripts 不冲突，但最佳实践是
@@ -101,6 +102,7 @@
   var $HashSet    = Java.loadClass('java.util.HashSet')
   var $ArrayList  = Java.loadClass('java.util.ArrayList')
   var $Component  = Java.loadClass('net.minecraft.network.chat.Component')
+  var $ResourceLocation = Java.loadClass('net.minecraft.resources.ResourceLocation')
 
 来源文件: server_scripts/team_revive/main.js
 
@@ -147,13 +149,35 @@
   startup_scripts/taov_returned_autocannon.js
     global.taovReturnedAutocannon = { ... }
     // 访问方式：global.taovReturnedAutocannon.xxx
+    // 属性：muzzleVelocityBlocksPerSecond, forceTracer, propellerSoundEnabled,
+    //       rocketRackReloadSeconds, kamikazeExplosivePower
 
 ================================================================
- 第六：全局函数一览（function 声明的全部为全局可见）
+ 第六：item 注册（StartupEvents.registry('item', ...)）
+================================================================
+
+  startup_scripts/src/item/profession_item.js
+    event.create('profession_selector')
+      .translationKey('item.kubejs.profession_selector')
+      .maxStackSize(1)
+      .texture('kubejs:item/profession_selector')
+
+  startup_scripts/src/item/team_selector_item.js
+    event.create('team_selector')
+      .translationKey('item.kubejs.team_selector')
+      .maxStackSize(1)
+      .texture('kubejs:item/team_selector')
+
+已注册物品列表：
+  - kubejs:profession_selector  (职业选择器)
+  - kubejs:team_selector        (队伍选择器)
+
+================================================================
+ 第七：全局函数一览（function 声明的全部为全局可见）
 ================================================================
 
   ======== a_tacz_config.js ========
-    filler(color)                           — 玻璃板填充辅助
+    filler(color)                            — 玻璃板填充辅助
     getGunAttachments(player, weaponId)      — 获取配件配置
     setGunAttachment(player, weaponId, slotKey, attachmentId) — 设置配件
     clearGunAttachments(player, weaponId)    — 清除配件
@@ -215,7 +239,7 @@
     sbwLog() / sbwWarn() / sbwError()         — 日志工具
     toNBT(obj)                                — JS对象→NBT转换
     mergeDeployNBT(target, source)             — 合并deployNBT
-    getStore(server)                           — 读取持久化
+    getStore(server)                           — 读取持久化(3状态:idle/timing/waiting_chunk)
     saveStore(server, data)                    — 写入持久化
     getVehicleState(server, vehicleId)         — 获取载具状态
     getFullTag(vehicleId)                      — 获取完整标签名
@@ -225,30 +249,38 @@
     findEntityByTag(server, tag)               — 标签查找实体
     entityHasStringTag(entity, tag)            — 检查实体标签
     findVehicleEntity(server, state, tag)      — 查找载具实体
+    isChunkLoaded(server, x, z, dimension)     — 检查区块是否已加载
+    getVehicleDimension(vehicleCfg)            — 获取维度配置
+    getChunkCoords(pos)                        — 获取区块坐标
     discardAllByTagPrefix(server)              — 批量清除实体
     countAliveByTag(server, tag)               — 统计存活数
-    trimExcessVehicles(server, tag, maxCount, storeVehicleId) — 超限清理
-    spawnVehicleEntity(server, vehicleCfg)     — 生成载具
-    deployVehicle(server, teamName, vehicleCfg) — 部署单辆载具
-    deployTeamVehicles(server, teamName)        — 部署队伍载具
-    deployAllVehicles(server)                   — 部署所有载具
-    extractVehicleIdFromEntity(entity)          — 提取载具ID
-    findVehicleConfig(vehicleId)                — 查找载具配置
-    findVehicleTeam(vehicleId)                  — 查找载具所属队伍
-    scheduleVehicleRespawn(server, vid, cfg, team) — 安排单个载具重生
-    ensureVehicleCount(server, vehicleId)       — 统一入口：确保存活数达标
-    cancelVehicleRespawns(vehicleId)            — 取消指定载具的排期
-    cancelAllRespawns()                         — 纪元递增 + 取消所有排期
-    resetAll(server)                            — 重置所有载具
-    getAmmoSummary(items)                       — 弹药摘要
-    getStatusLines(server)                      — 状态文本
-    getRespawnTimeLines(server)                 — 重生时间文本
-    buildActionBarText(server)                  — ActionBar文本
-    updateTimeActionBar(server)                 — 更新ActionBar
-    runSweepCheck(server)                       — 定期扫描
+    spawnVehicleEntity(server, vehicleCfg)     — 执行 summon
+    ensureVehicleEntry(server, vid, cfg, team) — 确保 store 存在条目(保留idle)
+    getAllReplenishEntries()                   — 获取所有补员配置
+    checkReplenish(server, vid, cfg)           — 3状态机补员检测(核心!)
+    tryDeployWaitingVehicle(server, vid, cfg)  — 区块事件触发的延迟部署
+    deployVehicle(server, teamName, cfg)       — 手动部署单辆载具
+    deployTeamVehicles(server, teamName)       — 部署队伍载具
+    deployAllVehicles(server)                  — 部署所有载具
+    extractVehicleIdFromEntity(entity)         — 提取载具ID
+    findVehicleConfig(vehicleId)               — 查找载具配置
+    findVehicleTeam(vehicleId)                 — 查找载具所属队伍
+    resetAll(server)                           — 重置所有载具
+    getAmmoSummary(items)                      — 弹药摘要
+    getStatusLines(server)                     — 状态文本(3状态:idle/timing/waiting)
+    getRespawnTimeLines(server)                — 重生时间文本
+    buildActionBarText(server)                 — ActionBar文本
+    updateTimeActionBar(server)                — 更新ActionBar
+    EntityEvents.death                         — 日志(实际由定时循环驱动)
 
   ======== sbw_vehicle/command.js ========
-    clearVehicles(server, teamName)             — 清除载具实体
+    clearVehicles(server, teamName)            — 清除载具实体
+
+  ======== sbw_vehicle/ticker.js ========
+    tickReplenish(server)                      — 全量补员检测+轮询waiting_chunk
+    clearVehicleTimer(vehicleId)               — (兼容旧版)no-op
+    clearAllTimers()                           — (兼容旧版)no-op
+    ServerEvents.loaded → loop()              — 定时循环(config.checkInterval)
 
   ======== team_revive/main.js ========
     log() / warn() / error()                    — 日志工具
@@ -278,15 +310,82 @@
 
   ======== startup_scripts/naval_balance_block_properties.js ========
     railwaysPalette(suffixes)                   — 生成railways方块ID列表
+    setExplosionResistance(ids, value)          — (BlockEvents内局部函数)设置防爆
+
+================================================================
+ 第八：BlockEvents 方块属性修改
+================================================================
+
+  startup_scripts/naval_balance_block_properties.js
+    LOCOMETAL_NORMAL 方块 → explosionResistance = 21
+    LOCOMETAL_ANTIBLAST 方块 → explosionResistance = 32
+    LOCOMETAL_ANTIPEN 方块 → explosionResistance = 17
+    CREATE_CASINGS 方块 → explosionResistance = 14
+    minecraft:netherite_block → explosionResistance = 4
+
+  startup_scripts/blast_resistance/taov_returned.js
+    taov_returned:player_cannon_controller → explosionResistance = 20
+
+================================================================
+ 第九：语言文件（i18n）已有翻译键一览
+================================================================
+
+  assets/kubejs/lang/en_us.json 和 zh_cn.json 中已有的翻译键：
+
+  物品 (item):
+    item.kubejs.profession_selector   — 职业选择器
+    item.kubejs.team_selector         — 队伍选择器
+    item.kubejs.menu                  — 菜单
+
+  职业 (profession):
+    profession.kubejs.assault         — 突击兵
+    profession.kubejs.assault.desc
+    profession.kubejs.scout           — 侦察兵
+    profession.kubejs.scout.desc
+    profession.kubejs.medic           — 医疗兵
+    profession.kubejs.medic.desc
+    profession.kubejs.support         — 支援兵
+    profession.kubejs.support.desc
+
+  武器/副手 (weapon/offhand):
+    weapon.kubejs.sword, bow, crossbow, trident
+    offhand.kubejs.shield, totem, snowball, sentinel
+
+  GUI:
+    gui.kubejs.profession_select.*    — 职业选择GUI
+    gui.kubejs.team_select.*          — 队伍选择GUI
+    gui.kubejs.attach.*               — 配件管理GUI
+    gui.kubejs.backpack.*             — 背包GUI
+    gui.kubejs.page.*                 — 分页
+    gui.kubejs.weapon_select.hint     — 武器选择提示
+
+  消息 (msg):
+    msg.kubejs.profession_select.*    — 职业选择消息
+    msg.kubejs.attach.*               — 配件消息
+    msg.kubejs.backpack.*             — 背包消息
+    msg.kubejs.team_select.*          — 队伍选择消息
+    msg.kubejs.team_revive.*          — 复活券消息
+    msg.kubejs.sbw_vehicle.*          — 载具消息
+    msg.kubejs.no_job_tag.*           — 无职业标签消息
+    msg.kubejsadmin.*                 — 管理命令消息
+
+  队伍 (team):
+    team.attack, team.defense, team.none, team.cleared
+    team.joined_attack, team.joined_defense
+
+  菜单 (menu):
+    menu.title, menu.back, menu.clear, menu.status
 
 ================================================================
  快速核查规则（写新代码前必看）
 ================================================================
 
 在写新代码前，先检查以下声明是否存在（存在则不可重复声明）：
+
   1. $ByteTag              ← 已 const，不可重复声明
   2. $IntTag               ← 已 const，不可重复声明
   3. $CompoundTag          ← 已 const，不可重复声明
+
   4. 以下 const 常量名：
      PANE, PROF_TAG_LIST, ATTACH_SLOT_POS, SLOT_TRANSLATE_KEY,
      PROF_CONFIGS, PROFESSIONS, BACKPACK_SLOT_COUNT, BACKPACK_PAGE_SIZE,
@@ -294,18 +393,49 @@
      SBW_VEHICLE_CONFIG, TEAM_ATTACK, TEAM_DEFENSE, TEAM_SPECTATOR,
      TEAM_NONE, JOIN_BATTLE_SCOREHOLDER, JOIN_BATTLE_OBJECTIVE,
      JOIN_BATTLE_TARGET, JOIN_BATTLE_FUNCTION, CLEAR_DELAY_TICKS,
-     DYE_COLORS, LOCOMETAL_NORMAL, LOCOMETAL_ANTIBLAST, LOCOMETAL_ANTIPEN
+     DYE_COLORS, LOCOMETAL_NORMAL, LOCOMETAL_ANTIBLAST, LOCOMETAL_ANTIPEN,
+     CREATE_CASINGS
 
-其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等）：
-  - 在其他文件中用 var 声明是安全的（不会报错）
-  - 但最佳实践是在用到它的文件内用 var 自行声明，不依赖外部
+  5. 已注册的 item ID（不能再注册同名的）：
+     kubejs:profession_selector
+     kubejs:team_selector
 
-所有用 function 声明的全局函数（见第六节）：
-  - function 在 Rhino 中是全局可见的（等同 var）
-  - 不可在同一作用域内用 const/var 声明同名函数（会冲突）
-  - 但可以放心调用，无需重复声明
+  6. 其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等）：
+     - 在其他文件中用 var 声明是安全的（不会报错）
+     - 但最佳实践是在用到它的文件内用 var 自行声明，不依赖外部
 
-global.taovReturnedAutocannon：
-  - 通过 global 对象注册，不会和其他 const/var 冲突
-  - 访问方式：global.taovReturnedAutocannon.xxx
+  7. 所有用 function 声明的全局函数（见第七节）：
+     - function 在 Rhino 中是全局可见的（等同 var）
+     - 不可在同一作用域内用 const/var 声明同名函数（会冲突）
+     - 但可以放心调用，无需重复声明
+
+  8. global.taovReturnedAutocannon：
+     - 通过 global 对象注册，不会和其他 const/var 冲突
+     - 访问方式：global.taovReturnedAutocannon.xxx
+
+================================================================
+ 新代码编写规范
+================================================================
+
+  1. i18n 规范：
+     - 所有自定义物品/消息必须使用 translationKey（而非 .displayName）
+     - 语言文件必须同时更新 en_us.json 和 zh_cn.json
+     - tacz 相关物品通常不需要额外 i18n
+
+  2. 翻译键命名规范：
+     - 物品:       item.kubejs.<item_id>
+     - GUI标题:    gui.kubejs.<模块>.<key>
+     - 消息:       msg.kubejs.<模块>.<key>
+     - 职业:       profession.kubejs.<职业id>
+     - 武器:       weapon.kubejs.<武器id>
+     - 队伍:       team.<队伍id>
+
+  3. 新注册物品需同时创建：
+     - startup_scripts 中的 event.create()
+     - assets/kubejs/models/item/<id>.json
+     - assets/kubejs/textures/item/<id>.png
+     - assets/kubejs/lang/en_us.json 和 zh_cn.json 中的翻译
+
+  4. 新文件夹需在 ./给AI阅读的文档 中记录说明用途
+
 ================================================================
