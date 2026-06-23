@@ -4,22 +4,21 @@
 // 依赖：config.js → main.js → state_machine.js → tools/*.js
 //
 // 核心逻辑：
-//   由 ServerEvents.loaded 注册的定时循环驱动，每个 checkInterval
-//   tick 执行一次全量检测。
+//   由 ServerEvents.loaded 注册的定时循环驱动，按 checkInterval
+//   （频率：次/秒）执行全量检测。
 //
 //   对每辆载具，流程如下：
 //     1. 读取当前状态 & 实际存活数
 //     2. 根据状态执行对应分支逻辑
 //     3. 通过 transitionState() 进行合法状态转移
 //
-// 状态流转总览：
-//   UNINITIALIZED → IDLE
-//   IDLE → WAITING_CHUNK / CHUNK_LOADED
-//   CHUNK_LOADED → DEPLOYED（执行部署）
-//   DEPLOYED → TIMING（载具死亡）/ OVER_CAPACITY（超量）
-//   TIMING → WAITING_CHUNK / IDLE（倒计时结束）
-//   OVER_CAPACITY → DEPLOYED / IDLE（超量清除后）
-//   UNDER_CAPACITY → IDLE / WAITING_CHUNK / TIMING
+// 频率换算（getCheckTickInterval）：
+//   checkInterval=1  → 1次/秒 → 每20tick检测一次
+//   checkInterval=2  → 2次/秒 → 每10tick检测一次
+//   checkInterval=20 → 20次/秒 → 每1tick检测一次
+//
+// TIMING 倒计时按实际 tick 间隔（tickStep）递减，
+// 确保 respawnDelay（tick 数）的等待时间精确。
 // ============================================================
 
 // ========== 补员循环主流程 ==========
@@ -156,6 +155,11 @@ function processVehicleState(server, teamName, v, state, entity, aliveCount, has
             transitionState(server, vehicleId, VEHICLE_STATE.IDLE)
           }
         }
+      } else if (!entity) {
+        // 超量中实体被摧毁，进入重生倒计时
+        let delay = state.respawnDelay || v.respawnDelay || 1200
+        sbwLog('[补员] [' + vehicleId + '] 超量载具被摧毁，启动重生倒计时 ' + (delay / 20) + 's')
+        transitionState(server, vehicleId, VEHICLE_STATE.TIMING, { remainingTicks: delay })
       }
       break
     }
@@ -185,8 +189,9 @@ function processVehicleState(server, teamName, v, state, entity, aliveCount, has
 
     // ─── 计时中：递减倒计时 ───
     case VEHICLE_STATE.TIMING: {
+      var tickStep = getCheckTickInterval()  // 每次检测经过的实际 tick 数
       let remaining = state.remainingTicks || 0
-      remaining--
+      remaining = remaining - tickStep
 
       if (remaining <= 0) {
         // 计时结束，检查区块状态
@@ -225,18 +230,25 @@ function processVehicleState(server, teamName, v, state, entity, aliveCount, has
 
 // ========== 补员循环启动/停止 ==========
 
+/** 将配置的频率（次/秒）转换为实际 tick 间隔 */
+function getCheckTickInterval() {
+  var freq = VEHICLE_CFG.checkInterval || 1
+  // freq=1 → 1次/秒 → 每20tick检测一次
+  // freq=20 → 20次/秒 → 每1tick检测一次
+  return Math.max(1, Math.round(20 / freq))
+}
+
 /**
  * 启动补员定时循环
- * 在 ServerEvents.loaded 中调用
  */
 function startReplenishLoop(server) {
   if ($replenishIntervalId !== null) return  // 已启动，避免重复
 
-  let interval = VEHICLE_CFG.checkInterval || 1
-  sbwLog('补员循环已启动，检测间隔: ' + interval + ' tick')
+  var interval = getCheckTickInterval()
+  var freq = VEHICLE_CFG.checkInterval || 1
+  sbwLog('补员循环已启动，频率: ' + freq + '次/秒 (每' + interval + 'tick)')
 
   var self = function loopCallback() {
-    // 循环调度：每次执行完毕后重新调度
     try {
       checkReplenish(server)
     } catch (err) {

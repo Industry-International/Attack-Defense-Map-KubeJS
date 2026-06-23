@@ -305,9 +305,9 @@
     WAITING_CHUNK        → CHUNK_LOADED / DEPLOYED / IDLE
     CHUNK_LOADED         → DEPLOYED / OVER_CAPACITY / IDLE
     DEPLOYED             → TIMING / OVER_CAPACITY / IDLE
-    OVER_CAPACITY        → DEPLOYED / CHUNK_LOADED / IDLE
+    OVER_CAPACITY        → TIMING / DEPLOYED / CHUNK_LOADED / IDLE
     UNDER_CAPACITY       → IDLE / WAITING_CHUNK / TIMING
-    TIMING               → CHUNK_LOADED / WAITING_CHUNK / IDLE
+    TIMING               → OVER_CAPACITY / CHUNK_LOADED / WAITING_CHUNK / IDLE
     任意状态             → UNINITIALIZED（强制重置）
 
   注意：WAITING_CHUNK → DEPLOYED 和 TIMING → CHUNK_LOADED 是新增并列路径，
@@ -317,10 +317,16 @@
     重构为状态机驱动版本。核心函数：
     checkReplenish(server)                 — 执行一次全量补员检测
     processVehicleState(server, ...)        — 状态分支处理（switch-case 8状态）
+    getCheckTickInterval()                 — 将配置频率(次/秒)转为tick间隔
     startReplenishLoop(server)             — 启动补员定时循环
     stopReplenishLoop()                    — 停止补员定时循环
     initAllVehicleStates(server)           — 强制初始化所有载具状态
-    补员循环由 /sbw_vehicle start 命令启动，每 checkInterval tick 执行一次。
+
+    checkInterval 为频率（次/秒），通过 getCheckTickInterval() 转换为实际 tick 间隔：
+      checkInterval=1  → 1次/秒 → 每20tick检测一次
+      checkInterval=20 → 20次/秒 → 每1tick检测一次
+    TIMING 倒计时按 tickStep 递减，确保 respawnDelay(tick) 精确等待。
+    补员循环由 /sbw_vehicle start 命令启动。
 
   ======== sbw_vehicle/command.js (命令注册) ========
     重构后命令列表（适配状态机）：
@@ -331,7 +337,7 @@
     /sbw_vehicle reset      — 重置所有载具状态
     /sbw_vehicle clear [<team>]   — 清除载具实体
     /sbw_vehicle status     — 查看系统 + 载具状态（适配全部8状态）
-    已移除命令: time, debug_inspect
+    /sbw_vehicle timelist   — 查看所有补员倒计时列表
 
   ======== team_revive/main.js ========
     log() / warn() / error()                    — 日志工具

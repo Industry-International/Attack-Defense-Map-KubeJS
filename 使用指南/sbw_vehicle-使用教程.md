@@ -275,6 +275,7 @@ teams: {
 | `/sbw_vehicle reset` | 重置所有载具状态 | OP 2 |
 | `/sbw_vehicle clear [<队伍>]` | 清除载具实体+重置状态 | OP 2 |
 | `/sbw_vehicle status` | 查看各载具状态（适配全部8个状态） | OP 2 |
+| `/sbw_vehicle timelist` | 查看所有补员倒计时列表 | OP 2 |
 
 ### 状态指示说明（ActionBar / Status）
 

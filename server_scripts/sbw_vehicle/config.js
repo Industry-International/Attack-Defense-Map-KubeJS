@@ -23,12 +23,13 @@ const SBW_VEHICLE_CONFIG = {
 
   // ======== 系统参数 ========
 
-  /** 补员检测循环间隔（单位：tick，20tick = 1秒）
-   *  每间隔此 tick 数执行一次全量检测：
+  /** 补员检测频率（单位：次/秒）
+   *  每秒钟执行此次数全量检测：
    *    遍历所有补员ID → 检查存活数 → 管理状态机
-   *  值越小精度越高但性能消耗略大。
-   *  建议值：20（1秒）或 10（0.5秒） */
-  checkInterval: 1,
+   *  值越大精度越高但性能消耗略大。
+   *  建议值：1（1次/秒，每20tick）或 2（2次/秒，每10tick）
+   *  当前值 1 表示每秒检测1次，精度足够且性能友好 */
+  checkInterval: 20,
 
   // ==========================================================
   //  deployNBT 字段参考手册
@@ -138,7 +139,7 @@ const SBW_VEHICLE_CONFIG = {
           id: 'attack_tank_1',
           vehicleType: 'superbwarfare:t_90a',
           pos: [-240.65, 107.00,-96.85],  
-          respawnDelay: 20, // 1 秒
+          respawnDelay: 600, // 1 秒
           maxCount: 1,        // 该ID最多同时存在1辆
           // ↓↓↓ 部署时应用的初始NBT ↓↓↓
           deployNBT: {
@@ -224,7 +225,7 @@ const SBW_VEHICLE_CONFIG = {
           id: 'defense_tank_1',
           vehicleType: 'superbwarfare:t_90a',
           pos: [-651.19, 113.00, -10.94],
-          respawnDelay: 20, // 1 秒
+          respawnDelay: 600, // 10 秒
           maxCount: 1,        // 该ID最多同时存在1辆
           deployNBT: {
             // ─── 核心属性 ───

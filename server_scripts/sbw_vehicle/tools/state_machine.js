@@ -27,12 +27,14 @@
 //   DEPLOYED → TIMING                       载具被摧毁
 //   DEPLOYED → OVER_CAPACITY                发现超出数量限制
 //   DEPLOYED → IDLE                         手动清除/重置
+//   OVER_CAPACITY → TIMING                     超量载具被摧毁
 //   OVER_CAPACITY → DEPLOYED                超量已清除，回到正常
 //   OVER_CAPACITY → CHUNK_LOADED            超量已清除，区块就绪
 //   OVER_CAPACITY → IDLE                    超量手动处理
 //   UNDER_CAPACITY → IDLE                   数量不足，重新部署
 //   UNDER_CAPACITY → WAITING_CHUNK          数量不足+区块未加载
 //   UNDER_CAPACITY → TIMING                 不足中启动补员倒计时
+//   TIMING → OVER_CAPACITY                  计时完成但已达上限
 //   TIMING → CHUNK_LOADED                   计时完成且区块已加载
 //   TIMING → WAITING_CHUNK                  计时完成但区块未加载
 //   TIMING → IDLE                           计时完成（备选）
@@ -75,9 +77,9 @@ const VEHICLE_STATE_TRANSITIONS = (function() {
   t[VEHICLE_STATE.WAITING_CHUNK]  = [VEHICLE_STATE.CHUNK_LOADED, VEHICLE_STATE.DEPLOYED, VEHICLE_STATE.IDLE]
   t[VEHICLE_STATE.CHUNK_LOADED]   = [VEHICLE_STATE.DEPLOYED, VEHICLE_STATE.OVER_CAPACITY, VEHICLE_STATE.IDLE]
   t[VEHICLE_STATE.DEPLOYED]       = [VEHICLE_STATE.TIMING, VEHICLE_STATE.OVER_CAPACITY, VEHICLE_STATE.IDLE]
-  t[VEHICLE_STATE.OVER_CAPACITY]  = [VEHICLE_STATE.DEPLOYED, VEHICLE_STATE.CHUNK_LOADED, VEHICLE_STATE.IDLE]
+  t[VEHICLE_STATE.OVER_CAPACITY]  = [VEHICLE_STATE.TIMING, VEHICLE_STATE.DEPLOYED, VEHICLE_STATE.CHUNK_LOADED, VEHICLE_STATE.IDLE]
   t[VEHICLE_STATE.UNDER_CAPACITY] = [VEHICLE_STATE.IDLE, VEHICLE_STATE.WAITING_CHUNK, VEHICLE_STATE.TIMING]
-  t[VEHICLE_STATE.TIMING]         = [VEHICLE_STATE.CHUNK_LOADED, VEHICLE_STATE.WAITING_CHUNK, VEHICLE_STATE.IDLE]
+  t[VEHICLE_STATE.TIMING]         = [VEHICLE_STATE.OVER_CAPACITY, VEHICLE_STATE.CHUNK_LOADED, VEHICLE_STATE.WAITING_CHUNK, VEHICLE_STATE.IDLE]
   return t
 })()
 
@@ -132,6 +134,11 @@ function isWarning(state) {
 
 // ========== 状态转移执行 ==========
 
+function getRespawnDelayFromConfig(vehicleId) {
+  var cfg = findVehicleConfig(vehicleId)
+  return cfg ? (cfg.respawnDelay || 1200) : 1200
+}
+
 /**
  * 执行状态转移（带校验）
  * @param {object} server - 服务器实例
@@ -151,7 +158,7 @@ function transitionState(server, vehicleId, newState, extra) {
       vehicleType: '',
       uuid: null,
       remainingTicks: null,
-      respawnDelay: 1200
+      respawnDelay: getRespawnDelayFromConfig(vehicleId)
     }
   }
 
@@ -206,7 +213,7 @@ function forceSetState(server, vehicleId, newState, extra) {
       vehicleType: '',
       uuid: null,
       remainingTicks: null,
-      respawnDelay: 1200
+      respawnDelay: getRespawnDelayFromConfig(vehicleId)
     }
   }
   let oldState = store.vehicles[vehicleId].status

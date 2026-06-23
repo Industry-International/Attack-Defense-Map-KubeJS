@@ -11,6 +11,7 @@
 //   /sbw_vehicle reset      — 重置所有载具状态
 //   /sbw_vehicle clear [<team>]   — 清除载具实体 + 重置状态
 //   /sbw_vehicle status     — 查看系统状态 + 载具状态
+//   /sbw_vehicle timelist   — 查看所有补员倒计时列表
 // ============================================================
 
 // ========== 命令执行函数 ==========
@@ -124,10 +125,23 @@ ServerEvents.commandRegistry(event => {
       : '§c✖ 载具系统未激活'
 
     let lines = getStatusLines(server)
-    let msg = Component.literal(sysLine)
-    for (let i = 0; i < lines.length; i++) {
-      msg = msg.append('\n').append(Text.of(lines[i]))
-    }
+    var newline = String.fromCharCode(10)  // 真正的换行符
+    let text = sysLine + newline + lines.join(newline)
+    source.sendSuccess(Component.literal(text), false)
+    return 1
+  }
+
+  /**
+   * /sbw_vehicle timelist — 查看所有补员倒计时列表
+   */
+  function executeTimelist(ctx) {
+    let source = ctx.getSource()
+    let server = source.getServer()
+    let lines = getRespawnTimeLines(server)
+    var newline = String.fromCharCode(10)
+    let text = lines.join(newline)
+    let msg = Component.translatable('msg.kubejs.sbw_vehicle.time_header')
+      .append(Component.literal(newline + text))
     source.sendSuccess(msg, false)
     return 1
   }
@@ -186,6 +200,12 @@ ServerEvents.commandRegistry(event => {
       .then(
         cmd.literal('status')
           .executes(executeStatus)
+      )
+
+      // ---- timelist ----
+      .then(
+        cmd.literal('timelist')
+          .executes(executeTimelist)
       )
 
       // ---- 默认 → 用法提示 ----
