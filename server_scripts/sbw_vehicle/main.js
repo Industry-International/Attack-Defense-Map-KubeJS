@@ -35,6 +35,8 @@ var $StringTag = Java.loadClass('net.minecraft.nbt.StringTag')
 var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
 var $LongTag = Java.loadClass('net.minecraft.nbt.LongTag')
 var $ShortTag = Java.loadClass('net.minecraft.nbt.ShortTag')
+var $HashMap = Java.loadClass('java.util.HashMap')
+var $Component = Java.loadClass('net.minecraft.network.chat.Component')
 
 // ========== 排期追踪（支撑 reset/redeploy 取消未执行重生）==========
 
@@ -43,7 +45,7 @@ var $ShortTag = Java.loadClass('net.minecraft.nbt.ShortTag')
  * Map<vehicleId, ScheduledEvent>
  * 用于在 reset/redeploy/stop 时取消尚未触发的重生
  */
-var $pendingRespawns = new java.util.HashMap()
+var $pendingRespawns = new $HashMap()
 
 /**
  * 存储 ActionBar 开关状态（由 /sbw_vehicle time 切换）
@@ -406,6 +408,11 @@ function trimExcessVehicles(server, tag, maxCount, storeVehicleId) {
 
 /**
  * 生成单辆载具实体
+ *
+ * 注意：载具实体 summon 后可能需要 1 tick 才会完全生成到世界中，
+ * 因此立即查找可能找不到。本函数不在生成时立即查找实体，
+ * 而是安排 1 tick 后延迟捕获 UUID 并更新 store。
+ * 这期间，系统通过 tag 回退查找和定期扫描来确保实体可被定位。
  */
 function spawnVehicleEntity(server, vehicleCfg) {
   let tag = getFullTag(vehicleCfg.id)
@@ -439,28 +446,37 @@ function spawnVehicleEntity(server, vehicleCfg) {
   // 召唤实体
   let cmd = 'summon ' + vehicleCfg.vehicleType + ' ' + x + ' ' + y + ' ' + z + ' ' + nbt.toString()
   server.runCommandSilent(cmd)
+  sbwLog('已执行 summon 生成载具 [' + vehicleCfg.id + ']')
 
-  sbwLog('已执行 summon 生成载具 [' + vehicleCfg.id + '] (类型: ' + vehicleCfg.vehicleType + ')，正在查找实体...')
+  // 延迟 1 tick 后查找实体并捕获 UUID
+  let capturedId = vehicleCfg.id
+  server.scheduleInTicks(1, function() {
+    let entity = findEntityByTag(server, tag)
+    if (entity) {
+      let uuid = entity.getNbt().getString('UUID')
+      if (uuid) {
+        let s = getStore(server)
+        if (s.vehicles[capturedId]) {
+          s.vehicles[capturedId].uuid = uuid
+          saveStore(server, s)
+          sbwLog('载具 [' + capturedId + '] UUID 已捕获: ' + uuid)
+        }
+      }
+    } else {
+      sbwWarn('载具 [' + capturedId + '] 生成后 1 tick 仍未找到，将由定期扫描兜底捕获')
+    }
+  })
 
-  // 查找刚生成的实体
-  let entity = findEntityByTag(server, tag)
-  if (!entity) {
-    sbwWarn('载具 [' + vehicleCfg.id + '] 生成后无法立即找到（标签: ' + tag + '）将回退到 tag 查找')
-    return { entity: null, uuid: null, tag: tag }
-  }
-
-  let uuid = entity.getNbt().getString('UUID')
-  if (!uuid || uuid === '') {
-    sbwWarn('载具 [' + vehicleCfg.id + '] 无法获取 UUID，将使用 tag 回退查找')
-    return { entity: entity, uuid: null, tag: tag }
-  }
-
-  sbwLog('载具 [' + vehicleCfg.id + '] 生成成功 (UUID: ' + uuid + ')')
-  return { entity: entity, uuid: uuid, tag: tag }
+  // 立即返回（entity/uuid 为 null，部署函数仍会写入 store）
+  return { entity: null, uuid: null, tag: tag }
 }
 
 /**
  * 部署单辆载具（含状态管理）
+ *
+ * 即使 spawnVehicleEntity 未立即捕获到实体，
+ * 也会先将状态标记为 alive 并写入 store，
+ * 后续通过 tag 查找和定期扫描仍可正常定位实体。
  */
 function deployVehicle(server, teamName, vehicleCfg) {
   let vehicleId = vehicleCfg.id
@@ -494,22 +510,20 @@ function deployVehicle(server, teamName, vehicleCfg) {
     }
   }
 
-  // 生成实体
+  // 生成实体（不要求立即查到 UUID）
   let result = spawnVehicleEntity(server, vehicleCfg)
-  if (!result || (!result.entity && !result.uuid)) {
-    sbwError('载具 [' + vehicleId + '] 生成失败')
-    return
-  }
 
-  // 更新状态
+  // 更新状态：即使暂时没有 UUID，也标记为 alive
   store = getStore(server)
   store.vehicles[vehicleId] = {
     status: 'alive',
     team: teamName,
     vehicleType: vehicleCfg.vehicleType,
-    uuid: result.uuid || null
+    uuid: null  // UUID 会在 1 tick 后延迟捕获，此后依赖 tag 查找
   }
   saveStore(server, store)
+
+  sbwLog('载具 [' + vehicleId + '] 部署完成（UUID 将在 1 tick 后捕获）')
 }
 
 /**
@@ -975,11 +989,13 @@ function updateTimeActionBar(server) {
   if (!players || players.size() === 0) return
 
   let text = buildActionBarText(server)
+  let component = $Component.literal(text)
 
   let iter = players.iterator()
   while (iter.hasNext()) {
     let player = iter.next()
-    player.sendData('minecraft:actionbar', text)
+    // displayClientMessage(Component, boolean): true=overlay(ActionBar), false=chat
+    player.displayClientMessage(component, true)
   }
 }
 

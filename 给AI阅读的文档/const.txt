@@ -70,6 +70,8 @@
   var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
   var $LongTag   = Java.loadClass('net.minecraft.nbt.LongTag')
   var $ShortTag  = Java.loadClass('net.minecraft.nbt.ShortTag')
+  var $HashMap   = Java.loadClass('java.util.HashMap')
+  var $Component = Java.loadClass('net.minecraft.network.chat.Component')
 
 ================================================================
  第四：各模块内部的 config 常量（var/const 均可，不冲突）
