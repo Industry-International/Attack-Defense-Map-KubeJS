@@ -64,13 +64,10 @@ function isGameActive(server) {
 // ========== Java 类引用 ==========
 
 var $UUID = Java.loadClass('java.util.UUID')
-// NBT 构建类
-var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
+// NBT 构建类（$CompoundTag/$IntTag/$ByteTag 已由 a_tacz_config.js 以 const 声明，不可重复声明）
 var $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
 var $FloatTag = Java.loadClass('net.minecraft.nbt.FloatTag')
 var $StringTag = Java.loadClass('net.minecraft.nbt.StringTag')
-var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
-var $ByteTag = Java.loadClass('net.minecraft.nbt.ByteTag')
 var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
 var $LongTag = Java.loadClass('net.minecraft.nbt.LongTag')
 var $ShortTag = Java.loadClass('net.minecraft.nbt.ShortTag')

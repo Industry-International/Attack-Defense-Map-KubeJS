@@ -1,0 +1,99 @@
+================================================================
+ KubeJS 全局/局部声明参考（避免重复声明错误）
+ 更新日期: 2026-06-23
+================================================================
+
+在 KubeJS 7 (Rhino) 中：
+  - const 在顶层声明 → 全局可见，不可重复声明
+  - var   在顶层声明 → 全局可见，可重复声明（但应避免）
+  - function           → 全局可见（等同 var）
+
+因此：只要看到某文件用 const 声明了某变量，其他文件就绝对不能再
+用 const/var/let 声明同名变量，否则报 redeclaration error。
+
+================================================================
+ 第一：已用 const 声明的 NBT Java 类（不可再声明！）
+================================================================
+
+来源文件: server_scripts/profession/config/a_tacz_config.js
+加载顺序: 按文件名 a_ 前缀排第一，最先加载
+
+  const $ByteTag     = Java.loadClass('net.minecraft.nbt.ByteTag')
+  const $IntTag      = Java.loadClass('net.minecraft.nbt.IntTag')
+  const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
+
+上述三个在任何其他脚本中都不可再声明，直接使用即可。
+
+================================================================
+ 第二：其他用 const 声明的全局常量
+================================================================
+
+来源文件: server_scripts/profession/config/a_tacz_config.js
+
+  const PANE = { black: ..., gray: ... }          // 玻璃板填充物
+  const PROF_TAG_LIST = ['assault', 'scout', ...] // 职业标签列表
+  const ATTACH_SLOT_POS = { scope: {...}, ... }   // 配件GUI布局
+  const SLOT_TRANSLATE_KEY = { scope: '...', ... } // 配件翻译键
+  const PROF_CONFIGS = {}                          // 武器配置总表（各prof_configs/*.js往里注入）
+
+来源文件: server_scripts/taov_returned_repair_parts.js
+
+  const TAOV_RETURNED_BLOCKS_PER_REPAIR_PART = 1
+
+来源文件: server_scripts/team_revive/config.js
+
+  const TEAM_REVIVE_CONFIG = { ... }
+
+来源文件: server_scripts/sbw_vehicle/config.js
+
+  const SBW_VEHICLE_CONFIG = { ... }
+
+================================================================
+ 第三：用 var 声明的 NBT Java 类（不冲突，但优先用已有的 const）
+================================================================
+
+如果将来某个新模块也想用 $ListTag / $FloatTag 等，
+可以安全地声明，但如果已有 const 版本，就不要用同名的 var。
+
+来源文件: server_scripts/team_revive/main.js
+
+  var $StringArgument  = Java.loadClass('com.mojang.brigadier.arguments.StringArgumentType')
+  var $IntegerArgument = Java.loadClass('com.mojang.brigadier.arguments.IntegerArgumentType')
+
+这些是 Brigadier 参数类型，与 NBT 无冲突。
+
+来源文件: server_scripts/sbw_vehicle/main.js
+
+  var $ListTag   = Java.loadClass('net.minecraft.nbt.ListTag')
+  var $FloatTag  = Java.loadClass('net.minecraft.nbt.FloatTag')
+  var $StringTag = Java.loadClass('net.minecraft.nbt.StringTag')
+  var $DoubleTag = Java.loadClass('net.minecraft.nbt.DoubleTag')
+  var $LongTag   = Java.loadClass('net.minecraft.nbt.LongTag')
+  var $ShortTag  = Java.loadClass('net.minecraft.nbt.ShortTag')
+
+================================================================
+ 第四：各模块内部的 config 常量（var/const 均可，不冲突）
+================================================================
+
+  server_scripts/sbw_vehicle/main.js
+    const VEHICLE_CFG = SBW_VEHICLE_CONFIG
+    const SBW_PREFIX = '[SBW载具]'
+
+  server_scripts/team_revive/main.js
+    const CFG = TEAM_REVIVE_CONFIG
+    const PREFIX = '[队伍复活券]'
+
+================================================================
+ 快速核查规则
+================================================================
+
+在写新代码前，先检查以下声明是否存在（存在则不可重复声明）：
+  1. $ByteTag              ← 已 const，不可重复声明
+  2. $IntTag               ← 已 const，不可重复声明
+  3. $CompoundTag          ← 已 const，不可重复声明
+  4. 大写命名常量（xxx_CONFIG, xxx_PREFIX 等）← 检查是否已存在
+
+其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等）：
+  - 在其他文件中用 var 声明是安全的（不会报错）
+  - 但最佳实践是在用到它的文件内用 var 自行声明，不依赖外部
+================================================================
