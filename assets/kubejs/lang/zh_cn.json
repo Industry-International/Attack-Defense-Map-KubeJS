@@ -173,5 +173,6 @@
   "msg.kubejs.sbw_vehicle.clear_all": "§e[调试] 已清除全部队伍的 §c%s 个 §e载具实体（状态已重置）",
   "msg.kubejs.sbw_vehicle.clear_team": "§e[调试] 已清除队伍 %s 的 §c%s 个 §e载具实体（状态已重置）",
   "msg.kubejs.sbw_vehicle.start_done": "§a✔ 载具系统已激活，所有载具已部署",
-  "msg.kubejs.sbw_vehicle.stop_done": "§c✖ 载具系统已停用，所有载具已清除"
+  "msg.kubejs.sbw_vehicle.stop_done": "§c✖ 载具系统已停用，所有载具已清除",
+  "msg.kubejs.sbw_vehicle.time_header": "§6=== 载具重生倒计时 ==="
 }

@@ -544,6 +544,7 @@ function handleVehicleDestroyed(server, vehicleId, vehicleCfg) {
   // 标记为重生中
   state.status = 'respawning'
   state.respawnDelay = vehicleCfg.respawnDelay
+  state.destroyedTick = server.ticks  // 记录摧毁时 tick，用于计算剩余时间
   saveStore(server, store)
 
   // 安排重生（延迟执行）
@@ -668,6 +669,49 @@ function getStatusLines(server) {
 
   if (!hasData) {
     lines.push('§7暂无载具配置')
+  }
+
+  return lines
+}
+
+/**
+ * 获取所有正在重生中的载具剩余时间文本
+ * @returns {string[]}
+ */
+function getRespawnTimeLines(server) {
+  let store = getStore(server)
+  let lines = []
+  let currentTick = server.ticks
+  let hasRespawning = false
+
+  for (let teamName in VEHICLE_CFG.teams) {
+    if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
+    let vehicles = VEHICLE_CFG.teams[teamName].vehicles
+    for (let i = 0; i < vehicles.length; i++) {
+      let v = vehicles[i]
+      let state = store.vehicles[v.id]
+
+      if (!state || state.status !== 'respawning') continue
+      hasRespawning = true
+
+      let destroyedTick = state.destroyedTick || 0
+      let delay = state.respawnDelay || v.respawnDelay || 0
+      if (destroyedTick <= 0 || delay <= 0) {
+        lines.push('§7[' + teamName + '] §e' + v.id + ' §7— §e⟳ 等待重生')
+        continue
+      }
+
+      let elapsed = currentTick - destroyedTick
+      let remaining = Math.max(0, delay - elapsed)
+      let remainingSec = Math.ceil(remaining / 20)
+      let totalSec = Math.ceil(delay / 20)
+      lines.push('§7[' + teamName + '] §e' + v.id
+        + ' §7— §e⟳ ' + remainingSec + 's §7/ ' + totalSec + 's')
+    }
+  }
+
+  if (!hasRespawning) {
+    lines.push('§7当前没有载具正在重生')
   }
 
   return lines

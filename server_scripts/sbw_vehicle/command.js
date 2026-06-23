@@ -159,6 +159,22 @@ ServerEvents.commandRegistry(event => {
   }
 
   /**
+   * /sbw_vehicle time — 查看载具重生剩余时间
+   */
+  function executeTime(ctx) {
+    let source = ctx.getSource()
+    let server = source.getServer()
+    let lines = getRespawnTimeLines(server)
+
+    let msg = Component.translatable('msg.kubejs.sbw_vehicle.time_header')
+    for (let i = 0; i < lines.length; i++) {
+      msg = msg.append('\\n').append(Text.of(lines[i]))
+    }
+    source.sendSuccess(msg, false)
+    return 1
+  }
+
+  /**
    * /sbw_vehicle clear [<team>] — 调试：清除载具实体 + 重置状态
    * 清除指定队伍（或全部）的载具实体，并从 store 中移除记录
    * 之后需要手动 deploy 重新部署
@@ -236,6 +252,12 @@ ServerEvents.commandRegistry(event => {
       .then(
         cmd.literal('stop')
           .executes(executeStop)
+      )
+
+      // ---- time ----
+      .then(
+        cmd.literal('time')
+          .executes(executeTime)
       )
 
       // ---- 默认 → 用法提示 ----
