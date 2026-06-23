@@ -1,26 +1,21 @@
 // ============================================================
 // SBW 载具 - 定时补员检测循环
-// 依赖：main.js（checkReplenish, getAllReplenishEntries 等）
+// 依赖：main.js（checkReplenish, processDeployQueue 等）
 //
 // 核心逻辑：
-//   每隔 config.checkInterval tick 执行一次全量补员检测：
-//     遍历所有补员ID → 检查存活数 → 驱动 3 状态机
-//
-//   waiting_chunk 条目通过轮询处理：每轮检测检查目标区块
-//   是否已加载，若已加载则执行延迟部署。
+//   1. 全量补员检测：遍历所有补员ID → countAliveByTag → 2状态机
+//   2. 处理部署缓存队列：检查队列中条目的区块是否已加载
 // ============================================================
 
 // ========== 定时补员检测 ==========
 
 /**
- * 执行一轮完整的补员检测
- * 遍历所有配置的补员ID，对每个执行 checkReplenish
- * 同时轮询处理 waiting_chunk 条目
+ * 执行一轮完整的补员检测 + 处理部署队列
  */
 function tickReplenish(server) {
   let entries = getAllReplenishEntries()
 
-  // 第一步：对每个条目执行标准补员检测
+  // 第一步：全量补员检测
   for (let i = 0; i < entries.length; i++) {
     try {
       checkReplenish(server, entries[i].vehicleId, entries[i].vehicleCfg)
@@ -29,26 +24,12 @@ function tickReplenish(server) {
     }
   }
 
-  // 第二步：轮询处理 waiting_chunk 条目（区块加载事件不可用时的替代方案）
-  let store = getStore(server)
-  let needsSave = false
-  for (let vid in store.vehicles) {
-    if (!Object.prototype.hasOwnProperty.call(store.vehicles, vid)) continue
-    let s = store.vehicles[vid]
-    if (s.status !== 'waiting_chunk') continue
-
-    let cfg = findVehicleConfig(vid)
-    if (!cfg) continue
-
-    // 检查目标区块是否已加载
-    let dim = getVehicleDimension(cfg)
-    if (isChunkLoaded(server, cfg.pos[0], cfg.pos[2], dim)) {
-      sbwLog('[轮询] 载具 [' + vid + '] 区块已加载，尝试部署')
-      tryDeployWaitingVehicle(server, vid, cfg)
-      needsSave = true
-    }
+  // 第二步：处理部署缓存队列（区块已加载的条目执行 summon）
+  try {
+    processDeployQueue(server)
+  } catch(e) {
+    sbwError('[队列] 处理部署队列时出错: ' + e)
   }
-  if (needsSave) { store = getStore(server) }
 }
 
 // ========== 计时器管理接口（兼容旧版调用）==========
