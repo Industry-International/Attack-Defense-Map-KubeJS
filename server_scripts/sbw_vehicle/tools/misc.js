@@ -68,17 +68,19 @@ function clearVehicles(server, teamName) {
     let vehicles = VEHICLE_CFG.teams[tn].vehicles
     for (let i = 0; i < vehicles.length; i++) {
       let v = vehicles[i]
-      let tag = getFullTag(v.id)
-      let state = store.vehicles[v.id] || null
+      let vid = v.id
+      let tag = getFullTag(vid)
+      let state = store.vehicles[vid] || null
+
       let entity = findVehicleEntity(server, state, tag)
       if (entity) {
         entity.discard()
         count++
-        sbwLog('调试清除：已清除载具实体 [' + v.id + ']（无掉落物）')
+        sbwLog('调试清除：已清除载具实体 [' + vid + ']（无掉落物）')
       }
       // 从 store 中删除该载具的状态记录
-      if (store.vehicles[v.id]) {
-        delete store.vehicles[v.id]
+      if (store.vehicles[vid]) {
+        delete store.vehicles[vid]
       }
     }
   }

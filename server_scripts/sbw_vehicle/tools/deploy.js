@@ -40,7 +40,7 @@ function spawnVehicleEntity(server, vehicleCfg) {
 
 /**
  * 部署单辆载具
- * 检查数量上限 → 检查区块加载状态 → 部署或标记 waiting_chunk
+ * 检查数量上限 → 检查附近是否有玩家（确保区块加载）→ 部署
  */
 function deployVehicle(server, teamName, vehicleCfg) {
   let vehicleId = vehicleCfg.id, tag = getFullTag(vehicleId)
@@ -68,17 +68,20 @@ function deployVehicle(server, teamName, vehicleCfg) {
     return
   }
 
-  if (isChunkLoaded(server, vehicleCfg.pos[0], vehicleCfg.pos[2], getVehicleDimension(vehicleCfg))) {
-    sbwLog('[部署] [' + vehicleId + '] 区块已加载，立即部署')
-    spawnVehicleEntity(server, vehicleCfg)
-    state.status = 'idle'
-    state.uuid = null
-    state.remainingTicks = null
+  // 检查附近是否有玩家（玩家靠近 = 区块已加载）
+  let hasPlayer = hasNearbyPlayer(server, vehicleCfg.pos[0], vehicleCfg.pos[2],
+    getVehicleDimension(vehicleCfg), 64)
+
+  if (hasPlayer) {
+    sbwLog('[部署] [' + vehicleId + '] 附近有玩家，区块已加载，执行部署')
   } else {
-    sbwLog('[部署] [' + vehicleId + '] 区块未加载，标记 waiting_chunk')
-    state.status = 'waiting_chunk'
-    state.remainingTicks = null
+    sbwLog('[部署] [' + vehicleId + '] 附近无玩家（区块可能未加载），仍尝试部署')
   }
+
+  spawnVehicleEntity(server, vehicleCfg)
+  state.status = 'idle'
+  state.uuid = null
+  state.remainingTicks = null
   saveStore(server, store)
 }
 
