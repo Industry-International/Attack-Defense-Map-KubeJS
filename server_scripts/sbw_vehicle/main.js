@@ -4,13 +4,14 @@
 // 功能：
 //   1. 自动部署：由数据包调用 /sbw_vehicle deploy 触发
 //   2. 标签管理：每辆载具携带唯一标签，存活期间不重复生成
-//   3. 自动重生：载具被摧毁后，按车辆单独配置的延迟自动重新生成
+//   3. 自动重生：基于总数维持模式（count-based respawn），
+//      每辆载配有 maxCount 目标存活数，当场上存活 < maxCount 时，
+//      自动补充差额。死亡事件 + 定期扫描双重触发。
 //   4. 手动命令：支持管理员手动部署/重置/状态查询
-//   5. 双重检测：EntityEvents.death + 定期扫描，防止漏检
+//   5. 排期纪元：通过 $respawnEpoch 标记每轮排期，reset/redeploy/stop
+//      时递增纪元，使所有未执行的回调自动过期失效
 //   6. UUID 索引：生成时保存实体 UUID，O(1) 查找替代全量遍历
-//   7. 排期追踪：通过 $pendingRespawns 管理所有待执行重生，
-//      支持 reset/redeploy 时取消未执行的回调
-//   8. ActionBar：实时状态栏显示载具存活/重生状态
+//   7. ActionBar：实时状态栏显示载具存活/重生状态（仅对启用玩家）
 // ============================================================
 
 if (typeof SBW_VEHICLE_CONFIG === 'undefined') {
@@ -38,15 +39,6 @@ var $ShortTag = Java.loadClass('net.minecraft.nbt.ShortTag')
 var $HashMap  = Java.loadClass('java.util.HashMap')
 var $HashSet  = Java.loadClass('java.util.HashSet')
 var $Component = Java.loadClass('net.minecraft.network.chat.Component')
-
-// ========== 排期追踪（支撑 reset/redeploy 取消未执行重生）==========
-
-/**
- * 存储所有待执行的重生排期
- * Map<vehicleId, ScheduledEvent>
- * 用于在 reset/redeploy/stop 时取消尚未触发的重生
- */
-var $pendingRespawns = new $HashMap()
 
 /**
  * 存储已启用 ActionBar 的玩家名称集合（由 /sbw_vehicle time 切换）
@@ -562,107 +554,25 @@ function deployAllVehicles(server) {
   sbwLog('载具部署完成')
 }
 
-// ========== 载具死亡/重生处理（含排期追踪）==========
-
-/**
- * 处理载具被摧毁（标记待重生 + 取消旧排期 + 安排新重生）
- *
- * 排期追踪机制：
- *   - 每次安排重生时，先将该 vehicleId 之前的排期取消
- *   - 将新 ScheduledEvent 存入 $pendingRespawns
- *   - reset/redeploy/stop 时遍历 $pendingRespawns 全部取消
- *
- * @returns {boolean} 是否成功标记
- */
-function handleVehicleDestroyed(server, vehicleId, vehicleCfg) {
-  let store = getStore(server)
-  let state = store.vehicles[vehicleId]
-
-  if (!state || state.status === 'respawning') {
-    return false
-  }
-
-  sbwLog('载具 [' + vehicleId + '] 已被摧毁，将在 ' + (vehicleCfg.respawnDelay / 20) + ' 秒后重生')
-
-  // 标记为重生中
-  state.status = 'respawning'
-  state.respawnDelay = vehicleCfg.respawnDelay
-  state.destroyedTick = server.ticks
-  saveStore(server, store)
-
-  // ─── 取消该载具之前的排期（防止重复排期）───
-  cancelPendingRespawn(vehicleId)
-
-  // ─── 安排重生（含排期追踪）───
-  if (vehicleCfg.respawnDelay > 0) {
-    let capturedTeam = state.team
-    let scheduled = server.scheduleInTicks(vehicleCfg.respawnDelay, function() {
-      // 回调执行时，从追踪表中移除
-      $pendingRespawns.remove(vehicleId)
-
-      if (!isSystemActive(server)) {
-        sbwLog('系统已停用，取消载具 [' + vehicleId + '] 的重生')
-        return
-      }
-
-      // 再次确认 store 状态仍为 respawning（防止外部已手动重置）
-      let currentStore = getStore(server)
-      let currentState = currentStore.vehicles[vehicleId]
-      if (!currentState || currentState.status !== 'respawning') {
-        sbwLog('载具 [' + vehicleId + '] 状态已变更，跳过重生')
-        return
-      }
-
-      sbwLog('重生延迟结束，重新部署载具 [' + vehicleId + ']')
-      deployVehicle(server, capturedTeam, vehicleCfg)
-    })
-
-    // 存入追踪表
-    $pendingRespawns.put(vehicleId, scheduled)
-  }
-
-  return true
-}
-
-/**
- * 取消指定载具的待执行重生
- */
-function cancelPendingRespawn(vehicleId) {
-  let existing = $pendingRespawns.get(vehicleId)
-  if (existing) {
-    try {
-      existing.cancel()
-    } catch(e) {
-      // cancel 可能抛异常（如事件已开始执行），可忽略
-    }
-    $pendingRespawns.remove(vehicleId)
-    sbwLog('已取消载具 [' + vehicleId + '] 的待执行重生')
-  }
-}
-
-/**
- * 取消所有待执行的重生排期
- * @returns {number} 取消的数量
- */
-function cancelAllPendingRespawns() {
-  let count = 0
-  let iter = $pendingRespawns.keySet().iterator()
-  while (iter.hasNext()) {
-    let vid = iter.next()
-    let event = $pendingRespawns.get(vid)
-    if (event) {
-      try { event.cancel() } catch(e) {}
-    }
-    iter.remove() // 通过迭代器安全删除
-    count++
-  }
-  $pendingRespawns.clear()
-  return count
-}
-
 /**
  * 从实体事件中提取载具ID（通过标签前缀匹配）
  */
+
+/**
+ * 查找载具所属队伍
+ */
+function findVehicleTeam(vehicleId) {
+  for (let teamName in VEHICLE_CFG.teams) {
+    if (!VEHICLE_CFG.teams.hasOwnProperty(teamName)) continue
+    let vehicles = VEHICLE_CFG.teams[teamName].vehicles
+    for (let i = 0; i < vehicles.length; i++) {
+      if (vehicles[i].id === vehicleId) return teamName
+    }
+  }
+  return null
+}
+
+/**
 function extractVehicleIdFromEntity(entity) {
   let entityTags = entity.getTags()
   if (!entityTags) return null
@@ -697,13 +607,13 @@ function findVehicleConfig(vehicleId) {
 
 /**
  * 重置所有载具：
- *   1. 取消所有待执行的重生排期
+ *   1. 清除所有计时器
  *   2. 按标签前缀搜索并清除所有 SBW 载具实体
  *   3. 清空持久化存储
  */
 function resetAll(server) {
-  // 第一步：取消所有待执行的重生
-  let cancelledCount = cancelAllPendingRespawns()
+  // 第一步：清除所有计时器
+  clearAllTimers()
 
   // 第二步：清除所有 SBW 标签实体
   let entityCount = discardAllByTagPrefix(server)
@@ -711,8 +621,8 @@ function resetAll(server) {
   // 第三步：清空持久化存储
   server.persistentData.putString(VEHICLE_CFG.persistKey, JSON.stringify({ vehicles: {} }))
 
-  sbwLog('已重置：清除 ' + entityCount + ' 个载具实体，取消 ' + cancelledCount + ' 个待执行重生，所有状态已清零')
-  return { entityCount: entityCount, cancelledCount: cancelledCount }
+  sbwLog('已重置：清除 ' + entityCount + ' 个载具实体，所有计时器已清除')
+  return { entityCount: entityCount, cancelledCount: 0 }
 }
 
 // ========== 状态查询（完整版）==========
@@ -1004,96 +914,16 @@ function updateTimeActionBar(server) {
   }
 }
 
-// ========== 定期扫描检测（兜底机制）==========
-
-/**
- * 定期扫描：检查标记为存活的实体是否还存在
- * 每 40 tick（2 秒）执行一次
- *
- * 注意：handleVehicleDestroyed 内部会自行 saveStore（设置 respawning 状态），
- *       因此这里不要在它之后再调用 saveStore，否则会覆盖 respawning 状态。
- *       只有"配置不存在→删除状态"这种场景才需要本层 saveStore。
- */
-function runSweepCheck(server) {
-  let store = getStore(server)
-  let needSave = false
-
-  for (let vehicleId in store.vehicles) {
-    if (!store.vehicles.hasOwnProperty(vehicleId)) continue
-    let state = store.vehicles[vehicleId]
-
-    let tag = getFullTag(vehicleId)
-    let vehicleCfg = findVehicleConfig(vehicleId)
-    let maxCount = vehicleCfg ? (vehicleCfg.maxCount || 0) : 0
-
-    if (state.status === 'alive') {
-      let entity = findVehicleEntity(server, state, tag)
-      if (!entity) {
-        sbwWarn('扫描发现：载具 [' + vehicleId + '] 实体已不存在（可能被摧毁）')
-
-        if (vehicleCfg) {
-          // handleVehicleDestroyed 内部会处理 saveStore（设置 respawning）
-          // 此处不要再手动 saveStore，否则会覆盖 respawning 状态！
-          handleVehicleDestroyed(server, vehicleId, vehicleCfg)
-        } else {
-          sbwWarn('载具 [' + vehicleId + '] 的配置已不存在，清理状态')
-          delete store.vehicles[vehicleId]
-          needSave = true
-        }
-      }
-    }
-
-    // maxCount 超限清理（trimExcessVehicles 不写 store，无需 save）
-    if (maxCount > 0) {
-      trimExcessVehicles(server, tag, maxCount, vehicleId)
-    }
-  }
-
-  // 只有在"配置不存在→删除状态"的场景才需要保存
-  if (needSave) {
-    saveStore(server, store)
-  }
-}
-
 // ========== 事件监听 ==========
 
-/**
- * 实体死亡事件 — 快速检测载具被摧毁
- */
+/** 实体死亡事件 — 次要触发，仅做日志（每tick检查是主要机制） */
 EntityEvents.death(event => {
   let entity = event.entity
   let server = event.server
-
   if (!isSystemActive(server)) return
-
   let vehicleId = extractVehicleIdFromEntity(entity)
   if (!vehicleId) return
-
-  sbwLog('检测到载具实体死亡 [' + vehicleId + ']')
-
-  let vehicleCfg = findVehicleConfig(vehicleId)
-  if (vehicleCfg) {
-    handleVehicleDestroyed(server, vehicleId, vehicleCfg)
-  }
-})
-
-/**
- * 定期扫描 + ActionBar 推送
- * 每 40 tick（2 秒）扫描，每 20 tick（1 秒）推送 ActionBar
- */
-ServerEvents.tick(event => {
-  let server = event.server
-  let tick = server.ticks
-
-  // 扫描（每 40 tick）
-  if (tick % 40 === 0 && isSystemActive(server)) {
-    runSweepCheck(server)
-  }
-
-  // ActionBar 推送（每 20 tick = 1 秒）
-  if (tick % 20 === 0) {
-    updateTimeActionBar(server)
-  }
+  sbwLog('检测到载具实体死亡 [' + vehicleId + ']（下一tick自动检查）')
 })
 
 // ========== 指令注册已移至 command.js ==========

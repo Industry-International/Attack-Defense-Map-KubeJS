@@ -45,8 +45,8 @@ function clearVehicles(server, teamName) {
     let vehicles = VEHICLE_CFG.teams[tn].vehicles
     for (let i = 0; i < vehicles.length; i++) {
       let v = vehicles[i]
-      // 清除该载具的待执行重生排期
-      cancelPendingRespawn(v.id)
+      // 清除该载具的计时器
+      clearVehicleTimer(v.id)
 
       let tag = getFullTag(v.id)
       let state = store.vehicles[v.id] || null

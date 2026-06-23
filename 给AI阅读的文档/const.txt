@@ -99,6 +99,7 @@
   var $ShortTag   = Java.loadClass('net.minecraft.nbt.ShortTag')
   var $HashMap    = Java.loadClass('java.util.HashMap')
   var $HashSet    = Java.loadClass('java.util.HashSet')
+  var $ArrayList  = Java.loadClass('java.util.ArrayList')
   var $Component  = Java.loadClass('net.minecraft.network.chat.Component')
 
 来源文件: server_scripts/team_revive/main.js
@@ -123,7 +124,9 @@
   server_scripts/sbw_vehicle/main.js
     const VEHICLE_CFG = SBW_VEHICLE_CONFIG
     const SBW_PREFIX = '[SBW载具]'
-    var $pendingRespawns = new java.util.HashMap()    // 排期追踪表
+    var $respawnEpoch = 0                             // 排期纪元（递增使回调过期）
+    var $pendingRespawnCounts = new $HashMap()        // 待执行重生计数
+    var $pendingEvents = new $HashMap()                // 待执行 ScheduledEvent 列表
     var $actionBarPlayers = new $HashSet()             // 单人 ActionBar 玩家集合
 
   server_scripts/team_revive/main.js
@@ -229,11 +232,13 @@
     deployVehicle(server, teamName, vehicleCfg) — 部署单辆载具
     deployTeamVehicles(server, teamName)        — 部署队伍载具
     deployAllVehicles(server)                   — 部署所有载具
-    handleVehicleDestroyed(server, vehicleId, vehicleCfg) — 处理载具摧毁
-    cancelPendingRespawn(vehicleId)             — 取消待执行重生
-    cancelAllPendingRespawns()                  — 取消所有重生
     extractVehicleIdFromEntity(entity)          — 提取载具ID
     findVehicleConfig(vehicleId)                — 查找载具配置
+    findVehicleTeam(vehicleId)                  — 查找载具所属队伍
+    scheduleVehicleRespawn(server, vid, cfg, team) — 安排单个载具重生
+    ensureVehicleCount(server, vehicleId)       — 统一入口：确保存活数达标
+    cancelVehicleRespawns(vehicleId)            — 取消指定载具的排期
+    cancelAllRespawns()                         — 纪元递增 + 取消所有排期
     resetAll(server)                            — 重置所有载具
     getAmmoSummary(items)                       — 弹药摘要
     getStatusLines(server)                      — 状态文本
