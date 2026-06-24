@@ -87,6 +87,12 @@ function clearVehicles(server, teamName) {
 
   saveStore(server, store)
 
+  // 清除全部时，完全擦除 persistentData 键（连 active 标志一起清掉）
+  if (!teamName) {
+    server.persistentData.putString(VEHICLE_CFG.persistKey, '')
+    sbwLog('调试清除：已完全擦除 sbw_vehicle 持久化数据')
+  }
+
   let teamLabel = teamName ? '队伍 [' + teamName + ']' : '所有队伍'
   sbwLog('调试清除：' + teamLabel + ' 已清除 ' + count + ' 个载具实体，状态已重置')
   return count

@@ -31,15 +31,6 @@ const TEAM_REVIVE_CONFIG = {
    */
   functionPath: "game:eliminated",
 
-  // ======== 计分板状态检测 ========
-
-  /** 用于检测游戏状态的虚拟玩家名 */
-  scoreHolder: 'state',
-  /** 游戏状态计分板目标名 */
-  scoreObjective: 'game_state',
-  /** 表示"游戏进行中"的分数值 */
-  activeValue: 1,
-
   // ======== 持久化数据 ========
 
   /** KubeJS persistentData 中使用的根键名 */

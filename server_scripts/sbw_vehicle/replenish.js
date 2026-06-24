@@ -24,6 +24,10 @@
 // ========== 补员循环主流程 ==========
 
 let $replenishIntervalId = null
+let $saveCounter = 0  // 定期保存计数器
+
+/** 每多少次循环执行一次强制持久化（防崩溃丢数据） */
+const SAVE_INTERVAL = 5
 
 /**
  * 执行一次全量补员检测
@@ -64,6 +68,13 @@ function checkReplenish(server) {
       processVehicleState(server, teamName, v, state, entity, aliveCount, hasEntity, maxCount)
       store = getStore(server)  // 刷新 store（transitionState 可能修改了它）
     }
+  }
+
+  // 定期强制持久化（防崩溃/重启丢数据）
+  $saveCounter++
+  if ($saveCounter >= SAVE_INTERVAL) {
+    $saveCounter = 0
+    saveStore(server, store)
   }
 }
 
@@ -247,6 +258,29 @@ function startReplenishLoop(server) {
   var interval = getCheckTickInterval()
   var freq = VEHICLE_CFG.checkInterval || 1
   sbwLog('补员循环已启动，频率: ' + freq + '次/秒 (每' + interval + 'tick)')
+
+  // ===== 重启保底恢复：处理重启前残留的 TIMING 状态 =====
+  // 如果服务器重启，TIMING 的 remainingTicks 不会自动流逝，
+  // 这里直接置为 0，让下一轮补员检测立即处理（部署/超量）
+  try {
+    var store = getStore(server)
+    var recovered = 0
+    for (var vid in store.vehicles) {
+      if (store.vehicles.hasOwnProperty(vid)) {
+        var st = store.vehicles[vid]
+        if (st.status === VEHICLE_STATE.TIMING && (st.remainingTicks || 0) > 0) {
+          st.remainingTicks = 0
+          recovered++
+        }
+      }
+    }
+    if (recovered > 0) {
+      saveStore(server, store)
+      sbwLog('[补员] 重启恢复: 将 ' + recovered + ' 个 TIMING 载具置为就绪')
+    }
+  } catch (e) {
+    sbwWarn('[补员] 重启恢复过程出错: ' + e)
+  }
 
   var self = function loopCallback() {
     try {
