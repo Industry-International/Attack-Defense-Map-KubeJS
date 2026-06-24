@@ -94,7 +94,7 @@ function clearVehicles(server, teamName) {
 
 // ========== 重置 ==========
 
-function resetAll(server) {
+function resetAllVehicles(server) {
   let entityCount = discardAllByTagPrefix(server)
   server.persistentData.putString(VEHICLE_CFG.persistKey, JSON.stringify({ vehicles: {} }))
   sbwLog('已重置：清除 ' + entityCount + ' 个载具实体，状态已清空')

@@ -41,7 +41,7 @@ ServerEvents.commandRegistry(event => {
     let server = source.getServer()
     setSystemActive(server, false)
     stopReplenishLoop()
-    resetAll(server)
+    resetAllVehicles(server)
     source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.stop_done'), true)
     return 1
   }
@@ -71,7 +71,7 @@ ServerEvents.commandRegistry(event => {
   function executeRedeploy(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
-    resetAll(server)
+    resetAllVehicles(server)
     deployAllVehicles(server)
     source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.redeploy_done'), true)
     return 1
@@ -83,7 +83,7 @@ ServerEvents.commandRegistry(event => {
   function executeReset(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
-    let result = resetAll(server)
+    let result = resetAllVehicles(server)
     source.sendSuccess(
       Component.translatable('msg.kubejs.sbw_vehicle.reset_done',
         String(result.entityCount)),
