@@ -15,47 +15,12 @@ const TEAM_DEFENSE   = 'defense'
 const TEAM_SPECTATOR = 'spectator'
 const TEAM_NONE      = 'none'
 
-// ========== 加入战场 - 积分榜条件配置 ==========
-// 当虚拟玩家 state 在 game_state 积分榜中的分数 == 1 时，显示"加入战场"按钮
-// 如需修改条件：更改下面的虚拟玩家名/目标名/目标值即可
-const JOIN_BATTLE_SCOREHOLDER = 'state'           // 虚拟玩家名（如 state, $game, #global 等）
-const JOIN_BATTLE_OBJECTIVE   = 'game_state'      // 积分榜目标名
-const JOIN_BATTLE_TARGET      = 1                 // 目标值（分数 == 此值时显示）
-
-// 加入战场时调用的数据包 function
+// ========== 加入战场 - 条件配置 ==========
+// 当游戏处于进行中（/game start 已执行）时，显示"加入战场"按钮
 const JOIN_BATTLE_FUNCTION    = 'game:teams/join_battlefield'
 
 // 清空背包的延迟（tick），部分场景需要延迟执行以确保队伍已分配
 const CLEAR_DELAY_TICKS       = 5
-
-/** 读取指定虚拟玩家在指定积分榜目标中的分数 */
-function getScoreboardScore(server, scoreholder, objectiveName) {
-  try {
-    var scoreboard = server.getScoreboard()
-    var objective = scoreboard.getObjective(objectiveName)
-    if (!objective) {
-      console.log('[队伍选择器] 积分榜目标 [' + objectiveName + '] 不存在！')
-      return null
-    }
-    // 使用 listPlayerScores 遍历真实存储的分数条目（避免 ScoreHolder lambda 引用不等问题）
-    var entries = scoreboard.listPlayerScores(objective)
-    if (entries) {
-      var iter = entries.iterator()
-      while (iter.hasNext()) {
-        var entry = iter.next()
-        if (entry.owner() === scoreholder) {
-          var value = entry.value()
-          return value
-        }
-      }
-    }
-    console.log('[队伍选择器] 未找到虚拟玩家 [' + scoreholder + '] 在 [' + objectiveName + '] 中的分数')
-    return null
-  } catch(e) {
-    console.log('[队伍选择器] 读取积分榜时出错: ' + e)
-    return null
-  }
-}
 
 /** 以玩家身份 + 玩家位置运行数据包 function */
 function runTeamFunction(player, functionPath) {
@@ -179,8 +144,7 @@ function renderTeamSelect(gui, player, openPage) {
   // 条件：虚拟玩家 JOIN_BATTLE_SCOREHOLDER 在 JOIN_BATTLE_OBJECTIVE 中的分数 == JOIN_BATTLE_TARGET
 
   gui.slot(4, 3, function(slot) {
-    var score = getScoreboardScore(player.server, JOIN_BATTLE_SCOREHOLDER, JOIN_BATTLE_OBJECTIVE)
-    if (score !== null && score === JOIN_BATTLE_TARGET) {
+    if (isModuleEnabled(player.server, 'team')) {
       slot.setItem(
         Item.of('minecraft:compass')
           .withCustomName(Text.translate('gui.kubejs.team_select.join_battle'))

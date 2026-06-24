@@ -7,7 +7,7 @@
 //   3. 可通过命令 /team_revive add <数量> 为进攻方增加复活券
 //   4. 可通过命令 /team_revive reset 重置所有队伍
 //   5. 公开全局函数 addTeamTickets() 供其他 KubeJS 脚本调用
-//   6. 通过 game_state 计分板判断游戏是否进行中
+//   6. 通过 /game start /game stop 命令控制是否启用
 //   7. 自动读取原版 /team 命令创建的所有队伍
 // ============================================================
 
@@ -197,40 +197,6 @@ function eliminateTeam(server, teamName) {
   }
 }
 
-// ========== 计分板工具 ==========
-
-/**
- * 读取计分板中指定虚拟玩家的分数
- */
-function getScore(server, holder, objectiveName) {
-  try {
-    let sb = server.getScoreboard()
-    let obj = sb.getObjective(objectiveName)
-    if (!obj) {
-      warn('计分板目标 [' + objectiveName + '] 不存在')
-      return null
-    }
-    let entries = sb.listPlayerScores(obj)
-    if (!entries) return null
-    let iter = entries.iterator()
-    while (iter.hasNext()) {
-      let e = iter.next()
-      if (e.owner() === holder) return e.value()
-    }
-    return null
-  } catch (err) {
-    error('读取计分板时出错:', err)
-    return null
-  }
-}
-
-/**
- * 判断游戏是否处于进行中状态
- */
-function isGameActive(server) {
-  return getScore(server, CFG.scoreHolder, CFG.scoreObjective) === CFG.activeValue
-}
-
 // ========== 玩家死亡事件 ==========
 
 EntityEvents.death(event => {
@@ -243,8 +209,8 @@ EntityEvents.death(event => {
   let player = entity
   let playerName = player.getName().getString()
 
-  // 检查游戏是否进行中
-  if (!isGameActive(server)) {
+  // 检查模块是否启用
+  if (!isModuleEnabled(server, 'team_revive')) {
     log('游戏未开启，跳过 [' + playerName + '] 的死亡统计')
     return
   }
