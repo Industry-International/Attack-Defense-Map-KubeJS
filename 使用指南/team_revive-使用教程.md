@@ -12,11 +12,13 @@
 
 ## 目录结构
 
-```
+\`\`\`
 server_scripts/team_revive/
-├── config.js    ← 配置文件（队伍参数、淘汰函数路径、计分板状态检测）
+├── config.js    ← 配置文件（队伍参数、淘汰函数路径）
 └── main.js      ← 核心逻辑（死亡事件、复活券管理、指令注册）
-```
+\`\`\`
+
+> 💡 复活券系统由模块管理器控制：数据包执行 `/module team_revive on` 启用，`/module team_revive off` 停用。
 
 ---
 
@@ -31,10 +33,7 @@ const TEAM_REVIVE_CONFIG = {
   },
   broadcastDeathCount: true,       // 死亡时向全队广播剩余券数
   functionPath: "game:eliminated", // 淘汰时调用的数据包函数
-  scoreHolder: 'state',           // 计分板虚拟玩家名
-  scoreObjective: 'game_state',   // 游戏状态计分板目标
-  activeValue: 1,                 // 游戏进行中的分数值
-  persistKey: 'team_revive',      // 持久化数据键名
+  persistKey: 'team_revive',       // 持久化数据键名
   eliminatedKey: 'team_revive_eliminated', // 淘汰标记键名
 }
 ```
@@ -44,13 +43,10 @@ const TEAM_REVIVE_CONFIG = {
 | `teams` | 使用复活券的队伍配置（键=队伍名，值={max, initial}） | `{ attacker: { max: 200, initial: 200 } }` |
 | `broadcastDeathCount` | 死亡时是否向全队广播剩余券数 | `true` |
 | `functionPath` | 淘汰时调用的数据包 function 路径 | `"game:eliminated"` |
-| `scoreHolder` | 用于检测游戏状态的计分板虚拟玩家名 | `'state'` |
-| `scoreObjective` | 游戏状态计分板目标名 | `'game_state'` |
-| `activeValue` | 游戏进行中的分数值 | `1` |
 | `persistKey` | 持久化存储根键名 | `'team_revive'` |
 | `eliminatedKey` | 淘汰标记键名 | `'team_revive_eliminated'` |
 
-> **游戏状态检测**：系统通过计分板 `game_state` 中虚拟玩家 `state` 的分数来判断游戏是否进行中。分数等于 `activeValue`（默认1）时才处理死亡消耗，否则跳过。
+> **启用模块**：系统不再读取计分板，改为通过模块管理器控制。数据包执行 `/module team_revive on` 后死亡才消耗复活券，`/module team_revive off` 停用。
 
 ---
 
@@ -188,7 +184,7 @@ EntityEvents.death(event => {
 
 ## 七、注意事项
 
-1. **游戏状态检测**：只有 `game_state` 计分板中 `state` 的分数等于 `activeValue`（默认1）时，死亡才消耗复活券
+1. **启用模块**：数据包执行 `/module team_revive on` 后才生效，`/module team_revive off` 停用
 2. **队伍名大小写**：配置中的队伍名用小写，系统自动忽略大小写
 3. **淘汰只触发一次**：`eliminatedKey` 标记防止重复触发淘汰函数
 4. **修改后刷新**：`/kubejs reload`

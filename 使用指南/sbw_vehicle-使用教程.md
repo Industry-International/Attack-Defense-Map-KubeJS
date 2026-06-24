@@ -35,7 +35,10 @@
 | 自动重生 | 载具被摧毁后自动进入 `TIMING` 状态倒计时，结束即重生 |
 | 智能区块检测 | `IDLE` → `WAITING_CHUNK`（区块未加载时等待），玩家靠近后自动恢复 |
 | 模板化部署 | 部署时自动应用初始 NBT（能量、弹药、预装填、部件状态等） |
+| 定期持久化 | 每 5 次补员循环自动全量保存一次，`remainingTicks` 频繁落盘，崩溃重启不丢数据 |
+| 重启保底 | 启动补员循环时自动处理残留 TIMING 状态，置为就绪后立即部署 |
 | 无残留清除 | clear/reset 使用 `discard()` 直接移除，不留掉落物 |
+| 完全擦除 | `/sbw_vehicle clear` 不指定队伍时完全擦除 persistentData（含 active 标志） |
 | maxCount 控制 | 每辆载具可设置最大存活数，超量自动标记 `OVER_CAPACITY` |
 
 ---
