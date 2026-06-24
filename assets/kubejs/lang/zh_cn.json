@@ -184,5 +184,11 @@
   "msg.kubejs.sbw_vehicle.state.deployed": "§a✓ 已部署",
   "msg.kubejs.sbw_vehicle.state.over_capacity": "§c⚠ 载具超量",
   "msg.kubejs.sbw_vehicle.state.under_capacity": "§e⬇ 载具不足",
-  "msg.kubejs.sbw_vehicle.state.timing": "§e⟳ 补员中"
+  "msg.kubejs.sbw_vehicle.state.timing": "§e⟳ 补员中",
+
+  "block.kubejs.ammo_crate": "§6弹药补给箱",
+
+  "msg.kubejs.ammo_replenish.done": "§a✔ 弹药补充完成：已为 §e%s 辆 §a载具补充弹药",
+  "msg.kubejs.ammo_replenish.no_vehicles": "§e附近未发现需要弹药的载具",
+  "msg.kubejs.ammo_replenish.all_full": "§e扫描完成，所有载具弹药充足"
 }

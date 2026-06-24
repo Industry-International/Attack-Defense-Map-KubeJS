@@ -1,6 +1,6 @@
 ================================================================
  KubeJS 全局/局部声明参考（避免重复声明错误）
- 更新日期: 2026-06-23
+ 更新日期: 2026-06-24
 ================================================================
 
 在 KubeJS 7 (Rhino) 中：
@@ -70,6 +70,20 @@
   const JOIN_BATTLE_FUNCTION    = 'game:teams/join_battlefield'
   const CLEAR_DELAY_TICKS       = 5
 
+来源文件: server_scripts/module_manager/a_registry.js
+
+  const MODULE_REGISTRY = [ { id: 'team_revive', ... }, { id: 'team', ... } ]
+                                                                  // 模块注册表
+
+来源文件: server_scripts/module_manager/main.js
+
+  const MODULE_FLAG_PREFIX = 'module_'                            // 模块持久化前缀
+
+来源文件: server_scripts/sbw_vehicle/ammo_replenish/a_config.js
+
+  const AMMO_REPLENISH_CONFIG = { scanRange: 12, autoScanInterval: 0, ... }
+                                                                  // 弹药补充模块配置
+
 来源文件: startup_scripts/naval_balance_block_properties.js
 
   const DYE_COLORS       = ['white', 'light_gray', 'gray', ...]
@@ -116,6 +130,14 @@
 来源文件: server_scripts/profession/kubejsadmin_cmd.js
 
   var $EntityArgument  = Java.loadClass('net.minecraft.commands.arguments.EntityArgument')
+
+来源文件: server_scripts/module_manager/main.js
+
+  var $StringArgument  = Java.loadClass('com.mojang.brigadier.arguments.StringArgumentType')
+
+来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js
+
+  var $AABB           = Java.loadClass('net.minecraft.world.phys.AABB')
 
 注意：$EntityArgument 在两个文件中各用 var 声明了一次（var 可重复声明）。
 
@@ -355,6 +377,23 @@
     getScore(server, holder, objectiveName)     — 读取计分板
     isGameActive(server)                        — 判断游戏进行中
 
+  ======== module_manager/a_registry.js ========
+    （无函数，仅注册 MODULE_REGISTRY 常量）
+
+  ======== module_manager/main.js ========
+    findModule(id)                             — 按ID查找模块注册记录
+    isModuleEnabled(server, moduleId)          — 判断模块是否启用
+    setModuleEnabled(server, moduleId, enabled) — 设置模块启用状态
+
+  ======== sbw_vehicle/ammo_replenish/main.js ========
+    getVehicleAmmoSummary(nbt)                 — 提取载具当前弹药摘要
+    getDeployAmmoSummary(deployNBT)            — 提取标准弹药摘要
+    inventoryNeedsAmmo(nbt, vehicleCfg)        — 检查载具Inventory是否需要补充
+    weaponNeedsAmmo(nbt, vehicleCfg)           — 检查武器预装弹是否需要补充
+    vehicleNeedsReplenish(entity, vehicleCfg)  — 综合判断是否需要补充
+    replenishVehicle(server, entity, vehicleCfg) — 执行弹药补充（直接设定）
+    scanAndReplenish(block, player)            — 主扫描逻辑（AABB包围盒）
+
   ======== team/team_selector_gui.js ========
     openTeamPage(player)                        — 打开队伍选择GUI
     renderTeamSelect(gui, player, openPage)     — 队伍选择页渲染
@@ -433,6 +472,14 @@
   菜单 (menu):
     menu.title, menu.back, menu.clear, menu.status
 
+  方块 (block):
+    block.kubejs.ammo_crate              — 弹药补给箱
+
+  弹药补充消息 (msg.kubejs.ammo_replenish):
+    msg.kubejs.ammo_replenish.done       — 补充完成
+    msg.kubejs.ammo_replenish.no_vehicles — 无载具需补充
+    msg.kubejs.ammo_replenish.all_full   — 全部充足
+
 ================================================================
  快速核查规则（写新代码前必看）
 ================================================================
@@ -452,22 +499,27 @@
      JOIN_BATTLE_TARGET, JOIN_BATTLE_FUNCTION, CLEAR_DELAY_TICKS,
      DYE_COLORS, LOCOMETAL_NORMAL, LOCOMETAL_ANTIBLAST, LOCOMETAL_ANTIPEN,
      CREATE_CASINGS,
-     VEHICLE_STATE, VEHICLE_STATE_TRANSITIONS, VEHICLE_STATE_LIST
+     VEHICLE_STATE, VEHICLE_STATE_TRANSITIONS, VEHICLE_STATE_LIST,
+     MODULE_REGISTRY, MODULE_FLAG_PREFIX,
+     AMMO_REPLENISH_CONFIG
 
   5. 已注册的 item ID（不能再注册同名的）：
      kubejs:profession_selector
      kubejs:team_selector
 
-  6. 其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等）：
+  6. 已注册的 block ID（不能再注册同名的）：
+     kubejs:ammo_crate             — 弹药补给箱（SBW载具弹药补充）
+
+  7. 其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等，含 $AABB）：
      - 在其他文件中用 var 声明是安全的（不会报错）
      - 但最佳实践是在用到它的文件内用 var 自行声明，不依赖外部
 
-  7. 所有用 function 声明的全局函数（见第七节）：
+  8. 所有用 function 声明的全局函数（见第七节）：
      - function 在 Rhino 中是全局可见的（等同 var）
      - 不可在同一作用域内用 const/var 声明同名函数（会冲突）
      - 但可以放心调用，无需重复声明
 
-  8. global.taovReturnedAutocannon：
+  9. global.taovReturnedAutocannon：
      - 通过 global 对象注册，不会和其他 const/var 冲突
      - 访问方式：global.taovReturnedAutocannon.xxx
 

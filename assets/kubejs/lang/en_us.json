@@ -186,5 +186,11 @@
   "msg.kubejs.sbw_vehicle.state.deployed": "§a✓ Deployed",
   "msg.kubejs.sbw_vehicle.state.over_capacity": "§c⚠ Over Capacity",
   "msg.kubejs.sbw_vehicle.state.under_capacity": "§e⬇ Under Capacity",
-  "msg.kubejs.sbw_vehicle.state.timing": "§e⟳ Respawning"
+  "msg.kubejs.sbw_vehicle.state.timing": "§e⟳ Respawning",
+
+  "block.kubejs.ammo_crate": "§6Ammo Crate",
+
+  "msg.kubejs.ammo_replenish.done": "§a✔ Ammo replenished: §e%s §avehicle(s) restocked",
+  "msg.kubejs.ammo_replenish.no_vehicles": "§eNo vehicles need ammo nearby",
+  "msg.kubejs.ammo_replenish.all_full": "§eScan complete, all vehicles fully stocked"
 }
