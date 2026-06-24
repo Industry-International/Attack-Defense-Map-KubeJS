@@ -83,6 +83,35 @@
 
   const AMMO_REPLENISH_CONFIG = { scanRange: 12, autoScanInterval: 0, ... }
                                                                   // 弹药补充模块配置
+  新增字段（重构后）:
+    maxReplenishPerType: 10000    // GUI中单次补充最大数量
+    refreshOnOpen: true           // 打开GUI前是否刷新扫描
+
+来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（重构）
+
+  const AMMO_ID_MAP = { ... }                                     // 弹药类型 → item ID
+  const AMMO_KEY_MAP = {}                                         // item ID → 弹药类型（反向映射）
+
+  新增全局函数（用function声明）：
+    scanAndCache(level, block)             — 扫描载具并缓存到块持久化数据
+    getDeployAmmoTemplate(vehicleId)        — 从deployNBT提取标准弹药配置
+    getVehicleCurrentAmmo(entity)           — 获取载具当前弹药汇总
+    replenishVehicleInventory(entity, plan) — 增量补充弹药到载具Inventory
+    replenishWeaponAmmo(entity, deployNBT)  — 补充武器预装弹（按阈值）
+    doReplenishFromGUI(svr, lvl, plr, plan) — GUI触发的补充入口
+    autoReplenishAll(level, block)          — 按deployNBT标准自动补满
+    getAmmoDisplayName(ammoKey)             — 获取弹药显示名
+
+  移除的旧函数：
+    scanAround(level, block)     → 被 scanAndCache 替代
+    applyDeployNBT(entity, nbt)  → 被增量补充方案替代
+
+来源文件: startup_scripts/ammo_replenish_ui.js（新文件，双端运行）
+
+  const AMMO_TYPE_CFG = [ ... ]                                   // GUI弹药类型配置
+
+  LDLib2UI.block('kubejs:ammo_crate_gui', handler)               // LDLib2 UI注册
+    通过 LDLib2UIFactory.openBlockUI(player, pos, id) 打开
 
 来源文件: startup_scripts/naval_balance_block_properties.js
 
@@ -385,16 +414,30 @@
     isModuleEnabled(server, moduleId)          — 判断模块是否启用
     setModuleEnabled(server, moduleId, enabled) — 设置模块启用状态
 
-  ======== sbw_vehicle/ammo_replenish/main.js ========
-    scanAround(level, block)                   — AABB扫描范围内SBW载具
-    applyDeployNBT(entity, deployNBT)          — 将deployNBT直接set到实体
+  ======== sbw_vehicle/ammo_replenish/main.js（重构版）========
+    scanAndCache(level, block)               — AABB扫描 + 缓存载具状态到块数据
+    getDeployAmmoTemplate(vehicleId)         — 从deployNBT提取标准弹药配置
+    getVehicleCurrentAmmo(entity)            — 获取载具当前弹药汇总
+    replenishVehicleInventory(entity, plan)  — 增量补充弹药到载具Inventory（安全）
+    replenishWeaponAmmo(entity, deployNBT)   — 按阈值补充武器预装弹
+    doReplenishFromGUI(server, level, plr, plan) — GUI触发的补充入口
+    autoReplenishAll(level, block)           — 按deployNBT标准自动补满
+    getAmmoDisplayName(ammoKey)             — 弹药显示名
 
-    全局 var:
+    全局 const（新增）：
+    AMMO_ID_MAP    — 弹药类型短名 → item ID
+    AMMO_KEY_MAP   — item ID → 弹药类型短名
+
+    全局 var（不变）：
     $AABB          — AABB包围盒类
 
-    方块自驱动事件（非全局循环）：
-    BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每个方块独立tick（每秒1次）
-    BlockEvents.rightClicked('kubejs:ammo_crate')    — 木桶式打开，无扫描，无GUI
+    方块事件：
+    BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每秒扫描缓存（不再写入NBT）
+    BlockEvents.rightClicked('kubejs:ammo_crate')    — 打开LDLib2 GUI
+
+  ======== startup_scripts/ammo_replenish_ui.js（新文件，双端）========
+    const AMMO_TYPE_CFG           — GUI中4种弹药类型配置
+    LDLib2UI.block('kubejs:ammo_crate_gui', handler) — 补给箱LDLib2 GUI注册
 
   ======== team/team_selector_gui.js ========
     openTeamPage(player)                        — 打开队伍选择GUI
@@ -503,7 +546,9 @@
      CREATE_CASINGS,
      VEHICLE_STATE, VEHICLE_STATE_TRANSITIONS, VEHICLE_STATE_LIST,
      MODULE_REGISTRY, MODULE_FLAG_PREFIX,
-     AMMO_REPLENISH_CONFIG
+     AMMO_REPLENISH_CONFIG,
+     AMMO_ID_MAP, AMMO_KEY_MAP,                     ← ammo_replenish/main.js 新增
+     AMMO_TYPE_CFG                                  ← startup_scripts 新增
 
   5. 已注册的 item ID（不能再注册同名的）：
      kubejs:profession_selector

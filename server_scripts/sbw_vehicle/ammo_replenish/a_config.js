@@ -76,5 +76,20 @@ const AMMO_REPLENISH_CONFIG = {
   notifyPlayers: true,
 
   /** 消息发送范围（方块），仅 notifyPlayers=true 时生效 */
-  notifyRange: 12
+  notifyRange: 12,
+
+  // ======== GUI 设置 ========
+
+  /** 
+   * GUI 中单次补充的最大数量
+   * 玩家在 TextField 中输入的数量不会超过此值
+   */
+  maxReplenishPerType: 10000,
+
+  /**
+   * 每次右键是否自动刷新扫描缓存
+   * true  = 打开 GUI 前先扫描一次（保证数据最新）
+   * false = 使用 BlockEntityTick 缓存的旧数据
+   */
+  refreshOnOpen: true
 }

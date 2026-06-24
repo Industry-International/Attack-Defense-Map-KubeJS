@@ -190,5 +190,10 @@
 
   "msg.kubejs.ammo_replenish.done": "§a✔ 弹药补充完成：已为 §e%s 辆 §a载具补充弹药",
   "msg.kubejs.ammo_replenish.no_vehicles": "§e附近未发现需要弹药的载具",
-  "msg.kubejs.ammo_replenish.all_full": "§e扫描完成，所有载具弹药充足"
+  "msg.kubejs.ammo_replenish.all_full": "§e扫描完成，所有载具弹药充足",
+  "msg.kubejs.ammo_replenish.execute": "§a✔ 执行补充",
+  "msg.kubejs.ammo_replenish.added_items": "§a✔ 已为 §e%s §a补充 §e%s §a个物品",
+  "msg.kubejs.ammo_replenish.gui_title": "§6╔═══ 弹药补给箱 ═══╗",
+  "msg.kubejs.ammo_replenish.scan_info": "§7范围: %s 格 | 发现: §e%s §7辆载具",
+  "msg.kubejs.ammo_replenish.no_vehicle_in_range": "§7范围内未发现载具"
 }

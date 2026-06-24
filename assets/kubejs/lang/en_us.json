@@ -192,5 +192,10 @@
 
   "msg.kubejs.ammo_replenish.done": "§a✔ Ammo replenished: §e%s §avehicle(s) restocked",
   "msg.kubejs.ammo_replenish.no_vehicles": "§eNo vehicles need ammo nearby",
-  "msg.kubejs.ammo_replenish.all_full": "§eScan complete, all vehicles fully stocked"
+  "msg.kubejs.ammo_replenish.all_full": "§eScan complete, all vehicles fully stocked",
+  "msg.kubejs.ammo_replenish.execute": "§a✔ Execute Replenish",
+  "msg.kubejs.ammo_replenish.added_items": "§a✔ Replenished §e%s §a with §e%s §aitems",
+  "msg.kubejs.ammo_replenish.gui_title": "§6╔═══ Ammo Crate ═══╗",
+  "msg.kubejs.ammo_replenish.scan_info": "§7Range: %s | Found: §e%s §7vehicle(s)",
+  "msg.kubejs.ammo_replenish.no_vehicle_in_range": "§7No vehicles in range"
 }
