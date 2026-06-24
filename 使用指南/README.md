@@ -8,11 +8,12 @@
 
 | 模块 | 说明 | 对应代码路径 |
 |------|------|-------------|
+| [**模块管理器**](./模块管理器-使用教程.md) | 通过 `/module` 命令控制各模块启用/停用，数据包驱动 | `server_scripts/module_manager/` |
 | [**职业系统**](./profession-使用教程.md) | 职业选择 GUI、武器配置、配件改装、背包系统、装备发放 | `server_scripts/profession/` |
 | [**队伍选择器**](./team-使用教程.md) | 队伍选择 GUI（进攻方/防守方/观战），数据包协作 | `server_scripts/team/` |
 | [**队伍复活券系统**](./team_revive-使用教程.md) | 复活券池管理、死亡消耗、队伍淘汰触发 | `server_scripts/team_revive/` |
 | [**SBW 载具自动部署**](./sbw_vehicle-使用教程.md) | SBW 载具自动部署/重生、模板化 NBT 配置（能量、弹药、预装填） | `server_scripts/sbw_vehicle/` |
-| [**指令使用**](./指令使用.md) | 管理员指令大全（`/profequip` `/kubejsadmin` `/team_revive` `/sbw_vehicle`） | 各模块内 |
+| [**指令使用**](./指令使用.md) | 管理员指令大全（`/module` `/profequip` `/kubejsadmin` `/team_revive` `/sbw_vehicle`） | 各模块内 |
 | [**数据存储说明**](./数据存储.md) | 持久化数据存储机制、数据结构、读写接口 | `server.persistentData` |
 | [**TACZ 枪械配件数据**](./tacz枪械配件数据-使用指南.md) | 枪械 GunId、配件槽位、弹药数据查询 | `tacz所有的枪械配件数据/` |
 | [**启动脚本配置**](./startup_configs-使用教程.md) | 物品注册、海战平衡方块属性、TAOV 武器参数 | `startup_scripts/` |
@@ -27,6 +28,7 @@ startup_scripts/          ← 游戏启动时加载（物品注册、全局配�
     └── *.js              ← 方块属性覆写、全局变量
 
 server_scripts/           ← 服务器启动时加载
+    ├── module_manager/   ← 模块管理器（按文件名前缀控制顺序）
     ├── profession/       ← 职业系统（按文件名前缀控制顺序）
     ├── team/             ← 队伍选择器
     ├── team_revive/      ← 队伍复活券系统
