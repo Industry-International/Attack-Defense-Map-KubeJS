@@ -7,63 +7,19 @@
 //   本模块: a_config.js（AMMO_REPLENISH_CONFIG）
 //
 // 功能：
-//   1. 自动扫描：以每个放置的弹药箱为中心，AABB 获取配置范围
-//      内的实体，检测到匹配的 SBW 载具即直接补充弹药
-//   2. 右键交互：像木桶一样打开/关闭（切换 open 属性），无GUI
+//   1. 自动扫描：每个弹药箱通过 BlockEntityTick 自行驱动，
+//      以自身坐标为中心、AABB 获取配置范围内的实体，
+//      检测到匹配的 SBW 载具即直接补充弹药。
+//      区块未加载时 tick 自动暂停，无需手动追踪位置。
+//   2. 右键交互：像木桶一样打开（仅触发一次），2秒后自动关闭，无GUI
+//
+// 注意：
+//   - 父模块仅用于读取数据（findVehicleConfig、extractVehicleIdFromEntity 均为只读）
+//   - 不调用父模块中带状态的工具（如 state_machine、persist 等）
+//   - 补充逻辑完全独立实现，直接操作实体 NBT
 // ============================================================
 
 var $AABB = Java.loadClass('net.minecraft.world.phys.AABB')
-
-// 追踪所有放置的弹药箱位置：{ level_dimension: [[x,y,z], ...] }
-var $cratePositions = {}
-
-// ============================================================
-// 追踪弹药箱的放置和破坏
-// ============================================================
-
-BlockEvents.placed('kubejs:ammo_crate', event => {
-  if (event.level.isClientSide()) return
-  let dim = event.level.getDimension()
-  let pos = [event.block.getX(), event.block.getY(), event.block.getZ()]
-  if (!$cratePositions[dim]) $cratePositions[dim] = []
-  // 去重
-  let key = pos[0] + ',' + pos[1] + ',' + pos[2]
-  for (let i = 0; i < $cratePositions[dim].length; i++) {
-    let p = $cratePositions[dim][i]
-    if (p[0] === pos[0] && p[1] === pos[1] && p[2] === pos[2]) return
-  }
-  $cratePositions[dim].push(pos)
-})
-
-BlockEvents.broken('kubejs:ammo_crate', event => {
-  if (event.level.isClientSide()) return
-  let dim = event.level.getDimension()
-  let bx = event.block.getX(), by = event.block.getY(), bz = event.block.getZ()
-  if (!$cratePositions[dim]) return
-  for (let i = $cratePositions[dim].length - 1; i >= 0; i--) {
-    let p = $cratePositions[dim][i]
-    if (p[0] === bx && p[1] === by && p[2] === bz) {
-      $cratePositions[dim].splice(i, 1)
-      break
-    }
-  }
-})
-
-// 全量重新扫描（用于重载或初始化）
-function rescanAllCrates(server) {
-  $cratePositions = {}
-  let levels = server.getAllLevels()
-  if (!levels) return
-  let liter = levels.iterator()
-  while (liter.hasNext()) {
-    let level = liter.next()
-    let dim = level.getDimension()
-    // 遍历该维度所有已加载区块查找 ammo_crate
-    let chunks = level.getChunkSource()
-    // 无法直接遍历chunk，用替代方案：遍历方块实体
-  }
-  sbwLog('[弹药补充] 已重置弹药箱位置追踪')
-}
 
 // ============================================================
 // 载具弹药检测
@@ -201,14 +157,18 @@ function replenishVehicle(server, entity, vehicleCfg) {
 }
 
 // ============================================================
-// 扫描单个弹药箱：以方块坐标为中心、配置范围为半边长
-// 用 AABB 获取范围内实体 → 检测 SBW 载具 → 补充
+// 每个弹药箱自行驱动 tick
+// 区块未加载时自动暂停，无需全局追踪位置
 // ============================================================
 
-function scanCrate(level, bx, by, bz) {
+BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
+  let level = event.getLevel()
+  let block = event.getBlock()
+  let bx = block.getX(), by = block.getY(), bz = block.getZ()
   let range = AMMO_REPLENISH_CONFIG.scanRange
   let prefix = VEHICLE_CFG.tagPrefix
 
+  // 以自身坐标为中心、配置范围为半边长，AABB 获取范围内实体
   let aabb = new $AABB(bx - range, by - range, bz - range, bx + range, by + range, bz + range)
   let entities = level.getEntities(null, aabb)
   if (!entities || entities.size() === 0) return
@@ -231,7 +191,7 @@ function scanCrate(level, bx, by, bz) {
     let vid = extractVehicleIdFromEntity(entity)
     if (!vid) continue
 
-    // 查找配置
+    // 从父配置读取数据（只读）
     let vc = findVehicleConfig(vid)
     if (!vc) continue
 
@@ -245,48 +205,6 @@ function scanCrate(level, bx, by, bz) {
 
     // 补充
     replenishVehicle(level.getServer(), entity, vc)
-  }
-}
-
-// ============================================================
-// 自动扫描：ServerEvents.tick 定时检测所有已追踪的弹药箱
-// ============================================================
-
-let tickCounter = 0
-
-ServerEvents.tick(event => {
-  tickCounter++
-  if (tickCounter < 20) return // 每秒扫一次（20tick）
-  tickCounter = 0
-
-  let server = event.server
-  if (!server) return
-
-  for (let dim in $cratePositions) {
-    if (!$cratePositions.hasOwnProperty(dim)) continue
-    let positions = $cratePositions[dim]
-    if (positions.length === 0) continue
-
-    // 获取对应维度的 level
-    let level = null
-    let levels = server.getAllLevels()
-    if (!levels) continue
-    let liter = levels.iterator()
-    while (liter.hasNext()) {
-      let l = liter.next()
-      if (l.getDimension() === dim) { level = l; break }
-    }
-    if (!level) continue
-
-    // 遍历该维度的所有弹药箱
-    for (let i = 0; i < positions.length; i++) {
-      let pos = positions[i]
-      // 检查区块是否已加载
-      let cx = Math.floor(pos[0] / 16), cz = Math.floor(pos[2] / 16)
-      if (!level.hasChunk(cx, cz)) continue
-      // 扫描
-      scanCrate(level, pos[0], pos[1], pos[2])
-    }
   }
 })
 
@@ -303,25 +221,20 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
   // 手部动画
   player.swing()
 
-  // 切换 open 属性（像木桶一样打开/关闭）
-  let current = block.properties.open
-  if (current === 'true') {
-    block.set('open', false)
-  } else {
-    block.set('open', true)
-    // 自动关闭：2秒后关回去
-    let svr = event.server
-    let bx = block.getX(), by = block.getY(), bz = block.getZ()
-    let dim = block.getLevel().getDimension()
-    svr.scheduleInTicks(40, function() {
-      let lvl = svr.getLevel(dim)
-      if (!lvl) return
-      let b = lvl.getBlock(bx, by, bz)
-      if (b && b.getId() === 'kubejs:ammo_crate') {
-        b.set('open', false)
-      }
-    })
-  }
+  // 木桶打开动画（仅触发一次，不切换）
+  block.set('open', true)
+  // 自动关闭：2秒后关回去
+  let svr = event.server
+  let bx = block.getX(), by = block.getY(), bz = block.getZ()
+  let dim = block.getLevel().getDimension()
+  svr.scheduleInTicks(40, function() {
+    let lvl = svr.getLevel(dim)
+    if (!lvl) return
+    let b = lvl.getBlock(bx, by, bz)
+    if (b && b.getId() === 'kubejs:ammo_crate') {
+      b.set('open', false)
+    }
+  })
 
   // 不打开GUI，取消事件防止打开任何GUI
   event.cancel()

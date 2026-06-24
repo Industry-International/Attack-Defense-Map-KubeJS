@@ -392,17 +392,13 @@
     weaponNeedsAmmo(nbt, vehicleCfg)           — 检查武器预装弹是否需要补充
     vehicleNeedsReplenish(entity, vehicleCfg)  — 综合判断是否需要补充
     replenishVehicle(server, entity, vehicleCfg) — 执行弹药补充（直接设定）
-    scanCrate(level, bx, by, bz)               — 扫描单个弹药箱(AABB包围盒)
-    rescanAllCrates(server)                    — 重置弹药箱位置追踪
 
     全局 var:
     $AABB          — AABB包围盒类
-    $cratePositions — 弹药箱位置追踪表 {dim: [[x,y,z],...]}
 
-    BlockEvents.placed('kubejs:ammo_crate')    — 记录放置位置
-    BlockEvents.broken('kubejs:ammo_crate')    — 移除破坏位置
-    ServerEvents.tick                          — 定时自动扫描（每秒1次）
-    BlockEvents.rightClicked('kubejs:ammo_crate') — 木桶式打开/关闭，无GUI
+    方块自驱动事件（非全局循环）：
+    BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每个方块独立tick（每秒1次）
+    BlockEvents.rightClicked('kubejs:ammo_crate')    — 木桶式打开，无GUI
 
   ======== team/team_selector_gui.js ========
     openTeamPage(player)                        — 打开队伍选择GUI
