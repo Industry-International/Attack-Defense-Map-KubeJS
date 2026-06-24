@@ -386,19 +386,15 @@
     setModuleEnabled(server, moduleId, enabled) — 设置模块启用状态
 
   ======== sbw_vehicle/ammo_replenish/main.js ========
-    getVehicleAmmoSummary(nbt)                 — 提取载具当前弹药摘要
-    getDeployAmmoSummary(deployNBT)            — 提取标准弹药摘要
-    inventoryNeedsAmmo(nbt, vehicleCfg)        — 检查载具Inventory是否需要补充
-    weaponNeedsAmmo(nbt, vehicleCfg)           — 检查武器预装弹是否需要补充
-    vehicleNeedsReplenish(entity, vehicleCfg)  — 综合判断是否需要补充
-    replenishVehicle(server, entity, vehicleCfg) — 执行弹药补充（直接设定）
+    scanAround(level, block)                   — AABB扫描范围内SBW载具
+    applyDeployNBT(entity, deployNBT)          — 将deployNBT直接set到实体
 
     全局 var:
     $AABB          — AABB包围盒类
 
     方块自驱动事件（非全局循环）：
     BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每个方块独立tick（每秒1次）
-    BlockEvents.rightClicked('kubejs:ammo_crate')    — 木桶式打开，无GUI
+    BlockEvents.rightClicked('kubejs:ammo_crate')    — 木桶式打开，无扫描，无GUI
 
   ======== team/team_selector_gui.js ========
     openTeamPage(player)                        — 打开队伍选择GUI
