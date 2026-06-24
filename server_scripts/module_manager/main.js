@@ -115,6 +115,12 @@ ServerEvents.commandRegistry(event => {
       // ---- module <id> on ----
       .then(
         cmd.argument('module', args.STRING.create(event))
+          .suggests(function(ctx, builder) {
+            for (var i = 0; i < MODULE_REGISTRY.length; i++) {
+              builder.suggest(MODULE_REGISTRY[i].id)
+            }
+            return builder.buildFuture()
+          })
           .then(
             cmd.literal('on')
               .executes(executeOn)
