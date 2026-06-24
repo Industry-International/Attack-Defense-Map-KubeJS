@@ -62,7 +62,7 @@ const AMMO_REPLENISH_CONFIG = {
    * 例如：['attack_tank_1', 'defense_tank_1']
    * 若配置此项，则只有列表中的载具会被扫描和补充
    */
-  targetVehicleIds: ['attack_tank_1', 'defense_tank_1'],
+  targetVehicleIds: [],
 
   /**
    * 排除的载具ID黑名单
