@@ -82,7 +82,8 @@ function executeStationReplenish(block, level, ignoreCooldown) {
     // ─── 2. 检查冷却（手动触发无视冷却） ───
     let pd = block.getEntityData()
     let cooldownEnd = pd.getLong('CooldownEnd')
-    let gameTime = level.getGameTime()
+    // KubeJS 7 中 Level 包装类用 getTime() 而非 getGameTime()
+    let gameTime = level.getTime()
     if (!ignoreCooldown && gameTime < cooldownEnd) return false
 
     // ─── 3. AABB 扫描周围实体 ───
