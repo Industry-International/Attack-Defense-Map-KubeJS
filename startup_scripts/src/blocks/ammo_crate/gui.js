@@ -1,8 +1,8 @@
 // ============================================================
-// 弹药补给站 - LDLib2 配置GUI（lss样式版）
+// 弹药补给站 - LDLib2 配置GUI（简单可靠版）
 //
-// LDLib2 版本: 1.21.1-2.2.24
-// 用 lss() 代替 layout() 实现排版，避免Taffy布局引擎与容器菜单初始化冲突
+// 不使用任何 flex 布局属性，仅靠默认布局 + 元素顺序排列
+// 所有 TextField 设固定宽度，确保不会被输入框遮挡
 // ============================================================
 
 var $HashMap = Java.loadClass('java.util.HashMap')
@@ -46,55 +46,71 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   var cfg = cacheData.config
 
-  // ---- 根面板（使用 lss 添加内边距）----
+  // 根面板 - 仅加背景和内边距
   var root = new UIElement()
   root.lss('padding', 6)
 
-  // ---- 标题 ----
-  root.addChild(new Label().setText(Component.literal('§6╔═══ 弹药补给站配置 ═══╗')))
-  root.addChild(new Label().setText(Component.literal('§7修改后点击保存按钮')))
+  // 标题行（label + field 同级时会自动水平排列）
+  var titleRow = new UIElement()
+  titleRow.addChild(new Label().setText(Component.literal('§6╔═══ 弹药补给站配置 ═══╗')))
+  root.addChild(titleRow)
 
-  // ---- 基础参数 ----
-  root.addChild(ptitle('§e基础参数'))
+  var hintRow = new UIElement()
+  hintRow.addChild(new Label().setText(Component.literal('§7修改数值后点击保存')))
+  root.addChild(hintRow)
 
-  var row0 = makeRow()
-  row0.addChild(new Label().setText(Component.literal('§7扫描范围:')))
+  // ──── 分隔线 ────
+  root.addChild(new Label().setText(Component.literal('§8━━━━━━━━━━━━━━━━━')))
+
+  // ──── 基础参数 ────
+  root.addChild(new Label().setText(Component.literal('§e── 基础参数 ──')))
+
+  // 扫描范围行：label + field + 单位
+  var srRow = new UIElement()
+  srRow.addChild(new Label().setText(Component.literal('§7扫描范围:')))
   var fieldScanRange = new TextField().setNumbersOnlyInt(1, 64).setText(String(cfg.scanRange))
-  row0.addChild(fieldScanRange)
-  row0.addChild(new Label().setText(Component.literal('§7格')))
-  root.addChild(row0)
+  fieldScanRange.lss('width', 55)
+  srRow.addChild(fieldScanRange)
+  srRow.addChild(new Label().setText(Component.literal('§7格')))
+  root.addChild(srRow)
 
-  var row1 = makeRow()
-  row1.addChild(new Label().setText(Component.literal('§7冷却时间:')))
+  // 冷却时间行
+  var cdRow = new UIElement()
+  cdRow.addChild(new Label().setText(Component.literal('§7冷却时间:')))
   var fieldCooldown = new TextField().setNumbersOnlyInt(0, 3600).setText(String(cfg.cooldown))
-  row1.addChild(fieldCooldown)
-  row1.addChild(new Label().setText(Component.literal('§7秒')))
-  root.addChild(row1)
+  fieldCooldown.lss('width', 55)
+  cdRow.addChild(fieldCooldown)
+  cdRow.addChild(new Label().setText(Component.literal('§7秒')))
+  root.addChild(cdRow)
 
-  // ---- 弹药最大储量 ----
-  root.addChild(ptitle('§e弹药最大储量'))
+  // ──── 分隔线 ────
+  root.addChild(new Label().setText(Component.literal('§8━━━━━━━━━━━━━━━━━')))
+
+  // ──── 弹药储量（每行一个，label+field+单位并排）────
+  root.addChild(new Label().setText(Component.literal('§e── 弹药最大储量 ──')))
 
   var slotFields = {}
-  for (var r = 0; r < 4; r++) {
-    var rowEl = new UIElement()
-    for (var c = 0; c < 2; c++) {
-      var idx = r * 2 + c
-      if (idx >= GUI_AMMO_TYPES.length) break
-      var at = GUI_AMMO_TYPES[idx]
-      var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
+  for (var si = 0; si < GUI_AMMO_TYPES.length; si++) {
+    var at = GUI_AMMO_TYPES[si]
+    var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
 
-      rowEl.addChild(new Label().setText(Component.literal(at.label + ':')))
-      var field = new TextField().setNumbersOnlyInt(0, 9999).setText(String(val))
-      slotFields[at.key] = field
-      rowEl.addChild(field)
-      rowEl.addChild(new Label().setText(Component.literal('个 ')))
-    }
-    root.addChild(rowEl)
+    var row = new UIElement()
+    row.addChild(new Label().setText(Component.literal(at.label + ':')))
+    var field = new TextField().setNumbersOnlyInt(0, 9999).setText(String(val))
+    field.lss('width', 50)
+    slotFields[at.key] = field
+    row.addChild(field)
+    row.addChild(new Label().setText(Component.literal('个')))
+    root.addChild(row)
   }
 
-  // ---- 保存按钮 ----
+  // ──── 分隔线 ────
+  root.addChild(new Label().setText(Component.literal('§8━━━━━━━━━━━━━━━━━')))
+
+  // ──── 按钮 ────
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存配置'))
+  btnSave.lss('padding', '3 10')
   btnSave.setOnServerClick(function(clickEvent) {
     var server = player.getServer()
     if (!server) return
@@ -133,9 +149,9 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   })
   root.addChild(btnSave)
 
-  // ---- 重置按钮 ----
   var btnReset = new Button()
   btnReset.setText(Component.literal('§e↻ 重置默认'))
+  btnReset.lss('padding', '3 10')
   btnReset.setOnServerClick(function(clickEvent) {
     var server = player.getServer()
     if (!server) return
@@ -162,32 +178,14 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   })
   root.addChild(btnReset)
 
-  // ---- 玩家物品栏 ----
+  // ──── 玩家物品栏 ────
   root.addChild(new InventorySlots())
 
-  // ---- 构建 ModularUI ----
+  // 构建 ModularUI
   event.modularUI = ModularUI.of(UI.of(root), player)
 })
 
 // ========== 辅助函数 ==========
-
-/** 分区标题 */
-function ptitle(text) {
-  var lbl = new Label().setText(Component.literal(text))
-  lbl.lss('margin-top', 4)
-  lbl.lss('margin-bottom', 2)
-  return lbl
-}
-
-/** 水平行 */
-function makeRow() {
-  var row = new UIElement()
-  row.lss('display', 'flex')
-  row.lss('flex-direction', 'row')
-  row.lss('align-items', 'center')
-  row.lss('gap', 4)
-  return row
-}
 
 function safeParseInt(field) {
   try {
