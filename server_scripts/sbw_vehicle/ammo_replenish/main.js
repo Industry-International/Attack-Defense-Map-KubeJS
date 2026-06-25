@@ -2,7 +2,6 @@
 // 弹药补给站 - 方块核心逻辑
 //
 // 依赖：
-//   sbw_vehicle/tools/a_java_refs.js（$AABB, $CompoundTag, $ListTag 等）
 //   a_config.js（DEFAULT_STATION_CONFIG, AMMO_ID_MAP, AMMO_KEY_MAP 等）
 //   startup_scripts/src/blocks/ammo_crate/gui.js（GUI UI 注册）
 //
@@ -11,7 +10,14 @@
 //   2. BlockEntity 每 20 tick 执行一次扫描补给
 //   3. AABB 扫描周围载具 → 检查 Inventory 已有弹药 → 补到配置最大值
 //   4. 补给后进入冷却 CD（配置项：秒）
+//
+// ⚠ 注意：所有方块 NBT 读写都使用 block.persistentData（自动持久化）
+//         不要使用 block.getEntityData()/setEntityData()
 // ============================================================
+
+// 此文件加载时 sbw_vehicle/tools/a_java_refs.js 尚未加载，
+// 所以 $AABB 需要在本文件自行声明
+var $AABB = Java.loadClass('net.minecraft.world.phys.AABB')
 
 // ═══════════════════════════════════════════════════════════════
 //  右键交互：打开 GUI
@@ -27,7 +33,7 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
   try {
     let cfg = readBlockConfig(block)
     // 读取作弊模式状态，传给 GUI 控制按钮显隐
-    let cheatMode = block.getEntityData().getBoolean('CheatMode')
+    let cheatMode = block.persistentData.CheatMode === true
 
     let cacheData = JSON.stringify({
       pos: { x: pos.getX(), y: pos.getY(), z: pos.getZ() },
@@ -80,9 +86,8 @@ function executeStationReplenish(block, level, ignoreCooldown) {
     let slots = cfg.slots || {}
 
     // ─── 2. 检查冷却（手动触发无视冷却） ───
-    let pd = block.getEntityData()
+    let pd = block.persistentData
     let cooldownEnd = pd.getLong('CooldownEnd')
-    // KubeJS 7 中 Level 包装类用 getTime() 而非 getGameTime()
     let gameTime = level.getTime()
     if (!ignoreCooldown && gameTime < cooldownEnd) return false
 
