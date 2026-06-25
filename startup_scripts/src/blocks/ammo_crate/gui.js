@@ -80,8 +80,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   titleLabel.textStyle(function(style) { style.textAlignHorizontal('center') })
   root.addChild(titleLabel)
 
-  // ──── 分隔线 ────
-  root.addChild(new Label().setText(Component.literal('§8━━━━━━━━━━━━━━')))
+  // ──── 分隔线（占满容器宽度） ────
+  root.addChild(makeSeparator())
 
   // ================================================================
   //  分页：TabView
@@ -157,8 +157,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   root.addChild(tabView)
 
-  // ──── 分隔线 ────
-  root.addChild(new Label().setText(Component.literal('§8━━━━━━━━━━━━━━')))
+  // ──── 分隔线（占满容器宽度） ────
+  root.addChild(makeSeparator())
 
   // ================================================================
   //  共享底部：按钮行 + 玩家物品栏
@@ -247,6 +247,14 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 })
 
 // ========== 辅助函数 ==========
+
+// 创建占满容器宽度的分隔线
+function makeSeparator() {
+  var sep = new Label().setText(Component.literal('§8━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'))
+  sep.lss('width', '100%')
+  sep.lss('overflow', 'hidden')
+  return sep
+}
 
 function safeParseInt(field) {
   try {
