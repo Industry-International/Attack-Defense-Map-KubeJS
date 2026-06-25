@@ -36,7 +36,7 @@ BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
   let cfg = readBlockConfig(block)
 
   // 2. 检查冷却
-  let pd = block.persistentData
+  let pd = block.getEntityData()
   let cooldownEnd = pd.contains('CooldownEnd') ? pd.getLong('CooldownEnd') : 0
   if (gameTime < cooldownEnd) return  // 仍在冷却
 
@@ -49,10 +49,14 @@ BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
   let totalAdded = 0
 
   for (let i = 0; i < vehicles.length; i++) {
-    let added = replenishVehicle(vehicles[i], cfg.slots)
-    if (added > 0) {
-      replenishedCount++
-      totalAdded += added
+    try {
+      let added = replenishVehicle(vehicles[i], cfg.slots)
+      if (added > 0) {
+        replenishedCount++
+        totalAdded += added
+      }
+    } catch (e) {
+      console.log('[弹药补给站] 补充载具失败: ' + e)
     }
   }
 
@@ -75,7 +79,7 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
   let pos = block.getPos()
 
   try {
-    // 读取配置并填充到全局缓存（$ammoStationGuiCache 在 startup_scripts/ammo_station_gui.js 中声明）
+    // 读取配置并填充到全局缓存（global.ammoStationGuiCache 在 startup_scripts 中初始化）
     let cfg = readBlockConfig(block)
     let dim = event.level.getDimension().toString()
     let cacheData = JSON.stringify({
@@ -83,7 +87,7 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
       dim: dim,
       config: cfg
     })
-    $ammoStationGuiCache.put(player.getStringUUID(), cacheData)
+    global.ammoStationGuiCache.put(String(player.getUUID()), cacheData)
     LDLib2UIFactory.openBlockUI(player, pos, 'kubejs:ammo_station_cfg')
   } catch (e) {
     console.log('[弹药补给站] GUI打开失败: ' + e)
@@ -126,7 +130,8 @@ function scanSBWVehicles(level, block, range) {
 function replenishVehicle(entity, ammoMaxMap) {
   if (!entity || !ammoMaxMap) return 0
 
-  let nbt = entity.getNbt()
+  // 使用 Java Entity 原生的 save() 获取 NBT
+  let nbt = entity.save(new $CompoundTag())
   if (!nbt) return 0
 
   // 读取 Inventory.Items
@@ -225,10 +230,10 @@ function replenishVehicle(entity, ammoMaxMap) {
     }
   }
 
-  // 写入实体 NBT
+  // 写入实体 NBT（使用 Java Entity 原生的 load()）
   if (needsWrite && totalAdded > 0) {
     try {
-      entity.setNbt(nbt)
+      entity.load(nbt)
     } catch (e) {
       console.log('[弹药补给站] 写入 NBT 失败: ' + e)
       return 0

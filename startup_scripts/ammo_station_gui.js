@@ -3,7 +3,7 @@
 //
 // LDLib2 版本: 1.21.1-2.2.24
 //
-// 通过全局缓存 $ammoStationGuiCache 接收服务端传入的配置数据
+// 通过全局缓存 global.ammoStationGuiCache 接收服务端传入的配置数据
 // 因为 startup_scripts 无法调用 server_scripts 中的函数
 //
 // 可配置项：
@@ -12,9 +12,9 @@
 //   slots      — 各弹药类型的最大储量
 // ============================================================
 
+/** 全局缓存：UUID → JSON.stringify({ pos: {x,y,z}, dim, config })，通过 global 对象跨作用域共享 */
 var $HashMap = Java.loadClass('java.util.HashMap')
-/** 全局缓存：UUID → JSON.stringify({ pos: {x,y,z}, dim, config })，由 server_scripts 右键事件填充 */
-var $ammoStationGuiCache = new $HashMap()
+global.ammoStationGuiCache = new $HashMap()
 
 /** GUI中可配置的弹药类型列表 */
 const GUI_AMMO_TYPES = [
@@ -32,12 +32,12 @@ const GUI_AMMO_TYPES = [
 
 LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   let player = event.player
-  let uuid = player.getStringUUID()
+  let uuid = String(player.getUUID())
 
   // 从缓存读取配置数据
   var cacheData = null
   try {
-    var raw = $ammoStationGuiCache.get(uuid)
+    var raw = global.ammoStationGuiCache.get(uuid)
     if (raw) cacheData = JSON.parse(raw)
   } catch (e) { /* 忽略 */ }
 
@@ -102,8 +102,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         var server = player.getServer()
         if (!server) return
 
-        var puuid = player.getStringUUID()
-        var raw = $ammoStationGuiCache.get(puuid)
+        var puuid = String(player.getUUID())
+        var raw = global.ammoStationGuiCache.get(puuid)
         if (!raw) {
           player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效，请重新打开GUI'), false)
           return
@@ -141,7 +141,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
           if (typeof writeBlockConfig === 'function') {
             writeBlockConfig(block, newCfg)
             // 重置冷却
-            block.persistentData.putLong('CooldownEnd', 0)
+            block.getEntityData().putLong('CooldownEnd', 0)
             player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
           } else {
             player.displayClientMessage(Component.literal('§c[弹药补给站] 保存函数未加载'), false)
@@ -160,8 +160,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         var server = player.getServer()
         if (!server) return
 
-        var puuid = player.getStringUUID()
-        var raw = $ammoStationGuiCache.get(puuid)
+        var puuid = String(player.getUUID())
+        var raw = global.ammoStationGuiCache.get(puuid)
         if (!raw) {
           player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false)
           return
@@ -177,7 +177,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
           if (typeof writeBlockConfig === 'function' && typeof DEFAULT_STATION_CONFIG !== 'undefined') {
             writeBlockConfig(block, JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG)))
-            block.persistentData.putLong('CooldownEnd', 0)
+            block.getEntityData().putLong('CooldownEnd', 0)
             player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置，请重新打开GUI查看'), false)
           }
         } catch (e) {
