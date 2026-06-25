@@ -10,6 +10,15 @@
 
 var $HashMap = Java.loadClass('java.util.HashMap')
 global.ammoStationGuiCache = new $HashMap()
+var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
+// 为 TextField 创建 C2S 同步绑定，使客户端输入能自动回传到服务端
+function bindTextField(field, name) {
+  var binding = $DataBindingBuilder.string(
+    function() { return field.getText() },
+    function(val) { field.setText(val) }
+  ).c2sStrategy('always').name(name).build(true)
+  field.bind(binding)
+}
 
 const GUI_AMMO_TYPES = [
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },
@@ -56,8 +65,10 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   // 基础参数字段
   var fieldScanRange = new TextField().setNumbersOnlyInt(1, 64).setText(String(cfg.scanRange))
   fieldScanRange.lss('width', 55)
+  bindTextField(fieldScanRange, 'ammo_sr')
   var fieldCooldown = new TextField().setNumbersOnlyInt(0, 3600).setText(String(cfg.cooldown))
   fieldCooldown.lss('width', 55)
+  bindTextField(fieldCooldown, 'ammo_cd')
 
   // 弹药字段（每个弹药类型一个输入框）
   var slotFields = {}
@@ -66,6 +77,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
     var field = new TextField().setNumbersOnlyInt(0, 9999).setText(String(val))
     field.lss('width', 55)
+    bindTextField(field, 'ammo_' + at.key)
     slotFields[at.key] = field
   }
 
@@ -291,9 +303,23 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         var amount = safeParseInt(slotFields[atype.key])
         if (amount > 0) newCfg.slots[atype.key] = amount
       }
-      // 直接写入方块 persistentData（无需跨作用域调 server 函数）
+      // ─── 日志：诊断 GUI 字段值是否与客户端同步 ───
+      console.log('[弹药补给站] === 保存诊断开始 ===')
+      console.log('[弹药补给站] 玩家=' + player.name + ' UUID=' + puuid)
+      console.log('[弹药补给站] fieldScanRange.getText()=' + fieldScanRange.getText() + ' → safeParse=' + safeParseInt(fieldScanRange))
+      console.log('[弹药补给站] fieldCooldown.getText()=' + fieldCooldown.getText() + ' → safeParse=' + safeParseInt(fieldCooldown))
+      for (var li = 0; li < GUI_AMMO_TYPES.length; li++) {
+        var lt = GUI_AMMO_TYPES[li]
+        console.log('[弹药补给站] slot[' + lt.key + '].getText()=' + slotFields[lt.key].getText() + ' → safeParse=' + safeParseInt(slotFields[lt.key]))
+      }
+      console.log('[弹药补给站] 组装后 newCfg=' + JSON.stringify(newCfg))
+      // ─── 写入 StationConfig ───
       block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
       block.entity.persistentData.putLong('CooldownEnd', 0)
+      // ─── 写回校验 ───
+      var verifyRaw = block.entity.persistentData.getString('StationConfig')
+      console.log('[弹药补给站] 写入完成，读回校验=' + verifyRaw)
+      console.log('[弹药补给站] === 保存诊断结束 ===')
       player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
