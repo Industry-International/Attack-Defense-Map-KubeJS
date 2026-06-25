@@ -88,22 +88,16 @@ function getAmmoDisplayName(ammoKey) {
 function readBlockConfig(block) {
   let pd = block.entity.persistentData
 
-  // ─── 未初始化？写入默认配置并打标记 ───
-  if (!pd.contains('StationConfig') || pd.getBoolean('Initialized') !== true) {
+  // ─── 只看 Initialized 标记：没标记才初始化 ───
+  if (pd.getBoolean('Initialized') !== true) {
     pd.putString('StationConfig', JSON.stringify(DEFAULT_STATION_CONFIG))
     pd.putBoolean('Initialized', true)
     return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
   }
 
-  // ─── 已初始化 → 只读返回，绝不修改 ───
-  try {
-    let raw = pd.getString('StationConfig')
-    return JSON.parse(raw)
-  } catch (e) {
-    console.log('[弹药补给站] 配置解析失败: ' + e + '，重置为默认')
-    pd.putString('StationConfig', JSON.stringify(DEFAULT_STATION_CONFIG))
-    return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
-  }
+  // ─── 有标记 → 只读，绝不修改 StationConfig ───
+  let raw = pd.getString('StationConfig')
+  return JSON.parse(raw || JSON.stringify(DEFAULT_STATION_CONFIG))
 }
 
 /**

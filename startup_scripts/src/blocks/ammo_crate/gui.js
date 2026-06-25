@@ -62,11 +62,11 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   // ──── 创建所有共享的输入字段 ────
 
-  // 基础参数字段
-  var fieldScanRange = new TextField().setNumbersOnlyInt(1, 64).setText(String(cfg.scanRange))
+  // 基础参数字段（不限制输入，safeParseInt 会在保存时保底 ≥0）
+  var fieldScanRange = new TextField().setAnyString().setText(String(cfg.scanRange))
   fieldScanRange.lss('width', 55)
   bindTextField(fieldScanRange, 'ammo_sr')
-  var fieldCooldown = new TextField().setNumbersOnlyInt(0, 3600).setText(String(cfg.cooldown))
+  var fieldCooldown = new TextField().setAnyString().setText(String(cfg.cooldown))
   fieldCooldown.lss('width', 55)
   bindTextField(fieldCooldown, 'ammo_cd')
 
@@ -75,7 +75,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   for (var si = 0; si < GUI_AMMO_TYPES.length; si++) {
     var at = GUI_AMMO_TYPES[si]
     var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
-    var field = new TextField().setNumbersOnlyInt(0, 9999).setText(String(val))
+    var field = new TextField().setAnyString().setText(String(val))
     field.lss('width', 55)
     bindTextField(field, 'ammo_' + at.key)
     slotFields[at.key] = field
