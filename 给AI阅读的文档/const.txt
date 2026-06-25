@@ -1,6 +1,6 @@
 ================================================================
  KubeJS 全局/局部声明参考（避免重复声明错误）
- 更新日期: 2026-06-24
+ 更新日期: 2026-06-25
 ================================================================
 
 在 KubeJS 7 (Rhino) 中：
@@ -10,6 +10,10 @@
 
 因此：只要看到某文件用 const 声明了某变量，其他文件就绝对不能再
 用 const/var/let 声明同名变量，否则报 redeclaration error。
+
+注意：startup_scripts 和 server_scripts 是两个独立的作用域，
+startup 中的 const 不会与 server 中的 const 冲突。
+但最佳实践是全局范围内避免重名。
 
 ================================================================
  第一：已用 const 声明的 NBT Java 类（不可再声明！）
@@ -22,7 +26,7 @@
   const $IntTag      = Java.loadClass('net.minecraft.nbt.IntTag')
   const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 
-上述三个在任何其他脚本中都不可再声明，直接使用即可。
+上述三个在任何其他 server_scripts 中都不可再声明，直接使用即可。
 
 ================================================================
  第二：其他用 const 声明的全局常量（不可再声明！）
@@ -80,38 +84,44 @@
   const MODULE_FLAG_PREFIX = 'module_'                            // 模块持久化前缀
 
 来源文件: server_scripts/sbw_vehicle/ammo_replenish/a_config.js
+（简化版：仅保留 scanRange / cooldown(秒) / slots 三个字段）
 
-  const AMMO_REPLENISH_CONFIG = { scanRange: 12, autoScanInterval: 0, ... }
-                                                                  // 弹药补充模块配置
-  新增字段（重构后）:
-    maxReplenishPerType: 10000    // GUI中单次补充最大数量
-    refreshOnOpen: true           // 打开GUI前是否刷新扫描
+  const DEFAULT_STATION_CONFIG = { ... }          // 弹药补给站默认配置
+  const AMMO_ID_MAP = { ... }                     // 弹药类型短名 → item ID
+  const AMMO_KEY_MAP = {}                         // item ID → 弹药类型短名（反向映射，自动构建）
 
-来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（重构）
+来源文件: server_scripts/sbw_vehicle/replenish.js
 
-  const AMMO_ID_MAP = { ... }                                     // 弹药类型 → item ID
-  const AMMO_KEY_MAP = {}                                         // item ID → 弹药类型（反向映射）
+  const SAVE_INTERVAL = 5                         // 补员循环每多少次执行一次强制持久化
 
-  新增全局函数（用function声明）：
-    scanAndCache(level, block)             — 扫描载具并缓存到块持久化数据
-    getDeployAmmoTemplate(vehicleId)        — 从deployNBT提取标准弹药配置
-    getVehicleCurrentAmmo(entity)           — 获取载具当前弹药汇总
-    replenishVehicleInventory(entity, plan) — 增量补充弹药到载具Inventory
-    replenishWeaponAmmo(entity, deployNBT)  — 补充武器预装弹（按阈值）
-    doReplenishFromGUI(svr, lvl, plr, plan) — GUI触发的补充入口
-    autoReplenishAll(level, block)          — 按deployNBT标准自动补满
-    getAmmoDisplayName(ammoKey)             — 获取弹药显示名
+来源文件: server_scripts/sbw_vehicle/tools/state_machine.js
 
-  移除的旧函数：
-    scanAround(level, block)     → 被 scanAndCache 替代
-    applyDeployNBT(entity, nbt)  → 被增量补充方案替代
+  const VEHICLE_STATE（8个状态枚举）
+  const VEHICLE_STATE_TRANSITIONS（状态转移白名单）
+  const VEHICLE_STATE_LIST（所有状态列表）
 
-来源文件: startup_scripts/ammo_replenish_ui.js（新文件，双端运行）
+来源文件: server_scripts/sbw_vehicle/main.js（模块入口）
 
-  const AMMO_TYPE_CFG = [ ... ]                                   // GUI弹药类型配置
+  const VEHICLE_CFG = SBW_VEHICLE_CONFIG
+  const SBW_PREFIX = '[SBW载具]'
 
-  LDLib2UI.block('kubejs:ammo_crate_gui', handler)               // LDLib2 UI注册
-    通过 LDLib2UIFactory.openBlockUI(player, pos, id) 打开
+来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（简化版）
+（移除了入场延时/武器弹阈值/载具过滤等复杂逻辑，仅保留AABB扫描+冷却+补给到最大值）
+
+  （此文件不再包含独立的 const 声明）
+
+来源文件: server_scripts/team_revive/main.js
+
+  const CFG = TEAM_REVIVE_CONFIG
+  const PREFIX = '[队伍复活券]'
+
+================================================================
+ 第三：startup_scripts 中的 const（与 server_scripts 独立作用域）
+================================================================
+
+来源文件: startup_scripts/ammo_station_gui.js（替代旧版 ammo_replenish_ui.js）
+
+  const GUI_AMMO_TYPES = [ ... ]                 // GUI中8种弹药类型配置（替代旧版 AMMO_TYPE_CFG）
 
 来源文件: startup_scripts/naval_balance_block_properties.js
 
@@ -121,18 +131,17 @@
   const LOCOMETAL_ANTIPEN    = [...]  // railways 防穿登机金属
   const CREATE_CASINGS       = [...]  // Create 机壳方块
 
-注意：naval_balance_block_properties.js 中的 const 在 startup_scripts
-目录下，属于 startup 作用域，与 server_scripts 不冲突，但最佳实践是
-同样避免重名。
+注意：naval_balance_block_properties.js 和 ammo_station_gui.js 中的 const
+属于 startup 作用域，与 server_scripts 不冲突，但最佳实践是同样避免重名。
 
 ================================================================
- 第三：用 var 声明的 Java 类引用（不冲突，但优先用已有的 const）
+ 第四：用 var 声明的 Java 类引用（不冲突，但优先用已有的 const）
 ================================================================
 
 如果将来某个新模块也想用 $ListTag / $FloatTag 等，
 可以安全地用 var 声明，但如果已有 const 版本，就不要用同名的 var。
 
-来源文件: server_scripts/sbw_vehicle/tools/a_java_refs.js（拆分后：Java 类引用独立至此文件）
+来源文件: server_scripts/sbw_vehicle/tools/a_java_refs.js
 
   var $UUID       = Java.loadClass('java.util.UUID')
   var $ListTag    = Java.loadClass('net.minecraft.nbt.ListTag')
@@ -168,17 +177,24 @@
 
   var $AABB           = Java.loadClass('net.minecraft.world.phys.AABB')
 
+来源文件: startup_scripts/ammo_station_gui.js（startup 作用域，与 server 作用域独立）
+（此文件不再使用 var 声明，$HashMap 和 $ammoStationGuiCache 已移除）
+
 注意：$EntityArgument 在两个文件中各用 var 声明了一次（var 可重复声明）。
 
 ================================================================
- 第四：各模块内部的 const/var 局部常量（不冲突）
+ 第五：各模块内部的 const/var 局部常量（不冲突）
 ================================================================
 
-  server_scripts/sbw_vehicle/main.js（重构后，只保留全局常量）
+  server_scripts/sbw_vehicle/main.js
     const VEHICLE_CFG = SBW_VEHICLE_CONFIG
     const SBW_PREFIX = '[SBW载具]'
 
-  server_scripts/sbw_vehicle/tools/a_java_refs.js（拆分后：运行时状态）
+  server_scripts/sbw_vehicle/replenish.js（补员循环内部）
+    let $replenishIntervalId = null        // 补员循环定时器ID（let 局部）
+    let $saveCounter = 0                   // 定期保存计数器（let 局部）
+
+  server_scripts/sbw_vehicle/tools/a_java_refs.js
     var $actionBarPlayers = new $HashSet()             // 单人 ActionBar 玩家集合
 
   server_scripts/team_revive/main.js
@@ -192,8 +208,11 @@
     var GUN_TACZ_CONFIG = {}           // 结构化配置 (按职业)
     var PROF_WEAPONS_MAP = {}          // 职业武器 ID 列表
 
+  server_scripts/profession/config/a_tacz_config.js
+    var ATTACH_PAGE_SIZE = 21           // 7列 × 3行（配件选择分页大小，var 局部）
+
 ================================================================
- 第五：用 global 注册的全局对象
+ 第六：用 global 注册的全局对象
 ================================================================
 
   startup_scripts/taov_returned_autocannon.js
@@ -203,8 +222,10 @@
     //       rocketRackReloadSeconds, kamikazeExplosivePower
 
 ================================================================
- 第六：item 注册（StartupEvents.registry('item', ...)）
+ 第七：item / block 注册
 ================================================================
+
+StartupEvents.registry('item', ...) 注册的物品：
 
   startup_scripts/src/item/profession_item.js
     event.create('profession_selector')
@@ -221,12 +242,27 @@
 已注册物品列表：
   - kubejs:profession_selector  (职业选择器)
   - kubejs:team_selector        (队伍选择器)
+  - kubejs:menu                 (菜单物品，纯翻译键注册)
+
+StartupEvents.registry('block', ...) 注册的方块：
+
+  startup_scripts/src/item/ammo_crate_block.js
+    event.create('ammo_crate')
+      .translationKey('block.kubejs.ammo_crate')
+      .property(BooleanProperty.create('open'))
+      .noDrops()
+      .hardness(2.0).resistance(6.0).requiresTool(true)
+      .soundType('wood')
+      .blockEntity(info => { info.serverTicking(); info.tickFrequency(20) })
+
+已注册方块列表：
+  - kubejs:ammo_crate            (弹药补给箱，方块实体每20tick驱动)
 
 ================================================================
- 第七：全局函数一览（function 声明的全部为全局可见）
+ 第八：全局函数一览（function 声明的全部为全局可见）
 ================================================================
 
-  ======== a_tacz_config.js ========
+  ======== a_tacz_config.js (profession/config) ========
     filler(color)                            — 玻璃板填充辅助
     getGunAttachments(player, weaponId)      — 获取配件配置
     setGunAttachment(player, weaponId, slotKey, attachmentId) — 设置配件
@@ -239,12 +275,12 @@
     makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) — 配件槽回调
     openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage, pageNum) — 配件选择列表
 
-  ======== z_tacz_config_build.js ========
+  ======== z_tacz_config_build.js (profession/prof_configs) ========
     getTaczConfig(weaponId)                  — 查表获取武器配置
     getProfessionWeaponList(profession, category) — 获取职业武器列表
     getProfConfig(id)                        — 获取职业基础配置（护甲+额外物品）
 
-  ======== profequip_cmd.js ========
+  ======== profequip_cmd.js (profession) ========
     isTaczWeapon(id)                         — 判断TACZ武器
     resolveTaczWeapon(id)                    — 解析TACZ武器为物品
     resolveVanillaWeapon(id)                 — 解析非TACZ武器为物品
@@ -285,18 +321,38 @@
     addNoJobTag(player)                      — 添加无职业标签
     removeNoJobTag(player)                   — 移除无职业标签
 
-  ======== sbw_vehicle/main.js (模块入口) ========
-    （重构后精简，仅保留：）
-    EntityEvents.death                         — 载具死亡日志记录
+  ======== team_revive/main.js ========
+    log() / warn() / error()                    — 日志工具
+    getTeamConfig(teamName)                     — 获取队伍配置
+    getTicketsStore(server)                     — 读取复活券数据
+    saveTicketsStore(server, data)              — 保存复活券数据
+    getEliminatedStore(server)                  — 淘汰标记存储
+    getTeamTickets(server, teamName)            — 获取队伍复活券数
+    isTeamEliminated(server, teamName)          — 检查淘汰状态
+    markEliminated(server, teamName)            — 标记淘汰
+    addTeamTickets(server, teamName, amount)    — 增加复活券（公开接口）
+    consumeTicket(server, teamName)             — 消耗复活券
+    resetAll(server)                            — 重置所有队伍
+    eliminateTeam(server, teamName)             — 执行队伍淘汰
+    getScore(server, holder, objectiveName)     — 读取计分板
+    isGameActive(server)                        — 判断游戏进行中
 
-  ======== sbw_vehicle/tools/ 目录（工具分类拆分）========
+  ======== module_manager/main.js ========
+    findModule(id)                             — 按ID查找模块注册记录
+    isModuleEnabled(server, moduleId)          — 判断模块是否启用
+    setModuleEnabled(server, moduleId, enabled) — 设置模块启用状态
 
-  已从单文件 tools.js 按类别拆分为 9 个文件：
+  ======== team/team_selector_gui.js ========
+    openTeamPage(player)                        — 打开队伍选择GUI
+    renderTeamSelect(gui, player, openPage)     — 队伍选择页渲染
+    setTeamAndRun(player, team, functionPath)   — 设置队伍+执行函数
+    getScoreboardScore(server, scoreholder, objectiveName) — 读取积分榜
+    clearIfNotUnselected(player)                — 延迟清空背包
+    doClear(player)                             — 实际清空背包
+    runTeamFunction(player, functionPath)       — 以玩家身份运行函数
+    getPlayerTeam(player)                       — 获取玩家当前队伍
 
-  tools/a_java_refs.js — Java类引用 + 运行时状态
-    var $UUID / $ListTag / $FloatTag / $StringTag / $DoubleTag / $LongTag / $ShortTag
-    var $HashMap / $HashSet / $Component / $ResourceLocation / $ArrayList
-    var $actionBarPlayers（ActionBar 玩家集合）
+  ======== sbw_vehicle/tools/ 目录（9个工具文件）========
 
   tools/log.js — 日志工具
     sbwLog() / sbwWarn() / sbwError()
@@ -324,18 +380,16 @@
   tools/misc.js — 杂项（ID提取 / 配置查找 / 清除 / 重置）
     extractVehicleIdFromEntity(entity)
     findVehicleConfig(vehicleId) / findVehicleTeam(vehicleId)
-    clearVehicles(server, teamName) / resetAll(server)
+    clearVehicles(server, teamName) / resetAllVehicles(server)
 
   tools/status.js — 状态查询 & ActionBar（适配全部8个状态）
     getAmmoSummary(items) / getStatusLines(server) / getRespawnTimeLines(server)
     buildActionBarText(server) / updateTimeActionBar(server)
 
-  tools/state_machine.js — 状态机核心（新增）
-    const VEHICLE_STATE（8个状态枚举）
-    const VEHICLE_STATE_TRANSITIONS（状态转移白名单）
-    const VEHICLE_STATE_LIST（所有状态列表）
+  tools/state_machine.js — 状态机核心
     isDeployed(state) / isReplenishing(state) / isReadyToDeploy(state)
     isActive(state) / needsReplenish(state) / isWarning(state)
+    getRespawnDelayFromConfig(vehicleId)
     transitionState(server, vehicleId, newState, extra)
     forceSetState(server, vehicleId, newState, extra)
     initVehicleState(server, teamName, vehicleCfg)
@@ -361,13 +415,12 @@
     TIMING               → OVER_CAPACITY / CHUNK_LOADED / WAITING_CHUNK / IDLE
     任意状态             → UNINITIALIZED（强制重置）
 
-  注意：WAITING_CHUNK → DEPLOYED 和 TIMING → CHUNK_LOADED 是新增并列路径，
-  避免区块加载后需要多等一 tick 才能部署。补员循环会直接生成实体并跳至 DEPLOYED。
+  注意：WAITING_CHUNK → DEPLOYED 和 TIMING → CHUNK_LOADED 是并列路径，
+  避免区块加载后需要多等一 tick 才能部署。
 
   ======== sbw_vehicle/replenish.js (自动补员系统 - 状态机驱动) ========
-    重构为状态机驱动版本。核心函数：
     checkReplenish(server)                 — 执行一次全量补员检测
-    processVehicleState(server, ...)        — 状态分支处理（switch-case 8状态）
+    processVehicleState(server, ...)       — 状态分支处理（switch-case 8状态）
     getCheckTickInterval()                 — 将配置频率(次/秒)转为tick间隔
     startReplenishLoop(server)             — 启动补员定时循环
     stopReplenishLoop()                    — 停止补员定时循环
@@ -379,8 +432,11 @@
     TIMING 倒计时按 tickStep 递减，确保 respawnDelay(tick) 精确等待。
     补员循环由 /sbw_vehicle start 命令启动。
 
+    局部 let 变量：
+      $replenishIntervalId — 定时器ID
+      $saveCounter         — 定期保存计数器
+
   ======== sbw_vehicle/command.js (命令注册) ========
-    重构后命令列表（适配状态机）：
     /sbw_vehicle start      — 激活系统 + 初始化状态 + 启动补员循环
     /sbw_vehicle stop       — 停用系统 + 停止补员循环 + 清除所有载具
     /sbw_vehicle deploy [<team>]  — 部署载具（使用状态机）
@@ -390,71 +446,62 @@
     /sbw_vehicle status     — 查看系统 + 载具状态（适配全部8状态）
     /sbw_vehicle timelist   — 查看所有补员倒计时列表
 
-  ======== team_revive/main.js ========
-    log() / warn() / error()                    — 日志工具
-    getTeamConfig(teamName)                     — 获取队伍配置
-    getTicketsStore(server)                     — 读取复活券数据
-    saveTicketsStore(server, data)              — 保存复活券数据
-    getEliminatedStore(server)                  — 淘汰标记存储
-    getTeamTickets(server, teamName)            — 获取队伍复活券数
-    isTeamEliminated(server, teamName)          — 检查淘汰状态
-    markEliminated(server, teamName)            — 标记淘汰
-    addTeamTickets(server, teamName, amount)    — 增加复活券（公开接口）
-    consumeTicket(server, teamName)             — 消耗复活券
-    resetAll(server)                            — 重置所有队伍
-    eliminateTeam(server, teamName)             — 执行队伍淘汰
-    getScore(server, holder, objectiveName)     — 读取计分板
-    isGameActive(server)                        — 判断游戏进行中
+  ======== sbw_vehicle/ammo_replenish/ （弹药补给站 - 方块驱动简化版）========
+  注意：
+    1. 已移除入场延时、武器弹阈值、载具过滤等复杂逻辑
+    2. 冷却CD单位改为秒（GUI和配置中均为秒）
+    3. 补给逻辑改为检查载具Inventory中已有弹药类型 → 只补这些 → 补到配置最大值
+    4. 不再追踪载具入场/离场，冷却状态直接持久化到方块 persistentData 的 CooldownEnd 键
 
-  ======== module_manager/a_registry.js ========
-    （无函数，仅注册 MODULE_REGISTRY 常量）
+  a_config.js — 配置定义 & 方块配置读写工具（简化）
+    const DEFAULT_STATION_CONFIG    — 默认配置（scanRange, cooldown秒, slots）
+    const AMMO_ID_MAP              — 弹药类型短名 → item ID
+    const AMMO_KEY_MAP             — item ID → 弹药类型短名（反向映射）
+    function getAmmoDisplayName(ammoKey)          — 获取弹药显示名
+    function readBlockConfig(block)               — 读取方块配置（惰性初始化+合并默认）
+    function writeBlockConfig(block, config)      — 写入方块配置
 
-  ======== module_manager/main.js ========
-    findModule(id)                             — 按ID查找模块注册记录
-    isModuleEnabled(server, moduleId)          — 判断模块是否启用
-    setModuleEnabled(server, moduleId, enabled) — 设置模块启用状态
+  已移除的函数（旧版）：
+    updateBlockConfig / setBlockSlotConfig / readBlockRuntime / writeBlockRuntime / formatConfigSummary
 
-  ======== sbw_vehicle/ammo_replenish/main.js（重构版）========
-    scanAndCache(level, block)               — AABB扫描 + 缓存载具状态到块数据
-    getDeployAmmoTemplate(vehicleId)         — 从deployNBT提取标准弹药配置
-    getVehicleCurrentAmmo(entity)            — 获取载具当前弹药汇总
-    replenishVehicleInventory(entity, plan)  — 增量补充弹药到载具Inventory（安全）
-    replenishWeaponAmmo(entity, deployNBT)   — 按阈值补充武器预装弹
-    doReplenishFromGUI(server, level, plr, plan) — GUI触发的补充入口
-    autoReplenishAll(level, block)           — 按deployNBT标准自动补满
-    getAmmoDisplayName(ammoKey)             — 弹药显示名
+  main.js — 方块驱动核心逻辑（简化版）
+    var $AABB — AABB包围盒类
+    BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick扫描+补充
+      流程：读配置 → 冷却检查 → AABB扫描载具 → 检查Inventory已有弹药 → 补到最大值 → 进入冷却
+    BlockEvents.rightClicked('kubejs:ammo_crate')    — 打开LDLib2配置GUI
+    function scanSBWVehicles(level, block, range)     — AABB扫描范围内SBW载具（通过标签识别）
+    function replenishVehicle(entity, ammoMaxMap)     — 对单辆载具执行补给（只补已有弹药类型到上限）
+    function notifyNearbyPlayers(level, block, ...)   — 通知附近玩家
 
-    全局 const（新增）：
-    AMMO_ID_MAP    — 弹药类型短名 → item ID
-    AMMO_KEY_MAP   — item ID → 弹药类型短名
+  已移除的函数（旧版）：
+    scanVehicles / passVehicleFilter / replenishVehicleInventory / replenishWeaponAmmo
 
-    全局 var（不变）：
-    $AABB          — AABB包围盒类
+  ======== startup_scripts/ammo_station_gui.js（简洁版GUI）========
+  （替代旧版 ammo_replenish_ui.js，LDLib2 UI ID: kubejs:ammo_station_cfg）
+  （不再使用 $ammoStationGuiCache 全局缓存，直接通过 event.pos 读取方块配置）
 
-    方块事件：
-    BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每秒扫描缓存（不再写入NBT）
-    BlockEvents.rightClicked('kubejs:ammo_crate')    — 打开LDLib2 GUI
+    const GUI_AMMO_TYPES         — GUI中8种弹药类型配置
+    LDLib2UI.block('kubejs:ammo_station_cfg', handler) — LDLib2 UI注册
+      通过 LDLib2UIFactory.openBlockUI(player, pos, id) 打开
+    function wrapRow(labelText, field, unitText)     — 包装带标签的行
+    function safeParseInt(field)                      — 安全解析TextField整数值
 
-  ======== startup_scripts/ammo_replenish_ui.js（新文件，双端）========
-    const AMMO_TYPE_CFG           — GUI中4种弹药类型配置
-    LDLib2UI.block('kubejs:ammo_crate_gui', handler) — 补给箱LDLib2 GUI注册
+  已移除的声明：
+    var $HashMap                 — 不再需要 Java HashMap
+    var $ammoStationGuiCache     — 不再使用缓存传递数据
+    function wrapField           — 重命名为 wrapRow
+    function parseIntField       — 重命名为 safeParseInt
 
-  ======== team/team_selector_gui.js ========
-    openTeamPage(player)                        — 打开队伍选择GUI
-    renderTeamSelect(gui, player, openPage)     — 队伍选择页渲染
-    setTeamAndRun(player, team, functionPath)   — 设置队伍+执行函数
-    getScoreboardScore(server, scoreholder, objectiveName) — 读取积分榜
-    clearIfNotUnselected(player)                — 延迟清空背包
-    doClear(player)                             — 实际清空背包
-    runTeamFunction(player, functionPath)       — 以玩家身份运行函数
-    getPlayerTeam(player)                       — 获取玩家当前队伍
+  GUI可配置项：扫描范围、冷却时间(秒)、各弹药最大储量
 
   ======== startup_scripts/naval_balance_block_properties.js ========
-    railwaysPalette(suffixes)                   — 生成railways方块ID列表
-    setExplosionResistance(ids, value)          — (BlockEvents内局部函数)设置防爆
+    function railwaysPalette(suffixes) — 生成railways方块ID列表（startup作用域）
+
+  ======== taov_returned_autocannon.js (startup) ========
+    global.taovReturnedAutocannon = { ... }
 
 ================================================================
- 第八：BlockEvents 方块属性修改
+ 第九：BlockEvents 方块属性修改
 ================================================================
 
   startup_scripts/naval_balance_block_properties.js
@@ -468,7 +515,7 @@
     taov_returned:player_cannon_controller → explosionResistance = 20
 
 ================================================================
- 第九：语言文件（i18n）已有翻译键一览
+ 第十：语言文件（i18n）已有翻译键一览
 ================================================================
 
   assets/kubejs/lang/en_us.json 和 zh_cn.json 中已有的翻译键：
@@ -509,6 +556,8 @@
     msg.kubejs.sbw_vehicle.*          — 载具消息
     msg.kubejs.no_job_tag.*           — 无职业标签消息
     msg.kubejsadmin.*                 — 管理命令消息
+    msg.kubejs.ammo_replenish.*       — 弹药补充消息（旧版，en_us有）
+    msg.kubejs.ammo_station.*         — 弹药补给站消息（仅zh_cn！）
 
   队伍 (team):
     team.attack, team.defense, team.none, team.cleared
@@ -520,10 +569,8 @@
   方块 (block):
     block.kubejs.ammo_crate              — 弹药补给箱
 
-  弹药补充消息 (msg.kubejs.ammo_replenish):
-    msg.kubejs.ammo_replenish.done       — 补充完成
-    msg.kubejs.ammo_replenish.no_vehicles — 无载具需补充
-    msg.kubejs.ammo_replenish.all_full   — 全部充足
+  ⚠ 注意：zh_cn.json 有 msg.kubejs.ammo_station.* 系列翻译，
+    但 en_us.json 缺少对应条目。需要补全。
 
 ================================================================
  快速核查规则（写新代码前必看）
@@ -535,40 +582,47 @@
   2. $IntTag               ← 已 const，不可重复声明
   3. $CompoundTag          ← 已 const，不可重复声明
 
-  4. 以下 const 常量名：
+  4. 以下 const 常量名（server_scripts 作用域）：
      PANE, PROF_TAG_LIST, ATTACH_SLOT_POS, SLOT_TRANSLATE_KEY,
      PROF_CONFIGS, PROFESSIONS, BACKPACK_SLOT_COUNT, BACKPACK_PAGE_SIZE,
      TAOV_RETURNED_BLOCKS_PER_REPAIR_PART, TEAM_REVIVE_CONFIG,
      SBW_VEHICLE_CONFIG, TEAM_ATTACK, TEAM_DEFENSE, TEAM_SPECTATOR,
      TEAM_NONE, JOIN_BATTLE_SCOREHOLDER, JOIN_BATTLE_OBJECTIVE,
      JOIN_BATTLE_TARGET, JOIN_BATTLE_FUNCTION, CLEAR_DELAY_TICKS,
-     DYE_COLORS, LOCOMETAL_NORMAL, LOCOMETAL_ANTIBLAST, LOCOMETAL_ANTIPEN,
-     CREATE_CASINGS,
      VEHICLE_STATE, VEHICLE_STATE_TRANSITIONS, VEHICLE_STATE_LIST,
      MODULE_REGISTRY, MODULE_FLAG_PREFIX,
-     AMMO_REPLENISH_CONFIG,
-     AMMO_ID_MAP, AMMO_KEY_MAP,                     ← ammo_replenish/main.js 新增
-     AMMO_TYPE_CFG                                  ← startup_scripts 新增
+     DEFAULT_STATION_CONFIG, AMMO_ID_MAP, AMMO_KEY_MAP, ← a_config.js
+     SAVE_INTERVAL,                                     ← replenish.js 新增
+     VEHICLE_CFG, SBW_PREFIX,                           ← main.js
+     CFG, PREFIX                                        ← team_revive/main.js
 
-  5. 已注册的 item ID（不能再注册同名的）：
+  5. 以下 const 常量名（startup_scripts 作用域，与 server 独立）：
+     DYE_COLORS, LOCOMETAL_NORMAL, LOCOMETAL_ANTIBLAST, LOCOMETAL_ANTIPEN,
+     CREATE_CASINGS,
+     GUI_AMMO_TYPES                                     ← ammo_station_gui.js 新增
+
+  6. 已注册的 item ID（不能再注册同名的）：
      kubejs:profession_selector
      kubejs:team_selector
 
-  6. 已注册的 block ID（不能再注册同名的）：
-     kubejs:ammo_crate             — 弹药补给箱（SBW载具弹药补充）
+  7. 已注册的 block ID（不能再注册同名的）：
+     kubejs:ammo_crate             — 弹药补给箱（方块驱动版，每20tick扫描补充）
 
-  7. 其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等，含 $AABB）：
+  8. 其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等，含 $AABB）：
      - 在其他文件中用 var 声明是安全的（不会报错）
      - 但最佳实践是在用到它的文件内用 var 自行声明，不依赖外部
 
-  8. 所有用 function 声明的全局函数（见第七节）：
+  9. 所有用 function 声明的全局函数（见第八节）：
      - function 在 Rhino 中是全局可见的（等同 var）
      - 不可在同一作用域内用 const/var 声明同名函数（会冲突）
      - 但可以放心调用，无需重复声明
 
-  9. global.taovReturnedAutocannon：
-     - 通过 global 对象注册，不会和其他 const/var 冲突
-     - 访问方式：global.taovReturnedAutocannon.xxx
+  10. 用 var 声明的顶层变量（全局可见，可重复声明但应避免）：
+      $actionBarPlayers    — ActionBar 玩家集合（server 作用域）
+
+  11. global.taovReturnedAutocannon：
+      - 通过 global 对象注册，不会和其他 const/var 冲突
+      - 访问方式：global.taovReturnedAutocannon.xxx
 
 ================================================================
  新代码编写规范
@@ -594,5 +648,26 @@
      - assets/kubejs/lang/en_us.json 和 zh_cn.json 中的翻译
 
   4. 新文件夹需在 ./给AI阅读的文档 中记录说明用途
+
+  5. ⚠ 已知的 i18n 缺失：
+     - en_us.json 缺少 msg.kubejs.ammo_station.* 系列翻译
+       （zh_cn.json 已有完整 ammo_station 翻译键）
+
+  6. ⚠ 模块重构记录：
+     - startup_scripts/ammo_replenish_ui.js → 已重命名为 ammo_station_gui.js
+       LDLib2 UI ID 变更：kubejs:ammo_crate_gui → kubejs:ammo_station_cfg
+       const 名变更：AMMO_TYPE_CFG → GUI_AMMO_TYPES
+     - server_scripts/sbw_vehicle/ammo_replenish/a_config.js → 2026-06-25 简化
+       移除：enterDelay / weaponAmmoThreshold / targetVehicleIds
+       变更：cooldown 单位从 tick 改为秒
+       移除的函数：updateBlockConfig / setBlockSlotConfig / readBlockRuntime / writeBlockRuntime / formatConfigSummary
+     - server_scripts/sbw_vehicle/ammo_replenish/main.js → 2026-06-25 完全重写
+       补给逻辑改为：扫描载具Inventory → 找出已有弹药类型 → 补到配置最大值
+       移除：入场延时追踪、载具白名单过滤、武器预装弹补充
+       移除的函数：scanVehicles / passVehicleFilter / replenishVehicleInventory / replenishWeaponAmmo
+       新增的函数：scanSBWVehicles / replenishVehicle
+     - startup_scripts/ammo_station_gui.js → 2026-06-25 GUI简化
+       移除：入场延时、武器弹阈值、载具过滤字段
+       冷却CD显示单位改为秒
 
 ================================================================
