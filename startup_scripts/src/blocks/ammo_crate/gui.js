@@ -193,8 +193,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         if (!level) return
         var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
         if (!block || block.getId() === 'minecraft:air') return
-        var current = block.persistentData.CheatMode === true
-        block.persistentData.putBoolean('CheatMode', !current)
+        var current = block.entity.persistentData.CheatMode === true
+        block.entity.persistentData.putBoolean('CheatMode', !current)
         player.displayClientMessage(Component.literal('§6[弹药补给站] ' + (!current ? '§c作弊模式已开启' : '§a作弊模式已关闭')), false)
       } catch (e) {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 切换失败: ' + e), false)
@@ -298,7 +298,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       }
       if (typeof writeBlockConfig === 'function') {
         writeBlockConfig(block, newCfg)
-        block.persistentData.putLong('CooldownEnd', 0)
+        block.entity.persistentData.putLong('CooldownEnd', 0)
         player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
       }
     } catch (e) {
@@ -327,7 +327,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       if (!block || block.getId() === 'minecraft:air') return
       if (typeof writeBlockConfig === 'function' && typeof DEFAULT_STATION_CONFIG !== 'undefined') {
         writeBlockConfig(block, JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG)))
-        block.persistentData.putLong('CooldownEnd', 0)
+        block.entity.persistentData.putLong('CooldownEnd', 0)
         player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置，请重新打开GUI查看'), false)
       }
     } catch (e) {

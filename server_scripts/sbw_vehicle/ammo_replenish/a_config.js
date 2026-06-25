@@ -4,7 +4,8 @@
 // 每个方块通过 persistentData 独立存储配置：
 //   放置/首次访问时自动写入 DEFAULT_STATION_CONFIG
 //
-// ⚠ 所有 NBT 读写统一使用 block.persistentData（自动持久化）
+// ⚠ 所有 NBT 读写统一使用 block.entity.persistentData
+//   block.persistentData 在 LevelBlock 上不存在！
 //   不要使用 getEntityData()/setEntityData()！
 //
 // 配置字段说明：
@@ -80,7 +81,7 @@ function getAmmoDisplayName(ammoKey) {
  * 若未初始化（新放置的方块），自动写入默认配置并返回
  */
 function readBlockConfig(block) {
-  let pd = block.persistentData
+  let pd = block.entity.persistentData
   if (!pd.contains('StationConfig')) {
     writeBlockConfig(block, DEFAULT_STATION_CONFIG)
     return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
@@ -118,5 +119,5 @@ function readBlockConfig(block) {
  * 将配置写入方块 persistentData（自动持久化）
  */
 function writeBlockConfig(block, config) {
-  block.persistentData.putString('StationConfig', JSON.stringify(config))
+  block.entity.persistentData.putString('StationConfig', JSON.stringify(config))
 }

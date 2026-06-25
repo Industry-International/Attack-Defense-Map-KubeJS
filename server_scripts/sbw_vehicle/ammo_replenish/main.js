@@ -11,7 +11,7 @@
 //   3. AABB 扫描周围载具 → 检查 Inventory 已有弹药 → 补到配置最大值
 //   4. 补给后进入冷却 CD（配置项：秒）
 //
-// ⚠ 注意：所有方块 NBT 读写都使用 block.persistentData（自动持久化）
+// ⚠ 注意：所有方块 NBT 读写都使用 block.entity.persistentData（自动持久化）
 //         不要使用 block.getEntityData()/setEntityData()
 // ============================================================
 
@@ -33,7 +33,7 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
   try {
     let cfg = readBlockConfig(block)
     // 读取作弊模式状态，传给 GUI 控制按钮显隐
-    let cheatMode = block.persistentData.CheatMode === true
+    let cheatMode = block.entity.persistentData.CheatMode === true
 
     let cacheData = JSON.stringify({
       pos: { x: pos.getX(), y: pos.getY(), z: pos.getZ() },
@@ -86,7 +86,7 @@ function executeStationReplenish(block, level, ignoreCooldown) {
     let slots = cfg.slots || {}
 
     // ─── 2. 检查冷却（手动触发无视冷却） ───
-    let pd = block.persistentData
+    let pd = block.entity.persistentData
     let cooldownEnd = pd.getLong('CooldownEnd')
     let gameTime = level.getTime()
     if (!ignoreCooldown && gameTime < cooldownEnd) return false
