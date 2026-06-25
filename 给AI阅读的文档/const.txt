@@ -105,10 +105,10 @@ startup 中的 const 不会与 server 中的 const 冲突。
   const VEHICLE_CFG = SBW_VEHICLE_CONFIG
   const SBW_PREFIX = '[SBW载具]'
 
-来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（简化版）
-（移除了入场延时/武器弹阈值/载具过滤等复杂逻辑，仅保留AABB扫描+冷却+补给到最大值）
+来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（2026-06-25 完全重写）
+（通过 entity.nbt.id 以 superbwarfare: 前缀识别载具，读取 Inventory.Items 补给弹药到最大值）
 
-  （此文件不再包含独立的 const 声明）
+  （此文件不再包含独立的 const 声明，var $AABB 已移除，依赖 a_java_refs.js 中的 $AABB）
 
 来源文件: server_scripts/team_revive/main.js
 
@@ -173,9 +173,10 @@ startup 中的 const 不会与 server 中的 const 冲突。
 
   var $StringArgument  = Java.loadClass('com.mojang.brigadier.arguments.StringArgumentType')
 
-来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js
+来源文件: server_scripts/sbw_vehicle/tools/a_java_refs.js
 
   var $AABB           = Java.loadClass('net.minecraft.world.phys.AABB')
+  （注：ammo_replenish/main.js 不再重复声明 $AABB，直接依赖此处的 var $AABB）
 
 来源文件: startup_scripts/ammo_station_gui.js（startup 作用域，与 server 作用域独立）
 
@@ -450,35 +451,46 @@ StartupEvents.registry('block', ...) 注册的方块：
     /sbw_vehicle status     — 查看系统 + 载具状态（适配全部8状态）
     /sbw_vehicle timelist   — 查看所有补员倒计时列表
 
-  ======== sbw_vehicle/ammo_replenish/ （弹药补给站 - 方块驱动简化版）========
+  ======== sbw_vehicle/ammo_replenish/ （弹药补给站 - 方块驱动版 2026-06-25）========
   注意：
-    1. 已移除入场延时、武器弹阈值、载具过滤等复杂逻辑
-    2. 冷却CD单位改为秒（GUI和配置中均为秒）
-    3. 补给逻辑改为检查载具Inventory中已有弹药类型 → 只补这些 → 补到配置最大值
-    4. 不再追踪载具入场/离场，冷却状态直接持久化到方块 persistentData 的 CooldownEnd 键
+    1. 方块每20tick执行：读取配置 → 检查冷却 → AABB扫描 → 载具识别 → 弹药补给 → 设置CD
+    2. 冷却CD单位：秒（配置和GUI统一）
+    3. 补给逻辑：检查载具Inventory.Items中已有的弹药类型 → 只补这些 → 补到配置最大值
+    4. 冷却状态持久化到方块 entityData 的 CooldownEnd（long类型，游戏tick时间）
+    5. 方块配置持久化到 entityData 的 StationConfig（JSON字符串）
+    6. 载具识别：通过 entity.nbt.id 判断是否以 'superbwarfare:' 开头
 
-  a_config.js — 配置定义 & 方块配置读写工具（简化）
+  a_config.js — 配置定义 & 方块配置读写工具
     const DEFAULT_STATION_CONFIG    — 默认配置（scanRange, cooldown秒, slots）
     const AMMO_ID_MAP              — 弹药类型短名 → item ID
-    const AMMO_KEY_MAP             — item ID → 弹药类型短名（反向映射）
+    const AMMO_KEY_MAP             — item ID → 弹药类型短名（反向映射，自动构建）
     function getAmmoDisplayName(ammoKey)          — 获取弹药显示名
-    function readBlockConfig(block)               — 读取方块配置（惰性初始化+合并默认）
+    function readBlockConfig(block)               — 读取方块配置（首次自动初始化默认值）
     function writeBlockConfig(block, config)      — 写入方块配置
 
-  已移除的函数（旧版）：
-    updateBlockConfig / setBlockSlotConfig / readBlockRuntime / writeBlockRuntime / formatConfigSummary
+  main.js — 方块核心逻辑（2026-06-25 完全重写）
+    依赖外部声明：$AABB（sbw_vehicle/tools/a_java_refs.js, var）
+                $CompoundTag（profession/config/a_tacz_config.js, const）
+                $ListTag（sbw_vehicle/tools/a_java_refs.js, var）
+    功能：右键打开GUI / BlockEntity每20tick扫描补给 / OP潜行右键切换作弊模式
+    BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick执行扫描补给流程
+      流程：→ executeStationReplenish(block, level, false)
+    BlockEvents.rightClicked('kubejs:ammo_crate')    — 读实际配置 + cheatMode → 填充GUI缓存 → 打开LDLib2 GUI
+      OP潜行右键 → 切换 CheatMode 布尔值（持久化到方块 entityData）
+    function executeStationReplenish(block, level, ignoreCooldown) — 完整扫描补给流程（Tick/手动触发共用）
+      流程：读配置 → 冷却检查(ignoreCooldown控制) → AABB扫描 → 载具识别 → 补给 → 设CD
+    function isSBWVehicle(entity)                    — 判断是否为SBW载具（检查nbt.id前缀）
+    function replenishVehicle(entity, slots)          — 对单辆载具执行补给
+      流程：读Inventory.Items → 统计已有弹药量 → 计算差额 → 先叠加到现有物品组(≤64) → 不足则新增物品组 → 写回NBT
 
-  main.js — 方块驱动核心逻辑（简化版）
-    var $AABB — AABB包围盒类
-    BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick扫描+补充
-      流程：读配置 → 冷却检查 → AABB扫描载具 → 检查Inventory已有弹药 → 补到最大值 → 进入冷却
-    BlockEvents.rightClicked('kubejs:ammo_crate')    — 打开LDLib2配置GUI
-    function scanSBWVehicles(level, block, range)     — AABB扫描范围内SBW载具（通过标签识别）
-    function replenishVehicle(entity, ammoMaxMap)     — 对单辆载具执行补给（只补已有弹药类型到上限）
-    function notifyNearbyPlayers(level, block, ...)   — 通知附近玩家
-
-  已移除的函数（旧版）：
-    scanVehicles / passVehicleFilter / replenishVehicleInventory / replenishWeaponAmmo
+  GUI（startup_scripts/src/blocks/ammo_crate/gui.js）— 2026-06-25 LDLib2配置GUI
+    var $HashMap + global.ammoStationGuiCache — GUI缓存
+    const GUI_AMMO_TYPES — 8种弹药类型配置
+    共4页：基础/弹药(上)/弹药(下)/§c作弊
+      第4页作弊页始终显示，所有按钮权限由服务端校验（player.hasPermissions(2)）
+      功能：
+        ⇄ 切换作弊模式 — 切换方块 CheatMode 布尔值（持久化到 block.entityData）
+        ⚡ 立即扫描补给 — 调用 executeStationReplenish(block, level, true)
 
   ======== startup_scripts/ammo_station_gui.js（简洁版GUI）========
   （替代旧版 ammo_replenish_ui.js，LDLib2 UI ID: kubejs:ammo_station_cfg）
@@ -661,17 +673,17 @@ StartupEvents.registry('block', ...) 注册的方块：
      - startup_scripts/ammo_replenish_ui.js → 已重命名为 ammo_station_gui.js
        LDLib2 UI ID 变更：kubejs:ammo_crate_gui → kubejs:ammo_station_cfg
        const 名变更：AMMO_TYPE_CFG → GUI_AMMO_TYPES
-     - server_scripts/sbw_vehicle/ammo_replenish/a_config.js → 2026-06-25 简化
-       移除：enterDelay / weaponAmmoThreshold / targetVehicleIds
-       变更：cooldown 单位从 tick 改为秒
-       移除的函数：updateBlockConfig / setBlockSlotConfig / readBlockRuntime / writeBlockRuntime / formatConfigSummary
-     - server_scripts/sbw_vehicle/ammo_replenish/main.js → 2026-06-25 完全重写
-       补给逻辑改为：扫描载具Inventory → 找出已有弹药类型 → 补到配置最大值
-       移除：入场延时追踪、载具白名单过滤、武器预装弹补充
-       移除的函数：scanVehicles / passVehicleFilter / replenishVehicleInventory / replenishWeaponAmmo
-       新增的函数：scanSBWVehicles / replenishVehicle
-     - startup_scripts/ammo_station_gui.js → 2026-06-25 GUI简化
+     - server_scripts/sbw_vehicle/ammo_replenish/ → 2026-06-25 完全重写
+       a_config.js：保留 DEFAULT_STATION_CONFIG / AMMO_ID_MAP / readBlockConfig / writeBlockConfig
+       main.js：从临时测试版重写为完整方块驱动版
+         右键交互：readBlockConfig 读取实际配置 → 填充 GUI 缓存 → 打开 LDLib2 GUI
+         Tick逻辑：读配置 → 冷却检查 → AABB扫描 → 载具识别(isSBWVehicle) → 补给(replenishVehicle) → 设CD
+         识别方式：从标签识别改为 entity.nbt.id 前缀匹配 'superbwarfare:'
+         补给方式：读 Inventory.Items → 只补已有弹药类型 → 先叠加(≤64) → 不足则新增 → 写回NBT
+         移除的函数：scanSBWVehicles / notifyNearbyPlayers / scanVehicles / passVehicleFilter / replenishVehicleInventory / replenishWeaponAmmo
+     - startup_scripts/ammo_station_gui.js → 2026-06-25 GUI优化
        移除：入场延时、武器弹阈值、载具过滤字段
        冷却CD显示单位改为秒
+       标题居中、分页(TabView)、根容器约束
 
 ================================================================
