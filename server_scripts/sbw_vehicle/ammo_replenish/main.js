@@ -26,11 +26,14 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
 
   try {
     let cfg = readBlockConfig(block)
+    // 读取作弊模式状态，传给 GUI 控制按钮显隐
+    let cheatMode = block.getEntityData().getBoolean('CheatMode')
 
     let cacheData = JSON.stringify({
       pos: { x: pos.getX(), y: pos.getY(), z: pos.getZ() },
       dim: event.level.getDimension().toString(),
-      config: cfg
+      config: cfg,
+      cheatMode: cheatMode
     })
     global.ammoStationGuiCache.put(player.uuid, cacheData)
 

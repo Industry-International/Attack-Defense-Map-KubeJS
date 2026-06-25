@@ -48,6 +48,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   }
 
   var cfg = cacheData.config
+  // 作弊模式状态（控制手动补给按钮显隐）
+  var cheatMode = cacheData.cheatMode === true
 
   // ──── 创建所有共享的输入字段 ────
 
@@ -195,50 +197,56 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   })
   page4.addChild(btnToggleCheat)
 
-  page4.addChild(new Label().setText(Component.literal(' '))) // 间距
+  // 状态指示
+  var statusLabel = new Label().setText(Component.literal(cheatMode ? '§a✔ 作弊模式已开启' : '§7作弊模式已关闭'))
+  page4.addChild(statusLabel)
 
-  // 手动触发扫描补给按钮（仅OP可用，服务端检验）
-  var btnManualTrigger = new Button()
-  btnManualTrigger.setText(Component.literal('§4⚡ 立即扫描补给'))
-  btnManualTrigger.lss('padding', '4 12')
-  btnManualTrigger.setOnServerClick(function(clickEvent) {
-    if (!player.hasPermissions(2)) {
-      player.displayClientMessage(Component.literal('§c[弹药补给站] 你没有权限使用此功能'), false)
-      return
-    }
-    var server = player.getServer()
-    if (!server) return
-    var puuid = player.uuid
-    var raw = global.ammoStationGuiCache.get(puuid)
-    if (!raw) {
-      player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false)
-      return
-    }
-    try {
-      var data = JSON.parse(raw)
-      var level = server.getLevel(data.dim || 'minecraft:overworld')
-      if (!level) {
-        player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取维度'), false)
+  // 手动触发扫描补给按钮（仅作弊模式开启时显示 + 服务端校验权限）
+  if (cheatMode) {
+    page4.addChild(new Label().setText(Component.literal(' '))) // 间距
+
+    var btnManualTrigger = new Button()
+    btnManualTrigger.setText(Component.literal('§4⚡ 立即扫描补给'))
+    btnManualTrigger.lss('padding', '4 12')
+    btnManualTrigger.setOnServerClick(function(clickEvent) {
+      if (!player.hasPermissions(2)) {
+        player.displayClientMessage(Component.literal('§c[弹药补给站] 你没有权限使用此功能'), false)
         return
       }
-      var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-      if (!block || block.getId() === 'minecraft:air') {
-        player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
+      var server = player.getServer()
+      if (!server) return
+      var puuid = player.uuid
+      var raw = global.ammoStationGuiCache.get(puuid)
+      if (!raw) {
+        player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false)
         return
       }
-      if (typeof executeStationReplenish === 'function') {
-        var result = executeStationReplenish(block, level, true)
-        if (result) {
-          player.displayClientMessage(Component.literal('§a✔ 手动补给完成！'), false)
-        } else {
-          player.displayClientMessage(Component.literal('§e未找到需要补给的载具'), false)
+      try {
+        var data = JSON.parse(raw)
+        var level = server.getLevel(data.dim || 'minecraft:overworld')
+        if (!level) {
+          player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取维度'), false)
+          return
         }
+        var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
+        if (!block || block.getId() === 'minecraft:air') {
+          player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
+          return
+        }
+        if (typeof executeStationReplenish === 'function') {
+          var result = executeStationReplenish(block, level, true)
+          if (result) {
+            player.displayClientMessage(Component.literal('§a✔ 手动补给完成！'), false)
+          } else {
+            player.displayClientMessage(Component.literal('§e未找到需要补给的载具'), false)
+          }
+        }
+      } catch (e) {
+        player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false)
       }
-    } catch (e) {
-      player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false)
-    }
-  })
-  page4.addChild(btnManualTrigger)
+    })
+    page4.addChild(btnManualTrigger)
+  }
 
   var tab4 = new Tab()
   tab4.setText('§c作弊')
