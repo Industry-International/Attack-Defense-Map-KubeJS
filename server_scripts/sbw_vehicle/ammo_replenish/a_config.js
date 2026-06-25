@@ -78,39 +78,30 @@ function getAmmoDisplayName(ammoKey) {
 
 /**
  * 读取方块 persistentData 中的补给站配置
- * 若未初始化（新放置的方块），自动写入默认配置并返回
+ *
+ * 初始化规则：
+ *   首次（或重置后检测到无 Initialized 标记）→ 写入默认配置 + 打上 Initialized 标记
+ * 后续规则：
+ *   只读，绝不修改 StationConfig（即使用户通过 GUI 改了值也原样返回）
+ *   这样 GUI 和 server 的 NBT 写操作互不干扰。
  */
 function readBlockConfig(block) {
   let pd = block.entity.persistentData
-  if (!pd.contains('StationConfig')) {
-    writeBlockConfig(block, DEFAULT_STATION_CONFIG)
+
+  // ─── 未初始化？写入默认配置并打标记 ───
+  if (!pd.contains('StationConfig') || pd.getBoolean('Initialized') !== true) {
+    pd.putString('StationConfig', JSON.stringify(DEFAULT_STATION_CONFIG))
+    pd.putBoolean('Initialized', true)
     return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
   }
 
+  // ─── 已初始化 → 只读返回，绝不修改 ───
   try {
     let raw = pd.getString('StationConfig')
-    let cfg = JSON.parse(raw)
-    // 合并默认值（新增字段自动补齐）
-    let merged = JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
-    for (let key in cfg) {
-      if (cfg.hasOwnProperty(key)) merged[key] = cfg[key]
-    }
-    // slots 也要逐字段合并（保留已有配置，新增弹药自动补充默认值）
-    if (cfg.slots) {
-      for (let sk in DEFAULT_STATION_CONFIG.slots) {
-        if (DEFAULT_STATION_CONFIG.slots.hasOwnProperty(sk)) {
-          if (cfg.slots[sk] === undefined) {
-            merged.slots[sk] = DEFAULT_STATION_CONFIG.slots[sk]
-          } else {
-            merged.slots[sk] = cfg.slots[sk]
-          }
-        }
-      }
-    }
-    return merged
+    return JSON.parse(raw)
   } catch (e) {
     console.log('[弹药补给站] 配置解析失败: ' + e + '，重置为默认')
-    writeBlockConfig(block, DEFAULT_STATION_CONFIG)
+    pd.putString('StationConfig', JSON.stringify(DEFAULT_STATION_CONFIG))
     return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
   }
 }

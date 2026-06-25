@@ -58,8 +58,18 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
 
 BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
   if (event.level.isClientSide()) return
+  let block = event.block
+  let level = event.level
+  let pd = block.entity.persistentData
+
+  // ─── 检查是否有 GUI 提交的手动补给请求 ───
+  if (pd.getBoolean('PendingReplenish') === true) {
+    pd.putBoolean('PendingReplenish', false)
+    executeStationReplenish(block, level, true)
+  }
+
   // Tick 调用：检查冷却（第三个参数 false）
-  executeStationReplenish(event.block, event.level, false)
+  executeStationReplenish(block, level, false)
 })
 
 // ═══════════════════════════════════════════════════════════════

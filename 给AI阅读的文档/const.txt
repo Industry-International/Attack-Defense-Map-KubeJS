@@ -1,6 +1,6 @@
 ================================================================
  KubeJS 全局/局部声明参考（避免重复声明错误）
- 更新日期: 2026-06-25
+ 更新日期: 2026-06-26
 ================================================================
 
 在 KubeJS 7 (Rhino) 中：
@@ -225,6 +225,14 @@ $HashMap 在 sbw_vehicle/tools/a_java_refs.js 和 ammo_station_gui.js 中各用 
     // 访问方式：global.taovReturnedAutocannon.xxx
     // 属性：muzzleVelocityBlocksPerSecond, forceTracer, propellerSoundEnabled,
     //       rocketRackReloadSeconds, kamikazeExplosivePower
+
+  startup_scripts/src/blocks/ammo_crate/gui.js
+    // global.ammoStationGuiCache — GUI缓存（仅存 JSON 数据，不存函数引用）
+    // 注意：KubeJS 7 不允许通过 global 跨 startup/server 作用域传递函数引用。
+    //       setOnServerClick 回调中的 server 逻辑采用内联+标记方案：
+    //       - 保存/重置：直接操作 block.entity.persistentData（内联）
+    //       - 手动补给：写入 PendingReplenish 标记，由 server 侧 blockEntityTick 执行
+    // 详情见下方 GUI 文档
 
 ================================================================
  第七：item / block 注册
@@ -474,7 +482,9 @@ StartupEvents.registry('block', ...) 注册的方块：
                 $ListTag（sbw_vehicle/tools/a_java_refs.js, var）
     功能：右键打开GUI / BlockEntity每20tick扫描补给 / OP潜行右键切换作弊模式
     BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick执行扫描补给流程
-      流程：→ executeStationReplenish(block, level, false)
+      流程：→ 检测 PendingReplenish 标记（由GUI setOnServerClick 写入）
+           → 若为 true，清除标记，调用 executeStationReplenish(block, level, true)（无视冷却）
+           → 执行常规 executeStationReplenish(block, level, false)（检查冷却）
     BlockEvents.rightClicked('kubejs:ammo_crate')    — 读实际配置 + cheatMode → 填充GUI缓存 → 打开LDLib2 GUI
       OP潜行右键 → 切换 CheatMode 布尔值（持久化到方块 entityData）
     function executeStationReplenish(block, level, ignoreCooldown) — 完整扫描补给流程（Tick/手动触发共用）
@@ -483,29 +493,31 @@ StartupEvents.registry('block', ...) 注册的方块：
     function replenishVehicle(entity, slots)          — 对单辆载具执行补给
       流程：读Inventory.Items → 统计已有弹药量 → 计算差额 → 先叠加到现有物品组(≤64) → 不足则新增物品组 → 写回NBT
 
-  GUI（startup_scripts/src/blocks/ammo_crate/gui.js）— 2026-06-25 LDLib2配置GUI
-    var $HashMap + global.ammoStationGuiCache — GUI缓存
+  GUI（startup_scripts/src/blocks/ammo_crate/gui.js）— 2026-06-26 LDLib2配置GUI（内联+标记版）
+    var $HashMap + global.ammoStationGuiCache — GUI缓存（仅存 JSON 数据，不存函数引用）
     const GUI_AMMO_TYPES — 8种弹药类型配置
     共4页：基础/弹药(上)/弹药(下)/§c作弊
       第4页作弊页始终显示，所有按钮权限由服务端校验（player.hasPermissions(2)）
-      功能：
-        ⇄ 切换作弊模式 — 切换方块 CheatMode 布尔值（持久化到 block.entityData）
-        ⚡ 立即扫描补给 — 调用 executeStationReplenish(block, level, true)
+      功能（均不依赖跨作用域函数调用）：
+        ⇄ 切换作弊模式 — 直接操作 block.entity.persistentData
+        ✔ 保存配置 — 内联 JSON.stringify 直接写入 block.entity.persistentData
+        ↻ 重置默认 — 在回调中构建默认配置对象，直接写入 block.entity.persistentData
+        ⚡ 立即扫描补给 — 写入 PendingReplenish 标记到 block.entity.persistentData，
+                         由 server 侧 BlockEvents.blockEntityTick 检测后执行
 
-  ======== startup_scripts/ammo_station_gui.js（简洁版GUI）========
-  （替代旧版 ammo_replenish_ui.js，LDLib2 UI ID: kubejs:ammo_station_cfg）
-  （通过 $ammoStationGuiCache 缓存接收服务端传入的配置数据）
-
-    var $HashMap                 — Java HashMap 类
-    var $ammoStationGuiCache     — 全局缓存：UUID → JSON.stringify({ pos, dim, config })
-    const GUI_AMMO_TYPES         — GUI中8种弹药类型配置
-    LDLib2UI.block('kubejs:ammo_station_cfg', handler) — LDLib2 UI注册
-      通过 LDLib2UIFactory.openBlockUI(player, pos, id) 打开
-    function wrapRow(labelText, field, unitText)     — 包装带标签的行
+    function wrapRow(labelText, field, unitText)     — 包装带标签的行（GUI内部辅助）
     function safeParseInt(field)                      — 安全解析TextField整数值
+    function makeSeparator()                          — 创建占满容器宽度的分隔线
+
+  ⚠ 跨作用域说明（2026-06-26）：
+    KubeJS 7 中 startup_scripts 和 server_scripts 是独立 Rhino 作用域，
+    global 对象虽共享但不能用来传递函数引用。
+    解决方案：setOnServerClick 回调中不使用 server_scripts 的函数，
+    - 简单操作（写 persistentData）直接内联
+    - 复杂操作（executeStationReplenish）写入 NBT 标记，
+      由 server 侧的 BlockEvents.blockEntityTick 检测后执行
 
   GUI可配置项：扫描范围、冷却时间(秒)、各弹药最大储量
-  （注意：GUI handler 中不调用 server_scripts 函数！通过 setOnServerClick 回调执行服务端逻辑）
 
   ======== startup_scripts/naval_balance_block_properties.js ========
     function railwaysPalette(suffixes) — 生成railways方块ID列表（startup作用域）

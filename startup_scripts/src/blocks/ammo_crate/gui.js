@@ -234,14 +234,9 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
             player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
             return
           }
-          if (typeof executeStationReplenish === 'function') {
-            var result = executeStationReplenish(block, level, true)
-            if (result) {
-              player.displayClientMessage(Component.literal('§a✔ 手动补给完成！'), false)
-            } else {
-              player.displayClientMessage(Component.literal('§e未找到需要补给的载具'), false)
-            }
-          }
+          // 写入 PendingReplenish 标记，由 server 侧的 blockEntityTick 执行
+          block.entity.persistentData.putBoolean('PendingReplenish', true)
+          player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
         } catch (e) {
           player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false)
         }
@@ -296,11 +291,10 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         var amount = safeParseInt(slotFields[atype.key])
         if (amount > 0) newCfg.slots[atype.key] = amount
       }
-      if (typeof writeBlockConfig === 'function') {
-        writeBlockConfig(block, newCfg)
-        block.entity.persistentData.putLong('CooldownEnd', 0)
-        player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
-      }
+      // 直接写入方块 persistentData（无需跨作用域调 server 函数）
+      block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
+      block.entity.persistentData.putLong('CooldownEnd', 0)
+      player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
     }
@@ -325,11 +319,11 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       if (!level) return
       var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
       if (!block || block.getId() === 'minecraft:air') return
-      if (typeof writeBlockConfig === 'function' && typeof DEFAULT_STATION_CONFIG !== 'undefined') {
-        writeBlockConfig(block, JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG)))
-        block.entity.persistentData.putLong('CooldownEnd', 0)
-        player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置，请重新打开GUI查看'), false)
-      }
+      // 清除 StationConfig 和 Initialized 标记，服务器下次读取时自动重新初始化
+      block.entity.persistentData.remove('StationConfig')
+      block.entity.persistentData.remove('Initialized')
+      block.entity.persistentData.putLong('CooldownEnd', 0)
+      player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 重置失败: ' + e), false)
     }
