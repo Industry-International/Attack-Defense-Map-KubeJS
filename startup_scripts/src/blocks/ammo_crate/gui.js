@@ -32,7 +32,7 @@ const GUI_AMMO_TYPES = [
 
 LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   let player = event.player
-  let uuid = String(player.getUUID())
+  let uuid = player.uuid
 
   // 从缓存读取配置数据
   var cacheData = null
@@ -102,7 +102,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         var server = player.getServer()
         if (!server) return
 
-        var puuid = String(player.getUUID())
+        var puuid = player.uuid
         var raw = global.ammoStationGuiCache.get(puuid)
         if (!raw) {
           player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效，请重新打开GUI'), false)
@@ -160,7 +160,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         var server = player.getServer()
         if (!server) return
 
-        var puuid = String(player.getUUID())
+        var puuid = player.uuid
         var raw = global.ammoStationGuiCache.get(puuid)
         if (!raw) {
           player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false)
