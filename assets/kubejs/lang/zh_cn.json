@@ -186,14 +186,31 @@
   "msg.kubejs.sbw_vehicle.state.under_capacity": "§e⬇ 载具不足",
   "msg.kubejs.sbw_vehicle.state.timing": "§e⟳ 补员中",
 
-  "block.kubejs.ammo_crate": "§6弹药补给箱",
+  "block.kubejs.ammo_crate": "§6弹药补给站",
 
-  "msg.kubejs.ammo_replenish.done": "§a✔ 弹药补充完成：已为 §e%s 辆 §a载具补充弹药",
-  "msg.kubejs.ammo_replenish.no_vehicles": "§e附近未发现需要弹药的载具",
-  "msg.kubejs.ammo_replenish.all_full": "§e扫描完成，所有载具弹药充足",
-  "msg.kubejs.ammo_replenish.execute": "§a✔ 执行补充",
-  "msg.kubejs.ammo_replenish.added_items": "§a✔ 已为 §e%s §a补充 §e%s §a个物品",
-  "msg.kubejs.ammo_replenish.gui_title": "§6╔═══ 弹药补给箱 ═══╗",
-  "msg.kubejs.ammo_replenish.scan_info": "§7范围: %s 格 | 发现: §e%s §7辆载具",
-  "msg.kubejs.ammo_replenish.no_vehicle_in_range": "§7范围内未发现载具"
+  "msg.kubejs.ammo_station.replenish_done": "§6[补给站] §a已为 §e%s §a辆载具补充弹药 §7(共 §e%s §7个物品)",
+  "msg.kubejs.ammo_station.status_ready": "§a就绪",
+  "msg.kubejs.ammo_station.status_cooldown": "§c冷却中",
+  "msg.kubejs.ammo_station.hint_detail": "§e潜行右键§7查看详情",
+  "msg.kubejs.ammo_station.vehicle_entered": "§7载具 §e%s §7进入范围",
+  "msg.kubejs.ammo_station.vehicle_left": "§7载具已离开范围",
+  "msg.kubejs.ammo_station.no_vehicles": "§7范围内未发现载具",
+
+  "msg.kubejs.ammo_station.cfg_header": "§6╔═══ 弹药补给站配置 ═══╗",
+  "msg.kubejs.ammo_station.cfg_scan_range": "§7扫描范围: §e%s §7格",
+  "msg.kubejs.ammo_station.cfg_enter_delay": "§7入场延时: §e%s §7秒",
+  "msg.kubejs.ammo_station.cfg_cooldown": "§7冷却时间: §e%s §7秒",
+  "msg.kubejs.ammo_station.cfg_weapon_threshold": "§7武器弹阈值: §e%s",
+  "msg.kubejs.ammo_station.cfg_slots_header": "§7弹药方案:",
+  "msg.kubejs.ammo_station.cfg_filter_all": "§7载具过滤: §8全部",
+  "msg.kubejs.ammo_station.cfg_filter_list": "§7载具过滤: §e%s",
+  "msg.kubejs.ammo_station.cfg_footer": "§6╚══════════════════════╝",
+
+  "msg.kubejs.ammo_station.config_updated": "§a✔ 配置已更新: §e%s §7= §e%s",
+  "msg.kubejs.ammo_station.config_invalid_key": "§c未知配置项: %s",
+  "msg.kubejs.ammo_station.config_invalid_value": "§c无效的值: %s",
+  "msg.kubejs.ammo_station.slot_updated": "§a✔ 弹药槽位已更新: %s §7× §e%s",
+  "msg.kubejs.ammo_station.slot_removed": "§e已移除弹药类型: %s",
+
+  "msg.kubejs.ammo_station.usage": "§c用法: /ammo_cfg <set|get|slot> [参数...]"
 }

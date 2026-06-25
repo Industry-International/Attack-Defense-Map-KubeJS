@@ -1,17 +1,14 @@
 // ============================================================
-// 弹药补给箱 - 方块注册（i18n 规范）
+// 弹药补给箱 - 方块注册（方块驱动版）
 //
-// 像木桶一样有 open 属性：
-//   open=false → barrel_top（关闭）
-//   open=true  → barrel_top_open（打开）
+// 每个方块通过 persistentData 独立存储配置：
+//   - slots:         各弹药类型及补充量
+//   - scanRange:     扫描半径
+//   - enterDelay:    载具驶入后等待 tick 数再补充
+//   - cooldown:      补充后的冷却 tick 数
+//   - weaponAmmoThreshold: 武器预装弹补充阈值
 //
-// 注册 BlockEntity 并启用 serverTicking，
-// 让每个方块独立运行自己的 tick 逻辑（而非全局循环）。
-//
-// 纹理使用原版材质（无需额外 PNG）：
-//   top:    minecraft:block/barrel_top / barrel_top_open
-//   bottom: minecraft:block/oak_planks
-//   side:   minecraft:block/barrel_side
+// 方块放置时自动写入默认配置（server_scripts 中定义）。
 // ============================================================
 
 StartupEvents.registry('block', event => {
