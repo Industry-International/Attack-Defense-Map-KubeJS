@@ -71,10 +71,19 @@ BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
 BlockEvents.rightClicked('kubejs:ammo_crate', event => {
   if (event.level.isClientSide()) return
   let player = event.player
-  let pos = event.block.getPos()
+  let block = event.block
+  let pos = block.getPos()
 
   try {
-    // GUI handler (startup_scripts/ammo_station_gui.js) 会直接从方块读取配置
+    // 读取配置并填充到全局缓存（$ammoStationGuiCache 在 startup_scripts/ammo_station_gui.js 中声明）
+    let cfg = readBlockConfig(block)
+    let dim = event.level.getDimension().toString()
+    let cacheData = JSON.stringify({
+      pos: { x: pos.getX(), y: pos.getY(), z: pos.getZ() },
+      dim: dim,
+      config: cfg
+    })
+    $ammoStationGuiCache.put(player.getStringUUID(), cacheData)
     LDLib2UIFactory.openBlockUI(player, pos, 'kubejs:ammo_station_cfg')
   } catch (e) {
     console.log('[弹药补给站] GUI打开失败: ' + e)

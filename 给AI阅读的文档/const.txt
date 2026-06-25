@@ -178,9 +178,13 @@ startup 中的 const 不会与 server 中的 const 冲突。
   var $AABB           = Java.loadClass('net.minecraft.world.phys.AABB')
 
 来源文件: startup_scripts/ammo_station_gui.js（startup 作用域，与 server 作用域独立）
-（此文件不再使用 var 声明，$HashMap 和 $ammoStationGuiCache 已移除）
+
+  var $HashMap = Java.loadClass('java.util.HashMap')
+  var $ammoStationGuiCache = new $HashMap()    // 全局缓存：UUID → { pos, config, dim }
 
 注意：$EntityArgument 在两个文件中各用 var 声明了一次（var 可重复声明）。
+$HashMap 在 sbw_vehicle/tools/a_java_refs.js 和 ammo_station_gui.js 中各用 var 声明，
+但因为两者不在同一个作用域（server vs startup），不会冲突。
 
 ================================================================
  第五：各模块内部的 const/var 局部常量（不冲突）
@@ -478,21 +482,18 @@ StartupEvents.registry('block', ...) 注册的方块：
 
   ======== startup_scripts/ammo_station_gui.js（简洁版GUI）========
   （替代旧版 ammo_replenish_ui.js，LDLib2 UI ID: kubejs:ammo_station_cfg）
-  （不再使用 $ammoStationGuiCache 全局缓存，直接通过 event.pos 读取方块配置）
+  （通过 $ammoStationGuiCache 缓存接收服务端传入的配置数据）
 
+    var $HashMap                 — Java HashMap 类
+    var $ammoStationGuiCache     — 全局缓存：UUID → JSON.stringify({ pos, dim, config })
     const GUI_AMMO_TYPES         — GUI中8种弹药类型配置
     LDLib2UI.block('kubejs:ammo_station_cfg', handler) — LDLib2 UI注册
       通过 LDLib2UIFactory.openBlockUI(player, pos, id) 打开
     function wrapRow(labelText, field, unitText)     — 包装带标签的行
     function safeParseInt(field)                      — 安全解析TextField整数值
 
-  已移除的声明：
-    var $HashMap                 — 不再需要 Java HashMap
-    var $ammoStationGuiCache     — 不再使用缓存传递数据
-    function wrapField           — 重命名为 wrapRow
-    function parseIntField       — 重命名为 safeParseInt
-
   GUI可配置项：扫描范围、冷却时间(秒)、各弹药最大储量
+  （注意：GUI handler 中不调用 server_scripts 函数！通过 setOnServerClick 回调执行服务端逻辑）
 
   ======== startup_scripts/naval_balance_block_properties.js ========
     function railwaysPalette(suffixes) — 生成railways方块ID列表（startup作用域）
@@ -611,6 +612,8 @@ StartupEvents.registry('block', ...) 注册的方块：
   8. 其他 $ 开头的 Java 类引用（$ListTag, $FloatTag 等，含 $AABB）：
      - 在其他文件中用 var 声明是安全的（不会报错）
      - 但最佳实践是在用到它的文件内用 var 自行声明，不依赖外部
+     - $HashMap 在 sbw_vehicle/tools/a_java_refs.js（server）和
+       ammo_station_gui.js（startup）各声明一次，不冲突
 
   9. 所有用 function 声明的全局函数（见第八节）：
      - function 在 Rhino 中是全局可见的（等同 var）
@@ -618,6 +621,7 @@ StartupEvents.registry('block', ...) 注册的方块：
      - 但可以放心调用，无需重复声明
 
   10. 用 var 声明的顶层变量（全局可见，可重复声明但应避免）：
+      $ammoStationGuiCache — 弹药补给站GUI缓存（startup 作用域）
       $actionBarPlayers    — ActionBar 玩家集合（server 作用域）
 
   11. global.taovReturnedAutocannon：

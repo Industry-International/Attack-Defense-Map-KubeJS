@@ -1,16 +1,20 @@
 // ============================================================
-// 弹药补给站 - LDLib2 配置GUI（独立文件）
+// 弹药补给站 - LDLib2 配置GUI
 //
 // LDLib2 版本: 1.21.1-2.2.24
 //
-// 直接在 GUI handler 中通过 event.pos 读取方块 persistentData，
-// 不再依赖全局缓存传递数据。
+// 通过全局缓存 $ammoStationGuiCache 接收服务端传入的配置数据
+// 因为 startup_scripts 无法调用 server_scripts 中的函数
 //
 // 可配置项：
 //   scanRange  — 扫描范围（方块）
 //   cooldown   — 冷却时间（秒）
 //   slots      — 各弹药类型的最大储量
 // ============================================================
+
+var $HashMap = Java.loadClass('java.util.HashMap')
+/** 全局缓存：UUID → JSON.stringify({ pos: {x,y,z}, dim, config })，由 server_scripts 右键事件填充 */
+var $ammoStationGuiCache = new $HashMap()
 
 /** GUI中可配置的弹药类型列表 */
 const GUI_AMMO_TYPES = [
@@ -28,30 +32,47 @@ const GUI_AMMO_TYPES = [
 
 LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   let player = event.player
-  let level = event.level
-  let pos = event.pos
+  let uuid = player.getStringUUID()
 
-  // 直接从方块读取配置
-  let block = level.getBlock(pos.getX(), pos.getY(), pos.getZ())
-  if (!block || block.getId() === 'minecraft:air') {
-    player.tell(Component.literal('§c[弹药补给站] 方块不存在'))
-    return
+  // 从缓存读取配置数据
+  var cacheData = null
+  try {
+    var raw = $ammoStationGuiCache.get(uuid)
+    if (raw) cacheData = JSON.parse(raw)
+  } catch (e) { /* 忽略 */ }
+
+  // 如果缓存没有数据，创建默认配置
+  if (!cacheData) {
+    cacheData = {
+      pos: { x: 0, y: 0, z: 0 },
+      dim: 'minecraft:overworld',
+      config: {
+        scanRange: 12,
+        cooldown: 5,
+        slots: {
+          large_shell_ap: 64, large_shell_he: 64,
+          small_shell_ap: 64, small_shell_he: 64,
+          rifle_ammo: 192, heavy_ammo: 128,
+          missile: 8, rocket: 16
+        }
+      }
+    }
   }
 
-  let cfg = readBlockConfig(block)
+  var cfg = cacheData.config
 
-  // ---- 构建UI ----
+  // ---- 根面板 ----
   var root = new UIElement()
 
-  // 标题
+  // ---- 标题 ----
   root.addChild(
     new Label().setText(Component.literal('§6╔═══ 弹药补给站配置 ═══╗'))
   )
   root.addChild(
-    new Label().setText(Component.literal('§7修改后点击保存按钮'))
+    new Label().setText(Component.literal('§7修改后点击下方保存按钮'))
   )
 
-  // ── 基础参数 ──
+  // ---- 基础参数 ----
   root.addChild(new Label().setText(Component.literal('§e── 基础参数 ──')))
 
   var fieldScanRange = new TextField().setNumbersOnlyInt(1, 64).setText(String(cfg.scanRange))
@@ -60,7 +81,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var fieldCooldown = new TextField().setNumbersOnlyInt(0, 3600).setText(String(cfg.cooldown))
   root.addChild(wrapRow('§7冷却时间:', fieldCooldown, '秒'))
 
-  // ── 弹药最大储量 ──
+  // ---- 弹药最大储量 ----
   root.addChild(new Label().setText(Component.literal('§e── 弹药最大储量 ──')))
 
   var slotFields = {}
@@ -72,22 +93,32 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     root.addChild(wrapRow(at.label + ':', field, '个'))
   }
 
-  // ── 保存按钮（服务端执行）──
+  // ---- 保存按钮（setOnServerClick = 服务端执行） ----
   root.addChild(
     new Button()
       .setText(Component.literal('§a✔ 保存配置'))
-      .setOnServerClick(function(ev) {
+      .setOnServerClick(function(clickEvent) {
+        // 以下代码在服务端执行，可以访问 server_scripts 中的函数
+        var server = player.getServer()
+        if (!server) return
+
+        var puuid = player.getStringUUID()
+        var raw = $ammoStationGuiCache.get(puuid)
+        if (!raw) {
+          player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效，请重新打开GUI'), false)
+          return
+        }
+
         try {
-          // 重新获取方块（可能在服务端重新加载）
-          let svr = player.getServer()
-          if (!svr) return
-          let lvl = svr.getLevel(level.getDimension().toString())
-          if (!lvl) {
+          var data = JSON.parse(raw)
+          var level = server.getLevel(data.dim || 'minecraft:overworld')
+          if (!level) {
             player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取维度'), false)
             return
           }
-          let targetBlock = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
-          if (!targetBlock || targetBlock.getId() === 'minecraft:air') {
+
+          var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
+          if (!block || block.getId() === 'minecraft:air') {
             player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
             return
           }
@@ -106,58 +137,59 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
             if (amount > 0) newCfg.slots[atype.key] = amount
           }
 
-          // 写入方块配置
-          writeBlockConfig(targetBlock, newCfg)
-          // 重置冷却
-          targetBlock.persistentData.putLong('CooldownEnd', 0)
-
-          player.displayClientMessage(
-            Component.literal('§a✔ 配置已保存！冷却已重置'),
-            false
-          )
-        } catch (err) {
-          player.displayClientMessage(
-            Component.literal('§c[弹药补给站] 保存失败: ' + err),
-            false
-          )
+          // 写入方块配置（writeBlockConfig 是 server_scripts 中的全局函数）
+          if (typeof writeBlockConfig === 'function') {
+            writeBlockConfig(block, newCfg)
+            // 重置冷却
+            block.persistentData.putLong('CooldownEnd', 0)
+            player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
+          } else {
+            player.displayClientMessage(Component.literal('§c[弹药补给站] 保存函数未加载'), false)
+          }
+        } catch (e) {
+          player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
         }
       })
   )
 
-  // ── 重置按钮（服务端执行）──
+  // ---- 重置按钮 ----
   root.addChild(
     new Button()
       .setText(Component.literal('§e↻ 重置默认'))
-      .setOnServerClick(function(ev) {
-        try {
-          let svr = player.getServer()
-          if (!svr) return
-          let lvl = svr.getLevel(level.getDimension().toString())
-          if (!lvl) return
-          let targetBlock = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
-          if (!targetBlock || targetBlock.getId() === 'minecraft:air') return
+      .setOnServerClick(function(clickEvent) {
+        var server = player.getServer()
+        if (!server) return
 
-          if (typeof DEFAULT_STATION_CONFIG !== 'undefined') {
-            writeBlockConfig(targetBlock, JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG)))
-            targetBlock.persistentData.putLong('CooldownEnd', 0)
-            player.displayClientMessage(
-              Component.literal('§a✔ 已重置为默认配置，请重新打开GUI查看'),
-              false
-            )
+        var puuid = player.getStringUUID()
+        var raw = $ammoStationGuiCache.get(puuid)
+        if (!raw) {
+          player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false)
+          return
+        }
+
+        try {
+          var data = JSON.parse(raw)
+          var level = server.getLevel(data.dim || 'minecraft:overworld')
+          if (!level) return
+
+          var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
+          if (!block || block.getId() === 'minecraft:air') return
+
+          if (typeof writeBlockConfig === 'function' && typeof DEFAULT_STATION_CONFIG !== 'undefined') {
+            writeBlockConfig(block, JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG)))
+            block.persistentData.putLong('CooldownEnd', 0)
+            player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置，请重新打开GUI查看'), false)
           }
-        } catch (err) {
-          player.displayClientMessage(
-            Component.literal('§c[弹药补给站] 重置失败: ' + err),
-            false
-          )
+        } catch (e) {
+          player.displayClientMessage(Component.literal('§c[弹药补给站] 重置失败: ' + e), false)
         }
       })
   )
 
-  // ── 玩家物品栏 ──
+  // ---- 玩家物品栏 ----
   root.addChild(new InventorySlots())
 
-  // ── 构建 ModularUI ──
+  // ---- 构建 ModularUI ----
   event.modularUI = ModularUI.of(UI.of(root), player)
 })
 
