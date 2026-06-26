@@ -29,7 +29,7 @@ const TEAM_REVIVE_CONFIG = {
   /**
    * 进攻方被淘汰时调用的数据包函数路径（固定值）
    */
-  functionPath: "game:eliminated",
+  functionPath: "game:game/defender_victory",
 
   // ======== 持久化数据 ========
 
