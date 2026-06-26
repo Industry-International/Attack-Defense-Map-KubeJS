@@ -148,6 +148,9 @@ function executeStationReplenish(block, level, ignoreCooldown) {
     let replenishedAny = false
     let enterDelayTicks = enterDelay * 20
 
+    // 记录载具进度（用于发送给乘客的 HUD 动画）
+    let vehicleProgress = {}  // uuid → { elapsed, enterDelayTicks, status }
+
     // 调试：记录扫描开始
     console.log($LOG_PREFIX + ' [扫描] 方块@[' + bx + ',' + by + ',' + bz + ']' + dimStr +
       ' range=' + range + '冷却=' + (ignoreCooldown ? '无视' : (cooldownSec + 's')) +
@@ -185,6 +188,7 @@ function executeStationReplenish(block, level, ignoreCooldown) {
       if (timers[uuid] === undefined) {
         // 首次进入范围：记录当前 gameTime
         timers[uuid] = gameTime
+        vehicleProgress[uuid] = { entity: entity, elapsed: 0, enterDelayTicks: enterDelayTicks, status: 'timing' }
         console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 首次进入范围，gameTime=' + gameTime)
       } else {
         // 已在计时中：检查是否达到停留时长
@@ -197,6 +201,8 @@ function executeStationReplenish(block, level, ignoreCooldown) {
           elapsed = 0
           console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 检测到残留计时器（负数），重置为当前 gameTime=' + gameTime)
         }
+
+        vehicleProgress[uuid] = { entity: entity, elapsed: elapsed, enterDelayTicks: enterDelayTicks, status: 'timing' }
 
         console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 已在范围内 ' +
           (elapsed / 20).toFixed(1) + 's / 需 ' + enterDelay + 's')
@@ -241,6 +247,50 @@ function executeStationReplenish(block, level, ignoreCooldown) {
       block.entity.setChanged()
       console.log($LOG_PREFIX + ' [冷却] 设置冷却至 gameTime=' + cooldownEndTime + ' (' + cooldownSec + 's后)')
     }
+
+    // ─── 7. 推送动作栏进度给乘客 ───
+    // 服务器直接在动作栏显示进度（不依赖客户端事件系统）
+    // $Component 已在 tools/a_java_refs.js 声明，直接使用
+    for (let uuid in vehicleProgress) {
+      if (!vehicleProgress.hasOwnProperty(uuid)) continue
+      let info = vehicleProgress[uuid]
+      let entity = info.entity
+      if (!entity || entity.isRemoved()) continue
+      let passIter = entity.getPassengers().iterator()
+      while (passIter.hasNext()) {
+        let passenger = passIter.next()
+        if (!passenger) continue
+        if (!passenger.isPlayer()) continue
+        let player = passenger  // isPlayer() 已确认是玩家，直接使用
+
+        let progress = Math.min(1.0, info.elapsed / info.enterDelayTicks)
+        let pct = Math.floor(progress * 100)
+
+        // 圆环字符（5级：○◔◑◕●）
+        var circle
+        if (progress >= 1.0) circle = '§a●'
+        else if (progress >= 0.75) circle = '§e◕'
+        else if (progress >= 0.50) circle = '§6◑'
+        else if (progress >= 0.25) circle = '§e◔'
+        else circle = '§7○'
+
+        // 进度条（20格）
+        var bar = ''
+        for (var bi = 0; bi < 20; bi++) {
+          bar += (bi < Math.floor(progress * 20)) ? '§a■' : '§8□'
+        }
+
+        // 状态文本
+        var status = (progress >= 1.0) ? '§e补给中...' : '§e弹药补给中'
+
+        // 组合并发送到动作栏（第二个参数 true = action bar）
+        player.displayClientMessage(
+          $Component.literal(circle + ' ' + status + ' §a' + pct + '% ' + bar),
+          true
+        )
+      }
+    }
+    // 对离开范围的车辆，清除残留动作栏（不处理也没关系，2秒后无更新自动消失）
 
     return replenishedAny
   } catch (e) {
