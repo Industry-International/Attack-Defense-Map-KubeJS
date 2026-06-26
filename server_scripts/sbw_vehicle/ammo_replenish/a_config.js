@@ -74,35 +74,21 @@ function getAmmoDisplayName(ammoKey) {
   return names[ammoKey] || ammoKey
 }
 
-// ========== 方块配置读写 ==========
+// ========== 方块配置读取（只读） ==========
 
 /**
  * 读取方块 persistentData 中的补给站配置
- *
- * 初始化规则：
- *   首次（或重置后检测到无 Initialized 标记）→ 写入默认配置 + 打上 Initialized 标记
- * 后续规则：
- *   只读，绝不修改 StationConfig（即使用户通过 GUI 改了值也原样返回）
- *   这样 GUI 和 server 的 NBT 写操作互不干扰。
+ * 
+ * 服务器只读不写：
+ *   - 方块放置时由 BlockEvents.placed 写入一次默认配置
+ *   - 后续写入和重置全由 GUI 负责
+ *   - 此函数若发现无配置，仅返回默认值（不修改 NBT）
  */
 function readBlockConfig(block) {
   let pd = block.entity.persistentData
-
-  // ─── 只看 Initialized 标记：没标记才初始化 ───
-  if (pd.getBoolean('Initialized') !== true) {
-    pd.putString('StationConfig', JSON.stringify(DEFAULT_STATION_CONFIG))
-    pd.putBoolean('Initialized', true)
-    return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
-  }
-
-  // ─── 有标记 → 只读，绝不修改 StationConfig ───
   let raw = pd.getString('StationConfig')
-  return JSON.parse(raw || JSON.stringify(DEFAULT_STATION_CONFIG))
-}
-
-/**
- * 将配置写入方块 persistentData（自动持久化）
- */
-function writeBlockConfig(block, config) {
-  block.entity.persistentData.putString('StationConfig', JSON.stringify(config))
+  if (raw) {
+    try { return JSON.parse(raw) } catch (_) {}
+  }
+  return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
 }

@@ -20,6 +20,18 @@
 var $AABB = Java.loadClass('net.minecraft.world.phys.AABB')
 
 // ═══════════════════════════════════════════════════════════════
+//  方块放置：写入一次默认配置，后续全由 GUI 接管
+// ═══════════════════════════════════════════════════════════════
+
+BlockEvents.placed('kubejs:ammo_crate', event => {
+  if (event.level.isClientSide()) return
+  let pd = event.block.entity.persistentData
+  if (!pd.contains('StationConfig')) {
+    pd.putString('StationConfig', JSON.stringify(DEFAULT_STATION_CONFIG))
+  }
+})
+
+// ═══════════════════════════════════════════════════════════════
 //  右键交互：打开 GUI
 // ═══════════════════════════════════════════════════════════════
 
