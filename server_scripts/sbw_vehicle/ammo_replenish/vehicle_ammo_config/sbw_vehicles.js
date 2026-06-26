@@ -1,0 +1,45 @@
+// SBW 卓越前线载具弹药映射
+// 格式：VEHICLE_AMMO_MAP['实体注册名'] = ['弹药短名', ...]
+
+VEHICLE_AMMO_MAP['superbwarfare:t_90a']       = ['large_shell_ap','large_shell_he','large_shell_gs','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:yx_100']      = ['large_shell_ap','large_shell_he','large_shell_gs','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:ztz_99a']     = ['large_shell_ap','large_shell_he','large_shell_gs','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:m1_a2']       = ['large_shell_ap','large_shell_he','large_shell_gs','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:kv_16']       = ['large_shell_ap','large_shell_he','large_shell_gs','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:prism_tank']  = ['large_shell_ap','large_shell_he','large_shell_gs']
+
+VEHICLE_AMMO_MAP['superbwarfare:bmp_2']       = ['small_shell_ap','small_shell_he','missile','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:bradley']     = ['small_shell_ap','small_shell_he','missile','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:lav_25']      = ['small_shell_ap','small_shell_he','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:lav_150']     = ['small_shell_ap','small_shell_he','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:lav_ad']      = ['small_shell_ap','small_shell_he','missile']
+
+VEHICLE_AMMO_MAP['superbwarfare:artillery']   = ['large_shell_ap','large_shell_he','large_shell_gs']
+VEHICLE_AMMO_MAP['superbwarfare:plz_05']      = ['large_shell_ap','large_shell_he','large_shell_gs']
+VEHICLE_AMMO_MAP['superbwarfare:mk_42']       = ['large_shell_ap','large_shell_he','large_shell_gs']
+VEHICLE_AMMO_MAP['superbwarfare:mle_1934']    = ['large_shell_ap','large_shell_he','large_shell_gs']
+VEHICLE_AMMO_MAP['superbwarfare:bl_132']      = ['large_shell_ap','large_shell_he','large_shell_gs']
+
+VEHICLE_AMMO_MAP['superbwarfare:type_63']     = ['rocket']
+VEHICLE_AMMO_MAP['superbwarfare:mortar']      = ['missile']
+VEHICLE_AMMO_MAP['superbwarfare:ah_6']        = ['rocket','missile','rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:mi_28']       = ['rocket','missile']
+VEHICLE_AMMO_MAP['superbwarfare:a_10a']       = ['small_shell_ap','small_shell_he','heavy_ammo','missile']
+
+VEHICLE_AMMO_MAP['superbwarfare:annihilator']    = ['missile']
+VEHICLE_AMMO_MAP['superbwarfare:laser_tower']    = ['missile']
+VEHICLE_AMMO_MAP['superbwarfare:waveforce_tower'] = ['missile']
+
+VEHICLE_AMMO_MAP['superbwarfare:speedboat']       = ['rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:tiny_speedboat']  = ['rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:wheel_chair']    = ['heavy_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:sodayo_pick_up']        = ['rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:sodayo_pick_up_hmg']    = ['heavy_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:sodayo_pick_up_rocket'] = ['rocket']
+VEHICLE_AMMO_MAP['superbwarfare:sodayo_pick_up_tow']    = ['missile']
+
+VEHICLE_AMMO_MAP['superbwarfare:truck'] = ['rifle_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:tow']   = ['rifle_ammo','heavy_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:hpj_11'] = ['small_shell_ap','small_shell_he']
+VEHICLE_AMMO_MAP['superbwarfare:ju_87'] = ['heavy_ammo']
+VEHICLE_AMMO_MAP['superbwarfare:drone'] = ['missile']

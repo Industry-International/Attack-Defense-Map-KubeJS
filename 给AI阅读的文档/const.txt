@@ -472,7 +472,10 @@ StartupEvents.registry('block', ...) 注册的方块：
     6. 载具识别：通过 entity.getType().toString() 判断是否以 'superbwarfare:' 或 'mcsp:' 开头
     （MCSP附属模组的载具实体以 mcsp: 为命名空间）
     7. 停留计时：载具需在范围内持续停留 enterDelay 秒才触发补给，VehicleTimers(JSON) 持久化到方块 entityData
-    8. 位置获取：使用 entity.getX()/getY()/getZ()（★ getPosition() 在1.21.1不存在）
+    8. 智能弹药检测：先读 Inventory.Items 已有弹药（100%精确），若为空则从 WeaponState.GunData.ammoSlot 推断
+       ammoSlot 映射表见 AMMO_SLOT_MAP（a_config.js）
+       extractAmmoSlot() 从武器槽 NBT 提取弹药槽标识
+    9. 位置获取：使用 entity.getX()/getY()/getZ()（★ getPosition() 在1.21.1不存在）
     9. UUID获取：使用 entity.uuid.toString()（★ getStringUUID() 在KubeJS7 Rhino中不存在）
     10. NBT列表：CompoundTag.getList(key) 需两个参数 getList(key, 10)（10=TAG_COMPOUND）
 

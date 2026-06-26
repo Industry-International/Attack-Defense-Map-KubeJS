@@ -141,3 +141,12 @@ function readBlockConfig(block) {
   }
   return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
 }
+
+// ========== 载具弹药映射表 ==========
+// 数据在 vehicle_ammo_config/*.js 中填充
+
+var VEHICLE_AMMO_MAP = {}
+
+// 统计数量——vehicle_ammo_config 中的 JS 文件加载完后会填充 VEHICLE_AMMO_MAP
+// 此日志在脚本加载阶段执行，此时尚未填充，但 KubeJS 加载完成后会自动包含所有数据
+

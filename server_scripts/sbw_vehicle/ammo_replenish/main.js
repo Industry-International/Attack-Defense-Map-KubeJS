@@ -210,7 +210,21 @@ function executeStationReplenish(block, level, ignoreCooldown) {
         if (elapsed >= enterDelayTicks) {
           // 停留时间达标 → 补给
           console.log($LOG_PREFIX + ' [补给] 停留时间达标，开始补给载具 ' + uuid.substring(0, 8) + '...')
-          let success = replenishVehicle(entity, slots, level)
+
+          // 查 VEHICLE_AMMO_MAP 确定该车应补什么弹药
+          var targetSlots = {}
+          var matched = VEHICLE_AMMO_MAP[typeStr]
+          if (matched) {
+            console.log($LOG_PREFIX + ' [补给] 配置命中: ' + typeStr + ' -> ' + JSON.stringify(matched))
+            for (var mi = 0; mi < matched.length; mi++) {
+              if (slots[matched[mi]] !== undefined) targetSlots[matched[mi]] = slots[matched[mi]]
+            }
+          } else {
+            console.log($LOG_PREFIX + ' [补给] 警告: 载具 ' + typeStr + ' 不在配置中，使用全部弹药兜底')
+            targetSlots = slots
+          }
+
+          let success = replenishVehicle(entity, targetSlots, level)
           if (success) {
             replenishedAny = true
             console.log($LOG_PREFIX + ' [补给] 载具 ' + uuid.substring(0, 8) + '... 补给成功')
@@ -335,7 +349,7 @@ function isSBWVehicle(entity) {
  *   6. 通过 /data merge entity 命令将修改后的 Inventory 写回实体
  *      （避免 entity.nbt = nbt 重置整个实体状态，导致玩家乘坐时断连）
  *
- * @param {Entity} entity - SBW 载具实体
+ * @param {Entity} entity - SBW/MCSP 载具实体
  * @param {Object} slots  - 弹药类型→最大储量配置
  * @param {Level}  level  - 实体所在维度（用于获取 Server 执行命令）
  */
@@ -385,8 +399,7 @@ function replenishVehicle(entity, slots, level) {
     console.log($LOG_PREFIX + ' [补给] 当前弹药存量: ' + JSON.stringify(currentCounts))
 
     // ─── 计算需要补充的量 ───
-    // ★ 改为遍历配置中所有弹药类型(slots)，而非仅已有类型(currentCounts)
-    //   这样 large_shell_he 等未在载具中出现的弹药也会被补满
+    // 遍历 GUI 配置的所有弹药类型，按设置的最大值补满
     let needToAdd = {}
     for (let ammoKey in slots) {
       if (!slots.hasOwnProperty(ammoKey)) continue
