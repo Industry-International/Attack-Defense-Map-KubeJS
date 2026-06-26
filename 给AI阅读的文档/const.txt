@@ -105,9 +105,10 @@ startup 中的 const 不会与 server 中的 const 冲突。
   const VEHICLE_CFG = SBW_VEHICLE_CONFIG
   const SBW_PREFIX = '[SBW载具]'
 
-来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（2026-06-26 重写：修复扫描+检测，新增停留计时）
+来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（2026-06-26 逐bug修复+日志）
 （通过 entity.getType() 以 superbwarfare: 前缀识别载具，遍历 Level 实体替代 AABB 扫描，
-  新增 VehicleTimers 停留计时，配置项 enterDelay(秒)）
+  entity.getX()/getY()/getZ()替代getPosition()，entity.uuid.toString()替代getStringUUID()，
+  inventory.getList(key,10)替代getList(key)，新增 VehicleTimers 停留计时，配置项 enterDelay(秒)）
 
   （此文件不再包含独立的 const 声明，var $AABB 已移除，依赖 a_java_refs.js 中的 $AABB）
 
@@ -460,7 +461,7 @@ StartupEvents.registry('block', ...) 注册的方块：
     /sbw_vehicle status     — 查看系统 + 载具状态（适配全部8状态）
     /sbw_vehicle timelist   — 查看所有补员倒计时列表
 
-  ======== sbw_vehicle/ammo_replenish/ （弹药补给站 - 方块驱动版 2026-06-26 重写）========
+  ======== sbw_vehicle/ammo_replenish/ （弹药补给站 - 方块驱动版 2026-06-26 修复getPosition）========
   注意：
     1. 方块每20tick执行：读取配置 → 冷却检查 → 遍历世界实体 → 匹配SBW载具 → 停留计时 → 弹药补给 → 设CD
     2. 冷却CD单位：秒（配置和GUI统一）
@@ -469,6 +470,9 @@ StartupEvents.registry('block', ...) 注册的方块：
     5. 方块配置持久化到 entityData 的 StationConfig（JSON字符串）
     6. 载具识别：通过 entity.getType().toString() 判断是否以 'superbwarfare:' 开头
     7. 停留计时：载具需在范围内持续停留 enterDelay 秒才触发补给，VehicleTimers(JSON) 持久化到方块 entityData
+    8. 位置获取：使用 entity.getX()/getY()/getZ()（★ getPosition() 在1.21.1不存在）
+    9. UUID获取：使用 entity.uuid.toString()（★ getStringUUID() 在KubeJS7 Rhino中不存在）
+    10. NBT列表：CompoundTag.getList(key) 需两个参数 getList(key, 10)（10=TAG_COMPOUND）
 
   a_config.js — 配置定义 & 方块配置读写工具
     const DEFAULT_STATION_CONFIG    — 默认配置（scanRange, cooldown秒, slots）
@@ -478,11 +482,14 @@ StartupEvents.registry('block', ...) 注册的方块：
     function readBlockConfig(block)               — 读取方块配置（首次自动初始化默认值）
     function writeBlockConfig(block, config)      — 写入方块配置
 
-  main.js — 方块核心逻辑（2026-06-26 重写：修复扫描+检测，新增停留计时）
+  main.js — 方块核心逻辑（2026-06-26 修复getPosition+添加详细日志）
     依赖外部声明：$CompoundTag（profession/config/a_tacz_config.js, const）
                 $ListTag（sbw_vehicle/tools/a_java_refs.js, var）
     功能：右键打开GUI / BlockEntity每20tick扫描补给 / 停留计时/冷却
     不再依赖 $AABB（改为 level.getEntities() 遍历 + 手动距离过滤）
+    ★ key fix1: entity.getPosition() 在1.21.1不存在，改用 getX()/getY()/getZ()
+    ★ key fix3: CompoundTag.getList(key) 在1.21.1需两个参数 getList(key, 10)
+    ★ 10 = net.minecraft.nbt.Tag.TAG_COMPOUND 的常量值，表示列表元素类型为 CompoundTag
     BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick执行扫描补给流程
       流程：→ 检测 PendingReplenish 标记（由GUI setOnServerClick 写入）
            → 若为 true，清除标记，调用 executeStationReplenish(block, level, true)（无视冷却）
