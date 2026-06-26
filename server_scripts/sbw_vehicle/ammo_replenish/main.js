@@ -189,6 +189,15 @@ function executeStationReplenish(block, level, ignoreCooldown) {
       } else {
         // 已在计时中：检查是否达到停留时长
         let elapsed = gameTime - timers[uuid]
+
+        // ★ 修复跨 session 负数问题：若残留旧 timer 值 > 当前 gameTime，
+        //   说明是之前会话的数据，重置计时器重新开始计时
+        if (elapsed < 0) {
+          timers[uuid] = gameTime
+          elapsed = 0
+          console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 检测到残留计时器（负数），重置为当前 gameTime=' + gameTime)
+        }
+
         console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 已在范围内 ' +
           (elapsed / 20).toFixed(1) + 's / 需 ' + enterDelay + 's')
 

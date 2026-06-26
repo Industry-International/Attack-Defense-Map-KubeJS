@@ -137,6 +137,31 @@ while (iter.hasNext()) {
 
 ---
 
+## [#5] 跨 session 持久化 gameTime 不连续导致负数计时
+
+**错误信息：** 无报错，但日志显示 `已在范围内 -69.5s / 需 3s`（负数持续不归零）
+
+**原因：** `VehicleTimers` 存储在方块 `persistentData` 中持久化。服务器重启后，`level.getTime()` 返回的 gameTime 值与旧会话不连续（可能变小），导致 `gameTime - storedTimerValue` 为负数。负数的 elapsed 永远无法满足 `>= enterDelayTicks`，补给永不触发。
+
+**修复：** 检测到 `elapsed < 0` 时，将 timer 重置为当前 gameTime：
+
+```javascript
+// ❌ 错误：直接使用存储的旧 gameTime
+let elapsed = gameTime - timers[uuid]
+// elapsed 可能为负数，导致永远达不到阈值
+
+// ✅ 正确：检测负数并重置
+let elapsed = gameTime - timers[uuid]
+if (elapsed < 0) {
+  timers[uuid] = gameTime  // 重置为当前 gameTime
+  elapsed = 0
+}
+```
+
+**参考文件：** `ammo_replenish/main.js:192-200`
+
+---
+
 ## 使用规则
 
 1. **编写新代码前**：快速浏览此文档，看当前要调用的 API 是否在踩坑列表中
