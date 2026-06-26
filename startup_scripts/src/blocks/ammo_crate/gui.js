@@ -54,7 +54,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     cacheData = {
       pos: { x: 0, y: 0, z: 0 },
       dim: 'minecraft:overworld',
-      config: { scanRange: 12, cooldown: 5, slots: {
+      config: { scanRange: 12, cooldown: 5, enterDelay: 3, slots: {
         large_shell_ap: 64, large_shell_he: 64,
         small_shell_ap: 64, small_shell_he: 64,
         rifle_ammo: 192, heavy_ammo: 128,
@@ -76,6 +76,9 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999).setText(String(cfg.cooldown))
   fieldCooldown.lss('width', 55)
   bindField(fieldCooldown, 'cd')
+  var fieldEnterDelay = new TextField().setNumbersOnlyInt(1, 999999).setText(String(cfg.enterDelay || 3))
+  fieldEnterDelay.lss('width', 55)
+  bindField(fieldEnterDelay, 'ed')
 
   // 弹药字段（每个弹药类型一个输入框）
   var slotFields = {}
@@ -110,7 +113,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var tabView = new TabView()
 
   // ═══════════════════════════════════════════════════════════════
-  //  第1页：基础设置（扫描范围 + 冷却时间）
+  //  第1页：基础设置（扫描范围 + 冷却时间 + 驶入等待）
   // ═══════════════════════════════════════════════════════════════
   var page1 = new UIElement()
   page1.lss('padding', 4)
@@ -128,6 +131,14 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   cdRow.addChild(fieldCooldown)
   cdRow.addChild(new Label().setText(Component.literal(' §7秒')))
   page1.addChild(cdRow)
+
+  page1.addChild(new Label().setText(Component.literal(' '))) // 间距
+
+  var edRow = new UIElement()
+  edRow.addChild(new Label().setText(Component.literal('§7驶入等待:')))
+  edRow.addChild(fieldEnterDelay)
+  edRow.addChild(new Label().setText(Component.literal(' §7秒')))
+  page1.addChild(edRow)
 
   page1.addChild(new Label().setText(Component.literal(' '))) // 间距
   page1.addChild(new Label().setText(Component.literal('§8← 切换标签页配置弹药')))
@@ -310,6 +321,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       var newCfg = {
         scanRange: safeParseField(fieldVals['sr'], fieldScanRange),
         cooldown: safeParseField(fieldVals['cd'], fieldCooldown),
+        enterDelay: safeParseField(fieldVals['ed'], fieldEnterDelay),
         slots: {}
       }
       for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {

@@ -84,9 +84,9 @@ startup 中的 const 不会与 server 中的 const 冲突。
   const MODULE_FLAG_PREFIX = 'module_'                            // 模块持久化前缀
 
 来源文件: server_scripts/sbw_vehicle/ammo_replenish/a_config.js
-（简化版：仅保留 scanRange / cooldown(秒) / slots 三个字段）
+（字段：scanRange / cooldown(秒) / enterDelay(秒) / slots）
 
-  const DEFAULT_STATION_CONFIG = { ... }          // 弹药补给站默认配置
+  const DEFAULT_STATION_CONFIG = { ... }          // 弹药补给站默认配置（含 enterDelay: 3）
   const AMMO_ID_MAP = { ... }                     // 弹药类型短名 → item ID
   const AMMO_KEY_MAP = {}                         // item ID → 弹药类型短名（反向映射，自动构建）
 
@@ -105,8 +105,9 @@ startup 中的 const 不会与 server 中的 const 冲突。
   const VEHICLE_CFG = SBW_VEHICLE_CONFIG
   const SBW_PREFIX = '[SBW载具]'
 
-来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（2026-06-25 完全重写）
-（通过 entity.nbt.id 以 superbwarfare: 前缀识别载具，读取 Inventory.Items 补给弹药到最大值）
+来源文件: server_scripts/sbw_vehicle/ammo_replenish/main.js（2026-06-26 重写：修复扫描+检测，新增停留计时）
+（通过 entity.getType() 以 superbwarfare: 前缀识别载具，遍历 Level 实体替代 AABB 扫描，
+  新增 VehicleTimers 停留计时，配置项 enterDelay(秒)）
 
   （此文件不再包含独立的 const 声明，var $AABB 已移除，依赖 a_java_refs.js 中的 $AABB）
 
@@ -176,7 +177,7 @@ startup 中的 const 不会与 server 中的 const 冲突。
 来源文件: server_scripts/sbw_vehicle/tools/a_java_refs.js
 
   var $AABB           = Java.loadClass('net.minecraft.world.phys.AABB')
-  （注：ammo_replenish/main.js 不再重复声明 $AABB，直接依赖此处的 var $AABB）
+  （注：ammo_replenish/main.js 已不再使用 $AABB，改为 level.getEntities() 遍历）
 
 来源文件: startup_scripts/ammo_station_gui.js（startup 作用域，与 server 作用域独立）
 
@@ -459,14 +460,15 @@ StartupEvents.registry('block', ...) 注册的方块：
     /sbw_vehicle status     — 查看系统 + 载具状态（适配全部8状态）
     /sbw_vehicle timelist   — 查看所有补员倒计时列表
 
-  ======== sbw_vehicle/ammo_replenish/ （弹药补给站 - 方块驱动版 2026-06-25）========
+  ======== sbw_vehicle/ammo_replenish/ （弹药补给站 - 方块驱动版 2026-06-26 重写）========
   注意：
-    1. 方块每20tick执行：读取配置 → 检查冷却 → AABB扫描 → 载具识别 → 弹药补给 → 设置CD
+    1. 方块每20tick执行：读取配置 → 冷却检查 → 遍历世界实体 → 匹配SBW载具 → 停留计时 → 弹药补给 → 设CD
     2. 冷却CD单位：秒（配置和GUI统一）
     3. 补给逻辑：检查载具Inventory.Items中已有的弹药类型 → 只补这些 → 补到配置最大值
     4. 冷却状态持久化到方块 entityData 的 CooldownEnd（long类型，游戏tick时间）
     5. 方块配置持久化到 entityData 的 StationConfig（JSON字符串）
-    6. 载具识别：通过 entity.nbt.id 判断是否以 'superbwarfare:' 开头
+    6. 载具识别：通过 entity.getType().toString() 判断是否以 'superbwarfare:' 开头
+    7. 停留计时：载具需在范围内持续停留 enterDelay 秒才触发补给，VehicleTimers(JSON) 持久化到方块 entityData
 
   a_config.js — 配置定义 & 方块配置读写工具
     const DEFAULT_STATION_CONFIG    — 默认配置（scanRange, cooldown秒, slots）
@@ -476,20 +478,22 @@ StartupEvents.registry('block', ...) 注册的方块：
     function readBlockConfig(block)               — 读取方块配置（首次自动初始化默认值）
     function writeBlockConfig(block, config)      — 写入方块配置
 
-  main.js — 方块核心逻辑（2026-06-25 完全重写）
-    依赖外部声明：$AABB（sbw_vehicle/tools/a_java_refs.js, var）
-                $CompoundTag（profession/config/a_tacz_config.js, const）
+  main.js — 方块核心逻辑（2026-06-26 重写：修复扫描+检测，新增停留计时）
+    依赖外部声明：$CompoundTag（profession/config/a_tacz_config.js, const）
                 $ListTag（sbw_vehicle/tools/a_java_refs.js, var）
-    功能：右键打开GUI / BlockEntity每20tick扫描补给 / OP潜行右键切换作弊模式
+    功能：右键打开GUI / BlockEntity每20tick扫描补给 / 停留计时/冷却
+    不再依赖 $AABB（改为 level.getEntities() 遍历 + 手动距离过滤）
     BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick执行扫描补给流程
       流程：→ 检测 PendingReplenish 标记（由GUI setOnServerClick 写入）
            → 若为 true，清除标记，调用 executeStationReplenish(block, level, true)（无视冷却）
            → 执行常规 executeStationReplenish(block, level, false)（检查冷却）
     BlockEvents.rightClicked('kubejs:ammo_crate')    — 读实际配置 + cheatMode → 填充GUI缓存 → 打开LDLib2 GUI
-      OP潜行右键 → 切换 CheatMode 布尔值（持久化到方块 entityData）
     function executeStationReplenish(block, level, ignoreCooldown) — 完整扫描补给流程（Tick/手动触发共用）
-      流程：读配置 → 冷却检查(ignoreCooldown控制) → AABB扫描 → 载具识别 → 补给 → 设CD
-    function isSBWVehicle(entity)                    — 判断是否为SBW载具（检查nbt.id前缀）
+      流程：读配置(含enterDelay) → 冷却检查(ignoreCooldown控制) → 遍历level.getEntities() → 
+            手动距离过滤 → isSBWVehicle → 停留计时 → replenishVehicle → 设CD
+      停留计时：首次进入记录 gameTime，达到 enterDelay*20 tick 后补给，离开范围则清除计时
+      计时数据以 JSON 格式存入 persistentData.VehicleTimers
+    function isSBWVehicle(entity)                    — 判断是否为SBW载具（使用 entity.getType().toString() 前缀匹配）
     function replenishVehicle(entity, slots)          — 对单辆载具执行补给
       流程：读Inventory.Items → 统计已有弹药量 → 计算差额 → 先叠加到现有物品组(≤64) → 不足则新增物品组 → 写回NBT
 
@@ -517,7 +521,7 @@ StartupEvents.registry('block', ...) 注册的方块：
     - 复杂操作（executeStationReplenish）写入 NBT 标记，
       由 server 侧的 BlockEvents.blockEntityTick 检测后执行
 
-  GUI可配置项：扫描范围、冷却时间(秒)、各弹药最大储量
+  GUI可配置项：扫描范围、冷却时间(秒)、驶入等待(秒)、各弹药最大储量
 
   ======== startup_scripts/naval_balance_block_properties.js ========
     function railwaysPalette(suffixes) — 生成railways方块ID列表（startup作用域）
