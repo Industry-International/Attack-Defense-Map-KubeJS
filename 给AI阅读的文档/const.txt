@@ -490,6 +490,8 @@ StartupEvents.registry('block', ...) 注册的方块：
     ★ key fix1: entity.getPosition() 在1.21.1不存在，改用 getX()/getY()/getZ()
     ★ key fix3: CompoundTag.getList(key) 在1.21.1需两个参数 getList(key, 10)
     ★ 10 = net.minecraft.nbt.Tag.TAG_COMPOUND 的常量值，表示列表元素类型为 CompoundTag
+    ★ key fix4: entity.nbt = nbt 会触发 readAdditionalSaveData() 重置实体状态，
+      玩家乘坐时断连。改用 level.getServer().runCommandSilent('data merge entity ...')
     BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick执行扫描补给流程
       流程：→ 检测 PendingReplenish 标记（由GUI setOnServerClick 写入）
            → 若为 true，清除标记，调用 executeStationReplenish(block, level, true)（无视冷却）

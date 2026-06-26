@@ -162,6 +162,36 @@ if (elapsed < 0) {
 
 ---
 
+## [#6] entity.nbt = nbt 重置整个实体状态，玩家乘坐时断连
+
+**错误现象：** 补给站对空载具有效，但玩家坐在车上时补给不生效（弹药数量不增加）
+
+**原因：** `entity.nbt = nbt` 在 KubeJS 7 中会调用 `Entity.readAdditionalSaveData()` 方法，从 NBT 完整反序列化整个实体。这会：
+1. 重置乘客（玩家）的连接状态 → 玩家可能被"弹下车"
+2. 重置车辆物理运行时状态（运动、旋转、武器充能等）
+3. 不同步到客户端
+
+**修复：** 使用 `/data merge entity` 命令替代直接 NBT 赋值，该命令仅合并指定字段，不影响其他运行时状态：
+
+```javascript
+// ❌ 错误：整体替换 NBT
+entity.nbt = nbt
+// readAdditionalSaveData() 被调用，重置整个实体
+
+// ✅ 正确：仅合并 Inventory 字段
+inventory.put('Items', items)
+let inventorySnbt = inventory.toString()  // CompoundTag.toString() 输出 SNBT 格式
+let server = level.getServer()
+let cmd = 'data merge entity ' + uuid + ' {Inventory:' + inventorySnbt + '}'
+server.runCommandSilent(cmd)
+```
+
+**注意：** `CompoundTag.toString()` 输出的是 SNBT（Stringified NBT）格式，与 `/data merge` 命令兼容。
+
+**参考文件：** `ammo_replenish/main.js:419-428`
+
+---
+
 ## 使用规则
 
 1. **编写新代码前**：快速浏览此文档，看当前要调用的 API 是否在踩坑列表中

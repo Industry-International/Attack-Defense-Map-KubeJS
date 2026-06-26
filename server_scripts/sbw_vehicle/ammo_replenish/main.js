@@ -204,7 +204,7 @@ function executeStationReplenish(block, level, ignoreCooldown) {
         if (elapsed >= enterDelayTicks) {
           // 停留时间达标 → 补给
           console.log($LOG_PREFIX + ' [补给] 停留时间达标，开始补给载具 ' + uuid.substring(0, 8) + '...')
-          let success = replenishVehicle(entity, slots)
+          let success = replenishVehicle(entity, slots, level)
           if (success) {
             replenishedAny = true
             console.log($LOG_PREFIX + ' [补给] 载具 ' + uuid.substring(0, 8) + '... 补给成功')
@@ -282,9 +282,14 @@ function isSBWVehicle(entity) {
  *   3. 对比配置最大值，计算差额
  *   4. 先在现有物品组上叠加（不超单组64）
  *   5. 剩余不足的以新物品组添加
- *   6. 将修改后的 NBT 写回实体
+ *   6. 通过 /data merge entity 命令将修改后的 Inventory 写回实体
+ *      （避免 entity.nbt = nbt 重置整个实体状态，导致玩家乘坐时断连）
+ *
+ * @param {Entity} entity - SBW 载具实体
+ * @param {Object} slots  - 弹药类型→最大储量配置
+ * @param {Level}  level  - 实体所在维度（用于获取 Server 执行命令）
  */
-function replenishVehicle(entity, slots) {
+function replenishVehicle(entity, slots, level) {
   try {
     let nbt = entity.nbt
     if (!nbt) {
@@ -417,11 +422,26 @@ function replenishVehicle(entity, slots) {
     }
 
     // ─── 写回实体 NBT ───
+    // 方案A：/data merge entity（用于持久化，服务器重启后生效）
     inventory.put('Items', items)
-    nbt.put('Inventory', inventory)
-    entity.nbt = nbt
+    let inventorySnbt = inventory.toString()
+    let uuid = entity.uuid.toString()
+    let server = level.getServer()
+    server.runCommandSilent('data merge entity ' + uuid + ' {Inventory:' + inventorySnbt + '}')
 
-    console.log($LOG_PREFIX + ' [补给] NBT 写回完成')
+    // 方案B：/item replace entity（直接操作物品栏，立即可见+玩家乘坐时也有效）
+    // 遍历所有槽位，将修改后的物品逐个写入
+    for (var si = 0; si < items.size(); si++) {
+      let slotItem = items.get(si)
+      if (!(slotItem instanceof $CompoundTag)) continue
+      let slotNum = slotItem.getInt('Slot')
+      let itemId = slotItem.getString('id')
+      let count = slotItem.getInt('count')
+      // /item replace entity <target> <source> <item> [count]
+      server.runCommandSilent('item replace entity ' + uuid + ' container.' + slotNum + ' ' + itemId + ' ' + count)
+    }
+
+    console.log($LOG_PREFIX + ' [补给] NBT写回+物品栏写入完成（data merge + item replace）')
     return true
   } catch (e) {
     console.log($LOG_PREFIX + ' 载具补给出错: ' + e)
