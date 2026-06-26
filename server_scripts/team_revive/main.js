@@ -141,7 +141,11 @@ function consumeTicket(server, teamName) {
 
   let current = store[key] !== undefined ? Number(store[key]) : getTeamConfig(key).initial
   if (current <= 0) {
-    return false // 已无券可用
+    // 已无券可用，如果还没标记淘汰则立即触发淘汰
+    if (!isTeamEliminated(server, key)) {
+      eliminateTeam(server, teamName)
+    }
+    return false
   }
 
   current = current - 1
@@ -344,6 +348,11 @@ ServerEvents.commandRegistry(event => {
     store[key] = current
     saveTicketsStore(server, store)
     let actualRemoved = before - current
+
+    // 如果券归零了且队伍尚未淘汰，触发淘汰
+    if (current <= 0 && !isTeamEliminated(server, key)) {
+      eliminateTeam(server, teamName)
+    }
 
     source.sendSuccess(Component.translatable(
       'msg.kubejs.team_revive.remove_done',
