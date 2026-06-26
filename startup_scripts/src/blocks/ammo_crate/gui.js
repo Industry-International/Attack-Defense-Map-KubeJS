@@ -3,7 +3,7 @@
 //
 // 优化说明：
 //   1. 根容器固定宽度，所有元素受约束，不会满屏乱飞
-//   2. 使用 TabView 分3页，每页元素精简不拥挤
+//   2. 使用 TabView 分页，每页元素精简不拥挤
 //   3. 标题居中置顶
 //   4. 保存/重置按钮 + 玩家物品栏在所有页面下方共享
 // ============================================================
@@ -28,15 +28,28 @@ function bindField(field, name) {
 }
 
 const GUI_AMMO_TYPES = [
+  // ── 大口径炮弹 ──
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },
   { key: 'large_shell_he',  label: '§c大口径HE',  default: 64 },
   { key: 'large_shell_gs',  label: '§a大口径葡萄', default: 64 },
+  { key: 'mortar_shell',    label: '§6迫击炮弹',   default: 32 },
+  // ── 小口径机炮弹 ──
   { key: 'small_shell_ap',  label: '§b小口径AP',  default: 64 },
   { key: 'small_shell_he',  label: '§d小口径HE',  default: 64 },
+  { key: 'small_shell_gs',  label: '§a小口径葡萄', default: 64 },
+  { key: 'small_shell_aa',  label: '§b防空弹',    default: 64 },
+  // ── 枪弹/火箭弹 ──
   { key: 'rifle_ammo',      label: '§7步枪弹',    default: 192 },
   { key: 'heavy_ammo',      label: '§9重弹',      default: 128 },
+  { key: 'small_rocket',    label: '§e小型火箭',   default: 32 },
+  { key: 'rocket',          label: '§e火箭弹',     default: 16 },
+  // ── 导弹/航弹 ──
   { key: 'missile',         label: '§a导弹',       default: 8 },
-  { key: 'rocket',          label: '§e火箭弹',     default: 16 }
+  { key: 'medium_anti_ground_missile', label: '§a中型对地导弹', default: 8 },
+  { key: 'large_anti_ground_missile',  label: '§a大型对地导弹', default: 8 },
+  { key: 'medium_anti_air_missile',    label: '§a防空导弹',     default: 8 },
+  { key: 'medium_aerial_bomb',  label: '§c中型航弹', default: 8 },
+  { key: 'small_aerial_bomb',   label: '§c小型航弹', default: 8 }
 ]
 
 // MCSP 附属 - 坦克炮/导弹类
@@ -75,10 +88,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       pos: { x: 0, y: 0, z: 0 },
       dim: 'minecraft:overworld',
       config: { scanRange: 12, cooldown: 5, enterDelay: 3, slots: {
-        large_shell_ap: 64, large_shell_he: 64,
-        small_shell_ap: 64, small_shell_he: 64,
-        rifle_ammo: 192, heavy_ammo: 128,
+        large_shell_ap: 64, large_shell_he: 64, large_shell_gs: 64,
+        small_shell_ap: 64, small_shell_he: 64, small_shell_gs: 64, small_shell_aa: 64,
+        rifle_ammo: 192, heavy_ammo: 128, small_rocket: 32,
         missile: 8, rocket: 16,
+        medium_anti_ground_missile: 8, large_anti_ground_missile: 8,
+        medium_anti_air_missile: 8,
+        mortar_shell: 32, medium_aerial_bomb: 8, small_aerial_bomb: 8,
         mcsp_25mm_ap: 128, mcsp_30mm_ap: 128,
         mcsp_40mm_explosive: 64, mcsp_40mm_smoke: 32,
         mcsp_120mm_bulletmortar: 32,
@@ -191,12 +207,12 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   tabView.addTab(tab1, page1)
 
   // ═══════════════════════════════════════════════════════════════
-  //  第2页：弹药配置（上）— 大口径AP/HE + 小口径AP/HE
+  //  第2页：弹药配置 — 大口径炮弹
   // ═══════════════════════════════════════════════════════════════
   var page2 = new UIElement()
   page2.lss('padding', 4)
 
-  page2.addChild(new Label().setText(Component.literal('§e── 大口径/小口径 ──')))
+  page2.addChild(new Label().setText(Component.literal('§e── 大口径炮弹 ──')))
   for (var pi = 0; pi < 4; pi++) {
     var at = GUI_AMMO_TYPES[pi]
     var row = new UIElement()
@@ -207,16 +223,16 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   }
 
   var tab2 = new Tab()
-  tab2.setText('弹药(上)')
+  tab2.setText('炮弹')
   tabView.addTab(tab2, page2)
 
   // ═══════════════════════════════════════════════════════════════
-  //  第3页：弹药配置（下）— 步枪弹 + 重弹 + 导弹 + 火箭弹
+  //  第3页：弹药配置 — 小口径机炮弹
   // ═══════════════════════════════════════════════════════════════
   var page3 = new UIElement()
   page3.lss('padding', 4)
 
-  page3.addChild(new Label().setText(Component.literal('§e── 枪弹/导弹/火箭弹 ──')))
+  page3.addChild(new Label().setText(Component.literal('§e── 小口径机炮弹 ──')))
   for (var pi = 4; pi < 8; pi++) {
     var at = GUI_AMMO_TYPES[pi]
     var row = new UIElement()
@@ -227,11 +243,51 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   }
 
   var tab3 = new Tab()
-  tab3.setText('弹药(下)')
+  tab3.setText('小口径')
   tabView.addTab(tab3, page3)
 
   // ═══════════════════════════════════════════════════════════════
-  //  第5页：MCSP附属 — 坦克炮/导弹（125mm/120mm/TOW/MLRS）
+  //  第4页：弹药配置 — 枪弹/火箭弹
+  // ═══════════════════════════════════════════════════════════════
+  var page4guns = new UIElement()
+  page4guns.lss('padding', 4)
+
+  page4guns.addChild(new Label().setText(Component.literal('§e── 枪弹/火箭弹 ──')))
+  for (var pi = 8; pi < 12; pi++) {
+    var at = GUI_AMMO_TYPES[pi]
+    var row = new UIElement()
+    row.addChild(new Label().setText(Component.literal(at.label + ':')))
+    row.addChild(slotFields[at.key])
+    row.addChild(new Label().setText(Component.literal(' 个')))
+    page4guns.addChild(row)
+  }
+
+  var tab4guns = new Tab()
+  tab4guns.setText('枪/火箭')
+  tabView.addTab(tab4guns, page4guns)
+
+  // ═══════════════════════════════════════════════════════════════
+  //  第5页：弹药配置 — 导弹/航弹
+  // ═══════════════════════════════════════════════════════════════
+  var page5miss = new UIElement()
+  page5miss.lss('padding', 4)
+
+  page5miss.addChild(new Label().setText(Component.literal('§e── 导弹/航弹 ──')))
+  for (var pi = 12; pi < GUI_AMMO_TYPES.length; pi++) {
+    var at = GUI_AMMO_TYPES[pi]
+    var row = new UIElement()
+    row.addChild(new Label().setText(Component.literal(at.label + ':')))
+    row.addChild(slotFields[at.key])
+    row.addChild(new Label().setText(Component.literal(' 个')))
+    page5miss.addChild(row)
+  }
+
+  var tab5miss = new Tab()
+  tab5miss.setText('导弹/航弹')
+  tabView.addTab(tab5miss, page5miss)
+
+  // ═══════════════════════════════════════════════════════════════
+  //  第6页：MCSP附属 — 坦克炮/导弹（125mm/120mm/TOW/MLRS）
   // ═══════════════════════════════════════════════════════════════
   var page5 = new UIElement()
   page5.lss('padding', 4)
@@ -251,7 +307,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   tabView.addTab(tab5, page5)
 
   // ═══════════════════════════════════════════════════════════════
-  //  第6页：MCSP附属 — 机关炮/机枪（25mm/30mm/40mm/机枪）
+  //  第7页：MCSP附属 — 机关炮/机枪（25mm/30mm/40mm/机枪）
   // ═══════════════════════════════════════════════════════════════
   var page6 = new UIElement()
   page6.lss('padding', 4)
@@ -271,7 +327,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   tabView.addTab(tab6, page6)
 
   // ═══════════════════════════════════════════════════════════════
-  //  第7页：作弊功能 — 非OP完全无法交互
+  //  第8页：作弊功能 — 非OP完全无法交互
   // ═══════════════════════════════════════════════════════════════
 
   var page4 = new UIElement()
