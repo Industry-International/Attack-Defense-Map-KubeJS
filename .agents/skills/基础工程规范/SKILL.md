@@ -20,8 +20,9 @@ description: 在 1.21.1-NeoForge + KubeJS 7 环境下开发时的基础环境信
 - 不要只读首页就认为已掌握内容，必须深入相关子页面。
 
 ### 2.2 LDLib2 文档
-- **仅在用户说要用 LDLib2 写 GUI 时阅读**
-- 首页：<https://low-drag-mc.github.io/LowDragMC-Doc/ldlib2/>
+- **LDLib2 是本项目编写自定义 GUI 的首选方案**（参见 `LDLib2 开发指引` skill）
+- 离线文档：`给AI阅读的文档/ldlib/`（`agent_guide_2.html` + `ldlib2.html`）
+- 官方首页：<https://low-drag-mc.github.io/LowDragMC-Doc/ldlib2/>
 - 访问方式：先读首页获取导航结构，再按需跳转子页面（如 `ui/preliminary/data_bindings/`、`ui/components/text-field/`、`ui/agent_guide/` 等）
 
 ### 2.3 KubeJS 文档
