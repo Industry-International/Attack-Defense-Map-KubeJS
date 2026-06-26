@@ -497,11 +497,17 @@ StartupEvents.registry('block', ...) 注册的方块：
     ★ 10 = net.minecraft.nbt.Tag.TAG_COMPOUND 的常量值，表示列表元素类型为 CompoundTag
     ★ key fix4: entity.nbt = nbt 会触发 readAdditionalSaveData() 重置实体状态，
       玩家乘坐时断连。改用 level.getServer().runCommandSilent('data merge entity ...')
+    ★ key fix5（2026-06-26）: 旧方块无BlockEntity兼容修复
+      - BlockEvents.rightClicked: 检测 block.entity === null → 自动 /setblock 迁移
+      - BlockEvents.blockEntityTick: 添加 block.entity 空安全检查
+      - readBlockConfig（a_config.js）: 添加 null entity 防护，返回默认配置
     BlockEvents.blockEntityTick('kubejs:ammo_crate') — 每20tick执行扫描补给流程
-      流程：→ 检测 PendingReplenish 标记（由GUI setOnServerClick 写入）
+      流程：→ 安全检测 block.entity 非空（无entity则直接return）
+           → 检测 PendingReplenish 标记（由GUI setOnServerClick 写入）
            → 若为 true，清除标记，调用 executeStationReplenish(block, level, true)（无视冷却）
            → 执行常规 executeStationReplenish(block, level, false)（检查冷却）
-    BlockEvents.rightClicked('kubejs:ammo_crate')    — 读实际配置 + cheatMode → 填充GUI缓存 → 打开LDLib2 GUI
+    BlockEvents.rightClicked('kubejs:ammo_crate')    — 检测旧方块 + 读实际配置 + cheatMode → 填充GUI缓存 → 打开LDLib2 GUI
+      旧方块迁移：block.entity === null → 执行 /setblock 自动升级 → 提示玩家再次右键
     function executeStationReplenish(block, level, ignoreCooldown) — 完整扫描补给流程（Tick/手动触发共用）
       流程：读配置(含enterDelay) → 冷却检查(ignoreCooldown控制) → 遍历level.getEntities() → 
             手动距离过滤 → isSBWVehicle → 停留计时 → replenishVehicle → 设CD

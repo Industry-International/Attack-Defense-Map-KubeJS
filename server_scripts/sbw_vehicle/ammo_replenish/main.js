@@ -48,6 +48,24 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
   let block = event.block
   let pos = block.getPos()
 
+  // ★ 修复：旧方块（GUI更新前放置的）没有 BlockEntity → 自动迁移
+  if (!block.entity) {
+    console.log($LOG_PREFIX + ' 检测到旧方块（无BlockEntity），自动迁移...')
+    try {
+      let server = event.level.getServer()
+      let x = pos.getX(); let y = pos.getY(); let z = pos.getZ()
+      // 用 setblock 强制刷新方块，触发新注册的 BlockEntity 创建
+      server.runCommandSilent('setblock ' + x + ' ' + y + ' ' + z + ' kubejs:ammo_crate replace')
+      player.tell(Component.literal('§a[弹药补给站] 方块已升级！请再次右键打开 GUI'))
+      console.log($LOG_PREFIX + ' 方块迁移完成 [' + x + ',' + y + ',' + z + ']')
+    } catch (e) {
+      console.log($LOG_PREFIX + ' 方块迁移失败: ' + e)
+      player.tell(Component.literal('§c[弹药补给站] 方块自动升级失败，请破坏后重新放置'))
+    }
+    event.cancel()
+    return
+  }
+
   try {
     let cfg = readBlockConfig(block)
     // 读取作弊模式状态，传给 GUI 控制按钮显隐
@@ -78,6 +96,10 @@ BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
   if (event.level.isClientSide()) return
   let block = event.block
   let level = event.level
+
+  // 安全检查：没有 BlockEntity 就不处理（旧方块迁移后不应再出现）
+  if (!block.entity) return
+
   let pd = block.entity.persistentData
 
   // ─── 检查是否有 GUI 提交的手动补给请求 ───

@@ -161,12 +161,22 @@ function getAmmoDisplayName(ammoKey) {
  *   - 此函数若发现无配置，仅返回默认值（不修改 NBT）
  */
 function readBlockConfig(block) {
-  let pd = block.entity.persistentData
-  let raw = pd.getString('StationConfig')
-  if (raw) {
-    try { return JSON.parse(raw) } catch (_) {}
+  try {
+    let entity = block.entity
+    if (!entity) {
+      console.log('[弹药补给站] [警告] 方块无 BlockEntity，返回默认配置')
+      return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
+    }
+    let pd = entity.persistentData
+    let raw = pd.getString('StationConfig')
+    if (raw) {
+      try { return JSON.parse(raw) } catch (_) {}
+    }
+    return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
+  } catch (e) {
+    console.log('[弹药补给站] 读取配置出错: ' + e)
+    return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
   }
-  return JSON.parse(JSON.stringify(DEFAULT_STATION_CONFIG))
 }
 
 // ========== 载具弹药映射表 ==========
