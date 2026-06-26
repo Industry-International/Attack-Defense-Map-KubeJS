@@ -52,12 +52,22 @@ sbw_vehicle/
 |---------|---------|------|
 | `large_shell_ap` | `superbwarfare:large_shell_ap` | 大口径 AP 弹（穿甲弹） |
 | `large_shell_he` | `superbwarfare:large_shell_he` | 大口径 HE 弹（高爆弹） |
+| `large_shell_gs` | `superbwarfare:large_shell_gs` | 大口径葡萄弹 |
 | `small_shell_ap` | `superbwarfare:small_shell_ap` | 小口径 AP 弹 |
 | `small_shell_he` | `superbwarfare:small_shell_he` | 小口径 HE 弹 |
+| `small_shell_gs` | `superbwarfare:small_shell_gs` | 小口径葡萄弹 |
+| `small_shell_aa` | `superbwarfare:small_shell_aa` | 小口径防空弹 |
 | `rifle_ammo` | `superbwarfare:rifle_ammo` | 步枪弹（机枪用） |
 | `heavy_ammo` | `superbwarfare:heavy_ammo` | 重弹 |
 | `missile` | `superbwarfare:missile` | 导弹 |
 | `rocket` | `superbwarfare:rocket` | 火箭弹 |
+| `small_rocket` | `superbwarfare:small_rocket` | 小型火箭弹 |
+| `medium_anti_ground_missile` | `superbwarfare:medium_anti_ground_missile` | 中型对地导弹 |
+| `large_anti_ground_missile` | `superbwarfare:large_anti_ground_missile` | 大型对地导弹 |
+| `medium_anti_air_missile` | `superbwarfare:medium_anti_air_missile` | 中型防空导弹 |
+| `mortar_shell` | `superbwarfare:mortar_shell` | 迫击炮弹 |
+| `medium_aerial_bomb` | `superbwarfare:medium_aerial_bomb` | 中型航弹 |
+| `small_aerial_bomb` | `superbwarfare:small_aerial_bomb` | 小型航弹 |
 
 ### 2.2 载具标识方式
 
@@ -433,7 +443,106 @@ getCheckTickInterval()  // 返回实际 tick 间隔
 
 ---
 
-## 12. 开发注意事项
+## 12. 反编译模组获取原始载具数据
+
+当需要核对某辆载具的确切武器配置（弹药类型 `AmmoType`、武器名 `Name`、伤害参数等）时，可直接从模组 JAR 中提取原始 JSON。
+
+### 12.1 JAR 路径
+
+模组 JAR 文件位于游戏版本的 `mods/` 目录下。文件名含版本号，可用通配符：
+
+```
+mods/
+├── *superbwarfare*.jar        # SBW 卓越前线本体
+└── MCSP*.jar                   # MCSP 附属模组
+```
+
+### 12.2 提取命令
+
+使用 JDK 自带的 `jar` 命令（无需解压工具）：
+
+```bash
+# 先 cd 到游戏版本目录（注意路径含空格要加引号）
+cd "d:/path/to/.minecraft/versions/<版本名称>/"
+
+# 提取 SBW 本体载具数据（data 目录下的配置，不是 assets 的模型）
+jar xf "mods/*superbwarfare*.jar" "data/superbwarfare/sbw/vehicles/"
+
+# 提取 MCSP 附属载具数据
+jar xf "mods/MCSP*.jar" "data/mcsp/sbw/vehicles/"
+
+# 可选：提取装配配方（也含弹药配方参考）
+jar xf "mods/*superbwarfare*.jar" "data/superbwarfare/recipe/"
+jar xf "mods/MCSP*.jar" "data/mcsp/recipes/"
+```
+
+### 12.3 提取后的文件路径
+
+| 数据 | 路径 |
+|------|------|
+| SBW 载具配置 | `data/superbwarfare/sbw/vehicles/<载具名>.json` |
+| SBW 示例文件 | `data/superbwarfare/sbw/vehicles/vehicles.example.jsonc` |
+| SBW 配方数据 | `data/superbwarfare/recipe/<配方名>.json` |
+| MCSP 载具配置 | `data/mcsp/sbw/vehicles/<载具名>.json` |
+| MCSP 弹药配方 | `data/mcsp/recipes/ammunition/<弹药名>.json` |
+
+### 12.4 关键字段速查
+
+提取后，在载具 JSON 的 `Weapons` 对象下查看每把武器的 `AmmoType` 字段：
+
+```json
+"Weapons": {
+  "Cannon": {
+    "AmmoType": [                                  // ← 弹药类型（重点）
+      "superbwarfare:large_shell_ap",               //   string = 直接可用弹药
+      {                                             //   object = 弹药 + 参数覆盖
+        "Ammo": "superbwarfare:large_shell_he",
+        "Override": { "Damage": 250, ... }
+      }
+    ],
+    "Name": "weapon.superbwarfare.cannon_ap",       // i18n key
+    "Projectile": "superbwarfare:cannon_shell",     // 抛射物
+    "Damage": 700, "ExplosionRadius": 4             // 伤害参数
+  },
+  "MachineGun": {
+    "AmmoType": "@RifleAmmo",                      // @前缀 = 引用预定义类型
+  },
+  "PassengerMachineGun": {
+    "AmmoType": "@HeavyAmmo"                        // → 对应 heavy_ammo
+  }
+}
+```
+
+`AmmoType` 字段取值规则：
+
+| 格式 | 含义 | 示例 |
+|------|------|------|
+| `"物品ID"` | 指定物品为弹药 | `"superbwarfare:medium_anti_ground_missile"` |
+| `[数组]` | 多弹药可选，含 Override | `["superbwarfare:small_shell_ap", {...}]` |
+| `"@RifleAmmo"` | 引用预定义 → `rifle_ammo` | 展开为 `superbwarfare:rifle_ammo` |
+| `"@HeavyAmmo"` | 引用预定义 → `heavy_ammo` | 展开为 `superbwarfare:heavy_ammo` |
+| `"FE"` | 能量武器，不耗弹药物品 | 无需补充弹药 |
+
+### 12.5 快速核对清单
+
+提取 JSON 后，按以下步骤核对弹药映射：
+
+1. 找到 `Weapons` 对象，列出所有武器名（如 `Cannon`、`MachineGun`、`Missile` 等）
+2. 对每个武器读取 `AmmoType`，收集所有用到的弹药 ID
+3. 将弹药 ID 与 `a_config.js` 中 `AMMO_ID_MAP` 的 value 比对
+4. 将载具实体注册名（`superbwarfare:<载具名>`）与 `vehicle_ammo_config/` 中的 key 比对
+5. 更新 `VEHICLE_AMMO_MAP` 条目，确保包含所有 `AmmoType` 列出的弹药
+
+### 12.6 清理提取文件
+
+```bash
+# 用完即清理，避免污染工作区
+rm -rf data/superbwarfare/ data/mcsp/
+```
+
+---
+
+## 13. 开发注意事项
 
 1. **NBT 读写**：所有方块 NBT 读写后必须调用 `block.entity.setChanged()`，否则重启后数据丢失
 2. **实体清理**：使用 `entity.discard()` 替代 `entity.kill()`，不留掉落物
