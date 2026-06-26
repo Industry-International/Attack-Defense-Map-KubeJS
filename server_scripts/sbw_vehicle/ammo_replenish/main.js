@@ -256,10 +256,10 @@ function executeStationReplenish(block, level, ignoreCooldown) {
 // ═══════════════════════════════════════════════════════════════
 
 /**
- * 判断实体是否为 SBW（卓越前线）载具
+ * 判断实体是否为 SBW/MCSP 载具（SBW本体 + MCSP附属模组）
  *
  * 使用 entity.getType() 获取实体类型注册名，
- * 验证是否以 "superbwarfare:" 开头。
+ * 验证是否以 "superbwarfare:" 或 "mcsp:" 开头。
  * 不依赖 NBT 的 id 字段（1.21.1 中该字段可能不可靠）。
  */
 function isSBWVehicle(entity) {
@@ -267,7 +267,7 @@ function isSBWVehicle(entity) {
     let type = entity.getType()
     if (!type) return false
     let typeStr = type.toString()
-    return typeStr !== null && typeStr.startsWith('superbwarfare:')
+    return typeStr !== null && (typeStr.startsWith('superbwarfare:') || typeStr.startsWith('mcsp:'))
   } catch (e) {
     return false
   }
@@ -318,8 +318,6 @@ function replenishVehicle(entity, slots, level) {
     let itemCount = items.size()
     console.log($LOG_PREFIX + ' [补给] Inventory.Items 共 ' + itemCount + ' 个物品')
 
-    if (itemCount === 0) return false
-
     // ─── 统计每种弹药当前总量 ───
     let currentCounts = {}
     for (var i = 0; i < itemCount; i++) {
@@ -336,21 +334,14 @@ function replenishVehicle(entity, slots, level) {
 
     console.log($LOG_PREFIX + ' [补给] 当前弹药存量: ' + JSON.stringify(currentCounts))
 
-    if (Object.keys(currentCounts).length === 0) {
-      console.log($LOG_PREFIX + ' [补给] 未找到可识别的弹药类型（AMMO_KEY_MAP 中无匹配）')
-      return false
-    }
-
     // ─── 计算需要补充的量 ───
+    // ★ 改为遍历配置中所有弹药类型(slots)，而非仅已有类型(currentCounts)
+    //   这样 large_shell_he 等未在载具中出现的弹药也会被补满
     let needToAdd = {}
-    for (let ammoKey in currentCounts) {
-      if (!currentCounts.hasOwnProperty(ammoKey)) continue
-      let current = currentCounts[ammoKey]
+    for (let ammoKey in slots) {
+      if (!slots.hasOwnProperty(ammoKey)) continue
       let maxVal = slots[ammoKey]
-      if (maxVal === undefined || maxVal === null) {
-        console.log($LOG_PREFIX + ' [补给]   弹药 ' + ammoKey + ' 当前=' + current + ' 配置中未设置最大值，跳过')
-        continue
-      }
+      let current = currentCounts[ammoKey] || 0
       if (current >= maxVal) {
         console.log($LOG_PREFIX + ' [补给]   弹药 ' + ammoKey + ' 当前=' + current + ' >= 最大=' + maxVal + '，无需补充')
         continue

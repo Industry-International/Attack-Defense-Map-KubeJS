@@ -87,7 +87,7 @@ startup 中的 const 不会与 server 中的 const 冲突。
 （字段：scanRange / cooldown(秒) / enterDelay(秒) / slots）
 
   const DEFAULT_STATION_CONFIG = { ... }          // 弹药补给站默认配置（含 enterDelay: 3）
-  const AMMO_ID_MAP = { ... }                     // 弹药类型短名 → item ID
+  const AMMO_ID_MAP = { ... }                     // 弹药类型短名 → item ID（含 large_shell_gs 葡萄弹）
   const AMMO_KEY_MAP = {}                         // item ID → 弹药类型短名（反向映射，自动构建）
 
 来源文件: server_scripts/sbw_vehicle/replenish.js
@@ -465,10 +465,12 @@ StartupEvents.registry('block', ...) 注册的方块：
   注意：
     1. 方块每20tick执行：读取配置 → 冷却检查 → 遍历世界实体 → 匹配SBW载具 → 停留计时 → 弹药补给 → 设CD
     2. 冷却CD单位：秒（配置和GUI统一）
-    3. 补给逻辑：检查载具Inventory.Items中已有的弹药类型 → 只补这些 → 补到配置最大值
+    3. 补给逻辑：遍历配置中所有弹药类型(slots)，检查载具Inventory.Items中已有数量，
+       若不存在或低于配置最大值则补到配置值（不限于已存在的弹药类型）
     4. 冷却状态持久化到方块 entityData 的 CooldownEnd（long类型，游戏tick时间）
     5. 方块配置持久化到 entityData 的 StationConfig（JSON字符串）
-    6. 载具识别：通过 entity.getType().toString() 判断是否以 'superbwarfare:' 开头
+    6. 载具识别：通过 entity.getType().toString() 判断是否以 'superbwarfare:' 或 'mcsp:' 开头
+    （MCSP附属模组的载具实体以 mcsp: 为命名空间）
     7. 停留计时：载具需在范围内持续停留 enterDelay 秒才触发补给，VehicleTimers(JSON) 持久化到方块 entityData
     8. 位置获取：使用 entity.getX()/getY()/getZ()（★ getPosition() 在1.21.1不存在）
     9. UUID获取：使用 entity.uuid.toString()（★ getStringUUID() 在KubeJS7 Rhino中不存在）
@@ -503,13 +505,15 @@ StartupEvents.registry('block', ...) 注册的方块：
       停留计时：首次进入记录 gameTime，达到 enterDelay*20 tick 后补给，离开范围则清除计时
       计时数据以 JSON 格式存入 persistentData.VehicleTimers
     function isSBWVehicle(entity)                    — 判断是否为SBW载具（使用 entity.getType().toString() 前缀匹配）
-    function replenishVehicle(entity, slots)          — 对单辆载具执行补给
-      流程：读Inventory.Items → 统计已有弹药量 → 计算差额 → 先叠加到现有物品组(≤64) → 不足则新增物品组 → 写回NBT
+    function replenishVehicle(entity, slots, level)       — 对单辆载具执行补给
+      流程：读Inventory.Items → 统计已有弹药量 → 遍历slots配置计算差额 → 先叠加到现有物品组(≤64) → 不足则新增物品组 → 写回NBT+物品栏
 
-  GUI（startup_scripts/src/blocks/ammo_crate/gui.js）— 2026-06-26 LDLib2配置GUI（内联+标记版）
+  GUI（startup_scripts/src/blocks/ammo_crate/gui.js）— 2026-06-26 LDLib2配置GUI（含MCSP附属模组支持）
     var $HashMap + global.ammoStationGuiCache — GUI缓存（仅存 JSON 数据，不存函数引用）
-    const GUI_AMMO_TYPES — 8种弹药类型配置
-    共4页：基础/弹药(上)/弹药(下)/§c作弊
+    const GUI_AMMO_TYPES — 9种SBW弹药类型配置
+    const MCSP_AMMO_TYPES1 — 5种MCSP坦克炮/导弹类弹药配置
+    const MCSP_AMMO_TYPES2 — 6种MCSP机关炮/机枪类弹药配置
+    共7页：基础/SBW弹药(上)/SBW弹药(下)/§aMCSP(上)/§aMCSP(下)/§c作弊
       第4页作弊页始终显示，所有按钮权限由服务端校验（player.hasPermissions(2)）
       功能（均不依赖跨作用域函数调用）：
         ⇄ 切换作弊模式 — 直接操作 block.entity.persistentData

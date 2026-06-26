@@ -30,12 +30,32 @@ function bindField(field, name) {
 const GUI_AMMO_TYPES = [
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },
   { key: 'large_shell_he',  label: '§c大口径HE',  default: 64 },
+  { key: 'large_shell_gs',  label: '§a大口径葡萄', default: 64 },
   { key: 'small_shell_ap',  label: '§b小口径AP',  default: 64 },
   { key: 'small_shell_he',  label: '§d小口径HE',  default: 64 },
   { key: 'rifle_ammo',      label: '§7步枪弹',    default: 192 },
   { key: 'heavy_ammo',      label: '§9重弹',      default: 128 },
   { key: 'missile',         label: '§a导弹',       default: 8 },
   { key: 'rocket',          label: '§e火箭弹',     default: 16 }
+]
+
+// MCSP 附属 - 坦克炮/导弹类
+const MCSP_AMMO_TYPES1 = [
+  { key: 'mcsp_125mm_ap',           label: '§6125mm穿甲', default: 32 },
+  { key: 'mcsp_125mm_he',           label: '§c125mm高爆', default: 32 },
+  { key: 'mcsp_120mm_bulletmortar', label: '§5120mm迫击', default: 32 },
+  { key: 'mcsp_tow_2',              label: '§aTOW-2导弹', default: 16 },
+  { key: 'mcsp_mlrs_shells',        label: '§eMLRS火箭',  default: 32 }
+]
+
+// MCSP 附属 - 机关炮/机枪类
+const MCSP_AMMO_TYPES2 = [
+  { key: 'mcsp_25mm_ap',            label: '§b25mm机炮',   default: 128 },
+  { key: 'mcsp_30mm_ap',            label: '§d30mm机炮',   default: 128 },
+  { key: 'mcsp_40mm_explosive',     label: '§c40mm高爆',   default: 64 },
+  { key: 'mcsp_40mm_smoke',         label: '§740mm烟雾',   default: 32 },
+  { key: 'mcsp_bullet762',          label: '§77.62mm机枪', default: 256 },
+  { key: 'mcsp_smallarmscartridge', label: '§7小口径弹药', default: 256 }
 ]
 
 // ========== LDLib2 UI 注册 ==========
@@ -58,7 +78,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         large_shell_ap: 64, large_shell_he: 64,
         small_shell_ap: 64, small_shell_he: 64,
         rifle_ammo: 192, heavy_ammo: 128,
-        missile: 8, rocket: 16
+        missile: 8, rocket: 16,
+        mcsp_25mm_ap: 128, mcsp_30mm_ap: 128,
+        mcsp_40mm_explosive: 64, mcsp_40mm_smoke: 32,
+        mcsp_120mm_bulletmortar: 32,
+        mcsp_125mm_ap: 32, mcsp_125mm_he: 32,
+        mcsp_bullet762: 256, mcsp_smallarmscartridge: 256,
+        mcsp_tow_2: 16, mcsp_mlrs_shells: 32
       }}
     }
   }
@@ -84,6 +110,23 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var slotFields = {}
   for (var si = 0; si < GUI_AMMO_TYPES.length; si++) {
     var at = GUI_AMMO_TYPES[si]
+    var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
+    var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
+    field.lss('width', 55)
+    bindField(field, at.key)
+    slotFields[at.key] = field
+  }
+  // MCSP 弹药字段
+  for (var si = 0; si < MCSP_AMMO_TYPES1.length; si++) {
+    var at = MCSP_AMMO_TYPES1[si]
+    var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
+    var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
+    field.lss('width', 55)
+    bindField(field, at.key)
+    slotFields[at.key] = field
+  }
+  for (var si = 0; si < MCSP_AMMO_TYPES2.length; si++) {
+    var at = MCSP_AMMO_TYPES2[si]
     var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
     var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
     field.lss('width', 55)
@@ -188,7 +231,47 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   tabView.addTab(tab3, page3)
 
   // ═══════════════════════════════════════════════════════════════
-  //  第4页：作弊功能 — 非OP完全无法交互
+  //  第5页：MCSP附属 — 坦克炮/导弹（125mm/120mm/TOW/MLRS）
+  // ═══════════════════════════════════════════════════════════════
+  var page5 = new UIElement()
+  page5.lss('padding', 4)
+
+  page5.addChild(new Label().setText(Component.literal('§e── 坦克炮/导弹 ──')))
+  for (var pi = 0; pi < MCSP_AMMO_TYPES1.length; pi++) {
+    var at = MCSP_AMMO_TYPES1[pi]
+    var row = new UIElement()
+    row.addChild(new Label().setText(Component.literal(at.label + ':')))
+    row.addChild(slotFields[at.key])
+    row.addChild(new Label().setText(Component.literal(' 个')))
+    page5.addChild(row)
+  }
+
+  var tab5 = new Tab()
+  tab5.setText('§aMCSP(上)')
+  tabView.addTab(tab5, page5)
+
+  // ═══════════════════════════════════════════════════════════════
+  //  第6页：MCSP附属 — 机关炮/机枪（25mm/30mm/40mm/机枪）
+  // ═══════════════════════════════════════════════════════════════
+  var page6 = new UIElement()
+  page6.lss('padding', 4)
+
+  page6.addChild(new Label().setText(Component.literal('§e── 机关炮/机枪 ──')))
+  for (var pi = 0; pi < MCSP_AMMO_TYPES2.length; pi++) {
+    var at = MCSP_AMMO_TYPES2[pi]
+    var row = new UIElement()
+    row.addChild(new Label().setText(Component.literal(at.label + ':')))
+    row.addChild(slotFields[at.key])
+    row.addChild(new Label().setText(Component.literal(' 个')))
+    page6.addChild(row)
+  }
+
+  var tab6 = new Tab()
+  tab6.setText('§aMCSP(下)')
+  tabView.addTab(tab6, page6)
+
+  // ═══════════════════════════════════════════════════════════════
+  //  第7页：作弊功能 — 非OP完全无法交互
   // ═══════════════════════════════════════════════════════════════
 
   var page4 = new UIElement()
@@ -326,6 +409,16 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       }
       for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
         var ak = GUI_AMMO_TYPES[fi].key
+        var amt = safeParseField(fieldVals[ak], slotFields[ak])
+        if (amt > 0) newCfg.slots[ak] = amt
+      }
+      for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
+        var ak = MCSP_AMMO_TYPES1[fi].key
+        var amt = safeParseField(fieldVals[ak], slotFields[ak])
+        if (amt > 0) newCfg.slots[ak] = amt
+      }
+      for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
+        var ak = MCSP_AMMO_TYPES2[fi].key
         var amt = safeParseField(fieldVals[ak], slotFields[ak])
         if (amt > 0) newCfg.slots[ak] = amt
       }
