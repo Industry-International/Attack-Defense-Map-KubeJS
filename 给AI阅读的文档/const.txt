@@ -707,7 +707,12 @@ StartupEvents.registry('block', ...) 注册的方块：
      - en_us.json 缺少 msg.kubejs.ammo_station.* 系列翻译
        （zh_cn.json 已有完整 ammo_station 翻译键）
 
-  6. ⚠ 模块重构记录：
+  6. ⚠ 新文档（2026-06-27）：
+     - 使用指南/可调用接口参考.md
+       集中记录了所有模块对外暴露的可调用 API、全局变量、全局函数、配置常量、
+       持久化数据键和 Java 类引用。开发新模块前应先阅读此文档。
+
+  7. ⚠ 模块重构记录：
      - startup_scripts/ammo_replenish_ui.js → 已重命名为 ammo_station_gui.js
        LDLib2 UI ID 变更：kubejs:ammo_crate_gui → kubejs:ammo_station_cfg
        const 名变更：AMMO_TYPE_CFG → GUI_AMMO_TYPES
