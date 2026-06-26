@@ -11,13 +11,20 @@
 var $HashMap = Java.loadClass('java.util.HashMap')
 global.ammoStationGuiCache = new $HashMap()
 var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
-// 为 TextField 创建 C2S 同步绑定，使客户端输入能自动回传到服务端
-function bindTextField(field, name) {
-  var binding = $DataBindingBuilder.string(
-    function() { return field.getText() },
-    function(val) { field.setText(val) }
-  ).c2sStrategy('always').name(name).build(true)
-  field.bind(binding)
+var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
+// 用枚举值设置 C2S 通道
+var fieldVals = {}
+function bindField(field, name) {
+  fieldVals[name] = field.getText()
+  try {
+    var binding = $DataBindingBuilder.string(
+      function() { return field.getText() },
+      function(val) { fieldVals[name] = val }
+    ).s2cStrategy($SyncStrategy.NONE).c2sStrategy($SyncStrategy.ALWAYS).name(name).build()
+    field.bind(binding)
+  } catch (e) {
+    console.log('[弹药补给站] 绑定失败(' + name + '): ' + e)
+  }
 }
 
 const GUI_AMMO_TYPES = [
@@ -62,22 +69,22 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   // ──── 创建所有共享的输入字段 ────
 
-  // 基础参数字段（不限制输入，safeParseInt 会在保存时保底 ≥0）
-  var fieldScanRange = new TextField().setAnyString().setText(String(cfg.scanRange))
+  // 基础参数字段
+  var fieldScanRange = new TextField().setNumbersOnlyInt(0, 999999).setText(String(cfg.scanRange))
   fieldScanRange.lss('width', 55)
-  bindTextField(fieldScanRange, 'ammo_sr')
-  var fieldCooldown = new TextField().setAnyString().setText(String(cfg.cooldown))
+  bindField(fieldScanRange, 'sr')
+  var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999).setText(String(cfg.cooldown))
   fieldCooldown.lss('width', 55)
-  bindTextField(fieldCooldown, 'ammo_cd')
+  bindField(fieldCooldown, 'cd')
 
   // 弹药字段（每个弹药类型一个输入框）
   var slotFields = {}
   for (var si = 0; si < GUI_AMMO_TYPES.length; si++) {
     var at = GUI_AMMO_TYPES[si]
     var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
-    var field = new TextField().setAnyString().setText(String(val))
+    var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
     field.lss('width', 55)
-    bindTextField(field, 'ammo_' + at.key)
+    bindField(field, at.key)
     slotFields[at.key] = field
   }
 
@@ -297,29 +304,20 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
         return
       }
-      var newCfg = { scanRange: safeParseInt(fieldScanRange), cooldown: safeParseInt(fieldCooldown), slots: {} }
+      // 从 fieldVals（C2S 同步值）读取，fallback 到 field.getText()
+      var newCfg = {
+        scanRange: safeParseField(fieldVals['sr'], fieldScanRange),
+        cooldown: safeParseField(fieldVals['cd'], fieldCooldown),
+        slots: {}
+      }
       for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
-        var atype = GUI_AMMO_TYPES[fi]
-        var amount = safeParseInt(slotFields[atype.key])
-        if (amount > 0) newCfg.slots[atype.key] = amount
+        var ak = GUI_AMMO_TYPES[fi].key
+        var amt = safeParseField(fieldVals[ak], slotFields[ak])
+        if (amt > 0) newCfg.slots[ak] = amt
       }
-      // ─── 日志：诊断 GUI 字段值是否与客户端同步 ───
-      console.log('[弹药补给站] === 保存诊断开始 ===')
-      console.log('[弹药补给站] 玩家=' + player.name + ' UUID=' + puuid)
-      console.log('[弹药补给站] fieldScanRange.getText()=' + fieldScanRange.getText() + ' → safeParse=' + safeParseInt(fieldScanRange))
-      console.log('[弹药补给站] fieldCooldown.getText()=' + fieldCooldown.getText() + ' → safeParse=' + safeParseInt(fieldCooldown))
-      for (var li = 0; li < GUI_AMMO_TYPES.length; li++) {
-        var lt = GUI_AMMO_TYPES[li]
-        console.log('[弹药补给站] slot[' + lt.key + '].getText()=' + slotFields[lt.key].getText() + ' → safeParse=' + safeParseInt(slotFields[lt.key]))
-      }
-      console.log('[弹药补给站] 组装后 newCfg=' + JSON.stringify(newCfg))
-      // ─── 写入 StationConfig ───
+      console.log('[弹药补给站] 保存 fieldVals=' + JSON.stringify(fieldVals) + ' newCfg=' + JSON.stringify(newCfg))
       block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
       block.entity.persistentData.putLong('CooldownEnd', 0)
-      // ─── 写回校验 ───
-      var verifyRaw = block.entity.persistentData.getString('StationConfig')
-      console.log('[弹药补给站] 写入完成，读回校验=' + verifyRaw)
-      console.log('[弹药补给站] === 保存诊断结束 ===')
       player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
@@ -345,9 +343,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       if (!level) return
       var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
       if (!block || block.getId() === 'minecraft:air') return
-      // 清除 StationConfig 和 Initialized 标记，服务器下次读取时自动重新初始化
+      // 清除 StationConfig，服务器下次读取时自动返回默认值
       block.entity.persistentData.remove('StationConfig')
-      block.entity.persistentData.remove('Initialized')
       block.entity.persistentData.putLong('CooldownEnd', 0)
       player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置'), false)
     } catch (e) {
@@ -375,9 +372,9 @@ function makeSeparator() {
   return sep
 }
 
-function safeParseInt(field) {
+function safeParseField(customVal, field) {
   try {
-    var text = field.getText()
+    var text = customVal !== undefined && customVal !== null ? String(customVal) : field.getText()
     if (text === null || text === undefined) return 0
     var val = parseInt(text, 10)
     return isNaN(val) ? 0 : Math.max(0, val)
