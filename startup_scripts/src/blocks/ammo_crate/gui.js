@@ -214,6 +214,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         if (!block || block.getId() === 'minecraft:air') return
         var current = block.entity.persistentData.CheatMode === true
         block.entity.persistentData.putBoolean('CheatMode', !current)
+        block.entity.setChanged()
         player.displayClientMessage(Component.literal('§6[弹药补给站] ' + (!current ? '§c作弊模式已开启' : '§a作弊模式已关闭')), false)
       } catch (e) {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 切换失败: ' + e), false)
@@ -255,6 +256,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
           }
           // 写入 PendingReplenish 标记，由 server 侧的 blockEntityTick 执行
           block.entity.persistentData.putBoolean('PendingReplenish', true)
+          block.entity.setChanged()
           player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
         } catch (e) {
           player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false)
@@ -318,6 +320,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       console.log('[弹药补给站] 保存 fieldVals=' + JSON.stringify(fieldVals) + ' newCfg=' + JSON.stringify(newCfg))
       block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
       block.entity.persistentData.putLong('CooldownEnd', 0)
+      block.entity.setChanged()
       player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
@@ -346,6 +349,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       // 清除 StationConfig，服务器下次读取时自动返回默认值
       block.entity.persistentData.remove('StationConfig')
       block.entity.persistentData.putLong('CooldownEnd', 0)
+      block.entity.setChanged()
       player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 重置失败: ' + e), false)

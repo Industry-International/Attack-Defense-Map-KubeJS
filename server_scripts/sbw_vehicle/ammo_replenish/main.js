@@ -11,7 +11,8 @@
 //   3. AABB 扫描周围载具 → 检查 Inventory 已有弹药 → 补到配置最大值
 //   4. 补给后进入冷却 CD（配置项：秒）
 //
-// ⚠ 注意：所有方块 NBT 读写都使用 block.entity.persistentData（自动持久化）
+// ⚠ 注意：所有方块 NBT 读写后必须调用 block.entity.setChanged()
+//         否则数据不会保存到磁盘，重启后丢失
 //         不要使用 block.getEntityData()/setEntityData()
 // ============================================================
 
@@ -28,6 +29,7 @@ BlockEvents.placed('kubejs:ammo_crate', event => {
   let pd = event.block.entity.persistentData
   if (!pd.contains('StationConfig')) {
     pd.putString('StationConfig', JSON.stringify(DEFAULT_STATION_CONFIG))
+    event.block.entity.setChanged()
   }
 })
 
@@ -77,6 +79,7 @@ BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
   // ─── 检查是否有 GUI 提交的手动补给请求 ───
   if (pd.getBoolean('PendingReplenish') === true) {
     pd.putBoolean('PendingReplenish', false)
+    block.entity.setChanged()
     executeStationReplenish(block, level, true)
   }
 
@@ -139,6 +142,7 @@ function executeStationReplenish(block, level, ignoreCooldown) {
     // ─── 4. 若执行了补给，设置冷却（cooldownSec 秒） ───
     if (replenishedAny) {
       pd.putLong('CooldownEnd', gameTime + cooldownSec * 20)
+      block.entity.setChanged()
     }
 
     return replenishedAny
