@@ -8,7 +8,11 @@
 
 // ========== UI 组件 ==========
 
-// PANE / filler 由 profession/config/a_tacz_config.js 全局定义，此处直接使用
+// 本地填充物（不依赖任何外部模块）
+const TEAM_PANE = {
+  black: Item.of('minecraft:black_stained_glass_pane').withCustomName(Component.literal('')),
+  gray:  Item.of('minecraft:gray_stained_glass_pane').withCustomName(Component.literal('')),
+}
 
 const TEAM_ATTACK    = 'attack'
 const TEAM_DEFENSE   = 'defense'
@@ -93,7 +97,7 @@ function renderTeamSelect(gui, player, openPage) {
 
   // Row 1: 灰色分隔线
   for (var x = 1; x < 8; x++) {
-    gui.slot(x, 1, function(s) { s.setItem(PANE.gray) })
+    gui.slot(x, 1, function(s) { s.setItem(TEAM_PANE.gray) })
   }
 
   // ========== Row 2: 进攻方 / 防守方 选项 ==========
@@ -162,7 +166,7 @@ function renderTeamSelect(gui, player, openPage) {
         player.closeMenu()
       })
     } else {
-      slot.setItem(PANE.black)
+      slot.setItem(TEAM_PANE.black)
     }
   })
 
@@ -179,13 +183,13 @@ function renderTeamSelect(gui, player, openPage) {
         openPage(player)
       })
     } else {
-      slot.setItem(PANE.black)
+      slot.setItem(TEAM_PANE.black)
     }
   })
 
   // Row 5: 灰色分隔线
   for (var x = 1; x < 8; x++) {
-    gui.slot(x, 5, function(s) { s.setItem(PANE.gray) })
+    gui.slot(x, 5, function(s) { s.setItem(TEAM_PANE.gray) })
   }
 }
 
