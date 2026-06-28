@@ -3,17 +3,15 @@
 //
 // 依赖：config.js（全局函数 + SPAWN_POINTS）
 //
-// 功能：
-//   1. 显示当前队伍可见的出生点，点击选择/取消选择
-//   2. 随机传送到一名允许复活的玩家附近
-//   3. 开关"允许其他玩家复活到我这里"
+// 布局（4行）：
+//   行0: 淡黄玻璃边框（顶）
+//   行1: 边框 | 退出 | 标题 | 允许开关 | 当前选择 | 随机传送 | 边框
+//   行2: 边框 | A | B | C | D | E (点位一字排开) | 边框
+//   行3: 淡黄玻璃边框（底）
 // ============================================================
 
-// ========== 填充物 ==========
-const SPAWN_PANE = {
-  black: Item.of('minecraft:black_stained_glass_pane').withCustomName(Component.literal('')),
-  gray:  Item.of('minecraft:gray_stained_glass_pane').withCustomName(Component.literal('')),
-}
+// ========== 边框填充物 ==========
+const BORDER = Item.of('minecraft:yellow_stained_glass_pane').withCustomName(Component.literal(''))
 
 /**
  * 获取玩家所属的原版计分板队伍名
@@ -49,7 +47,6 @@ function teleportToRandomAllowPlayer(player) {
     return
   }
 
-  // 随机选一个
   var idx = Math.floor(Math.random() * allowPlayers.length)
   var target = allowPlayers[idx]
 
@@ -71,24 +68,64 @@ function renderSpawnSelector(gui, player) {
   var teamTag = getPlayerTeamTag(player)
   var selectedId = getPlayerSelectedId(player)
   var allowRespawn = isPlayerAllowRespawn(player)
+  var currentPoint = selectedId ? (SPAWN_POINTS[selectedId] || null) : null
 
-  // Row 0: 退出 / 标题 / 当前选择
-  gui.slot(0, 0, function(slot) {
+  // ===== Row 0: 顶边框 =====
+  for (var x = 0; x < 9; x++) {
+    gui.slot(x, 0, function(s) { s.setItem(BORDER) })
+  }
+
+  // ===== Row 1: 功能行 =====
+  // 边框
+  gui.slot(0, 1, function(s) { s.setItem(BORDER) })
+  gui.slot(8, 1, function(s) { s.setItem(BORDER) })
+
+  // 退出
+  gui.slot(1, 1, function(slot) {
     slot.setItem(
       Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.spawn_selector.exit'))
     )
     slot.setLeftClicked(function() { player.closeMenu() })
   })
 
-  gui.slot(4, 0, function(slot) {
+  // 标题
+  gui.slot(3, 1, function(slot) {
     slot.setItem(
       Item.of('minecraft:compass').withCustomName(Text.translate('gui.kubejs.spawn_selector.title'))
     )
   })
 
-  // 当前选择的出生点
-  var currentPoint = selectedId ? (SPAWN_POINTS[selectedId] || null) : null
-  gui.slot(8, 0, function(slot) {
+  // 允许他人复活开关（紧凑放在标题行）
+  if (allowRespawn) {
+    gui.slot(4, 1, function(slot) {
+      slot.setItem(
+        Item.of('minecraft:lime_dye')
+          .withCustomName(Text.translate('gui.kubejs.spawn_selector.allow_respawn.on'))
+      )
+      slot.setLeftClicked(function() {
+        setPlayerAllowRespawn(player, false)
+        player.runCommandSilent('playsound minecraft:block.lever.click master ' + player.username + ' ~ ~ ~ 0.5 2')
+        player.closeMenu()
+        openSpawnSelector(player)
+      })
+    })
+  } else {
+    gui.slot(4, 1, function(slot) {
+      slot.setItem(
+        Item.of('minecraft:gray_dye')
+          .withCustomName(Text.translate('gui.kubejs.spawn_selector.allow_respawn.off'))
+      )
+      slot.setLeftClicked(function() {
+        setPlayerAllowRespawn(player, true)
+        player.runCommandSilent('playsound minecraft:block.lever.click master ' + player.username + ' ~ ~ ~ 0.5 2')
+        player.closeMenu()
+        openSpawnSelector(player)
+      })
+    })
+  }
+
+  // 当前选择
+  gui.slot(5, 1, function(slot) {
     if (currentPoint) {
       slot.setItem(
         Item.of('minecraft:ender_eye')
@@ -103,29 +140,38 @@ function renderSpawnSelector(gui, player) {
     }
   })
 
-  // Row 1: 分隔线
-  for (var x = 0; x < 9; x++) {
-    gui.slot(x, 1, function(s) { s.setItem(SPAWN_PANE.gray) })
-  }
+  // 随机传送按钮
+  gui.slot(7, 1, function(slot) {
+    slot.setItem(
+      Item.of('minecraft:ender_pearl')
+        .withCustomName(Text.translate('gui.kubejs.spawn_selector.random_teleport'))
+        .withLore([Text.translate('gui.kubejs.spawn_selector.random_teleport.lore')])
+    )
+    slot.setLeftClicked(function() {
+      player.closeMenu()
+      teleportToRandomAllowPlayer(player)
+    })
+  })
 
-  // Row 2: 出生点列表（按队伍过滤）
+  // ===== Row 2: 出生点一字排开 =====
+  gui.slot(0, 2, function(s) { s.setItem(BORDER) })
+  gui.slot(8, 2, function(s) { s.setItem(BORDER) })
+
   var visiblePoints = []
   if (teamTag) {
     visiblePoints = getVisiblePoints(player.server, teamTag)
   }
 
-  var col = 0
-  for (var i = 0; i < visiblePoints.length && col < 9; i++) {
+  // 从 slot 1 开始依次摆放出生点
+  var col = 1
+  for (var i = 0; i < visiblePoints.length && col < 8; i++) {
     var pt = visiblePoints[i]
     var isSelected = (selectedId === pt.id)
 
     gui.slot(col, 2, function(slot) {
       var item = Item.of('minecraft:map')
         .withCustomName(Text.translate(pt.nameKey))
-        .withLore([
-          Text.translate('gui.kubejs.spawn_selector.click_to_select'),
-          Component.literal('§7' + pt.x + ', ' + pt.y + ', ' + pt.z)
-        ])
+        .withLore([Component.literal('§7' + pt.x + ', ' + pt.y + ', ' + pt.z)])
       if (isSelected) {
         item = item.set('minecraft:enchantment_glint_override', true)
           .withLore([
@@ -150,58 +196,14 @@ function renderSpawnSelector(gui, player) {
     col++
   }
 
-  // 剩余格子填黑玻璃
-  for (; col < 9; col++) {
-    gui.slot(col, 2, function(s) { s.setItem(SPAWN_PANE.black) })
+  // 剩余格子空着（留白）
+  for (; col < 8; col++) {
+    gui.slot(col, 2, function(s) { s.setItem(BORDER) })
   }
 
-  // Row 3: 随机传送到允许复活的玩家
-  gui.slot(4, 3, function(slot) {
-    slot.setItem(
-      Item.of('minecraft:ender_pearl')
-        .withCustomName(Text.translate('gui.kubejs.spawn_selector.random_teleport'))
-        .withLore([Text.translate('gui.kubejs.spawn_selector.random_teleport.lore')])
-    )
-    slot.setLeftClicked(function() {
-      player.closeMenu()
-      teleportToRandomAllowPlayer(player)
-    })
-  })
-
-  // Row 4: 分隔线
+  // ===== Row 3: 底边框 =====
   for (var x = 0; x < 9; x++) {
-    gui.slot(x, 4, function(s) { s.setItem(SPAWN_PANE.gray) })
-  }
-
-  // Row 5: 允许他人复活开关
-  if (allowRespawn) {
-    gui.slot(4, 5, function(slot) {
-      slot.setItem(
-        Item.of('minecraft:lime_dye')
-          .withCustomName(Text.translate('gui.kubejs.spawn_selector.allow_respawn.on'))
-          .withLore([Text.translate('gui.kubejs.spawn_selector.allow_respawn.on.lore')])
-      )
-      slot.setLeftClicked(function() {
-        setPlayerAllowRespawn(player, false)
-        player.runCommandSilent('playsound minecraft:block.lever.click master ' + player.username + ' ~ ~ ~ 0.5 2')
-        player.closeMenu()
-        openSpawnSelector(player)
-      })
-    })
-  } else {
-    gui.slot(4, 5, function(slot) {
-      slot.setItem(
-        Item.of('minecraft:gray_dye')
-          .withCustomName(Text.translate('gui.kubejs.spawn_selector.allow_respawn.off'))
-          .withLore([Text.translate('gui.kubejs.spawn_selector.allow_respawn.off.lore')])
-      )
-      slot.setLeftClicked(function() {
-        setPlayerAllowRespawn(player, true)
-        player.runCommandSilent('playsound minecraft:block.lever.click master ' + player.username + ' ~ ~ ~ 0.5 2')
-        player.closeMenu()
-        openSpawnSelector(player)
-      })
-    })
+    gui.slot(x, 3, function(s) { s.setItem(BORDER) })
   }
 }
 
@@ -210,7 +212,7 @@ function renderSpawnSelector(gui, player) {
 function openSpawnSelector(player) {
   player.openChestGUI(
     Text.translate('gui.kubejs.spawn_selector.title'),
-    6,
+    4,
     function(gui) {
       renderSpawnSelector(gui, player)
     }
