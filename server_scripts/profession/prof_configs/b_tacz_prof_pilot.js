@@ -27,7 +27,7 @@ PROF_CONFIGS.pilot = {
         },
       },
       cz75: {
-        gunId: 'tacz:cz75', GunFireMode: 'SEMI', GunCurrentAmmoCount: 12,
+        gunId: 'tacz:cz75', GunFireMode: 'AUTO', GunCurrentAmmoCount: 12,
         ammo: { ammoId: 'tacz:9mm', main: 100, level: 1 },
         attachments: {
           scope: [{id:'tacz:sight_rmr_dot'},{id:'tacz:sight_acro_pistol'},{id:'tacz:sight_fastfire_pistol'}],
