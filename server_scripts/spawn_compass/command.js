@@ -33,7 +33,7 @@ ServerEvents.commandRegistry(event => {
   function executeVisible(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
-    let pointId = $StringArgument.getString(ctx, 'pointId').toUpperCase()
+    let pointId = $StringArgument.getString(ctx, 'pointId')
     let visibility = $StringArgument.getString(ctx, 'visibility').toLowerCase()
 
     // 校验出生点ID
@@ -82,7 +82,7 @@ ServerEvents.commandRegistry(event => {
         case 'both':    vDisplay = '§a双方';   break
         default:        vDisplay = '§7禁用';   break
       }
-      var coords = point.x + ', ' + point.y + ', ' + point.z
+      var coords = point.pos
       msg = msg.append('\n').append(
         Component.translatable('msg.kubejs.spawn_selector.list_entry',
           Text.translate(point.nameKey),

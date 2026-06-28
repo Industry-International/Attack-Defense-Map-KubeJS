@@ -19,12 +19,15 @@
 // 请根据地图实际坐标修改以下坐标值。
 // ============================================================
 const SPAWN_POINTS = {
-  A: { id: 'A', nameKey: 'spawn.kubejs.point_a',    x: 0, y: 64, z: 0,  dimension: 'minecraft:overworld' },
-  B: { id: 'B', nameKey: 'spawn.kubejs.point_b',    x: 0, y: 64, z: 0,  dimension: 'minecraft:overworld' },
-  C: { id: 'C', nameKey: 'spawn.kubejs.point_c',    x: 0, y: 64, z: 0,  dimension: 'minecraft:overworld' },
-  D: { id: 'D', nameKey: 'spawn.kubejs.point_d',    x: 0, y: 64, z: 0,  dimension: 'minecraft:overworld' },
-  E: { id: 'E', nameKey: 'spawn.kubejs.point_e',    x: 0, y: 64, z: 0,  dimension: 'minecraft:overworld' },
-}
+  attacker: { nameKey: 'spawn.kubejs.point_attacker', pos: "-265.43 109 -30.04",       dimension: 'minecraft:overworld' },
+  defender: { nameKey: 'spawn.kubejs.point_defender', pos: "-633.99 114.00 -24.56",    dimension: 'minecraft:overworld' },
+  A1:       { nameKey: 'spawn.kubejs.point_a1',       pos: "-357.67 120.00 -51.19",    dimension: 'minecraft:overworld' },
+  B1:       { nameKey: 'spawn.kubejs.point_b1',       pos: "-447.20 128.00 -78.74",                   dimension: 'minecraft:overworld' },
+  B2:       { nameKey: 'spawn.kubejs.point_b2',       pos: "-460.88 117.00 50.95",                   dimension: 'minecraft:overworld' },
+  B3:       { nameKey: 'spawn.kubejs.point_b3',       pos: "-370.80 121.00 165.24",                   dimension: 'minecraft:overworld' },
+  C1:       { nameKey: 'spawn.kubejs.point_c1',       pos: "-594.54 114.00 -84.14",                   dimension: 'minecraft:overworld' },
+  C2:       { nameKey: 'spawn.kubejs.point_c2',       pos: "-582.08 114.00 102.59",                   dimension: 'minecraft:overworld' },
+  }
 
 // ============================================================
 // 持久化数据键
@@ -75,11 +78,12 @@ function getPointVisibility(server, pointId) {
 function getVisiblePoints(server, teamTag) {
   var vis = getSpawnVisibility(server)
   var result = []
-  for (var id in SPAWN_POINTS) {
-    if (!SPAWN_POINTS.hasOwnProperty(id)) continue
-    var v = vis[id] || 'none'
+  for (var key in SPAWN_POINTS) {
+    if (!SPAWN_POINTS.hasOwnProperty(key)) continue
+    var v = vis[key] || 'none'
     if (v === 'both' || v === teamTag) {
-      result.push(SPAWN_POINTS[id])
+      var pt = SPAWN_POINTS[key]
+      result.push({ key: key, nameKey: pt.nameKey, pos: pt.pos, dimension: pt.dimension })
     }
   }
   return result

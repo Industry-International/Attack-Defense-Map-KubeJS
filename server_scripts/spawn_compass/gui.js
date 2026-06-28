@@ -166,17 +166,17 @@ function renderSpawnSelector(gui, player) {
   var col = 1
   for (var i = 0; i < visiblePoints.length && col < 8; i++) {
     var pt = visiblePoints[i]
-    var isSelected = (selectedId === pt.id)
+    var isSelected = (selectedId === pt.key)
 
     gui.slot(col, 2, function(slot) {
       var item = Item.of('minecraft:map')
         .withCustomName(Text.translate(pt.nameKey))
-        .withLore([Component.literal('§7' + pt.x + ', ' + pt.y + ', ' + pt.z)])
+        .withLore([Component.literal('§7' + pt.pos)])
       if (isSelected) {
         item = item.set('minecraft:enchantment_glint_override', true)
           .withLore([
             Text.translate('gui.kubejs.spawn_selector.selected_mark'),
-            Component.literal('§7' + pt.x + ', ' + pt.y + ', ' + pt.z)
+            Component.literal('§7' + pt.pos)
           ])
       }
       slot.setItem(item)
@@ -186,7 +186,7 @@ function renderSpawnSelector(gui, player) {
           setPlayerSelectedPoint(player, null)
           player.runCommandSilent('playsound minecraft:entity.villager.no master ' + player.username + ' ~ ~ ~ 0.5 1')
         } else {
-          setPlayerSelectedPoint(player, pt.id)
+          setPlayerSelectedPoint(player, pt.key)
           player.runCommandSilent('playsound minecraft:entity.experience_orb.pickup master ' + player.username + ' ~ ~ ~ 0.5 1')
         }
         player.closeMenu()
