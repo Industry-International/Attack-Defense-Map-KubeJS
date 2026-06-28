@@ -3,14 +3,11 @@
 //
 // 预设出生点坐标由数据包配置，此处仅定义各出生点的
 // ID、名称翻译键、坐标模板。
-// 可见性由 /spawn_selector visible 命令控制，
-// 存储于 server.persistentData。
-//
-// 队伍标识：
-//   "attack"   — 进攻方可见
-//   "defense"  — 防守方可见
-//   "both"     — 双方可见
-//   "none"     — 禁用（默认）
+// 可见性由指令控制，存储于 server.persistentData。
+// 格式: { pointId: ["team1", "team2"] }
+//   visible <pointId> <team>   — 添加一个队伍可见
+//   invisible <pointId> <team>  — 移除一个队伍可见
+//   空数组 = 禁用（默认）
 // ============================================================
 
 // ============================================================
@@ -61,18 +58,19 @@ function setSpawnVisibility(server, data) {
 }
 
 /**
- * 获取指定出生点的可见队伍
- * @returns {"attack"|"defense"|"both"|"none"}
+ * 获取指定出生点可见的队伍列表
+ * @returns {string[]} 可见队伍名数组，空数组=禁用
  */
 function getPointVisibility(server, pointId) {
   var vis = getSpawnVisibility(server)
-  return vis[pointId] || 'none'
+  var arr = vis[pointId]
+  return (arr && Array.isArray(arr)) ? arr.slice() : []
 }
 
 /**
  * 获取指定队伍可见的出生点列表
  * @param {object} server
- * @param {string} teamTag - "attack" 或 "defense"
+ * @param {string} teamTag - 队伍名
  * @returns {Array} 该队伍可见的出生点对象数组
  */
 function getVisiblePoints(server, teamTag) {
@@ -80,12 +78,30 @@ function getVisiblePoints(server, teamTag) {
   var result = []
   for (var key in SPAWN_POINTS) {
     if (!SPAWN_POINTS.hasOwnProperty(key)) continue
-    var v = vis[key] || 'none'
-    if (v === 'both' || v === teamTag) {
+    var arr = vis[key]
+    var visible = (arr && Array.isArray(arr) && arr.indexOf(teamTag) !== -1)
+    if (visible) {
       var pt = SPAWN_POINTS[key]
       result.push({ key: key, nameKey: pt.nameKey, pos: pt.pos, dimension: pt.dimension })
     }
   }
+  return result
+}
+
+/**
+ * 获取所有可用队伍名（从原版计分板读取）
+ * @returns {string[]}
+ */
+function getAllTeams(server) {
+  var result = []
+  try {
+    var scoreboard = server.getScoreboard()
+    var teams = scoreboard.getPlayerTeams()
+    var iter = teams.iterator()
+    while (iter.hasNext()) {
+      result.push(iter.next().getName())
+    }
+  } catch(e) { /* ignore */ }
   return result
 }
 

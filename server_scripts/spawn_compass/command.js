@@ -1,19 +1,23 @@
 // ============================================================
 // 出生点选择器 - 管理员指令
 //
-// 依赖：config.js（SPAWN_POINTS、getSpawnVisibility、setSpawnVisibility）
+// 依赖：config.js（SPAWN_POINTS、getSpawnVisibility、setSpawnVisibility、getAllTeams）
 //
 // 命令：
-//   /spawn_selector visible <pointId> <attack|defense|both|none>
-//     — 设置指定出生点的可见队伍
+//   /spawn_selector visible   <pointId> <team>
+//     — 让指定出生点对某个原版队伍可见
+//
+//   /spawn_selector invisible <pointId> <team>
+//     — 取消指定出生点对某个原版队伍的可见性
 //
 //   /spawn_selector list
-//     — 列出所有出生点及其当前可见性
+//     — 列出所有出生点及其当前可见队伍
 //
-// 配置示例（由数据包调用）：
-//   防守方初始可见：/spawn_selector visible A defense
-//   进攻方占领后：  /spawn_selector visible A attack
-//   禁用：          /spawn_selector visible A none
+// <team> 参数自动读取原版计分板队伍进行补全。
+// 数据包示例：
+//   防守方初始可见：/spawn_selector visible attacker defense
+//   进攻方占领后：  /spawn_selector visible A1 attack
+//   取消进攻方可见：/spawn_selector invisible A1 attack
 // ============================================================
 
 ServerEvents.commandRegistry(event => {
@@ -22,46 +26,94 @@ ServerEvents.commandRegistry(event => {
 
   var $StringArgument = Java.loadClass('com.mojang.brigadier.arguments.StringArgumentType')
 
-  // ========== 可见性格式校验 ==========
-  const VALID_VISIBILITY = ['attack', 'defense', 'both', 'none']
-
   function isValidPointId(id) {
     return SPAWN_POINTS.hasOwnProperty(id)
   }
 
-  // ========== 执行 /spawn_selector visible <pointId> <visibility> ==========
+  // ========== 从计分板获取队伍名作提示 ==========
+  function getTeamSuggestions(ctx, builder) {
+    try {
+      var server = ctx.getSource().getServer()
+      var allTeams = getAllTeams(server)
+      for (var i = 0; i < allTeams.length; i++) {
+        builder.suggest(allTeams[i])
+      }
+    } catch(e) { /* ignore */ }
+    return builder.buildFuture()
+  }
+
+  function getPointSuggestions(ctx, builder) {
+    for (var id in SPAWN_POINTS) {
+      if (SPAWN_POINTS.hasOwnProperty(id)) {
+        builder.suggest(id)
+      }
+    }
+    return builder.buildFuture()
+  }
+
+  // ========== 执行 visible ==========
   function executeVisible(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
     let pointId = $StringArgument.getString(ctx, 'pointId')
-    let visibility = $StringArgument.getString(ctx, 'visibility').toLowerCase()
+    let teamName = $StringArgument.getString(ctx, 'team')
 
-    // 校验出生点ID
     if (!isValidPointId(pointId)) {
       source.sendFailure(Component.translatable('msg.kubejs.spawn_selector.invalid_point', pointId))
       return 0
     }
 
-    // 校验可见性值
-    if (VALID_VISIBILITY.indexOf(visibility) === -1) {
-      source.sendFailure(Component.translatable('msg.kubejs.spawn_selector.invalid_visibility', visibility))
-      return 0
-    }
-
-    // 读取当前可见性配置并更新
     var vis = getSpawnVisibility(server)
-    vis[pointId] = visibility
+    var arr = vis[pointId]
+    if (!arr || !Array.isArray(arr)) arr = []
+
+    // 去重添加
+    if (arr.indexOf(teamName) === -1) {
+      arr.push(teamName)
+    }
+    vis[pointId] = arr
     setSpawnVisibility(server, vis)
 
     var pointName = Text.translate(SPAWN_POINTS[pointId].nameKey).getString()
     source.sendSuccess(
-      Component.translatable('msg.kubejs.spawn_selector.visible_set', pointName, '§a' + visibility),
+      Component.translatable('msg.kubejs.spawn_selector.visible_set', pointName, teamName),
       true
     )
     return 1
   }
 
-  // ========== 执行 /spawn_selector list ==========
+  // ========== 执行 invisible ==========
+  function executeInvisible(ctx) {
+    let source = ctx.getSource()
+    let server = source.getServer()
+    let pointId = $StringArgument.getString(ctx, 'pointId')
+    let teamName = $StringArgument.getString(ctx, 'team')
+
+    if (!isValidPointId(pointId)) {
+      source.sendFailure(Component.translatable('msg.kubejs.spawn_selector.invalid_point', pointId))
+      return 0
+    }
+
+    var vis = getSpawnVisibility(server)
+    var arr = vis[pointId]
+    if (arr && Array.isArray(arr)) {
+      var idx = arr.indexOf(teamName)
+      if (idx !== -1) {
+        arr.splice(idx, 1)
+      }
+      vis[pointId] = arr
+    }
+    setSpawnVisibility(server, vis)
+
+    var pointName = Text.translate(SPAWN_POINTS[pointId].nameKey).getString()
+    source.sendSuccess(
+      Component.translatable('msg.kubejs.spawn_selector.invisible_set', pointName, teamName),
+      true
+    )
+    return 1
+  }
+
+  // ========== 执行 list ==========
   function executeList(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
@@ -74,19 +126,15 @@ ServerEvents.commandRegistry(event => {
       if (!SPAWN_POINTS.hasOwnProperty(id)) continue
       hasAny = true
       var point = SPAWN_POINTS[id]
-      var v = vis[id] || 'none'
-      var vDisplay = ''
-      switch (v) {
-        case 'attack':  vDisplay = '§c进攻方'; break
-        case 'defense': vDisplay = '§9防守方'; break
-        case 'both':    vDisplay = '§a双方';   break
-        default:        vDisplay = '§7禁用';   break
-      }
+      var arr = vis[id]
+      var displayTeams = (arr && Array.isArray(arr) && arr.length > 0)
+        ? arr.join(', ')
+        : '§7禁用'
       var coords = point.pos
       msg = msg.append('\n').append(
         Component.translatable('msg.kubejs.spawn_selector.list_entry',
           Text.translate(point.nameKey),
-          vDisplay,
+          displayTeams,
           coords
         )
       )
@@ -105,29 +153,30 @@ ServerEvents.commandRegistry(event => {
     cmd.literal('spawn_selector')
       .requires(function(s) { return s.hasPermission(2) })
 
-      // ---- spawn_selector visible <pointId> <visibility> ----
+      // ---- spawn_selector visible <pointId> <team> ----
       .then(
         cmd.literal('visible')
           .then(
             cmd.argument('pointId', args.STRING.create(event))
-              .suggests(function(ctx, builder) {
-                for (var id in SPAWN_POINTS) {
-                  if (SPAWN_POINTS.hasOwnProperty(id)) {
-                    builder.suggest(id)
-                  }
-                }
-                return builder.buildFuture()
-              })
+              .suggests(function(ctx, builder) { return getPointSuggestions(ctx, builder) })
               .then(
-                cmd.argument('visibility', args.STRING.create(event))
-                  .suggests(function(ctx, builder) {
-                    builder.suggest('attack')
-                    builder.suggest('defense')
-                    builder.suggest('both')
-                    builder.suggest('none')
-                    return builder.buildFuture()
-                  })
+                cmd.argument('team', args.STRING.create(event))
+                  .suggests(function(ctx, builder) { return getTeamSuggestions(ctx, builder) })
                   .executes(executeVisible)
+              )
+          )
+      )
+
+      // ---- spawn_selector invisible <pointId> <team> ----
+      .then(
+        cmd.literal('invisible')
+          .then(
+            cmd.argument('pointId', args.STRING.create(event))
+              .suggests(function(ctx, builder) { return getPointSuggestions(ctx, builder) })
+              .then(
+                cmd.argument('team', args.STRING.create(event))
+                  .suggests(function(ctx, builder) { return getTeamSuggestions(ctx, builder) })
+                  .executes(executeInvisible)
               )
           )
       )
