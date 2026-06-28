@@ -133,7 +133,8 @@ function getAvailableRespawnPlayers(server, excludePlayer) {
     if (isPlayerAllowRespawn(p)) {
       var team = null
       try {
-        var t = p.getTeam()
+        var scoreboard = server.getScoreboard()
+        var t = scoreboard.getPlayersTeam(p.username)
         if (t) team = t.getName()
       } catch(e) { /* ignore */ }
       result.push({ player: p, name: p.getName().getString(), team: team })

@@ -16,16 +16,15 @@ const SPAWN_PANE = {
 }
 
 /**
- * 获取玩家所属队伍的标签
- * @returns {"attack"|"defense"|null}
+ * 获取玩家所属的原版计分板队伍名
+ * @returns {string|null} 队伍名（小写），无队伍返回 null
  */
 function getPlayerTeamTag(player) {
   try {
-    var team = player.getTeam()
+    var scoreboard = player.server.getScoreboard()
+    var team = scoreboard.getPlayersTeam(player.username)
     if (!team) return null
-    var name = team.getName().toLowerCase()
-    if (name === 'attack' || name === 'defense') return name
-    return null
+    return team.getName().toLowerCase()
   } catch(e) {
     return null
   }
