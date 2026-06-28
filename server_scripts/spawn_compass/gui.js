@@ -5,9 +5,8 @@
 //
 // 功能：
 //   1. 显示当前队伍可见的出生点，点击选择/取消选择
-//   2. 开关"允许其他玩家复活到我这里"
-//   3. 显示当前选择状态
-//
+//   2. 随机传送到一名允许复活的玩家附近
+//   3. 开关"允许其他玩家复活到我这里"
 // ============================================================
 
 // ========== 填充物 ==========
@@ -39,6 +38,32 @@ function getPlayerTeamTag(player) {
 function getPlayerSelectedId(player) {
   var id = player.persistentData.getString(SPAWN_SELECTED_KEY)
   return (id && id !== '') ? id : null
+}
+
+/**
+ * 随机传送到一名允许复活的玩家附近
+ */
+function teleportToRandomAllowPlayer(player) {
+  var allowPlayers = getAvailableRespawnPlayers(player.server, player)
+  if (allowPlayers.length === 0) {
+    player.tell(Text.translate('msg.kubejs.spawn_selector.no_allow_players'))
+    return
+  }
+
+  // 随机选一个
+  var idx = Math.floor(Math.random() * allowPlayers.length)
+  var target = allowPlayers[idx]
+
+  try {
+    player.server.runCommandSilent(
+      'execute as ' + target.player.username + ' at @s run tp ' + player.username + ' ~ ~ ~'
+    )
+    player.tell(Text.translate('msg.kubejs.spawn_selector.teleported_to', target.player.getName()))
+    player.runCommandSilent('playsound minecraft:entity.enderman.teleport master ' + player.username + ' ~ ~ ~ 1 1')
+  } catch(e) {
+    console.log('[出生点选择器] 随机传送失败: ' + e)
+    player.tell(Component.literal('§c传送失败'))
+  }
 }
 
 // ========== 渲染主页面 ==========
@@ -112,16 +137,13 @@ function renderSpawnSelector(gui, player) {
       slot.setItem(item)
 
       slot.setLeftClicked(function() {
-        // 点击已选中的 → 取消选择
         if (isSelected) {
           setPlayerSelectedPoint(player, null)
           player.runCommandSilent('playsound minecraft:entity.villager.no master ' + player.username + ' ~ ~ ~ 0.5 1')
         } else {
-          // 点击未选中的 → 选择
           setPlayerSelectedPoint(player, pt.id)
           player.runCommandSilent('playsound minecraft:entity.experience_orb.pickup master ' + player.username + ' ~ ~ ~ 0.5 1')
         }
-        // 刷新GUI
         player.closeMenu()
         openSpawnSelector(player)
       })
@@ -134,23 +156,18 @@ function renderSpawnSelector(gui, player) {
     gui.slot(col, 2, function(s) { s.setItem(SPAWN_PANE.black) })
   }
 
-  // Row 3: 当前选择详情
-  if (currentPoint) {
-    gui.slot(4, 3, function(slot) {
-      slot.setItem(
-        Item.of('minecraft: written_book')
-          .withCustomName(Text.translate('gui.kubejs.spawn_selector.selected_info'))
-          .withLore([
-            Text.translate(currentPoint.nameKey),
-            Component.literal('§7' + currentPoint.x + ', ' + currentPoint.y + ', ' + currentPoint.z)
-          ])
-      )
+  // Row 3: 随机传送到允许复活的玩家
+  gui.slot(4, 3, function(slot) {
+    slot.setItem(
+      Item.of('minecraft:ender_pearl')
+        .withCustomName(Text.translate('gui.kubejs.spawn_selector.random_teleport'))
+        .withLore([Text.translate('gui.kubejs.spawn_selector.random_teleport.lore')])
+    )
+    slot.setLeftClicked(function() {
+      player.closeMenu()
+      teleportToRandomAllowPlayer(player)
     })
-  } else {
-    for (var x = 0; x < 9; x++) {
-      gui.slot(x, 3, function(s) { s.setItem(SPAWN_PANE.black) })
-    }
-  }
+  })
 
   // Row 4: 分隔线
   for (var x = 0; x < 9; x++) {
