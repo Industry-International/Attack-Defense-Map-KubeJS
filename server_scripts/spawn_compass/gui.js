@@ -6,7 +6,7 @@
 // 布局（4行）：
 //   行0: 淡黄玻璃边框（顶）
 //   行1: 边框 | 退出 | 标题 | 允许开关 | 当前选择 | 随机传送 | 边框
-//   行2: 边框 | A | B | C | D | E (点位一字排开) | 边框
+//   行2: 边框 | 出生点一字排开 | ⚔加入战场 | 边框
 //   行3: 淡黄玻璃边框（底）
 // ============================================================
 
@@ -58,6 +58,27 @@ function teleportToRandomAllowPlayer(player) {
     player.runCommandSilent('playsound minecraft:entity.enderman.teleport master ' + player.username + ' ~ ~ ~ 1 1')
   } catch(e) {
     console.log('[出生点选择器] 随机传送失败: ' + e)
+    player.tell(Component.literal('§c传送失败'))
+  }
+}
+
+/**
+ * 传送到玩家已选择的出生点
+ */
+function teleportToSelectedPoint(player) {
+  var point = getPlayerSelectedPoint(player)
+  if (!point) {
+    player.tell(Text.translate('msg.kubejs.spawn_selector.no_point_selected'))
+    return
+  }
+  try {
+    player.server.runCommandSilent(
+      'execute in ' + point.dimension + ' run tp ' + player.username + ' ' + point.pos
+    )
+    player.tell(Text.translate('msg.kubejs.spawn_selector.teleported'))
+    player.runCommandSilent('playsound minecraft:entity.enderman.teleport master ' + player.username + ' ~ ~ ~ 1 1')
+  } catch(e) {
+    console.log('[出生点选择器] 加入战场传送失败: ' + e)
     player.tell(Component.literal('§c传送失败'))
   }
 }
@@ -196,10 +217,23 @@ function renderSpawnSelector(gui, player) {
     col++
   }
 
-  // 剩余格子空着（留白）
-  for (; col < 8; col++) {
+  // 剩余格子填边框
+  for (; col < 7; col++) {
     gui.slot(col, 2, function(s) { s.setItem(BORDER) })
   }
+
+  // 加入战场按钮（slot 7）
+  gui.slot(7, 2, function(slot) {
+    slot.setItem(
+      Item.of('minecraft:iron_sword')
+        .withCustomName(Text.translate('gui.kubejs.spawn_selector.join_battle'))
+        .withLore([Text.translate('gui.kubejs.spawn_selector.join_battle.lore')])
+    )
+    slot.setLeftClicked(function() {
+      player.closeMenu()
+      teleportToSelectedPoint(player)
+    })
+  })
 
   // ===== Row 3: 底边框 =====
   for (var x = 0; x < 9; x++) {

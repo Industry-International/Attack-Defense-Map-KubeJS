@@ -230,6 +230,9 @@
   "gui.kubejs.spawn_selector.random_teleport": "§b⬡ Random Teleport to Allow Player",
   "gui.kubejs.spawn_selector.random_teleport.lore": "§7Pick a random player who allows respawn and teleport to them",
 
+  "gui.kubejs.spawn_selector.join_battle": "§c⚔ Join Battle",
+  "gui.kubejs.spawn_selector.join_battle.lore": "§7Teleport to your selected spawn point",
+
   "gui.kubejs.spawn_selector.respawn_title": "§6≡ Select Respawn Point",
   "gui.kubejs.spawn_selector.respawn_current_point": "§eYour Choice",
   "gui.kubejs.spawn_selector.respawn_teleport_btn": "§a§l↻ Teleport Here",
@@ -246,6 +249,7 @@
   "msg.kubejs.spawn_selector.teleported": "§a✔ Teleported",
   "msg.kubejs.spawn_selector.teleported_to": "§a✔ Teleported near §b%s",
   "msg.kubejs.spawn_selector.no_allow_players": "§cNo players currently allow respawn",
+  "msg.kubejs.spawn_selector.no_point_selected": "§cSelect a spawn point first",
   "msg.kubejs.spawn_selector.skip": "§7Skipped teleport",
 
   "msg.kubejs.spawn_selector.invalid_point": "§cInvalid spawn point ID: %s",

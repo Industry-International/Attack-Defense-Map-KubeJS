@@ -245,6 +245,9 @@
   "gui.kubejs.spawn_selector.random_teleport": "§b⬡ 随机传送到允许复活的玩家",
   "gui.kubejs.spawn_selector.random_teleport.lore": "§7从所有开启允许复活的玩家中随机选一名传送",
 
+  "gui.kubejs.spawn_selector.join_battle": "§c⚔ 加入战场",
+  "gui.kubejs.spawn_selector.join_battle.lore": "§7传送到你选中的出生点",
+
   "gui.kubejs.spawn_selector.respawn_title": "§6≡ 选择重生点",
   "gui.kubejs.spawn_selector.respawn_current_point": "§e你的选择",
   "gui.kubejs.spawn_selector.respawn_teleport_btn": "§a§l↻ 传送至此",
@@ -261,6 +264,7 @@
   "msg.kubejs.spawn_selector.teleported": "§a✔ 已传送",
   "msg.kubejs.spawn_selector.teleported_to": "§a✔ 已传送到 §b%s §a附近",
   "msg.kubejs.spawn_selector.no_allow_players": "§c当前没有开启允许复活的玩家",
+  "msg.kubejs.spawn_selector.no_point_selected": "§c请先在出生点列表中选一个出生点",
   "msg.kubejs.spawn_selector.skip": "§7已跳过传送",
 
   "msg.kubejs.spawn_selector.invalid_point": "§c无效的出生点ID: %s",
