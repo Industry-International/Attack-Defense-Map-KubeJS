@@ -192,6 +192,26 @@ server.runCommandSilent(cmd)
 
 ---
 
+## [#7] player.hasTag(tag) 不存在
+
+**错误信息：** `TypeError: Cannot find function hasTag in object ServerPlayer[...]`
+
+**原因：** `player.hasTag()` 是 Minecraft 原版 `ServerPlayer` 的方法，但 KubeJS 7 Rhino 没有桥接这个方法。
+
+**修复：**
+
+```javascript
+// ❌ 错误
+if (player.hasTag('no_job')) { ... }
+
+// ✅ 正确：用 persistentData 判断
+if (!player.persistentData.profession) { ... }
+```
+
+**参考文件：** `spawn_compass/gui.js:82`
+
+---
+
 ## 使用规则
 
 1. **编写新代码前**：快速浏览此文档，看当前要调用的 API 是否在踩坑列表中

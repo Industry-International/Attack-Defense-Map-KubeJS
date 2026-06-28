@@ -41,6 +41,17 @@ function getPlayerSelectedId(player) {
  * 随机传送到一名允许复活的玩家附近
  */
 function teleportToRandomAllowPlayer(player) {
+  // 未选择职业禁止传送
+  if (!player.persistentData.profession) {
+    var pName = player.username
+    console.log('[出生点选择器] ' + pName + ' 未选择职业，阻止传送，20tick后发title')
+    player.server.scheduleInTicks(8, function() {
+      console.log('[出生点选择器] 执行title命令: title ' + pName + ' title {"text":"你未选择职业","color":"gold","bold":true}')
+      player.server.runCommandSilent('title ' + pName + ' title {"text":"你未选择职业","color":"gold","bold":true}')
+    })
+    return
+  }
+
   var allowPlayers = getAvailableRespawnPlayers(player.server, player)
   if (allowPlayers.length === 0) {
     player.tell(Text.translate('msg.kubejs.spawn_selector.no_allow_players'))
@@ -67,6 +78,17 @@ function teleportToRandomAllowPlayer(player) {
  * 传送到玩家已选择的出生点
  */
 function teleportToSelectedPoint(player) {
+  // 未选择职业禁止传送
+  if (!player.persistentData.profession) {
+    var pName = player.username
+    console.log('[出生点选择器] ' + pName + ' 未选择职业，阻止加入战场，20tick后发title')
+    player.server.scheduleInTicks(8, function() {
+      console.log('[出生点选择器] 执行title命令: title ' + pName + ' title {"text":"你未选择职业","color":"gold","bold":true}')
+      player.server.runCommandSilent('title ' + pName + ' title {"text":"你未选择职业","color":"gold","bold":true}')
+    })
+    return
+  }
+
   var point = getPlayerSelectedPoint(player)
   if (!point) {
     player.tell(Text.translate('msg.kubejs.spawn_selector.no_point_selected'))
