@@ -75,8 +75,12 @@ function teleportToSelectedPoint(player) {
     player.server.runCommandSilent(
       'execute in ' + point.dimension + ' run tp ' + player.username + ' ' + point.pos
     )
-    // 服务器身份执行（玩家无权限执行此命令）
-    player.server.runCommandSilent('profequip give ' + player.username)
+    // 延迟2tick发装备，避免传送快照覆盖装备快照
+    var pName = player.username
+    var pServer = player.server
+    player.server.scheduleInTicks(8, function() {
+      pServer.runCommandSilent('profequip give ' + pName)
+    })
     player.tell(Text.translate('msg.kubejs.spawn_selector.teleported'))
     player.runCommandSilent('playsound minecraft:entity.enderman.teleport master ' + player.username + ' ~ ~ ~ 1 1')
   } catch(e) {
