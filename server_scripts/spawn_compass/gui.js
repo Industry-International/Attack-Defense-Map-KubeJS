@@ -75,6 +75,8 @@ function teleportToSelectedPoint(player) {
     player.server.runCommandSilent(
       'execute in ' + point.dimension + ' run tp ' + player.username + ' ' + point.pos
     )
+    // 服务器身份执行（玩家无权限执行此命令）
+    player.server.runCommandSilent('profequip give ' + player.username)
     player.tell(Text.translate('msg.kubejs.spawn_selector.teleported'))
     player.runCommandSilent('playsound minecraft:entity.enderman.teleport master ' + player.username + ' ~ ~ ~ 1 1')
   } catch(e) {
@@ -218,12 +220,17 @@ function renderSpawnSelector(gui, player) {
   }
 
   // 剩余格子填边框
-  for (; col < 7; col++) {
+  for (; col < 8; col++) {
     gui.slot(col, 2, function(s) { s.setItem(BORDER) })
   }
 
-  // 加入战场按钮（slot 7）
-  gui.slot(7, 2, function(slot) {
+  // ===== Row 3: 底边框（右下角放加入战场）=====
+  for (var x = 0; x < 6; x++) {
+    gui.slot(x, 3, function(s) { s.setItem(BORDER) })
+  }
+  gui.slot(6, 3, function(s) { s.setItem(BORDER) })
+  // 右下角
+  gui.slot(7, 3, function(slot) {
     slot.setItem(
       Item.of('minecraft:iron_sword')
         .withCustomName(Text.translate('gui.kubejs.spawn_selector.join_battle'))
@@ -234,11 +241,7 @@ function renderSpawnSelector(gui, player) {
       teleportToSelectedPoint(player)
     })
   })
-
-  // ===== Row 3: 底边框 =====
-  for (var x = 0; x < 9; x++) {
-    gui.slot(x, 3, function(s) { s.setItem(BORDER) })
-  }
+  gui.slot(8, 3, function(s) { s.setItem(BORDER) })
 }
 
 // ========== 打开 GUI ==========
