@@ -212,5 +212,50 @@
   "msg.kubejs.ammo_station.slot_updated": "§a✔ 弹药槽位已更新: %s §7× §e%s",
   "msg.kubejs.ammo_station.slot_removed": "§e已移除弹药类型: %s",
 
-  "msg.kubejs.ammo_station.usage": "§c用法: /ammo_cfg <set|get|slot> [参数...]"
+  "msg.kubejs.ammo_station.usage": "§c用法: /ammo_cfg <set|get|slot> [参数...]",
+
+  "item.kubejs.spawn_selector": "§6出生点选择器",
+
+  "spawn.kubejs.point_a": "§aA点",
+  "spawn.kubejs.point_b": "§9B点",
+  "spawn.kubejs.point_c": "§cC点",
+  "spawn.kubejs.point_d": "§eD点",
+  "spawn.kubejs.point_e": "§5E点",
+
+  "gui.kubejs.spawn_selector.title": "§8出生点选择",
+  "gui.kubejs.spawn_selector.exit": "§c✖ 退出",
+  "gui.kubejs.spawn_selector.current": "§e当前已选择",
+  "gui.kubejs.spawn_selector.current_none": "§7未选择出生点",
+  "gui.kubejs.spawn_selector.click_to_select": "§7点击选择/取消",
+  "gui.kubejs.spawn_selector.selected_mark": "§a✔ 已选中",
+  "gui.kubejs.spawn_selector.selected_info": "§e当前选择详情",
+  "gui.kubejs.spawn_selector.allow_respawn.on": "§a✔ 允许他人复活",
+  "gui.kubejs.spawn_selector.allow_respawn.on.lore": "§7点击关闭（其他玩家将不可传送到你这里）",
+  "gui.kubejs.spawn_selector.allow_respawn.off": "§c✗ 不允许他人复活",
+  "gui.kubejs.spawn_selector.allow_respawn.off.lore": "§7点击开启（其他玩家可传送到你附近复活）",
+
+  "gui.kubejs.spawn_selector.respawn_title": "§6≡ 选择重生点",
+  "gui.kubejs.spawn_selector.respawn_current_point": "§e你的选择",
+  "gui.kubejs.spawn_selector.respawn_teleport_btn": "§a§l↻ 传送至此",
+  "gui.kubejs.spawn_selector.respawn_teleport_btn.lore": "§7点击传送到该出生点",
+  "gui.kubejs.spawn_selector.respawn_no_point": "§7未选择出生点",
+  "gui.kubejs.spawn_selector.respawn_no_point.lore": "§7请先使用出生点选择器设置",
+  "gui.kubejs.spawn_selector.respawn_click_to_teleport": "§7点击传送至此玩家附近",
+  "gui.kubejs.spawn_selector.respawn_no_players": "§7当前没有可复活的玩家",
+  "gui.kubejs.spawn_selector.respawn_no_players.lore": "§7其他玩家未开启允许复活",
+  "gui.kubejs.spawn_selector.respawn_skip": "§7跳过（留在当前重生点）",
+  "gui.kubejs.spawn_selector.respawn_skip.lore": "§7不会传送，原地重生",
+
+  "msg.kubejs.spawn_selector.no_team": "§c你未加入任何队伍，无法使用出生点选择器",
+  "msg.kubejs.spawn_selector.teleported": "§a✔ 已传送",
+  "msg.kubejs.spawn_selector.teleported_to": "§a✔ 已传送到 §b%s §a附近",
+  "msg.kubejs.spawn_selector.skip": "§7已跳过传送",
+
+  "msg.kubejs.spawn_selector.invalid_point": "§c无效的出生点ID: %s",
+  "msg.kubejs.spawn_selector.invalid_visibility": "§c无效的可见性值: %s（可选: attack/defense/both/none）",
+  "msg.kubejs.spawn_selector.visible_set": "§a✔ %s 的可见性已设置为 %s",
+  "msg.kubejs.spawn_selector.list_header": "§6=== 出生点状态 ===",
+  "msg.kubejs.spawn_selector.list_entry": "§7%s: %s  §8(%s)",
+  "msg.kubejs.spawn_selector.list_empty": "§7暂无已配置的出生点",
+  "msg.kubejs.spawn_selector.usage": "§c用法: /spawn_selector visible <pointId> <attack|defense|both|none> 或 /spawn_selector list"
 }

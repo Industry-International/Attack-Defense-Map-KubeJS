@@ -197,5 +197,50 @@
   "msg.kubejs.ammo_replenish.added_items": "§a✔ Replenished §e%s §a with §e%s §aitems",
   "msg.kubejs.ammo_replenish.gui_title": "§6╔═══ Ammo Crate ═══╗",
   "msg.kubejs.ammo_replenish.scan_info": "§7Range: %s | Found: §e%s §7vehicle(s)",
-  "msg.kubejs.ammo_replenish.no_vehicle_in_range": "§7No vehicles in range"
+  "msg.kubejs.ammo_replenish.no_vehicle_in_range": "§7No vehicles in range",
+
+  "item.kubejs.spawn_selector": "§6Spawn Selector",
+
+  "spawn.kubejs.point_a": "§aPoint A",
+  "spawn.kubejs.point_b": "§9Point B",
+  "spawn.kubejs.point_c": "§cPoint C",
+  "spawn.kubejs.point_d": "§ePoint D",
+  "spawn.kubejs.point_e": "§5Point E",
+
+  "gui.kubejs.spawn_selector.title": "§8Spawn Selection",
+  "gui.kubejs.spawn_selector.exit": "§c✖ Exit",
+  "gui.kubejs.spawn_selector.current": "§eCurrently Selected",
+  "gui.kubejs.spawn_selector.current_none": "§7No spawn point selected",
+  "gui.kubejs.spawn_selector.click_to_select": "§7Click to select/deselect",
+  "gui.kubejs.spawn_selector.selected_mark": "§a✔ Selected",
+  "gui.kubejs.spawn_selector.selected_info": "§eCurrent Selection Details",
+  "gui.kubejs.spawn_selector.allow_respawn.on": "§a✔ Allow Others to Respawn",
+  "gui.kubejs.spawn_selector.allow_respawn.on.lore": "§7Click to disable (others can't teleport to you)",
+  "gui.kubejs.spawn_selector.allow_respawn.off": "§c✗ Disallow Others to Respawn",
+  "gui.kubejs.spawn_selector.allow_respawn.off.lore": "§7Click to enable (others can teleport near you)",
+
+  "gui.kubejs.spawn_selector.respawn_title": "§6≡ Select Respawn Point",
+  "gui.kubejs.spawn_selector.respawn_current_point": "§eYour Choice",
+  "gui.kubejs.spawn_selector.respawn_teleport_btn": "§a§l↻ Teleport Here",
+  "gui.kubejs.spawn_selector.respawn_teleport_btn.lore": "§7Click to teleport to this spawn point",
+  "gui.kubejs.spawn_selector.respawn_no_point": "§7No spawn point selected",
+  "gui.kubejs.spawn_selector.respawn_no_point.lore": "§7Use the Spawn Selector item first",
+  "gui.kubejs.spawn_selector.respawn_click_to_teleport": "§7Click to teleport near this player",
+  "gui.kubejs.spawn_selector.respawn_no_players": "§7No players available for respawn",
+  "gui.kubejs.spawn_selector.respawn_no_players.lore": "§7Other players have not enabled respawn",
+  "gui.kubejs.spawn_selector.respawn_skip": "§7Skip (stay at current spawn)",
+  "gui.kubejs.spawn_selector.respawn_skip.lore": "§7Don't teleport, respawn here",
+
+  "msg.kubejs.spawn_selector.no_team": "§cYou are not on any team, cannot use the Spawn Selector",
+  "msg.kubejs.spawn_selector.teleported": "§a✔ Teleported",
+  "msg.kubejs.spawn_selector.teleported_to": "§a✔ Teleported near §b%s",
+  "msg.kubejs.spawn_selector.skip": "§7Skipped teleport",
+
+  "msg.kubejs.spawn_selector.invalid_point": "§cInvalid spawn point ID: %s",
+  "msg.kubejs.spawn_selector.invalid_visibility": "§cInvalid visibility: %s (use: attack/defense/both/none)",
+  "msg.kubejs.spawn_selector.visible_set": "§a✔ %s visibility set to %s",
+  "msg.kubejs.spawn_selector.list_header": "§6=== Spawn Point Status ===",
+  "msg.kubejs.spawn_selector.list_entry": "§7%s: %s  §8(%s)",
+  "msg.kubejs.spawn_selector.list_empty": "§7No spawn points configured",
+  "msg.kubejs.spawn_selector.usage": "§cUsage: /spawn_selector visible <pointId> <attack|defense|both|none> or /spawn_selector list"
 }
