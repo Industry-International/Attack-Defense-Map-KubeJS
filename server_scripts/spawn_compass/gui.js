@@ -54,6 +54,7 @@ function teleportToRandomAllowPlayer(player) {
     player.server.runCommandSilent(
       'execute as ' + target.player.username + ' at @s run tp ' + player.username + ' ~ ~ ~'
     )
+    player.server.runCommandSilent('tag ' + player.username + ' add yes_start_1')
     player.tell(Text.translate('msg.kubejs.spawn_selector.teleported_to', target.player.getName()))
     player.runCommandSilent('playsound minecraft:entity.enderman.teleport master ' + player.username + ' ~ ~ ~ 1 1')
   } catch(e) {
@@ -75,6 +76,7 @@ function teleportToSelectedPoint(player) {
     player.server.runCommandSilent(
       'execute in ' + point.dimension + ' run tp ' + player.username + ' ' + point.pos
     )
+    player.server.runCommandSilent('tag ' + player.username + ' add yes_start_1')
     // 延迟2tick发装备，避免传送快照覆盖装备快照
     var pName = player.username
     var pServer = player.server
