@@ -270,9 +270,9 @@
   "msg.kubejs.spawn_selector.invalid_point": "§c无效的出生点ID: %s",
   "msg.kubejs.spawn_selector.invalid_visibility": "§c无效的可见性值: %s（可选: attack/defense/both/none）",
   "msg.kubejs.spawn_selector.visible_set": "§a✔ %s 对 §e%s §a可见",
-  "msg.kubejs.spawn_selector.invisible_set": "§c✖ %s 已取消对 §e%s §c的可见性",
+  "msg.kubejs.spawn_selector.invisible_set": "§c✖ %s 已禁用",
   "msg.kubejs.spawn_selector.list_header": "§6=== 出生点状态 ===",
   "msg.kubejs.spawn_selector.list_entry": "§7%s: %s  §8(%s)",
   "msg.kubejs.spawn_selector.list_empty": "§7暂无已配置的出生点",
-  "msg.kubejs.spawn_selector.usage": "§c用法: /spawn_selector <visible|invisible <pointId> <team>|list>"
+  "msg.kubejs.spawn_selector.usage": "§c用法: /spawn_selector visible <pointId> <team> | invisible <pointId> | list"
 }

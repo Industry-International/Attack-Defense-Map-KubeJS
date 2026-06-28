@@ -255,9 +255,9 @@
   "msg.kubejs.spawn_selector.invalid_point": "§cInvalid spawn point ID: %s",
   "msg.kubejs.spawn_selector.invalid_visibility": "§cInvalid visibility: %s (use: attack/defense/both/none)",
   "msg.kubejs.spawn_selector.visible_set": "§a✔ %s now visible to §e%s",
-  "msg.kubejs.spawn_selector.invisible_set": "§c✖ %s no longer visible to §e%s",
+  "msg.kubejs.spawn_selector.invisible_set": "§c✖ %s disabled",
   "msg.kubejs.spawn_selector.list_header": "§6=== Spawn Point Status ===",
   "msg.kubejs.spawn_selector.list_entry": "§7%s: %s  §8(%s)",
   "msg.kubejs.spawn_selector.list_empty": "§7No spawn points configured",
-  "msg.kubejs.spawn_selector.usage": "§cUsage: /spawn_selector <visible|invisible <pointId> <team>|list>"
+  "msg.kubejs.spawn_selector.usage": "§cUsage: /spawn_selector visible <pointId> <team> | invisible <pointId> | list"
 }

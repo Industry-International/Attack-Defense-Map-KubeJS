@@ -7,8 +7,8 @@
 //   /spawn_selector visible   <pointId> <team>
 //     — 让指定出生点对某个原版队伍可见
 //
-//   /spawn_selector invisible <pointId> <team>
-//     — 取消指定出生点对某个原版队伍的可见性
+//   /spawn_selector invisible <pointId>
+//     — 禁用指定出生点（清除所有可见队伍）
 //
 //   /spawn_selector list
 //     — 列出所有出生点及其当前可见队伍
@@ -17,7 +17,7 @@
 // 数据包示例：
 //   防守方初始可见：/spawn_selector visible attacker defense
 //   进攻方占领后：  /spawn_selector visible A1 attack
-//   取消进攻方可见：/spawn_selector invisible A1 attack
+//   禁用A1：        /spawn_selector invisible A1
 // ============================================================
 
 ServerEvents.commandRegistry(event => {
@@ -51,7 +51,7 @@ ServerEvents.commandRegistry(event => {
     return builder.buildFuture()
   }
 
-  // ========== 执行 visible ==========
+  // ========== 执行 visible <pointId> <team> ==========
   function executeVisible(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
@@ -82,12 +82,11 @@ ServerEvents.commandRegistry(event => {
     return 1
   }
 
-  // ========== 执行 invisible ==========
+  // ========== 执行 invisible <pointId>（清除所有可见队伍）==========
   function executeInvisible(ctx) {
     let source = ctx.getSource()
     let server = source.getServer()
     let pointId = $StringArgument.getString(ctx, 'pointId')
-    let teamName = $StringArgument.getString(ctx, 'team')
 
     if (!isValidPointId(pointId)) {
       source.sendFailure(Component.translatable('msg.kubejs.spawn_selector.invalid_point', pointId))
@@ -95,19 +94,12 @@ ServerEvents.commandRegistry(event => {
     }
 
     var vis = getSpawnVisibility(server)
-    var arr = vis[pointId]
-    if (arr && Array.isArray(arr)) {
-      var idx = arr.indexOf(teamName)
-      if (idx !== -1) {
-        arr.splice(idx, 1)
-      }
-      vis[pointId] = arr
-    }
+    vis[pointId] = []  // 清空数组 = 禁用
     setSpawnVisibility(server, vis)
 
     var pointName = Text.translate(SPAWN_POINTS[pointId].nameKey).getString()
     source.sendSuccess(
-      Component.translatable('msg.kubejs.spawn_selector.invisible_set', pointName, teamName),
+      Component.translatable('msg.kubejs.spawn_selector.invisible_set', pointName),
       true
     )
     return 1
@@ -167,17 +159,13 @@ ServerEvents.commandRegistry(event => {
           )
       )
 
-      // ---- spawn_selector invisible <pointId> <team> ----
+      // ---- spawn_selector invisible <pointId> ----
       .then(
         cmd.literal('invisible')
           .then(
             cmd.argument('pointId', args.STRING.create(event))
               .suggests(function(ctx, builder) { return getPointSuggestions(ctx, builder) })
-              .then(
-                cmd.argument('team', args.STRING.create(event))
-                  .suggests(function(ctx, builder) { return getTeamSuggestions(ctx, builder) })
-                  .executes(executeInvisible)
-              )
+              .executes(executeInvisible)
           )
       )
 
