@@ -89,6 +89,7 @@ PROF_CONFIGS.medic = {
   // ===== 额外物品 =====
   extras: [
     { item: 'minecraft:cooked_beef', count: 16 },
+    { item: 'kubejs:spawn_selector', count: 1 },
     { item: 'minecraft:splash_potion', count: 6, tag: { 'minecraft:potion_contents': { potion: 'minecraft:healing' } } },
     { item: 'minecraft:potion',        count: 3, tag: { 'minecraft:potion_contents': { potion: 'minecraft:regeneration' } } },
   ],

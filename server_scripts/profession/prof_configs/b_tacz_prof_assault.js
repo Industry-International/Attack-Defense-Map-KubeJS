@@ -154,5 +154,6 @@ PROF_CONFIGS.assault = {
   // ===== 额外物品 =====
   extras: [
     { item: 'minecraft:cooked_beef', count: 32 },
+    { item: 'kubejs:spawn_selector', count: 1 },
   ],
 }
