@@ -15,7 +15,7 @@ const PANE = {
 }
 
 // ========== 职业标签列表 ==========
-const PROF_TAG_LIST = ['assault', 'scout', 'medic', 'support']
+const PROF_TAG_LIST = ['assault', 'scout', 'medic', 'support', 'sailor', 'pilot']
 
 // ========== 布局 ==========
 const ATTACH_SLOT_POS = {

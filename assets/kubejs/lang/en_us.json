@@ -17,6 +17,11 @@
   "profession.kubejs.support": "§6Support",
   "profession.kubejs.support.desc": "§7Heavy firepower, team utility",
 
+  "profession.kubejs.sailor": "§9Sailor",
+  "profession.kubejs.sailor.desc": "§7Light armor, pistol loadout",
+  "profession.kubejs.pilot": "§dPilot",
+  "profession.kubejs.pilot.desc": "§7Light armor, pistol loadout",
+
   "weapon.kubejs.sword": "\u00a7fIron Sword",
   "weapon.kubejs.bow": "\u00a7fBow",
   "weapon.kubejs.crossbow": "\u00a7fCrossbow",

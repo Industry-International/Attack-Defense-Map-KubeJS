@@ -13,6 +13,7 @@
 
 const PROFESSIONS = [
   { id: 'assault' }, { id: 'scout' }, { id: 'medic' }, { id: 'support' },
+  { id: 'sailor' }, { id: 'pilot' },
 ]
 
 // ========== TACZ 枪械配置与配件改装 ==========
@@ -96,10 +97,9 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
       var server = player.server
       var name = player.username
       // 移除所有职业标签
-      server.runCommandSilent('tag ' + name + ' remove assault')
-      server.runCommandSilent('tag ' + name + ' remove scout')
-      server.runCommandSilent('tag ' + name + ' remove medic')
-      server.runCommandSilent('tag ' + name + ' remove support')
+      for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
+        server.runCommandSilent('tag ' + name + ' remove ' + PROF_TAG_LIST[pi])
+      }
       // 取消职业后标记为无职业状态
       server.runCommandSilent('tag ' + name + ' add no_job')
       // 清除所有选中状态
@@ -284,10 +284,9 @@ function renderProf(gui, player, openPage, pageNum) {
           var server = player.server
           var name = player.username
           // 先移除所有职业标签，再添加本职业（防止累加）
-          server.runCommandSilent('tag ' + name + ' remove assault')
-          server.runCommandSilent('tag ' + name + ' remove scout')
-          server.runCommandSilent('tag ' + name + ' remove medic')
-          server.runCommandSilent('tag ' + name + ' remove support')
+          for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
+            server.runCommandSilent('tag ' + name + ' remove ' + PROF_TAG_LIST[pi])
+          }
           // 设置新职业 + 添加本职业标签
           player.persistentData.profession = prof.id
           // 清除旧武器数据（换职业时重置武器选择）

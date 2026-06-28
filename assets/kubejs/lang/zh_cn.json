@@ -27,6 +27,11 @@
   "profession.kubejs.support": "§6支援兵",
   "profession.kubejs.support.desc": "§7重火力，团队辅助",
 
+  "profession.kubejs.sailor": "§9水手",
+  "profession.kubejs.sailor.desc": "§7轻甲灵活，手枪配装",
+  "profession.kubejs.pilot": "§d飞行员",
+  "profession.kubejs.pilot.desc": "§7轻甲机动，手枪配装",
+
   "weapon.kubejs.sword": "§f铁剑",
   "weapon.kubejs.bow": "§f弓",
   "weapon.kubejs.crossbow": "§f弩",
