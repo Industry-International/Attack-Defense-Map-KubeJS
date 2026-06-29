@@ -3,11 +3,12 @@
 //
 // 依赖：config.js（全局函数 + SPAWN_POINTS）
 //
-// 布局（4行）：
+// 布局（5行）：
 //   行0: 淡黄玻璃边框（顶）
 //   行1: 边框 | 退出 | 标题 | 允许开关 | 当前选择 | 随机传送 | 边框
-//   行2: 边框 | 出生点一字排开 | ⚔加入战场 | 边框
-//   行3: 淡黄玻璃边框（底）
+//   行2: 边框 | 出生点（第1行）      | 边框
+//   行3: 边框 | 出生点（第2行）      | 边框
+//   行4: 淡黄玻璃边框（底）+ ⚔加入战场
 // ============================================================
 
 // ========== 边框填充物 ==========
@@ -241,22 +242,26 @@ function renderSpawnSelector(gui, player) {
     })
   })
 
-  // ===== Row 2: 出生点一字排开 =====
+  // ===== Row 2-3: 出生点两行排列 =====
   gui.slot(0, 2, function(s) { s.setItem(BORDER) })
   gui.slot(8, 2, function(s) { s.setItem(BORDER) })
+  gui.slot(0, 3, function(s) { s.setItem(BORDER) })
+  gui.slot(8, 3, function(s) { s.setItem(BORDER) })
 
   var visiblePoints = []
   if (teamTag) {
     visiblePoints = getVisiblePoints(player.server, teamTag)
   }
 
-  // 从 slot 1 开始依次摆放出生点
-  var col = 1
-  for (var i = 0; i < visiblePoints.length && col < 8; i++) {
+  // 从 col 1 开始依次摆放出生点，先填满第1行（col 1-7），再填第2行
+  var maxPerRow = 7
+  for (var i = 0; i < visiblePoints.length && i < maxPerRow * 2; i++) {
     var pt = visiblePoints[i]
     var isSelected = (selectedId === pt.key)
+    var row = 2 + Math.floor(i / maxPerRow)
+    var col = 1 + (i % maxPerRow)
 
-    gui.slot(col, 2, function(slot) {
+    gui.slot(col, row, function(slot) {
       var item = Item.of('minecraft:map')
         .withCustomName(Text.translate(pt.nameKey))
         .withLore([Component.literal('§7' + pt.pos)])
@@ -281,21 +286,26 @@ function renderSpawnSelector(gui, player) {
         openSpawnSelector(player)
       })
     })
-    col++
   }
 
-  // 剩余格子填边框
-  for (; col < 8; col++) {
+  // 填充第1行剩余格子
+  var filledRow1 = Math.min(visiblePoints.length, maxPerRow)
+  for (var col = 1 + filledRow1; col < 8; col++) {
     gui.slot(col, 2, function(s) { s.setItem(BORDER) })
   }
-
-  // ===== Row 3: 底边框（右下角放加入战场）=====
-  for (var x = 0; x < 6; x++) {
-    gui.slot(x, 3, function(s) { s.setItem(BORDER) })
+  // 填充第2行剩余格子
+  var filledRow2 = Math.max(0, Math.min(visiblePoints.length - maxPerRow, maxPerRow))
+  for (var col = 1 + filledRow2; col < 8; col++) {
+    gui.slot(col, 3, function(s) { s.setItem(BORDER) })
   }
-  gui.slot(6, 3, function(s) { s.setItem(BORDER) })
+
+  // ===== Row 4: 底边框（含加入战场按钮）=====
+  for (var x = 0; x < 6; x++) {
+    gui.slot(x, 4, function(s) { s.setItem(BORDER) })
+  }
+  gui.slot(6, 4, function(s) { s.setItem(BORDER) })
   // 右下角
-  gui.slot(7, 3, function(slot) {
+  gui.slot(7, 4, function(slot) {
     slot.setItem(
       Item.of('minecraft:iron_sword')
         .withCustomName(Text.translate('gui.kubejs.spawn_selector.join_battle'))
@@ -306,7 +316,7 @@ function renderSpawnSelector(gui, player) {
       teleportToSelectedPoint(player)
     })
   })
-  gui.slot(8, 3, function(s) { s.setItem(BORDER) })
+  gui.slot(8, 4, function(s) { s.setItem(BORDER) })
 }
 
 // ========== 打开 GUI ==========
@@ -314,7 +324,7 @@ function renderSpawnSelector(gui, player) {
 function openSpawnSelector(player) {
   player.openChestGUI(
     Text.translate('gui.kubejs.spawn_selector.title'),
-    4,
+    5,
     function(gui) {
       renderSpawnSelector(gui, player)
     }
