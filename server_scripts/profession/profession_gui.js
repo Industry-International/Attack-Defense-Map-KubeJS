@@ -716,7 +716,7 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
     var row = 2 + Math.floor(localIdx / 7)
     ;(function(t, col, row) {
       gui.slot(col, row, function(slot) {
-        var typeItem = getTypeDisplayItem(t)
+        var typeItem = getTypeDisplayItem(t, prof, category)
         slot.setItem(typeItem)
         slot.setLeftClicked(function() {
           // __all__ → 不过滤的武器列表，其他 → 按类型过滤
@@ -748,8 +748,8 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
   })
 }
 
-/** 根据武器类型返回展示物品 */
-function getTypeDisplayItem(type) {
+/** 根据武器类型返回展示物品，取该类型第一把枪的模型作为图标 */
+function getTypeDisplayItem(type, profession, category) {
   // 空处理
   if (!type) {
     console.warn('[职业数据库] getTypeDisplayItem 收到空类型')
@@ -761,15 +761,14 @@ function getTypeDisplayItem(type) {
       .withCustomName(Text.translate('type.kubejs.all'))
       .withLore([Text.translate('gui.kubejs.type_select.click_enter')])
   }
-  var gunMap = {
-    rifle:    'tacz:ak47',
-    smg:      'tacz:hk_mp5a5',
-    shotgun:  'tacz:db_shotgun',
-    sniper:   'tacz:sks_tactical',
-    mg:       'tacz:m249',
-    pistol:   'tacz:glock_17',
+  // 动态取该类型第一把枪的 GunId 作为展示模型
+  var gunId = 'tacz:ak47' // 最终 fallback
+  if (profession && category) {
+    var firstList = getProfessionWeaponListByType(profession, category, type)
+    if (firstList && firstList.length > 0 && firstList[0].tag && firstList[0].tag.custom_data) {
+      gunId = firstList[0].tag.custom_data.GunId
+    }
   }
-  var gunId = gunMap[type] || 'tacz:ak47'
   var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
   return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: gunId, GunCurrentAmmoCount: $IntTag.valueOf(30) } })
     .withCustomName(Text.translate('type.kubejs.' + type))
