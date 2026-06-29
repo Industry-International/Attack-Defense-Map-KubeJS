@@ -30,7 +30,7 @@ function ensurePD(block) {
     pd.putString('vehicleType', '')
     pd.putString('team', '')
     pd.putInt('respawnDelay', 600)   // 30 秒
-    pd.putByte('autoRespawn', 1)     // 默认开启自动重生
+    pd.putByte('autoRespawn', 0)     // 默认关闭自动重生
     pd.putDouble('offsetX', 0.0)
     pd.putDouble('offsetY', 1.0)     // 方块上方 1 格
     pd.putDouble('offsetZ', 0.0)
