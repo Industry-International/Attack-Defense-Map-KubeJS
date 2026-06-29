@@ -1,48 +1,109 @@
 // ============================================================
-// SBW 载具 - 模块入口 / 整合层
+// 载具部署台 - 入口 & 全局事件
 //
-// 子模块：
-//   config.js     — 配置数据（勿动）
-//   tools.js      — 工具函数库（日志、持久化、实体查找、部署、状态查询等）
-//   command.js    — 命令注册（start/stop/deploy/redeploy/reset/clear/status）
-//   replenish.js  — 自动补员系统
-//
-// main.js 职能：
-//   1. 声明全局常量（VEHICLE_CFG, SBW_PREFIX）
-//   2. 校验配置加载
-//   3. 注册 EntityEvents 等事件监听
-//   4. 提供模块结构总览
-//
-// 所有工具函数统一放在 tools.js 中，子模块通过全局函数调用。
+// 功能：
+//   1. 加载载具数据库
+//   2. EntityEvents.death — 载具死亡时反查部署台
+//   3. 全局系统开关初始化
 // ============================================================
 
-// ========== 配置校验 ==========
+// ══════════════════════════════════════════════════════════════
+//  服务器加载：初始化
+// ══════════════════════════════════════════════════════════════
 
-if (typeof SBW_VEHICLE_CONFIG === 'undefined') {
-  console.error('[SBW载具] 错误：未找到配置！请确保 config.js 已正确加载。')
-}
+ServerEvents.loaded(event => {
+  var server = event.server
 
-// ========== 全局常量 ==========
+  // 预加载载具数据库
+  var db = getVehicleDB()
+  if (db) {
+    var count = Object.keys(db.vehicles).length
+    sbwLog('[部署台] 载具数据库已加载: ' + count + ' 种载具')
+  }
 
-/** SBW_VEHICLE_CONFIG 的快捷引用 */
-const VEHICLE_CFG = SBW_VEHICLE_CONFIG
+  // 确保全局系统开关存在（默认为启用）
+  if (!server.persistentData.contains('sbw_vehicle_disabled')) {
+    server.persistentData.putBoolean('sbw_vehicle_disabled', false)
+    sbwLog('[部署台] 系统已激活')
+  }
 
-/** 日志前缀 */
-const SBW_PREFIX = '[SBW载具]'
+  // 初始化全局缓存（startup 已创建 HashMap，这里不需要再创建）
+  // 但确保引用存在不会 NPE（server 不能赋值 global，但可以读和调用方法）
+  try { if (global.vehicleDeployerCache) global.vehicleDeployerCache.clear() } catch(e) {}
+})
 
-// ========== 事件监听 ==========
+// ══════════════════════════════════════════════════════════════
+//  服务器卸载：清理
+// ══════════════════════════════════════════════════════════════
 
-/**
- * 载具实体死亡事件
- * 仅记录日志，实际补员处理由 replenish.js 的定时循环驱动。
- */
+ServerEvents.unloaded(event => {
+  $vehicleDB = null
+  try { if (global.vehicleDeployerCache) global.vehicleDeployerCache.clear() } catch(e) {}
+  sbwLog('[部署台] 服务器关闭，清理完成')
+})
+
+// ══════════════════════════════════════════════════════════════
+//  载具死亡事件 — 反查部署台
+// ══════════════════════════════════════════════════════════════
+
 EntityEvents.death(event => {
-  let entity = event.entity
-  let server = event.server
-  if (!isSystemActive(server)) return
-  let vid = extractVehicleIdFromEntity(entity)
-  if (vid) {
-    sbwLog('载具实体死亡 [' + vid + ']（补员由定时循环检测处理）')
-    // 补员循环会自动检测实体不存在 → 转入 TIMING 状态
+  var entity = event.entity
+  var server = event.server
+  if (!entity || !server) return
+
+  // ── 检查是否是被部署的载具（通过标签判断） ──
+  var tags = entity.getTags()
+  if (!tags) return
+
+  var deployTag = null
+  var tIter = tags.iterator()
+  while (tIter.hasNext()) {
+    var tag = tIter.next()
+    if (tag.startsWith('sbw_deploy_')) {
+      deployTag = tag
+      break
+    }
+  }
+  if (!deployTag) return  // 不是由部署台生成的载具
+
+  // ── 解析部署台位置 ──
+  // tag 格式: sbw_deploy_x_y_z
+  var parts = deployTag.split('_')
+  if (parts.length < 5) {
+    sbwWarn('[死亡] 部署标签格式异常: ' + deployTag)
+    return
+  }
+  var bx = parseInt(parts[2]), by = parseInt(parts[3]), bz = parseInt(parts[4])
+  if (isNaN(bx) || isNaN(by) || isNaN(bz)) {
+    sbwWarn('[死亡] 部署标签坐标解析失败: ' + deployTag)
+    return
+  }
+
+  // ── 找到部署台方块 ──
+  try {
+    var level = entity.level
+    var block = level.getBlock(bx, by, bz)
+    if (!block || block.getId() !== 'kubejs:vehicle_deployer' || !block.entity) {
+      sbwWarn('[死亡] 未找到部署台方块 @[' + bx + ',' + by + ',' + bz + ']')
+      return
+    }
+
+    var pd = block.entity.persistentData
+    var uuid = pd.getString('deployedUUID')
+
+    // ── 验证 UUID 匹配 ──
+    var entityUUID = entity.uuid.toString()
+    if (uuid && uuid === entityUUID) {
+      sbwLog('[死亡] 载具被摧毁 @[' + bx + ',' + by + ',' + bz + '] ' + entity.getType())
+      pd.putString('deployedUUID', '')
+      var delay = pd.contains('respawnDelay') ? pd.getInt('respawnDelay') : 600
+      var gameTime = level.getTime()
+      pd.putLong('cooldownEnd', gameTime + delay)
+      block.entity.setChanged()
+    } else {
+      sbwLog('[死亡] 载具 UUID 不匹配，忽略: 实体=' + entityUUID.substring(0, 8) + '... 方块=' + (uuid ? uuid.substring(0, 8) + '...' : '空'))
+    }
+  } catch (e) {
+    sbwError('[死亡] 处理死亡事件时出错: ' + e)
   }
 })

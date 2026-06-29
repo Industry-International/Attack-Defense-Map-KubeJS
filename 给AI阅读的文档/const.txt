@@ -793,14 +793,56 @@ StartupEvents.registry('block', ...) 注册的方块：
      - server_scripts/sbw_vehicle/ammo_replenish/ → 2026-06-25 完全重写
        a_config.js：保留 DEFAULT_STATION_CONFIG / AMMO_ID_MAP / readBlockConfig / writeBlockConfig
        main.js：从临时测试版重写为完整方块驱动版
-         右键交互：readBlockConfig 读取实际配置 → 填充 GUI 缓存 → 打开 LDLib2 GUI
-         Tick逻辑：读配置 → 冷却检查 → AABB扫描 → 载具识别(isSBWVehicle) → 补给(replenishVehicle) → 设CD
-         识别方式：从标签识别改为 entity.nbt.id 前缀匹配 'superbwarfare:'
-         补给方式：读 Inventory.Items → 只补已有弹药类型 → 先叠加(≤64) → 不足则新增 → 写回NBT
-         移除的函数：scanSBWVehicles / notifyNearbyPlayers / scanVehicles / passVehicleFilter / replenishVehicleInventory / replenishWeaponAmmo
      - startup_scripts/ammo_station_gui.js → 2026-06-25 GUI优化
        移除：入场延时、武器弹阈值、载具过滤字段
-       冷却CD显示单位改为秒
-       标题居中、分页(TabView)、根容器约束
+
+  8. ⚠ SBW 载具系统重构（2026-06-29）：
+     从 8 状态状态机 + 全局补员循环 → 方块驱动版
+     
+     旧架构（已弃用）：
+       config.js              — 队伍/载具配置
+       replenish.js           — 全局补员循环
+       tools/state_machine.js — 8状态状态机
+       tools/persist.js       — 全局持久化JSON
+       tools/entity.js        — 实体查找
+       tools/deploy.js        — 部署（使用状态机）
+       tools/misc.js          — 杂项工具
+       tools/status.js        — 状态查询
+     
+     新架构：
+       deploy.js              — 载具召唤工具（从方块PD读配置）
+       block_main.js          — 方块逻辑（放置/右键/Tick）
+       command.js             — 简化命令（start/stop/status/clear）
+       main.js                — 入口 + EntityEvents.death（反查部署台）
+       tools/a_java_refs.js   — Java类引用（新增$CompoundTag/$IntTag/$ByteTag）
+       tools/log.js           — 日志（修复SBW_PREFIX依赖）
+       tools/nbt.js           — NBT工具（不变）
+     
+     新增文件：
+       startup_scripts/src/item/vehicle_deployer_block.js
+         — 注册 kubejs:vehicle_deployer 方块（blockEntity + serverTicking）
+       startup_scripts/src/blocks/vehicle_deployer/gui.js
+         — LDLib2 GUI（载具选择/基础/坐标/NBT四页）
+       assets/kubejs/blockstates/vehicle_deployer.json
+       assets/kubejs/models/block/vehicle_deployer.json
+       assets/kubejs/models/item/vehicle_deployer.json
+       （部署台在运行时通过 JarFile API 直接从模组 JAR 读取载具数据，无需预提取）
+     
+     全局持久化键：
+       server.persistentData.putBoolean('sbw_vehicle_disabled', ...)
+       — 系统开关（替代旧版 persistKey）
+     
+     全局缓存：
+       global.vehicleDeployerCache = new $HashMap()
+       — GUI数据缓存（在 block_main.js 的右键事件中写入）
+     
+     方块 persistentData 结构：
+       vehicleType, team, respawnDelay, autoRespawn,
+       offsetX/Y/Z, yaw, pitch, deployNBT (JSON string),
+       deployedUUID (string), cooldownEnd (long)
+     
+     实体标签：
+       sbw_deploy_x_y_z — 标记由部署台生成的载具，用于死亡事件反查
 
 ================================================================
+

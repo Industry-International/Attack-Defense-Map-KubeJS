@@ -1,217 +1,160 @@
 // ============================================================
-// SBW 载具 - 命令注册
-//
-// 依赖：config.js → main.js（常量）→ tools.js（工具函数）
+// 载具部署台 - 命令注册
 //
 // 命令列表：
-//   /sbw_vehicle start      — 激活系统 + 部署所有载具
-//   /sbw_vehicle stop       — 停用系统 + 清除所有载具
-//   /sbw_vehicle deploy [<team>]  — 部署载具（指定队伍或全部）
-//   /sbw_vehicle redeploy   — 强制重新部署（清旧+重部署）
-//   /sbw_vehicle reset      — 重置所有载具状态
-//   /sbw_vehicle clear [<team>]   — 清除载具实体 + 重置状态
-//   /sbw_vehicle status     — 查看系统状态 + 载具状态
-//   /sbw_vehicle timelist   — 查看所有补员倒计时列表
+//   /sbw_vehicle start      — 全局启用部署台
+//   /sbw_vehicle stop       — 全局禁用部署台（保留已有载具）
+//   /sbw_vehicle status     — 列出系统状态 & 已部署载具数
+//   /sbw_vehicle clear      — 清除所有部署台载具
 // ============================================================
 
-// ========== 命令执行函数 ==========
-
 ServerEvents.commandRegistry(event => {
-  let cmd = event.commands
-  let args = event.arguments
+  var cmd = event.commands
 
-  /**
-   * /sbw_vehicle start — 激活载具系统，启动补员循环
-   */
+  // ════════════════════════════════════════════════════════════
+  //  /sbw_vehicle start — 全局启用
+  // ════════════════════════════════════════════════════════════
   function executeStart(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
-    setSystemActive(server, true)
-    initAllVehicleStates(server)
-    startReplenishLoop(server)
-    source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.start_done'), true)
-    return 1
-  }
-
-  /**
-   * /sbw_vehicle stop — 停用载具系统，清除所有载具
-   */
-  function executeStop(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
-    setSystemActive(server, false)
-    stopReplenishLoop()
-    resetAllVehicles(server)
-    source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.stop_done'), true)
-    return 1
-  }
-
-  /**
-   * /sbw_vehicle deploy [<team>] — 部署载具
-   */
-  function executeDeploy(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
-    try {
-      let teamName = ctx.getArgument('team')
-      if (teamName) {
-        deployTeamVehicles(server, teamName)
-        source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.deploy_team', teamName), true)
-      }
-    } catch (e) {
-      deployAllVehicles(server)
-      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.deploy_all'), true)
-    }
-    return 1
-  }
-
-  /**
-   * /sbw_vehicle redeploy — 强制重新部署所有载具
-   */
-  function executeRedeploy(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
-    resetAllVehicles(server)
-    deployAllVehicles(server)
-    source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.redeploy_done'), true)
-    return 1
-  }
-
-  /**
-   * /sbw_vehicle reset — 重置所有载具状态
-   */
-  function executeReset(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
-    let result = resetAllVehicles(server)
-    source.sendSuccess(
-      Component.translatable('msg.kubejs.sbw_vehicle.reset_done',
-        String(result.entityCount)),
+    var server = ctx.getSource().getServer()
+    server.persistentData.putBoolean('sbw_vehicle_disabled', false)
+    sbwLog('[命令] 系统已启用')
+    ctx.getSource().sendSuccess(
+      $Component.literal('§a[部署台] 系统已启用，部署台将正常工作'),
       true
     )
     return 1
   }
 
-  /**
-   * /sbw_vehicle clear [<team>] — 清除载具实体 + 重置状态
-   */
-  function executeClear(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
-    let count = 0
-    try {
-      let teamName = ctx.getArgument('team')
-      if (teamName) {
-        count = clearVehicles(server, teamName)
-        source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.clear_team', teamName, String(count)), true)
+  // ════════════════════════════════════════════════════════════
+  //  /sbw_vehicle stop — 全局禁用
+  // ════════════════════════════════════════════════════════════
+  function executeStop(ctx) {
+    var server = ctx.getSource().getServer()
+    server.persistentData.putBoolean('sbw_vehicle_disabled', true)
+    sbwLog('[命令] 系统已禁用')
+    ctx.getSource().sendSuccess(
+      $Component.literal('§e[部署台] 系统已禁用，已有载具不受影响，部署台停止自动重生'),
+      true
+    )
+    return 1
+  }
+
+  // ════════════════════════════════════════════════════════════
+  //  /sbw_vehicle status — 系统状态
+  // ════════════════════════════════════════════════════════════
+  function executeStatus(ctx) {
+    var source = ctx.getSource()
+    var server = source.getServer()
+    var disabled = server.persistentData.getBoolean('sbw_vehicle_disabled')
+
+    source.sendSuccess(
+      $Component.literal('§6══ SBW 载具部署台 系统状态 ══'),
+      false
+    )
+    source.sendSuccess(
+      $Component.literal('§e系统状态: ' + (disabled ? '§c已禁用' : '§a已启用')),
+      false
+    )
+
+    // 统计已部署载具数
+    var deployedCount = 0
+    var levels = server.getAllLevels()
+    var lIter = levels.iterator()
+    while (lIter.hasNext()) {
+      var level = lIter.next()
+      var entities = level.getEntities()
+      var eIter = entities.iterator()
+      while (eIter.hasNext()) {
+        var entity = eIter.next()
+        if (entity.isRemoved()) continue
+        var tags = entity.getTags()
+        var tIter = tags.iterator()
+        while (tIter.hasNext()) {
+          if (tIter.next().startsWith('sbw_deploy_')) {
+            deployedCount++
+            break
+          }
+        }
       }
-    } catch (e) {
-      count = clearVehicles(server, null)
-      source.sendSuccess(Component.translatable('msg.kubejs.sbw_vehicle.clear_all', String(count)), true)
+    }
+
+    source.sendSuccess(
+      $Component.literal('§e当前已部署载具: §f' + deployedCount + ' 辆'),
+      false
+    )
+
+    // 显示载具数据库信息
+    var db = getVehicleDB()
+    if (db && db._meta) {
+      source.sendSuccess(
+        $Component.literal('§7载具数据库: ' + db._meta.vehicleCount + ' 种可用'),
+        false
+      )
     }
     return 1
   }
 
-  /**
-   * /sbw_vehicle status — 查看系统状态 + 载具状态
-   */
-  function executeStatus(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
+  // ════════════════════════════════════════════════════════════
+  //  /sbw_vehicle clear — 清除所有部署载具
+  // ════════════════════════════════════════════════════════════
+  function executeClear(ctx) {
+    var server = ctx.getSource().getServer()
 
-    let sysActive = isSystemActive(server)
-    let sysLine = sysActive
-      ? '§a✔ 载具系统已激活'
-      : '§c✖ 载具系统未激活'
+    // 清除所有带 sbw_deploy_ 标签的实体
+    var count = 0
+    var levels = server.getAllLevels()
+    var lIter = levels.iterator()
+    while (lIter.hasNext()) {
+      var level = lIter.next()
+      var entities = level.getEntities()
+      var eIter = entities.iterator()
+      while (eIter.hasNext()) {
+        var entity = eIter.next()
+        if (entity.isRemoved()) continue
+        var tags = entity.getTags()
+        var tIter = tags.iterator()
+        while (tIter.hasNext()) {
+          if (tIter.next().startsWith('sbw_deploy_')) {
+            entity.discard()
+            count++
+            break
+          }
+        }
+      }
+    }
 
-    let lines = getStatusLines(server)
-    var newline = String.fromCharCode(10)  // 真正的换行符
-    let text = sysLine + newline + lines.join(newline)
-    source.sendSuccess(Component.literal(text), false)
+    sbwLog('[命令] 已清除 ' + count + ' 辆载具')
+    ctx.getSource().sendSuccess(
+      $Component.literal('§a[部署台] 已清除 §6' + count + ' §a辆已部署载具'),
+      true
+    )
     return 1
   }
 
-  /**
-   * /sbw_vehicle timelist — 查看所有补员倒计时列表
-   */
-  function executeTimelist(ctx) {
-    let source = ctx.getSource()
-    let server = source.getServer()
-    let lines = getRespawnTimeLines(server)
-    var newline = String.fromCharCode(10)
-    let text = lines.join(newline)
-    let msg = Component.translatable('msg.kubejs.sbw_vehicle.time_header')
-      .append(Component.literal(newline + text))
-    source.sendSuccess(msg, false)
-    return 1
-  }
-
-  // ========== 注册 /sbw_vehicle 命令 ==========
+  // ════════════════════════════════════════════════════════════
+  //  注册 /sbw_vehicle
+  // ════════════════════════════════════════════════════════════
 
   event.register(
     cmd.literal('sbw_vehicle')
       .requires(function(s) { return s.hasPermission(2) })
 
-      // ---- start ----
-      .then(
-        cmd.literal('start')
-          .executes(executeStart)
-      )
+      .then(cmd.literal('start')
+        .executes(executeStart))
 
-      // ---- stop ----
-      .then(
-        cmd.literal('stop')
-          .executes(executeStop)
-      )
+      .then(cmd.literal('stop')
+        .executes(executeStop))
 
-      // ---- deploy [<team>] ----
-      .then(
-        cmd.literal('deploy')
-          .executes(executeDeploy)
-          .then(
-            cmd.argument('team', args.STRING.create(event))
-              .executes(executeDeploy)
-          )
-      )
+      .then(cmd.literal('status')
+        .executes(executeStatus))
 
-      // ---- redeploy ----
-      .then(
-        cmd.literal('redeploy')
-          .executes(executeRedeploy)
-      )
+      .then(cmd.literal('clear')
+        .executes(executeClear))
 
-      // ---- reset ----
-      .then(
-        cmd.literal('reset')
-          .executes(executeReset)
-      )
-
-      // ---- clear [<team>] ----
-      .then(
-        cmd.literal('clear')
-          .executes(executeClear)
-          .then(
-            cmd.argument('team', args.STRING.create(event))
-              .executes(executeClear)
-          )
-      )
-
-      // ---- status ----
-      .then(
-        cmd.literal('status')
-          .executes(executeStatus)
-      )
-
-      // ---- timelist ----
-      .then(
-        cmd.literal('timelist')
-          .executes(executeTimelist)
-      )
-
-      // ---- 默认 → 用法提示 ----
       .executes(function(ctx) {
-        let source = ctx.getSource()
-        source.sendFailure(Component.translatable('msg.kubejs.sbw_vehicle.usage'))
+        ctx.getSource().sendFailure(
+          $Component.literal('§c用法: /sbw_vehicle <start|stop|status|clear>')
+        )
         return 0
       })
   )

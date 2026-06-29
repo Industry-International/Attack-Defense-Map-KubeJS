@@ -1,0 +1,7889 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "generated": "2026-06-29T07:32:36.555Z",
+    "mods": [
+      "superbwarfare",
+      "mcsp"
+    ],
+    "vehicleCount": 73,
+    "ammoCount": 29,
+    "families": 14
+  },
+  "vehicles": {
+    "superbwarfare:ah_6": {
+      "id": "superbwarfare:ah_6",
+      "mod": "superbwarfare",
+      "baseName": "ah_6",
+      "displayType": "Helicopter",
+      "maxHealth": 250,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Helicopter",
+      "mass": 1.2,
+      "upStep": 1.1,
+      "containerType": "Small",
+      "hudType": "@Helicopter",
+      "parts": [
+        "MainEngine",
+        "SubEngine"
+      ],
+      "seatCount": 4,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_he"
+          ],
+          "magazine": 1,
+          "rpm": 500,
+          "damage": 45,
+          "hasOverride": false
+        },
+        {
+          "key": "Rocket",
+          "displayKey": "Rocket",
+          "ammoTypes": [
+            "superbwarfare:small_rocket"
+          ],
+          "magazine": 14,
+          "rpm": 450,
+          "damage": 80,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 250,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "SubEngineHealth": 150,
+        "SubEngineDamaged": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Rocket": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_he"
+            },
+            {
+              "Slot": 1,
+              "count": 16,
+              "id": "superbwarfare:small_rocket"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:annihilator": {
+      "id": "superbwarfare:annihilator",
+      "mod": "superbwarfare",
+      "baseName": "annihilator",
+      "displayType": "Artillery",
+      "maxHealth": 1200,
+      "maxEnergy": 20000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 2774,
+      "upStep": 0,
+      "containerType": "Empty",
+      "hudType": "@Artillery",
+      "parts": [],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "FE"
+          ],
+          "magazine": 1,
+          "rpm": 12,
+          "damage": 1000,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 1200,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "FE"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:a_10a": {
+      "id": "superbwarfare:a_10a",
+      "mod": "superbwarfare",
+      "baseName": "a_10a",
+      "displayType": "Airplane",
+      "maxHealth": 350,
+      "maxEnergy": 10000000,
+      "hasDecoy": true,
+      "engineType": "Aircraft",
+      "mass": 20,
+      "upStep": 1.1,
+      "containerType": "Small",
+      "hudType": "@Aircraft",
+      "parts": [
+        "MainEngine",
+        "SubEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap"
+          ],
+          "magazine": 1,
+          "rpm": 1200,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "Rocket",
+          "displayKey": "Rocket",
+          "ammoTypes": [
+            "superbwarfare:small_rocket"
+          ],
+          "magazine": 28,
+          "rpm": 450,
+          "damage": 80,
+          "hasOverride": false
+        },
+        {
+          "key": "Bomb",
+          "displayKey": "Bomb",
+          "ammoTypes": [
+            "superbwarfare:medium_aerial_bomb"
+          ],
+          "magazine": 3,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "superbwarfare:large_anti_ground_missile",
+            "superbwarfare:large_anti_ground_missile"
+          ],
+          "magazine": 4,
+          "rpm": null,
+          "damage": 1100,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 350,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "SubEngineHealth": 150,
+        "SubEngineDamaged": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Rocket": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Bomb": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 16,
+              "id": "superbwarfare:small_rocket"
+            },
+            {
+              "Slot": 2,
+              "count": 8,
+              "id": "superbwarfare:medium_aerial_bomb"
+            },
+            {
+              "Slot": 3,
+              "count": 16,
+              "id": "superbwarfare:large_anti_ground_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:bl_132": {
+      "id": "superbwarfare:bl_132",
+      "mod": "superbwarfare",
+      "baseName": "bl_132",
+      "displayType": "Artillery",
+      "maxHealth": 400,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 300,
+      "upStep": 0,
+      "containerType": "Mini",
+      "hudType": "@Artillery",
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_cm",
+            "superbwarfare:large_shell_wp"
+          ],
+          "magazine": 4,
+          "rpm": 300,
+          "damage": 470,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 400,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "superbwarfare:large_shell_cm"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "superbwarfare:large_shell_wp"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:bmp_2": {
+      "id": "superbwarfare:bmp_2",
+      "mod": "superbwarfare",
+      "baseName": "bmp_2",
+      "displayType": "APC",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 14.6,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap",
+            "superbwarfare:small_shell_he",
+            "superbwarfare:small_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": 250,
+          "damage": 65,
+          "hasOverride": true
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_ground_missile"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        },
+        {
+          "key": "MG",
+          "displayKey": "@MG",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "MG1",
+          "displayKey": "MG1",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "MG2",
+          "displayKey": "MG2",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "MG3",
+          "displayKey": "MG3",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "MG4",
+          "displayKey": "MG4",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "MG5",
+          "displayKey": "MG5",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "MG6",
+          "displayKey": "MG6",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG1": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG2": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG3": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG4": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG5": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG6": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:small_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:small_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            },
+            {
+              "Slot": 4,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_ground_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:bradley": {
+      "id": "superbwarfare:bradley",
+      "mod": "superbwarfare",
+      "baseName": "bradley",
+      "displayType": "APC",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 14.6,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap",
+            "superbwarfare:small_shell_he",
+            "superbwarfare:small_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": 250,
+          "damage": 65,
+          "hasOverride": true
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_ground_missile"
+          ],
+          "magazine": 2,
+          "rpm": 30,
+          "damage": 450,
+          "hasOverride": false
+        },
+        {
+          "key": "MG",
+          "displayKey": "@MG",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "MG1",
+          "displayKey": "MG1",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "MG2",
+          "displayKey": "MG2",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG1": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MG2": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:small_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:small_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            },
+            {
+              "Slot": 4,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_ground_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:drone": {
+      "id": "superbwarfare:drone",
+      "mod": "superbwarfare",
+      "baseName": "drone",
+      "displayType": "Drone",
+      "maxHealth": 5,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": null,
+      "mass": 0.0005,
+      "upStep": 0,
+      "containerType": "Empty",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 5,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0
+      }
+    },
+    "superbwarfare:hpj_11": {
+      "id": "superbwarfare:hpj_11",
+      "mod": "superbwarfare",
+      "baseName": "hpj_11",
+      "displayType": "Defense",
+      "maxHealth": 350,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 30,
+      "upStep": 0,
+      "containerType": "Small",
+      "hudType": "@Artillery",
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap"
+          ],
+          "magazine": 1,
+          "rpm": 1200,
+          "damage": 25,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 350,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:ju_87": {
+      "id": "superbwarfare:ju_87",
+      "mod": "superbwarfare",
+      "baseName": "ju_87",
+      "displayType": "Airplane",
+      "maxHealth": 250,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Aircraft",
+      "mass": 5,
+      "upStep": 1.1,
+      "containerType": "Small",
+      "hudType": "@OldAircraft",
+      "parts": [],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 1200,
+          "damage": 15,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerGun",
+          "displayKey": "PassengerGun",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "Bomb",
+          "displayKey": "Bomb",
+          "ammoTypes": [
+            "superbwarfare:medium_aerial_bomb"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "BombSmall",
+          "displayKey": "BombSmall",
+          "ammoTypes": [
+            "superbwarfare:small_aerial_bomb"
+          ],
+          "magazine": 4,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 250,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WeaponState": {
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Bomb": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "BombSmall": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            },
+            {
+              "Slot": 1,
+              "count": 8,
+              "id": "superbwarfare:medium_aerial_bomb"
+            },
+            {
+              "Slot": 2,
+              "count": 8,
+              "id": "superbwarfare:small_aerial_bomb"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:kv_16": {
+      "id": "superbwarfare:kv_16",
+      "mod": "superbwarfare",
+      "baseName": "kv_16",
+      "displayType": "Airplane",
+      "maxHealth": 100,
+      "maxEnergy": 500000,
+      "hasDecoy": false,
+      "engineType": "Aircraft",
+      "mass": 0.2,
+      "upStep": 1.1,
+      "containerType": "Mini",
+      "hudType": "@OldAircraft",
+      "parts": [],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:heavy_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 40,
+          "hasOverride": false
+        },
+        {
+          "key": "Bomb",
+          "displayKey": "Bomb",
+          "ammoTypes": [
+            "superbwarfare:mortar_shell"
+          ],
+          "magazine": 3,
+          "rpm": null,
+          "damage": 60,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 500000,
+        "Health": 100,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WeaponState": {
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Bomb": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 128,
+              "id": "superbwarfare:heavy_ammo"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:mortar_shell"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:laser_tower": {
+      "id": "superbwarfare:laser_tower",
+      "mod": "superbwarfare",
+      "baseName": "laser_tower",
+      "displayType": "Defense",
+      "maxHealth": 100,
+      "maxEnergy": 500000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 0.5,
+      "upStep": 0,
+      "containerType": "Empty",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "FE"
+          ],
+          "magazine": 1,
+          "rpm": 30,
+          "damage": 15,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 500000,
+        "Health": 100,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "FE"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:lav_150": {
+      "id": "superbwarfare:lav_150",
+      "mod": "superbwarfare",
+      "baseName": "lav_150",
+      "displayType": "APC",
+      "maxHealth": 270,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 13.6,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 5,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap",
+            "superbwarfare:small_shell_he",
+            "superbwarfare:small_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": 300,
+          "damage": 45,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 270,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:small_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:small_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:lav_25": {
+      "id": "superbwarfare:lav_25",
+      "mod": "superbwarfare",
+      "baseName": "lav_25",
+      "displayType": "APC",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 16,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 5,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap",
+            "superbwarfare:small_shell_he",
+            "superbwarfare:small_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": 250,
+          "damage": 65,
+          "hasOverride": true
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_ground_missile"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:small_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:small_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            },
+            {
+              "Slot": 4,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_ground_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:lav_ad": {
+      "id": "superbwarfare:lav_ad",
+      "mod": "superbwarfare",
+      "baseName": "lav_ad",
+      "displayType": "AA",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 16,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 5,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_aa"
+          ],
+          "magazine": 1,
+          "rpm": 1200,
+          "damage": 23,
+          "hasOverride": false
+        },
+        {
+          "key": "FimMissile",
+          "displayKey": "FimMissile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_air_missile"
+          ],
+          "magazine": 8,
+          "rpm": 30,
+          "damage": 260,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "FimMissile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "superbwarfare:small_shell_aa"
+            },
+            {
+              "Slot": 1,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_air_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:mi_28": {
+      "id": "superbwarfare:mi_28",
+      "mod": "superbwarfare",
+      "baseName": "mi_28",
+      "displayType": "Helicopter",
+      "maxHealth": 350,
+      "maxEnergy": 10000000,
+      "hasDecoy": true,
+      "engineType": "Helicopter",
+      "mass": 12,
+      "upStep": 1.1,
+      "containerType": "Small",
+      "hudType": "@Helicopter",
+      "parts": [
+        "Turret",
+        "SubEngine",
+        "MainEngine"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap",
+            "superbwarfare:small_shell_he"
+          ],
+          "magazine": 1,
+          "rpm": 300,
+          "damage": 65,
+          "hasOverride": true
+        },
+        {
+          "key": "Rocket",
+          "displayKey": "Rocket",
+          "ammoTypes": [
+            "superbwarfare:small_rocket"
+          ],
+          "magazine": 42,
+          "rpm": 450,
+          "damage": 85,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "@Missile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_ground_missile"
+          ],
+          "magazine": 1,
+          "rpm": 12,
+          "damage": 650,
+          "hasOverride": false
+        },
+        {
+          "key": "DriverMissile",
+          "displayKey": "DriverMissile",
+          "ammoTypes": [],
+          "magazine": 4,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMissile",
+          "displayKey": "PassengerMissile",
+          "ammoTypes": [],
+          "magazine": 8,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "SeekMissile",
+          "displayKey": "SeekMissile",
+          "ammoTypes": [
+            "superbwarfare:large_anti_ground_missile",
+            "superbwarfare:large_anti_ground_missile"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 1100,
+          "hasOverride": true
+        },
+        {
+          "key": "DriverAAMissile",
+          "displayKey": "DriverAAMissile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_air_missile"
+          ],
+          "magazine": 4,
+          "rpm": 60,
+          "damage": 260,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 350,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "SubEngineHealth": 150,
+        "SubEngineDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Rocket": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "DriverMissile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMissile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "SeekMissile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "DriverAAMissile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:small_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 16,
+              "id": "superbwarfare:small_rocket"
+            },
+            {
+              "Slot": 3,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_ground_missile"
+            },
+            {
+              "Slot": 4,
+              "count": 16,
+              "id": "superbwarfare:large_anti_ground_missile"
+            },
+            {
+              "Slot": 5,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_air_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:mk_42": {
+      "id": "superbwarfare:mk_42",
+      "mod": "superbwarfare",
+      "baseName": "mk_42",
+      "displayType": "Artillery",
+      "maxHealth": 350,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 61.4,
+      "upStep": 0,
+      "containerType": "Mini",
+      "hudType": "@Artillery",
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_cm",
+            "superbwarfare:large_shell_wp"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 450,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 350,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "superbwarfare:large_shell_cm"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "superbwarfare:large_shell_wp"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:mle_1934": {
+      "id": "superbwarfare:mle_1934",
+      "mod": "superbwarfare",
+      "baseName": "mle_1934",
+      "displayType": "Artillery",
+      "maxHealth": 350,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 100,
+      "upStep": 0,
+      "containerType": "Mini",
+      "hudType": "@Artillery",
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_cm",
+            "superbwarfare:large_shell_wp"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 500,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 350,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "superbwarfare:large_shell_cm"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "superbwarfare:large_shell_wp"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:mortar": {
+      "id": "superbwarfare:mortar",
+      "mod": "superbwarfare",
+      "baseName": "mortar",
+      "displayType": "Artillery",
+      "maxHealth": 40,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 0.05,
+      "upStep": 0,
+      "containerType": "One",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 60,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 40,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "superbwarfare:m_1a_2": {
+      "id": "superbwarfare:m_1a_2",
+      "mod": "superbwarfare",
+      "baseName": "m_1a_2",
+      "displayType": "Tank",
+      "maxHealth": 500,
+      "maxEnergy": 10000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 70,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 5,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 700,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "superbwarfare:heavy_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 500,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:large_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            },
+            {
+              "Slot": 4,
+              "count": 128,
+              "id": "superbwarfare:heavy_ammo"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:plz_05": {
+      "id": "superbwarfare:plz_05",
+      "mod": "superbwarfare",
+      "baseName": "plz_05",
+      "displayType": "Tank",
+      "maxHealth": 450,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 45,
+      "upStep": 2.1,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 4,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_cm",
+            "superbwarfare:large_shell_wp"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 1050,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 450,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "superbwarfare:large_shell_cm"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "superbwarfare:large_shell_wp"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:prism_tank": {
+      "id": "superbwarfare:prism_tank",
+      "mod": "superbwarfare",
+      "baseName": "prism_tank",
+      "displayType": "Tank",
+      "maxHealth": 400,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 25,
+      "upStep": 2.25,
+      "containerType": "Small",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Laser",
+          "displayKey": "Laser",
+          "ammoTypes": [
+            "FE",
+            "FE"
+          ],
+          "magazine": 1,
+          "rpm": 30,
+          "damage": 350,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 400,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Laser": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "FE"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:sodayo_pick_up": {
+      "id": "superbwarfare:sodayo_pick_up",
+      "mod": "superbwarfare",
+      "baseName": "sodayo_pick_up",
+      "displayType": "Car",
+      "maxHealth": 175,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Wheel",
+      "mass": 3,
+      "upStep": 1.1,
+      "containerType": "Large",
+      "hudType": null,
+      "parts": [
+        "WheelRight",
+        "WheelLeft"
+      ],
+      "seatCount": 8,
+      "weapons": [],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 175,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0
+      }
+    },
+    "superbwarfare:sodayo_pick_up_hmg": {
+      "id": "superbwarfare:sodayo_pick_up_hmg",
+      "mod": "superbwarfare",
+      "baseName": "sodayo_pick_up_hmg",
+      "displayType": "Car",
+      "maxHealth": 175,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Wheel",
+      "mass": 3,
+      "upStep": 1.1,
+      "containerType": "Small",
+      "hudType": null,
+      "parts": [
+        "WheelRight",
+        "WheelLeft"
+      ],
+      "seatCount": 3,
+      "weapons": [
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:heavy_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 175,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "WeaponState": {
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 128,
+              "id": "superbwarfare:heavy_ammo"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:sodayo_pick_up_rocket": {
+      "id": "superbwarfare:sodayo_pick_up_rocket",
+      "mod": "superbwarfare",
+      "baseName": "sodayo_pick_up_rocket",
+      "displayType": "Car",
+      "maxHealth": 175,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Wheel",
+      "mass": 3,
+      "upStep": 1.1,
+      "containerType": "Special",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Rocket",
+          "displayKey": "@Rocket",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "AP",
+          "displayKey": "AP",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 500,
+          "hasOverride": false
+        },
+        {
+          "key": "HE",
+          "displayKey": "HE",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 200,
+          "hasOverride": false
+        },
+        {
+          "key": "CM",
+          "displayKey": "CM",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 300,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 175,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Rocket": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "AP": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "HE": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "CM": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "superbwarfare:sodayo_pick_up_tow": {
+      "id": "superbwarfare:sodayo_pick_up_tow",
+      "mod": "superbwarfare",
+      "baseName": "sodayo_pick_up_tow",
+      "displayType": "Car",
+      "maxHealth": 175,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Wheel",
+      "mass": 3,
+      "upStep": 1.1,
+      "containerType": "Small",
+      "hudType": null,
+      "parts": [
+        "WheelRight",
+        "WheelLeft"
+      ],
+      "seatCount": 3,
+      "weapons": [
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_ground_missile"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 175,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "WeaponState": {
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_ground_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:speedboat": {
+      "id": "superbwarfare:speedboat",
+      "mod": "superbwarfare",
+      "baseName": "speedboat",
+      "displayType": "Boat",
+      "maxHealth": 200,
+      "maxEnergy": 500000,
+      "hasDecoy": true,
+      "engineType": "Ship",
+      "mass": 1.5,
+      "upStep": 0,
+      "containerType": "Medium",
+      "hudType": null,
+      "parts": [
+        "Turret"
+      ],
+      "seatCount": 5,
+      "weapons": [
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:heavy_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 500000,
+        "Health": 200,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 128,
+              "id": "superbwarfare:heavy_ammo"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:tiny_speedboat": {
+      "id": "superbwarfare:tiny_speedboat",
+      "mod": "superbwarfare",
+      "baseName": "tiny_speedboat",
+      "displayType": "Boat",
+      "maxHealth": 80,
+      "maxEnergy": 100000,
+      "hasDecoy": false,
+      "engineType": "Ship",
+      "mass": 0.07,
+      "upStep": 0,
+      "containerType": "Empty",
+      "hudType": null,
+      "parts": [],
+      "seatCount": 0,
+      "weapons": [],
+      "nbtTemplate": {
+        "Energy": 100000,
+        "Health": 80,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0
+      }
+    },
+    "superbwarfare:tom_6": {
+      "id": "superbwarfare:tom_6",
+      "mod": "superbwarfare",
+      "baseName": "tom_6",
+      "displayType": "Airplane",
+      "maxHealth": 40,
+      "maxEnergy": 100000,
+      "hasDecoy": false,
+      "engineType": "Tom6",
+      "mass": 0.02,
+      "upStep": 1.1,
+      "containerType": "Empty",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "MelonBomb",
+          "displayKey": "MelonBomb",
+          "ammoTypes": [
+            "minecraft:melon"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 100000,
+        "Health": 40,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "MelonBomb": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "minecraft:melon"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:tow": {
+      "id": "superbwarfare:tow",
+      "mod": "superbwarfare",
+      "baseName": "tow",
+      "displayType": "Defense",
+      "maxHealth": 60,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 0.05,
+      "upStep": 0,
+      "containerType": "Empty",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "superbwarfare:medium_anti_ground_missile"
+          ],
+          "magazine": 1,
+          "rpm": 8,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 60,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 16,
+              "id": "superbwarfare:medium_anti_ground_missile"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:truck": {
+      "id": "superbwarfare:truck",
+      "mod": "superbwarfare",
+      "baseName": "truck",
+      "displayType": "Car",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Wheel",
+      "mass": 100,
+      "upStep": 1.5,
+      "containerType": "Huge",
+      "hudType": null,
+      "parts": [
+        "WheelRight",
+        "WheelLeft"
+      ],
+      "seatCount": 2,
+      "weapons": [],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0
+      }
+    },
+    "superbwarfare:type_63": {
+      "id": "superbwarfare:type_63",
+      "mod": "superbwarfare",
+      "baseName": "type_63",
+      "displayType": "Artillery",
+      "maxHealth": 100,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": null,
+      "mass": 0.45,
+      "upStep": 0,
+      "containerType": "Special",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": null,
+          "hasOverride": false
+        },
+        {
+          "key": "AP",
+          "displayKey": "AP",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 500,
+          "hasOverride": false
+        },
+        {
+          "key": "HE",
+          "displayKey": "HE",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 200,
+          "hasOverride": false
+        },
+        {
+          "key": "CM",
+          "displayKey": "CM",
+          "ammoTypes": [],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 300,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 100,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "AP": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "HE": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "CM": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "superbwarfare:t_90a": {
+      "id": "superbwarfare:t_90a",
+      "mod": "superbwarfare",
+      "baseName": "t_90a",
+      "displayType": "Tank",
+      "maxHealth": 500,
+      "maxEnergy": 10000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 47,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 3,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 700,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "superbwarfare:heavy_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 500,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:large_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            },
+            {
+              "Slot": 4,
+              "count": 128,
+              "id": "superbwarfare:heavy_ammo"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:waveforce_tower": {
+      "id": "superbwarfare:waveforce_tower",
+      "mod": "superbwarfare",
+      "baseName": "waveforce_tower",
+      "displayType": "Defense",
+      "maxHealth": 400,
+      "maxEnergy": 10000000,
+      "hasDecoy": false,
+      "engineType": "Fixed",
+      "mass": 10,
+      "upStep": 0,
+      "containerType": "Empty",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [
+        {
+          "key": "Main",
+          "displayKey": "Main",
+          "ammoTypes": [
+            "FE"
+          ],
+          "magazine": 1,
+          "rpm": 20,
+          "damage": 350,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 400,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Main": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "FE"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:wheel_chair": {
+      "id": "superbwarfare:wheel_chair",
+      "mod": "superbwarfare",
+      "baseName": "wheel_chair",
+      "displayType": "Car",
+      "maxHealth": 30,
+      "maxEnergy": 24000,
+      "hasDecoy": false,
+      "engineType": "WheelChair",
+      "mass": 0.03,
+      "upStep": 1.1,
+      "containerType": "Empty",
+      "hudType": null,
+      "parts": [
+        "Turret",
+        "MainEngine"
+      ],
+      "seatCount": 0,
+      "weapons": [],
+      "nbtTemplate": {
+        "Energy": 24000,
+        "Health": 30,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0
+      }
+    },
+    "superbwarfare:yx_100": {
+      "id": "superbwarfare:yx_100",
+      "mod": "superbwarfare",
+      "baseName": "yx_100",
+      "displayType": "Tank",
+      "maxHealth": 800,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 100,
+      "upStep": 2.6,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 5,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 1500,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:heavy_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerCannon",
+          "displayKey": "PassengerCannon",
+          "ammoTypes": [
+            "superbwarfare:small_shell_ap",
+            "superbwarfare:small_shell_he",
+            "superbwarfare:small_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": 300,
+          "damage": 60,
+          "hasOverride": true
+        },
+        {
+          "key": "SwarmDrone",
+          "displayKey": "SwarmDrone",
+          "ammoTypes": [
+            "superbwarfare:swarm_drone",
+            "superbwarfare:swarm_drone"
+          ],
+          "magazine": 14,
+          "rpm": 600,
+          "damage": null,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 800,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerCannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "SwarmDrone": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:large_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 128,
+              "id": "superbwarfare:heavy_ammo"
+            },
+            {
+              "Slot": 4,
+              "count": 32,
+              "id": "superbwarfare:small_shell_ap"
+            },
+            {
+              "Slot": 5,
+              "count": 32,
+              "id": "superbwarfare:small_shell_he"
+            },
+            {
+              "Slot": 6,
+              "count": 32,
+              "id": "superbwarfare:small_shell_gs"
+            },
+            {
+              "Slot": 7,
+              "count": 64,
+              "id": "superbwarfare:swarm_drone"
+            }
+          ]
+        }
+      }
+    },
+    "superbwarfare:ztz_99a": {
+      "id": "superbwarfare:ztz_99a",
+      "mod": "superbwarfare",
+      "baseName": "ztz_99a",
+      "displayType": "Tank",
+      "maxHealth": 500,
+      "maxEnergy": 10000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 55,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "MainEngine",
+        "Turret"
+      ],
+      "seatCount": 5,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "superbwarfare:large_shell_ap",
+            "superbwarfare:large_shell_he",
+            "superbwarfare:large_shell_gs"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 700,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "superbwarfare:rifle_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "superbwarfare:heavy_ammo"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 10000000,
+        "Health": 500,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "MainEngineHealth": 150,
+        "MainEngineDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 32,
+              "id": "superbwarfare:large_shell_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 32,
+              "id": "superbwarfare:large_shell_he"
+            },
+            {
+              "Slot": 2,
+              "count": 32,
+              "id": "superbwarfare:large_shell_gs"
+            },
+            {
+              "Slot": 3,
+              "count": 192,
+              "id": "superbwarfare:rifle_ammo"
+            },
+            {
+              "Slot": 4,
+              "count": 128,
+              "id": "superbwarfare:heavy_ammo"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:bmd_4": {
+      "id": "mcsp:bmd_4",
+      "mod": "mcsp",
+      "baseName": "bmd_4",
+      "displayType": "APC",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 14.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 8,
+      "weapons": [
+        {
+          "key": "Gun",
+          "displayKey": "Gun",
+          "ammoTypes": [
+            "mcsp:30mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 300,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 150,
+          "hasOverride": true
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Gun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:30mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:bmd_4_camo": {
+      "id": "mcsp:bmd_4_camo",
+      "mod": "mcsp",
+      "baseName": "bmd_4_camo",
+      "displayType": "APC",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 14.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 8,
+      "weapons": [
+        {
+          "key": "Gun",
+          "displayKey": "Gun",
+          "ammoTypes": [
+            "mcsp:30mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 300,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 150,
+          "hasOverride": true
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Gun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:30mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:humvee_carc": {
+      "id": "mcsp:humvee_carc",
+      "mod": "mcsp",
+      "baseName": "humvee_carc",
+      "displayType": "Car",
+      "maxHealth": 150,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 4.5,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 4,
+      "weapons": [
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 150,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:humvee_mk19": {
+      "id": "mcsp:humvee_mk19",
+      "mod": "mcsp",
+      "baseName": "humvee_mk19",
+      "displayType": "Car",
+      "maxHealth": 150,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 4.5,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 4,
+      "weapons": [
+        {
+          "key": "GrenadeLauncher",
+          "displayKey": "GrenadeLauncher",
+          "ammoTypes": [
+            "mcsp:40mm_explosive"
+          ],
+          "magazine": 1,
+          "rpm": 250,
+          "damage": 30,
+          "hasOverride": false
+        },
+        {
+          "key": "JavelinMissile",
+          "displayKey": "JavelinMissile",
+          "ammoTypes": [
+            "mcsp:tow_2",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": 12,
+          "damage": 500,
+          "hasOverride": true
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 150,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "GrenadeLauncher": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "JavelinMissile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:40mm_explosive"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:humvee_sand": {
+      "id": "mcsp:humvee_sand",
+      "mod": "mcsp",
+      "baseName": "humvee_sand",
+      "displayType": "Car",
+      "maxHealth": 150,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 4.5,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 4,
+      "weapons": [
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 150,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:humvee_standart_camo": {
+      "id": "mcsp:humvee_standart_camo",
+      "mod": "mcsp",
+      "baseName": "humvee_standart_camo",
+      "displayType": "Car",
+      "maxHealth": 150,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 4.5,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 4,
+      "weapons": [
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 150,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m1a2": {
+      "id": "mcsp:m1a2",
+      "mod": "mcsp",
+      "baseName": "m1a2",
+      "displayType": "Tank",
+      "maxHealth": 500,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 60,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret",
+        "WeaponStationBarrel"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 500,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "WeaponStationBarrelHealth": 100,
+        "WeaponStationBarrelDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m1a2_sand": {
+      "id": "mcsp:m1a2_sand",
+      "mod": "mcsp",
+      "baseName": "m1a2_sand",
+      "displayType": "Tank",
+      "maxHealth": 500,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 60,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret",
+        "WeaponStationBarrel"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 500,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "WeaponStationBarrelHealth": 100,
+        "WeaponStationBarrelDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m1a2_sep": {
+      "id": "mcsp:m1a2_sep",
+      "mod": "mcsp",
+      "baseName": "m1a2_sep",
+      "displayType": "Tank",
+      "maxHealth": 650,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 70,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret",
+        "WeaponStationBarrel"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 650,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "WeaponStationBarrelHealth": 100,
+        "WeaponStationBarrelDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m1a2_sep_sand": {
+      "id": "mcsp:m1a2_sep_sand",
+      "mod": "mcsp",
+      "baseName": "m1a2_sep_sand",
+      "displayType": "Tank",
+      "maxHealth": 650,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 70,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret",
+        "WeaponStationBarrel"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 650,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "WeaponStationBarrelHealth": 100,
+        "WeaponStationBarrelDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m3a3_bradley": {
+      "id": "mcsp:m3a3_bradley",
+      "mod": "mcsp",
+      "baseName": "m3a3_bradley",
+      "displayType": "APC",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 30.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:25mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 200,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "mcsp:tow_2"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:25mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m3a3_bradley_busk_ii": {
+      "id": "mcsp:m3a3_bradley_busk_ii",
+      "mod": "mcsp",
+      "baseName": "m3a3_bradley_busk_ii",
+      "displayType": "APC",
+      "maxHealth": 375,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 30.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:25mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 200,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "mcsp:tow_2"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 375,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:25mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m3a3_bradley_busk_iii": {
+      "id": "mcsp:m3a3_bradley_busk_iii",
+      "mod": "mcsp",
+      "baseName": "m3a3_bradley_busk_iii",
+      "displayType": "APC",
+      "maxHealth": 435,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 30.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:25mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 200,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "mcsp:tow_2"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 435,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:25mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m3a3_bradley_busk_iii_sand": {
+      "id": "mcsp:m3a3_bradley_busk_iii_sand",
+      "mod": "mcsp",
+      "baseName": "m3a3_bradley_busk_iii_sand",
+      "displayType": "APC",
+      "maxHealth": 435,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 30.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:25mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 200,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "mcsp:tow_2"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 435,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:25mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m3a3_bradley_busk_ii_sand": {
+      "id": "mcsp:m3a3_bradley_busk_ii_sand",
+      "mod": "mcsp",
+      "baseName": "m3a3_bradley_busk_ii_sand",
+      "displayType": "APC",
+      "maxHealth": 375,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 30.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:25mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 200,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "mcsp:tow_2"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 375,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:25mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:m3a3_bradley_sand": {
+      "id": "mcsp:m3a3_bradley_sand",
+      "mod": "mcsp",
+      "baseName": "m3a3_bradley_sand",
+      "displayType": "APC",
+      "maxHealth": 300,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 30.5,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 7,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:25mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 200,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "Missile",
+          "displayKey": "Missile",
+          "ammoTypes": [
+            "mcsp:tow_2"
+          ],
+          "magazine": 2,
+          "rpm": null,
+          "damage": 600,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Missile": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:25mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:sprut": {
+      "id": "mcsp:sprut",
+      "mod": "mcsp",
+      "baseName": "sprut",
+      "displayType": "Tank",
+      "maxHealth": 300,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 18,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:sprut_camo": {
+      "id": "mcsp:sprut_camo",
+      "mod": "mcsp",
+      "baseName": "sprut_camo",
+      "displayType": "Tank",
+      "maxHealth": 300,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 18,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 300,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80bv_camo": {
+      "id": "mcsp:t80bv_camo",
+      "mod": "mcsp",
+      "baseName": "t80bv_camo",
+      "displayType": "Tank",
+      "maxHealth": 400,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 44,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 400,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80bv_green": {
+      "id": "mcsp:t80bv_green",
+      "mod": "mcsp",
+      "baseName": "t80bv_green",
+      "displayType": "Tank",
+      "maxHealth": 400,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 44,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 400,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80bv_kantemir": {
+      "id": "mcsp:t80bv_kantemir",
+      "mod": "mcsp",
+      "baseName": "t80bv_kantemir",
+      "displayType": "Tank",
+      "maxHealth": 400,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 44,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 400,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80bv_pixel": {
+      "id": "mcsp:t80bv_pixel",
+      "mod": "mcsp",
+      "baseName": "t80bv_pixel",
+      "displayType": "Tank",
+      "maxHealth": 400,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 44,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 400,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80u_camo": {
+      "id": "mcsp:t80u_camo",
+      "mod": "mcsp",
+      "baseName": "t80u_camo",
+      "displayType": "Tank",
+      "maxHealth": 420,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 420,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80u_green": {
+      "id": "mcsp:t80u_green",
+      "mod": "mcsp",
+      "baseName": "t80u_green",
+      "displayType": "Tank",
+      "maxHealth": 420,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 420,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80u_kantemir": {
+      "id": "mcsp:t80u_kantemir",
+      "mod": "mcsp",
+      "baseName": "t80u_kantemir",
+      "displayType": "Tank",
+      "maxHealth": 420,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 420,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t80u_pixel": {
+      "id": "mcsp:t80u_pixel",
+      "mod": "mcsp",
+      "baseName": "t80u_pixel",
+      "displayType": "Tank",
+      "maxHealth": 420,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 420,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t90a_green": {
+      "id": "mcsp:t90a_green",
+      "mod": "mcsp",
+      "baseName": "t90a_green",
+      "displayType": "Tank",
+      "maxHealth": 450,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 450,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:t90a_tricolor": {
+      "id": "mcsp:t90a_tricolor",
+      "mod": "mcsp",
+      "baseName": "t90a_tricolor",
+      "displayType": "Tank",
+      "maxHealth": 450,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 800,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 450,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:tos_1a_green": {
+      "id": "mcsp:tos_1a_green",
+      "mod": "mcsp",
+      "baseName": "tos_1a_green",
+      "displayType": "Artillery",
+      "maxHealth": 350,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2,
+      "containerType": "Empty",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 1,
+      "weapons": [
+        {
+          "key": "TOS",
+          "displayKey": "TOS",
+          "ammoTypes": [
+            "mcsp:mlrs_shells"
+          ],
+          "magazine": 21,
+          "rpm": 200,
+          "damage": 150,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 350,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "TOS": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:mlrs_shells"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:tos_1a_tricolor": {
+      "id": "mcsp:tos_1a_tricolor",
+      "mod": "mcsp",
+      "baseName": "tos_1a_tricolor",
+      "displayType": "Artillery",
+      "maxHealth": 350,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 46,
+      "upStep": 2,
+      "containerType": "Empty",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 1,
+      "weapons": [
+        {
+          "key": "TOS",
+          "displayKey": "TOS",
+          "ammoTypes": [
+            "mcsp:mlrs_shells"
+          ],
+          "magazine": 21,
+          "rpm": 200,
+          "damage": 150,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 350,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "TOS": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:mlrs_shells"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:typhoon_30": {
+      "id": "mcsp:typhoon_30",
+      "mod": "mcsp",
+      "baseName": "typhoon_30",
+      "displayType": "Car",
+      "maxHealth": 270,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 15,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 6,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:30mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 240,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 270,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:30mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:typhoon_tricolor_30": {
+      "id": "mcsp:typhoon_tricolor_30",
+      "mod": "mcsp",
+      "baseName": "typhoon_tricolor_30",
+      "displayType": "Car",
+      "maxHealth": 270,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Wheel",
+      "mass": 15,
+      "upStep": 1.5,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 6,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:30mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 240,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 650,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 270,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:30mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:ural_green": {
+      "id": "mcsp:ural_green",
+      "mod": "mcsp",
+      "baseName": "ural_green",
+      "displayType": "Car",
+      "maxHealth": 250,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Wheel",
+      "mass": 20,
+      "upStep": 1.5,
+      "containerType": "Huge",
+      "hudType": null,
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Interactive"
+      ],
+      "seatCount": 10,
+      "weapons": [],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 250,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "InteractiveHealth": 100,
+        "InteractiveDamaged": 0
+      }
+    },
+    "mcsp:ural_tricolor": {
+      "id": "mcsp:ural_tricolor",
+      "mod": "mcsp",
+      "baseName": "ural_tricolor",
+      "displayType": "Car",
+      "maxHealth": 250,
+      "maxEnergy": 5000000,
+      "hasDecoy": false,
+      "engineType": "Wheel",
+      "mass": 20,
+      "upStep": 1.5,
+      "containerType": "Huge",
+      "hudType": null,
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Interactive"
+      ],
+      "seatCount": 10,
+      "weapons": [],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 250,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "InteractiveHealth": 100,
+        "InteractiveDamaged": 0
+      }
+    },
+    "mcsp:zbd04a_green": {
+      "id": "mcsp:zbd04a_green",
+      "mod": "mcsp",
+      "baseName": "zbd04a_green",
+      "displayType": "APC",
+      "maxHealth": 320,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 24,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 8,
+      "weapons": [
+        {
+          "key": "Gun",
+          "displayKey": "Gun",
+          "ammoTypes": [
+            "mcsp:30mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 300,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 150,
+          "hasOverride": true
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 320,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Gun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:30mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:zbd04a_sand": {
+      "id": "mcsp:zbd04a_sand",
+      "mod": "mcsp",
+      "baseName": "zbd04a_sand",
+      "displayType": "APC",
+      "maxHealth": 320,
+      "maxEnergy": 5000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 24,
+      "upStep": 2.25,
+      "containerType": "Medium",
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Turret"
+      ],
+      "seatCount": 8,
+      "weapons": [
+        {
+          "key": "Gun",
+          "displayKey": "Gun",
+          "ammoTypes": [
+            "mcsp:30mm_ap"
+          ],
+          "magazine": 1,
+          "rpm": 300,
+          "damage": 35,
+          "hasOverride": false
+        },
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_he",
+            "mcsp:tow_2"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 150,
+          "hasOverride": true
+        },
+        {
+          "key": "MainMachineGun",
+          "displayKey": "MainMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 5000000,
+        "Health": 320,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Gun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MainMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:30mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:tow_2"
+            },
+            {
+              "Slot": 3,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    },
+    "mcsp:ztz99a_sand": {
+      "id": "mcsp:ztz99a_sand",
+      "mod": "mcsp",
+      "baseName": "ztz99a_sand",
+      "displayType": "Tank",
+      "maxHealth": 480,
+      "maxEnergy": 20000000,
+      "hasDecoy": true,
+      "engineType": "Track",
+      "mass": 54,
+      "upStep": 2.25,
+      "containerType": null,
+      "hudType": "@Land",
+      "parts": [
+        "WheelRight",
+        "WheelLeft",
+        "Body",
+        "Turret"
+      ],
+      "seatCount": 2,
+      "weapons": [
+        {
+          "key": "Cannon",
+          "displayKey": "Cannon",
+          "ammoTypes": [
+            "mcsp:125mm_ap",
+            "mcsp:125mm_he"
+          ],
+          "magazine": 1,
+          "rpm": null,
+          "damage": 850,
+          "hasOverride": true
+        },
+        {
+          "key": "MachineGun",
+          "displayKey": "MachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 600,
+          "damage": 9.5,
+          "hasOverride": false
+        },
+        {
+          "key": "PassengerMachineGun",
+          "displayKey": "PassengerMachineGun",
+          "ammoTypes": [
+            "mcsp:bullet762"
+          ],
+          "magazine": 1,
+          "rpm": 450,
+          "damage": 40,
+          "hasOverride": false
+        }
+      ],
+      "nbtTemplate": {
+        "Energy": 20000000,
+        "Health": 480,
+        "Invulnerable": 0,
+        "IsWreck": 0,
+        "Power": 0,
+        "DecoyReady": 1,
+        "ChargeProgress": 0,
+        "WheelRightHealth": 100,
+        "WheelRightDamaged": 0,
+        "WheelLeftHealth": 100,
+        "WheelLeftDamaged": 0,
+        "BodyHealth": 100,
+        "BodyDamaged": 0,
+        "TurretHealth": 100,
+        "TurretDamaged": 0,
+        "TurretBurned": 0,
+        "TurretBurnTimer": 0,
+        "WeaponState": {
+          "Cannon": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "MachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          },
+          "PassengerMachineGun": {
+            "components": {
+              "minecraft:custom_data": {
+                "GunData": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        "Inventory": {
+          "Items": [
+            {
+              "Slot": 0,
+              "count": 64,
+              "id": "mcsp:125mm_ap"
+            },
+            {
+              "Slot": 1,
+              "count": 64,
+              "id": "mcsp:125mm_he"
+            },
+            {
+              "Slot": 2,
+              "count": 64,
+              "id": "mcsp:bullet762"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "families": {
+    "bmd_4": {
+      "name": "bmd_4",
+      "variants": [
+        "mcsp:bmd_4",
+        "mcsp:bmd_4_camo"
+      ],
+      "defaultVariant": "mcsp:bmd_4"
+    },
+    "humvee": {
+      "name": "humvee",
+      "variants": [
+        "mcsp:humvee_sand",
+        "mcsp:humvee_standart_camo"
+      ],
+      "defaultVariant": "mcsp:humvee_sand"
+    },
+    "m1a2": {
+      "name": "m1a2",
+      "variants": [
+        "mcsp:m1a2",
+        "mcsp:m1a2_sand"
+      ],
+      "defaultVariant": "mcsp:m1a2"
+    },
+    "m1a2_sep": {
+      "name": "m1a2_sep",
+      "variants": [
+        "mcsp:m1a2_sep",
+        "mcsp:m1a2_sep_sand"
+      ],
+      "defaultVariant": "mcsp:m1a2_sep"
+    },
+    "m3a3_bradley": {
+      "name": "m3a3_bradley",
+      "variants": [
+        "mcsp:m3a3_bradley",
+        "mcsp:m3a3_bradley_sand"
+      ],
+      "defaultVariant": "mcsp:m3a3_bradley"
+    },
+    "m3a3_bradley_busk_ii": {
+      "name": "m3a3_bradley_busk_ii",
+      "variants": [
+        "mcsp:m3a3_bradley_busk_ii",
+        "mcsp:m3a3_bradley_busk_ii_sand"
+      ],
+      "defaultVariant": "mcsp:m3a3_bradley_busk_ii"
+    },
+    "m3a3_bradley_busk_iii": {
+      "name": "m3a3_bradley_busk_iii",
+      "variants": [
+        "mcsp:m3a3_bradley_busk_iii",
+        "mcsp:m3a3_bradley_busk_iii_sand"
+      ],
+      "defaultVariant": "mcsp:m3a3_bradley_busk_iii"
+    },
+    "sprut": {
+      "name": "sprut",
+      "variants": [
+        "mcsp:sprut",
+        "mcsp:sprut_camo"
+      ],
+      "defaultVariant": "mcsp:sprut"
+    },
+    "t80bv": {
+      "name": "t80bv",
+      "variants": [
+        "mcsp:t80bv_camo",
+        "mcsp:t80bv_green",
+        "mcsp:t80bv_kantemir",
+        "mcsp:t80bv_pixel"
+      ],
+      "defaultVariant": "mcsp:t80bv_camo"
+    },
+    "t80u": {
+      "name": "t80u",
+      "variants": [
+        "mcsp:t80u_camo",
+        "mcsp:t80u_green",
+        "mcsp:t80u_kantemir",
+        "mcsp:t80u_pixel"
+      ],
+      "defaultVariant": "mcsp:t80u_camo"
+    },
+    "t90a": {
+      "name": "t90a",
+      "variants": [
+        "mcsp:t90a_green",
+        "mcsp:t90a_tricolor"
+      ],
+      "defaultVariant": "mcsp:t90a_green"
+    },
+    "tos_1a": {
+      "name": "tos_1a",
+      "variants": [
+        "mcsp:tos_1a_green",
+        "mcsp:tos_1a_tricolor"
+      ],
+      "defaultVariant": "mcsp:tos_1a_green"
+    },
+    "ural": {
+      "name": "ural",
+      "variants": [
+        "mcsp:ural_green",
+        "mcsp:ural_tricolor"
+      ],
+      "defaultVariant": "mcsp:ural_green"
+    },
+    "zbd04a": {
+      "name": "zbd04a",
+      "variants": [
+        "mcsp:zbd04a_green",
+        "mcsp:zbd04a_sand"
+      ],
+      "defaultVariant": "mcsp:zbd04a_green"
+    }
+  },
+  "ammoLibrary": {
+    "superbwarfare:small_shell_he": {
+      "id": "superbwarfare:small_shell_he",
+      "shortName": "small_shell_he",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:small_rocket": {
+      "id": "superbwarfare:small_rocket",
+      "shortName": "small_rocket",
+      "mod": "superbwarfare"
+    },
+    "FE": {
+      "id": "FE",
+      "shortName": "FE",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:small_shell_ap": {
+      "id": "superbwarfare:small_shell_ap",
+      "shortName": "small_shell_ap",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:medium_aerial_bomb": {
+      "id": "superbwarfare:medium_aerial_bomb",
+      "shortName": "medium_aerial_bomb",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:large_anti_ground_missile": {
+      "id": "superbwarfare:large_anti_ground_missile",
+      "shortName": "large_anti_ground_missile",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:large_shell_ap": {
+      "id": "superbwarfare:large_shell_ap",
+      "shortName": "large_shell_ap",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:large_shell_he": {
+      "id": "superbwarfare:large_shell_he",
+      "shortName": "large_shell_he",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:large_shell_cm": {
+      "id": "superbwarfare:large_shell_cm",
+      "shortName": "large_shell_cm",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:large_shell_wp": {
+      "id": "superbwarfare:large_shell_wp",
+      "shortName": "large_shell_wp",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:small_shell_gs": {
+      "id": "superbwarfare:small_shell_gs",
+      "shortName": "small_shell_gs",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:rifle_ammo": {
+      "id": "superbwarfare:rifle_ammo",
+      "shortName": "rifle_ammo",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:medium_anti_ground_missile": {
+      "id": "superbwarfare:medium_anti_ground_missile",
+      "shortName": "medium_anti_ground_missile",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:small_aerial_bomb": {
+      "id": "superbwarfare:small_aerial_bomb",
+      "shortName": "small_aerial_bomb",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:heavy_ammo": {
+      "id": "superbwarfare:heavy_ammo",
+      "shortName": "heavy_ammo",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:mortar_shell": {
+      "id": "superbwarfare:mortar_shell",
+      "shortName": "mortar_shell",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:small_shell_aa": {
+      "id": "superbwarfare:small_shell_aa",
+      "shortName": "small_shell_aa",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:medium_anti_air_missile": {
+      "id": "superbwarfare:medium_anti_air_missile",
+      "shortName": "medium_anti_air_missile",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:large_shell_gs": {
+      "id": "superbwarfare:large_shell_gs",
+      "shortName": "large_shell_gs",
+      "mod": "superbwarfare"
+    },
+    "minecraft:melon": {
+      "id": "minecraft:melon",
+      "shortName": "melon",
+      "mod": "superbwarfare"
+    },
+    "superbwarfare:swarm_drone": {
+      "id": "superbwarfare:swarm_drone",
+      "shortName": "swarm_drone",
+      "mod": "superbwarfare"
+    },
+    "mcsp:30mm_ap": {
+      "id": "mcsp:30mm_ap",
+      "shortName": "30mm_ap",
+      "mod": "mcsp"
+    },
+    "mcsp:125mm_he": {
+      "id": "mcsp:125mm_he",
+      "shortName": "125mm_he",
+      "mod": "mcsp"
+    },
+    "mcsp:tow_2": {
+      "id": "mcsp:tow_2",
+      "shortName": "tow_2",
+      "mod": "mcsp"
+    },
+    "mcsp:bullet762": {
+      "id": "mcsp:bullet762",
+      "shortName": "bullet762",
+      "mod": "mcsp"
+    },
+    "mcsp:40mm_explosive": {
+      "id": "mcsp:40mm_explosive",
+      "shortName": "40mm_explosive",
+      "mod": "mcsp"
+    },
+    "mcsp:125mm_ap": {
+      "id": "mcsp:125mm_ap",
+      "shortName": "125mm_ap",
+      "mod": "mcsp"
+    },
+    "mcsp:25mm_ap": {
+      "id": "mcsp:25mm_ap",
+      "shortName": "25mm_ap",
+      "mod": "mcsp"
+    },
+    "mcsp:mlrs_shells": {
+      "id": "mcsp:mlrs_shells",
+      "shortName": "mlrs_shells",
+      "mod": "mcsp"
+    }
+  }
+}
