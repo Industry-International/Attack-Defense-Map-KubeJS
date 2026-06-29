@@ -264,5 +264,7 @@
   "msg.kubejs.spawn_selector.list_header": "§6=== Spawn Point Status ===",
   "msg.kubejs.spawn_selector.list_entry": "§7%s: %s  §8(%s)",
   "msg.kubejs.spawn_selector.list_empty": "§7No spawn points configured",
-  "msg.kubejs.spawn_selector.usage": "§cUsage: /spawn_selector visible <pointId> <team> | invisible <pointId> | list"
+  "msg.kubejs.spawn_selector.usage": "§cUsage: /spawn_selector visible <pointId> <team> | invisible <pointId> | list",
+  "msg.kubejs.spawn_selector.no_team_players": "§cNo teammates available for teleport",
+  "msg.kubejs.spawn_selector.death_cooldown": "Death cooldown %ss remaining"
 }

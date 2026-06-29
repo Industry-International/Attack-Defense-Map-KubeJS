@@ -212,6 +212,30 @@ if (!player.persistentData.profession) { ... }
 
 ---
 
+## [#8] PlayerEvents.death 不存在
+
+**错误信息：** `Unknown event 'PlayerEvents.death'`
+
+**原因：** KubeJS 7 中没有 `PlayerEvents.death` 事件，死亡事件需使用 `EntityEvents.death` 并过滤玩家。
+
+**修复：**
+
+```javascript
+// ❌ 错误
+PlayerEvents.death(event => { var player = event.player ... })
+
+// ✅ 正确
+EntityEvents.death(event => {
+  var entity = event.entity
+  if (!entity || !entity.isPlayer()) return
+  // entity 即玩家
+})
+```
+
+**参考文件：** `spawn_compass/main.js:28`
+
+---
+
 ## 使用规则
 
 1. **编写新代码前**：快速浏览此文档，看当前要调用的 API 是否在踩坑列表中

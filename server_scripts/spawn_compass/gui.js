@@ -13,6 +13,10 @@
 // ========== 边框填充物 ==========
 const BORDER = Item.of('minecraft:yellow_stained_glass_pane').withCustomName(Component.literal(''))
 
+// ========== 死亡冷却（内存，不持久化）==========
+const SPAWN_DEATH_COOLDOWN_SECONDS = 5          // 冷却时长：5秒
+var DEATH_TIME_MAP = {}                         // { username: gameTime }
+
 /**
  * 获取玩家所属的原版计分板队伍名
  * @returns {string|null} 队伍名（小写），无队伍返回 null
@@ -40,6 +44,27 @@ function getPlayerSelectedId(player) {
 /**
  * 随机传送到一名允许复活的玩家附近
  */
+function isDeathCooldown(player) {
+  var deathTime = DEATH_TIME_MAP[player.username]
+  if (!deathTime) return false // 未死亡或已过期
+  var elapsed = Date.now() - deathTime // 毫秒
+  var cooldownMs = SPAWN_DEATH_COOLDOWN_SECONDS * 1000
+  if (elapsed >= cooldownMs) {
+    delete DEATH_TIME_MAP[player.username] // 冷却结束
+    return false
+  }
+  // 冷却中：计算剩余秒数并发title
+  var remaining = Math.ceil((cooldownMs - elapsed) / 1000)
+  var pName = player.username
+  player.server.scheduleInTicks(8, function() {
+    player.server.runCommandSilent('title ' + pName + ' title {"translate":"msg.kubejs.spawn_selector.death_cooldown","with":["' + remaining + '"],"color":"red","bold":true}')
+  })
+  return true
+}
+
+/**
+ * 随机传送到一名允许复活的玩家附近
+ */
 function teleportToRandomAllowPlayer(player) {
   // 未选择职业禁止传送
   if (!player.persistentData.profession) {
@@ -52,14 +77,23 @@ function teleportToRandomAllowPlayer(player) {
     return
   }
 
+  // 死亡冷却检查
+  if (isDeathCooldown(player)) return
+
+  var myTeam = getPlayerTeamTag(player)
   var allowPlayers = getAvailableRespawnPlayers(player.server, player)
-  if (allowPlayers.length === 0) {
-    player.tell(Text.translate('msg.kubejs.spawn_selector.no_allow_players'))
+  // 只保留同队玩家
+  var teamPlayers = []
+  for (var i = 0; i < allowPlayers.length; i++) {
+    if (allowPlayers[i].team === myTeam) teamPlayers.push(allowPlayers[i])
+  }
+  if (teamPlayers.length === 0) {
+    player.tell(Text.translate('msg.kubejs.spawn_selector.no_team_players'))
     return
   }
 
-  var idx = Math.floor(Math.random() * allowPlayers.length)
-  var target = allowPlayers[idx]
+  var idx = Math.floor(Math.random() * teamPlayers.length)
+  var target = teamPlayers[idx]
 
   try {
     player.server.runCommandSilent(
@@ -88,6 +122,9 @@ function teleportToSelectedPoint(player) {
     })
     return
   }
+
+  // 死亡冷却检查
+  if (isDeathCooldown(player)) return
 
   var point = getPlayerSelectedPoint(player)
   if (!point) {

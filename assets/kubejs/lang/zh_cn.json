@@ -279,5 +279,7 @@
   "msg.kubejs.spawn_selector.list_header": "§6=== 出生点状态 ===",
   "msg.kubejs.spawn_selector.list_entry": "§7%s: %s  §8(%s)",
   "msg.kubejs.spawn_selector.list_empty": "§7暂无已配置的出生点",
-  "msg.kubejs.spawn_selector.usage": "§c用法: /spawn_selector visible <pointId> <team> | invisible <pointId> | list"
+  "msg.kubejs.spawn_selector.usage": "§c用法: /spawn_selector visible <pointId> <team> | invisible <pointId> | list",
+  "msg.kubejs.spawn_selector.no_team_players": "§c同队没有允许传送的玩家",
+  "msg.kubejs.spawn_selector.death_cooldown": "死亡冷却 剩余%s秒"
 }
