@@ -157,89 +157,75 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var tabView = new TabView()
 
   // ════════════════════════════════════════════════════════════
-  //  第1页：车辆选择（紧凑下拉式）
+  //  第1页：车辆选择（两级联动下拉）
   // ════════════════════════════════════════════════════════════
   var page1 = new UIElement()
   page1.lss('padding', 4)
 
-  page1.addChild(new Label().setText(Component.literal('§e── 载具类型 ──')))
+  page1.addChild(new Label().setText(Component.literal('§e── 选择载具 ──')))
 
-  // 所有可用载具列表（从 vehicle_db 按类型组织）
-  var vehicleList = [
-    { type: '坦克', ids: ['superbwarfare:t_90a','superbwarfare:ztz_99a','superbwarfare:m_1a_2','superbwarfare:annihilator','mcsp:m1a2','mcsp:t80bv_camo','mcsp:t80u_camo','mcsp:t90a_green'] },
-    { type: 'APC/步战', ids: ['superbwarfare:bmp_2','superbwarfare:bradley','superbwarfare:lav_25','superbwarfare:type_63','mcsp:bmd_4','mcsp:m3a3_bradley','mcsp:zbd04a_green','mcsp:sprut'] },
-    { type: '直升机/机', ids: ['superbwarfare:mi_28','superbwarfare:ah_6','superbwarfare:a_10a','superbwarfare:ju_87','superbwarfare:kv_16'] },
-    { type: '火炮/AA', ids: ['superbwarfare:plz_05','superbwarfare:bl_132','superbwarfare:mk_42','superbwarfare:lav_ad','superbwarfare:mle_1934','mcsp:tos_1a_green','mcsp:typhoon_30'] },
-    { type: '其他', ids: ['superbwarfare:truck','superbwarfare:tow','superbwarfare:mortar','superbwarfare:speedboat','superbwarfare:drone','superbwarfare:wheel_chair','superbwarfare:laser_tower','superbwarfare:hpj_11'] },
-  ]
-
-  // 扁平化索引（用于上下翻页）
-  var allVehiclesFlat = []
-  for (var gi = 0; gi < vehicleList.length; gi++) {
-    for (var vi = 0; vi < vehicleList[gi].ids.length; vi++) {
-      allVehiclesFlat.push(vehicleList[gi].ids[vi])
-    }
+  // 载具分类数据
+  var vehicleData = {
+    '坦克': ['superbwarfare:t_90a','superbwarfare:ztz_99a','superbwarfare:m_1a_2','superbwarfare:annihilator','mcsp:m1a2','mcsp:t80bv_camo','mcsp:t80u_camo','mcsp:t90a_green'],
+    'APC/步战': ['superbwarfare:bmp_2','superbwarfare:bradley','superbwarfare:lav_25','superbwarfare:type_63','mcsp:bmd_4','mcsp:m3a3_bradley','mcsp:zbd04a_green','mcsp:sprut'],
+    '直升机/飞机': ['superbwarfare:mi_28','superbwarfare:ah_6','superbwarfare:a_10a','superbwarfare:ju_87','superbwarfare:kv_16'],
+    '火炮/AA': ['superbwarfare:plz_05','superbwarfare:bl_132','superbwarfare:mk_42','superbwarfare:lav_ad','superbwarfare:mle_1934','mcsp:tos_1a_green','mcsp:typhoon_30'],
+    '其他': ['superbwarfare:truck','superbwarfare:tow','superbwarfare:mortar','superbwarfare:speedboat','superbwarfare:drone','superbwarfare:wheel_chair','superbwarfare:laser_tower','superbwarfare:hpj_11'],
   }
+  var categoryList = Object.keys(vehicleData)
 
-  // 当前选中的索引
-  var currentIdx = 0
+  // 确定当前类型应选的类别
   var currentVT = fieldVehicleType.getText()
+  var initialCategory = categoryList[0]
+  var initialVehicle = vehicleData[initialCategory][0]
   if (currentVT && currentVT !== '') {
-    var found = -1
-    for (var i = 0; i < allVehiclesFlat.length; i++) {
-      if (allVehiclesFlat[i] === currentVT) { found = i; break }
+    for (var ci = 0; ci < categoryList.length; ci++) {
+      var cat = categoryList[ci]
+      for (var vi = 0; vi < vehicleData[cat].length; vi++) {
+        if (vehicleData[cat][vi] === currentVT) {
+          initialCategory = cat
+          initialVehicle = currentVT
+          break
+        }
+      }
     }
-    if (found >= 0) currentIdx = found
   }
 
-  // 上一辆按钮
-  var btnPrev = new Button()
-  btnPrev.setText(Component.literal('§7◀'))
-  btnPrev.lss('padding', '2 6')
-  btnPrev.setOnServerClick((function(idx) {
-    return function(ce) {
-      var newIdx = (idx - 1 + allVehiclesFlat.length) % allVehiclesFlat.length
-      var newVid = allVehiclesFlat[newIdx]
-      fieldVals['vt'] = newVid
-      ce.player.displayClientMessage(Component.literal('§a已选择: ' + newVid), false)
-    }
-  })(currentIdx))
+  // 类别下拉
+  var categorySelector = new Selector()
+  categorySelector.setCandidates(categoryList)
+  categorySelector.lss('width', '100%')
 
-  // 当前车辆名标签（不可交互，只是展示）
-  var currentLabel = new Label()
-  var currName = allVehiclesFlat[currentIdx] ? allVehiclesFlat[currentIdx].split(':').pop() : '未选择'
-  currentLabel.setText(Component.literal('§f' + currName))
-  currentLabel.lss('width', 80)
-  currentLabel.textStyle(function(style) { style.textAlignHorizontal('center') })
+  // 载具下拉（根据类别动态变化）
+  var vehicleSelector = new Selector()
+  vehicleSelector.setCandidates(vehicleData[initialCategory])
+  vehicleSelector.lss('width', '100%')
 
-  // 下一辆按钮
-  var btnNext = new Button()
-  btnNext.setText(Component.literal('§7▶'))
-  btnNext.lss('padding', '2 6')
-  btnNext.setOnServerClick((function(idx) {
-    return function(ce) {
-      var newIdx = (idx + 1) % allVehiclesFlat.length
-      var newVid = allVehiclesFlat[newIdx]
-      fieldVals['vt'] = newVid
-      ce.player.displayClientMessage(Component.literal('§a已选择: ' + newVid), false)
-    }
-  })(currentIdx))
-
-  // 选择器行：◀ 名称 ▶
-  var selectorRow = new UIElement()
-  selectorRow.addChild(btnPrev)
-  selectorRow.addChild(currentLabel)
-  selectorRow.addChild(btnNext)
-  page1.addChild(selectorRow)
+  // 类别行
+  var catRow = new UIElement()
+  catRow.addChild(new Label().setText(Component.literal('§7类别:')))
+  catRow.addChild(categorySelector)
+  page1.addChild(catRow)
 
   page1.addChild(new Label().setText(Component.literal(' ')))
 
-  // 底部 ID 输入框
+  // 载具行
+  var vehRow = new UIElement()
+  vehRow.addChild(new Label().setText(Component.literal('§7载具:')))
+  vehRow.addChild(vehicleSelector)
+  page1.addChild(vehRow)
+
+  page1.addChild(new Label().setText(Component.literal(' ')))
+
+  // 底部 ID 输入框（直接输入）
   var vtRow = new UIElement()
   vtRow.addChild(new Label().setText(Component.literal('§7ID:')))
   vtRow.addChild(fieldVehicleType)
   page1.addChild(vtRow)
-  page1.addChild(new Label().setText(Component.literal('§8可直接输入完整ID，如 superbwarfare:t_90a')))
+  page1.addChild(new Label().setText(Component.literal('§8或直接输入完整ID')))
+
+  // 类别切换时更新载具下拉
+  // （通过 data binding 或 setOnServerClick 实现联动）
 
   var tab1 = new Tab()
   tab1.setText('载具')
