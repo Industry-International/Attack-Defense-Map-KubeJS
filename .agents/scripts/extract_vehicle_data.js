@@ -186,6 +186,18 @@ const PART_HEALTH_DEFAULTS = {
 };
 
 /**
+ * OBB 部件名 → NBT 字段前缀映射
+ *
+ * ★ 修复：OBB 中的 WheelLeft/WheelRight 在模组 NBT 中应使用 LeftWheel/RightWheel。
+ *   提取脚本之前直接用部件名生成 WheelLeftHealth/WheelRightHealth，
+ *   但模组读取 LeftWheelHealth/RightWheelHealth，找不到则默认损坏。
+ */
+const PART_NBT_PREFIX = {
+  'WheelLeft': 'LeftWheel',
+  'WheelRight': 'RightWheel',
+};
+
+/**
  * 从 OBB 中提取部件类型
  */
 function extractParts(obb) {
@@ -248,8 +260,9 @@ function generateNbtTemplate(vehicleId, vehicleData) {
 
   for (const part of parts) {
     const defaultHealth = PART_HEALTH_DEFAULTS[part] || 100;
-    template[part + 'Health'] = defaultHealth;
-    template[part + 'Damaged'] = 0;
+    const prefix = PART_NBT_PREFIX[part] || part;
+    template[prefix + 'Health'] = defaultHealth;
+    template[prefix + 'Damaged'] = 0;
   }
   if (parts.includes('Turret')) {
     template.TurretBurned = 0;
