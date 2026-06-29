@@ -1,297 +1,312 @@
-# SBW 卓越前线 — 载具自动部署系统
+# SBW 载具部署台 — 数据驱动部署系统
 
 ## 概述
 
-本系统实现 SBW（Superb Warfare）模组载具的**自动部署**与**自动重生**。采用 **8 状态状态机**驱动，将复杂的补员逻辑拆分为多个独立状态，每个状态职责清晰、转移规则严格。
+本系统实现 SBW（Superb Warfare）模组载具的**数据包驱动自动部署**。所有载具数据通过 Node.js 脚本从模组 JAR 中提取，分类组织为数据包目录结构，由 KubeJS 运行时自动发现加载。
+
+### 核心流程
+
+```
+模组 JAR  →  extract_vehicle_data.js (Node.js)  →  数据包目录  →  KubeJS 自动发现  →  部署台 GUI/部署
+```
 
 ---
 
 ## 目录
 
-- [功能特性](#功能特性)
-- [状态机架构](#状态机架构)
-  - [8 个状态](#8-个状态)
-  - [状态流转图](#状态流转图)
-  - [转移规则](#转移规则)
-- [配置指南](#配置指南)
-  - [基本配置项](#基本配置项)
-  - [deployNBT 模板详解](#deploynbt-模板详解)
-  - [每辆载具独立配置](#每辆载具独立配置)
-  - [maxCount 最大数量控制](#maxcount-最大数量控制)
-- [指令使用](#指令使用)
+- [数据包架构](#数据包架构)
+  - [目录结构](#目录结构)
+  - [_registry.json 声明文件](#_registryjson-声明文件)
+  - [单个载具 JSON 格式](#单个载具-json-格式)
+- [载具分类系统](#载具分类系统)
+  - [分类映射](#分类映射)
+  - [添加新载具/分类](#添加新载具分类)
+- [部署台方块](#部署台方块)
+  - [方块注册](#方块注册)
+  - [GUI 配置界面](#gui-配置界面)
+  - [持久化存储](#持久化存储)
+- [部署逻辑](#部署逻辑)
+  - [NBT 构建顺序](#nbt-构建顺序)
+  - [双模式 NBT 配置](#双模式-nbt-配置)
+  - [UUID 捕获机制](#uuid-捕获机制)
+- [提取脚本](#提取脚本)
 - [文件结构](#文件结构)
 - [常见问题](#常见问题)
 
 ---
 
-## 功能特性
+## 数据包架构
 
-| 功能 | 说明 |
-|------|------|
-| 8 状态状态机 | `UNINITIALIZED` → `IDLE` → `WAITING_CHUNK` / `CHUNK_LOADED` → `DEPLOYED` → `TIMING`（重生倒计时）/ `OVER_CAPACITY`（超量）/ `UNDER_CAPACITY`（不足） |
-| 严格转移校验 | 非法状态转移会被拒绝并记录警告日志 |
-| 自动部署 | 系统启动后由补员循环自动检测并部署 |
-| 独立标签 | 每辆载具携带唯一标签，存活期间不重复生成 |
-| 自动重生 | 载具被摧毁后自动进入 `TIMING` 状态倒计时，结束即重生 |
-| 智能区块检测 | `IDLE` → `WAITING_CHUNK`（区块未加载时等待），玩家靠近后自动恢复 |
-| 模板化部署 | 部署时自动应用初始 NBT（能量、弹药、预装填、部件状态等） |
-| 定期持久化 | 每 5 次补员循环自动全量保存一次，`remainingTicks` 频繁落盘，崩溃重启不丢数据 |
-| 重启保底 | 启动补员循环时自动处理残留 TIMING 状态，置为就绪后立即部署 |
-| 无残留清除 | clear/reset 使用 `discard()` 直接移除，不留掉落物 |
-| 完全擦除 | `/sbw_vehicle clear` 不指定队伍时完全擦除 persistentData（含 active 标志） |
-| maxCount 控制 | 每辆载具可设置最大存活数，超量自动标记 `OVER_CAPACITY` |
+数据包根目录：`kubejs/data/sbw_vehicle_db/`
 
----
-
-## 状态机架构
-
-状态机定义在 `tools/state_machine.js` 中，核心代码为 `VEHICLE_STATE` 常量和 `transitionState()` 函数。
-
-### 8 个状态
-
-| 状态 | 值 | 含义 | 说明 |
-|------|-----|------|------|
-| `UNINITIALIZED` | `'uninitialized'` | 未初始化 | 首次创建或系统重置后的初始态 |
-| `IDLE` | `'idle'` | 空闲 | 初始化完毕，等待部署条件满足 |
-| `WAITING_CHUNK` | `'waiting_chunk'` | 等待区块加载 | 区块未加载，等待玩家靠近 |
-| `CHUNK_LOADED` | `'chunk_loaded'` | 区块已加载 | 区块已就绪，可以执行部署 |
-| `DEPLOYED` | `'deployed'` | 载具已部署 | 实体已生成并存活 |
-| `OVER_CAPACITY` | `'over_capacity'` | 载具超量 | 当前存活数超过 `maxCount` |
-| `UNDER_CAPACITY` | `'under_capacity'` | 载具不足 | 当前存活数未达 `maxCount` |
-| `TIMING` | `'timing'` | 计时中 | 重生倒计时进行中 |
-
-### 状态流转图
+### 目录结构
 
 ```
-UNINITIALIZED ──→ IDLE ──→ WAITING_CHUNK ──→ CHUNK_LOADED ──→ DEPLOYED
-                      ↑          ↑                 │               │
-                      │          └─────────────────┘               │
-                      │           TIMING ←─────────────────────────┘
-                      │             │
-                      │             └──→ WAITING_CHUNK / IDLE
-                      │
-                      └──←── OVER_CAPACITY ──→ DEPLOYED / IDLE
-                      └──←── UNDER_CAPACITY ──→ IDLE / WAITING_CHUNK / TIMING
+kubejs/data/sbw_vehicle_db/
+├── _registry.json                        ← 注册声明文件
+├── main_battle_tank/                     ← 主战坦克 (23辆)
+├── infantry_fighting_vehicle/            ← 步兵战车/装甲车 (14辆)
+├── utility_vehicle/                      ← 多功能车/运输车 (14辆)
+├── artillery/                            ← 火炮/火箭炮 (8辆)
+├── aircraft/                             ← 固定翼飞机 (4辆)
+├── defense_turret/                       ← 固定防御 (4辆)
+├── naval/                                ← 水上载具 (2辆)
+├── helicopter/                           ← 直升机 (2辆)
+├── air_defense/                          ← 防空单位 (1辆)
+└── drone/                                ← 无人机 (1辆)
 ```
 
-### 转移规则
+每个分类目录下包含该分类的所有载具 JSON 文件，文件名格式：`mod--vehiclename.json`（如 `superbwarfare--t_90a.json`）。
 
-| 当前状态 | 允许的下一个状态 | 触发条件 |
-|----------|-----------------|----------|
-| `UNINITIALIZED` | `IDLE` | 初始化完成 |
-| `IDLE` | `WAITING_CHUNK` | 区块未加载 |
-| `IDLE` | `CHUNK_LOADED` | 区块已加载 |
-| `WAITING_CHUNK` | `CHUNK_LOADED` | 区块加载完成 |
-| `WAITING_CHUNK` | `DEPLOYED` | 区块加载 + 直接部署（并列） |
-| `WAITING_CHUNK` | `IDLE` | 系统复位/跳过 |
-| `CHUNK_LOADED` | `DEPLOYED` | 执行部署 |
-| `CHUNK_LOADED` | `OVER_CAPACITY` | 区块就绪但超量 |
-| `CHUNK_LOADED` | `IDLE` | 部署跳过/取消 |
-| `DEPLOYED` | `TIMING` | 载具被摧毁 |
-| `DEPLOYED` | `OVER_CAPACITY` | 发现超出数量限制 |
-| `DEPLOYED` | `IDLE` | 手动清除/重置 |
-| `OVER_CAPACITY` | `DEPLOYED` | 超量已清除，回到正常 |
-| `OVER_CAPACITY` | `CHUNK_LOADED` | 超量已清除，区块就绪 |
-| `OVER_CAPACITY` | `IDLE` | 超量手动处理 |
-| `UNDER_CAPACITY` | `IDLE` | 数量不足，重新部署 |
-| `UNDER_CAPACITY` | `WAITING_CHUNK` | 数量不足+区块未加载 |
-| `UNDER_CAPACITY` | `TIMING` | 不足中启动补员倒计时 |
-| `TIMING` | `CHUNK_LOADED` | 计时完成且区块已加载 |
-| `TIMING` | `WAITING_CHUNK` | 计时完成但区块未加载 |
-| `TIMING` | `IDLE` | 计时完成（备选） |
-| **任意状态** | `UNINITIALIZED` | 系统重置（强制） |
+### _registry.json 声明文件
 
----
-
-## 配置指南
-
-配置文件：`server_scripts/sbw_vehicle/config.js`
-
-### 基本配置项
-
-```js
-const SBW_VEHICLE_CONFIG = {
-  persistKey: 'sbw_vehicle',      // 持久化数据存储键名
-  tagPrefix: 'sbw_vehicle_',      // 实体标签前缀（用于追踪）
-  checkInterval: 1,               // 补员检测间隔（tick，1=每 tick 检测一次）
-}
-```
-
-### deployNBT 模板详解
-
-每辆载具配置中的 `deployNBT` 定义了部署时应用的初始 NBT。以下为完整字段说明：
-
-#### 核心属性
-
-| 字段 | 类型 | 默认 | 说明 |
-|------|------|------|------|
-| `Energy` | int | 0 | 载具能量/电力。影响武器可用性，0=没电 |
-| `Health` | float | 500.0 | 载具总生命值，归零则摧毁 |
-| `Invulnerable` | 0/1 | 0 | 无敌模式，1=无法被伤害 |
-| `IsWreck` | 0/1 | 0 | 是否残骸状态，1=已报废形态 |
-| `Power` | float | 0.0 | 动力输出，影响移动速度 |
-
-#### 部件健康度
-
-每个部件有 `Health`（健康度）和 `Damaged`（是否损坏）两个字段。当 `Health` 归零时 `Damaged` 自动变为 1。
-
-| 字段 | 类型 | 默认 | 说明 |
-|------|------|------|------|
-| `LeftWheelHealth` | float | 100.0 | 左轮健康度 |
-| `LeftWheelDamaged` | 0/1 | 0 | 左轮是否损坏 |
-| `RightWheelHealth` | float | 100.0 | 右轮健康度 |
-| `RightWheelDamaged` | 0/1 | 0 | 右轮是否损坏 |
-| `MainEngineHealth` | float | 150.0 | 主引擎健康度 |
-| `MainEngineDamaged` | 0/1 | 0 | 主引擎是否损坏 |
-| `SubEngineHealth` | float | 150.0 | 副引擎健康度 |
-| `SubEngineDamaged` | 0/1 | 0 | 副引擎是否损坏 |
-| `TurretHealth` | float | 100.0 | 炮塔健康度 |
-| `TurretDamaged` | 0/1 | 0 | 炮塔是否损坏 |
-| `TurretBurned` | 0/1 | 0 | 炮塔是否烧毁 |
-| `TurretBurnTimer` | int | 0 | 炮塔燃烧计时（tick） |
-
-#### 武器系统
-
-| 字段 | 类型 | 默认 | 说明 |
-|------|------|------|------|
-| `DecoyReady` | 0/1 | 1 | 诱饵弹是否装填就绪 |
-| `ChargeProgress` | float | 0.0 | 特殊武器充能进度（0.0~1.0） |
-
-`WeaponState` 是嵌套的复合标签，结构如下：
-
-```js
-WeaponState: {
-  Cannon: {                   // 主炮
-    components: {
-      "minecraft:custom_data": {
-        GunData: { Ammo: 1 }  // Ammo = 预装填的炮弹数
-      }
-    }
-  },
-  MachineGun: {               // 同轴机枪
-    components: {
-      "minecraft:custom_data": {
-        GunData: { Ammo: 200 }
-      }
-    }
-  },
-  PassengerMachineGun: {      // 乘客机枪
-    components: {
-      "minecraft:custom_data": {
-        GunData: { Ammo: 200 }
-      }
-    }
+```json
+{
+  "version": 2,
+  "_comment": "SBW 载具数据库注册文件 — 在此声明允许使用的分类目录",
+  "categories": {
+    "main_battle_tank": {
+      "enabled": true,
+      "displayName": "主战坦克",
+      "description": "Main Battle Tanks",
+      "files": ["superbwarfare--t_90a.json", "superbwarfare--ztz_99a.json", ...]
+    },
+    ...
   }
 }
 ```
 
-#### 弹药库存
+- `enabled: false` 可禁用整个分类（该分类的载具不会被加载）
+- `files` 列表由提取脚本自动生成，供 KubeJS 加载器读取
 
-```js
-Inventory: {
-  Items: [
-    { Slot: 0,  count: 63, id: 'superbwarfare:large_shell_ap' },
-    { Slot: 1,  count: 64, id: 'superbwarfare:large_shell_he' },
-    // 更多弹药...
-  ]
-}
-```
+### 单个载具 JSON 格式
 
-`Slot` 编号范围：`0~53`（共 54 格）
+每个 JSON 文件包含该载具的完整数据，**自包含、无需二次分类**：
 
-#### 弹药类型参考
+```json
+{
+  "vehicleId": "superbwarfare:t_90a",
+  "mod": "superbwarfare",
+  "category": "main_battle_tank",
+  "baseName": "t_90a",
+  "displayType": "Tank",
 
-| 物品 ID | 说明 |
-|---------|------|
-| `superbwarfare:large_shell_ap` | 大口径 AP 弹（穿甲弹） |
-| `superbwarfare:large_shell_he` | 大口径 HE 弹（高爆弹） |
-| `superbwarfare:small_shell_ap` | 小口径 AP 弹 |
-| `superbwarfare:small_shell_he` | 小口径 HE 弹 |
-| `superbwarfare:rifle_ammo` | 步枪弹（机枪用） |
-| `superbwarfare:heavy_ammo` | 重弹 |
-| `superbwarfare:missile` | 导弹 |
-| `superbwarfare:rocket` | 火箭弹 |
+  "maxHealth": 500,
+  "maxEnergy": 10000000,
+  "hasDecoy": true,
+  "engineType": "Track",
+  "mass": 47,
+  "parts": ["WheelRight", "WheelLeft", "MainEngine", "Turret"],
+  "weapons": [
+    { "key": "Cannon", "ammoTypes": ["superbwarfare:large_shell_ap", ...], ... }
+  ],
 
-#### 特殊 NBT 类型提示
+  "nbtTemplate": {
+    "Energy": 10000000,
+    "Health": 500,
+    "Invulnerable": 0,
+    "LeftWheelHealth": 100,
+    "LeftWheelDamaged": 0,
+    "RightWheelHealth": 100,
+    "RightWheelDamaged": 0,
+    "MainEngineHealth": 150,
+    "TurretHealth": 100,
+    "WeaponState": { ... },
+    "Inventory": { "Items": [...] }
+  },
 
-大多数字段直接用 JS 数字/布尔即可。如需指定特定 NBT 类型：
-
-```js
-// 例如需要明确存为 ByteTag
-SomeField: { __nbt_type: "byte", value: 1 }
-
-// 支持的类型: byte, short, long, float, double
-```
-
-### 每辆载具独立配置
-
-每辆载具在 `teams` 下独立配置，`deployNBT` 写在该载具内部：
-
-```js
-teams: {
-  attack: {
-    vehicles: [
-      {
-        id: 'attack_tank_1',           // 唯一标识符
-        vehicleType: 'superbwarfare:t_90a',  // 载具实体类型
-        pos: [0.5, 64, 0.5, 90, 0],    // [x, y, z, yaw, pitch]
-        respawnDelay: 1200,             // 重生延迟（tick，1200=60秒）
-        maxCount: 1,                    // （可选）最大同时存活数
-        deployNBT: {                    // ↓↓↓ 部署模板 ↓↓↓
-          Energy: 10000000,
-          Health: 500.0,
-          // ... 更多字段见上方参考
-        }
-      },
-      // 更多载具...
-    ]
+  "ammoSlots": {
+    "superbwarfare:large_shell_ap": 32,
+    "superbwarfare:rifle_ammo": 192
   }
 }
 ```
 
-**关键规则：**
-- `deployNBT` 不写或设为 `null` → **白板生成**（无能量、无弹药）
-- 每辆载具的 `deployNBT` **完全独立**，修改一辆不影响其他
-- 每辆载具可配置不同的 `respawnDelay`
+---
 
-### maxCount 最大数量控制
+## 载具分类系统
 
-| 功能 | 说明 |
-|------|------|
-| 部署检查 | 部署前扫描世界存活数，已达上限则跳过生成 |
-| 状态机检测 | `DEPLOYED` 状态自动检查，超量标记 `OVER_CAPACITY` |
-| 自动恢复 | 超量清除后自动回到 `DEPLOYED` |
-| 跨队隔离 | 不同队伍的同名 ID 通过队伍前缀隔离 |
+### 分类映射
 
-> 不设置或设为 `0` 表示不限制数量。
+载具分类由提取脚本根据模组数据的 `Type` 字段自动映射：
+
+| displayType | 分类目录 | 中文名 | 数量 |
+|-------------|---------|--------|------|
+| `Tank` | `main_battle_tank` | 主战坦克 | 23 |
+| `APC` | `infantry_fighting_vehicle` | 步兵战车/装甲车 | 14 |
+| `Car` | `utility_vehicle` | 多功能车/运输车 | 14 |
+| `Artillery` | `artillery` | 火炮/火箭炮 | 8 |
+| `Airplane` | `aircraft` | 固定翼飞机 | 4 |
+| `Defense` | `defense_turret` | 固定防御 | 4 |
+| `Boat` | `naval` | 水上载具 | 2 |
+| `Helicopter` | `helicopter` | 直升机 | 2 |
+| `AA` | `air_defense` | 防空单位 | 1 |
+| `Drone` | `drone` | 无人机 | 1 |
+
+映射在提取脚本 `extract_vehicle_data.js` 中的 `DISPLAY_TYPE_CATEGORY` 常量定义。**这是唯一需要维护分类逻辑的地方**，JS 运行时不再做二次分类。
+
+### 添加新载具/分类
+
+**添加新载具**：重新运行提取脚本即可自动检测模组 JAR 中的新载具并生成 JSON。
+
+**添加新分类**：
+1. 在 `extract_vehicle_data.js` 的 `DISPLAY_TYPE_CATEGORY` 中添加映射
+2. 在 `CATEGORY_DISPLAY` 和 `CATEGORY_DESC` 中添加显示名
+3. 重新运行脚本
 
 ---
 
-## 指令使用
+## 部署台方块
 
-| 指令 | 说明 | 权限 |
-|------|------|------|
-| `/sbw_vehicle start` | **激活系统** + 初始化状态 + **启动补员循环** | OP 2 |
-| `/sbw_vehicle stop` | **停用系统** + 停止补员循环 + 清除所有载具 | OP 2 |
-| `/sbw_vehicle deploy [<队伍>]` | 部署指定/所有队伍的载具（使用状态机） | OP 2 |
-| `/sbw_vehicle redeploy` | 强制重新部署（清旧+重部署） | OP 2 |
-| `/sbw_vehicle reset` | 重置所有载具状态 | OP 2 |
-| `/sbw_vehicle clear [<队伍>]` | 清除载具实体+重置状态 | OP 2 |
-| `/sbw_vehicle status` | 查看各载具状态（适配全部8个状态） | OP 2 |
-| `/sbw_vehicle timelist` | 查看所有补员倒计时列表 | OP 2 |
+方块 ID: `kubejs:vehicle_deployer`
 
-### 状态指示说明（ActionBar / Status）
+### 方块注册
 
-| 图标 | 状态 | 颜色 |
-|------|------|------|
-| `✓` | DEPLOYED（存活） | 绿色/黄色/红色（按血量） |
-| `⟳` | TIMING（补员倒计时） | 黄色 |
-| `◐` | WAITING_CHUNK（等待区块） | 灰色 |
-| `◑` | CHUNK_LOADED（区块就绪） | 淡蓝 |
-| `⚠` | OVER_CAPACITY（载具超量） | 红色 |
-| `⬇` | UNDER_CAPACITY（载具不足） | 黄色 |
-| `?` | UNINITIALIZED（未初始化） | 灰色 |
-| `○` | IDLE（空闲） | 灰色 |
+```javascript
+// startup_scripts/src/item/vehicle_deployer_block.js
+StartupEvents.registry('block', event => {
+  event.create('vehicle_deployer')
+    .noDrops()
+    .hardness(3.0)
+    .blockEntity(info => {
+      info.serverTicking()
+      info.tickFrequency(20)     // 每 20 tick（1秒）执行一次
+    })
+})
+```
+
+### GUI 配置界面
+
+通过 LDLib2 实现，共有 5 个标签页：
+
+| 页签 | 功能 |
+|------|------|
+| `载具` | 分类下拉 + 载具下拉联动 + ID 直接输入 |
+| `基础` | 重生延迟（tick）、自动重生（0/1） |
+| `坐标` | 部署偏移（X/Y/Z）、朝向/俯仰 |
+| `⚙NBT简单` | 参数化编辑 Energy、Health、无敌、诱饵弹 |
+| `⚡NBT高级` | 原始 JSON 自定义 deployNBT |
+
+**载具选择**：
+
+两级联动下拉框：
+- 类别下拉（主战坦克/步兵战车/...）→ 切换时自动更新载具列表
+- 载具下拉（t_90a/bmp_2/...）→ 选中时自动填入 ID 输入框
+- 也支持直接在 ID 输入框手动输入完整 ID
+
+### 持久化存储
+
+所有配置存储在方块的 `block.entity.persistentData` 中：
+
+| 字段 | 类型 | 默认 | 说明 |
+|------|------|------|------|
+| `inited` | byte | 1 | 初始化标记（独立于配置数据） |
+| `vehicleType` | string | '' | 载具实体 ID，如 `superbwarfare:t_90a` |
+| `respawnDelay` | int | 600 | 重生延迟（tick，30秒） |
+| `autoRespawn` | byte | 1 | 自动重生（1=开，0=关） |
+| `offsetX/Y/Z` | double | 0/1/0 | 部署位置偏移 |
+| `yaw/pitch` | float | 0 | 部署朝向 |
+| `deployNBT` | string(JSON) | '{}' | 自定义部署 NBT |
+| `deployedUUID` | string | '' | 已部署载具的 UUID |
+| `cooldownEnd` | long | 0 | 冷却结束 gameTime |
+
+**持久化原则**：
+- 使用独立 `inited` 标记判断是否初始化（而非 `vehicleType`）
+- Tick 内自行调用初始化函数，不依赖玩家右键
+- 每次写入 NBT 后立即 `block.entity.setChanged()`
+- `cooldownEnd` 重启后做范围校验（超过 1 小时视为异常，自动重置）
+
+---
+
+## 部署逻辑
+
+部署代码位于 `server_scripts/sbw_vehicle/deploy.js`。
+
+### NBT 构建顺序
+
+部署时按以下顺序构建召唤 NBT，**后面的覆盖前面的**：
+
+```
+1. 数据库 vehicleData.nbtTemplate
+   → Energy, Health, Inventory, WeaponState, 部件健康度...
+2. 叠加 Rotation / Tags（位置相关，始终覆盖）
+3. 叠加用户 deployNBT（手动输入的 JSON，覆盖前面）
+```
+
+流程：
+```javascript
+function spawnVehicleForBlock(block, server, pd) {
+  // 1. 从数据库取 nbtTemplate 作为基础
+  var vehicleInfo = getVehicleById(vehicleType)
+  var nbt = toNBT(vehicleInfo.nbtTemplate)  // 满血、满能量、有弹药
+
+  // 2. 加位置标签
+  nbt.put('Rotation', ...)
+  nbt.put('Tags', ...)
+
+  // 3. 叠加用户自定义 deployNBT
+  mergeDeployNBT(nbt, JSON.parse(deployNBTStr))
+
+  // 4. summon
+  server.runCommandSilent('summon ' + vehicleType + ' ... ' + nbt.toString())
+}
+```
+
+**重要：** 如果 `deployNBT` 为 `{}`（默认），则完全使用数据库模板，车辆生成即为满状态。
+
+### 双模式 NBT 配置
+
+**简单模式（⚙NBT简单页签）**：
+- 预填 Energy、Health、无敌、诱饵弹等核心属性
+- 点击「应用数据库默认值」按钮直接写入完整模板
+- 适合快速调整几个关键数值
+
+**高级模式（⚡NBT高级页签）**：
+- 自由编辑完整 JSON
+- 留空 `{}` 则使用数据库完整默认值
+- 填写部分字段（如 `{"Health": 9999}`）则与数据库模板合并
+- 适合完全自定义
+
+### UUID 捕获机制
+
+部署后 1 tick 通过 `server.scheduleInTicks(1, callback)` 异步捕获：
+
+1. `summon` 命令执行
+2. 1 tick 后遍历世界实体，按部署标签匹配
+3. 匹配到实体 → 获取 UUID → 写入 `persistentData.deployedUUID`
+4. 后续 Tick 通过 UUID 检查实体存活状态
+
+---
+
+## 提取脚本
+
+脚本位置：`.agents/scripts/extract_vehicle_data.js`
+
+### 使用方法
+
+```bash
+cd kubejs/.agents/scripts/
+node extract_vehicle_data.js
+```
+
+### 功能
+
+- 从 SBW 和 MCSP 模组的 JAR 中自动提取所有载具配置
+- 根据 `displayType` 自动分类
+- 生成完整的 `nbtTemplate`（含 Energy、Health、武器状态、弹药库存、部件健康度）
+- 从武器配置自动推导 `ammoSlots` 弹药补给映射
+- 输出为分类目录结构 + `_registry.json`
+
+### 部件 NBT 字段名映射
+
+提取脚本处理了 OBB 部件名到 NBT 字段名的映射：
+
+| OBB 部件名 | NBT 字段前缀 | 生成字段 |
+|-----------|-------------|---------|
+| `WheelLeft` | `LeftWheel` | `LeftWheelHealth`, `LeftWheelDamaged` |
+| `WheelRight` | `RightWheel` | `RightWheelHealth`, `RightWheelDamaged` |
+| `MainEngine` | `MainEngine` | `MainEngineHealth`, `MainEngineDamaged` |
+| `Turret` | `Turret` | `TurretHealth`, `TurretDamaged` |
 
 ---
 
@@ -299,60 +314,56 @@ teams: {
 
 | 文件 | 说明 |
 |------|------|
-| `server_scripts/sbw_vehicle/config.js` | 载具配置（队伍、坐标、deployNBT 模板） |
-| `server_scripts/sbw_vehicle/main.js` | 模块入口（全局常量 + 死亡事件监听） |
-| `server_scripts/sbw_vehicle/replenish.js` | **自动补员系统（状态机驱动）** |
-| `server_scripts/sbw_vehicle/command.js` | 指令注册（7 个命令） |
+| `.agents/scripts/extract_vehicle_data.js` | **数据提取脚本**（Node.js，从 JAR 生成数据包） |
+| `data/sbw_vehicle_db/_registry.json` | **注册声明文件**（声明允许的分类和文件列表） |
+| `data/sbw_vehicle_db/各分类目录/*.json` | **单个载具数据**（自包含，含 nbtTemplate） |
+| `server_scripts/sbw_vehicle/main.js` | 模块入口 + 死亡事件监听 |
+| `server_scripts/sbw_vehicle/block_main.js` | **方块行为逻辑**（放置、右键、Tick） |
+| `server_scripts/sbw_vehicle/deploy.js` | **部署工具**（查数据库 → 构建 NBT → summon） |
+| `server_scripts/sbw_vehicle/command.js` | 指令注册（start/stop/status/clear） |
+| `server_scripts/sbw_vehicle/tools/database.js` | **数据库加载器**（自动发现数据包） |
 | `server_scripts/sbw_vehicle/tools/a_java_refs.js` | Java 类引用 |
+| `server_scripts/sbw_vehicle/tools/nbt.js` | JSON → NBT 转换工具 |
 | `server_scripts/sbw_vehicle/tools/log.js` | 日志工具 |
-| `server_scripts/sbw_vehicle/tools/nbt.js` | JSON → NBT 转换 |
-| `server_scripts/sbw_vehicle/tools/persist.js` | 持久化数据 + 系统开关 |
-| `server_scripts/sbw_vehicle/tools/entity.js` | 实体查找 / 区块检测 / 清理 |
-| `server_scripts/sbw_vehicle/tools/deploy.js` | 载具部署（使用状态机） |
-| `server_scripts/sbw_vehicle/tools/misc.js` | 杂项（ID提取 / 配置查找 / 清除） |
-| `server_scripts/sbw_vehicle/tools/status.js` | 状态查询 & ActionBar（适配8状态） |
-| `server_scripts/sbw_vehicle/tools/state_machine.js` | **状态机核心（8状态枚举 + 转移规则）** |
-| `assets/kubejs/lang/zh_cn.json` | 中文语言文件 |
-| `assets/kubejs/lang/en_us.json` | 英文语言文件 |
+| `server_scripts/sbw_vehicle/ammo_replenish/` | **弹药补给站**子系统 |
+| `startup_scripts/src/blocks/vehicle_deployer/gui.js` | **LDLib2 GUI**（5个页签） |
+| `startup_scripts/src/item/vehicle_deployer_block.js` | 方块注册 |
 
 ---
 
 ## 常见问题
 
-### Q: 载具生成后没有能量/弹药
+### Q: 部署后载具是损坏的
 
-A: 检查该载具配置中是否写了 `deployNBT`。不写 = 白板生成。参考上方 `attack_tank_1` 的模板。
+A: 检查 `nbtTemplate` 中的部件字段名是否正确。轮子字段应为 `LeftWheelHealth`/`RightWheelHealth`（而非 `WheelLeftHealth`）。重新运行提取脚本可修复。
 
-### Q: 载具被摧毁后没有重生
+### Q: 部署后载具没有能量/弹药
 
-A: 检查：1) `respawnDelay` 是否大于 0；2) 系统是否已激活（`/sbw_vehicle start`）；3) 补员循环是否运行中；4) 控制台是否有报错。
+A: 检查部署台的 deployNBT 是否为 `{}`。如果是，则部署时会从数据库读取完整模板（含能量和弹药）。如果 deployNBT 有自定义内容，请确认包含 `Energy` 和 `Inventory.Items` 字段。
 
-### Q: 如何调整重生速度？
+### Q: GUI 下拉框没有载具列表
 
-A: 修改该载具的 `respawnDelay` 值（单位：tick，20tick=1秒）。例如 `respawnDelay: 600` = 30 秒重生。
+A: 数据库未加载或缓存失效。检查日志是否有 `[数据库] 加载完成` 字样。若无，确认 `data/sbw_vehicle_db/_registry.json` 存在且格式正确。
 
-### Q: 如何让不同载具有不同的弹药配置？
+### Q: 保存后重新打开 GUI，配置不见了
 
-A: 每辆载具的 `deployNBT.Inventory.Items` 独立配置，互不影响。
+A: 检查日志是否有 `'global' cannot be assigned` 错误。KubeJS 7 中 server_scripts 不能赋值 `global`，数据库使用内部 `$vehicleDB` 变量存储。
 
-### Q: clear/reset 后地上有掉落物
+### Q: 如何添加新载具？
 
-A: 已修复。现在 clear/reset 使用 `discard()` 替代 `kill()`，载具直接消失不留掉落物。
+A: 重新运行提取脚本：`cd kubejs/.agents/scripts/ && node extract_vehicle_data.js`，然后 `/kubejs reload`。
 
-### Q: 状态显示为 `⚠`（警告）是什么意思？
+### Q: 如何手动编辑载具数据？
 
-A: 表示该载具处于 `OVER_CAPACITY` 状态，当前存活数超过了 `maxCount` 限制。系统会自动检测超量清除后恢复。
+A: 直接编辑 `data/sbw_vehicle_db/` 下对应分类目录中的 JSON 文件，修改后 `/kubejs reload` 即可。修改 `nbtTemplate` 会影响部署时的默认值。
 
-### Q: 怎样重新加载配置？
+### Q: 载具部署后没有自动重生
 
-A: 执行 `/kubejs reload` 重新加载脚本。如果是新加的载具，还需重新部署：`/sbw_vehicle redeploy`。
+A: 检查：
+1. 部署台的「自动重生」是否设为 1
+2. 载具被摧毁后是否触发了"载具已消失"日志
+3. `respawnDelay` 是否合理（默认 600 tick = 30 秒）
 
-### Q: 状态机报 "非法转移" 警告怎么办？
+### Q: 系统提示 `redeclaration of const`
 
-A: 这是正常的安全防护。非法转移会被记录在日志中（`logs/kubejs/`），帮助你调试不正确的状态流转。如果确实需要强制设状态，可使用 `forceSetState()`（仅限系统级重置）。
-
----
-
-> 详细 NBT 字段参考请直接查看 `server_scripts/sbw_vehicle/config.js` 中的注释手册。
-> 状态机 API 参考请查看 `server_scripts/sbw_vehicle/tools/state_machine.js`。
-> 补员循环逻辑请查看 `server_scripts/sbw_vehicle/replenish.js`。
+A: 某些 Java 类引用（`$CompoundTag`、`$ByteTag`、`$IntTag`）已在其他脚本（如 `a_tacz_config.js`）用 `const` 声明。`a_java_refs.js` 中不应重复声明它们。
