@@ -134,9 +134,10 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
   // OP → 打开 GUI
   if (player.hasPermissions(2)) {
     try {
-      // ★ 修复：将数据库分类信息传入缓存，GUI 读取后动态生成下拉列表
+      // ★ 修复：将数据库分类信息 + nbt模板传入缓存
       var vehicleDB = getVehicleDB()
       var catData = {}
+      var nbtTemplate = {}  // 当前载具的 nbt 模板（供 GUI 双模式配置使用）
       if (vehicleDB && vehicleDB.loaded) {
         var catKeys = Object.keys(vehicleDB.categories)
         for (var cdi = 0; cdi < catKeys.length; cdi++) {
@@ -144,12 +145,21 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
           var catInfo = vehicleDB.categories[ck]
           catData[catInfo.displayName] = vehicleDB.byCategory[ck] || []
         }
+        // 读取当前已保存 vehicleType 的 nbtTemplate
+        var savedVT = pd.getString('vehicleType')
+        if (savedVT && savedVT !== '') {
+          var vtInfo = vehicleDB.byId[savedVT]
+          if (vtInfo && vtInfo.nbtTemplate) {
+            nbtTemplate = vtInfo.nbtTemplate
+          }
+        }
       }
       var cacheData = JSON.stringify({
         pos: { x: block.getX(), y: block.getY(), z: block.getZ() },
         dim: event.level.getDimension().toString(),
         config: readBlockConfig(block),
-        categories: catData
+        categories: catData,
+        nbtTemplate: nbtTemplate  // 用于 GUI 简单模式预填
       })
       global.vehicleDeployerCache.put(player.uuid, cacheData)
 

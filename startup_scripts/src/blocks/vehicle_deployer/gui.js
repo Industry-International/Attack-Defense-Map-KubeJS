@@ -326,23 +326,123 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   tab3.setText('坐标')
   tabView.addTab(tab3, page3)
 
+  // ── 缓存中的 nbtTemplate（来自数据库，用于简单模式预填） ──
+  var nbtTemplate = cacheData.nbtTemplate || {}
+
   // ════════════════════════════════════════════════════════════
-  //  第4页：NBT 配置
+  //  第4页：NBT 简单模式 — 参数化配置（独立页签）
   // ════════════════════════════════════════════════════════════
+
   var page4 = new UIElement()
   page4.lss('padding', 4)
 
-  page4.addChild(new Label().setText(Component.literal('§e── deployNBT 配置 ──')))
-  page4.addChild(new Label().setText(Component.literal('§7JSON 格式的部署 NBT 模板')))
+  page4.addChild(new Label().setText(Component.literal('§e── NBT 参数配置 ──')))
+  page4.addChild(new Label().setText(Component.literal('§8编辑部署 NBT 核心属性')))
+
   page4.addChild(new Label().setText(Component.literal(' ')))
-  page4.addChild(new Label().setText(Component.literal('§8例如：')))
-  page4.addChild(new Label().setText(Component.literal('§7{\"Energy\":10000000,\"Health\":500.0}')))
+
+  var fieldNbtEnergy = new TextField()
+  fieldNbtEnergy.setNumbersOnlyInt(0, 999999999)
+  fieldNbtEnergy.setText(String(nbtTemplate.Energy !== undefined ? nbtTemplate.Energy : ''))
+  fieldNbtEnergy.lss('width', 80)
+  bindField(fieldNbtEnergy, 'nbt_en')
+
+  var fieldNbtHealth = new TextField()
+  fieldNbtHealth.setNumbersOnlyInt(0, 999999)
+  fieldNbtHealth.setText(String(nbtTemplate.Health !== undefined ? nbtTemplate.Health : ''))
+  fieldNbtHealth.lss('width', 80)
+  bindField(fieldNbtHealth, 'nbt_hp')
+
+  var fieldNbtInvul = new TextField()
+  fieldNbtInvul.setNumbersOnlyInt(0, 1)
+  fieldNbtInvul.setText(String(nbtTemplate.Invulnerable !== undefined ? nbtTemplate.Invulnerable : '0'))
+  fieldNbtInvul.lss('width', 40)
+  bindField(fieldNbtInvul, 'nbt_inv')
+
+  var fieldNbtDecoy = new TextField()
+  fieldNbtDecoy.setNumbersOnlyInt(0, 1)
+  fieldNbtDecoy.setText(String(nbtTemplate.DecoyReady !== undefined ? nbtTemplate.DecoyReady : '0'))
+  fieldNbtDecoy.lss('width', 40)
+  bindField(fieldNbtDecoy, 'nbt_dc')
+
+  var enRow = new UIElement()
+  enRow.addChild(new Label().setText(Component.literal('§7Energy:')))
+  enRow.addChild(fieldNbtEnergy)
+  page4.addChild(enRow)
+
+  var hpRow = new UIElement()
+  hpRow.addChild(new Label().setText(Component.literal('§7Health:')))
+  hpRow.addChild(fieldNbtHealth)
+  page4.addChild(hpRow)
+
+  var invRow = new UIElement()
+  invRow.addChild(new Label().setText(Component.literal('§7无敌:')))
+  invRow.addChild(fieldNbtInvul)
+  invRow.addChild(new Label().setText(Component.literal(' §8(1=是,0=否)')))
+  page4.addChild(invRow)
+
+  var dcRow = new UIElement()
+  dcRow.addChild(new Label().setText(Component.literal('§7诱饵弹:')))
+  dcRow.addChild(fieldNbtDecoy)
+  dcRow.addChild(new Label().setText(Component.literal(' §8(1=就绪)')))
+  page4.addChild(dcRow)
+
   page4.addChild(new Label().setText(Component.literal(' ')))
-  page4.addChild(fieldDeployNBT)
+
+  // ── 应用默认值按钮 ──
+  var btnApplyDefaults = new Button()
+  btnApplyDefaults.setText(Component.literal('§b⟳ 应用数据库默认值'))
+  btnApplyDefaults.lss('padding', '3 8')
+  btnApplyDefaults.setOnServerClick(function(clickEvent) {
+    var server = player.getServer()
+    if (!server) return
+    var puuid = player.uuid
+    var raw = global.vehicleDeployerCache.get(puuid)
+    if (!raw) { player.displayClientMessage(Component.literal('§c[部署台] 缓存失效'), false); return }
+    try {
+      var data = JSON.parse(raw)
+      if (data.nbtTemplate && Object.keys(data.nbtTemplate).length > 0) {
+        var defJSON = JSON.stringify(data.nbtTemplate, null, 2)
+        var level = server.getLevel(data.dim || 'minecraft:overworld')
+        if (level) {
+          var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
+          if (block && block.entity) {
+            block.entity.persistentData.putString('deployNBT', defJSON)
+            block.entity.setChanged()
+            player.displayClientMessage(Component.literal('§a✔ 已应用数据库默认 NBT！请切换至⚡NBT高级查看'), false)
+          }
+        }
+      } else {
+        player.displayClientMessage(Component.literal('§e提示: 未找到该载具的数据库模板'), false)
+      }
+    } catch (e) {
+      player.displayClientMessage(Component.literal('§c[部署台] 应用默认值失败: ' + e), false)
+    }
+  })
+  page4.addChild(btnApplyDefaults)
 
   var tab4 = new Tab()
-  tab4.setText('NBT')
+  tab4.setText('⚙NBT简单')
   tabView.addTab(tab4, page4)
+
+  // ════════════════════════════════════════════════════════════
+  //  第5页：NBT 高级模式 — 原始 JSON（独立页签）
+  // ════════════════════════════════════════════════════════════
+
+  var page5 = new UIElement()
+  page5.lss('padding', 4)
+
+  page5.addChild(new Label().setText(Component.literal('§e── deployNBT 原始 JSON ──')))
+  page5.addChild(new Label().setText(Component.literal('§7完全自定义的部署 NBT 模板')))
+  page5.addChild(new Label().setText(Component.literal(' ')))
+  page5.addChild(new Label().setText(Component.literal('§8留空 {} 则使用数据库完整默认值。')))
+  page5.addChild(new Label().setText(Component.literal('§8填写部分字段则会与数据库模板合并。')))
+  page5.addChild(new Label().setText(Component.literal(' ')))
+  page5.addChild(fieldDeployNBT)
+
+  var tab5 = new Tab()
+  tab5.setText('⚡NBT高级')
+  tabView.addTab(tab5, page5)
 
   root.addChild(tabView)
 
