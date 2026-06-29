@@ -34,7 +34,7 @@ ServerEvents.commandRegistry(event => {
                 while (iterator.hasNext()) {
                   var p = iterator.next()
                   // 移除职业标签（通过原版指令确保 /tag 可见）
-                  PROF_TAG_LIST.forEach(function(tag) { server.runCommandSilent('tag ' + p.username + ' remove ' + tag) })
+                  getProfTagList().forEach(function(tag) { server.runCommandSilent('tag ' + p.username + ' remove ' + tag) })
                   // 清除选中状态
                   delete p.persistentData.profession
                   delete p.persistentData.mainWeapon

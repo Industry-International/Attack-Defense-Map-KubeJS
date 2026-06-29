@@ -11,10 +11,12 @@
 
 // ========== 数据定义 ==========
 
-const PROFESSIONS = [
-  { id: 'assault' }, { id: 'scout' }, { id: 'medic' }, { id: 'support' },
-  { id: 'sailor' }, { id: 'pilot' },
-]
+/** 从数据库获取职业列表（每个职业的 id 即 directory 名） */
+function getProfessionList() {
+  var db = getProfessionDB()
+  if (!db.loaded) return []
+  return Object.keys(db.professions).map(function(k) { return { id: k } })
+}
 
 // ========== TACZ 枪械配置与配件改装 ==========
 // 已提取到独立文件 a_tacz_config.js（需最先加载）
@@ -97,8 +99,9 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
       var server = player.server
       var name = player.username
       // 移除所有职业标签
-      for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
-        server.runCommandSilent('tag ' + name + ' remove ' + PROF_TAG_LIST[pi])
+      var tagList = getProfTagList()
+      for (var pi = 0; pi < tagList.length; pi++) {
+        server.runCommandSilent('tag ' + name + ' remove ' + tagList[pi])
       }
       // 取消职业后标记为无职业状态
       server.runCommandSilent('tag ' + name + ' add no_job')
@@ -239,8 +242,9 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
  */
 function renderProf(gui, player, openPage, pageNum) {
   pageNum = pageNum || 0
+  var PROF_LIST = getProfessionList()
   var pageSize = 21 // 7列 × 3行
-  var totalPages = Math.ceil(PROFESSIONS.length / pageSize)
+  var totalPages = Math.ceil(PROF_LIST.length / pageSize)
   if (pageNum >= totalPages) pageNum = 0
 
   // Row 0: 页码 + 翻页
@@ -268,9 +272,9 @@ function renderProf(gui, player, openPage, pageNum) {
 
   // Row 2-4: 职业网格（7列×3行）
   var start = pageNum * pageSize
-  var end = Math.min(start + pageSize, PROFESSIONS.length)
+  var end = Math.min(start + pageSize, PROF_LIST.length)
   for (var i = start; i < end; i++) {
-    var prof = PROFESSIONS[i]
+    var prof = PROF_LIST[i]
     var localIdx = i - start
     var col = 1 + (localIdx % 7)
     var row = 2 + Math.floor(localIdx / 7)
@@ -284,8 +288,9 @@ function renderProf(gui, player, openPage, pageNum) {
           var server = player.server
           var name = player.username
           // 先移除所有职业标签，再添加本职业（防止累加）
-          for (var pi = 0; pi < PROF_TAG_LIST.length; pi++) {
-            server.runCommandSilent('tag ' + name + ' remove ' + PROF_TAG_LIST[pi])
+          var tagList = getProfTagList()
+          for (var pi = 0; pi < tagList.length; pi++) {
+            server.runCommandSilent('tag ' + name + ' remove ' + tagList[pi])
           }
           // 设置新职业 + 添加本职业标签
           player.persistentData.profession = prof.id
