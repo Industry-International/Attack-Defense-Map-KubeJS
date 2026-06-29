@@ -12,7 +12,7 @@ var $vehicleDB = null
 function getVehicleDB() {
   if ($vehicleDB !== null) return $vehicleDB
   try {
-    var raw = JsonIO.read('kubejs:data/sbw_vehicle_db.json')
+    var raw = JsonIO.read('kubejs/data/sbw_vehicle_db.json')
     if (raw) {
       $vehicleDB = raw
       sbwLog('[部署] 载具数据库已加载: ' + (raw._meta ? raw._meta.vehicleCount + ' 种' : '?'))

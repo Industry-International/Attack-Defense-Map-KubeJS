@@ -32,9 +32,17 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     if (raw) cacheData = JSON.parse(raw)
   } catch (e) {}
 
+  // ── 缓存失效 → 用默认值（弹药补给站模式） ──
   if (!cacheData) {
-    player.tell(Component.literal('§c[部署台] 缓存失效，请重新打开'))
-    return
+    cacheData = {
+      pos: { x: 0, y: 0, z: 0 },
+      dim: 'minecraft:overworld',
+      config: {
+        vehicleType: '', team: '', respawnDelay: 600, autoRespawn: 1,
+        offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
+        deployNBT: '{}', displayName: '', deployedUUID: '', cooldownEnd: 0
+      }
+    }
   }
 
   var cfg = cacheData.config || {}
@@ -149,72 +157,89 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var tabView = new TabView()
 
   // ════════════════════════════════════════════════════════════
-  //  第1页：车辆选择
+  //  第1页：车辆选择（紧凑下拉式）
   // ════════════════════════════════════════════════════════════
   var page1 = new UIElement()
   page1.lss('padding', 4)
 
   page1.addChild(new Label().setText(Component.literal('§e── 载具类型 ──')))
 
-  var vtRow = new UIElement()
-  vtRow.addChild(new Label().setText(Component.literal('§7类型ID:')))
-  vtRow.addChild(fieldVehicleType)
-  page1.addChild(vtRow)
-
-  page1.addChild(new Label().setText(Component.literal(' ')))
-  page1.addChild(new Label().setText(Component.literal('§7可用的载具（点击填入）:')))
-
-  // 常见载具快速选择按钮（按类别分组）
-  var vehicleGroups = [
-    { label: '§6坦克', vehicles: [
-      'superbwarfare:t_90a', 'superbwarfare:ztz_99a', 'superbwarfare:m_1a_2',
-      'superbwarfare:annihilator', 'mcsp:m1a2', 'mcsp:t80bv_camo'
-    ]},
-    { label: '§bAPC/步战', vehicles: [
-      'superbwarfare:bmp_2', 'superbwarfare:bradley', 'superbwarfare:lav_25',
-      'superbwarfare:type_63', 'mcsp:bmd_4', 'mcsp:zbd04a_green'
-    ]},
-    { label: '§a直升机', vehicles: [
-      'superbwarfare:mi_28', 'superbwarfare:ah_6'
-    ]},
-    { label: '§c飞机', vehicles: [
-      'superbwarfare:a_10a', 'superbwarfare:ju_87', 'superbwarfare:kv_16'
-    ]},
-    { label: '§e火炮/AA', vehicles: [
-      'superbwarfare:plz_05', 'superbwarfare:bl_132', 'superbwarfare:mk_42',
-      'superbwarfare:lav_ad', 'mcsp:tos_1a_green'
-    ]},
-    { label: '§7其他', vehicles: [
-      'superbwarfare:truck', 'superbwarfare:tow', 'superbwarfare:mortar',
-      'superbwarfare:laser_tower', 'superbwarfare:waveforce_tower',
-      'superbwarfare:speedboat', 'superbwarfare:drone', 'superbwarfare:wheel_chair'
-    ]}
+  // 所有可用载具列表（从 vehicle_db 按类型组织）
+  var vehicleList = [
+    { type: '坦克', ids: ['superbwarfare:t_90a','superbwarfare:ztz_99a','superbwarfare:m_1a_2','superbwarfare:annihilator','mcsp:m1a2','mcsp:t80bv_camo','mcsp:t80u_camo','mcsp:t90a_green'] },
+    { type: 'APC/步战', ids: ['superbwarfare:bmp_2','superbwarfare:bradley','superbwarfare:lav_25','superbwarfare:type_63','mcsp:bmd_4','mcsp:m3a3_bradley','mcsp:zbd04a_green','mcsp:sprut'] },
+    { type: '直升机/机', ids: ['superbwarfare:mi_28','superbwarfare:ah_6','superbwarfare:a_10a','superbwarfare:ju_87','superbwarfare:kv_16'] },
+    { type: '火炮/AA', ids: ['superbwarfare:plz_05','superbwarfare:bl_132','superbwarfare:mk_42','superbwarfare:lav_ad','superbwarfare:mle_1934','mcsp:tos_1a_green','mcsp:typhoon_30'] },
+    { type: '其他', ids: ['superbwarfare:truck','superbwarfare:tow','superbwarfare:mortar','superbwarfare:speedboat','superbwarfare:drone','superbwarfare:wheel_chair','superbwarfare:laser_tower','superbwarfare:hpj_11'] },
   ]
 
-  for (var gi = 0; gi < vehicleGroups.length; gi++) {
-    var group = vehicleGroups[gi]
-    page1.addChild(new Label().setText(Component.literal(group.label)))
-
-    var btnRow = new UIElement()
-    for (var vi = 0; vi < group.vehicles.length; vi++) {
-      var vid = group.vehicles[vi]
-      var shortName = vid.split(':').pop()
-      var btn = new Button()
-      btn.setText(Component.literal('§7' + shortName))
-      btn.lss('padding', '1 3')
-      // 直接把 vid 捕获到闭包
-      btn.setOnServerClick((function(id) {
-        return function(ce) {
-          fieldVals['vt'] = id
-          // 通知用户
-          var p = ce.player
-          p.displayClientMessage(Component.literal('§a已选择: ' + id), false)
-        }
-      })(vid))
-      btnRow.addChild(btn)
+  // 扁平化索引（用于上下翻页）
+  var allVehiclesFlat = []
+  for (var gi = 0; gi < vehicleList.length; gi++) {
+    for (var vi = 0; vi < vehicleList[gi].ids.length; vi++) {
+      allVehiclesFlat.push(vehicleList[gi].ids[vi])
     }
-    page1.addChild(btnRow)
   }
+
+  // 当前选中的索引
+  var currentIdx = 0
+  var currentVT = fieldVehicleType.getText()
+  if (currentVT && currentVT !== '') {
+    var found = -1
+    for (var i = 0; i < allVehiclesFlat.length; i++) {
+      if (allVehiclesFlat[i] === currentVT) { found = i; break }
+    }
+    if (found >= 0) currentIdx = found
+  }
+
+  // 上一辆按钮
+  var btnPrev = new Button()
+  btnPrev.setText(Component.literal('§7◀'))
+  btnPrev.lss('padding', '2 6')
+  btnPrev.setOnServerClick((function(idx) {
+    return function(ce) {
+      var newIdx = (idx - 1 + allVehiclesFlat.length) % allVehiclesFlat.length
+      var newVid = allVehiclesFlat[newIdx]
+      fieldVals['vt'] = newVid
+      ce.player.displayClientMessage(Component.literal('§a已选择: ' + newVid), false)
+    }
+  })(currentIdx))
+
+  // 当前车辆名标签（不可交互，只是展示）
+  var currentLabel = new Label()
+  var currName = allVehiclesFlat[currentIdx] ? allVehiclesFlat[currentIdx].split(':').pop() : '未选择'
+  currentLabel.setText(Component.literal('§f' + currName))
+  currentLabel.lss('width', 80)
+  currentLabel.textStyle(function(style) { style.textAlignHorizontal('center') })
+
+  // 下一辆按钮
+  var btnNext = new Button()
+  btnNext.setText(Component.literal('§7▶'))
+  btnNext.lss('padding', '2 6')
+  btnNext.setOnServerClick((function(idx) {
+    return function(ce) {
+      var newIdx = (idx + 1) % allVehiclesFlat.length
+      var newVid = allVehiclesFlat[newIdx]
+      fieldVals['vt'] = newVid
+      ce.player.displayClientMessage(Component.literal('§a已选择: ' + newVid), false)
+    }
+  })(currentIdx))
+
+  // 选择器行：◀ 名称 ▶
+  var selectorRow = new UIElement()
+  selectorRow.addChild(btnPrev)
+  selectorRow.addChild(currentLabel)
+  selectorRow.addChild(btnNext)
+  page1.addChild(selectorRow)
+
+  page1.addChild(new Label().setText(Component.literal(' ')))
+
+  // 底部 ID 输入框
+  var vtRow = new UIElement()
+  vtRow.addChild(new Label().setText(Component.literal('§7ID:')))
+  vtRow.addChild(fieldVehicleType)
+  page1.addChild(vtRow)
+  page1.addChild(new Label().setText(Component.literal('§8可直接输入完整ID，如 superbwarfare:t_90a')))
 
   var tab1 = new Tab()
   tab1.setText('载具')
@@ -361,7 +386,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       var pd = block.entity.persistentData
 
       // 从 fieldVals 读取值，fallback 到 field.getText()
-      var vt = safeParseField(fieldVals['vt'], fieldVehicleType)
+      var vt = fieldVals['vt'] !== undefined ? String(fieldVals['vt']) : fieldVehicleType.getText()
       var team = fieldVals['team'] !== undefined ? String(fieldVals['team']) : fieldTeam.getText()
       var rd = safeParseField(fieldVals['rd'], fieldRespawnDelay)
       var ar = safeParseField(fieldVals['ar'], fieldAutoRespawn)
@@ -470,14 +495,10 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
         return
       }
 
-      // 强制清除冷却
-      pd.putLong('cooldownEnd', 0)
-      pd.putString('deployedUUID', '')
+      // 写入 PendingDeploy 标记，由 server 侧的 blockEntityTick 检测执行
+      block.entity.persistentData.putBoolean('PendingDeploy', true)
       block.entity.setChanged()
-
-      // 执行部署
-      spawnVehicleForBlock(block, server, pd)
-      player.displayClientMessage(Component.literal('§a⏳ 部署命令已发送，请稍候...'), false)
+      player.displayClientMessage(Component.literal('§e⏳ 部署命令已提交，将在下次 Tick 执行'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 部署失败: ' + e), false)
     }

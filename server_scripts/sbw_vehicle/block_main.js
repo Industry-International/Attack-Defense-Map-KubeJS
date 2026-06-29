@@ -104,7 +104,6 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
 
   var player = event.player
   var block = event.block
-  event.cancel()  // 阻止默认交互（放置等）
 
   // 没有 BlockEntity → 尝试迁移
   if (!block.entity) {
@@ -117,16 +116,16 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
     } catch (e) {
       player.tell(Component.literal('§c[部署台] 方块升级失败，请破坏后重新放置'))
     }
+    event.cancel()
     return
   }
 
   var pd = ensurePD(block)
-  if (!pd) return
+  if (!pd) { event.cancel(); return }
 
   // OP → 打开 GUI
   if (player.hasPermissions(2)) {
     try {
-      // 缓存方块数据到全局 HashMap（供 GUI 读取，HashMap 已在 startup 中创建）
       var cacheData = JSON.stringify({
         pos: { x: block.getX(), y: block.getY(), z: block.getZ() },
         dim: event.level.getDimension().toString(),
@@ -140,9 +139,9 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
       player.tell(Component.literal('§c[部署台] GUI 加载失败: ' + e))
     }
   } else {
-    // 普通玩家 → 显示状态
     tellStatus(block, player, pd)
   }
+  event.cancel()
 })
 
 /**
@@ -189,6 +188,20 @@ BlockEvents.blockEntityTick('kubejs:vehicle_deployer', event => {
   } catch (e) { /* ignore */ }
 
   var pd = block.entity.persistentData
+
+  // ── 处理 GUI 发出的「立即部署」请求（NBT 标记，跨作用域安全） ──
+  if (pd.contains('PendingDeploy') && pd.getBoolean('PendingDeploy') === true) {
+    pd.putBoolean('PendingDeploy', false)
+    block.entity.setChanged()
+    var vt = pd.getString('vehicleType')
+    if (vt && vt !== '') {
+      sbwLog('[部署台] GUI 触发立即部署 @[' + block.getX() + ',' + block.getY() + ',' + block.getZ() + ']')
+      pd.putLong('cooldownEnd', 0)
+      pd.putString('deployedUUID', '')
+      block.entity.setChanged()
+      spawnVehicleForBlock(block, server, pd)
+    }
+  }
 
   // ── 未配置车辆类型 → 跳过 ──
   if (!pd.contains('vehicleType') || pd.getString('vehicleType') === '') return
