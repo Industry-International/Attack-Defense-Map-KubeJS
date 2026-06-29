@@ -234,6 +234,17 @@ BlockEvents.blockEntityTick('kubejs:vehicle_deployer', event => {
     block.entity.setChanged()
     var vt = pd.getString('vehicleType')
     if (vt && vt !== '') {
+      // ★ 防重复部署：检查已有 UUID 对应的实体是否存活
+      var existingUUID = pd.getString('deployedUUID')
+      if (existingUUID && existingUUID !== '') {
+        try {
+          var existingEntity = server.getEntityByUUID($UUID.fromString(existingUUID))
+          if (existingEntity && !existingEntity.isRemoved()) {
+            sbwLog('[部署台] 立即部署被拒绝：已有存活载具 @[' + block.getX() + ',' + block.getY() + ',' + block.getZ() + ']')
+            return
+          }
+        } catch (e) { /* UUID 格式异常，当作不存在 */ }
+      }
       sbwLog('[部署台] GUI 触发立即部署 @[' + block.getX() + ',' + block.getY() + ',' + block.getZ() + ']')
       pd.putLong('cooldownEnd', 0)
       pd.putString('deployedUUID', '')
