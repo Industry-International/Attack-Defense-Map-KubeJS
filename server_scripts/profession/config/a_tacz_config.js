@@ -101,6 +101,8 @@ function saveGunAttachments(player, weaponId) {
 // ========== 配件改装主菜单 ==========
 
 function openAttachmentMenu(player, weaponId, gunId, returnPage) {
+  // 没传 returnPage 时默认返回武器配置页
+  if (!returnPage) returnPage = 'weapon_config'
   player.persistentData.guiOpen = true
   var cfg = getTaczConfig(weaponId)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }

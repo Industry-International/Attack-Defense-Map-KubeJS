@@ -387,7 +387,8 @@ function renderWeapon(gui, player, openPage, pageNum, weaponType) {
             openPage(player, 'weapon_config')
           })
           slot.setRightClicked(function() {
-            openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'weapon')
+            var retPage = weaponType ? ('primary:' + weaponType + ':' + pageNum) : ('primary:' + pageNum)
+            openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, retPage)
           })
         } else {
           slot.setLeftClicked(function() {
@@ -487,7 +488,8 @@ function renderOffhand(gui, player, openPage, pageNum, weaponType) {
             openPage(player, 'weapon_config')
           })
           slot.setRightClicked(function() {
-            openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'offhand')
+            var retPage = weaponType ? ('secondary:' + weaponType + ':' + pageNum) : ('secondary:' + pageNum)
+            openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, retPage)
           })
         } else {
           slot.setLeftClicked(function() {
@@ -588,7 +590,8 @@ function renderTertiary(gui, player, openPage, pageNum, weaponType) {
             openPage(player, 'weapon_config')
           })
           slot.setRightClicked(function() {
-            openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, 'tertiary')
+            var retPage = weaponType ? ('tertiary:' + weaponType + ':' + pageNum) : ('tertiary:' + pageNum)
+            openAttachmentMenu(player, wp.id, wp.tag.custom_data.GunId, retPage)
           })
         } else {
           slot.setLeftClicked(function() {
