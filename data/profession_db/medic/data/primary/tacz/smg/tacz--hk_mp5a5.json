@@ -1,0 +1,33 @@
+{
+    "weaponId": "hk_mp5a5",
+    "gunId": "tacz:hk_mp5a5",
+    "mod": "tacz",
+    "displayName": "HK MP5A5",
+    "gunFireMode": "AUTO",
+    "gunCurrentAmmoCount": 30,
+    "ammo": {
+        "ammoId": "tacz:9mm",
+        "main": 210,
+        "level": 1
+    },
+    "attachments": {
+        "scope": [
+            "tacz:sight_t1",
+            "tacz:sight_t2",
+            "tacz:sight_552"
+        ],
+        "muzzle": [
+            "tacz:muzzle_silencer_knight_qd",
+            "tacz:muzzle_silencer_mirage",
+            "tacz:muzzle_brake_pioneer"
+        ],
+        "stock": [
+            "tacz:stock_hk_slim_line"
+        ],
+        "extended_mag": [
+            "tacz:extended_mag_1",
+            "tacz:extended_mag_2",
+            "tacz:extended_mag_3"
+        ]
+    }
+}
