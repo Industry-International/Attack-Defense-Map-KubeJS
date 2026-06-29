@@ -42,6 +42,7 @@ EntityEvents.death(event => {
     var elapsed = Date.now() - deathVal
     var remainingMs = cooldownMs - elapsed
     if (remainingMs <= 0) {
+      server.runCommandSilent('title ' + name + ' reset')
       delete DEATH_TIME_MAP[name]
       return // 倒计时结束
     }
