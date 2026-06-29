@@ -13,47 +13,31 @@
 //   │   └── ...
 //   └── ...
 //
-// 数据库加载后结构（global.vehicleDB）：
-//   {
-//     loaded: true,                  ← 是否已成功加载
-//     vehicleCount: 73,              ← 总载具数
-//     registry: { version, categories, ... },  ← 原始注册文件
-//     categories: {                   ← 分类信息
-//       "main_battle_tank": { displayName, description, enabled, files },
-//       ...
-//     },
-//     byId: {                         ← vehicleId → 载具完整数据
-//       "superbwarfare:t_90a": { vehicleId, category, weapons, ammoSlots, ... },
-//       ...
-//     },
-//     byCategory: {                   ← category → [vehicleId, ...]
-//       "main_battle_tank": ["superbwarfare:t_90a", ...],
-//       ...
-//     }
-//   }
+// ★ KubeJS 7 限制：server_scripts 中不能赋值 global，
+//   因此使用内部 var $vehicleDB 变量存储，不写入 global。
 // ============================================================
 
 // ══════════════════════════════════════════════════════════════
-//  数据库根路径（相对 game dir）
+//  数据库根路径 & 内部存储
 // ══════════════════════════════════════════════════════════════
 
 var $DB_ROOT = 'kubejs/data/sbw_vehicle_db'
+var $vehicleDB = null  // 内部缓存，不写入 global
 
 // ══════════════════════════════════════════════════════════════
 //  核心加载函数
 // ══════════════════════════════════════════════════════════════
 
 /**
- * 加载载具数据库，填充 global.vehicleDB
- * 在 ServerEvents.loaded 或首次需要数据库时调用
+ * 加载载具数据库，返回数据库对象
  */
 function loadVehicleDB() {
   // ── 读取注册文件 ──
   var registry = JsonIO.read($DB_ROOT + '/_registry.json')
   if (!registry || !registry.categories) {
     sbwWarn('[数据库] _registry.json 读取失败或格式错误')
-    global.vehicleDB = { loaded: false, vehicleCount: 0, registry: null, categories: {}, byId: {}, byCategory: {} }
-    return global.vehicleDB
+    $vehicleDB = { loaded: false, vehicleCount: 0, registry: null, categories: {}, byId: {}, byCategory: {} }
+    return $vehicleDB
   }
 
   var db = {
@@ -125,8 +109,8 @@ function loadVehicleDB() {
   }
   db.loaded = true
 
-  // ── 写入全局 ──
-  global.vehicleDB = db
+  // ── 写入内部缓存 ──
+  $vehicleDB = db
 
   sbwLog('[数据库] 加载完成: ' + db.vehicleCount + ' 辆载具, ' + Object.keys(db.categories).length + ' 个分类')
   return db
@@ -136,14 +120,14 @@ function loadVehicleDB() {
  * 获取已加载的数据库（若未加载则自动加载）
  */
 function getVehicleDB() {
-  if (global.vehicleDB && global.vehicleDB.loaded) {
-    return global.vehicleDB
+  if ($vehicleDB && $vehicleDB.loaded) {
+    return $vehicleDB
   }
   return loadVehicleDB()
 }
 
 // ══════════════════════════════════════════════════════════════
-//  按 vehicleId 查找载具
+//  查询函数
 // ══════════════════════════════════════════════════════════════
 
 function getVehicleById(vehicleId) {
@@ -151,25 +135,16 @@ function getVehicleById(vehicleId) {
   return db.byId[vehicleId] || null
 }
 
-/**
- * 按分类获取所有载具 ID 列表
- */
 function getVehiclesByCategory(category) {
   var db = getVehicleDB()
   return db.byCategory[category] || []
 }
 
-/**
- * 获取所有分类名列表
- */
 function getAllCategories() {
   var db = getVehicleDB()
   return Object.keys(db.categories)
 }
 
-/**
- * 获取所有载具 ID 列表
- */
 function getAllVehicleIds() {
   var db = getVehicleDB()
   return Object.keys(db.byId)

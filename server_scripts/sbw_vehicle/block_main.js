@@ -5,6 +5,12 @@
 //   BlockEvents.placed       — 初始化默认配置
 //   BlockEvents.rightClicked — 打开 GUI（OP）/ 状态查看（普通玩家）
 //   BlockEvents.blockEntityTick — 管理载具生命周期
+//
+// ★ 持久化核心原则：
+//   1. 使用独立的 inited 标记判断是否初始化（而非 vehicleType）
+//   2. Tick 内自行调用 ensurePD()，不依赖玩家右键触发
+//   3. 每次写入 NBT 后立即 setChanged()
+//   4. cooldownEnd 重启后做范围校验（防止 gameTime 不连续）
 // ============================================================
 
 // ══════════════════════════════════════════════════════════════
@@ -15,8 +21,12 @@
 function ensurePD(block) {
   if (!block.entity) return null
   var pd = block.entity.persistentData
-  // 如果 vehicleType 为空，说明未初始化
-  if (!pd.contains('vehicleType') || pd.getString('vehicleType') === '') {
+
+  // ★ 修复：使用独立标记 inited 判断是否已初始化
+  //   不再依赖 vehicleType 是否为空，因为用户可能配置后清空，
+  //   或重启后 vehicleType 为空字符串导致数据被重置。
+  if (!pd.contains('inited') || pd.getByte('inited') !== 1) {
+    pd.putByte('inited', 1)
     pd.putString('vehicleType', '')
     pd.putString('team', '')
     pd.putInt('respawnDelay', 600)   // 30 秒
@@ -124,10 +134,22 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
   // OP → 打开 GUI
   if (player.hasPermissions(2)) {
     try {
+      // ★ 修复：将数据库分类信息传入缓存，GUI 读取后动态生成下拉列表
+      var vehicleDB = getVehicleDB()
+      var catData = {}
+      if (vehicleDB && vehicleDB.loaded) {
+        var catKeys = Object.keys(vehicleDB.categories)
+        for (var cdi = 0; cdi < catKeys.length; cdi++) {
+          var ck = catKeys[cdi]
+          var catInfo = vehicleDB.categories[ck]
+          catData[catInfo.displayName] = vehicleDB.byCategory[ck] || []
+        }
+      }
       var cacheData = JSON.stringify({
         pos: { x: block.getX(), y: block.getY(), z: block.getZ() },
         dim: event.level.getDimension().toString(),
-        config: readBlockConfig(block)
+        config: readBlockConfig(block),
+        categories: catData
       })
       global.vehicleDeployerCache.put(player.uuid, cacheData)
 
@@ -175,16 +197,21 @@ BlockEvents.blockEntityTick('kubejs:vehicle_deployer', event => {
   var level = event.level
   if (!block.entity) return
 
+  // ★ 修复：将 server 声明提到前面，确保后续代码可访问
+  var server = level.getServer()
+  if (!server) return
+
   // ── 检查全局禁用开关 ──
   try {
-    var server = level.getServer()
     if (server.persistentData.contains('sbw_vehicle_disabled') &&
         server.persistentData.getBoolean('sbw_vehicle_disabled')) {
       return  // 系统已禁用
     }
   } catch (e) { /* ignore */ }
 
-  var pd = block.entity.persistentData
+  // ★ 修复：Tick 内自行 ensurePD，不依赖玩家右键
+  var pd = ensurePD(block)
+  if (!pd) return
 
   // ── 处理 GUI 发出的「立即部署」请求（NBT 标记，跨作用域安全） ──
   if (pd.contains('PendingDeploy') && pd.getBoolean('PendingDeploy') === true) {
@@ -198,6 +225,8 @@ BlockEvents.blockEntityTick('kubejs:vehicle_deployer', event => {
       block.entity.setChanged()
       spawnVehicleForBlock(block, server, pd)
     }
+    // ★ 修复：处理完 PendingDeploy 立即返回，防止继续执行下面的部署逻辑导致二次部署
+    return
   }
 
   // ── 未配置车辆类型 → 跳过 ──
@@ -206,6 +235,16 @@ BlockEvents.blockEntityTick('kubejs:vehicle_deployer', event => {
   var gameTime = level.getTime()
   var uuid = pd.getString('deployedUUID')
   var cooldownEnd = pd.getLong('cooldownEnd')
+
+  // ★ 修复：重启后 gameTime 可能不连续，对 cooldownEnd 做范围校验
+  //   如果 cooldownEnd 远超当前 gameTime（超过 1 小时 = 72000 tick），
+  //   说明是旧会话残留的大时间戳，直接重置为 0 使其立刻可部署
+  if (cooldownEnd > gameTime + 72000) {
+    sbwLog('[部署台] cooldownEnd 异常（重启残留）: ' + cooldownEnd + ' > ' + (gameTime + 72000) + '，重置为 0')
+    pd.putLong('cooldownEnd', 0)
+    cooldownEnd = 0
+    block.entity.setChanged()
+  }
 
   // ── 有 UUID → 检查实体是否存活 ──
   if (uuid && uuid !== '') {

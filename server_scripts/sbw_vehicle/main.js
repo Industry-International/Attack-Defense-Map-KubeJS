@@ -36,7 +36,7 @@ ServerEvents.loaded(event => {
 // ══════════════════════════════════════════════════════════════
 
 ServerEvents.unloaded(event => {
-  global.vehicleDB = null
+  // 内部缓存 $vehicleDB 在 tools/database.js 中管理，无需手动置 null
   try { if (global.vehicleDeployerCache) global.vehicleDeployerCache.clear() } catch(e) {}
   sbwLog('[部署台] 服务器关闭，清理完成')
 })

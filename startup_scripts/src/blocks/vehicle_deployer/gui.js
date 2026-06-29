@@ -50,9 +50,15 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var dim = cacheData.dim || 'minecraft:overworld'
 
   // ── 准备车辆数据库 ──
-  // 从 server_scripts 全局读取（在 getVehicleDB 中已加载）
-  // 注：startup_scripts 无法直接调用 server 侧函数，所以数据通过 cache 传递
-  // 这里直接在 GUI 中内置常用载具列表供选择
+  // 从 cacheData.categories 读取（由 server 侧 block_main.js 的右键事件传入）
+  // ★ 修复：不再使用硬编码列表，而是使用数据包自动生成的分类数据
+  var vehicleData = cacheData.categories || {}
+  var categoryList = Object.keys(vehicleData)
+  // 如果缓存中无分类数据（旧方块或缓存失效），提供兜底告示
+  if (categoryList.length === 0) {
+    vehicleData = { '§c数据库未加载': ['§c请保存配置后重启'] }
+    categoryList = Object.keys(vehicleData)
+  }
 
   // ── 跨上下文同步数据 ──
   var fieldVals = {}
@@ -159,23 +165,18 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   page1.addChild(new Label().setText(Component.literal('§e── 选择载具 ──')))
 
-  // 载具分类数据
-  var vehicleData = {
-    '坦克': ['superbwarfare:t_90a','superbwarfare:ztz_99a','superbwarfare:m_1a_2','superbwarfare:annihilator','mcsp:m1a2','mcsp:t80bv_camo','mcsp:t80u_camo','mcsp:t90a_green'],
-    'APC/步战': ['superbwarfare:bmp_2','superbwarfare:bradley','superbwarfare:lav_25','superbwarfare:type_63','mcsp:bmd_4','mcsp:m3a3_bradley','mcsp:zbd04a_green','mcsp:sprut'],
-    '直升机/飞机': ['superbwarfare:mi_28','superbwarfare:ah_6','superbwarfare:a_10a','superbwarfare:ju_87','superbwarfare:kv_16'],
-    '火炮/AA': ['superbwarfare:plz_05','superbwarfare:bl_132','superbwarfare:mk_42','superbwarfare:lav_ad','superbwarfare:mle_1934','mcsp:tos_1a_green','mcsp:typhoon_30'],
-    '其他': ['superbwarfare:truck','superbwarfare:tow','superbwarfare:mortar','superbwarfare:speedboat','superbwarfare:drone','superbwarfare:wheel_chair','superbwarfare:laser_tower','superbwarfare:hpj_11'],
-  }
-  var categoryList = Object.keys(vehicleData)
+  // ★ 修复：vehicleData 和 categoryList 已在顶部从缓存读取（数据包自动分类）
+  //   此处不再硬编码，直接使用顶部声明的变量
 
   // 确定当前类型应选的类别
   var currentVT = fieldVehicleType.getText()
-  var initialCategory = categoryList[0]
-  var initialVehicle = vehicleData[initialCategory][0]
+  var initialCategory = categoryList.length > 0 ? categoryList[0] : ''
+  var initialVehicle = (initialCategory && vehicleData[initialCategory] && vehicleData[initialCategory].length > 0)
+    ? vehicleData[initialCategory][0] : ''
   if (currentVT && currentVT !== '') {
     for (var ci = 0; ci < categoryList.length; ci++) {
       var cat = categoryList[ci]
+      if (!vehicleData[cat]) continue
       for (var vi = 0; vi < vehicleData[cat].length; vi++) {
         if (vehicleData[cat][vi] === currentVT) {
           initialCategory = cat
