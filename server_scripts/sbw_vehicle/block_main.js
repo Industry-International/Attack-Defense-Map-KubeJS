@@ -157,7 +157,7 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
       var cacheData = JSON.stringify({
         pos: { x: block.getX(), y: block.getY(), z: block.getZ() },
         dim: event.level.getDimension().toString(),
-        config: readBlockConfig(block),
+        config: readDeployerConfig(block),
         categories: catData,
         nbtTemplate: nbtTemplate  // 用于 GUI 简单模式预填
       })
@@ -175,9 +175,12 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
 })
 
 /**
- * 从方块读取完整配置（供 GUI 使用）
+ * 从方块读取部署台完整配置（供 GUI 使用）
+ * 
+ * ★ 注意：不命名为 readBlockConfig 以避免与 ammo_replenish/a_config.js
+ *   中的同名全局函数冲突。Rhino 中 function 声明是全局的，后者会覆盖前者。
  */
-function readBlockConfig(block) {
+function readDeployerConfig(block) {
   var cfg = {}
   if (!block.entity) return cfg
   var pd = block.entity.persistentData
