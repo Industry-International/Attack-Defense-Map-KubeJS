@@ -250,6 +250,9 @@
   "spawn.kubejs.point_b3": "§3B3点",
   "spawn.kubejs.point_c1": "§cC1点",
   "spawn.kubejs.point_c2": "§eC2点",
+  "spawn.kubejs.point_atk_ship_1": "§c进攻方船只1",
+  "spawn.kubejs.point_atk_ship_2": "§c进攻方船只2",
+  "spawn.kubejs.point_def_ship": "§9防守方船只",
 
   "gui.kubejs.spawn_selector.title": "§8出生点选择",
   "gui.kubejs.spawn_selector.exit": "§c✖ 退出",

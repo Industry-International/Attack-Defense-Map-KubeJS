@@ -24,6 +24,9 @@ const SPAWN_POINTS = {
   B3:       { nameKey: 'spawn.kubejs.point_b3',       pos: "-370.80 121.00 165.24",                   dimension: 'minecraft:overworld' },
   C1:       { nameKey: 'spawn.kubejs.point_c1',       pos: "-594.54 114.00 -84.14",                   dimension: 'minecraft:overworld' },
   C2:       { nameKey: 'spawn.kubejs.point_c2',       pos: "-582.08 114.00 102.59",                   dimension: 'minecraft:overworld' },
+  atk_ship_1: { nameKey: 'spawn.kubejs.point_atk_ship_1', pos: "0 10 0",                            dimension: 'minecraft:overworld' },
+  atk_ship_2: { nameKey: 'spawn.kubejs.point_atk_ship_2', pos: "0 10 0",                            dimension: 'minecraft:overworld' },
+  def_ship:    { nameKey: 'spawn.kubejs.point_def_ship',   pos: "0 10 0",                            dimension: 'minecraft:overworld' },
   }
 
 // ============================================================
