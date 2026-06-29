@@ -40,6 +40,7 @@ function ensurePD(block) {
     pd.putLong('cooldownEnd', 0)
     pd.putString('deployNBT', '{}')
     pd.putString('displayName', '')  // 部署台显示名称（可选）
+    pd.putByte('spawnWithAmmo', 1)   // 生成载具时带弹药（1=是, 0=否）
     block.entity.setChanged()
     sbwLog('[部署台] 方块初始化完成 @[' + block.getX() + ',' + block.getY() + ',' + block.getZ() + ']')
   }
@@ -196,6 +197,7 @@ function readDeployerConfig(block) {
   cfg.displayName = pd.getString('displayName') || ''
   cfg.deployedUUID = pd.getString('deployedUUID') || ''
   cfg.cooldownEnd = pd.getLong('cooldownEnd') || 0
+  cfg.spawnWithAmmo = pd.contains('spawnWithAmmo') ? pd.getByte('spawnWithAmmo') : 1
   return cfg
 }
 

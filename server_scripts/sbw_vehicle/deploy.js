@@ -103,6 +103,13 @@ function spawnVehicleForBlock(block, server, pd) {
     } catch (e) { sbwWarn('[部署] deployNBT JSON 解析失败: ' + e) }
   }
 
+  // ── spawnWithAmmo 控制：0=不生成弹药，清除 Inventory ──
+  var spawnWithAmmo = pd.contains('spawnWithAmmo') ? pd.getByte('spawnWithAmmo') : 1
+  if (spawnWithAmmo === 0 && nbt.contains('Inventory')) {
+    nbt.remove('Inventory')
+    sbwLog('[部署] spawnWithAmmo=0，已清除 Inventory')
+  }
+
   var cmd = 'summon ' + vehicleType + ' ' + x + ' ' + y + ' ' + z + ' ' + nbt.toString()
   server.runCommandSilent(cmd)
 

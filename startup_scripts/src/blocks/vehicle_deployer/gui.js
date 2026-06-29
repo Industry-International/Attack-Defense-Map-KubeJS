@@ -40,7 +40,8 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       config: {
         vehicleType: '', respawnDelay: 600, autoRespawn: 1,
         offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
-        deployNBT: '{}', displayName: '', deployedUUID: '', cooldownEnd: 0
+        deployNBT: '{}', displayName: '', deployedUUID: '', cooldownEnd: 0,
+        spawnWithAmmo: 1
       }
     }
   }
@@ -97,6 +98,12 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   fieldAutoRespawn.setText(cfg.autoRespawn === 0 ? '0' : '1')
   fieldAutoRespawn.lss('width', 40)
   bindField(fieldAutoRespawn, 'ar')
+
+  var fieldSpawnAmmo = new TextField()
+  fieldSpawnAmmo.setNumbersOnlyInt(0, 1)
+  fieldSpawnAmmo.setText(cfg.spawnWithAmmo === 0 ? '0' : '1')
+  fieldSpawnAmmo.lss('width', 40)
+  bindField(fieldSpawnAmmo, 'swa')
 
   // ── Tab 3: 坐标偏移 ──
   var fieldOffsetX = new TextField()
@@ -274,6 +281,14 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   autoRow.addChild(fieldAutoRespawn)
   autoRow.addChild(new Label().setText(Component.literal(' §7(1=开启, 0=手动)')))
   page2.addChild(autoRow)
+
+  page2.addChild(new Label().setText(Component.literal(' ')))
+
+  var ammoRow = new UIElement()
+  ammoRow.addChild(new Label().setText(Component.literal('§7生成带弹药:')))
+  ammoRow.addChild(fieldSpawnAmmo)
+  ammoRow.addChild(new Label().setText(Component.literal(' §7(1=是, 0=否)')))
+  page2.addChild(ammoRow)
 
   var tab2 = new Tab()
   tab2.setText('基础')
@@ -491,6 +506,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       var vt = fieldVals['vt'] !== undefined ? String(fieldVals['vt']) : fieldVehicleType.getText()
       var rd = safeParseField(fieldVals['rd'], fieldRespawnDelay)
       var ar = safeParseField(fieldVals['ar'], fieldAutoRespawn)
+      var swa = safeParseField(fieldVals['swa'], fieldSpawnAmmo)
       var ox = safeParseField(fieldVals['ox'], fieldOffsetX)
       var oy = safeParseField(fieldVals['oy'], fieldOffsetY)
       var oz = safeParseField(fieldVals['oz'], fieldOffsetZ)
@@ -510,6 +526,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pd.putString('vehicleType', vt)
       pd.putInt('respawnDelay', Math.max(20, rd))
       pd.putByte('autoRespawn', ar === 1 ? 1 : 0)
+      pd.putByte('spawnWithAmmo', swa === 1 ? 1 : 0)
       pd.putDouble('offsetX', ox)
       pd.putDouble('offsetY', oy)
       pd.putDouble('offsetZ', oz)
@@ -551,6 +568,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       // 清空所有配置（保留 vehicleType 和 team，其余恢复默认）
       pd.putInt('respawnDelay', 600)
       pd.putByte('autoRespawn', 1)
+      pd.putByte('spawnWithAmmo', 1)
       pd.putDouble('offsetX', 0.0)
       pd.putDouble('offsetY', 1.0)
       pd.putDouble('offsetZ', 0.0)
