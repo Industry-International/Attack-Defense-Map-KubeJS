@@ -280,6 +280,12 @@ function renderProf(gui, player, openPage, pageNum) {
     var row = 2 + Math.floor(localIdx / 7)
     ;(function(prof, col, row) {
       gui.slot(col, row, function(slot) {
+        // 空处理
+        if (!prof || !prof.id) {
+          slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.literal('§c配置错误')))
+          console.warn('[职业数据库] 职业列表中存在空条目')
+          return
+        }
         slot.setItem(
           Item.of('minecraft:knowledge_book')
             .withCustomName(Text.translate('profession.kubejs.' + prof.id))
@@ -375,6 +381,12 @@ function renderWeapon(gui, player, openPage, pageNum, weaponType) {
     var row = 2 + Math.floor(localIdx / 7)
     ;(function(wp, col, row) {
       gui.slot(col, row, function(slot) {
+        // 空处理
+        if (!wp || !wp.display) {
+          slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.literal('§c配置错误')))
+          console.warn('[职业数据库] 主武器列表中存在空条目')
+          return
+        }
         var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
         if (!wp.tag && wp.i18n) wpItem = wpItem.withCustomName(Text.translate('weapon.kubejs.' + wp.id))
         slot.setItem(wpItem)
@@ -476,6 +488,12 @@ function renderOffhand(gui, player, openPage, pageNum, weaponType) {
     var row = 2 + Math.floor(localIdx / 7)
     ;(function(wp, col, row) {
       gui.slot(col, row, function(slot) {
+        // 空处理
+        if (!wp || !wp.display) {
+          slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.literal('§c配置错误')))
+          console.warn('[职业数据库] 副武器列表中存在空条目')
+          return
+        }
         var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
         if (!wp.tag && wp.i18n) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
         slot.setItem(wpItem)
@@ -578,6 +596,12 @@ function renderTertiary(gui, player, openPage, pageNum, weaponType) {
     var row = 2 + Math.floor(localIdx / 7)
     ;(function(wp, col, row) {
       gui.slot(col, row, function(slot) {
+        // 空处理
+        if (!wp || !wp.display) {
+          slot.setItem(Item.of('minecraft:barrier').withCustomName(Component.literal('§c配置错误')))
+          console.warn('[职业数据库] 特殊武器列表中存在空条目')
+          return
+        }
         var wpItem = wp.tag ? Item.of(wp.display, wp.tag) : Item.of(wp.display)
         if (!wp.tag && wp.i18n) wpItem = wpItem.withCustomName(Text.translate('offhand.kubejs.' + wp.id))
         slot.setItem(wpItem)
@@ -726,6 +750,11 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
 
 /** 根据武器类型返回展示物品 */
 function getTypeDisplayItem(type) {
+  // 空处理
+  if (!type) {
+    console.warn('[职业数据库] getTypeDisplayItem 收到空类型')
+    return Item.of('minecraft:barrier').withCustomName(Component.literal('§c配置错误'))
+  }
   // "全部"选项特殊处理
   if (type === '__all__') {
     return Item.of('minecraft:chest')
@@ -758,6 +787,8 @@ function getTypeDisplayItem(type) {
  *   "page:type:num"  → 带武器类型 + 页码（如 "primary:rifle:0"）
  */
 function openPage(player, page) {
+  // 空处理：page 为空时默认到职业选择
+  if (!page) { player.tell(Component.literal('§c[配置错误] openPage 收到空页面')); return }
   // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
   player.addTag('no_loadout')
