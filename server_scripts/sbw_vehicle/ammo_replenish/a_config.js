@@ -67,88 +67,18 @@ const DEFAULT_STATION_CONFIG = {
   }
 }
 
-// ========== 弹药类型映射（含 SBW + MCSP）==========
-
-const AMMO_ID_MAP = {
-  // ── SBW 卓越前线本体 ──
-  large_shell_ap: 'superbwarfare:large_shell_ap',
-  large_shell_he: 'superbwarfare:large_shell_he',
-  large_shell_gs: 'superbwarfare:large_shell_gs',
-  small_shell_ap: 'superbwarfare:small_shell_ap',
-  small_shell_he: 'superbwarfare:small_shell_he',
-  small_shell_gs: 'superbwarfare:small_shell_gs',
-  small_shell_aa: 'superbwarfare:small_shell_aa',
-  rifle_ammo:     'superbwarfare:rifle_ammo',
-  heavy_ammo:     'superbwarfare:heavy_ammo',
-  missile:        'superbwarfare:missile',
-  rocket:         'superbwarfare:rocket',
-  small_rocket:   'superbwarfare:small_rocket',
-  medium_anti_ground_missile: 'superbwarfare:medium_anti_ground_missile',
-  large_anti_ground_missile:  'superbwarfare:large_anti_ground_missile',
-  medium_anti_air_missile:    'superbwarfare:medium_anti_air_missile',
-  mortar_shell:   'superbwarfare:mortar_shell',
-  medium_aerial_bomb: 'superbwarfare:medium_aerial_bomb',
-  small_aerial_bomb:  'superbwarfare:small_aerial_bomb',
-
-  // ── MCSP 附属模组 ──
-  mcsp_25mm_ap:            'mcsp:25mm_ap',
-  mcsp_30mm_ap:            'mcsp:30mm_ap',
-  mcsp_40mm_explosive:     'mcsp:40mm_explosive',
-  mcsp_40mm_smoke:         'mcsp:40mm_smoke',
-  mcsp_120mm_bulletmortar: 'mcsp:120mm_bulletmortar',
-  mcsp_125mm_ap:           'mcsp:125mm_ap',
-  mcsp_125mm_he:           'mcsp:125mm_he',
-  mcsp_bullet762:          'mcsp:bullet762',
-  mcsp_smallarmscartridge: 'mcsp:smallarmscartridge',
-  mcsp_tow_2:              'mcsp:tow_2',
-  mcsp_mlrs_shells:        'mcsp:mlrs_shells'
-}
-
-/** 反向映射：item id → 短名（自动构建，含 SBW + MCSP） */
-const AMMO_KEY_MAP = {}
-for (let k in AMMO_ID_MAP) {
-  if (AMMO_ID_MAP.hasOwnProperty(k)) AMMO_KEY_MAP[AMMO_ID_MAP[k]] = k
-}
-
-// ========== 弹药显示名 ==========
-
-function getAmmoDisplayName(ammoKey) {
-  const names = {
-    // ── SBW 卓越前线本体 ──
-    large_shell_ap: '§6大口径AP弹',
-    large_shell_he: '§c大口径HE弹',
-    large_shell_gs: '§a大口径葡萄弹',
-    small_shell_ap: '§b小口径AP弹',
-    small_shell_he: '§d小口径HE弹',
-    small_shell_gs: '§a小口径葡萄弹',
-    small_shell_aa: '§b小口径防空弹',
-    rifle_ammo:     '§7步枪弹',
-    heavy_ammo:     '§9重弹',
-    missile:        '§a导弹',
-    rocket:         '§e火箭弹',
-    small_rocket:   '§e小型火箭弹',
-    medium_anti_ground_missile: '§a中型对地导弹',
-    large_anti_ground_missile:  '§a大型对地导弹',
-    medium_anti_air_missile:    '§a中型防空导弹',
-    mortar_shell:   '§6迫击炮弹',
-    medium_aerial_bomb: '§c中型航弹',
-    small_aerial_bomb:  '§c小型航弹',
-
-    // ── MCSP 附属模组 ──
-    mcsp_25mm_ap:            '§b25mm机炮弹',
-    mcsp_30mm_ap:            '§d30mm机炮弹',
-    mcsp_40mm_explosive:     '§c40mm高爆弹',
-    mcsp_40mm_smoke:         '§740mm烟雾弹',
-    mcsp_120mm_bulletmortar: '§5120mm迫击炮',
-    mcsp_125mm_ap:           '§6125mm穿甲弹',
-    mcsp_125mm_he:           '§c125mm高爆弹',
-    mcsp_bullet762:          '§77.62mm机枪弹',
-    mcsp_smallarmscartridge: '§7小口径弹药',
-    mcsp_tow_2:              '§aTOW-2导弹',
-    mcsp_mlrs_shells:        '§eMLRS火箭弹'
-  }
-  return names[ammoKey] || ammoKey
-}
+// ========== 弹药类型映射（已数据化）==========
+// 
+// 弹药类型的完整 ID 映射、显示名等已移至数据包：
+//   kubejs/data/sbw_vehicle_db/_ammo_types.json
+// 运行时代码通过以下 tools/database.js 函数读取：
+//   getAmmoType(shortName)       → { id, displayName, enName, maxStack }
+//   getAmmoShortName(fullId)     → shortName
+//   getAmmoDisplayName(fullId)   → displayName
+//   getAllAmmoShortNames()       → string[]
+//   getAmmoFullIdMap()           → { fullId: shortName, ... }
+//
+// 新增弹药类型只需修改 _ammo_types.json，无需改动 JS 代码。
 
 // ========== 方块配置读取（只读） ==========
 
@@ -179,11 +109,7 @@ function readBlockConfig(block) {
   }
 }
 
-// ========== 载具弹药映射表（已弃用，改用数据包）==========
-// 数据包格式已替代此映射表，载具弹药配置现存放于：
-//   kubejs/data/sbw_vehicle_db/<分类>/<vehicleId>.json → ammoSlots 字段
+// ========== 载具弹药配置由数据包管理 ==========
+// 每辆载具的弹药上限在对应 JSON 的 ammoSlots 字段中定义。
 // 运行时代码通过 getVehicleById(vehicleId).ammoSlots 读取。
-// vehicle_ammo_config/*.js 文件保留作为参考，不再被实际引用。
-
-var VEHICLE_AMMO_MAP = {}
 

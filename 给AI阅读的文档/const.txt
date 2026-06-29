@@ -88,8 +88,9 @@ startup 中的 const 不会与 server 中的 const 冲突。
 （字段：scanRange / cooldown(秒) / enterDelay(秒) / slots）
 
   const DEFAULT_STATION_CONFIG = { ... }          // 弹药补给站默认配置（含 enterDelay: 3）
-  const AMMO_ID_MAP = { ... }                     // 弹药类型短名 → item ID（含 large_shell_gs 葡萄弹）
-  const AMMO_KEY_MAP = {}                         // item ID → 弹药类型短名（反向映射，自动构建）
+  // ★ 2026-06-29 数据化改造：AMMO_ID_MAP / AMMO_KEY_MAP / getAmmoDisplayName 已删除，
+  //   改用 data/sbw_vehicle_db/_ammo_types.json 数据包 + tools/database.js 函数：
+  //   getAmmoType(shortName) / getAmmoShortName(fullId) / getAmmoDisplayName(fullId)
 
 来源文件: server_scripts/sbw_vehicle/replenish.js
 
@@ -424,6 +425,21 @@ StartupEvents.registry('block', ...) 注册的方块：
   tools/nbt.js — JSON → NBT 转换
     toNBT(obj) / mergeDeployNBT(target, source)
 
+  tools/database.js — 载具数据库 & 弹药类型加载（2026-06-29 新增弹药类型支持）
+    loadVehicleDB()              — 加载载具数据库（自动发现 data/sbw_vehicle_db/）
+    getVehicleDB()               — 获取已加载的数据库
+    getVehicleById(vehicleId)    — 按完整实体ID查载具数据（如 'superbwarfare:t_90a'）
+    getVehiclesByCategory(cat)   — 按分类查载具ID列表
+    getAllCategories()           — 获取所有分类
+    getAllVehicleIds()           — 获取所有载具ID
+    loadAmmoTypes()              — 加载弹药类型注册表（data/sbw_vehicle_db/_ammo_types.json）
+    getAmmoDB()                  — 获取已加载的弹药类型数据库
+    getAmmoType(shortName)       — 按短名查弹药信息 { id, displayName, enName, maxStack }
+    getAmmoShortName(fullId)     — 按完整物品ID查短名
+    getAmmoDisplayName(fullId)   — 按完整物品ID查显示名
+    getAllAmmoShortNames()       — 获取所有弹药短名列表
+    getAmmoFullIdMap()           — 获取完整ID→短名映射
+
   tools/persist.js — 持久化数据 + 系统开关
     getStore(server) / saveStore(server, data)
     getVehicleState(server, vehicleId) / getFullTag(vehicleId)
@@ -529,12 +545,11 @@ StartupEvents.registry('block', ...) 注册的方块：
     10. NBT列表：CompoundTag.getList(key) 需两个参数 getList(key, 10)（10=TAG_COMPOUND）
 
   a_config.js — 配置定义 & 方块配置读写工具
-    const DEFAULT_STATION_CONFIG    — 默认配置（scanRange, cooldown秒, slots）
-    const AMMO_ID_MAP              — 弹药类型短名 → item ID
-    const AMMO_KEY_MAP             — item ID → 弹药类型短名（反向映射，自动构建）
-    function getAmmoDisplayName(ammoKey)          — 获取弹药显示名
-    function readBlockConfig(block)               — 读取方块配置（首次自动初始化默认值）
-    function writeBlockConfig(block, config)      — 写入方块配置
+    const DEFAULT_STATION_CONFIG    — 默认配置（scanRange, cooldown秒, enterDelay秒, slots）
+    function readBlockConfig(block)               — 读取方块配置（返回深拷贝默认值）
+    ★ 2026-06-29 数据化改造：AMMO_ID_MAP / AMMO_KEY_MAP / getAmmoDisplayName 已删除，
+      改用 data/sbw_vehicle_db/_ammo_types.json + tools/database.js 函数：
+      getAmmoType(shortName) / getAmmoShortName(fullId) / getAmmoDisplayName(fullId)
 
   main.js — 方块核心逻辑（2026-06-26 修复getPosition+添加详细日志）
     依赖外部声明：$CompoundTag（profession/config/a_tacz_config.js, const）
@@ -703,7 +718,8 @@ StartupEvents.registry('block', ...) 注册的方块：
      JOIN_BATTLE_TARGET, JOIN_BATTLE_FUNCTION, CLEAR_DELAY_TICKS,
      VEHICLE_STATE, VEHICLE_STATE_TRANSITIONS, VEHICLE_STATE_LIST,
      MODULE_REGISTRY, MODULE_FLAG_PREFIX,
-     DEFAULT_STATION_CONFIG, AMMO_ID_MAP, AMMO_KEY_MAP, ← a_config.js
+     DEFAULT_STATION_CONFIG,                ← ammo_replenish/a_config.js
+     // ★ 2026-06-29: AMMO_ID_MAP / AMMO_KEY_MAP 已从 a_config.js 删除（数据化）
      SAVE_INTERVAL,                                     ← replenish.js 新增
      VEHICLE_CFG, SBW_PREFIX,                           ← main.js
      CFG, PREFIX                                        ← team_revive/main.js

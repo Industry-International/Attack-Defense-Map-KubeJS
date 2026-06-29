@@ -2,7 +2,8 @@
 // 弹药补给站 - 方块核心逻辑
 //
 // 依赖：
-//   a_config.js（DEFAULT_STATION_CONFIG, AMMO_ID_MAP, AMMO_KEY_MAP 等）
+//   a_config.js（DEFAULT_STATION_CONFIG, readBlockConfig 等）
+//   tools/database.js（getVehicleById, getAmmoType, getAmmoShortName 等）
 //   startup_scripts/src/blocks/ammo_crate/gui.js（GUI UI 注册）
 //
 // 功能：
@@ -242,7 +243,7 @@ function executeStationReplenish(block, level, ignoreCooldown) {
             matched = []
             var ammoKeys = Object.keys(vehicleInfo.ammoSlots)
             for (var ai = 0; ai < ammoKeys.length; ai++) {
-              var shortName = AMMO_KEY_MAP[ammoKeys[ai]]
+              var shortName = getAmmoShortName(ammoKeys[ai])
               if (shortName) matched.push(shortName)
             }
           }
@@ -420,7 +421,7 @@ function replenishVehicle(entity, slots, level) {
       let item = items.get(i)
       if (!(item instanceof $CompoundTag)) continue
       let itemId = item.getString('id')
-      let ammoKey = AMMO_KEY_MAP[itemId]
+      let ammoKey = getAmmoShortName(itemId)
       if (!ammoKey) continue
       let count = item.getInt('count')
       let slot = item.getInt('Slot')
@@ -455,7 +456,7 @@ function replenishVehicle(entity, slots, level) {
       let item = items.get(i)
       if (!(item instanceof $CompoundTag)) continue
       let itemId = item.getString('id')
-      let ammoKey = AMMO_KEY_MAP[itemId]
+      let ammoKey = getAmmoShortName(itemId)
       if (!ammoKey || !needToAdd[ammoKey]) continue
 
       let currentCount = item.getInt('count')
@@ -481,7 +482,8 @@ function replenishVehicle(entity, slots, level) {
       for (let ammoKey in needToAdd) {
         if (!needToAdd.hasOwnProperty(ammoKey)) continue
         let remaining = needToAdd[ammoKey]
-        let itemId = AMMO_ID_MAP[ammoKey]
+        var ammoTypeInfo = getAmmoType(ammoKey)
+        let itemId = ammoTypeInfo ? ammoTypeInfo.id : null
         if (!itemId) continue
 
         while (remaining > 0) {

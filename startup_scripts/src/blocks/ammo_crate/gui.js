@@ -27,6 +27,9 @@ function bindField(field, name) {
   }
 }
 
+// ★ 注意：这些列表必须与 data/sbw_vehicle_db/_ammo_types.json 保持同步
+//   key 对应 _ammo_types.json 中的弹药短名
+//   label 对应其中的 displayName（需手动同步）
 const GUI_AMMO_TYPES = [
   // ── 大口径炮弹 ──
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },

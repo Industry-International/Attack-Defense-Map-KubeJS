@@ -23,6 +23,102 @@
 
 var $DB_ROOT = 'kubejs/data/sbw_vehicle_db'
 var $vehicleDB = null  // 内部缓存，不写入 global
+var $ammoDB = null     // 弹药类型缓存
+
+// ══════════════════════════════════════════════════════════════
+//  弹药类型加载（从 _ammo_types.json）
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * 加载弹药类型注册表
+ * 
+ * 返回结构：
+ * {
+ *   loaded: true/false,
+ *   byShortName: { large_shell_ap: { id, displayName, enName, maxStack }, ... },
+ *   byFullId:    { 'superbwarfare:large_shell_ap': 'large_shell_ap', ... }
+ * }
+ */
+function loadAmmoTypes() {
+  var raw = JsonIO.read($DB_ROOT + '/_ammo_types.json')
+  if (!raw || !raw.ammoTypes) {
+    sbwWarn('[数据库] _ammo_types.json 读取失败或格式错误')
+    $ammoDB = { loaded: false, byShortName: {}, byFullId: {} }
+    return $ammoDB
+  }
+
+  var db = { loaded: true, byShortName: {}, byFullId: {} }
+  var keys = Object.keys(raw.ammoTypes)
+  for (var ki = 0; ki < keys.length; ki++) {
+    var shortName = keys[ki]
+    var info = raw.ammoTypes[shortName]
+    if (!info || !info.id) continue
+    db.byShortName[shortName] = info
+    db.byFullId[info.id] = shortName
+  }
+
+  $ammoDB = db
+  sbwLog('[数据库] 弹药类型加载完成: ' + Object.keys(db.byShortName).length + ' 种')
+  return db
+}
+
+/**
+ * 获取已加载的弹药类型数据库
+ */
+function getAmmoDB() {
+  if ($ammoDB && $ammoDB.loaded) return $ammoDB
+  return loadAmmoTypes()
+}
+
+/**
+ * 通过短名获取弹药类型信息
+ * @param {string} shortName - 如 "large_shell_ap"
+ * @returns {object|null} { id, displayName, enName, maxStack }
+ */
+function getAmmoType(shortName) {
+  var db = getAmmoDB()
+  return db.byShortName[shortName] || null
+}
+
+/**
+ * 通过完整物品 ID 获取弹药短名
+ * @param {string} fullId - 如 "superbwarfare:large_shell_ap"
+ * @returns {string|null} 短名，如 "large_shell_ap"
+ */
+function getAmmoShortName(fullId) {
+  var db = getAmmoDB()
+  return db.byFullId[fullId] || null
+}
+
+/**
+ * 通过完整物品 ID 获取弹药显示名
+ * @param {string} fullId - 如 "superbwarfare:large_shell_ap"
+ * @returns {string|null} 显示名
+ */
+function getAmmoDisplayName(fullId) {
+  var shortName = getAmmoShortName(fullId)
+  if (!shortName) return null
+  var info = getAmmoType(shortName)
+  return info ? info.displayName : null
+}
+
+/**
+ * 获取所有弹药短名列表
+ * @returns {string[]}
+ */
+function getAllAmmoShortNames() {
+  var db = getAmmoDB()
+  return Object.keys(db.byShortName)
+}
+
+/**
+ * 获取所有弹药完整 ID → 短名的映射
+ * @returns {object}
+ */
+function getAmmoFullIdMap() {
+  var db = getAmmoDB()
+  return JSON.parse(JSON.stringify(db.byFullId))
+}
 
 // ══════════════════════════════════════════════════════════════
 //  核心加载函数
