@@ -89,6 +89,30 @@ kubejs/data/profession_db/
 
 ### `weapons.json` — 武器分类列表
 
+支持**两种格式**。推荐使用嵌套对象（按类型分组）：
+
+**新格式（推荐，按类型分组）：**
+
+```json
+{
+  "weaponLists": {
+    "primary": {
+      "rifle":   ["ak47", "scar_l"],
+      "smg":     ["hk_mp5a5"],
+      "shotgun": ["darne1912"]
+    },
+    "secondary": {
+      "pistol": ["glock_17", "ruby"]
+    },
+    "tertiary": {
+      "other": ["snowball"]
+    }
+  }
+}
+```
+
+**旧格式（兼容，扁平数组）：**
+
 ```json
 {
   "weaponLists": {
@@ -101,9 +125,13 @@ kubejs/data/profession_db/
 
 | 字段 | 说明 |
 |------|------|
-| `primary` | 主武器 ID 列表 |
-| `secondary` | 副武器 ID 列表 |
-| `tertiary` | 特殊武器 ID 列表 |
+| `primary` | 主武器分类/ID列表 |
+| `secondary` | 副武器分类/ID列表 |
+| `tertiary` | 特殊武器分类/ID列表 |
+
+**新格式**的类型 key（`rifle`/`smg`/`shotgun`）在 GUI 中自动作为分类名显示，新增类型只需在此添加 key 即可。每种类型的展示图标自动取该类型第一把武器的 GunId。
+
+**旧格式**的扁平数组不会显示类型选择页，直接显示全部武器列表。
 
 > 武器 ID 必须对应 `tacz/*.json` 中的 `weaponId` 字段。
 
