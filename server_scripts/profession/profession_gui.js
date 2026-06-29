@@ -719,6 +719,11 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
         var typeItem = getTypeDisplayItem(t, prof, category)
         slot.setItem(typeItem)
         slot.setLeftClicked(function() {
+          // 空类型（屏障）不跳转
+          if (t !== '__all__') {
+            var checkList = getProfessionWeaponListByType(prof, category, t)
+            if (!checkList || checkList.length === 0) return
+          }
           // __all__ → 不过滤的武器列表，其他 → 按类型过滤
           var targetPage = t === '__all__' ? category + ':0' : category + ':' + t + ':0'
           openPage(player, targetPage)
@@ -760,6 +765,15 @@ function getTypeDisplayItem(type, profession, category) {
     return Item.of('minecraft:chest')
       .withCustomName(Text.translate('type.kubejs.all'))
       .withLore([Text.translate('gui.kubejs.type_select.click_enter')])
+  }
+  // 检查该类型是否有武器，没有则显示屏障（避免进入空子GUI）
+  if (profession && category) {
+    var weaponList = getProfessionWeaponListByType(profession, category, type)
+    if (!weaponList || weaponList.length === 0) {
+      return Item.of('minecraft:barrier')
+        .withCustomName(Text.translate('type.kubejs.' + type))
+        .withLore([Text.translate('msg.kubejs.profession_select.no_weapons')])
+    }
   }
   // 动态取该类型第一把枪的 GunId 作为展示模型
   var gunId = 'tacz:ak47' // 最终 fallback

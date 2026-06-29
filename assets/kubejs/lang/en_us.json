@@ -64,6 +64,8 @@
   "type.kubejs.mg": "§cMachine Gun",
   "type.kubejs.pistol": "§fPistol",
   "type.kubejs.all": "§eAll",
+  "type.kubejs.other": "§fOther",
+  "type.kubejs.heavy": "§cHeavy",
   "gui.kubejs.type_select.hint": "§7Select weapon type to view available weapons",
   "gui.kubejs.type_select.click_enter": "§7Click to enter",
   "item.kubejs.menu": "§6Menu",

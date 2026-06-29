@@ -1,14 +1,34 @@
 {
   "weaponLists": {
     "primary": {
-      "rifle":  ["m4a1", "sks_tactical"],
-      "sniper": ["lee_enfield", "man_m95", "selbstladerc98", "lavendermosin1891"]
+      "rifle":   ["m4a1", "sks_tactical"],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  ["lee_enfield", "man_m95", "selbstladerc98", "lavendermosin1891"],
+      "mg":      [],
+      "pistol":  [],
+      "other":   [],
+      "heavy":   []
     },
     "secondary": {
-      "pistol": ["p320"]
+      "rifle":   [],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  ["p320"],
+      "other":   [],
+      "heavy":   []
     },
     "tertiary": {
-      "other": ["snowball"]
+      "rifle":   [],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  [],
+      "other":   ["snowball"],
+      "heavy":   []
     }
   }
 }

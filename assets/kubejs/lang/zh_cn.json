@@ -31,6 +31,8 @@
   "type.kubejs.mg": "§c机枪",
   "type.kubejs.pistol": "§f手枪",
   "type.kubejs.all": "§e全部",
+  "type.kubejs.other": "§7其他",
+  "type.kubejs.heavy": "§c重火力",
   "gui.kubejs.type_select.hint": "§7选择武器类型，进入该类型武器列表",
   "gui.kubejs.type_select.click_enter": "§7点击进入",
 

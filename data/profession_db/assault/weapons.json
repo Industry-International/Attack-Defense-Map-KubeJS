@@ -3,13 +3,32 @@
     "primary": {
       "rifle":   ["ak47", "scar_l", "gewehr_1_5"],
       "smg":     ["lavenderberretam1918"],
-      "shotgun": ["lavenderdarne1912"]
+      "shotgun": ["lavenderdarne1912"],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  [],
+      "other":   [],
+      "heavy":   []
     },
     "secondary": {
-      "pistol": ["mars", "ruby"]
+      "rifle":   [],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  ["mars", "ruby"],
+      "other":   [],
+      "heavy":   []
     },
     "tertiary": {
-      "other": ["snowball"]
+      "rifle":   [],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  [],
+      "other":   ["snowball"],
+      "heavy":   []
     }
   }
 }

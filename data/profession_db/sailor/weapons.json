@@ -1,13 +1,34 @@
 {
   "weaponLists": {
     "primary": {
-      "pistol": ["m1911", "glock_17"]
+      "rifle":   [],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  ["m1911", "glock_17"],
+      "other":   [],
+      "heavy":   []
     },
     "secondary": {
-      "other": ["snowball"]
+      "rifle":   [],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  [],
+      "other":   ["snowball"],
+      "heavy":   []
     },
     "tertiary": {
-      "other": ["snowball"]
+      "rifle":   [],
+      "smg":     [],
+      "shotgun": [],
+      "sniper":  [],
+      "mg":      [],
+      "pistol":  [],
+      "other":   ["snowball"],
+      "heavy":   []
     }
   }
 }
