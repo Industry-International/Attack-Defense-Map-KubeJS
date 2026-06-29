@@ -1,52 +1,55 @@
-# 职业数据库 — 填写指南
+# 职业数据库 — 填写指南（v2 标准化结构）
 
 ## 目录结构
 
 ```
 kubejs/data/profession_db/
-├── _registry.json                        ← 注册文件（控制加载 + 文件列表）
+├── _registry.json                        ← 注册文件（单一入口，职业+文件列表）
 ├── _slot_definitions.json                ← 配件槽位布局定义
-├── 填写指南.md
+├── guide.md                              ← 本文件
 │
 ├── assault/
-│   ├── config/                           ← 职业配置目录
-│   │   ├── meta.json                     ← 职业元数据
-│   │   ├── armor.json                    ← 护甲配置
-│   │   ├── extras.json                   ← 额外物品
-│   │   ├── weapons.json                  ← 武器分类列表
-│   │   └── non_tacz.json                 ← 非TACZ武器显示+弹药
-│   └── tacz/                             ← TACZ 系枪械
+│   ├── meta.json                         ← 职业元数据
+│   ├── weapons.json                      ← 武器分类列表（primary/secondary/tertiary）
+│   ├── armor.json                        ← 护甲配置
+│   ├── extras.json                       ← 额外物品
+│   ├── non_tacz.json                     ← 非TACZ武器显示+弹药
+│   └── tacz/                             ← TACZ 系枪械（平放）
 │       ├── tacz--ak47.json
 │       └── ...
 ├── medic/
-│   ├── config/
-│   │   ├── meta.json
-│   │   ├── armor.json
-│   │   ├── extras.json
-│   │   ├── weapons.json
-│   │   └── non_tacz.json
+│   ├── meta.json
+│   ├── weapons.json
+│   ├── ...
 │   └── tacz/
 └── ...
 ```
 
-## 一、`_registry.json` — 注册文件
+**规则**：职业根目录下直接放配置文件，`tacz/` 子目录放武器。不再使用 `gui/` 和 `data/` 分层。
+
+---
+
+## 一、`_registry.json` — 注册文件（单一入口）
+
+声明所有职业及其数据文件列表。加载器只依赖此文件发现数据。
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "professions": {
     "assault": {
       "enabled": true,
       "displayName": "突击兵",
-      "description": "CQB 高机动",
+      "description": "CQB 高机动 全自动压制",
       "tag": "assault",
       "files": [
-        "config/meta.json",
-        "config/armor.json",
-        "config/extras.json",
-        "config/weapons.json",
-        "config/non_tacz.json",
-        "tacz/tacz--ak47.json"
+        "meta.json",
+        "weapons.json",
+        "armor.json",
+        "extras.json",
+        "non_tacz.json",
+        "tacz/tacz--ak47.json",
+        "tacz/tacz--scar_l.json"
       ]
     }
   }
@@ -55,15 +58,19 @@ kubejs/data/profession_db/
 
 | 字段 | 必填 | 说明 |
 |------|------|------|
-| `files` | 是 | 路径相对于职业目录，支持子目录（如 `config/armor.json`） |
+| `enabled` | ✗ | 默认 `true`，设为 `false` 跳过该职业 |
+| `displayName` | 推荐 | 中文显示名（仅文档用途） |
+| `description` | 推荐 | 职业描述 |
+| `tag` | ✓ | 游戏内 scoreboard 标签名，从 `gui/meta.json` 迁移至此 |
+| `files` | ✓ | 路径相对于职业目录，如 `tacz/tacz--ak47.json` → `<职业>/tacz/tacz--ak47.json` |
 
-> **所有文件路径都从职业目录开始**：`config/armor.json` → `<职业>/config/armor.json`
+> **所有文件路径都从职业目录开始**。路径必须匹配磁盘上的实际位置。
 
 ---
 
-## 二、`config/` 职业配置
+## 二、职业配置文件
 
-### `config/meta.json` — 职业元数据
+### `meta.json` — 职业元数据
 
 ```json
 {
@@ -73,7 +80,34 @@ kubejs/data/profession_db/
 }
 ```
 
-### `config/armor.json` — 护甲配置
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| `professionId` | ✓ | 必须与 `_registry.json` key 一致 |
+| `tag` | ✓ | 游戏内 scoreboard 标签名 |
+
+> 注意：`meta.json` 不再包含 `enabled` 和 `files` 字段，它们已迁移到 `_registry.json`。
+
+### `weapons.json` — 武器分类列表
+
+```json
+{
+  "weaponLists": {
+    "primary":   ["ak47", "scar_l"],
+    "secondary": ["mars", "ruby"],
+    "tertiary":  ["snowball"]
+  }
+}
+```
+
+| 字段 | 说明 |
+|------|------|
+| `primary` | 主武器 ID 列表 |
+| `secondary` | 副武器 ID 列表 |
+| `tertiary` | 特殊武器 ID 列表 |
+
+> 武器 ID 必须对应 `tacz/*.json` 中的 `weaponId` 字段。
+
+### `armor.json` — 护甲配置
 
 ```json
 {
@@ -86,7 +120,9 @@ kubejs/data/profession_db/
 }
 ```
 
-### `config/extras.json` — 额外物品
+顺序：靴→腿→胸→头（不可逆）。
+
+### `extras.json` — 额外物品
 
 ```json
 {
@@ -98,21 +134,9 @@ kubejs/data/profession_db/
 }
 ```
 
-### `config/weapons.json` — 武器分类列表
+`tag` 字段支持 NBT 格式。
 
-```json
-{
-  "weaponLists": {
-    "primary":   ["ak47", "scar_l"],
-    "secondary": ["mars", "ruby"],
-    "tertiary":  ["snowball"]
-  }
-}
-```
-
-> `weaponId` 必须与武器文件中的 `weaponId` 字段匹配。
-
-### `config/non_tacz.json` — 非TACZ显示+弹药
+### `non_tacz.json` — 非TACZ显示+弹药
 
 ```json
 {
@@ -132,7 +156,9 @@ kubejs/data/profession_db/
 
 ---
 
-## 三、武器数据 — 如 `tacz/tacz--ak47.json`
+## 三、武器数据 — `tacz/*.json`
+
+每把 TACZ 枪械一个独立 JSON 文件，放在职业目录下的 `tacz/` 子目录中。
 
 ```json
 {
@@ -140,7 +166,6 @@ kubejs/data/profession_db/
   "gunId": "tacz:ak47",
   "mod": "tacz",
   "displayName": "AK47",
-  "category": "primary",
   "gunFireMode": "AUTO",
   "gunCurrentAmmoCount": 30,
   "ammo": {
@@ -150,35 +175,40 @@ kubejs/data/profession_db/
   },
   "attachments": {
     "scope": ["lavender:scope_rifles_x4"],
-    "muzzle": ["tacz:muzzle_silencer_knight_qd"]
+    "muzzle": ["tacz:muzzle_silencer_knight_qd"],
+    "stock": ["tacz:oem_stock_heavy", "tacz:oem_stock_light"],
+    "extended_mag": ["tacz:extended_mag_1", "tacz:extended_mag_2", "tacz:extended_mag_3"]
   }
 }
 ```
 
+| 字段 | 必填 | 类型 | 说明 |
+|------|------|------|------|
+| `weaponId` | ✓ | string | 武器内部标识，必须匹配 `weapons.json` 中的 ID |
+| `gunId` | ✓ | string | TACZ GunId（如 `tacz:ak47`） |
+| `mod` | 推荐 | string | 模组来源 |
+| `displayName` | 推荐 | string | 显示名（仅文档） |
+| `gunFireMode` | ✓ | string | `AUTO` / `SEMI` / `BURST` |
+| `gunCurrentAmmoCount` | ✓ | int | 弹匣容量 |
+| `ammo` | ✓ | object | 弹药配置（有 `level` → 发弹药盒；无 `level` → 直接发弹药物品） |
+| `attachments` | ✗ | object | 配件配置，slotKey 对照 `_slot_definitions.json` |
+
 ---
 
-## 四、各目录职责速查
-
-| 目录 | 用途 | 放入什么 |
-|------|------|---------|
-| `config/` | 职业配置 | `meta.json` / `armor.json` / `extras.json` / `weapons.json` / `non_tacz.json` |
-| `tacz/` | TACZ 系枪械 | 每把枪独立 `.json`，含 gunId/弹药/配件 |
-| `sbw/` | SBW 卓越前线武器 | SBW 武器数据 |
-| `misc/` | 其他模组武器 | 其他武器数据 |
-
----
-
-## 五、新增操作指南
+## 四、新增操作指南
 
 | 操作 | 步骤 |
 |------|------|
-| **新增 TACZ 枪械** | ① `tacz/` 下创建 JSON ② `weapons.json` 加 ID ③ `_registry.json` 加 `tacz/文件名` |
-| **新增 SBW 武器** | ① 创建 `sbw/` 目录放 JSON ② `weapons.json` 加 ID ③ `_registry.json` 加 `sbw/文件名` |
-| **新增职业** | ① `_registry.json` 加条目 ② 创建职业目录 ③ 创建 `config/` + 武器子目录 |
+| **新增 TACZ 枪械** | ① `tacz/` 下创建 JSON ② `weapons.json` 加 ID ③ `_registry.json` 的 `files` 加路径 |
+| **新增职业** | ① `_registry.json` 加条目 ② 创建职业目录 ③ 创建配置文件和 `tacz/` 子目录 |
 
-## 六、注意事项
+---
 
-1. **职业根目录不能有 JSON 文件**，全部放子目录
-2. **`files` 路径相对于职业目录**，如 `config/armor.json` → `<职业>/config/armor.json`
-3. **`_profession.json` 已被拆分** → `config/meta.json` + `armor.json` + `extras.json` + `weapons.json` + `non_tacz.json`
-4. **修改后 `/kubejs reload`**
+## 五、注意事项
+
+1. **`_registry.json` 是加载器的唯一入口**，职业不在其中声明则不会被加载
+2. **`files` 路径相对于职业目录**，如 `tacz/tacz--ak47.json` → `<职业>/tacz/tacz--ak47.json`
+3. **配置文件直接放职业根目录**（`meta.json`, `weapons.json`, `armor.json`, `extras.json`, `non_tacz.json`）
+4. **武器文件放 `tacz/` 子目录**，命名格式保留 `<模组>--<标识符>.json` 以区分来源
+5. **修改后 `/kubejs reload`** 重新加载
+6. **enabled 开关在 `_registry.json` 中**，不在 `meta.json` 里

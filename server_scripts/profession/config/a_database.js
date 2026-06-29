@@ -1,7 +1,7 @@
 // ============================================================
-// 职业数据库 - 数据包驱动加载器
-// 从 kubejs/data/profession_db/ 自动发现并加载所有职业数据
-// 各模块通过全局函数访问，不依赖共享变量
+// 职业数据库 - 数据包驱动加载器（v2 标准化结构）
+// 从 _registry.json 单一入口自动发现并加载所有职业数据
+// 文件结构：职业根目录下平铺 config/*.json + tacz/*.json
 // ============================================================
 
 var $DB_ROOT = 'kubejs/data/profession_db'
@@ -10,42 +10,41 @@ var $professionDB = null
 // ========== 工具函数（本地） ==========
 
 function cleanId(raw) {
-  return String(raw || '').trim().replace(/^['\\\"]|['\\\"]$/g, '')
+  return String(raw || '').trim().replace(/^['\\\\\\\"]|['\\\\\\\"]$/g, '')
 }
 
 // ========== 核心加载函数 ==========
 
 function loadProfessionDB() {
-  // --- 读取注册文件 ---
-  var registry = JsonIO.read($DB_ROOT + '/_slot_definitions.json')
+  // --- 读取注册文件（单一入口）---
+  var registry = JsonIO.read($DB_ROOT + '/_registry.json')
   if (!registry || !registry.professions) {
-    console.error('[职业数据库] _slot_definitions.json 读取失败')
+    console.error('[职业数据库] _registry.json 读取失败或格式错误')
     $professionDB = { loaded: false, professions: {}, weapons: {}, byProfession: {}, slotDefinitions: {}, profTagList: [], VANILLA_WEAPON_DISPLAY: {}, VANILLA_WEAPON_AMMO: {} }
     return $professionDB
   }
+
+  // --- 读取配件槽位定义 ---
+  var slotDef = JsonIO.read($DB_ROOT + '/_slot_definitions.json')
 
   var db = {
     loaded: true,
     professions: {},          // professionId → merged config (armor, extras, weaponLists, nonTacz)
     weapons: {},              // weaponId → weapon data (gunId, ammo, attachments)
     byProfession: {},         // professionId → [weaponId, ...]
-    slotDefinitions: registry.slots || {},  // 配件槽位布局
+    slotDefinitions: (slotDef && slotDef.slots) ? slotDef.slots : {},
     profTagList: [],          // 所有职业的 tag 列表
     VANILLA_WEAPON_DISPLAY: {},  // 非 TACZ 显示配置（从 nonTaczDisplay 合并）
     VANILLA_WEAPON_AMMO: {},     // 非 TACZ 弹药配置（从 nonTaczAmmo 合并）
   }
 
-  var profList = registry.professions || []
+  var profKeys = Object.keys(registry.professions)
+  for (var pi = 0; pi < profKeys.length; pi++) {
+    var profKey = profKeys[pi]
+    var profInfo = registry.professions[profKey]
 
-  for (var pi = 0; pi < profList.length; pi++) {
-    var profKey = profList[pi]
-    var metaPath = $DB_ROOT + '/' + profKey + '/gui/meta.json'
-    var meta = JsonIO.read(metaPath)
-    if (!meta) {
-      console.warn('[职业数据库] 职业 [' + profKey + '] 无 gui/meta.json，跳过')
-      continue
-    }
-    if (meta.enabled === false) {
+    // enabled 开关在 _registry.json 中控制
+    if (profInfo.enabled === false) {
       console.log('[职业数据库] 职业 [' + profKey + '] 已禁用，跳过')
       continue
     }
@@ -55,38 +54,40 @@ function loadProfessionDB() {
     var weaponIds = []
 
     // 记录 tag
-    if (meta.tag) db.profTagList.push(meta.tag)
+    if (profInfo.tag) db.profTagList.push(profInfo.tag)
 
     // 遍历 files 列表加载所有数据
-    var fileList = meta.files || []
+    var fileList = profInfo.files || []
     for (var fi = 0; fi < fileList.length; fi++) {
       var filePath = profDir + '/' + fileList[fi]
       var data = JsonIO.read(filePath)
-      if (!data) continue
-
-      // --- gui/*.json: 界面配置 ---
-      // gui/primary.json, gui/secondary.json, gui/special.json 包含 options
-      if (data.options) {
-        if (!profConfig.weaponLists) profConfig.weaponLists = {}
-        // 根据文件名推断类别
-        var fname = fileList[fi]
-        var catMatch = fname.match(/gui\/(\w+)\.json/)
-        if (catMatch && catMatch[1] !== 'meta' && catMatch[1] !== 'armor' && catMatch[1] !== 'misc') {
-          profConfig.weaponLists[catMatch[1]] = data.options
-        }
+      if (!data) {
+        console.warn('[职业数据库] 文件读取失败: ' + filePath)
+        continue
       }
 
-      // --- data/armor/*.json: 护甲 ---
+      // --- meta.json: 职业元数据 ---
+      if (data.professionId) {
+        profConfig.professionId = data.professionId
+        profConfig.tag = data.tag
+      }
+
+      // --- weapons.json: 武器分类列表 ---
+      if (data.weaponLists) {
+        profConfig.weaponLists = data.weaponLists
+      }
+
+      // --- armor.json: 护甲 ---
       if (data.armor) {
         profConfig.armor = data.armor
       }
 
-      // --- data/misc/extras.json: 额外物品 ---
+      // --- extras.json: 额外物品 ---
       if (data.extras) {
         profConfig.extras = data.extras
       }
 
-      // --- data/misc/non_tacz.json: 非 TACZ 显示+弹药 ---
+      // --- non_tacz.json: 非 TACZ 显示+弹药 ---
       if (data.nonTaczDisplay) {
         if (!profConfig.nonTaczDisplay) profConfig.nonTaczDisplay = {}
         for (var nid in data.nonTaczDisplay) {
@@ -106,7 +107,7 @@ function loadProfessionDB() {
         }
       }
 
-      // --- data/primary|secondary|special/tacz|sbw|misc/*/*.json: 武器数据 ---
+      // --- tacz/*.json: TACZ 武器数据 ---
       if (data.weaponId && data.gunId) {
         db.weapons[data.weaponId] = data
         db.weapons[data.weaponId]._profession = profKey

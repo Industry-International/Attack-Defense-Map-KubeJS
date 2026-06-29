@@ -1,7 +1,6 @@
 {
-  "version": 1,
-  "_comment": "职业注册 + 配件槽位布局。professions 列出现有的职业目录名，加载器据此扫描各职业目录下的 gui/meta.json 获取完整注册信息。slots 定义配件槽位的 GUI 布局。",
-  "professions": ["assault", "medic", "scout", "support", "pilot", "sailor"],
+  "version": 2,
+  "_comment": "配件槽位布局定义。职业注册已迁移至 _registry.json。",
   "slots": {
     "scope": {
       "col": 2, "row": 1,
