@@ -83,11 +83,11 @@ ServerEvents.commandRegistry(event => {
       false
     )
 
-    // 显示载具数据库信息
+    // 显示载具数据库信息（数据包格式）
     var db = getVehicleDB()
-    if (db && db._meta) {
+    if (db && db.loaded) {
       source.sendSuccess(
-        $Component.literal('§7载具数据库: ' + db._meta.vehicleCount + ' 种可用'),
+        $Component.literal('§7载具数据库: ' + db.vehicleCount + ' 种可用 (' + Object.keys(db.categories).length + ' 个分类)'),
         false
       )
     }

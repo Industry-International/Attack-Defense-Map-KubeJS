@@ -14,11 +14,10 @@
 ServerEvents.loaded(event => {
   var server = event.server
 
-  // 预加载载具数据库
-  var db = getVehicleDB()
-  if (db) {
-    var count = Object.keys(db.vehicles).length
-    sbwLog('[部署台] 载具数据库已加载: ' + count + ' 种载具')
+  // 预加载载具数据库（自动发现数据包）
+  var db = loadVehicleDB()
+  if (db && db.loaded) {
+    sbwLog('[部署台] 载具数据库已加载: ' + db.vehicleCount + ' 种载具, ' + Object.keys(db.categories).length + ' 个分类')
   }
 
   // 确保全局系统开关存在（默认为启用）
@@ -37,7 +36,7 @@ ServerEvents.loaded(event => {
 // ══════════════════════════════════════════════════════════════
 
 ServerEvents.unloaded(event => {
-  $vehicleDB = null
+  global.vehicleDB = null
   try { if (global.vehicleDeployerCache) global.vehicleDeployerCache.clear() } catch(e) {}
   sbwLog('[部署台] 服务器关闭，清理完成')
 })

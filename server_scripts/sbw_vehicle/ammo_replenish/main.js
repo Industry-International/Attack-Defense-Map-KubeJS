@@ -233,11 +233,21 @@ function executeStationReplenish(block, level, ignoreCooldown) {
           // 停留时间达标 → 补给
           console.log($LOG_PREFIX + ' [补给] 停留时间达标，开始补给载具 ' + uuid.substring(0, 8) + '...')
 
-          // 查 VEHICLE_AMMO_MAP 确定该车应补什么弹药
+          // 从数据包载具数据库查询该车应补什么弹药
           var targetSlots = {}
-          var matched = VEHICLE_AMMO_MAP[typeStr]
-          if (matched) {
-            console.log($LOG_PREFIX + ' [补给] 配置命中: ' + typeStr + ' -> ' + JSON.stringify(matched))
+          var vehicleInfo = getVehicleById(typeStr)
+          var matched = null
+          if (vehicleInfo && vehicleInfo.ammoSlots) {
+            // 将 ammoSlots（full ID key）转换为短名 key，匹配补给站配置
+            matched = []
+            var ammoKeys = Object.keys(vehicleInfo.ammoSlots)
+            for (var ai = 0; ai < ammoKeys.length; ai++) {
+              var shortName = AMMO_KEY_MAP[ammoKeys[ai]]
+              if (shortName) matched.push(shortName)
+            }
+          }
+          if (matched && matched.length > 0) {
+            console.log($LOG_PREFIX + ' [补给] 数据库命中: ' + typeStr + ' -> ' + JSON.stringify(matched))
             for (var mi = 0; mi < matched.length; mi++) {
               if (slots[matched[mi]] !== undefined) targetSlots[matched[mi]] = slots[matched[mi]]
             }

@@ -1,0 +1,35 @@
+{
+  "vehicleId": "superbwarfare:sodayo_pick_up",
+  "mod": "superbwarfare",
+  "category": "utility_vehicle",
+  "baseName": "sodayo_pick_up",
+  "displayType": "Car",
+  "maxHealth": 175,
+  "maxEnergy": 5000000,
+  "hasDecoy": false,
+  "engineType": "Wheel",
+  "mass": 3,
+  "upStep": 1.1,
+  "containerType": "Large",
+  "hudType": null,
+  "parts": [
+    "WheelRight",
+    "WheelLeft"
+  ],
+  "seatCount": 8,
+  "weapons": [],
+  "nbtTemplate": {
+    "Energy": 5000000,
+    "Health": 175,
+    "Invulnerable": 0,
+    "IsWreck": 0,
+    "Power": 0,
+    "DecoyReady": 1,
+    "ChargeProgress": 0,
+    "WheelRightHealth": 100,
+    "WheelRightDamaged": 0,
+    "WheelLeftHealth": 100,
+    "WheelLeftDamaged": 0
+  },
+  "ammoSlots": {}
+}

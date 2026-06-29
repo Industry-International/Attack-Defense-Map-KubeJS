@@ -1,16 +1,24 @@
 /**
  * ============================================================
- * 卓越前线 - 载具数据提取脚本
+ * 卓越前线 - 载具数据提取脚本 (v2 — 数据包格式)
  *
  * 功能：
  *   从 SBW 和 MCSP 模组的 JAR 文件中提取所有载具配置，
- *   解析为结构化数据库，供 KubeJS 的 GUI 和部署逻辑使用。
+ *   解析为分类数据包目录结构，供 KubeJS 运行时自动发现使用。
  *
  * 使用方法：
+ *   cd kubejs/.agents/scripts/
  *   node extract_vehicle_data.js
  *
  * 输出：
- *   ../generated_data/sbw_vehicle_db.json
+ *   kubejs/data/sbw_vehicle_db/
+ *   ├── _registry.json                   ← 注册声明文件
+ *   ├── main_battle_tank/                ← 分类目录
+ *   │   ├── superbwarfare--t_90a.json    ← 单辆载具
+ *   │   └── ...
+ *   ├── infantry_fighting_vehicle/
+ *   ├── artillery/
+ *   └── ...
  * ============================================================
  */
 
@@ -24,13 +32,58 @@ const GAME_DIR = path.resolve(__dirname, '..', '..', '..');
 // GAME_DIR = d:/WDSJ/我的世界/.minecraft/versions/1.21.1-NeoForge_21.1.233航空学攻防战-15/
 const MODS_DIR = path.join(GAME_DIR, 'mods');
 const KUBEJS_DIR = path.join(GAME_DIR, 'kubejs');
-const OUTPUT_DIR = path.join(KUBEJS_DIR, 'data');
+const DB_ROOT = path.join(KUBEJS_DIR, 'data', 'sbw_vehicle_db');
 const TEMP_DIR = path.join(KUBEJS_DIR, '.vehicle_extract');
 
 // 模组 JAR 文件名（含通配符匹配）
 const MOD_JARS = {
   superbwarfare: { pattern: /superbwarfare.*\.jar$/i, prefix: 'superbwarfare' },
   mcsp: { pattern: /MCSP.*\.jar$/i, prefix: 'mcsp' }
+};
+
+/**
+ * displayType → category 映射表
+ * 这是唯一需要维护分类逻辑的地方，JS 运行时不再做二次分类。
+ */
+const DISPLAY_TYPE_CATEGORY = {
+  'Tank':        'main_battle_tank',
+  'APC':         'infantry_fighting_vehicle',
+  'Car':         'utility_vehicle',
+  'Artillery':   'artillery',
+  'Airplane':    'aircraft',
+  'Defense':     'defense_turret',
+  'Boat':        'naval',
+  'Helicopter':  'helicopter',
+  'AA':          'air_defense',
+  'Drone':       'drone',
+};
+
+/** 分类 → 显示名（中文） */
+const CATEGORY_DISPLAY = {
+  main_battle_tank:           '主战坦克',
+  infantry_fighting_vehicle:  '步兵战车/装甲车',
+  utility_vehicle:            '多功能车/运输车',
+  artillery:                  '火炮/火箭炮',
+  aircraft:                   '固定翼飞机',
+  defense_turret:             '固定防御',
+  naval:                      '水上载具',
+  helicopter:                 '直升机',
+  air_defense:                '防空单位',
+  drone:                      '无人机',
+};
+
+/** 分类 → 描述 */
+const CATEGORY_DESC = {
+  main_battle_tank:           'Main Battle Tanks',
+  infantry_fighting_vehicle:  'Infantry Fighting Vehicles & APCs',
+  utility_vehicle:            'Utility Vehicles & Trucks',
+  artillery:                  'Artillery & Rocket Artillery',
+  aircraft:                   'Fixed-wing Aircraft',
+  defense_turret:             'Fixed Defense Turrets',
+  naval:                      'Naval Vehicles',
+  helicopter:                 'Helicopters',
+  air_defense:                'Air Defense Units',
+  drone:                      'Drones',
 };
 
 // ══════════════════════════════════════════════════════════════
@@ -53,7 +106,7 @@ function findJar(pattern) {
 
 /** 提取 JAR 中的指定路径到临时目录 */
 function extractJarData(jarPath, extractPath) {
-  const result = require('child_process').execSync(
+  require('child_process').execSync(
     `jar xf "${jarPath}" "${extractPath}"`,
     { cwd: TEMP_DIR, stdio: 'pipe' }
   );
@@ -76,6 +129,14 @@ function readJsonDir(dirPath) {
   return results;
 }
 
+/** 安全清理目录（先删再建） */
+function cleanDir(dirPath) {
+  if (fs.existsSync(dirPath)) {
+    fs.rmSync(dirPath, { recursive: true, force: true });
+  }
+  fs.mkdirSync(dirPath, { recursive: true });
+}
+
 // ══════════════════════════════════════════════════════════════
 //  @RifleAmmo / @HeavyAmmo 映射表
 // ══════════════════════════════════════════════════════════════
@@ -91,10 +152,9 @@ const AMMO_ALIAS = {
 function resolveAmmoTypes(ammoType) {
   if (!ammoType) return [];
 
-  // string: 直接使用
+  // string: 直接使用或查别名
   if (typeof ammoType === 'string') {
-    const resolved = AMMO_ALIAS[ammoType] || ammoType;
-    return [resolved];
+    return [AMMO_ALIAS[ammoType] || ammoType];
   }
 
   // array: 遍历每个元素
@@ -102,8 +162,7 @@ function resolveAmmoTypes(ammoType) {
     const results = [];
     for (const item of ammoType) {
       if (typeof item === 'string') {
-        const resolved = AMMO_ALIAS[item] || item;
-        results.push(resolved);
+        results.push(AMMO_ALIAS[item] || item);
       } else if (item && typeof item === 'object' && item.Ammo) {
         results.push(item.Ammo);
       }
@@ -115,7 +174,7 @@ function resolveAmmoTypes(ammoType) {
 }
 
 // ══════════════════════════════════════════════════════════════
-//  构建部件列表（从 OBB 或默认模板推导）
+//  部件健康度默认值
 // ══════════════════════════════════════════════════════════════
 
 const PART_HEALTH_DEFAULTS = {
@@ -137,7 +196,6 @@ function extractParts(obb) {
       if (!parts.includes(entry.Part)) parts.push(entry.Part);
     }
   }
-  // 确保始终有 wheels
   const hasWheelLeft = obb.some(e => e.Part === 'WheelLeft');
   const hasWheelRight = obb.some(e => e.Part === 'WheelRight');
   if (hasWheelLeft) parts.unshift('WheelLeft');
@@ -145,21 +203,39 @@ function extractParts(obb) {
   return parts;
 }
 
+/**
+ * 根据弹药 ID 推断默认携带/补给量
+ */
+function getDefaultAmmoCount(ammoId) {
+  if (ammoId === 'FE') return 0;
+  if (ammoId.includes('missile') || ammoId.includes('rocket')) return 16;
+  if (ammoId.includes('bomb')) return 8;
+  if (ammoId.includes('mortar')) return 32;
+  if (ammoId.includes('shell_ap') || ammoId.includes('shell_he') || ammoId.includes('shell_gs')) return 32;
+  if (ammoId.includes('shell_aa')) return 64;
+  if (ammoId.includes('rifle_ammo')) return 192;
+  if (ammoId.includes('heavy_ammo')) return 128;
+  if (ammoId.includes('tow')) return 16;
+  if (ammoId.includes('mlrs')) return 32;
+  if (ammoId.includes('bullet')) return 256;
+  if (ammoId.includes('cartridge')) return 256;
+  if (ammoId.includes('25mm') || ammoId.includes('30mm')) return 128;
+  if (ammoId.includes('40mm')) return 64;
+  if (ammoId.includes('smoke')) return 32;
+  return 64;
+}
+
 // ══════════════════════════════════════════════════════════════
-//  为 MBT/坦克生成 NBT 模板
+//  为车辆生成 NBT 模板
 // ══════════════════════════════════════════════════════════════
 
-/**
- * 根据车辆 JSON 配置生成部署用的 NBT 模板
- */
 function generateNbtTemplate(vehicleId, vehicleData) {
   const health = vehicleData.MaxHealth || 500;
   const energy = vehicleData.MaxEnergy || 10000000;
   const weapons = vehicleData.Weapons || {};
   const parts = extractParts(vehicleData.OBB);
-  const hasDecoy = vehicleData.HasDecoy !== false; // 默认 true
+  const hasDecoy = vehicleData.HasDecoy !== false;
 
-  // ── 基本属性 ──
   const template = {
     Energy: energy,
     Health: health,
@@ -170,29 +246,25 @@ function generateNbtTemplate(vehicleId, vehicleData) {
     ChargeProgress: 0.0,
   };
 
-  // ── 部件健康度 ──
   for (const part of parts) {
     const defaultHealth = PART_HEALTH_DEFAULTS[part] || 100;
     template[part + 'Health'] = defaultHealth;
     template[part + 'Damaged'] = 0;
   }
-  // Turret 额外字段
   if (parts.includes('Turret')) {
     template.TurretBurned = 0;
     template.TurretBurnTimer = 0;
   }
 
-  // ── 武器状态 ──
   const weaponState = {};
   for (const [weaponKey, weaponCfg] of Object.entries(weapons)) {
-    // 跳过 @ 开头的特殊武器 key
     const wKey = weaponKey.startsWith('@') ? weaponKey.substring(1) : weaponKey;
     const magSize = weaponCfg.Magazine || 1;
     weaponState[wKey] = {
       components: {
         'minecraft:custom_data': {
           GunData: {
-            Ammo: Math.min(magSize, 1) // 预装 1 发
+            Ammo: Math.min(magSize, 1)
           }
         }
       }
@@ -203,7 +275,7 @@ function generateNbtTemplate(vehicleId, vehicleData) {
     template.WeaponState = weaponState;
   }
 
-  // ── 弹药库存（自动计算合理默认值） ──
+  // 弹药库存
   const inventoryItems = [];
   let slotIndex = 0;
   const usedAmmo = new Set();
@@ -211,22 +283,11 @@ function generateNbtTemplate(vehicleId, vehicleData) {
   for (const [, weaponCfg] of Object.entries(weapons)) {
     const ammoTypes = resolveAmmoTypes(weaponCfg.AmmoType);
     for (const ammoId of ammoTypes) {
-      if (usedAmmo.has(ammoId)) continue;
+      if (ammoId === 'FE' || usedAmmo.has(ammoId)) continue;
       usedAmmo.add(ammoId);
-
-      // 根据弹药类型决定默认携带量
-      let defaultCount = 64;
-      if (ammoId.includes('missile') || ammoId.includes('rocket')) defaultCount = 16;
-      if (ammoId.includes('bomb')) defaultCount = 8;
-      if (ammoId.includes('mortar')) defaultCount = 32;
-      if (ammoId.includes('shell_ap') || ammoId.includes('shell_he') || ammoId.includes('shell_gs')) defaultCount = 32;
-      if (ammoId.includes('shell_aa')) defaultCount = 64;
-      if (ammoId.includes('rifle_ammo')) defaultCount = 192;
-      if (ammoId.includes('heavy_ammo')) defaultCount = 128;
-
       inventoryItems.push({
         Slot: slotIndex++,
-        count: defaultCount,
+        count: getDefaultAmmoCount(ammoId),
         id: ammoId
       });
     }
@@ -239,26 +300,81 @@ function generateNbtTemplate(vehicleId, vehicleData) {
   return template;
 }
 
+/**
+ * 为车辆生成弹药补给配置（每种子弹 → 最大补给量）
+ * 从 weapons 的 ammoTypes 自动推导
+ */
+function generateAmmoSlots(weapons) {
+  const slots = {};
+  for (const [, weaponCfg] of Object.entries(weapons)) {
+    const ammoTypes = resolveAmmoTypes(weaponCfg.AmmoType);
+    for (const ammoId of ammoTypes) {
+      if (ammoId === 'FE') continue;
+      // 使用完整的 item ID 作为 key
+      if (!slots[ammoId] || getDefaultAmmoCount(ammoId) > slots[ammoId]) {
+        slots[ammoId] = getDefaultAmmoCount(ammoId);
+      }
+    }
+  }
+  return slots;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  生成 _registry.json
+// ══════════════════════════════════════════════════════════════
+
+function buildRegistry(categoriesUsed, categoryFiles) {
+  const categories = {};
+  for (const catKey of categoriesUsed.sort()) {
+    categories[catKey] = {
+      enabled: true,
+      displayName: CATEGORY_DISPLAY[catKey] || catKey,
+      description: CATEGORY_DESC[catKey] || '',
+      files: categoryFiles[catKey] || []
+    };
+  }
+
+  return {
+    version: 2,
+    _comment: 'SBW 载具数据库注册文件 — 在此声明允许使用的分类目录。每个分类下的 files 列表供 KubeJS 自动加载器读取。添加新分类只需在此注册并创建同名目录即可。',
+    categories: categories
+  };
+}
+
+// ══════════════════════════════════════════════════════════════
+//  写入单辆载具 JSON 文件
+// ══════════════════════════════════════════════════════════════
+
+function writeVehicleFile(catDir, entityId, vehicleInfo) {
+  // 文件名格式: mod--basename.json （避免命名空间冲突）
+  const filename = entityId.replace(':', '--') + '.json';
+  const filePath = path.join(catDir, filename);
+  fs.writeFileSync(filePath, JSON.stringify(vehicleInfo, null, 2), 'utf8');
+  return filename;
+}
+
 // ══════════════════════════════════════════════════════════════
 //  主流程
 // ══════════════════════════════════════════════════════════════
 
 function main() {
-  console.log('=== 卓越前线 载具数据提取 ===');
+  console.log('=== 卓越前线 载具数据提取 (v2 数据包格式) ===');
   console.log('游戏目录:', GAME_DIR);
-  console.log('模组目录:', MODS_DIR);
+  console.log('输出目录:', DB_ROOT);
 
   // ── 创建临时目录 ──
   if (!fs.existsSync(TEMP_DIR)) {
     fs.mkdirSync(TEMP_DIR, { recursive: true });
   }
-  if (!fs.existsSync(OUTPUT_DIR)) {
-    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  }
 
-  const allVehicles = {};
-  const families = {};
+  // ── 清空并重建数据包根目录 ──
+  cleanDir(DB_ROOT);
+
+  const allVehicles = {};        // entityId → vehicleInfo
+  const categoriesUsed = new Set();
+  const categoryFiles = {};      // category → [filename, ...]  (for registry)
   const allAmmo = {};
+  const categoryVehicleCount = {};
 
   // ── 遍历每个模组 ──
   for (const [modKey, modInfo] of Object.entries(MOD_JARS)) {
@@ -269,7 +385,6 @@ function main() {
     }
     console.log(`[${modKey}] 找到 JAR: ${path.basename(jarPath)}`);
 
-    // 提取车辆数据
     const extractPath = `data/${modInfo.prefix}/sbw/vehicles/`;
     try {
       extractJarData(jarPath, extractPath);
@@ -279,27 +394,27 @@ function main() {
       continue;
     }
 
-    // 读取并解析
     const vehicleDir = path.join(TEMP_DIR, extractPath);
     const rawVehicles = readJsonDir(vehicleDir);
-
     console.log(`[${modKey}] 读取到 ${Object.keys(rawVehicles).length} 个载具`);
 
     for (const [name, data] of Object.entries(rawVehicles)) {
       const entityId = `${modInfo.prefix}:${name}`;
-
-      // 跳过非载具实体（如 assembling_table）
       if (name === 'vehicle_assembling_table') continue;
+
+      // ── 确定分类 ──
+      const displayType = data.Type || 'Unknown';
+      const category = DISPLAY_TYPE_CATEGORY[displayType] || 'uncategorized';
+      categoriesUsed.add(category);
 
       const weapons = data.Weapons || {};
       const weaponList = [];
 
       for (const [wKey, wCfg] of Object.entries(weapons)) {
-        // 处理 @ 前缀的 key
         const cleanKey = wKey.startsWith('@') ? wKey.substring(1) : wKey;
         const ammoTypes = resolveAmmoTypes(wCfg.AmmoType);
 
-        // 记录到弹药库
+        // 记录弹药库
         for (const ammoId of ammoTypes) {
           if (!allAmmo[ammoId]) {
             const shortName = ammoId.split(':').pop();
@@ -313,7 +428,7 @@ function main() {
 
         weaponList.push({
           key: cleanKey,
-          displayKey: wKey, // 保留原始 key（含 @ 前缀）
+          displayKey: wKey,
           ammoTypes: ammoTypes,
           magazine: wCfg.Magazine || 1,
           rpm: wCfg.RPM || null,
@@ -322,12 +437,15 @@ function main() {
         });
       }
 
-      // 构建全量车辆信息
+      // ── 构建自包含的载具信息 ──
       const vehicleInfo = {
-        id: entityId,
+        vehicleId: entityId,
         mod: modKey,
+        category: category,
         baseName: name,
-        displayType: data.Type || 'Unknown',
+
+        // 模组数据
+        displayType: displayType,
         maxHealth: data.MaxHealth || 500,
         maxEnergy: data.MaxEnergy || 10000000,
         hasDecoy: data.HasDecoy === true,
@@ -336,80 +454,56 @@ function main() {
         upStep: data.UpStep || 0,
         containerType: data.VehicleContainerType || null,
         hudType: data.HudType || null,
-
-        // 部件
         parts: extractParts(data.OBB),
-
-        // 乘员位数量
         seatCount: Array.isArray(data.Seats) ? data.Seats.length : 0,
-
-        // 武器
         weapons: weaponList,
 
         // 部署 NBT 模板
         nbtTemplate: generateNbtTemplate(entityId, data),
+
+        // 弹药补给配置（自动从武器弹药类型推导）
+        // key = 物品完整 ID, value = 最大补给量
+        ammoSlots: generateAmmoSlots(weapons),
       };
 
       allVehicles[entityId] = vehicleInfo;
+
+      // ── 写入分类目录 ──
+      const catDir = path.join(DB_ROOT, category);
+      if (!fs.existsSync(catDir)) {
+        fs.mkdirSync(catDir, { recursive: true });
+      }
+      const writtenFile = writeVehicleFile(catDir, entityId, vehicleInfo);
+      if (!categoryFiles[category]) categoryFiles[category] = [];
+      categoryFiles[category].push(writtenFile);
+
+      categoryVehicleCount[category] = (categoryVehicleCount[category] || 0) + 1;
     }
   }
 
-  // ── 生成族系分组（用于 GUI 下拉分组） ──
-  // 按照 baseName 去前缀分组 MCSP 的涂装变体
-  const variantGroups = {};
-  for (const [id, info] of Object.entries(allVehicles)) {
-    if (info.mod === 'mcsp') {
-      // 提取基础名（去掉 _camo, _sand, _green 等后缀）
-      let base = info.baseName;
-      base = base.replace(/_(camo|sand|green|pixel|kantemir|tricolor|standart_camo)$/, '');
-      if (!variantGroups[base]) variantGroups[base] = [];
-      variantGroups[base].push(id);
-    }
+  // ── 输出 _registry.json（含文件列表供 KubeJS 加载器使用）──
+  const registry = buildRegistry([...categoriesUsed], categoryFiles);
+  const registryPath = path.join(DB_ROOT, '_registry.json');
+  fs.writeFileSync(registryPath, JSON.stringify(registry, null, 2), 'utf8');
+
+  // ── 输出汇总信息 ──
+  console.log('\n=== 生成完成 ===');
+  console.log('数据包根目录: ' + DB_ROOT);
+  console.log('分类数: ' + Object.keys(registry.categories).length);
+  const sortedCats = Object.entries(categoryVehicleCount).sort();
+  for (const [cat, count] of sortedCats) {
+    const display = CATEGORY_DISPLAY[cat] || cat;
+    console.log('  ' + display + ' (' + cat + '/): ' + count + ' 辆');
   }
+  console.log('总载具数: ' + Object.keys(allVehicles).length + ' 种');
 
-  // 只有变体数 > 1 才创建 family
-  for (const [base, ids] of Object.entries(variantGroups)) {
-    if (ids.length > 1) {
-      // 找到原始非涂装名
-      const baseExact = `${allVehicles[ids[0]].mod}:${base}`;
-      const defaultVariant = allVehicles[baseExact] ? baseExact : ids[0];
-      families[base] = {
-        name: base,
-        variants: ids,
-        defaultVariant: defaultVariant
-      };
-    }
-  }
-
-  // ── 输出 ──
-  const output = {
-    _meta: {
-      version: '1.0',
-      generated: new Date().toISOString(),
-      mods: Object.keys(MOD_JARS),
-      vehicleCount: Object.keys(allVehicles).length,
-      ammoCount: Object.keys(allAmmo).length,
-      families: Object.keys(families).length,
-    },
-    vehicles: allVehicles,
-    families: families,
-    ammoLibrary: allAmmo,
-  };
-
-  const outputPath = path.join(OUTPUT_DIR, 'sbw_vehicle_db.json');
-  fs.writeFileSync(outputPath, JSON.stringify(output, null, 2), 'utf8');
-  console.log(`\n✓ 已输出到: ${outputPath}`);
-  console.log(`  载具: ${Object.keys(allVehicles).length} 种`);
-  console.log(`  弹药: ${Object.keys(allAmmo).length} 种`);
-  console.log(`  变体系列: ${Object.keys(families).length} 组`);
-
-  // ── 清理临时文件（无论如何都要执行） ──
+  // ── 清理临时文件 ──
   try {
     if (fs.existsSync(TEMP_DIR)) {
       require('child_process').execSync(
         process.platform === 'win32'
-          ? `rmdir /s /q "${TEMP_DIR}"`
-          : `rm -rf "${TEMP_DIR}"`,
+          ? 'rmdir /s /q "' + TEMP_DIR + '"'
+          : 'rm -rf "' + TEMP_DIR + '"',
         { stdio: 'pipe' }
       );
       console.log('临时文件已清理');

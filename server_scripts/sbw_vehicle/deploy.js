@@ -3,29 +3,9 @@
 //
 // 从方块 persistentData 读取配置 → summon 载具 → 打标签 → 存 UUID
 //
-// 载具数据库通过 Node.js 脚本从模组 JAR 预提取，
-// 存放在 kubejs/data/sbw_vehicle_db.json，由 getVehicleDB() 读取。
+// 载具数据库由 tools/database.js 自动发现加载（数据包格式），
+// 通过 getVehicleDB() / getVehicleById() 访问。
 // ============================================================
-
-/** 加载并缓存载具数据库 */
-var $vehicleDB = null
-function getVehicleDB() {
-  if ($vehicleDB !== null) return $vehicleDB
-  try {
-    var raw = JsonIO.read('kubejs/data/sbw_vehicle_db.json')
-    if (raw) {
-      $vehicleDB = raw
-      sbwLog('[部署] 载具数据库已加载: ' + (raw._meta ? raw._meta.vehicleCount + ' 种' : '?'))
-    } else {
-      sbwLog('[部署] 未找到载具数据库文件，使用空数据')
-      $vehicleDB = { vehicles: {}, ammoLibrary: {}, families: {} }
-    }
-  } catch (e) {
-    sbwError('[部署] 载具数据库加载失败: ' + e)
-    $vehicleDB = { vehicles: {}, ammoLibrary: {}, families: {} }
-  }
-  return $vehicleDB
-}
 
 // ══════════════════════════════════════════════════════════════
 //  标签 & 部署
