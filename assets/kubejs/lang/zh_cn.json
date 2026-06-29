@@ -14,9 +14,22 @@
   "gui.kubejs.profession_select.subtitle.weapon": "§8主武器配置界面",
   "gui.kubejs.profession_select.subtitle.offhand": "§8副武器配置界面",
   "gui.kubejs.profession_select.subtitle.tertiary": "§8特殊武器配置界面",
+  "gui.kubejs.profession_select.subtitle.weapon_type": "§8主武器",
+  "gui.kubejs.profession_select.subtitle.offhand_type": "§8副武器",
+  "gui.kubejs.profession_select.subtitle.tertiary_type": "§8特殊武器",
+  "gui.kubejs.profession_select.subtitle.config": "配置",
 
   "gui.kubejs.profession_select.hint": "§7左键进入选择，右键清空武器选择",
   "gui.kubejs.weapon_select.hint": "§7左键选择武器，右键进入配件管理",
+
+  "type.kubejs.rifle": "§6步枪",
+  "type.kubejs.smg": "§b冲锋枪",
+  "type.kubejs.shotgun": "§e霰弹枪",
+  "type.kubejs.sniper": "§d狙击枪",
+  "type.kubejs.mg": "§c机枪",
+  "type.kubejs.pistol": "§f手枪",
+  "gui.kubejs.type_select.hint": "§7选择武器类型，进入该类型武器列表",
+  "gui.kubejs.type_select.click_enter": "§7点击进入",
 
   "profession.kubejs.assault": "§c突击兵",
   "profession.kubejs.assault.desc": "§7近距离作战，高机动",

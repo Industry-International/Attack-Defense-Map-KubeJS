@@ -1,7 +1,13 @@
 {
   "weaponLists": {
-    "primary": ["m249", "rpk", "bf1lewis", "mg42", "chauchat", "lavendermg0815"],
-    "secondary": ["deagle"],
-    "tertiary": ["snowball"]
+    "primary": {
+      "mg": ["m249", "rpk", "bf1lewis", "mg42", "chauchat", "lavendermg0815"]
+    },
+    "secondary": {
+      "pistol": ["deagle"]
+    },
+    "tertiary": {
+      "other": ["snowball"]
+    }
   }
 }

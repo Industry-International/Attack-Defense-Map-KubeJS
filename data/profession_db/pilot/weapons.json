@@ -1,7 +1,13 @@
 {
   "weaponLists": {
-    "primary": ["p320", "cz75"],
-    "secondary": ["snowball"],
-    "tertiary": ["snowball"]
+    "primary": {
+      "pistol": ["p320", "cz75"]
+    },
+    "secondary": {
+      "other": ["snowball"]
+    },
+    "tertiary": {
+      "other": ["snowball"]
+    }
   }
 }

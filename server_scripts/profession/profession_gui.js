@@ -141,7 +141,7 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
         .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
-    slot.setLeftClicked(() => openPage(player, 'weapon'))
+    slot.setLeftClicked(() => openPage(player, 'weapon_type'))
     if (wp) slot.setRightClicked(() => {
       delete player.persistentData.mainWeapon
       player.tell(Text.translate('msg.kubejs.profession_select.main_cleared'))
@@ -163,7 +163,7 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
         .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
-    slot.setLeftClicked(() => openPage(player, 'offhand'))
+    slot.setLeftClicked(() => openPage(player, 'offhand_type'))
     if (off) slot.setRightClicked(() => {
       delete player.persistentData.offhandWeapon
       player.tell(Text.translate('msg.kubejs.profession_select.offhand_cleared'))
@@ -185,7 +185,7 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
         .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
-    slot.setLeftClicked(() => openPage(player, 'tertiary'))
+    slot.setLeftClicked(() => openPage(player, 'tertiary_type'))
     if (sp) slot.setRightClicked(() => {
       delete player.persistentData.specialWeapon
       player.tell(Text.translate('msg.kubejs.profession_select.special_cleared'))
@@ -322,23 +322,26 @@ function renderProf(gui, player, openPage, pageNum) {
 }
 
 /**
- * 主武器选择列表（分页网格布局）
+ * 主武器选择列表（分页网格布局，可按类型过滤）
  */
-function renderWeapon(gui, player, openPage, pageNum) {
+function renderWeapon(gui, player, openPage, pageNum, weaponType) {
   pageNum = pageNum || 0
   var prof = player.persistentData.profession
   if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'prof'); return }
-  var wpList = getProfessionWeaponList(prof, 'primary')
+  // 按类型过滤
+  var wpList = weaponType ? getProfessionWeaponListByType(prof, 'primary', weaponType) : getProfessionWeaponList(prof, 'primary')
   if (wpList.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'weapon_config'); return }
 
   var pageSize = 21 // 7列 × 3行
   var totalPages = Math.ceil(wpList.length / pageSize)
   if (pageNum >= totalPages) pageNum = 0
 
+  var returnPage = weaponType ? ('primary_type') : 'weapon_config'
+
   // Row 0: 返回 + 页码 + 翻页
   gui.slot(0, 0, s => {
     s.setItem(Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.profession_select.back')))
-    s.setLeftClicked(() => openPage(player, 'weapon_config'))
+    s.setLeftClicked(() => openPage(player, returnPage))
   })
   if (totalPages > 1) {
     gui.slot(4, 0, s => {
@@ -348,13 +351,13 @@ function renderWeapon(gui, player, openPage, pageNum) {
     if (pageNum > 0) {
       gui.slot(7, 0, s => {
         s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.prev')))
-        s.setLeftClicked(() => openPage(player, 'weapon:' + (pageNum - 1)))
+        s.setLeftClicked(() => openPage(player, 'primary:' + (weaponType ? weaponType + ':' : '') + (pageNum - 1)))
       })
     }
     if (pageNum < totalPages - 1) {
       gui.slot(8, 0, s => {
         s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.next')))
-        s.setLeftClicked(() => openPage(player, 'weapon:' + (pageNum + 1)))
+        s.setLeftClicked(() => openPage(player, 'primary:' + (weaponType ? weaponType + ':' : '') + (pageNum + 1)))
       })
     }
   }
@@ -420,23 +423,25 @@ function renderWeapon(gui, player, openPage, pageNum) {
 }
 
 /**
- * 副武器选择列表（分页网格布局）
+ * 副武器选择列表（分页网格布局，可按类型过滤）
  */
-function renderOffhand(gui, player, openPage, pageNum) {
+function renderOffhand(gui, player, openPage, pageNum, weaponType) {
   pageNum = pageNum || 0
   var prof = player.persistentData.profession
   if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'prof'); return }
-  var offList = getProfessionWeaponList(prof, 'secondary')
+  var offList = weaponType ? getProfessionWeaponListByType(prof, 'secondary', weaponType) : getProfessionWeaponList(prof, 'secondary')
   if (offList.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'weapon_config'); return }
 
   var pageSize = 21
   var totalPages = Math.ceil(offList.length / pageSize)
   if (pageNum >= totalPages) pageNum = 0
 
+  var returnPage = weaponType ? ('secondary_type') : 'weapon_config'
+
   // Row 0: 返回 + 页码 + 翻页
   gui.slot(0, 0, s => {
     s.setItem(Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.profession_select.back')))
-    s.setLeftClicked(() => openPage(player, 'weapon_config'))
+    s.setLeftClicked(() => openPage(player, returnPage))
   })
   if (totalPages > 1) {
     gui.slot(4, 0, s => {
@@ -446,13 +451,13 @@ function renderOffhand(gui, player, openPage, pageNum) {
     if (pageNum > 0) {
       gui.slot(7, 0, s => {
         s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.prev')))
-        s.setLeftClicked(() => openPage(player, 'offhand:' + (pageNum - 1)))
+        s.setLeftClicked(() => openPage(player, 'secondary:' + (weaponType ? weaponType + ':' : '') + (pageNum - 1)))
       })
     }
     if (pageNum < totalPages - 1) {
       gui.slot(8, 0, s => {
         s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.next')))
-        s.setLeftClicked(() => openPage(player, 'offhand:' + (pageNum + 1)))
+        s.setLeftClicked(() => openPage(player, 'secondary:' + (weaponType ? weaponType + ':' : '') + (pageNum + 1)))
       })
     }
   }
@@ -518,24 +523,26 @@ function renderOffhand(gui, player, openPage, pageNum) {
 }
 
 /**
- * 特殊武器选择列表（分页网格布局）
+ * 特殊武器选择列表（分页网格布局，可按类型过滤）
  * 非 TACZ 枪械（如雪球）则直接选中，不支持配件改装
  */
-function renderTertiary(gui, player, openPage, pageNum) {
+function renderTertiary(gui, player, openPage, pageNum, weaponType) {
   pageNum = pageNum || 0
   var prof = player.persistentData.profession
   if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'prof'); return }
-  var spList = getProfessionWeaponList(prof, 'tertiary')
+  var spList = weaponType ? getProfessionWeaponListByType(prof, 'tertiary', weaponType) : getProfessionWeaponList(prof, 'tertiary')
   if (spList.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'weapon_config'); return }
 
   var pageSize = 21
   var totalPages = Math.ceil(spList.length / pageSize)
   if (pageNum >= totalPages) pageNum = 0
 
+  var returnPage = weaponType ? ('tertiary_type') : 'weapon_config'
+
   // Row 0: 返回 + 页码 + 翻页
   gui.slot(0, 0, s => {
     s.setItem(Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.profession_select.back')))
-    s.setLeftClicked(() => openPage(player, 'weapon_config'))
+    s.setLeftClicked(() => openPage(player, returnPage))
   })
   if (totalPages > 1) {
     gui.slot(4, 0, s => {
@@ -545,13 +552,13 @@ function renderTertiary(gui, player, openPage, pageNum) {
     if (pageNum > 0) {
       gui.slot(7, 0, s => {
         s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.prev')))
-        s.setLeftClicked(() => openPage(player, 'tertiary:' + (pageNum - 1)))
+        s.setLeftClicked(() => openPage(player, 'tertiary:' + (weaponType ? weaponType + ':' : '') + (pageNum - 1)))
       })
     }
     if (pageNum < totalPages - 1) {
       gui.slot(8, 0, s => {
         s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.next')))
-        s.setLeftClicked(() => openPage(player, 'tertiary:' + (pageNum + 1)))
+        s.setLeftClicked(() => openPage(player, 'tertiary:' + (weaponType ? weaponType + ':' : '') + (pageNum + 1)))
       })
     }
   }
@@ -616,26 +623,143 @@ function renderTertiary(gui, player, openPage, pageNum) {
   })
 }
 
+/**
+ * 武器类型选择页
+ * 显示主武器/副武器/特殊武器下的具体枪械类型（步枪/冲锋枪/霰弹枪等）
+ */
+function renderTypeSelection(gui, player, openPage, pageNum, category) {
+  pageNum = pageNum || 0
+  var prof = player.persistentData.profession
+  if (!prof) { player.tell(Text.translate('msg.kubejs.profession_select.select_first')); openPage(player, 'prof'); return }
+
+  var types = getWeaponTypes(prof, category)
+
+  // 无类型分组（旧格式）或无武器 → 直接进武器列表
+  if (types.length === 0 || (types.length === 1 && types[0] === 'all')) {
+    openPage(player, category + ':0')
+    return
+  }
+  if (types.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'weapon_config'); return }
+
+  var pageSize = 21
+  var totalPages = Math.ceil(types.length / pageSize)
+  if (pageNum >= totalPages) pageNum = 0
+
+  // Row 0: 返回 + 页码 + 翻页
+  gui.slot(0, 0, s => {
+    s.setItem(Item.of('minecraft:barrier').withCustomName(Text.translate('gui.kubejs.profession_select.back')))
+    s.setLeftClicked(() => openPage(player, 'weapon_config'))
+  })
+  if (totalPages > 1) {
+    gui.slot(4, 0, s => {
+      s.setItem(Item.of('minecraft:book').withCustomName(
+        Text.translate('gui.kubejs.page.info', String(pageNum + 1), String(totalPages))))
+    })
+    if (pageNum > 0) {
+      gui.slot(7, 0, s => {
+        s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.prev')))
+        s.setLeftClicked(() => openPage(player, category + '_type:' + (pageNum - 1)))
+      })
+    }
+    if (pageNum < totalPages - 1) {
+      gui.slot(8, 0, s => {
+        s.setItem(Item.of('minecraft:arrow').withCustomName(Text.translate('gui.kubejs.page.next')))
+        s.setLeftClicked(() => openPage(player, category + '_type:' + (pageNum + 1)))
+      })
+    }
+  }
+
+  // Row 1: 灰色分隔线
+  for (let x = 1; x < 8; x++) gui.slot(x, 1, s => { s.setItem(PANE.gray) })
+
+  // Row 2-4: 类型网格
+  var start = pageNum * pageSize
+  var end = Math.min(start + pageSize, types.length)
+  for (var i = start; i < end; i++) {
+    var t = types[i]
+    var localIdx = i - start
+    var col = 1 + (localIdx % 7)
+    var row = 2 + Math.floor(localIdx / 7)
+    ;(function(t, col, row) {
+      gui.slot(col, row, function(slot) {
+        var typeItem = getTypeDisplayItem(t)
+        slot.setItem(typeItem)
+        slot.setLeftClicked(function() {
+          openPage(player, category + ':' + t + ':0')
+        })
+      })
+    })(t, col, row)
+  }
+
+  // 填充空槽
+  for (var i = end; i < start + pageSize; i++) {
+    var localIdx = i - start
+    var col = 1 + (localIdx % 7)
+    var row = 2 + Math.floor(localIdx / 7)
+    if (row <= 4) {
+      ;(function(col, row) {
+        gui.slot(col, row, function(s) { s.setItem(PANE.black) })
+      })(col, row)
+    }
+  }
+
+  // Row 5: 操作提示
+  gui.slot(4, 5, s => {
+    s.setItem(
+      Item.of('minecraft:feather')
+        .withCustomName(Text.translate('gui.kubejs.type_select.hint'))
+    )
+  })
+}
+
+/** 根据武器类型返回展示物品 */
+function getTypeDisplayItem(type) {
+  var gunMap = {
+    rifle:    'tacz:ak47',
+    smg:      'tacz:hk_mp5a5',
+    shotgun:  'tacz:db_shotgun',
+    sniper:   'tacz:sks_tactical',
+    mg:       'tacz:m249',
+    pistol:   'tacz:glock_17',
+  }
+  var gunId = gunMap[type] || 'tacz:ak47'
+  var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
+  return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: gunId, GunCurrentAmmoCount: $IntTag.valueOf(30) } })
+    .withCustomName(Text.translate('type.kubejs.' + type))
+    .withLore([Text.translate('gui.kubejs.type_select.click_enter')])
+}
+
 // ========== 核心逻辑 ==========
 
 /**
  * 打开职业选择 GUI
  * @param {Internal.ServerPlayer} player
- * @param {string} page - 页面名，支持 "page:num" 格式传递页码
+ * @param {string} page - 页面名，支持格式：
+ *   "page"           → 简单页面
+ *   "page:num"       → 带页码
+ *   "page:type:num"  → 带武器类型 + 页码（如 "primary:rifle:0"）
  */
 function openPage(player, page) {
   // 标记 GUI 已打开，禁用物品拾取
   player.persistentData.guiOpen = true
-  // 添加 no_loadout 标签（适配原版 /tag 指令），标记玩家尚未领取装备
   player.addTag('no_loadout')
 
-  // 解析页码（支持 "page:num" 格式）
-  var actualPage = page
+  // 解析页面参数（支持 "page:type:num" 三部分格式）
+  var parts = page.split(':')
+  var actualPage = parts[0]
+  var weaponType = null
   var pageNum = 0
-  var colonIdx = page.indexOf(':')
-  if (colonIdx > 0) {
-    actualPage = page.substring(0, colonIdx)
-    pageNum = parseInt(page.substring(colonIdx + 1)) || 0
+
+  if (parts.length === 2) {
+    var second = parseInt(parts[1])
+    if (isNaN(second)) {
+      weaponType = parts[1]
+    } else {
+      pageNum = second
+    }
+  } else if (parts.length >= 3) {
+    weaponType = parts[1]
+    pageNum = parseInt(parts[2]) || 0
   }
 
   // 根据页面与当前职业动态构建标题
@@ -643,6 +767,15 @@ function openPage(player, page) {
   var title
   if (actualPage === 'prof' || !prof) {
     title = Text.translate('gui.kubejs.profession_select.title')
+  } else if (actualPage === 'weapon_type' || actualPage === 'offhand_type' || actualPage === 'tertiary_type') {
+    // 类型选择页：职业名 + 分类名（如 "突击兵 → 主武器"）
+    title = Text.translate('profession.kubejs.' + prof).copy()
+      .append(Text.translate('gui.kubejs.profession_select.subtitle.' + actualPage))
+  } else if (weaponType) {
+    // 武器列表页（已选类型）：职业名 + 类型名 + "配置"（如 "突击兵 → 步枪配置"）
+    title = Text.translate('profession.kubejs.' + prof).copy()
+      .append(Text.translate('type.kubejs.' + weaponType))
+      .append(Text.translate('gui.kubejs.profession_select.subtitle.config'))
   } else {
     title = Text.translate('profession.kubejs.' + prof).copy()
       .append(Text.translate('gui.kubejs.profession_select.subtitle.' + actualPage))
@@ -650,16 +783,21 @@ function openPage(player, page) {
 
   player.openChestGUI(title, 6, gui => {
 
-    // ----- 子页面加竖边框（武器配置页按固定布局，不额外加框） -----
     if (actualPage !== 'prof' && actualPage !== 'weapon_config') {
       drawSubPageFrame(gui)
     }
 
     if (actualPage === 'prof')          renderProf(gui, player, openPage, pageNum)
     else if (actualPage === 'weapon_config') renderWeaponConfig(gui, player, openPage, pageNum)
-    else if (actualPage === 'weapon')   renderWeapon(gui, player, openPage, pageNum)
-    else if (actualPage === 'offhand')  renderOffhand(gui, player, openPage, pageNum)
-    else if (actualPage === 'tertiary') renderTertiary(gui, player, openPage, pageNum)
+    else if (actualPage === 'weapon_type')  renderTypeSelection(gui, player, openPage, pageNum, 'primary')
+    else if (actualPage === 'offhand_type') renderTypeSelection(gui, player, openPage, pageNum, 'secondary')
+    else if (actualPage === 'tertiary_type') renderTypeSelection(gui, player, openPage, pageNum, 'tertiary')
+    else if (actualPage === 'primary' || actualPage === 'weapon')
+      renderWeapon(gui, player, openPage, pageNum, weaponType)
+    else if (actualPage === 'secondary' || actualPage === 'offhand')
+      renderOffhand(gui, player, openPage, pageNum, weaponType)
+    else if (actualPage === 'tertiary')
+      renderTertiary(gui, player, openPage, pageNum, weaponType)
     else if (actualPage === 'backpack_load')   renderBackpackSelect(gui, player, openPage, 'backpack_load', pageNum)
     else if (actualPage === 'backpack_save')   renderBackpackSelect(gui, player, openPage, 'backpack_save', pageNum)
     else if (actualPage === 'backpack_delete') renderBackpackSelect(gui, player, openPage, 'backpack_delete', pageNum)

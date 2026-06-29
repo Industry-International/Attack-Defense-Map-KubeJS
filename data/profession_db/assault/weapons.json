@@ -1,7 +1,15 @@
 {
   "weaponLists": {
-    "primary": ["ak47", "scar_l", "gewehr_1_5", "lavenderdarne1912", "lavenderberretam1918"],
-    "secondary": ["mars", "ruby"],
-    "tertiary": ["snowball"]
+    "primary": {
+      "rifle":   ["ak47", "scar_l", "gewehr_1_5"],
+      "smg":     ["lavenderberretam1918"],
+      "shotgun": ["lavenderdarne1912"]
+    },
+    "secondary": {
+      "pistol": ["mars", "ruby"]
+    },
+    "tertiary": {
+      "other": ["snowball"]
+    }
   }
 }

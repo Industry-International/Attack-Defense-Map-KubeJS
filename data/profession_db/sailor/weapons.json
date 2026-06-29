@@ -1,7 +1,13 @@
 {
   "weaponLists": {
-    "primary": ["m1911", "glock_17"],
-    "secondary": ["snowball"],
-    "tertiary": ["snowball"]
+    "primary": {
+      "pistol": ["m1911", "glock_17"]
+    },
+    "secondary": {
+      "other": ["snowball"]
+    },
+    "tertiary": {
+      "other": ["snowball"]
+    }
   }
 }

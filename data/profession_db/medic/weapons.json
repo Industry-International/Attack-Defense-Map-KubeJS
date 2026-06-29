@@ -1,7 +1,14 @@
 {
   "weaponLists": {
-    "primary": ["hk_mp5a5", "aug", "bf1liu", "lavenderhowell"],
-    "secondary": ["glock_17"],
-    "tertiary": ["snowball"]
+    "primary": {
+      "rifle": ["aug", "bf1liu", "lavenderhowell"],
+      "smg":   ["hk_mp5a5"]
+    },
+    "secondary": {
+      "pistol": ["glock_17"]
+    },
+    "tertiary": {
+      "other": ["snowball"]
+    }
   }
 }

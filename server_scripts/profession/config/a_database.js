@@ -176,23 +176,64 @@ function getProfTagList() {
   return db.profTagList
 }
 
-/** 构造 GUI 武器列表（TACZ 生成枪械物品，非 TACZ 从 VANILLA_WEAPON_DISPLAY 查表） */
+/**
+ * 解析 weaponLists 的分类条目，兼容新旧格式
+ * 新格式：{ "rifle": ["ak47", ...], "smg": [...] }
+ * 旧格式：["ak47", "..."]
+ * @returns {object} { typeMap: {type → [id, ...]}, flatIds: [id, ...] }
+ */
+function _parseCategoryData(categoryData) {
+  var typeMap = {}
+  var flatIds = []
+  if (!categoryData) return { typeMap: typeMap, flatIds: flatIds }
+
+  // 判断是对象（新格式）还是数组（旧格式）
+  // Rhino 引擎下 JsonIO.read 产生 NativeObject，不能用 toString.call 判断
+  var isObj = typeof categoryData === 'object' && categoryData !== null && !(
+    typeof Array.isArray === 'function' ? Array.isArray(categoryData) : categoryData instanceof Array
+  )
+  if (isObj) {
+    var keys = Object.keys(categoryData)
+    for (var ki = 0; ki < keys.length; ki++) {
+      var type = keys[ki]
+      var ids = categoryData[type]
+      if (ids && ids.length > 0) {
+        typeMap[type] = ids
+        for (var ii = 0; ii < ids.length; ii++) {
+          flatIds.push(ids[ii])
+        }
+      }
+    }
+  } else if (typeof categoryData === 'object' && categoryData !== null && (
+    typeof Array.isArray === 'function' ? Array.isArray(categoryData) : categoryData instanceof Array
+  )) {
+    // 旧格式：直接就是 ID 数组
+    flatIds = categoryData
+  }
+  return { typeMap: typeMap, flatIds: flatIds }
+}
+
+/**
+ * 构造 GUI 武器列表（TACZ 生成枪械物品，非 TACZ 从 VANILLA_WEAPON_DISPLAY 查表）
+ * 按类型分组的新格式下，展开所有类型返回
+ */
 function getProfessionWeaponList(profession, category) {
   var db = getProfessionDB()
   var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
   var cleanProf = cleanId(profession)
   var profCfg = db.professions[cleanProf]
   if (!profCfg || !profCfg.weaponLists) return []
-  var ids = profCfg.weaponLists[category]
-  if (!ids || ids.length === 0) return []
+  var catData = profCfg.weaponLists[category]
+  if (!catData) return []
+  var parsed = _parseCategoryData(catData)
+  if (parsed.flatIds.length === 0) return []
 
   var result = []
-  for (var i = 0; i < ids.length; i++) {
-    var id = ids[i]
+  for (var i = 0; i < parsed.flatIds.length; i++) {
+    var id = parsed.flatIds[i]
     var pureId = cleanId(id)
     var weaponData = db.weapons[pureId]
     if (weaponData) {
-      // TACZ 枪械
       result.push({
         id: id,
         display: 'tacz:modern_kinetic_gun',
@@ -200,17 +241,70 @@ function getProfessionWeaponList(profession, category) {
       })
       continue
     }
-    // 非 TACZ 武器
     var displayCfg = db.VANILLA_WEAPON_DISPLAY[pureId]
     if (displayCfg) {
       result.push({ id: id, display: displayCfg.item, i18n: displayCfg.i18n })
       continue
     }
-    // 未找到 → 用屏障占位
     console.warn('[职业数据库] 未找到武器 [' + pureId + '] 的展示配置，使用屏障占位')
     result.push({ id: id, display: 'minecraft:barrier' })
   }
   return result
+}
+
+/**
+ * 获取某职业某分类下的所有武器类型
+ * 新格式返回类型名数组（如 ["rifle", "smg"]），旧格式返回 ["all"]
+ */
+function getWeaponTypes(profession, category) {
+  var db = getProfessionDB()
+  var cleanProf = cleanId(profession)
+  var profCfg = db.professions[cleanProf]
+  if (!profCfg || !profCfg.weaponLists) return []
+  var catData = profCfg.weaponLists[category]
+  if (!catData) return []
+  var parsed = _parseCategoryData(catData)
+  var typeKeys = Object.keys(parsed.typeMap)
+  if (typeKeys.length > 0) return typeKeys
+  // 旧格式（无类型分组）→ 返回 ["all"] 表示只有单一分类
+  return parsed.flatIds.length > 0 ? ['all'] : []
+}
+
+/**
+ * 获取某职业某分类下指定类型的武器列表
+ * 新格式按 type 提取，旧格式返回全部（type 参数被忽略）
+ */
+function getProfessionWeaponListByType(profession, category, type) {
+  var db = getProfessionDB()
+  var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
+  var cleanProf = cleanId(profession)
+  var cleanType = cleanId(type)
+  var profCfg = db.professions[cleanProf]
+  if (!profCfg || !profCfg.weaponLists) return []
+  var catData = profCfg.weaponLists[category]
+  if (!catData) return []
+  var parsed = _parseCategoryData(catData)
+
+  // 新格式：按类型提取
+  if (cleanType && parsed.typeMap[cleanType]) {
+    var ids = parsed.typeMap[cleanType]
+    var result = []
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i]
+      var pureId = cleanId(id)
+      var weaponData = db.weapons[pureId]
+      if (!weaponData) continue
+      result.push({
+        id: id,
+        display: 'tacz:modern_kinetic_gun',
+        tag: { custom_data: { GunId: weaponData.gunId, GunCurrentAmmoCount: $IntTag.valueOf(weaponData.gunCurrentAmmoCount || 30) } }
+      })
+    }
+    return result
+  }
+
+  // 旧格式或无匹配类型 → 返回全部（含非 TACZ）
+  return getProfessionWeaponList(profession, category)
 }
 
 /** 获取职业基础配置（护甲 + 额外物品，向下兼容） */
