@@ -50,6 +50,8 @@
   "gui.kubejs.profession_select.subtitle.weapon_type": "\\u00a78Main Weapon",
   "gui.kubejs.profession_select.subtitle.offhand_type": "\\u00a78Offhand Weapon",
   "gui.kubejs.profession_select.subtitle.tertiary_type": "\\u00a78Special Weapon",
+  "gui.kubejs.profession_select.subtitle.primary_type": "\\u00a78Main Weapon",
+  "gui.kubejs.profession_select.subtitle.secondary_type": "\\u00a78Offhand Weapon",
   "gui.kubejs.profession_select.subtitle.config": " Config",
 
   "gui.kubejs.profession_select.hint": "\\u00a77Left-click to select, right-click to clear",
@@ -61,6 +63,7 @@
   "type.kubejs.sniper": "§dSniper",
   "type.kubejs.mg": "§cMachine Gun",
   "type.kubejs.pistol": "§fPistol",
+  "type.kubejs.all": "§eAll",
   "gui.kubejs.type_select.hint": "§7Select weapon type to view available weapons",
   "gui.kubejs.type_select.click_enter": "§7Click to enter",
   "item.kubejs.menu": "§6Menu",

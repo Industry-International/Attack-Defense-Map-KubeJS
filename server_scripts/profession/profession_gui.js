@@ -141,7 +141,7 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
         .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
-    slot.setLeftClicked(() => openPage(player, 'weapon_type'))
+    slot.setLeftClicked(() => openPage(player, 'primary_type'))
     if (wp) slot.setRightClicked(() => {
       delete player.persistentData.mainWeapon
       player.tell(Text.translate('msg.kubejs.profession_select.main_cleared'))
@@ -163,7 +163,7 @@ function renderWeaponConfig(gui, player, openPage, pageNum) {
         .withLore([Text.translate('gui.kubejs.profession_select.none')])
     }
     slot.setItem(item)
-    slot.setLeftClicked(() => openPage(player, 'offhand_type'))
+    slot.setLeftClicked(() => openPage(player, 'secondary_type'))
     if (off) slot.setRightClicked(() => {
       delete player.persistentData.offhandWeapon
       player.tell(Text.translate('msg.kubejs.profession_select.offhand_cleared'))
@@ -626,6 +626,7 @@ function renderTertiary(gui, player, openPage, pageNum, weaponType) {
 /**
  * 武器类型选择页
  * 显示主武器/副武器/特殊武器下的具体枪械类型（步枪/冲锋枪/霰弹枪等）
+ * 第一位固定为"全部"选项
  */
 function renderTypeSelection(gui, player, openPage, pageNum, category) {
   pageNum = pageNum || 0
@@ -641,8 +642,14 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
   }
   if (types.length === 0) { player.tell(Text.translate('msg.kubejs.profession_select.no_weapons')); openPage(player, 'weapon_config'); return }
 
+  // 前面插入"全部"选项
+  var allTypes = ['__all__']
+  for (var ti = 0; ti < types.length; ti++) {
+    allTypes.push(types[ti])
+  }
+
   var pageSize = 21
-  var totalPages = Math.ceil(types.length / pageSize)
+  var totalPages = Math.ceil(allTypes.length / pageSize)
   if (pageNum >= totalPages) pageNum = 0
 
   // Row 0: 返回 + 页码 + 翻页
@@ -674,9 +681,9 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
 
   // Row 2-4: 类型网格
   var start = pageNum * pageSize
-  var end = Math.min(start + pageSize, types.length)
+  var end = Math.min(start + pageSize, allTypes.length)
   for (var i = start; i < end; i++) {
-    var t = types[i]
+    var t = allTypes[i]
     var localIdx = i - start
     var col = 1 + (localIdx % 7)
     var row = 2 + Math.floor(localIdx / 7)
@@ -685,7 +692,9 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
         var typeItem = getTypeDisplayItem(t)
         slot.setItem(typeItem)
         slot.setLeftClicked(function() {
-          openPage(player, category + ':' + t + ':0')
+          // __all__ → 不过滤的武器列表，其他 → 按类型过滤
+          var targetPage = t === '__all__' ? category + ':0' : category + ':' + t + ':0'
+          openPage(player, targetPage)
         })
       })
     })(t, col, row)
@@ -714,6 +723,12 @@ function renderTypeSelection(gui, player, openPage, pageNum, category) {
 
 /** 根据武器类型返回展示物品 */
 function getTypeDisplayItem(type) {
+  // "全部"选项特殊处理
+  if (type === '__all__') {
+    return Item.of('minecraft:chest')
+      .withCustomName(Text.translate('type.kubejs.all'))
+      .withLore([Text.translate('gui.kubejs.type_select.click_enter')])
+  }
   var gunMap = {
     rifle:    'tacz:ak47',
     smg:      'tacz:hk_mp5a5',
@@ -767,8 +782,8 @@ function openPage(player, page) {
   var title
   if (actualPage === 'prof' || !prof) {
     title = Text.translate('gui.kubejs.profession_select.title')
-  } else if (actualPage === 'weapon_type' || actualPage === 'offhand_type' || actualPage === 'tertiary_type') {
-    // 类型选择页：职业名 + 分类名（如 "突击兵 → 主武器"）
+  } else if (actualPage === 'primary_type' || actualPage === 'secondary_type' || actualPage === 'tertiary_type') {
+    // 类型选择页
     title = Text.translate('profession.kubejs.' + prof).copy()
       .append(Text.translate('gui.kubejs.profession_select.subtitle.' + actualPage))
   } else if (weaponType) {
@@ -789,8 +804,8 @@ function openPage(player, page) {
 
     if (actualPage === 'prof')          renderProf(gui, player, openPage, pageNum)
     else if (actualPage === 'weapon_config') renderWeaponConfig(gui, player, openPage, pageNum)
-    else if (actualPage === 'weapon_type')  renderTypeSelection(gui, player, openPage, pageNum, 'primary')
-    else if (actualPage === 'offhand_type') renderTypeSelection(gui, player, openPage, pageNum, 'secondary')
+    else if (actualPage === 'primary_type')  renderTypeSelection(gui, player, openPage, pageNum, 'primary')
+    else if (actualPage === 'secondary_type') renderTypeSelection(gui, player, openPage, pageNum, 'secondary')
     else if (actualPage === 'tertiary_type') renderTypeSelection(gui, player, openPage, pageNum, 'tertiary')
     else if (actualPage === 'primary' || actualPage === 'weapon')
       renderWeapon(gui, player, openPage, pageNum, weaponType)

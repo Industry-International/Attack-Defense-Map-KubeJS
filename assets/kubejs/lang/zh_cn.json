@@ -17,6 +17,8 @@
   "gui.kubejs.profession_select.subtitle.weapon_type": "§8主武器",
   "gui.kubejs.profession_select.subtitle.offhand_type": "§8副武器",
   "gui.kubejs.profession_select.subtitle.tertiary_type": "§8特殊武器",
+  "gui.kubejs.profession_select.subtitle.primary_type": "§8主武器",
+  "gui.kubejs.profession_select.subtitle.secondary_type": "§8副武器",
   "gui.kubejs.profession_select.subtitle.config": "配置",
 
   "gui.kubejs.profession_select.hint": "§7左键进入选择，右键清空武器选择",
@@ -28,6 +30,7 @@
   "type.kubejs.sniper": "§d狙击枪",
   "type.kubejs.mg": "§c机枪",
   "type.kubejs.pistol": "§f手枪",
+  "type.kubejs.all": "§e全部",
   "gui.kubejs.type_select.hint": "§7选择武器类型，进入该类型武器列表",
   "gui.kubejs.type_select.click_enter": "§7点击进入",
 
