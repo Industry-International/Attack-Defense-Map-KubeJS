@@ -158,44 +158,72 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var tabView = new TabView()
 
   // ════════════════════════════════════════════════════════════
-  //  第1页：车辆选择（两级联动下拉）
+  //  第1页：车辆选择（两级联动下拉 + ID 输入）
   // ════════════════════════════════════════════════════════════
+  //
+  // ★ 修复：Selector 支持 setSelected() 和 setOnValueChanged()，
+  //   现在正确实现初始值设定和联动更新。
+  //
   var page1 = new UIElement()
   page1.lss('padding', 4)
 
   page1.addChild(new Label().setText(Component.literal('§e── 选择载具 ──')))
 
-  // ★ 修复：vehicleData 和 categoryList 已在顶部从缓存读取（数据包自动分类）
-  //   此处不再硬编码，直接使用顶部声明的变量
-
-  // 确定当前类型应选的类别
+  // 确定当前已保存的类型所属的分类
   var currentVT = fieldVehicleType.getText()
   var initialCategory = categoryList.length > 0 ? categoryList[0] : ''
-  var initialVehicle = (initialCategory && vehicleData[initialCategory] && vehicleData[initialCategory].length > 0)
-    ? vehicleData[initialCategory][0] : ''
+  var initialVehicle = ''
   if (currentVT && currentVT !== '') {
-    for (var ci = 0; ci < categoryList.length; ci++) {
-      var cat = categoryList[ci]
-      if (!vehicleData[cat]) continue
-      for (var vi = 0; vi < vehicleData[cat].length; vi++) {
-        if (vehicleData[cat][vi] === currentVT) {
-          initialCategory = cat
+    for (var sci = 0; sci < categoryList.length; sci++) {
+      var scat = categoryList[sci]
+      if (!vehicleData[scat]) continue
+      for (var svi = 0; svi < vehicleData[scat].length; svi++) {
+        if (vehicleData[scat][svi] === currentVT) {
+          initialCategory = scat
           initialVehicle = currentVT
           break
         }
       }
+      if (initialVehicle) break
     }
   }
+  if (!initialVehicle && initialCategory && vehicleData[initialCategory] && vehicleData[initialCategory].length > 0) {
+    initialVehicle = vehicleData[initialCategory][0]
+  }
 
-  // 类别下拉
+  // ── 类别下拉 ──
   var categorySelector = new Selector()
   categorySelector.setCandidates(categoryList)
   categorySelector.lss('width', '100%')
 
-  // 载具下拉（根据类别动态变化）
+  // ── 载具下拉（根据类别动态变化） ──
   var vehicleSelector = new Selector()
-  vehicleSelector.setCandidates(vehicleData[initialCategory])
   vehicleSelector.lss('width', '100%')
+
+  // ★ 修复：类别切换时更新载具下拉
+  categorySelector.setOnValueChanged(function(newCat) {
+    if (newCat && vehicleData[newCat]) {
+      vehicleSelector.setCandidates(vehicleData[newCat])
+      // 默认选中第一个
+      if (vehicleData[newCat].length > 0) {
+        vehicleSelector.setSelected(vehicleData[newCat][0])
+      }
+    }
+  })
+
+  // ★ 修复：选中载具时同步更新 ID 输入框
+  vehicleSelector.setOnValueChanged(function(newVid) {
+    if (newVid) {
+      fieldVehicleType.setText(newVid)
+    }
+  })
+
+  // ★ 修复：设置初始选中值（先设分类，回调会自动更新载具列表和选中）
+  categorySelector.setSelected(initialCategory)
+  if (initialVehicle) {
+    vehicleSelector.setSelected(initialVehicle)
+    fieldVehicleType.setText(initialVehicle)
+  }
 
   // 类别行
   var catRow = new UIElement()
@@ -213,15 +241,12 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   page1.addChild(new Label().setText(Component.literal(' ')))
 
-  // 底部 ID 输入框（直接输入）
+  // ID 输入框（手动输入，与下拉联动）
   var vtRow = new UIElement()
   vtRow.addChild(new Label().setText(Component.literal('§7ID:')))
   vtRow.addChild(fieldVehicleType)
   page1.addChild(vtRow)
-  page1.addChild(new Label().setText(Component.literal('§8或直接输入完整ID')))
-
-  // 类别切换时更新载具下拉
-  // （通过 data binding 或 setOnServerClick 实现联动）
+  page1.addChild(new Label().setText(Component.literal('§8从下拉选择或直接输入完整 ID')))
 
   var tab1 = new Tab()
   tab1.setText('载具')
