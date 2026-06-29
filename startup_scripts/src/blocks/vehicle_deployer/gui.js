@@ -94,7 +94,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   var fieldAutoRespawn = new TextField()
   fieldAutoRespawn.setNumbersOnlyInt(0, 1)
-  fieldAutoRespawn.setText(String(cfg.autoRespawn || 1))
+  fieldAutoRespawn.setText(cfg.autoRespawn === 0 ? '0' : '1')
   fieldAutoRespawn.lss('width', 40)
   bindField(fieldAutoRespawn, 'ar')
 
@@ -337,7 +337,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   page4.lss('padding', 4)
 
   page4.addChild(new Label().setText(Component.literal('§e── NBT 参数配置 ──')))
-  page4.addChild(new Label().setText(Component.literal('§8编辑部署 NBT 核心属性')))
+  page4.addChild(new Label().setText(Component.literal('§7修改部署时的核心属性，留空则使用数据库默认值')))
 
   page4.addChild(new Label().setText(Component.literal(' ')))
 
@@ -366,25 +366,27 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   bindField(fieldNbtDecoy, 'nbt_dc')
 
   var enRow = new UIElement()
-  enRow.addChild(new Label().setText(Component.literal('§7Energy:')))
+  enRow.addChild(new Label().setText(Component.literal('§eEnergy  §7能量:')))
   enRow.addChild(fieldNbtEnergy)
   page4.addChild(enRow)
+  page4.addChild(new Label().setText(Component.literal('  §8载具总能量，影响武器可用性（0=没电）')))
 
   var hpRow = new UIElement()
-  hpRow.addChild(new Label().setText(Component.literal('§7Health:')))
+  hpRow.addChild(new Label().setText(Component.literal('§eHealth  §7生命值:')))
   hpRow.addChild(fieldNbtHealth)
   page4.addChild(hpRow)
+  page4.addChild(new Label().setText(Component.literal('  §8载具总生命值，归零则摧毁')))
 
   var invRow = new UIElement()
-  invRow.addChild(new Label().setText(Component.literal('§7无敌:')))
+  invRow.addChild(new Label().setText(Component.literal('§eInvulnerable  §7无敌:')))
   invRow.addChild(fieldNbtInvul)
-  invRow.addChild(new Label().setText(Component.literal(' §8(1=是,0=否)')))
+  invRow.addChild(new Label().setText(Component.literal('  §8(1=是, 0=否)')))
   page4.addChild(invRow)
 
   var dcRow = new UIElement()
-  dcRow.addChild(new Label().setText(Component.literal('§7诱饵弹:')))
+  dcRow.addChild(new Label().setText(Component.literal('§eDecoyReady  §7诱饵弹:')))
   dcRow.addChild(fieldNbtDecoy)
-  dcRow.addChild(new Label().setText(Component.literal(' §8(1=就绪)')))
+  dcRow.addChild(new Label().setText(Component.literal('  §8(1=就绪, 0=未装填)')))
   page4.addChild(dcRow)
 
   page4.addChild(new Label().setText(Component.literal(' ')))
