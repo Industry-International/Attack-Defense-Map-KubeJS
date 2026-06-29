@@ -44,6 +44,7 @@
 ```
 kubejs/data/sbw_vehicle_db/
 ├── _registry.json                        ← 注册声明文件
+├── _ammo_types.json                      ← 弹药类型注册表（31种弹药）
 ├── main_battle_tank/                     ← 主战坦克 (23辆)
 ├── infantry_fighting_vehicle/            ← 步兵战车/装甲车 (14辆)
 ├── utility_vehicle/                      ← 多功能车/运输车 (14辆)
@@ -182,7 +183,7 @@ StartupEvents.registry('block', event => {
 | 页签 | 功能 |
 |------|------|
 | `载具` | 分类下拉 + 载具下拉联动 + ID 直接输入 |
-| `基础` | 重生延迟（tick）、自动重生（0/1） |
+| `基础` | 重生延迟（tick）、自动重生（0/1）、生成带弹药（0/1） |
 | `坐标` | 部署偏移（X/Y/Z）、朝向/俯仰 |
 | `⚙NBT简单` | 参数化编辑 Energy、Health、无敌、诱饵弹 |
 | `⚡NBT高级` | 原始 JSON 自定义 deployNBT |
@@ -204,6 +205,7 @@ StartupEvents.registry('block', event => {
 | `vehicleType` | string | '' | 载具实体 ID，如 `superbwarfare:t_90a` |
 | `respawnDelay` | int | 600 | 重生延迟（tick，30秒） |
 | `autoRespawn` | byte | 1 | 自动重生（1=开，0=关） |
+| `spawnWithAmmo` | byte | 1 | 生成带弹药（1=是，0=否） |
 | `offsetX/Y/Z` | double | 0/1/0 | 部署位置偏移 |
 | `yaw/pitch` | float | 0 | 部署朝向 |
 | `deployNBT` | string(JSON) | '{}' | 自定义部署 NBT |
@@ -231,6 +233,7 @@ StartupEvents.registry('block', event => {
    → Energy, Health, Inventory, WeaponState, 部件健康度...
 2. 叠加 Rotation / Tags（位置相关，始终覆盖）
 3. 叠加用户 deployNBT（手动输入的 JSON，覆盖前面）
+4. spawnWithAmmo 检查（0 → 清空 Inventory，不携带弹药）
 ```
 
 流程：
@@ -247,7 +250,12 @@ function spawnVehicleForBlock(block, server, pd) {
   // 3. 叠加用户自定义 deployNBT
   mergeDeployNBT(nbt, JSON.parse(deployNBTStr))
 
-  // 4. summon
+  // 4. ★ spawnWithAmmo=0 → 清空弹药
+  if (spawnWithAmmo === 0 && nbt.contains('Inventory')) {
+    nbt.remove('Inventory')
+  }
+
+  // 5. summon
   server.runCommandSilent('summon ' + vehicleType + ' ... ' + nbt.toString())
 }
 ```
@@ -316,7 +324,8 @@ node extract_vehicle_data.js
 |------|------|
 | `.agents/scripts/extract_vehicle_data.js` | **数据提取脚本**（Node.js，从 JAR 生成数据包） |
 | `data/sbw_vehicle_db/_registry.json` | **注册声明文件**（声明允许的分类和文件列表） |
-| `data/sbw_vehicle_db/各分类目录/*.json` | **单个载具数据**（自包含，含 nbtTemplate） |
+| `data/sbw_vehicle_db/_ammo_types.json` | **弹药类型注册表**（31种弹药，含显示名/enName/maxStack） |
+| `data/sbw_vehicle_db/各分类目录/*.json` | **单个载具数据**（自包含，含 nbtTemplate + ammoSlots） |
 | `server_scripts/sbw_vehicle/main.js` | 模块入口 + 死亡事件监听 |
 | `server_scripts/sbw_vehicle/block_main.js` | **方块行为逻辑**（放置、右键、Tick） |
 | `server_scripts/sbw_vehicle/deploy.js` | **部署工具**（查数据库 → 构建 NBT → summon） |
@@ -363,6 +372,17 @@ A: 检查：
 1. 部署台的「自动重生」是否设为 1
 2. 载具被摧毁后是否触发了"载具已消失"日志
 3. `respawnDelay` 是否合理（默认 600 tick = 30 秒）
+
+### Q: 点击立即部署生成了多辆载具叠在一起
+
+A: 系统已内置防重复部署校验：
+- **立即部署**按钮按下时，先检查 `deployedUUID` 对应的实体是否存活
+- 若已有存活载具 → 拒绝部署，日志记录 `[部署台] 立即部署被拒绝：已有存活载具`
+- 自动重生路径同样先检查 UUID 再部署（不会叠在一起）
+
+### Q: 如何让载具生成时不携带弹药？
+
+A: 打开部署台 GUI → 基础页 → 将「生成带弹药」设为 `0` → 保存。之后该部署台生成的载具 Inventory 为空，需通过弹药补给站补充。
 
 ### Q: 系统提示 `redeclaration of const`
 
