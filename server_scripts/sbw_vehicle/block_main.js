@@ -42,7 +42,6 @@ function tellStatus(block, player, pd) {
   if (!pd) { player.tell(Component.literal('§c[部署台] 方块数据异常')); return }
 
   var type = pd.getString('vehicleType') || '§7未配置'
-  var team = pd.getString('team') || '§7未设置'
   var uuid = pd.getString('deployedUUID')
   var cooldownEnd = pd.getLong('cooldownEnd')
 
@@ -67,7 +66,6 @@ function tellStatus(block, player, pd) {
 
   player.tell(Component.literal('§6══ 载具部署台 ══'))
   player.tell(Component.literal('§e类型: §f' + type))
-  player.tell(Component.literal('§e队伍: §f' + team))
   player.tell(Component.literal('§e状态: ' + statusMsg))
   player.tell(Component.literal('§e冷却: ' + cooldownMsg))
   if (uuid && uuid !== '') player.tell(Component.literal('§7UUID: ' + uuid.substring(0, 8) + '...'))
@@ -152,7 +150,6 @@ function readBlockConfig(block) {
   if (!block.entity) return cfg
   var pd = block.entity.persistentData
   cfg.vehicleType = pd.getString('vehicleType') || ''
-  cfg.team = pd.getString('team') || ''
   cfg.respawnDelay = pd.contains('respawnDelay') ? pd.getInt('respawnDelay') : 600
   cfg.autoRespawn = pd.contains('autoRespawn') ? pd.getByte('autoRespawn') : 1
   cfg.offsetX = pd.contains('offsetX') ? pd.getDouble('offsetX') : 0.0

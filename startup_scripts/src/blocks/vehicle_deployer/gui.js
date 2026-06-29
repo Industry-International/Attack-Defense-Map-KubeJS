@@ -38,7 +38,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pos: { x: 0, y: 0, z: 0 },
       dim: 'minecraft:overworld',
       config: {
-        vehicleType: '', team: '', respawnDelay: 600, autoRespawn: 1,
+        vehicleType: '', respawnDelay: 600, autoRespawn: 1,
         offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
         deployNBT: '{}', displayName: '', deployedUUID: '', cooldownEnd: 0
       }
@@ -80,11 +80,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   bindField(fieldVehicleType, 'vt')
 
   // ── Tab 2: 基础设置 ──
-  var fieldTeam = new TextField()
-  fieldTeam.setText(cfg.team || '')
-  fieldTeam.lss('width', 100)
-  bindField(fieldTeam, 'team')
-
   var fieldRespawnDelay = new TextField()
   fieldRespawnDelay.setNumbersOnlyInt(20, 72000)
   fieldRespawnDelay.setText(String(cfg.respawnDelay || 600))
@@ -239,13 +234,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   page2.addChild(new Label().setText(Component.literal('§e── 部署基础参数 ──')))
 
-  var teamRow = new UIElement()
-  teamRow.addChild(new Label().setText(Component.literal('§7队伍:')))
-  teamRow.addChild(fieldTeam)
-  page2.addChild(teamRow)
-
-  page2.addChild(new Label().setText(Component.literal(' ')))
-
   var delayRow = new UIElement()
   delayRow.addChild(new Label().setText(Component.literal('§7重生延迟:')))
   delayRow.addChild(fieldRespawnDelay)
@@ -373,7 +361,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
       // 从 fieldVals 读取值，fallback 到 field.getText()
       var vt = fieldVals['vt'] !== undefined ? String(fieldVals['vt']) : fieldVehicleType.getText()
-      var team = fieldVals['team'] !== undefined ? String(fieldVals['team']) : fieldTeam.getText()
       var rd = safeParseField(fieldVals['rd'], fieldRespawnDelay)
       var ar = safeParseField(fieldVals['ar'], fieldAutoRespawn)
       var ox = safeParseField(fieldVals['ox'], fieldOffsetX)
@@ -393,7 +380,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
       // 写入持久化数据
       pd.putString('vehicleType', vt)
-      pd.putString('team', team)
       pd.putInt('respawnDelay', Math.max(20, rd))
       pd.putByte('autoRespawn', ar === 1 ? 1 : 0)
       pd.putDouble('offsetX', ox)
