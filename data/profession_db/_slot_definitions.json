@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "_comment": "职业注册 + 配件槽位布局。professions 列出现有的职业目录名，加载器据此扫描各职业目录下的 gui/meta.json 获取完整注册信息。slots 定义配件槽位的 GUI 布局。",
+  "professions": ["assault", "medic", "scout", "support", "pilot", "sailor"],
+  "slots": {
+    "scope": {
+      "col": 2, "row": 1,
+      "translateKey": "gui.kubejs.attach.slot.scope",
+      "displayName": "瞄具"
+    },
+    "muzzle": {
+      "col": 4, "row": 1,
+      "translateKey": "gui.kubejs.attach.slot.muzzle",
+      "displayName": "枪口"
+    },
+    "stock": {
+      "col": 6, "row": 1,
+      "translateKey": "gui.kubejs.attach.slot.stock",
+      "displayName": "枪托"
+    },
+    "grip": {
+      "col": 1, "row": 3,
+      "translateKey": "gui.kubejs.attach.slot.grip",
+      "displayName": "握把"
+    },
+    "laser": {
+      "col": 7, "row": 3,
+      "translateKey": "gui.kubejs.attach.slot.laser",
+      "displayName": "激光"
+    },
+    "extended_mag": {
+      "col": 4, "row": 4,
+      "translateKey": "gui.kubejs.attach.slot.extended_mag",
+      "displayName": "弹匣"
+    },
+    "bayonet": {
+      "col": 6, "row": 4,
+      "translateKey": "gui.kubejs.attach.slot.bayonet",
+      "displayName": "刺刀"
+    },
+    "ammo_mod": {
+      "col": 4, "row": 5,
+      "translateKey": "gui.kubejs.attach.slot.ammo_mod",
+      "displayName": "弹药"
+    }
+  }
+}

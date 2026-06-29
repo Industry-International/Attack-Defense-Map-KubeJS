@@ -1,0 +1,22 @@
+{
+  "professionId": "medic",
+  "displayName": "医疗兵",
+  "description": "中近距离火力支援 紧凑可靠",
+  "tag": "medic",
+  "enabled": true,
+  "files": [
+    "gui/primary.json",
+    "gui/secondary.json",
+    "gui/special.json",
+    "gui/armor.json",
+    "gui/misc.json",
+    "data/primary/tacz/smg/tacz--hk_mp5a5.json",
+    "data/primary/tacz/rifle/tacz--aug.json",
+    "data/primary/tacz/rifle/bf1--liu.json",
+    "data/primary/tacz/rifle/lavender--howell.json",
+    "data/secondary/tacz/pistol/tacz--glock_17.json",
+    "data/armor/armor.json",
+    "data/misc/extras.json",
+    "data/misc/non_tacz.json"
+  ]
+}
