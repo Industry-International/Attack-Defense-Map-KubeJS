@@ -1,7 +1,7 @@
 {
     "armor": [
-        "mcsp:airframe_helmet",
-        "mcsp:opscore_helmet",
+        "minecraft:iron_boots",
+        "minecraft:iron_leggings",
         "mcsp:vest_avs",
         "mcsp:helmettor_helmet"
     ]
