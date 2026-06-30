@@ -1,34 +1,46 @@
 {
   "weaponLists": {
     "primary": {
-      "rifle":   [],
-      "smg":     [],
+      "rifle": [],
+      "smg": [],
       "shotgun": [],
-      "sniper":  [],
-      "mg":      ["m249", "rpk", "bf1lewis", "mg42", "chauchat", "lavendermg0815"],
-      "pistol":  [],
-      "other":   [],
-      "heavy":   []
+      "sniper": [],
+      "mg": [
+        "m249",
+        "rpk",
+        "bf1lewis",
+        "mg42",
+        "chauchat",
+        "lavendermg0815"
+      ],
+      "pistol": [],
+      "other": [],
+      "heavy": []
     },
     "secondary": {
-      "rifle":   [],
-      "smg":     [],
+      "rifle": [],
+      "smg": [],
       "shotgun": [],
-      "sniper":  [],
-      "mg":      [],
-      "pistol":  ["deagle"],
-      "other":   [],
-      "heavy":   []
+      "sniper": [],
+      "mg": [],
+      "pistol": [
+        "deagle"
+      ],
+      "other": [],
+      "heavy": []
     },
     "tertiary": {
-      "rifle":   [],
-      "smg":     [],
+      "rifle": [],
+      "smg": [],
       "shotgun": [],
-      "sniper":  [],
-      "mg":      [],
-      "pistol":  [],
-      "other":   ["snowball"],
-      "heavy":   []
+      "sniper": [],
+      "mg": [],
+      "pistol": [],
+      "other": [
+        "igla_9k38",
+        "javelin"
+      ],
+      "heavy": []
     }
   }
 }

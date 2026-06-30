@@ -1,1 +1,30 @@
-{"nonTaczDisplay":{"snowball":{"item":"minecraft:snowball","i18n":true}},"nonTaczAmmo":{"snowball":{"item":"minecraft:snowball","count":16}}}
+{
+    "nonTaczDisplay": {
+        "snowball": {
+            "item": "minecraft:snowball",
+            "i18n": true
+        },
+        "igla_9k38": {
+            "item": "superbwarfare:igla_9k38[custom_data={GunData:{Ammo:1}}]",
+            "i18n": false
+        },
+        "javelin": {
+            "item": "superbwarfare:javelin[custom_data={GunData:{Ammo:1}}]",
+            "i18n": false
+        }
+    },
+    "nonTaczAmmo": {
+        "snowball": {
+            "item": "minecraft:snowball",
+            "count": 16
+        },
+        "igla_9k38": {
+            "item": "superbwarfare:medium_anti_air_missile",
+            "count": 2
+        },
+        "javelin": {
+            "item": "superbwarfare:javelin_missile",
+            "count": 2
+        }
+    }
+}
