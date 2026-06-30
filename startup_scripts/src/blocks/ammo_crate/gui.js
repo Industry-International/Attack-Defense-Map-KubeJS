@@ -346,7 +346,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     btnToggleCheat.lss('padding', '3 10')
     btnToggleCheat.setOnServerClick(function(clickEvent) {
       try {
-        var server = Utils.getServer()
+        var server = player.getServer()
         if (!server) return
         var posData = JSON.parse(posHolder.getText())
         var block = server.getLevel(posData.dim).getBlock(posData.x, posData.y, posData.z)
@@ -377,7 +377,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       btnManualTrigger.lss('padding', '4 12')
       btnManualTrigger.setOnServerClick(function(clickEvent) {
         try {
-          var server = Utils.getServer()
+          var server = player.getServer()
           if (!server) {
             player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取服务端'), false)
             return
@@ -420,9 +420,9 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   btnSave.setText(Component.literal('§a✔ 保存配置'))
   btnSave.lss('padding', '3 10')
   btnSave.setOnServerClick(function(clickEvent) {
-    // ★ 用 Utils.getServer() 替代 player.getServer()，不依赖闭包
+    // ★ 从 UI 树读取位置，不再依赖 global 缓存
     try {
-      var server = Utils.getServer()
+      var server = player.getServer()
       if (!server) {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取服务端'), false)
         return
@@ -480,10 +480,10 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   btnReset.lss('padding', '3 10')
   btnReset.setOnServerClick(function(clickEvent) {
     try {
-      var server = Utils.getServer()
+      var server = player.getServer()
       if (!server) return
       var posData = JSON.parse(posHolder.getText())
-      // 用 /data merge block 删除 StationConfig（server 读取时自动返回默认值）
+      // 用 /data merge block 重置（ServerConfig 被清空后会自动回退到默认配置）
       server.runCommandSilent(
         'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
         ' {StationConfig:\"{}\",CooldownEnd:0}'

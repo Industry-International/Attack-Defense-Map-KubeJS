@@ -231,7 +231,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnSave.lss('padding', '3 10')
   btnSave.setOnServerClick(function(ce) {
     try {
-      var server = Utils.getServer()
+      var server = player.getServer()
       if (!server) { tell(player, '§c[部署台] 无法获取服务端'); return }
       // ★ 从 UI 树读取位置，不依赖 global/闭包缓存
       var posData = JSON.parse(posHolder.getText())
@@ -273,7 +273,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnReset.lss('padding', '3 10')
   btnReset.setOnServerClick(function(ce) {
     try {
-      var server = Utils.getServer()
+      var server = player.getServer()
       if (!server) return
       var posData = JSON.parse(posHolder.getText())
       // 用 /data merge block 重置为默认值
@@ -293,7 +293,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnDeploy.lss('padding', '3 10')
   btnDeploy.setOnServerClick(function(ce) {
     try {
-      var server = Utils.getServer()
+      var server = player.getServer()
       if (!server) return
       var posData = JSON.parse(posHolder.getText())
       var level = server.getLevel(posData.dim || 'minecraft:overworld')
