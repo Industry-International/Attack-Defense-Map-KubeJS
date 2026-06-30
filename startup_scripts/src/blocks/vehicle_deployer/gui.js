@@ -1,22 +1,14 @@
 // ============================================================
 // 载具部署台 - LDLib2 配置 GUI
 //
-// 架构（2026-06-30 重构 v2）：
-//   移除不可靠的 C2S DataBinding（KubeJS 7 Rhino 下不兼容）
-//   改用 LDLib2 TextField 自带的 Menu 模式同步 + setOnServerClick
+// 架构（2026-06-30 重构 v3）：
+//   直接从 event.pos/event.level 读写方块 NBT，不依赖任何 global 缓存
 //
-//   数据流：
-//     【客户端】用户输入 → TextField 自动同步到服务端
-//     【服务端】setOnServerClick → field.getText() 读取同步后的值 → 写入 persistentData
-//
-//   注意：TextField 在 Menu 模式下自带 C/S 文本同步，无需额外 DataBinding
+//   【打开】event.pos/event.level → 读 persistentData → 填字段
+//   【保存】setOnServerClick → 读 TextField → 写 persistentData → setChanged()
 // ============================================================
 
-var $HashMap = Java.loadClass('java.util.HashMap')
-global.vehicleDeployerCache = new $HashMap()
-
-// 硬编码载具分类（与服务端 data/sbw_vehicle_db/ 同步，供 GU 下拉菜单使用）
-// 客户端只做展示用，实际数据校验在服务端保存时进行
+// 硬编码载具分类（与服务端 data/sbw_vehicle_db/ 同步，供下拉菜单使用）
 const VEHICLE_CATEGORIES = [
   { display: '主战坦克',      ids: ['superbwarfare:t_90a','superbwarfare:ztz_99a','superbwarfare:m_1a_2','superbwarfare:yx_100','superbwarfare:plz_05','superbwarfare:prism_tank','mcsp:m1a2','mcsp:m1a2_sand','mcsp:m1a2_sep','mcsp:m1a2_sep_sand','mcsp:sprut','mcsp:sprut_camo','mcsp:t80bv_camo','mcsp:t80bv_green','mcsp:t80bv_kantemir','mcsp:t80bv_pixel','mcsp:t80u_camo','mcsp:t80u_green','mcsp:t80u_kantemir','mcsp:t80u_pixel','mcsp:t90a_green','mcsp:t90a_tricolor','mcsp:ztz99a_sand'] },
   { display: '步兵战车/装甲车', ids: ['superbwarfare:bmp_2','superbwarfare:bradley','superbwarfare:lav_150','superbwarfare:lav_25','mcsp:bmd_4','mcsp:bmd_4_camo','mcsp:m3a3_bradley','mcsp:m3a3_bradley_busk_ii','mcsp:m3a3_bradley_busk_iii','mcsp:m3a3_bradley_busk_iii_sand','mcsp:m3a3_bradley_busk_ii_sand','mcsp:m3a3_bradley_sand','mcsp:zbd04a_green','mcsp:zbd04a_sand'] },
@@ -34,22 +26,9 @@ const VEHICLE_CATEGORIES = [
 
 LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var player = event.player
-  var uuid = player.uuid
-
-  // 从缓存读取方块位置（由 server_scripts 的右键事件填充）
-  var cacheData = null
-  try {
-    var raw = global.vehicleDeployerCache.get(uuid)
-    if (raw) cacheData = JSON.parse(raw)
-  } catch (e) {}
-
-  // 缓存失效则用默认空值
-  var pos = { x: 0, y: 0, z: 0 }
-  var dim = 'minecraft:overworld'
-  if (cacheData) {
-    pos = cacheData.pos || pos
-    dim = cacheData.dim || dim
-  }
+  // ★ 直接从 event 获取方块位置，不依赖任何 global 缓存
+  var blockX = event.pos.getX(), blockY = event.pos.getY(), blockZ = event.pos.getZ()
+  var dimName = event.level.getDimension().toString()
 
   // ── 输入字段 ──
   var fieldVehicleType = new TextField()
@@ -213,15 +192,8 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   root.addChild(tabView)
   root.addChild(sep())
 
-  // ★ 把方块位置嵌入 UI 树
-  var posHolder = new Label().setText(Component.literal(
-    JSON.stringify({ x: pos.x, y: pos.y, z: pos.z, dim: dim })
-  ))
-  posHolder.lss('width', 0).lss('height', 0).lss('overflow', 'hidden')
-  root.addChild(posHolder)
-
   // ════════════════════════════════════════════════════════════
-  //  按钮（setOnServerClick 在服务端执行）
+  //  按钮（setOnServerClick 在服务端执行，闭包捕获 blockX/Y/Z/dimName）
   // ════════════════════════════════════════════════════════════
   var btnRow = new UIElement()
 
@@ -233,12 +205,11 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     try {
       var server = player.getServer()
       if (!server) { tell(player, '§c[部署台] 无法获取服务端'); return }
-      // ★ 从 UI 树读取位置，不依赖 global/闭包缓存
-      var posData = JSON.parse(posHolder.getText())
-      var level = server.getLevel(posData.dim || 'minecraft:overworld')
+      var level = server.getLevel(dimName)
       if (!level) { tell(player, '§c[部署台] 无法获取维度'); return }
-      var block = level.getBlock(posData.x, posData.y, posData.z)
+      var block = level.getBlock(blockX, blockY, blockZ)
       if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
+      var pd = block.entity.persistentData
       // 读取所有字段值
       var vt = fieldVehicleType.getText()
       var rd = safeParseInt(fieldRespawnDelay, 600)
@@ -251,15 +222,15 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       var pitch = safeParseFloat(fieldPitch, 0)
       var nbtRaw = fieldDeployNBT.getText()
       if (nbtRaw && nbtRaw !== '{}') { try { JSON.parse(nbtRaw) } catch(e) { tell(player, '§cNBT格式错误'); return } }
-      // ★ 用 /data merge block 命令写入（Minecraft 原生，绕开所有跨域问题）
-      var deployNBTStr = (nbtRaw || '{}').replace(/"/g, '\\"')
-      var cmd = 'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
-        ' {vehicleType:"' + vt.replace(/"/g, '\\"') + '",respawnDelay:' + Math.max(20, rd) +
-        ',autoRespawn:' + (ar === 1 ? 1 : 0) + 'b,spawnWithAmmo:' + (swa === 1 ? 1 : 0) + 'b' +
-        ',offsetX:' + ox + 'd,offsetY:' + oy + 'd,offsetZ:' + oz + 'd' +
-        ',yaw:' + yaw + 'f,pitch:' + pitch + 'f' +
-        ',deployNBT:"' + deployNBTStr + '"}'
-      server.runCommandSilent(cmd)
+      // 直接写入 persistentData
+      pd.putString('vehicleType', vt)
+      pd.putInt('respawnDelay', Math.max(20, rd))
+      pd.putByte('autoRespawn', ar === 1 ? 1 : 0)
+      pd.putByte('spawnWithAmmo', swa === 1 ? 1 : 0)
+      pd.putDouble('offsetX', ox); pd.putDouble('offsetY', oy); pd.putDouble('offsetZ', oz)
+      pd.putFloat('yaw', yaw); pd.putFloat('pitch', pitch)
+      pd.putString('deployNBT', nbtRaw || '{}')
+      block.entity.setChanged()
       tell(player, '§a✔ 已保存')
     } catch (e) {
       tell(player, '§c[部署台] 保存失败: ' + e)
@@ -275,11 +246,15 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     try {
       var server = player.getServer()
       if (!server) return
-      var posData = JSON.parse(posHolder.getText())
-      // 用 /data merge block 重置为默认值
-      var cmd = 'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
-        ' {respawnDelay:600,autoRespawn:1b,spawnWithAmmo:1b,offsetX:0d,offsetY:1d,offsetZ:0d,yaw:0f,pitch:0f,deployNBT:"{}"}'
-      server.runCommandSilent(cmd)
+      var level = server.getLevel(dimName)
+      if (!level) return
+      var block = level.getBlock(blockX, blockY, blockZ)
+      if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
+      var pd = block.entity.persistentData
+      pd.putInt('respawnDelay', 600); pd.putByte('autoRespawn', 1); pd.putByte('spawnWithAmmo', 1)
+      pd.putDouble('offsetX', 0); pd.putDouble('offsetY', 1); pd.putDouble('offsetZ', 0)
+      pd.putFloat('yaw', 0); pd.putFloat('pitch', 0); pd.putString('deployNBT', '{}')
+      block.entity.setChanged()
       tell(player, '§a✔ 已重置')
     } catch (e) {
       tell(player, '§c[部署台] 重置失败: ' + e)
@@ -295,18 +270,14 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     try {
       var server = player.getServer()
       if (!server) return
-      var posData = JSON.parse(posHolder.getText())
-      var level = server.getLevel(posData.dim || 'minecraft:overworld')
+      var level = server.getLevel(dimName)
       if (!level) return
-      var block = level.getBlock(posData.x, posData.y, posData.z)
+      var block = level.getBlock(blockX, blockY, blockZ)
       if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
       var vt = block.entity.persistentData.getString('vehicleType')
       if (!vt || vt === '') { tell(player, '§c请先配置载具类型'); return }
-      // 用 /data merge block 写入标记
-      server.runCommandSilent(
-        'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
-        ' {PendingDeploy:1b}'
-      )
+      block.entity.persistentData.putBoolean('PendingDeploy', true)
+      block.entity.setChanged()
       tell(player, '§e⏳ 部署已提交')
     } catch (e) {
       tell(player, '§c[部署台] 部署失败: ' + e)

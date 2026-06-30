@@ -26,21 +26,10 @@ ServerEvents.loaded(event => {
     sbwLog('[部署台] 系统已激活')
   }
 
-  // 初始化全局缓存（startup 已创建 HashMap，这里不需要再创建）
-  // 但确保引用存在不会 NPE（server 不能赋值 global，但可以读和调用方法）
-  try { if (global.vehicleDeployerCache) global.vehicleDeployerCache.clear() } catch(e) {}
+  // GUI 不再使用 global 缓存（改用 event.pos），无需清理
 })
 
 // ══════════════════════════════════════════════════════════════
-//  服务器卸载：清理
-// ══════════════════════════════════════════════════════════════
-
-ServerEvents.unloaded(event => {
-  // 内部缓存 $vehicleDB 在 tools/database.js 中管理，无需手动置 null
-  try { if (global.vehicleDeployerCache) global.vehicleDeployerCache.clear() } catch(e) {}
-  sbwLog('[部署台] 服务器关闭，清理完成')
-})
-
 // ══════════════════════════════════════════════════════════════
 //  载具死亡事件 — 反查部署台
 // ══════════════════════════════════════════════════════════════

@@ -1,15 +1,12 @@
 // ============================================================
 // 弹药补给站 - LDLib2 配置GUI（分页优化版）
 //
-// 优化说明：
-//   1. 根容器固定宽度，所有元素受约束，不会满屏乱飞
-//   2. 使用 TabView 分页，每页元素精简不拥挤
-//   3. 标题居中置顶
-//   4. 保存/重置按钮 + 玩家物品栏在所有页面下方共享
+// 架构（2026-06-30 重构 v3）：
+//   直接从 event.pos/event.level 读写方块 NBT，不依赖任何 global 缓存
+//
+//   【打开】event.pos/event.level → 读 persistentData → 填字段
+//   【保存】setOnServerClick → 读 TextField → 写 persistentData → setChanged()
 // ============================================================
-
-var $HashMap = Java.loadClass('java.util.HashMap')
-global.ammoStationGuiCache = new $HashMap()
 
 // ★ 注意：这些列表必须与 data/sbw_vehicle_db/_ammo_types.json 保持同步
 //   key 对应 _ammo_types.json 中的弹药短名
@@ -62,46 +59,41 @@ const MCSP_AMMO_TYPES2 = [
 
 LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   let player = event.player
-  let uuid = player.uuid
 
-  var cacheData = null
+  // ★ 直接从 event 获取方块位置
+  var blockX = event.pos.getX(), blockY = event.pos.getY(), blockZ = event.pos.getZ()
+  var dimName = event.level.getDimension().toString()
+
+  // ★ 尝试从方块 NBT 读取配置（服务端可读取；客户端失败则回落默认值）
+  var cfg = null
+  var cheatMode = false
   try {
-    var raw = global.ammoStationGuiCache.get(uuid)
-    if (raw) cacheData = JSON.parse(raw)
-  } catch (e) { }
-
-  if (!cacheData) {
-    cacheData = {
-      pos: { x: 0, y: 0, z: 0 },
-      dim: 'minecraft:overworld',
-      config: { scanRange: 12, cooldown: 5, enterDelay: 3, slots: {
-        large_shell_ap: 64, large_shell_he: 64, large_shell_gs: 64,
-        small_shell_ap: 64, small_shell_he: 64, small_shell_gs: 64, small_shell_aa: 64,
-        rifle_ammo: 192, heavy_ammo: 128, small_rocket: 32,
-        missile: 8, rocket: 16,
-        medium_anti_ground_missile: 8, large_anti_ground_missile: 8,
-        medium_anti_air_missile: 8,
-        mortar_shell: 32, medium_aerial_bomb: 8, small_aerial_bomb: 8,
-        mcsp_25mm_ap: 128, mcsp_30mm_ap: 128,
-        mcsp_40mm_explosive: 64, mcsp_40mm_smoke: 32,
-        mcsp_120mm_bulletmortar: 32,
-        mcsp_125mm_ap: 32, mcsp_125mm_he: 32,
-        mcsp_bullet762: 256, mcsp_smallarmscartridge: 256,
-        mcsp_tow_2: 16, mcsp_mlrs_shells: 32
-      }}
+    var block = event.level.getBlock(event.pos)
+    if (block && block.entity) {
+      var pd = block.entity.persistentData
+      if (pd && pd.contains('StationConfig')) {
+        cfg = JSON.parse(pd.getString('StationConfig'))
+      }
+      if (pd) cheatMode = pd.CheatMode === true
     }
+  } catch (e) {}
+  if (!cfg) {
+    cfg = { scanRange: 12, cooldown: 5, enterDelay: 3, slots: {
+      large_shell_ap: 64, large_shell_he: 64, large_shell_gs: 64,
+      small_shell_ap: 64, small_shell_he: 64, small_shell_gs: 64, small_shell_aa: 64,
+      rifle_ammo: 192, heavy_ammo: 128, small_rocket: 32,
+      missile: 8, rocket: 16,
+      medium_anti_ground_missile: 8, large_anti_ground_missile: 8,
+      medium_anti_air_missile: 8,
+      mortar_shell: 32, medium_aerial_bomb: 8, small_aerial_bomb: 8,
+      mcsp_25mm_ap: 128, mcsp_30mm_ap: 128,
+      mcsp_40mm_explosive: 64, mcsp_40mm_smoke: 32,
+      mcsp_120mm_bulletmortar: 32,
+      mcsp_125mm_ap: 32, mcsp_125mm_he: 32,
+      mcsp_bullet762: 256, mcsp_smallarmscartridge: 256,
+      mcsp_tow_2: 16, mcsp_mlrs_shells: 32
+    }}
   }
-
-  var cfg = cacheData.config
-  // 作弊模式状态（控制手动补给按钮显隐）
-  var cheatMode = cacheData.cheatMode === true
-
-  // ⚡ 把方块位置嵌入 UI 树（必须在所有按钮之前定义）
-  //   所有 setOnServerClick 都通过 posHolder.getText() 获取位置，不依赖 global 缓存
-  var posHolder = new Label().setText(Component.literal(
-    JSON.stringify({ x: cacheData.pos.x, y: cacheData.pos.y, z: cacheData.pos.z, dim: cacheData.dim })
-  ))
-  posHolder.lss('width', 0).lss('height', 0).lss('overflow', 'hidden')
 
   // ──── 创建所有共享的输入字段 ────
 
@@ -348,15 +340,11 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       try {
         var server = player.getServer()
         if (!server) return
-        var posData = JSON.parse(posHolder.getText())
-        var block = server.getLevel(posData.dim).getBlock(posData.x, posData.y, posData.z)
+        var block = server.getLevel(dimName).getBlock(blockX, blockY, blockZ)
         if (!block || block.getId() === 'minecraft:air') return
         var current = block.entity.persistentData.CheatMode === true
-        // 用 /data merge block 切换
-        server.runCommandSilent(
-          'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
-          ' {CheatMode:' + (!current ? 1 : 0) + 'b}'
-        )
+        block.entity.persistentData.putBoolean('CheatMode', !current)
+        block.entity.setChanged()
         player.displayClientMessage(Component.literal('§6[弹药补给站] ' + (!current ? '§c作弊模式已开启' : '§a作弊模式已关闭')), false)
       } catch (e) {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 切换失败: ' + e), false)
@@ -382,12 +370,10 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
             player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取服务端'), false)
             return
           }
-          var posData = JSON.parse(posHolder.getText())
-          // 用 /data merge block 写入标记
-          server.runCommandSilent(
-            'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
-            ' {PendingReplenish:1b}'
-          )
+          var block = server.getLevel(dimName).getBlock(blockX, blockY, blockZ)
+          if (!block || block.getId() === 'minecraft:air') return
+          block.entity.persistentData.putBoolean('PendingReplenish', true)
+          block.entity.setChanged()
           player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
         } catch (e) {
           player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false)
@@ -406,9 +392,6 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   // ──── 分隔线（占满容器宽度） ────
   root.addChild(makeSeparator())
 
-  // posHolder 已在上方定义，这里添加到根容器
-  root.addChild(posHolder)
-
   // ================================================================
   //  共享底部：按钮行 + 玩家物品栏
   // ================================================================
@@ -420,21 +403,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   btnSave.setText(Component.literal('§a✔ 保存配置'))
   btnSave.lss('padding', '3 10')
   btnSave.setOnServerClick(function(clickEvent) {
-    // ★ 从 UI 树读取位置，不再依赖 global 缓存
     try {
       var server = player.getServer()
       if (!server) {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取服务端'), false)
         return
       }
-      // ★ 从 UI 树读取位置，不依赖 global 缓存
-      var posData = JSON.parse(posHolder.getText())
-      var level = server.getLevel(posData.dim || 'minecraft:overworld')
-      if (!level) {
-        player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取维度'), false)
-        return
-      }
-      var block = level.getBlock(posData.x, posData.y, posData.z)
+      var block = server.getLevel(dimName).getBlock(blockX, blockY, blockZ)
       if (!block || block.getId() === 'minecraft:air') {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
         return
@@ -461,13 +436,10 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         var amt = safeParseInt(slotFields[ak], 0)
         if (amt > 0) newCfg.slots[ak] = amt
       }
-      // ★ 直接写入方块 NBT（不依赖 NBT 标记 + blockEntityTick）
-      var jsonStr = JSON.stringify(newCfg)
-      // 用 /data merge block 命令（Minecraft 原生，100%可靠）
-      server.runCommandSilent(
-        'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
-        ' {StationConfig:"' + jsonStr.replace(/"/g, '\\"') + '",CooldownEnd:0}'
-      )
+      // ★ 直接写入 persistentData
+      block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
+      block.entity.persistentData.putLong('CooldownEnd', 0)
+      block.entity.setChanged()
       player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
@@ -482,12 +454,11 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     try {
       var server = player.getServer()
       if (!server) return
-      var posData = JSON.parse(posHolder.getText())
-      // 用 /data merge block 重置（ServerConfig 被清空后会自动回退到默认配置）
-      server.runCommandSilent(
-        'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
-        ' {StationConfig:\"{}\",CooldownEnd:0}'
-      )
+      var block = server.getLevel(dimName).getBlock(blockX, blockY, blockZ)
+      if (!block || block.getId() === 'minecraft:air') return
+      block.entity.persistentData.remove('StationConfig')
+      block.entity.persistentData.putLong('CooldownEnd', 0)
+      block.entity.setChanged()
       player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 重置失败: ' + e), false)

@@ -132,17 +132,9 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
   var pd = ensurePD(block)
   if (!pd) { event.cancel(); return }
 
-  // OP → 打开 GUI
+  // OP → 打开 GUI（event.pos 自动传递到 LDLib2UI.block 回调）
   if (player.hasPermissions(2)) {
     try {
-      // ★ 缓存方块位置 + 维度，供 GUI setOnServerClick 回调定位方块
-      //    （与弹药补给站 global.ammoStationGuiCache 模式一致）
-      var cacheData = JSON.stringify({
-        pos: { x: block.getX(), y: block.getY(), z: block.getZ() },
-        dim: event.level.getDimension().toString()
-      })
-      global.vehicleDeployerCache.put(player.uuid, cacheData)
-
       LDLib2UIFactory.openBlockUI(player, block.getPos(), 'kubejs:vehicle_deployer_cfg')
     } catch (e) {
       sbwError('[部署台] GUI 打开失败: ' + e)
