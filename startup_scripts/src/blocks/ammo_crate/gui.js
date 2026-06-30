@@ -62,7 +62,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   // ★ 直接从 event 获取方块位置
   var blockX = event.pos.getX(), blockY = event.pos.getY(), blockZ = event.pos.getZ()
-  var dimName = event.level.getDimension().toString()
+  var dimName = $ResourceLocation.parse(event.level.getDimension().toString())
 
   // ★ 尝试从方块 NBT 读取配置（服务端可读取；客户端失败则回落默认值）
   var cfg = null

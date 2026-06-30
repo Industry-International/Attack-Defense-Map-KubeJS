@@ -28,7 +28,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var player = event.player
   // ★ 直接从 event 获取方块位置，不依赖任何 global 缓存
   var blockX = event.pos.getX(), blockY = event.pos.getY(), blockZ = event.pos.getZ()
-  var dimName = event.level.getDimension().toString()
+  var dimName = $ResourceLocation.parse(event.level.getDimension().toString())
 
   // ── 输入字段 ──
   var fieldVehicleType = new TextField()
