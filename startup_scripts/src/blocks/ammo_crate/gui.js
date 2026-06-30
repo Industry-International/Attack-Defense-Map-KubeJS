@@ -523,6 +523,77 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   root.addChild(btnRow)
 
+  // ═══════════════════════════════════════════════════════════════
+  //  命令复制区 — 纯客户端，绕过 C2S DataBinding
+  // ═══════════════════════════════════════════════════════════════
+  root.addChild(makeSeparator())
+
+  // 命令预览 TextField（可选中文本手动 Ctrl+C 复制）
+  var cmdField = new TextField()
+  cmdField.setAnyString()
+  cmdField.setText('§7点击下方按钮生成命令')
+  cmdField.lss('width', '100%')
+
+  root.addChild(cmdField)
+
+  var cmdCopyBtn = new Button()
+  cmdCopyBtn.setText(Component.literal('§6⚡ 生成命令'))
+  cmdCopyBtn.lss('padding', '3 10')
+  // ★ 使用 setOnClick（纯客户端），不涉及 C2S
+  cmdCopyBtn.setOnClick(function(clickEvent) {
+    // 从所有 TextField 读取当前值（纯客户端操作）
+    var sr = safeParseField(fieldVals['sr'], fieldScanRange)
+    var cd = safeParseField(fieldVals['cd'], fieldCooldown)
+    var ed = safeParseField(fieldVals['ed'], fieldEnterDelay)
+
+    // 构建 StationConfig JSON
+    var slotsJson = {}
+    for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
+      var ak = GUI_AMMO_TYPES[fi].key
+      var amt = safeParseField(fieldVals[ak], slotFields[ak])
+      if (amt > 0) slotsJson[ak] = amt
+    }
+    for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
+      var ak = MCSP_AMMO_TYPES1[fi].key
+      var amt = safeParseField(fieldVals[ak], slotFields[ak])
+      if (amt > 0) slotsJson[ak] = amt
+    }
+    for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
+      var ak = MCSP_AMMO_TYPES2[fi].key
+      var amt = safeParseField(fieldVals[ak], slotFields[ak])
+      if (amt > 0) slotsJson[ak] = amt
+    }
+
+    var configObj = { scanRange: sr, cooldown: cd, enterDelay: ed, slots: slotsJson }
+    var configJsonStr = JSON.stringify(configObj)
+    // 转义 SNBT 字符串中的双引号和反斜杠
+    var escapedJson = configJsonStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+
+    // 获取方块坐标（优先 event.pos，回退 cacheData）
+    var bx = 0, by = 0, bz = 0
+    try {
+      if (event && event.pos) {
+        bx = event.pos.getX()
+        by = event.pos.getY()
+        bz = event.pos.getZ()
+      } else if (cacheData && cacheData.pos) {
+        bx = cacheData.pos.x
+        by = cacheData.pos.y
+        bz = cacheData.pos.z
+      }
+    } catch (e) {}
+
+    var cmd = '/data merge block ' + bx + ' ' + by + ' ' + bz +
+      ' {StationConfig:"' + escapedJson + '"}'
+
+    // 更新 TextField 内容，并全选文本方便玩家直接 Ctrl+C
+    cmdField.setText(cmd)
+    try { cmdField.setSelection(0, cmd.length) } catch (e) {}
+  })
+  root.addChild(cmdCopyBtn)
+
+  root.addChild(new Label().setText(Component.literal('§7点按钮 → 全选 → Ctrl+C → 聊天栏粘贴执行')))
+
   // ──── 玩家物品栏 ────
   root.addChild(new InventorySlots())
 

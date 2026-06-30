@@ -625,6 +625,67 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   root.addChild(btnRow)
 
+  // ════════════════════════════════════════════════════════════════
+  //  命令复制区 — 纯客户端，绕过 C2S DataBinding
+  // ════════════════════════════════════════════════════════════════
+  root.addChild(makeSeparator())
+
+  // 命令预览 TextField（可选中文本手动 Ctrl+C 复制）
+  var cmdField = new TextField()
+  cmdField.setAnyString()
+  cmdField.setText('§7点击下方按钮生成命令')
+  cmdField.lss('width', '100%')
+  root.addChild(cmdField)
+
+  var cmdCopyBtn = new Button()
+  cmdCopyBtn.setText(Component.literal('§6⚡ 生成命令'))
+  cmdCopyBtn.lss('padding', '3 10')
+  // ★ 使用 setOnClick（纯客户端），不涉及 C2S
+  cmdCopyBtn.setOnClick(function(clickEvent) {
+    // 从所有 TextField 读取当前值（纯客户端操作）
+    var vt = fieldVals['vt'] !== undefined ? String(fieldVals['vt']) : fieldVehicleType.getText()
+    var rd = safeParseField(fieldVals['rd'], fieldRespawnDelay)
+    var ar = safeParseField(fieldVals['ar'], fieldAutoRespawn)
+    var swa = safeParseField(fieldVals['swa'], fieldSpawnAmmo)
+    var ox = safeParseField(fieldVals['ox'], fieldOffsetX)
+    var oy = safeParseField(fieldVals['oy'], fieldOffsetY)
+    var oz = safeParseField(fieldVals['oz'], fieldOffsetZ)
+    var yaw = safeParseField(fieldVals['yaw'], fieldYaw)
+    var pitch = safeParseField(fieldVals['pitch'], fieldPitch)
+    var nbtRaw = fieldVals['nbt'] !== undefined ? String(fieldVals['nbt']) : fieldDeployNBT.getText()
+
+    // 转义字符串字段中的 SNBT 特殊字符
+    var escapedVT = vt.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+    var escapedNBT = nbtRaw.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+
+    // 获取方块坐标（优先 event.pos，回退 cacheData）
+    var bx = 0, by = 0, bz = 0
+    try {
+      if (event && event.pos) {
+        bx = event.pos.getX()
+        by = event.pos.getY()
+        bz = event.pos.getZ()
+      } else if (cacheData && cacheData.pos) {
+        bx = cacheData.pos.x
+        by = cacheData.pos.y
+        bz = cacheData.pos.z
+      }
+    } catch (e) {}
+
+    var cmd = '/data merge block ' + bx + ' ' + by + ' ' + bz +
+      ' {vehicleType:"' + escapedVT + '",respawnDelay:' + Math.max(20, rd) +
+      ',autoRespawn:' + (ar === 1 ? 1 : 0) + 'b,spawnWithAmmo:' + (swa === 1 ? 1 : 0) +
+      'b,offsetX:' + ox + 'd,offsetY:' + oy + 'd,offsetZ:' + oz +
+      'd,yaw:' + yaw + 'f,pitch:' + pitch + 'f,deployNBT:"' + escapedNBT + '"}'
+
+    // 更新 TextField 内容，并全选文本方便玩家直接 Ctrl+C
+    cmdField.setText(cmd)
+    try { cmdField.setSelection(0, cmd.length) } catch (e) {}
+  })
+  root.addChild(cmdCopyBtn)
+
+  root.addChild(new Label().setText(Component.literal('§7点按钮 → 全选 → Ctrl+C → 聊天栏粘贴执行')))
+
   // ── 玩家物品栏 ──
   root.addChild(new InventorySlots())
 
