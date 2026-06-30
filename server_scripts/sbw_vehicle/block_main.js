@@ -135,18 +135,11 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
   // OP → 打开 GUI
   if (player.hasPermissions(2)) {
     try {
-      // ★ 修复：将数据库分类信息 + nbt模板传入缓存（已废弃，GUI不再使用）
-      //    保留原有逻辑但不依赖缓存读取
+      // ★ GUI 不再使用 global 缓存（LDLib2 回调在客户端执行）。
+      //   这里只保留 nbtTemplate 供可能的后续扩展使用。
       var vehicleDB = getVehicleDB()
-      var catData = {}
-      var nbtTemplate = {}  // 当前载具的 nbt 模板（供 GUI 双模式配置使用）
+      var nbtTemplate = {}  // 当前载具的 nbt 模板
       if (vehicleDB && vehicleDB.loaded) {
-        var catKeys = Object.keys(vehicleDB.categories)
-        for (var cdi = 0; cdi < catKeys.length; cdi++) {
-          var ck = catKeys[cdi]
-          var catInfo = vehicleDB.categories[ck]
-          catData[catInfo.displayName] = vehicleDB.byCategory[ck] || []
-        }
         // 读取当前已保存 vehicleType 的 nbtTemplate
         var savedVT = pd.getString('vehicleType')
         if (savedVT && savedVT !== '') {
@@ -156,14 +149,6 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
           }
         }
       }
-      var cacheData = JSON.stringify({
-        pos: { x: block.getX(), y: block.getY(), z: block.getZ() },
-        dim: event.level.getDimension().toString(),
-        config: readDeployerConfig(block),
-        categories: catData,
-        nbtTemplate: nbtTemplate  // 用于 GUI 简单模式预填
-      })
-      global.vehicleDeployerCache.put(String(player.uuid), cacheData)
 
       LDLib2UIFactory.openBlockUI(player, block.getPos(), 'kubejs:vehicle_deployer_cfg')
     } catch (e) {
