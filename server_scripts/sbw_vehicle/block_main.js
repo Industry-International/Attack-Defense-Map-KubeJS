@@ -207,34 +207,6 @@ BlockEvents.blockEntityTick('kubejs:vehicle_deployer', event => {
   var pd = ensurePD(block)
   if (!pd) return
 
-  // ── 处理 GUI 发出的「保存配置」请求（NBT 标记，跨作用域安全） ──
-  if (pd.contains('PendingSave') && pd.getBoolean('PendingSave') === true) {
-    pd.putBoolean('PendingSave', false)
-    var rawData = pd.getString('PendingSaveConfig')
-    if (rawData && rawData !== '') {
-      try {
-        var parsed = JSON.parse(rawData)
-        if (parsed.vehicleType !== undefined) {
-          pd.putString('vehicleType', String(parsed.vehicleType))
-          pd.putInt('respawnDelay', Math.max(20, parseInt(parsed.respawnDelay) || 600))
-          pd.putByte('autoRespawn', parsed.autoRespawn === 1 ? 1 : 0)
-          pd.putByte('spawnWithAmmo', parsed.spawnWithAmmo === 1 ? 1 : 0)
-          pd.putDouble('offsetX', parseFloat(parsed.offsetX) || 0)
-          pd.putDouble('offsetY', parseFloat(parsed.offsetY) || 1)
-          pd.putDouble('offsetZ', parseFloat(parsed.offsetZ) || 0)
-          pd.putFloat('yaw', parseFloat(parsed.yaw) || 0)
-          pd.putFloat('pitch', parseFloat(parsed.pitch) || 0)
-          pd.putString('deployNBT', parsed.deployNBT || '{}')
-          sbwLog('[部署台] 已应用 GUI 保存的配置 @[' + block.getX() + ',' + block.getY() + ',' + block.getZ() + ']')
-        }
-      } catch (e) {
-        sbwError('[部署台] PendingSaveConfig 解析失败: ' + e)
-      }
-    }
-    pd.remove('PendingSaveConfig')
-    block.entity.setChanged()
-  }
-
   // ── 处理 GUI 发出的「立即部署」请求（NBT 标记，跨作用域安全） ──
   if (pd.contains('PendingDeploy') && pd.getBoolean('PendingDeploy') === true) {
     pd.putBoolean('PendingDeploy', false)

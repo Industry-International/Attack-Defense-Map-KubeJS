@@ -213,49 +213,57 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   root.addChild(tabView)
   root.addChild(sep())
 
+  // ★ 把方块位置嵌入 UI 树
+  var posHolder = new Label().setText(Component.literal(
+    JSON.stringify({ x: pos.x, y: pos.y, z: pos.z, dim: dim })
+  ))
+  posHolder.lss('width', 0).lss('height', 0).lss('overflow', 'hidden')
+  root.addChild(posHolder)
+
   // ════════════════════════════════════════════════════════════
   //  按钮（setOnServerClick 在服务端执行）
   // ════════════════════════════════════════════════════════════
   var btnRow = new UIElement()
 
-  // ── 保存（写入 NBT 标记，由 server 侧 blockEntityTick 正式提交） ──
+  // ── 保存 ──
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存'))
   btnSave.lss('padding', '3 10')
   btnSave.setOnServerClick(function(ce) {
-    var server = player.getServer()
-    if (!server) { tell(player, '§c[部署台] 无法获取服务端'); return }
-    var raw = global.vehicleDeployerCache.get(uuid)
-    if (!raw) { tell(player, '§c[部署台] 缓存失效'); return }
-    var data = JSON.parse(raw)
-    var level = server.getLevel(data.dim || 'minecraft:overworld')
-    if (!level) { tell(player, '§c[部署台] 无法获取维度'); return }
-    var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-    if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
-    var pd = block.entity.persistentData
-    // ★ 读取所有字段值
-    var vt = fieldVehicleType.getText()
-    var rd = safeParseInt(fieldRespawnDelay, 600)
-    var ar = safeParseInt(fieldAutoRespawn, 1)
-    var swa = safeParseInt(fieldSpawnAmmo, 1)
-    var ox = safeParseFloat(fieldOffsetX, 0)
-    var oy = safeParseFloat(fieldOffsetY, 1)
-    var oz = safeParseFloat(fieldOffsetZ, 0)
-    var yaw = safeParseFloat(fieldYaw, 0)
-    var pitch = safeParseFloat(fieldPitch, 0)
-    var nbtRaw = fieldDeployNBT.getText()
-    if (nbtRaw && nbtRaw !== '{}') { try { JSON.parse(nbtRaw) } catch(e) { tell(player, '§cNBT格式错误'); return } }
-    // ★ 存入 JSON 对象，写入 NBT 标记
-    var saveData = JSON.stringify({
-      vehicleType: vt, respawnDelay: rd, autoRespawn: ar === 1 ? 1 : 0,
-      spawnWithAmmo: swa === 1 ? 1 : 0,
-      offsetX: ox, offsetY: oy, offsetZ: oz,
-      yaw: yaw, pitch: pitch, deployNBT: nbtRaw || '{}'
-    })
-    pd.putString('PendingSaveConfig', saveData)
-    pd.putBoolean('PendingSave', true)
-    block.entity.setChanged()
-    tell(player, '§e⏳ 保存请求已提交...')
+    try {
+      var server = Utils.getServer()
+      if (!server) { tell(player, '§c[部署台] 无法获取服务端'); return }
+      // ★ 从 UI 树读取位置，不依赖 global/闭包缓存
+      var posData = JSON.parse(posHolder.getText())
+      var level = server.getLevel(posData.dim || 'minecraft:overworld')
+      if (!level) { tell(player, '§c[部署台] 无法获取维度'); return }
+      var block = level.getBlock(posData.x, posData.y, posData.z)
+      if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
+      // 读取所有字段值
+      var vt = fieldVehicleType.getText()
+      var rd = safeParseInt(fieldRespawnDelay, 600)
+      var ar = safeParseInt(fieldAutoRespawn, 1)
+      var swa = safeParseInt(fieldSpawnAmmo, 1)
+      var ox = safeParseFloat(fieldOffsetX, 0)
+      var oy = safeParseFloat(fieldOffsetY, 1)
+      var oz = safeParseFloat(fieldOffsetZ, 0)
+      var yaw = safeParseFloat(fieldYaw, 0)
+      var pitch = safeParseFloat(fieldPitch, 0)
+      var nbtRaw = fieldDeployNBT.getText()
+      if (nbtRaw && nbtRaw !== '{}') { try { JSON.parse(nbtRaw) } catch(e) { tell(player, '§cNBT格式错误'); return } }
+      // ★ 用 /data merge block 命令写入（Minecraft 原生，绕开所有跨域问题）
+      var deployNBTStr = (nbtRaw || '{}').replace(/"/g, '\\"')
+      var cmd = 'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
+        ' {vehicleType:"' + vt.replace(/"/g, '\\"') + '",respawnDelay:' + Math.max(20, rd) +
+        ',autoRespawn:' + (ar === 1 ? 1 : 0) + 'b,spawnWithAmmo:' + (swa === 1 ? 1 : 0) + 'b' +
+        ',offsetX:' + ox + 'd,offsetY:' + oy + 'd,offsetZ:' + oz + 'd' +
+        ',yaw:' + yaw + 'f,pitch:' + pitch + 'f' +
+        ',deployNBT:"' + deployNBTStr + '"}'
+      server.runCommandSilent(cmd)
+      tell(player, '§a✔ 已保存')
+    } catch (e) {
+      tell(player, '§c[部署台] 保存失败: ' + e)
+    }
   })
   btnRow.addChild(btnSave)
 
@@ -264,21 +272,18 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnReset.setText(Component.literal('§e↻ 重置'))
   btnReset.lss('padding', '3 10')
   btnReset.setOnServerClick(function(ce) {
-    var server = player.getServer()
-    if (!server) return
-    var raw = global.vehicleDeployerCache.get(uuid)
-    if (!raw) { tell(player, '§c[部署台] 缓存失效'); return }
-    var data = JSON.parse(raw)
-    var level = server.getLevel(data.dim || 'minecraft:overworld')
-    if (!level) return
-    var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-    if (!block || !block.entity) return
-    var pd = block.entity.persistentData
-    pd.putInt('respawnDelay', 600); pd.putByte('autoRespawn', 1); pd.putByte('spawnWithAmmo', 1)
-    pd.putDouble('offsetX', 0); pd.putDouble('offsetY', 1); pd.putDouble('offsetZ', 0)
-    pd.putFloat('yaw', 0); pd.putFloat('pitch', 0); pd.putString('deployNBT', '{}')
-    block.entity.setChanged()
-    tell(player, '§a✔ 已重置')
+    try {
+      var server = Utils.getServer()
+      if (!server) return
+      var posData = JSON.parse(posHolder.getText())
+      // 用 /data merge block 重置为默认值
+      var cmd = 'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
+        ' {respawnDelay:600,autoRespawn:1b,spawnWithAmmo:1b,offsetX:0d,offsetY:1d,offsetZ:0d,yaw:0f,pitch:0f,deployNBT:"{}"}'
+      server.runCommandSilent(cmd)
+      tell(player, '§a✔ 已重置')
+    } catch (e) {
+      tell(player, '§c[部署台] 重置失败: ' + e)
+    }
   })
   btnRow.addChild(btnReset)
 
@@ -287,20 +292,25 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnDeploy.setText(Component.literal('§6⚡ 部署'))
   btnDeploy.lss('padding', '3 10')
   btnDeploy.setOnServerClick(function(ce) {
-    var server = player.getServer()
-    if (!server) return
-    var raw = global.vehicleDeployerCache.get(uuid)
-    if (!raw) { tell(player, '§c[部署台] 缓存失效'); return }
-    var data = JSON.parse(raw)
-    var level = server.getLevel(data.dim || 'minecraft:overworld')
-    if (!level) return
-    var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-    if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
-    var pd = block.entity.persistentData
-    if (!pd.contains('vehicleType') || pd.getString('vehicleType') === '') { tell(player, '§c请先配置载具类型'); return }
-    pd.putBoolean('PendingDeploy', true)
-    block.entity.setChanged()
-    tell(player, '§e⏳ 部署已提交')
+    try {
+      var server = Utils.getServer()
+      if (!server) return
+      var posData = JSON.parse(posHolder.getText())
+      var level = server.getLevel(posData.dim || 'minecraft:overworld')
+      if (!level) return
+      var block = level.getBlock(posData.x, posData.y, posData.z)
+      if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
+      var vt = block.entity.persistentData.getString('vehicleType')
+      if (!vt || vt === '') { tell(player, '§c请先配置载具类型'); return }
+      // 用 /data merge block 写入标记
+      server.runCommandSilent(
+        'data merge block ' + posData.x + ' ' + posData.y + ' ' + posData.z +
+        ' {PendingDeploy:1b}'
+      )
+      tell(player, '§e⏳ 部署已提交')
+    } catch (e) {
+      tell(player, '§c[部署台] 部署失败: ' + e)
+    }
   })
   btnRow.addChild(btnDeploy)
 

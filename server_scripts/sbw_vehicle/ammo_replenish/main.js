@@ -103,29 +103,6 @@ BlockEvents.blockEntityTick('kubejs:ammo_crate', event => {
 
   let pd = block.entity.persistentData
 
-  // ─── 检查 GUI 提交的保存请求（跨作用域 NBT 标记模式） ───
-  if (pd.getBoolean('PendingSave') === true) {
-    pd.putBoolean('PendingSave', false)
-    var rawConfig = pd.getString('PendingSaveConfig')
-    if (rawConfig && rawConfig !== '') {
-      try {
-        var parsed = JSON.parse(rawConfig)
-        // 验证必要字段
-        if (parsed.scanRange !== undefined && parsed.cooldown !== undefined) {
-          pd.putString('StationConfig', rawConfig)
-          pd.putLong('CooldownEnd', 0)
-          console.log($LOG_PREFIX + ' 已应用 GUI 保存的配置: ' + rawConfig)
-        } else {
-          console.log($LOG_PREFIX + ' PendingSaveConfig 字段不完整，跳过')
-        }
-      } catch (e) {
-        console.log($LOG_PREFIX + ' PendingSaveConfig JSON 解析失败: ' + e)
-      }
-    }
-    pd.remove('PendingSaveConfig')
-    block.entity.setChanged()
-  }
-
   // ─── 检查是否有 GUI 提交的手动补给请求 ───
   if (pd.getBoolean('PendingReplenish') === true) {
     pd.putBoolean('PendingReplenish', false)
