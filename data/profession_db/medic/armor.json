@@ -1,1 +1,8 @@
-{"armor":["minecraft:chainmail_boots","minecraft:chainmail_leggings","minecraft:chainmail_chestplate","minecraft:golden_helmet"]}
+{
+    "armor": [
+        "mcsp:airframe_helmet",
+        "mcsp:opscore_helmet",
+        "mcsp:vest_avs",
+        "mcsp:helmettor_helmet"
+    ]
+}

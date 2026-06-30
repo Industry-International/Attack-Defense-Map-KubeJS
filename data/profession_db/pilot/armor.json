@@ -1,1 +1,8 @@
-{"armor":["minecraft:leather_boots","minecraft:leather_leggings","minecraft:leather_chestplate","minecraft:leather_helmet"]}
+{
+    "armor": [
+        "mcsp:airframe_helmet",
+        "mcsp:opscore_helmet",
+        "mcsp:vest_avs",
+        "mcsp:helmettor_helmet"
+    ]
+}
