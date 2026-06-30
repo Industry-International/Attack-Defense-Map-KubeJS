@@ -10,7 +10,6 @@
 
 var $HashMap = Java.loadClass('java.util.HashMap')
 global.ammoStationGuiCache = new $HashMap()
-var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 
 // ★ 注意：这些列表必须与 data/sbw_vehicle_db/_ammo_types.json 保持同步
 //   key 对应 _ammo_types.json 中的弹药短名
@@ -423,32 +422,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存配置'))
   btnSave.lss('padding', '3 10')
-  // 客户端：收集所有字段值，打包发送到服务端
-  btnSave.setOnClick(function(ce) {
-    var tag = new $CompoundTag()
-    tag.putInt("sr", safeParseInt(fieldScanRange, 12))
-    tag.putInt("cd", safeParseInt(fieldCooldown, 5))
-    tag.putInt("ed", safeParseInt(fieldEnterDelay, 3))
-    // 弹药字段：遍历所有弹药类型
-    for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
-      var at = GUI_AMMO_TYPES[fi]
-      var val = parseInt(slotFields[at.key].getText(), 10)
-      if (!isNaN(val) && val > 0) tag.putInt(at.key, val)
-    }
-    for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
-      var at = MCSP_AMMO_TYPES1[fi]
-      var val = parseInt(slotFields[at.key].getText(), 10)
-      if (!isNaN(val) && val > 0) tag.putInt(at.key, val)
-    }
-    for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
-      var at = MCSP_AMMO_TYPES2[fi]
-      var val = parseInt(slotFields[at.key].getText(), 10)
-      if (!isNaN(val) && val > 0) tag.putInt(at.key, val)
-    }
-    btnSave.sendMessage("save_config", tag)
-  })
-  // 服务端：收到消息后持久化到方块 NBT
-  btnSave.onMessage("save_config", function(self, message) {
+  btnSave.setOnServerClick(function(clickEvent) {
     var server = player.getServer()
     if (!server) return
     var puuid = player.uuid
@@ -469,39 +443,33 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
         return
       }
-      // 从 message 读取值构建配置
+      // ★ 构建配置 JSON
       var newCfg = {
-        scanRange: Math.max(0, message.getInt("sr")),
-        cooldown: Math.max(0, message.getInt("cd")),
-        enterDelay: Math.max(1, message.getInt("ed")),
+        scanRange: safeParseInt(fieldScanRange, 12),
+        cooldown: safeParseInt(fieldCooldown, 5),
+        enterDelay: safeParseInt(fieldEnterDelay, 3),
         slots: {}
       }
       for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
         var ak = GUI_AMMO_TYPES[fi].key
-        if (message.contains(ak)) {
-          var amt = message.getInt(ak)
-          if (amt > 0) newCfg.slots[ak] = amt
-        }
+        var amt = safeParseInt(slotFields[ak], 0)
+        if (amt > 0) newCfg.slots[ak] = amt
       }
       for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
         var ak = MCSP_AMMO_TYPES1[fi].key
-        if (message.contains(ak)) {
-          var amt = message.getInt(ak)
-          if (amt > 0) newCfg.slots[ak] = amt
-        }
+        var amt = safeParseInt(slotFields[ak], 0)
+        if (amt > 0) newCfg.slots[ak] = amt
       }
       for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
         var ak = MCSP_AMMO_TYPES2[fi].key
-        if (message.contains(ak)) {
-          var amt = message.getInt(ak)
-          if (amt > 0) newCfg.slots[ak] = amt
-        }
+        var amt = safeParseInt(slotFields[ak], 0)
+        if (amt > 0) newCfg.slots[ak] = amt
       }
-      console.log('[弹药补给站] 保存 newCfg=' + JSON.stringify(newCfg))
-      block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
-      block.entity.persistentData.putLong('CooldownEnd', 0)
+      // ★ 写入临时 NBT 标记，由 server 侧 blockEntityTick 正式提交
+      block.entity.persistentData.putString('PendingSaveConfig', JSON.stringify(newCfg))
+      block.entity.persistentData.putBoolean('PendingSave', true)
       block.entity.setChanged()
-      player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
+      player.displayClientMessage(Component.literal('§e⏳ 保存请求已提交...'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
     }

@@ -1,19 +1,19 @@
 // ============================================================
 // 载具部署台 - LDLib2 配置 GUI
 //
-// 架构（2026-06-30 重构）：
-//   使用 LDLib2 Message 机制替代 C2S DataBinding 实现 C/S 安全通信
+// 架构（2026-06-30 重构 v2）：
+//   移除不可靠的 C2S DataBinding（KubeJS 7 Rhino 下不兼容）
+//   改用 LDLib2 TextField 自带的 Menu 模式同步 + setOnServerClick
 //
-//   【客户端】setOnClick → 收集 TextField 值 → sendMessage("save", tag)
-//   【服务端】onMessage → 接收 tag → 写入 block.entity.persistentData
+//   数据流：
+//     【客户端】用户输入 → TextField 自动同步到服务端
+//     【服务端】setOnServerClick → field.getText() 读取同步后的值 → 写入 persistentData
 //
-//   优点：不依赖不可靠的 C2S DataBinding，走 LDLib2 原生网络包
-//   注意：onMessage 回调的闭包捕获了 player/uuid/cache，确保在服务端可达
+//   注意：TextField 在 Menu 模式下自带 C/S 文本同步，无需额外 DataBinding
 // ============================================================
 
 var $HashMap = Java.loadClass('java.util.HashMap')
 global.vehicleDeployerCache = new $HashMap()
-var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 
 // 硬编码载具分类（与服务端 data/sbw_vehicle_db/ 同步，供 GU 下拉菜单使用）
 // 客户端只做展示用，实际数据校验在服务端保存时进行
@@ -218,29 +218,11 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   // ════════════════════════════════════════════════════════════
   var btnRow = new UIElement()
 
-  // ── 保存（Message 机制：客户端收集 → 服务端写入） ──
+  // ── 保存（写入 NBT 标记，由 server 侧 blockEntityTick 正式提交） ──
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存'))
   btnSave.lss('padding', '3 10')
-  // 客户端：收集所有 TextField 的值，打包发送到服务端
-  btnSave.setOnClick(function(ce) {
-    var tag = new $CompoundTag()
-    tag.putString("vt", fieldVehicleType.getText())
-    tag.putInt("rd", safeParseInt(fieldRespawnDelay, 600))
-    tag.putByte("ar", safeParseInt(fieldAutoRespawn, 1) === 1 ? 1 : 0)
-    tag.putByte("swa", safeParseInt(fieldSpawnAmmo, 1) === 1 ? 1 : 0)
-    tag.putDouble("ox", safeParseFloat(fieldOffsetX, 0))
-    tag.putDouble("oy", safeParseFloat(fieldOffsetY, 1))
-    tag.putDouble("oz", safeParseFloat(fieldOffsetZ, 0))
-    tag.putFloat("yaw", safeParseFloat(fieldYaw, 0))
-    tag.putFloat("pitch", safeParseFloat(fieldPitch, 0))
-    var nbtRaw = fieldDeployNBT.getText()
-    if (nbtRaw && nbtRaw !== '{}') { try { JSON.parse(nbtRaw) } catch(e) { return } }
-    tag.putString("nbt", nbtRaw || '{}')
-    btnSave.sendMessage("save_config", tag)
-  })
-  // 服务端：收到消息后持久化到方块 NBT
-  btnSave.onMessage("save_config", function(self, message) {
+  btnSave.setOnServerClick(function(ce) {
     var server = player.getServer()
     if (!server) { tell(player, '§c[部署台] 无法获取服务端'); return }
     var raw = global.vehicleDeployerCache.get(uuid)
@@ -251,22 +233,29 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
     if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
     var pd = block.entity.persistentData
-    pd.putString('vehicleType', message.getString("vt"))
-    pd.putInt('respawnDelay', Math.max(20, message.getInt("rd")))
-    pd.putByte('autoRespawn', message.getByte("ar"))
-    pd.putByte('spawnWithAmmo', message.getByte("swa"))
-    pd.putDouble('offsetX', message.getDouble("ox"))
-    pd.putDouble('offsetY', message.getDouble("oy"))
-    pd.putDouble('offsetZ', message.getDouble("oz"))
-    pd.putFloat('yaw', message.getFloat("yaw"))
-    pd.putFloat('pitch', message.getFloat("pitch"))
-    var nbtRaw = message.getString("nbt")
-    if (nbtRaw && nbtRaw !== '{}') {
-      try { JSON.parse(nbtRaw) } catch(e) { tell(player, '§cNBT格式错误'); return }
-    }
-    pd.putString('deployNBT', nbtRaw || '{}')
+    // ★ 读取所有字段值
+    var vt = fieldVehicleType.getText()
+    var rd = safeParseInt(fieldRespawnDelay, 600)
+    var ar = safeParseInt(fieldAutoRespawn, 1)
+    var swa = safeParseInt(fieldSpawnAmmo, 1)
+    var ox = safeParseFloat(fieldOffsetX, 0)
+    var oy = safeParseFloat(fieldOffsetY, 1)
+    var oz = safeParseFloat(fieldOffsetZ, 0)
+    var yaw = safeParseFloat(fieldYaw, 0)
+    var pitch = safeParseFloat(fieldPitch, 0)
+    var nbtRaw = fieldDeployNBT.getText()
+    if (nbtRaw && nbtRaw !== '{}') { try { JSON.parse(nbtRaw) } catch(e) { tell(player, '§cNBT格式错误'); return } }
+    // ★ 存入 JSON 对象，写入 NBT 标记
+    var saveData = JSON.stringify({
+      vehicleType: vt, respawnDelay: rd, autoRespawn: ar === 1 ? 1 : 0,
+      spawnWithAmmo: swa === 1 ? 1 : 0,
+      offsetX: ox, offsetY: oy, offsetZ: oz,
+      yaw: yaw, pitch: pitch, deployNBT: nbtRaw || '{}'
+    })
+    pd.putString('PendingSaveConfig', saveData)
+    pd.putBoolean('PendingSave', true)
     block.entity.setChanged()
-    tell(player, '§a✔ 已保存')
+    tell(player, '§e⏳ 保存请求已提交...')
   })
   btnRow.addChild(btnSave)
 
