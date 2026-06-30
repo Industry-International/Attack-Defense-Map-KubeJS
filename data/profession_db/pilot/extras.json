@@ -1,1 +1,20 @@
-{"extras":[{"item":"minecraft:cooked_beef","count":16},{"item":"kubejs:spawn_selector","count":1}]}
+{
+    "extras": [
+        {
+            "item": "minecraft:cooked_beef",
+            "count": 16
+        },
+        {
+            "item": "kubejs:spawn_selector",
+            "count": 1
+        },
+        {
+            "item": "create:linked_controller",
+            "count": 2
+        },
+        {
+            "item": "create_tweaked_controllers:tweaked_linked_controller",
+            "count": 2
+        }
+    ]
+}
