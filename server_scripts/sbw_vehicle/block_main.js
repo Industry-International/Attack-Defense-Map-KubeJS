@@ -135,20 +135,13 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
   // OP → 打开 GUI
   if (player.hasPermissions(2)) {
     try {
-      // ★ GUI 不再使用 global 缓存（LDLib2 回调在客户端执行）。
-      //   这里只保留 nbtTemplate 供可能的后续扩展使用。
-      var vehicleDB = getVehicleDB()
-      var nbtTemplate = {}  // 当前载具的 nbt 模板
-      if (vehicleDB && vehicleDB.loaded) {
-        // 读取当前已保存 vehicleType 的 nbtTemplate
-        var savedVT = pd.getString('vehicleType')
-        if (savedVT && savedVT !== '') {
-          var vtInfo = vehicleDB.byId[savedVT]
-          if (vtInfo && vtInfo.nbtTemplate) {
-            nbtTemplate = vtInfo.nbtTemplate
-          }
-        }
-      }
+      // ★ 缓存方块位置 + 维度，供 GUI setOnServerClick 回调定位方块
+      //    （与弹药补给站 global.ammoStationGuiCache 模式一致）
+      var cacheData = JSON.stringify({
+        pos: { x: block.getX(), y: block.getY(), z: block.getZ() },
+        dim: event.level.getDimension().toString()
+      })
+      global.vehicleDeployerCache.put(player.uuid, cacheData)
 
       LDLib2UIFactory.openBlockUI(player, block.getPos(), 'kubejs:vehicle_deployer_cfg')
     } catch (e) {
