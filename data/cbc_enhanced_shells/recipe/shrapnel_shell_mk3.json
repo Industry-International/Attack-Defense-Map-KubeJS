@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "HHH",
+    "HDH",
+    "HHH"
+  ],
+  "key": {
+    "H": { "item": "cbc_enhanced_shells:shrapnel_shell_mk2" },
+    "D": { "item": "minecraft:diamond" }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:shrapnel_shell_mk3"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "HHH",
+    "HSH",
+    "HHH"
+  ],
+  "key": {
+    "H": { "item": "cbc_enhanced_shells:he_shell_mk5" },
+    "S": { "item": "minecraft:nether_star" }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:nuke_shell"
+  }
+}

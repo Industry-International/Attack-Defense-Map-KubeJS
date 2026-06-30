@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    { "item": "cbc_enhanced_shells:shell_holder_mk4" },
+    { "item": "minecraft:diamond_block" }
+  ],
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:shell_holder_mk5"
+  }
+}

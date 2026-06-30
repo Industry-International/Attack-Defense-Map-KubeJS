@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    { "item": "cbc_enhanced_shells:powder_charge_mk3" },
+    { "item": "createbigcannons:packed_gunpowder" }
+  ],
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:powder_charge_mk4"
+  }
+}

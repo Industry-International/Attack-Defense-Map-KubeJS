@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "IRI",
+    "OBO",
+    "III"
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_block" },
+    "R": { "item": "minecraft:redstone_block" },
+    "O": { "item": "minecraft:obsidian" },
+    "B": { "item": "createbigcannons:guncotton" }
+  },
+  "result": { "count": 1, "id": "cbc_enhanced_shells:rocket_base" }
+}

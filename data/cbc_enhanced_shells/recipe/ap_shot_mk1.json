@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "HHH",
+    "HIH",
+    "HHH"
+  ],
+  "key": {
+    "H": { "item": "createbigcannons:ap_shot" },
+    "I": { "item": "minecraft:iron_block" }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:ap_shot_mk1"
+  }
+}

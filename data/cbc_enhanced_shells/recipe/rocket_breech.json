@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "SQS",
+    "RBR",
+    "SSS"
+  ],
+  "key": {
+    "S": { "item": "createbigcannons:steel_ingot" },
+    "Q": { "item": "createbigcannons:steel_quickfiring_breech" },
+    "R": { "item": "minecraft:redstone_block" },
+    "B": { "item": "cbc_enhanced_shells:rocket_base" }
+  },
+  "result": { "count": 1, "id": "cbc_enhanced_shells:rocket_breech" }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "HHH",
+    "HNH",
+    "HHH"
+  ],
+  "key": {
+    "H": { "item": "cbc_enhanced_shells:solid_shot_mk4" },
+    "N": { "item": "minecraft:diamond_block" }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:solid_shot_mk5"
+  }
+}

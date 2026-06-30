@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["HHH", "HEH", "HHH"],
+  "key": {
+    "H": { "item": "createbigcannons:he_shell" },
+    "E": { "item": "minecraft:end_crystal" }
+  },
+  "result": { "count": 1, "id": "cbc_enhanced_shells:vortex_shell_mk1" }
+}

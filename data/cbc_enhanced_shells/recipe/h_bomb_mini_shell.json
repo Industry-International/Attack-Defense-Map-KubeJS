@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "MNM",
+    "ENE",
+    "MEM"
+  ],
+  "key": {
+    "E": { "item": "minecraft:end_crystal" },
+    "N": { "item": "minecraft:nether_star" },
+    "M": { "item": "cbc_enhanced_shells:nuke_shell" }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:h_bomb_mini_shell"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": true,
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "createbigcannons:powder_charge"
+    },
+    "P": {
+      "tag": "createbigcannons:gunpowder"
+    },
+    "S": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "pattern": [
+    " I ",
+    "ICI",
+    "IPI",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:shell_holder_mk1"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    { "item": "cbc_enhanced_shells:shell_holder_mk1" },
+    { "tag": "c:ingots/cast_iron" },
+    { "tag": "c:ingots/cast_iron" }
+  ],
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:shell_holder_mk2"
+  }
+}

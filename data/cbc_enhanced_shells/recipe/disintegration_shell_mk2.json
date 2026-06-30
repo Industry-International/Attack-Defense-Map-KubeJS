@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "MIM",
+    "IPI",
+    "MIM"
+  ],
+  "key": {
+    "P": {
+      "item": "cbc_enhanced_shells:disintegration_shell_mk1"
+    },
+    "I": {
+      "item": "minecraft:tnt"
+    },
+    "M": {
+      "item": "cbc_enhanced_shells:he_shell_mk2"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:disintegration_shell_mk2"
+  }
+}

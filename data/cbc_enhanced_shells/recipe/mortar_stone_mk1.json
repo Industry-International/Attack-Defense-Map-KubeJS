@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "HHH",
+    "HIH",
+    "HHH"
+  ],
+  "key": {
+    "H": { "item": "createbigcannons:mortar_stone" },
+    "I": { "item": "minecraft:iron_block" }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:mortar_stone_mk1"
+  }
+}

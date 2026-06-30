@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        { "type": "minecraft:item", "name": "cbc_enhanced_shells:rocket_breech" }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "MIM",
+    "IPI",
+    "MIM"
+  ],
+  "key": {
+    "P": {
+      "item": "cbc_enhanced_shells:vortex_shell_mk2"
+    },
+    "I": {
+      "item": "minecraft:breeze_rod"
+    },
+    "M": {
+      "item": "cbc_enhanced_shells:he_shell_mk3"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:vortex_shell_mk3"
+  }
+}

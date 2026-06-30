@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NMN",
+    "MPM",
+    "NMN"
+  ],
+  "key": {
+    "P": {
+      "item": "cbc_enhanced_shells:disintegration_shell_mk4"
+    },
+    "N": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "M": {
+      "item": "cbc_enhanced_shells:he_shell_mk5"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:disintegration_shell_mk5"
+  }
+}

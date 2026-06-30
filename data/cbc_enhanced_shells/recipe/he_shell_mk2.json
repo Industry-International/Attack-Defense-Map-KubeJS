@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SGS",
+    "GCG",
+    "SGS"
+  ],
+  "key": {
+    "S": { "item": "cbc_enhanced_shells:he_shell_mk1" },
+    "G": { "item": "createbigcannons:guncotton" },
+    "C": { "tag": "c:ingots/cast_iron" }
+  },
+  "result": {
+    "count": 1,
+    "id": "cbc_enhanced_shells:he_shell_mk2"
+  }
+}
