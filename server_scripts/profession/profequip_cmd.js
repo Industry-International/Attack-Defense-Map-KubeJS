@@ -99,15 +99,20 @@ function giveVanillaAmmo(player, weaponId) {
   var ammoCfg = VANILLA_WEAPON_AMMO[pureId]
   if (!ammoCfg) return
 
-  var template = Item.of(ammoCfg.item)
-  var max = template.getMaxStackSize()
-  var remaining = ammoCfg.count
-  while (remaining > 0) {
-    var stack = template.copy()
-    var take = Math.min(remaining, max)
-    stack.setCount(take)
-    giveToBackpack(player, stack)
-    remaining -= take
+  // 支持数组格式：多种弹药（如 RPG 标准弹+温压弹）；单对象向后兼容
+  var list = Array.isArray(ammoCfg) ? ammoCfg : [ammoCfg]
+  for (var ai = 0; ai < list.length; ai++) {
+    var entry = list[ai]
+    var template = Item.of(entry.item)
+    var max = template.getMaxStackSize()
+    var remaining = entry.count
+    while (remaining > 0) {
+      var stack = template.copy()
+      var take = Math.min(remaining, max)
+      stack.setCount(take)
+      giveToBackpack(player, stack)
+      remaining -= take
+    }
   }
 }
 
