@@ -135,7 +135,8 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
   // OP → 打开 GUI
   if (player.hasPermissions(2)) {
     try {
-      // ★ 修复：将数据库分类信息 + nbt模板传入缓存
+      // ★ 修复：将数据库分类信息 + nbt模板传入缓存（已废弃，GUI不再使用）
+      //    保留原有逻辑但不依赖缓存读取
       var vehicleDB = getVehicleDB()
       var catData = {}
       var nbtTemplate = {}  // 当前载具的 nbt 模板（供 GUI 双模式配置使用）
@@ -162,7 +163,7 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
         categories: catData,
         nbtTemplate: nbtTemplate  // 用于 GUI 简单模式预填
       })
-      global.vehicleDeployerCache.put(player.uuid, cacheData)
+      global.vehicleDeployerCache.put(String(player.uuid), cacheData)
 
       LDLib2UIFactory.openBlockUI(player, block.getPos(), 'kubejs:vehicle_deployer_cfg')
     } catch (e) {
