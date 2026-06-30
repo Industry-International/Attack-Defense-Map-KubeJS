@@ -47,7 +47,8 @@ function loadAmmoTypes() {
   var raw = JsonIO.read($DB_ROOT + '/_ammo_types.json')
   if (!raw || !raw.ammoTypes) {
     sbwWarn('[数据库] _ammo_types.json 读取失败或格式错误')
-    $ammoDB = { loaded: false, byShortName: {}, byFullId: {} }
+    // ★ loaded: true + failed: true — 标记"已尝试过，不再无限重试"
+    $ammoDB = { loaded: true, failed: true, byShortName: {}, byFullId: {} }
     return $ammoDB
   }
 
@@ -136,7 +137,8 @@ function loadVehicleDB() {
   var registry = JsonIO.read($DB_ROOT + '/_registry.json')
   if (!registry || !registry.categories) {
     sbwWarn('[数据库] _registry.json 读取失败或格式错误')
-    $vehicleDB = { loaded: false, vehicleCount: 0, registry: null, categories: {}, byId: {}, byCategory: {} }
+    // ★ loaded: true + failed: true — 标记"已尝试过，不再无限重试"
+    $vehicleDB = { loaded: true, failed: true, vehicleCount: 0, registry: null, categories: {}, byId: {}, byCategory: {} }
     return $vehicleDB
   }
 
