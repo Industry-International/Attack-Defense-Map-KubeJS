@@ -20,7 +20,7 @@
             "item": "taov_returned:welder",
             "count": 1,
             "tag": {
-                "Unbreakable": true
+                "minecraft:unbreakable": {}
             }
         },
         {

@@ -261,13 +261,21 @@ function giveLoadout(target, fromGui) {
     }
   }
 
-  // -------- ⑥ 兵种额外物品 --------
+  // -------- ⑥ 兵种额外物品（支持超最大堆叠拆分多组）--------
   config.extras.forEach(function(entry) {
-    var stack = entry.tag
+    var proto = entry.tag
       ? Item.of(entry.item, entry.tag)
       : Item.of(entry.item)
-    stack.setCount(entry.count)
-    target.give(stack)
+    var max = proto.getMaxStackSize()
+    var remaining = entry.count
+    while (remaining > 0) {
+      var batch = Math.min(remaining, max)
+      var stack = entry.tag
+        ? Item.of(entry.item, batch, entry.tag)
+        : Item.of(entry.item, batch)
+      target.give(stack)
+      remaining -= batch
+    }
   })
 
   // 成功发放，移除 no_loadout 标签（玩家已获得装备）
