@@ -174,11 +174,6 @@ function executeStationReplenish(block, level, ignoreCooldown) {
     // 记录载具进度（用于发送给乘客的 HUD 动画）
     let vehicleProgress = {}  // uuid → { elapsed, enterDelayTicks, status }
 
-    // 调试：记录扫描开始
-    console.log($LOG_PREFIX + ' [扫描] 方块@[' + bx + ',' + by + ',' + bz + ']' + dimStr +
-      ' range=' + range + '冷却=' + (ignoreCooldown ? '无视' : (cooldownSec + 's')) +
-      ' enterDelay=' + enterDelay + 's 计时中车辆=' + Object.keys(timers).length)
-
     while (eIter.hasNext()) {
       let entity = eIter.next()
       if (!entity || entity.isRemoved()) continue
@@ -197,12 +192,6 @@ function executeStationReplenish(block, level, ignoreCooldown) {
       let typeStr = entity.getType().toString()
       let uuid = entity.uuid.toString()
 
-      console.log($LOG_PREFIX + ' [扫描] 发现载具 type=' + typeStr +
-        ' uuid=' + uuid.substring(0, 8) + '...' +
-        ' pos=[' + Math.floor(ex) + ',' + Math.floor(ey) + ',' + Math.floor(ez) + ']' +
-        ' dist=[' + Math.floor(dx) + ',' + Math.floor(dy) + ',' + Math.floor(dz) + ']' +
-        ' inRange=' + inRange)
-
       if (!inRange) continue
 
       // 载具在范围内
@@ -212,7 +201,6 @@ function executeStationReplenish(block, level, ignoreCooldown) {
         // 首次进入范围：记录当前 gameTime
         timers[uuid] = gameTime
         vehicleProgress[uuid] = { entity: entity, elapsed: 0, enterDelayTicks: enterDelayTicks, status: 'timing' }
-        console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 首次进入范围，gameTime=' + gameTime)
       } else {
         // 已在计时中：检查是否达到停留时长
         let elapsed = gameTime - timers[uuid]
@@ -222,17 +210,13 @@ function executeStationReplenish(block, level, ignoreCooldown) {
         if (elapsed < 0) {
           timers[uuid] = gameTime
           elapsed = 0
-          console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 检测到残留计时器（负数），重置为当前 gameTime=' + gameTime)
+          sbwLog($LOG_PREFIX + ' [计时] 载具残留计时器（负数）已重置')
         }
 
         vehicleProgress[uuid] = { entity: entity, elapsed: elapsed, enterDelayTicks: enterDelayTicks, status: 'timing' }
 
-        console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 已在范围内 ' +
-          (elapsed / 20).toFixed(1) + 's / 需 ' + enterDelay + 's')
-
         if (elapsed >= enterDelayTicks) {
           // 停留时间达标 → 补给
-          console.log($LOG_PREFIX + ' [补给] 停留时间达标，开始补给载具 ' + uuid.substring(0, 8) + '...')
 
           // 从数据包载具数据库查询该车应补什么弹药
           var targetSlots = {}
@@ -248,21 +232,17 @@ function executeStationReplenish(block, level, ignoreCooldown) {
             }
           }
           if (matched && matched.length > 0) {
-            console.log($LOG_PREFIX + ' [补给] 数据库命中: ' + typeStr + ' -> ' + JSON.stringify(matched))
             for (var mi = 0; mi < matched.length; mi++) {
               if (slots[matched[mi]] !== undefined) targetSlots[matched[mi]] = slots[matched[mi]]
             }
           } else {
-            console.log($LOG_PREFIX + ' [补给] 警告: 载具 ' + typeStr + ' 不在配置中，使用全部弹药兜底')
             targetSlots = slots
           }
 
           let success = replenishVehicle(entity, targetSlots, level)
           if (success) {
             replenishedAny = true
-            console.log($LOG_PREFIX + ' [补给] 载具 ' + uuid.substring(0, 8) + '... 补给成功')
-          } else {
-            console.log($LOG_PREFIX + ' [补给] 载具 ' + uuid.substring(0, 8) + '... 补给失败（无需补充或出错）')
+            sbwLog($LOG_PREFIX + ' 载具 ' + uuid.substring(0, 8) + '... 补给成功')
           }
           // 补给后移除计时（下次进入重新计时）
           delete timers[uuid]
@@ -275,7 +255,6 @@ function executeStationReplenish(block, level, ignoreCooldown) {
     for (let uuid in timers) {
       if (!timers.hasOwnProperty(uuid)) continue
       if (!detectedUUIDs[uuid]) {
-        console.log($LOG_PREFIX + ' [计时] 载具 ' + uuid.substring(0, 8) + '... 离开范围，计时清除')
         delete timers[uuid]
         changed = true
       }
@@ -292,7 +271,6 @@ function executeStationReplenish(block, level, ignoreCooldown) {
       let cooldownEndTime = gameTime + cooldownSec * 20
       pd.putLong('CooldownEnd', cooldownEndTime)
       block.entity.setChanged()
-      console.log($LOG_PREFIX + ' [冷却] 设置冷却至 gameTime=' + cooldownEndTime + ' (' + cooldownSec + 's后)')
     }
 
     // ─── 7. 推送动作栏进度给乘客 ───
@@ -390,30 +368,20 @@ function replenishVehicle(entity, slots, level) {
   try {
     let nbt = entity.nbt
     if (!nbt) {
-      console.log($LOG_PREFIX + ' [补给] entity.nbt 为空')
       return false
     }
     if (!nbt.contains('Inventory')) {
-      console.log($LOG_PREFIX + ' [补给] NBT 中没有 Inventory 字段')
-      // 打印 NBT 顶层键列表用于调试
-      let keys = nbt.getAllKeys()
-      let keyList = ''
-      let kIter = keys.iterator()
-      while (kIter.hasNext()) { keyList += kIter.next() + ', ' }
-      console.log($LOG_PREFIX + ' [补给] NBT 顶层键: ' + keyList)
       return false
     }
 
     let inventory = nbt.getCompound('Inventory')
     if (!inventory.contains('Items')) {
-      console.log($LOG_PREFIX + ' [补给] Inventory 中没有 Items 字段')
       return false
     }
 
     // ★ getList(key) 在1.21.1需要第二个参数 elementType（10 = CompoundTag）
     let items = inventory.getList('Items', 10)
     let itemCount = items.size()
-    console.log($LOG_PREFIX + ' [补给] Inventory.Items 共 ' + itemCount + ' 个物品')
 
     // ─── 统计每种弹药当前总量 ───
     let currentCounts = {}
@@ -424,12 +392,8 @@ function replenishVehicle(entity, slots, level) {
       let ammoKey = getAmmoShortName(itemId)
       if (!ammoKey) continue
       let count = item.getInt('count')
-      let slot = item.getInt('Slot')
-      console.log($LOG_PREFIX + ' [补给]   槽位' + slot + ': ' + itemId + ' x' + count + ' -> 弹药类型=' + ammoKey)
       currentCounts[ammoKey] = (currentCounts[ammoKey] || 0) + count
     }
-
-    console.log($LOG_PREFIX + ' [补给] 当前弹药存量: ' + JSON.stringify(currentCounts))
 
     // ─── 计算需要补充的量 ───
     // 遍历 GUI 配置的所有弹药类型，按设置的最大值补满
@@ -438,16 +402,11 @@ function replenishVehicle(entity, slots, level) {
       if (!slots.hasOwnProperty(ammoKey)) continue
       let maxVal = slots[ammoKey]
       let current = currentCounts[ammoKey] || 0
-      if (current >= maxVal) {
-        console.log($LOG_PREFIX + ' [补给]   弹药 ' + ammoKey + ' 当前=' + current + ' >= 最大=' + maxVal + '，无需补充')
-        continue
-      }
+      if (current >= maxVal) continue
       needToAdd[ammoKey] = maxVal - current
-      console.log($LOG_PREFIX + ' [补给]   弹药 ' + ammoKey + ' 需补充 ' + needToAdd[ammoKey] + ' 个（当前=' + current + ' 最大=' + maxVal + '）')
     }
 
     if (Object.keys(needToAdd).length === 0) {
-      console.log($LOG_PREFIX + ' [补给] 所有弹药均已达到或超过配置最大值')
       return false
     }
 
@@ -466,8 +425,6 @@ function replenishVehicle(entity, slots, level) {
 
       item.putInt('count', currentCount + canAdd)
       items.set(i, item)
-
-      console.log($LOG_PREFIX + ' [补给]   叠加: 槽位' + item.getInt('Slot') + ' ' + ammoKey + ' ' + currentCount + ' -> ' + (currentCount + canAdd))
 
       needToAdd[ammoKey] -= canAdd
       if (needToAdd[ammoKey] <= 0) {
@@ -493,7 +450,6 @@ function replenishVehicle(entity, slots, level) {
           newItem.putInt('count', addCount)
           newItem.putInt('Slot', nextSlot)
           items.add(newItem)
-          console.log($LOG_PREFIX + ' [补给]   新增: 槽位' + nextSlot + ' ' + ammoKey + ' x' + addCount)
           nextSlot++
           remaining -= addCount
         }
@@ -529,7 +485,6 @@ function replenishVehicle(entity, slots, level) {
       server.runCommandSilent('item replace entity ' + uuid + ' container.' + slotNum + ' ' + itemId + ' ' + count)
     }
 
-    console.log($LOG_PREFIX + ' [补给] NBT写回+物品栏写入完成（data merge + item replace）')
     return true
   } catch (e) {
     console.log($LOG_PREFIX + ' 载具补给出错: ' + e)
