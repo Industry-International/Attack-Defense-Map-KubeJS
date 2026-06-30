@@ -1,6 +1,6 @@
 {
   "entity_damage": 1000,
-  "penetration": 40,
+  "penetration": 2,
   "toughness": 20,
   "knockback": 40,
   "durability_mass": 160,
