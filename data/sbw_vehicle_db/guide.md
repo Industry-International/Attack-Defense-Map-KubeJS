@@ -1,15 +1,15 @@
-# SBW Vehicle Database — Data Pack Filling Guide
+# 载具数据库 — 填写指南（v2）
 
-## Directory Structure
+## 目录结构
 
 ```
 kubejs/data/sbw_vehicle_db/
-├── _registry.json                          ← Registry (categories + file lists)
-├── _ammo_types.json                        ← Ammo type definitions
-├── guide.md                                ← This file
+├── _registry.json                          ← 注册文件（分类 + 文件列表）
+├── _ammo_types.json                        ← 弹药类型定义
+├── guide.md                                ← 本文件
 │
-├── main_battle_tank/                       ← Category directory
-│   ├── superbwarfare--m_1a_2.json          ← Vehicle file: <mod>--<baseName>.json
+├── main_battle_tank/                       ← 分类目录
+│   ├── superbwarfare--m_1a_2.json          ← 载具文件: <模组>--<基础名>.json
 │   ├── mcsp--m1a2.json
 │   └── ...
 ├── infantry_fighting_vehicle/
@@ -23,16 +23,16 @@ kubejs/data/sbw_vehicle_db/
 └── utility_vehicle/
 ```
 
-**Rules:**
-- Each category is a directory matching a key in `_registry.json`
-- Vehicle files sit flat inside the category directory (no sub-classification)
-- File naming: `<mod_prefix>--<baseName>.json`
+**规则：**
+- 每个分类是一个目录，名称匹配 `_registry.json` 中的 key
+- 载具文件平放在分类目录下（无子分类）
+- 文件命名: `<模组前缀>--<基础名>.json`
 
 ---
 
-## 1. `_registry.json` — Category Registry
+## 一、`_registry.json` — 分类注册
 
-Declares all categories and their vehicle file lists. The loader only depends on this file.
+声明所有分类及其载具文件列表。加载器只依赖此文件发现数据。
 
 ```json
 {
@@ -41,7 +41,7 @@ Declares all categories and their vehicle file lists. The loader only depends on
     "main_battle_tank": {
       "enabled": true,
       "displayName": "主战坦克",
-      "description": "Main Battle Tanks",
+      "description": "主战坦克",
       "files": [
         "superbwarfare--m_1a_2.json",
         "mcsp--m1a2.json"
@@ -50,7 +50,7 @@ Declares all categories and their vehicle file lists. The loader only depends on
     "helicopter": {
       "enabled": true,
       "displayName": "直升机",
-      "description": "Helicopters",
+      "description": "直升机",
       "files": [
         "superbwarfare--ah_6.json"
       ]
@@ -59,20 +59,20 @@ Declares all categories and their vehicle file lists. The loader only depends on
 }
 ```
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `enabled` | ✗ | Default `true`. Set to `false` to skip the entire category |
-| `displayName` | Recommended | Chinese display name for admin UI |
-| `description` | Recommended | English description |
-| `files` | ✓ | File paths relative to the category directory |
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| `enabled` | ✗ | 默认 `true`，设为 `false` 跳过整个分类 |
+| `displayName` | 推荐 | 中文显示名（管理界面用） |
+| `description` | 推荐 | 分类描述 |
+| `files` | ✓ | 文件路径，相对于分类目录 |
 
-> **All files are relative to the category dir**: `superbwarfare--m_1a_2.json` → `<category>/superbwarfare--m_1a_2.json`.
+> **所有文件路径相对于分类目录**：`superbwarfare--m_1a_2.json` → `<分类>/superbwarfare--m_1a_2.json`。
 
 ---
 
-## 2. `_ammo_types.json` — Ammo Type Registry
+## 二、`_ammo_types.json` — 弹药类型注册
 
-Defines all ammo types that the ammo replenishment system recognizes.
+定义弹药补给系统识别的所有弹药类型。
 
 ```json
 {
@@ -94,21 +94,21 @@ Defines all ammo types that the ammo replenishment system recognizes.
 }
 ```
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| Key (short name) | ✓ | `large_shell_ap`, used as internal reference |
-| `id` | ✓ | Full Minecraft item ID, e.g. `superbwarfare:large_shell_ap` |
-| `displayName` | ✓ | Colored display name (Chinese, with § color codes) |
-| `enName` | ✓ | English display name (no color codes needed) |
-| `maxStack` | ✓ | Maximum stack size for this ammo item |
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| Key（短名） | ✓ | 如 `large_shell_ap`，作为内部引用标识 |
+| `id` | ✓ | 完整 Minecraft 物品 ID，如 `superbwarfare:large_shell_ap` |
+| `displayName` | ✓ | 带颜色代码的中文显示名（支持 § 颜色码） |
+| `enName` | ✓ | 英文显示名（不需要颜色码） |
+| `maxStack` | ✓ | 该弹药物品的最大堆叠数 |
 
-> All ammo IDs referenced in vehicle `weapons[].ammoTypes` and `ammoSlots` must be registered here.
+> 载具文件中 `weapons[].ammoTypes` 和 `ammoSlots` 引用的所有弹药 ID 都必须在此注册。
 
 ---
 
-## 3. Vehicle JSON Files — `tanks/*.json`
+## 三、载具 JSON 文件 — `分类名/*.json`
 
-One JSON file per vehicle variant. Stored in the category directory.
+每辆载变体一个独立 JSON 文件，存放在分类目录下。
 
 ```json
 {
@@ -168,120 +168,120 @@ One JSON file per vehicle variant. Stored in the category directory.
 }
 ```
 
-### 3.1 Top-Level Fields
+### 顶层字段说明
 
-| Field | Required | Type | Description |
-|-------|----------|------|-------------|
-| `vehicleId` | ✓ | string | Unique identifier, e.g. `superbwarfare:m_1a_2`. Must be unique across all files. |
-| `mod` | ✓ | string | Mod source: `superbwarfare`, `mcsp` |
-| `category` | ✓ | string | Must match one of the category keys in `_registry.json` |
-| `baseName` | ✓ | string | Short internal ID (no namespace) |
-| `displayType` | ✓ | string | Display classification: `Tank`, `IFV`, `Artillery`, `Helicopter`, `Drone`, etc. |
-| `maxHealth` | ✓ | int | Maximum vehicle health |
-| `maxEnergy` | ✓ | int | Maximum energy/power |
-| `hasDecoy` | ✓ | bool | Whether the vehicle can deploy decoys |
-| `engineType` | ✓ | string | `Track` (tracked), `Wheel` (wheeled), `Rotor` (rotary), `Plane` (fixed-wing) |
-| `mass` | ✓ | number | Vehicle mass in tons (affects physics) |
-| `upStep` | ✓ | number | Maximum climbable step height |
-| `containerType` | ✗ | string/null | Container inventory type: `"Medium"`, `"Large"`, or `null` |
-| `hudType` | ✓ | string | HUD identifier: `@Land`, `@Air`, `@Sea`, `@Drone`, `@Turret` |
-| `parts` | ✓ | string[] | Vehicle damage parts (affects cripple mechanics) |
-| `seatCount` | ✓ | int | Number of seats (driver + passengers) |
-| `weapons` | ✓ | array | Weapon system definitions |
-| `nbtTemplate` | ✓ | object | Default NBT for the vehicle item entity |
-| `ammoSlots` | ✓ | object | Ammo inventory capacity: `{ "ammo_id": max_count }` |
+| 字段 | 必填 | 类型 | 说明 |
+|------|------|------|------|
+| `vehicleId` | ✓ | string | 唯一标识，如 `superbwarfare:m_1a_2`，全局唯一 |
+| `mod` | ✓ | string | 模组来源：`superbwarfare`、`mcsp` 等 |
+| `category` | ✓ | string | 必须匹配 `_registry.json` 中的某个分类 key |
+| `baseName` | ✓ | string | 简短内部 ID（不含命名空间） |
+| `displayType` | ✓ | string | 显示分类：`Tank`、`IFV`、`Artillery` 等 |
+| `maxHealth` | ✓ | int | 载具最大生命值 |
+| `maxEnergy` | ✓ | int | 载具最大能量/电力 |
+| `hasDecoy` | ✓ | bool | 是否能部署诱饵弹 |
+| `engineType` | ✓ | string | `Track`（履带）、`Wheel`（轮式）、`Rotor`（旋翼）、`Plane`（固定翼） |
+| `mass` | ✓ | number | 载具质量（吨），影响物理 |
+| `upStep` | ✓ | number | 最大可爬越高度 |
+| `containerType` | ✗ | string/null | 容器库存类型：`"Medium"`、`"Large"` 或 `null` |
+| `hudType` | ✓ | string | HUD 标识：`@Land`、`@Air`、`@Sea`、`@Drone`、`@Turret` |
+| `parts` | ✓ | string[] | 载具可损坏部件（影响瘫痪机制） |
+| `seatCount` | ✓ | int | 座位数（驾驶员 + 乘客） |
+| `weapons` | ✓ | array | 武器系统定义 |
+| `nbtTemplate` | ✓ | object | 载具实体默认 NBT |
+| `ammoSlots` | ✓ | object | 弹药库存容量：`{ "弹药ID": 最大数量 }` |
 
-### 3.2 Weapon Entry Fields
+### 武器条目字段说明
 
-| Field | Required | Type | Description |
-|-------|----------|------|-------------|
-| `key` | ✓ | string | Weapon slot key, e.g. `Cannon`, `MachineGun` |
-| `displayKey` | ✓ | string | Display name key (used for translation) |
-| `ammoTypes` | ✓ | string[] | Accepted ammo IDs (must be in `_ammo_types.json`) |
-| `magazine` | ✓ | int | Magazine size (1 for single-shot, >1 for auto-loaders) |
-| `rpm` | ✗ | int/null | Rate of fire in rounds per minute. `null` = single shot |
-| `damage` | ✓ | number | Base damage per hit |
-| `hasOverride` | ✓ | bool | Whether mouse aim override is available |
+| 字段 | 必填 | 类型 | 说明 |
+|------|------|------|------|
+| `key` | ✓ | string | 武器槽位 key，如 `Cannon`、`MachineGun` |
+| `displayKey` | ✓ | string | 显示名称 key（用于翻译） |
+| `ammoTypes` | ✓ | string[] | 可用的弹药 ID 列表（必须在 `_ammo_types.json` 中注册） |
+| `magazine` | ✓ | int | 弹匣容量（1=单发，>1=自动装填） |
+| `rpm` | ✗ | int/null | 射速（发/分钟）。`null`=单发 |
+| `damage` | ✓ | number | 单发基础伤害 |
+| `hasOverride` | ✓ | bool | 是否可鼠标瞄准覆盖 |
 
-### 3.3 NBT Template
+### NBT 模板说明
 
-The `nbtTemplate` provides default NBT data for the vehicle's entity item when spawned. This includes:
+`nbtTemplate` 提供载具实体生成时的默认 NBT 数据，包括：
 
-- **`Health`** / **`Energy`** — Initial values (usually match max)
-- **`WeaponState`** — Per-weapon initial state, including `GunData.Ammo` (loaded ammo count)
-- **`Inventory.Items`** — Initial inventory contents. Slot numbers are vehicle-specific.
-- **Part health fields** — e.g. `RightWheelHealth`, `TurretHealth`, `MainEngineHealth`
-- **Part damage flags** — e.g. `RightWheelDamaged`, `TurretDamaged`
+- **`Health`** / **`Energy`** — 初始值（通常等于最大值）
+- **`WeaponState`** — 各武器初始状态，含 `GunData.Ammo`（已装弹数）
+- **`Inventory.Items`** — 初始库存内容。Slot 编号按载具类型定义
+- **部件健康度字段** — 如 `RightWheelHealth`、`TurretHealth`、`MainEngineHealth`
+- **部件损坏标记** — 如 `RightWheelDamaged`、`TurretDamaged`
 
-### 3.4 Engine Type Reference
+### 引擎类型参考
 
-| Value | Description | Examples |
-|-------|-------------|---------|
-| `Track` | Tracked vehicle | Tanks, IFVs |
-| `Wheel` | Wheeled vehicle | Trucks, utility vehicles |
-| `Rotor` | Rotorcraft | Helicopters |
-| `Plane` | Fixed-wing | Aircraft |
-| `Hover` | Hovercraft | Naval hovercraft |
+| 值 | 说明 | 示例 |
+|-------|------|------|
+| `Track` | 履带式 | 坦克、步兵战车 |
+| `Wheel` | 轮式 | 卡车、通用车辆 |
+| `Rotor` | 旋翼式 | 直升机 |
+| `Plane` | 固定翼 | 飞机 |
+| `Hover` | 气垫式 | 水上气垫船 |
 
-### 3.5 HUD Type Reference
+### HUD 类型参考
 
-| Value | Description |
-|-------|-------------|
-| `@Land` | Land vehicle HUD |
-| `@Air` | Aircraft HUD |
-| `@Sea` | Naval vehicle HUD |
-| `@Drone` | Drone HUD |
-| `@Turret` | Fixed defense turret HUD |
+| 值 | 说明 |
+|-------|------|
+| `@Land` | 陆战载具 HUD |
+| `@Air` | 飞行载具 HUD |
+| `@Sea` | 海战载具 HUD |
+| `@Drone` | 无人机 HUD |
+| `@Turret` | 固定炮塔 HUD |
 
-### 3.6 Vehicle Category Reference
+### 分类参考
 
-| Category Key | Description |
-|-------------|-------------|
-| `main_battle_tank` | Main Battle Tanks |
-| `infantry_fighting_vehicle` | IFVs & APCs |
-| `artillery` | Artillery & Rocket Artillery |
-| `air_defense` | Air Defense Units |
-| `aircraft` | Fixed-wing Aircraft |
-| `helicopter` | Helicopters |
-| `defense_turret` | Fixed Defense Turrets |
-| `drone` | Drones |
-| `naval` | Naval Vehicles |
-| `utility_vehicle` | Utility Vehicles & Trucks |
-
----
-
-## 4. Adding a New Vehicle
-
-1. Create a JSON file in the appropriate category directory, e.g. `main_battle_tank/mcsp--new_tank.json`
-2. Add the filename to `_registry.json` under the matching category's `files` array
-3. If the vehicle uses new ammo types, register them in `_ammo_types.json`
-4. Run `/kubejs reload` to reload scripts
+| 分类 key | 说明 |
+|-------------|------|
+| `main_battle_tank` | 主战坦克 |
+| `infantry_fighting_vehicle` | 步兵战车/装甲运兵车 |
+| `artillery` | 火炮/火箭炮 |
+| `air_defense` | 防空单位 |
+| `aircraft` | 固定翼飞机 |
+| `helicopter` | 直升机 |
+| `defense_turret` | 固定防御炮塔 |
+| `drone` | 无人机 |
+| `naval` | 海军载具 |
+| `utility_vehicle` | 通用车辆/卡车 |
 
 ---
 
-## 5. Adding a New Category
+## 四、新增载具
 
-1. Create a new directory under `sbw_vehicle_db/`, e.g. `recon_vehicle/`
-2. Add a new entry in `_registry.json` under `categories`:
+1. 在对应分类目录下创建 JSON 文件，如 `main_battle_tank/mcsp--new_tank.json`
+2. 将文件名添加到 `_registry.json` 对应分类的 `files` 数组中
+3. 如果载具使用新弹药类型，在 `_ammo_types.json` 中注册
+4. 执行 `/kubejs reload` 重载脚本
+
+---
+
+## 五、新增分类
+
+1. 在 `sbw_vehicle_db/` 下创建新目录，如 `recon_vehicle/`
+2. 在 `_registry.json` 的 `categories` 中添加新条目：
    ```json
    "recon_vehicle": {
      "enabled": true,
      "displayName": "侦察车",
-     "description": "Reconnaissance Vehicles",
+     "description": "侦察车",
      "files": []
    }
    ```
-3. Place vehicle JSON files in the new directory and list them in `files`
-4. No loader changes needed — the autodiscovery reads `_registry.json`
+3. 将载具 JSON 文件放入新目录，并在 `files` 中列出
+4. 无需改加载器代码 — 自动发现读取 `_registry.json`
 
 ---
 
-## 6. Notes
+## 六、注意事项
 
-1. **`_registry.json` is the single entry point** — files not listed there won't be loaded
-2. **`vehicleId` must be unique** across all category files
-3. **Ammo IDs in `weapons[].ammoTypes` and `ammoSlots`** must be registered in `_ammo_types.json`
-4. **`category` in vehicle JSON** must match a key in `_registry.json` exactly
-5. **After modification**: `/kubejs reload` to reload all scripts
-6. **File encoding**: UTF-8 without BOM
-7. **`enabled: false`** on a category in `_registry.json` skips the entire category
+1. **`_registry.json` 是唯一入口** — 未列出的文件不会被加载
+2. **`vehicleId` 必须全局唯一** — 所有分类文件之间不可重复
+3. **`weapons[].ammoTypes` 和 `ammoSlots` 中的弹药 ID** 必须在 `_ammo_types.json` 中注册
+4. **载具 JSON 中的 `category`** 必须精确匹配 `_registry.json` 中的 key
+5. **修改后执行 `/kubejs reload`** 重载所有脚本
+6. **文件编码**：UTF-8 without BOM
+7. **`enabled: false`** 会跳过整个分类

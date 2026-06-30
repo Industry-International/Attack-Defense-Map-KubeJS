@@ -14,7 +14,7 @@ kubejs/data/profession_db/
 │   ├── armor.json                        ← 护甲配置
 │   ├── extras.json                       ← 额外物品
 │   ├── non_tacz.json                     ← 非TACZ武器显示+弹药
-│   └── tacz/                             ← TACZ 系枪械（平放）
+│   └── tacz/                             ← TACZ 系枪械（平放，无子分类目录）
 │       ├── tacz--ak47.json
 │       └── ...
 ├── medic/
@@ -133,7 +133,7 @@ kubejs/data/profession_db/
 
 **旧格式**的扁平数组不会显示类型选择页，直接显示全部武器列表。
 
-> 武器 ID 必须对应 `tacz/*.json` 中的 `weaponId` 字段。
+> 武器 ID 必须对应 `tacz/*.json` 中的 `weaponId` 字段（TACZ 武器），或 `non_tacz.json` 中的 key（非 TACZ 武器）。
 
 ### `armor.json` — 护甲配置
 
@@ -162,25 +162,47 @@ kubejs/data/profession_db/
 }
 ```
 
-`tag` 字段支持 NBT 格式。
+- `item`：物品ID（必填）
+- `count`：数量（必填）
+- `tag`：数据组件（可选），格式为 1.21.1 的组件对象，如 `{"minecraft:unbreakable":{}}`，**不要使用旧版 NBT 格式 `{Unbreakable:1b}`**
+
+发放时会自动按物品最大堆叠拆分多组。
 
 ### `non_tacz.json` — 非TACZ显示+弹药
 
 ```json
 {
   "nonTaczDisplay": {
-    "snowball": { "item": "minecraft:snowball", "i18n": true }
+    "snowball": { "item": "minecraft:snowball", "i18n": true },
+    "igla_9k38": { "item": "superbwarfare:igla_9k38", "i18n": false },
+    "rpg": { "item": "superbwarfare:rpg", "i18n": false }
   },
   "nonTaczAmmo": {
-    "snowball": { "item": "minecraft:snowball", "count": 16 }
+    "snowball": { "item": "minecraft:snowball", "count": 16 },
+    "igla_9k38": { "item": "superbwarfare:medium_anti_air_missile", "count": 2 },
+    "rpg": [
+      { "item": "superbwarfare:rpg_rocket_standard", "count": 4 },
+      { "item": "superbwarfare:rpg_rocket_tbg", "count": 2 }
+    ]
   }
 }
 ```
+
+`nonTaczDisplay` 字段：
 
 | i18n | 名称来源 |
 |------|---------|
 | `true` | `offhand.kubejs.<武器ID>` 翻译键，需语言文件 |
 | 无/`false` | 物品自身内置名 |
+
+`nonTaczAmmo` 支持两种格式：
+
+| 格式 | 示例 | 说明 |
+|------|------|------|
+| 单对象 | `{"item":"...","count":N}` | 单一弹药类型，向后兼容 |
+| 数组 | `[{"item":"...","count":N}, ...]` | **多种弹药**（如 RPG 标准弹+温压弹），发放时全部给予 |
+
+> `item` 字段填写纯物品ID即可，**不要使用方括号 SNBT 格式**（如 `superbwarfare:igla_9k38[custom_data=...]`），KubeJS 7 不兼容。
 
 ---
 
@@ -228,6 +250,7 @@ kubejs/data/profession_db/
 | 操作 | 步骤 |
 |------|------|
 | **新增 TACZ 枪械** | ① `tacz/` 下创建 JSON ② `weapons.json` 加 ID ③ `_registry.json` 的 `files` 加路径 |
+| **新增非 TACZ 武器** | ① `weapons.json` 加 ID ② `non_tacz.json` 加显示+弹药配置 |
 | **新增职业** | ① `_registry.json` 加条目 ② 创建职业目录 ③ 创建配置文件和 `tacz/` 子目录 |
 
 ---
@@ -237,6 +260,8 @@ kubejs/data/profession_db/
 1. **`_registry.json` 是加载器的唯一入口**，职业不在其中声明则不会被加载
 2. **`files` 路径相对于职业目录**，如 `tacz/tacz--ak47.json` → `<职业>/tacz/tacz--ak47.json`
 3. **配置文件直接放职业根目录**（`meta.json`, `weapons.json`, `armor.json`, `extras.json`, `non_tacz.json`）
-4. **武器文件放 `tacz/` 子目录**，命名格式保留 `<模组>--<标识符>.json` 以区分来源
+4. **武器文件放 `tacz/` 子目录**，命名格式 `<模组>--<标识符>.json` 以区分来源
 5. **修改后 `/kubejs reload`** 重新加载
 6. **enabled 开关在 `_registry.json` 中**，不在 `meta.json` 里
+7. **`nonTaczAmmo` 支持数组格式**（多种弹药），单对象格式向后兼容
+8. **物品 ID 不要用方括号 SNBT 格式**，直接写纯ID
