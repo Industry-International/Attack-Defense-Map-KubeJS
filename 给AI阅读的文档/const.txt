@@ -200,6 +200,11 @@ startup 中的 const 不会与 server 中的 const 冲突。
   var $AABB           = Java.loadClass('net.minecraft.world.phys.AABB')
   （注：ammo_replenish/main.js 已不再使用 $AABB，改为 level.getEntities() 遍历）
 
+来源文件: server_scripts/sbw_vehicle/tools/database.js（2026-06-30 新增）
+
+  var $KubeJSPaths    = Java.loadClass('dev.latvian.mods.kubejs.KubeJSPaths')
+  // 通过 KubeJSPaths.DATA 获取 kubejs/data/ 的绝对路径，彻底解决路径兼容问题
+
 来源文件: startup_scripts/ammo_station_gui.js（startup 作用域，与 server 作用域独立）
 
   var $HashMap = Java.loadClass('java.util.HashMap')
@@ -425,7 +430,9 @@ StartupEvents.registry('block', ...) 注册的方块：
   tools/nbt.js — JSON → NBT 转换
     toNBT(obj) / mergeDeployNBT(target, source)
 
-  tools/database.js — 载具数据库 & 弹药类型加载（2026-06-29 新增弹药类型支持）
+  tools/database.js — 载具数据库 & 弹药类型加载（2026-06-30 改用 KubeJSPaths 绝对路径）
+    $KubeJSPaths                 — Java 类引用：dev.latvian.mods.kubejs.KubeJSPaths
+    $DB_ROOT                     — 数据库根路径（绝对路径，通过 KubeJSPaths.DATA 构建）
     loadVehicleDB()              — 加载载具数据库（自动发现 data/sbw_vehicle_db/）
     getVehicleDB()               — 获取已加载的数据库
     getVehicleById(vehicleId)    — 按完整实体ID查载具数据（如 'superbwarfare:t_90a'）

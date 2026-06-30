@@ -21,7 +21,11 @@
 //  数据库根路径 & 内部存储
 // ══════════════════════════════════════════════════════════════
 
-var $DB_ROOT = 'kubejs/data/sbw_vehicle_db'
+// ★ 使用 KubeJSPaths.DATA（kubejs/data/ 的绝对路径）构建数据库根路径。
+//   JsonIO.read() 传绝对路径就不再依赖基准目录，单人/服务端完美兼容。
+var $KubeJSPaths = Java.loadClass('dev.latvian.mods.kubejs.KubeJSPaths')
+var $DB_ROOT = $KubeJSPaths.DATA.resolve('sbw_vehicle_db').toString()
+sbwLog('[数据库] 数据库根路径: ' + $DB_ROOT)
 var $vehicleDB = null  // 内部缓存，不写入 global
 var $ammoDB = null     // 弹药类型缓存
 
