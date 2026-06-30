@@ -36,12 +36,8 @@
       "sniper": [],
       "mg": [],
       "pistol": [],
-      "other": [
-        "igla_9k38",
-        "javelin",
-        "rpg"
-      ],
-      "heavy": []
+      "other": [],
+      "heavy": ["igla_9k38","javelin","rpg"]
     }
   }
 }

@@ -285,7 +285,7 @@ function getProfessionWeaponListByType(profession, category, type) {
   if (!catData) return []
   var parsed = _parseCategoryData(catData)
 
-  // 新格式：按类型提取
+  // 新格式：按类型提取（TACZ / 非 TACZ 均支持）
   if (cleanType && parsed.typeMap[cleanType]) {
     var ids = parsed.typeMap[cleanType]
     var result = []
@@ -293,12 +293,21 @@ function getProfessionWeaponListByType(profession, category, type) {
       var id = ids[i]
       var pureId = cleanId(id)
       var weaponData = db.weapons[pureId]
-      if (!weaponData) continue
-      result.push({
-        id: id,
-        display: 'tacz:modern_kinetic_gun',
-        tag: { custom_data: { GunId: weaponData.gunId, GunCurrentAmmoCount: $IntTag.valueOf(weaponData.gunCurrentAmmoCount || 30) } }
-      })
+      if (weaponData) {
+        result.push({
+          id: id,
+          display: 'tacz:modern_kinetic_gun',
+          tag: { custom_data: { GunId: weaponData.gunId, GunCurrentAmmoCount: $IntTag.valueOf(weaponData.gunCurrentAmmoCount || 30) } }
+        })
+        continue
+      }
+      var displayCfg = db.VANILLA_WEAPON_DISPLAY[pureId]
+      if (displayCfg) {
+        result.push({ id: id, display: displayCfg.item, i18n: displayCfg.i18n })
+        continue
+      }
+      console.warn('[职业数据库] 未找到武器 [' + pureId + '] 的展示配置，使用屏障占位')
+      result.push({ id: id, display: 'minecraft:barrier' })
     }
     return result
   }

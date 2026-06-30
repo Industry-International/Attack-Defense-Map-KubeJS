@@ -775,16 +775,28 @@ function getTypeDisplayItem(type, profession, category) {
         .withLore([Text.translate('msg.kubejs.profession_select.no_weapons')])
     }
   }
-  // 动态取该类型第一把枪的 GunId 作为展示模型
-  var gunId = 'tacz:ak47' // 最终 fallback
+  // 取该类型第一把武器作为展示模型（TACZ / 非 TACZ 均支持）
   if (profession && category) {
     var firstList = getProfessionWeaponListByType(profession, category, type)
-    if (firstList && firstList.length > 0 && firstList[0].tag && firstList[0].tag.custom_data) {
-      gunId = firstList[0].tag.custom_data.GunId
+    if (firstList && firstList.length > 0) {
+      var first = firstList[0]
+      if (first.tag && first.tag.custom_data && first.tag.custom_data.GunId) {
+        // TACZ 武器：用 GunId 生成展示
+        var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
+        return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: first.tag.custom_data.GunId, GunCurrentAmmoCount: $IntTag.valueOf(30) } })
+          .withCustomName(Text.translate('type.kubejs.' + type))
+          .withLore([Text.translate('gui.kubejs.type_select.click_enter')])
+      } else if (first.display) {
+        // 非 TACZ 武器：直接用 display 物品展示
+        return Item.of(first.display)
+          .withCustomName(Text.translate('type.kubejs.' + type))
+          .withLore([Text.translate('gui.kubejs.type_select.click_enter')])
+      }
     }
   }
+  // 最终 fallback
   var $IntTag = Java.loadClass('net.minecraft.nbt.IntTag')
-  return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: gunId, GunCurrentAmmoCount: $IntTag.valueOf(30) } })
+  return Item.of('tacz:modern_kinetic_gun', { custom_data: { GunId: 'tacz:ak47', GunCurrentAmmoCount: $IntTag.valueOf(30) } })
     .withCustomName(Text.translate('type.kubejs.' + type))
     .withLore([Text.translate('gui.kubejs.type_select.click_enter')])
 }
