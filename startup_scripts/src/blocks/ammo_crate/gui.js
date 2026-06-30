@@ -10,22 +10,7 @@
 
 var $HashMap = Java.loadClass('java.util.HashMap')
 global.ammoStationGuiCache = new $HashMap()
-var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
-var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
-// 用枚举值设置 C2S 通道
-var fieldVals = {}
-function bindField(field, name) {
-  fieldVals[name] = field.getText()
-  try {
-    var binding = $DataBindingBuilder.string(
-      function() { return field.getText() },
-      function(val) { fieldVals[name] = val }
-    ).s2cStrategy($SyncStrategy.NONE).c2sStrategy($SyncStrategy.ALWAYS).name(name).build()
-    field.bind(binding)
-  } catch (e) {
-    console.log('[弹药补给站] 绑定失败(' + name + '): ' + e)
-  }
-}
+var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 
 // ★ 注意：这些列表必须与 data/sbw_vehicle_db/_ammo_types.json 保持同步
 //   key 对应 _ammo_types.json 中的弹药短名
@@ -117,13 +102,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   // 基础参数字段
   var fieldScanRange = new TextField().setNumbersOnlyInt(0, 999999).setText(String(cfg.scanRange))
   fieldScanRange.lss('width', 55)
-  bindField(fieldScanRange, 'sr')
+
   var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999).setText(String(cfg.cooldown))
   fieldCooldown.lss('width', 55)
-  bindField(fieldCooldown, 'cd')
+
   var fieldEnterDelay = new TextField().setNumbersOnlyInt(1, 999999).setText(String(cfg.enterDelay || 3))
   fieldEnterDelay.lss('width', 55)
-  bindField(fieldEnterDelay, 'ed')
+
 
   // 弹药字段（每个弹药类型一个输入框）
   var slotFields = {}
@@ -132,7 +117,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
     var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
     field.lss('width', 55)
-    bindField(field, at.key)
+
     slotFields[at.key] = field
   }
   // MCSP 弹药字段
@@ -141,7 +126,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
     var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
     field.lss('width', 55)
-    bindField(field, at.key)
+
     slotFields[at.key] = field
   }
   for (var si = 0; si < MCSP_AMMO_TYPES2.length; si++) {
@@ -149,7 +134,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
     var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
     field.lss('width', 55)
-    bindField(field, at.key)
+
     slotFields[at.key] = field
   }
 
@@ -438,7 +423,32 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存配置'))
   btnSave.lss('padding', '3 10')
-  btnSave.setOnServerClick(function(clickEvent) {
+  // 客户端：收集所有字段值，打包发送到服务端
+  btnSave.setOnClick(function(ce) {
+    var tag = new $CompoundTag()
+    tag.putInt("sr", safeParseInt(fieldScanRange, 12))
+    tag.putInt("cd", safeParseInt(fieldCooldown, 5))
+    tag.putInt("ed", safeParseInt(fieldEnterDelay, 3))
+    // 弹药字段：遍历所有弹药类型
+    for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
+      var at = GUI_AMMO_TYPES[fi]
+      var val = parseInt(slotFields[at.key].getText(), 10)
+      if (!isNaN(val) && val > 0) tag.putInt(at.key, val)
+    }
+    for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
+      var at = MCSP_AMMO_TYPES1[fi]
+      var val = parseInt(slotFields[at.key].getText(), 10)
+      if (!isNaN(val) && val > 0) tag.putInt(at.key, val)
+    }
+    for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
+      var at = MCSP_AMMO_TYPES2[fi]
+      var val = parseInt(slotFields[at.key].getText(), 10)
+      if (!isNaN(val) && val > 0) tag.putInt(at.key, val)
+    }
+    btnSave.sendMessage("save_config", tag)
+  })
+  // 服务端：收到消息后持久化到方块 NBT
+  btnSave.onMessage("save_config", function(self, message) {
     var server = player.getServer()
     if (!server) return
     var puuid = player.uuid
@@ -459,29 +469,35 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
         return
       }
-      // 从 fieldVals（C2S 同步值）读取，fallback 到 field.getText()
+      // 从 message 读取值构建配置
       var newCfg = {
-        scanRange: safeParseField(fieldVals['sr'], fieldScanRange),
-        cooldown: safeParseField(fieldVals['cd'], fieldCooldown),
-        enterDelay: safeParseField(fieldVals['ed'], fieldEnterDelay),
+        scanRange: Math.max(0, message.getInt("sr")),
+        cooldown: Math.max(0, message.getInt("cd")),
+        enterDelay: Math.max(1, message.getInt("ed")),
         slots: {}
       }
       for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
         var ak = GUI_AMMO_TYPES[fi].key
-        var amt = safeParseField(fieldVals[ak], slotFields[ak])
-        if (amt > 0) newCfg.slots[ak] = amt
+        if (message.contains(ak)) {
+          var amt = message.getInt(ak)
+          if (amt > 0) newCfg.slots[ak] = amt
+        }
       }
       for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
         var ak = MCSP_AMMO_TYPES1[fi].key
-        var amt = safeParseField(fieldVals[ak], slotFields[ak])
-        if (amt > 0) newCfg.slots[ak] = amt
+        if (message.contains(ak)) {
+          var amt = message.getInt(ak)
+          if (amt > 0) newCfg.slots[ak] = amt
+        }
       }
       for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
         var ak = MCSP_AMMO_TYPES2[fi].key
-        var amt = safeParseField(fieldVals[ak], slotFields[ak])
-        if (amt > 0) newCfg.slots[ak] = amt
+        if (message.contains(ak)) {
+          var amt = message.getInt(ak)
+          if (amt > 0) newCfg.slots[ak] = amt
+        }
       }
-      console.log('[弹药补给站] 保存 fieldVals=' + JSON.stringify(fieldVals) + ' newCfg=' + JSON.stringify(newCfg))
+      console.log('[弹药补给站] 保存 newCfg=' + JSON.stringify(newCfg))
       block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
       block.entity.persistentData.putLong('CooldownEnd', 0)
       block.entity.setChanged()
@@ -540,13 +556,11 @@ function makeSeparator() {
   return sep
 }
 
-function safeParseField(customVal, field) {
+function safeParseInt(field, defaultVal) {
   try {
-    var text = customVal !== undefined && customVal !== null ? String(customVal) : field.getText()
-    if (text === null || text === undefined) return 0
-    var val = parseInt(text, 10)
-    return isNaN(val) ? 0 : Math.max(0, val)
+    var v = parseInt(field.getText(), 10)
+    return isNaN(v) ? defaultVal : Math.max(0, v)
   } catch (e) {
-    return 0
+    return defaultVal
   }
 }

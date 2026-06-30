@@ -255,9 +255,10 @@ $HashMap 在 sbw_vehicle/tools/a_java_refs.js 和 ammo_station_gui.js 中各用 
   startup_scripts/src/blocks/ammo_crate/gui.js
     // global.ammoStationGuiCache — GUI缓存（仅存 JSON 数据，不存函数引用）
     // 注意：KubeJS 7 不允许通过 global 跨 startup/server 作用域传递函数引用。
-    //       setOnServerClick 回调中的 server 逻辑采用内联+标记方案：
-    //       - 保存/重置：直接操作 block.entity.persistentData（内联）
-    //       - 手动补给：写入 PendingReplenish 标记，由 server 侧 blockEntityTick 执行
+    //       保存操作改用 LDLib2 Message 机制：
+    //         客户端 setOnClick → sendMessage("save_config", CompoundTag)
+    //         服务端 onMessage → 从闭包读取 player/cache → 写入 block.persistentData
+    //       手动补给仍用 PendingReplenish 标记方案
     // 详情见下方 GUI 文档
 
 ================================================================
@@ -849,6 +850,10 @@ StartupEvents.registry('block', ...) 注册的方块：
          — 注册 kubejs:vehicle_deployer 方块（blockEntity + serverTicking）
        startup_scripts/src/blocks/vehicle_deployer/gui.js
          — LDLib2 GUI（载具选择/基础/坐标/NBT四页）
+         — ★ 2026-06-30 重构：保存按钮改用 LDLib2 Message 机制
+           客户端 setOnClick → sendMessage("save_config", CompoundTag)
+           服务端 onMessage → 写入 block.persistentData
+           不再依赖 C2S DataBinding（KubeJS 7 下不可靠）
        assets/kubejs/blockstates/vehicle_deployer.json
        assets/kubejs/models/block/vehicle_deployer.json
        assets/kubejs/models/item/vehicle_deployer.json

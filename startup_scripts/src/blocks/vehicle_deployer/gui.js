@@ -1,33 +1,19 @@
 // ============================================================
 // 载具部署台 - LDLib2 配置 GUI
 //
-// 架构：
-//   客户端只负责渲染，所有数据操作由服务端 setOnServerClick 处理
-//   global 缓存用于传递方块位置（与弹药补给站模式一致）
-//   下拉菜单的载具数据在 setOnServerClick 回调中从数据库读取
+// 架构（2026-06-30 重构）：
+//   使用 LDLib2 Message 机制替代 C2S DataBinding 实现 C/S 安全通信
 //
-// 注意：
-//   GUI 回调在客户端执行，global 缓存中的 player.uuid 是 Java UUID
-//   对象。block_main.js/ammo_replenish 写入时也使用 player.uuid
-//   （Java 对象），双方必须保持一致。
+//   【客户端】setOnClick → 收集 TextField 值 → sendMessage("save", tag)
+//   【服务端】onMessage → 接收 tag → 写入 block.entity.persistentData
+//
+//   优点：不依赖不可靠的 C2S DataBinding，走 LDLib2 原生网络包
+//   注意：onMessage 回调的闭包捕获了 player/uuid/cache，确保在服务端可达
 // ============================================================
 
 var $HashMap = Java.loadClass('java.util.HashMap')
 global.vehicleDeployerCache = new $HashMap()
-var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
-var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
-
-var fieldVals = {}
-function bindField(field, name) {
-  fieldVals[name] = field.getText()
-  try {
-    var binding = $DataBindingBuilder.string(
-      function() { return field.getText() },
-      function(val) { fieldVals[name] = val }
-    ).s2cStrategy($SyncStrategy.NONE).c2sStrategy($SyncStrategy.ALWAYS).name(name).build()
-    field.bind(binding)
-  } catch (e) {}
-}
+var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 
 // 硬编码载具分类（与服务端 data/sbw_vehicle_db/ 同步，供 GU 下拉菜单使用）
 // 客户端只做展示用，实际数据校验在服务端保存时进行
@@ -69,61 +55,51 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var fieldVehicleType = new TextField()
   fieldVehicleType.setText('')
   fieldVehicleType.lss('width', 180)
-  bindField(fieldVehicleType, 'vt')
 
   var fieldRespawnDelay = new TextField()
   fieldRespawnDelay.setNumbersOnlyInt(20, 72000)
   fieldRespawnDelay.setText('600')
   fieldRespawnDelay.lss('width', 55)
-  bindField(fieldRespawnDelay, 'rd')
 
   var fieldAutoRespawn = new TextField()
   fieldAutoRespawn.setNumbersOnlyInt(0, 1)
   fieldAutoRespawn.setText('1')
   fieldAutoRespawn.lss('width', 40)
-  bindField(fieldAutoRespawn, 'ar')
 
   var fieldSpawnAmmo = new TextField()
   fieldSpawnAmmo.setNumbersOnlyInt(0, 1)
   fieldSpawnAmmo.setText('1')
   fieldSpawnAmmo.lss('width', 40)
-  bindField(fieldSpawnAmmo, 'swa')
 
   var fieldOffsetX = new TextField()
   fieldOffsetX.setNumbersOnlyInt(-999, 999)
   fieldOffsetX.setText('0')
   fieldOffsetX.lss('width', 50)
-  bindField(fieldOffsetX, 'ox')
 
   var fieldOffsetY = new TextField()
   fieldOffsetY.setNumbersOnlyInt(-999, 999)
   fieldOffsetY.setText('1')
   fieldOffsetY.lss('width', 50)
-  bindField(fieldOffsetY, 'oy')
 
   var fieldOffsetZ = new TextField()
   fieldOffsetZ.setNumbersOnlyInt(-999, 999)
   fieldOffsetZ.setText('0')
   fieldOffsetZ.lss('width', 50)
-  bindField(fieldOffsetZ, 'oz')
 
   var fieldYaw = new TextField()
   fieldYaw.setNumbersOnlyInt(-180, 180)
   fieldYaw.setText('0')
   fieldYaw.lss('width', 50)
-  bindField(fieldYaw, 'yaw')
 
   var fieldPitch = new TextField()
   fieldPitch.setNumbersOnlyInt(-90, 90)
   fieldPitch.setText('0')
   fieldPitch.lss('width', 50)
-  bindField(fieldPitch, 'pitch')
 
   var fieldDeployNBT = new TextField()
   fieldDeployNBT.setText('{}')
   fieldDeployNBT.lss('width', 250)
   fieldDeployNBT.lss('height', 100)
-  bindField(fieldDeployNBT, 'nbt')
 
   // ── 构建分类候选列表（从硬编码常量生成） ──
   var categoryNames = []
@@ -242,11 +218,29 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   // ════════════════════════════════════════════════════════════
   var btnRow = new UIElement()
 
-  // ── 保存 ──
+  // ── 保存（Message 机制：客户端收集 → 服务端写入） ──
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存'))
   btnSave.lss('padding', '3 10')
-  btnSave.setOnServerClick(function(ce) {
+  // 客户端：收集所有 TextField 的值，打包发送到服务端
+  btnSave.setOnClick(function(ce) {
+    var tag = new $CompoundTag()
+    tag.putString("vt", fieldVehicleType.getText())
+    tag.putInt("rd", safeParseInt(fieldRespawnDelay, 600))
+    tag.putByte("ar", safeParseInt(fieldAutoRespawn, 1) === 1 ? 1 : 0)
+    tag.putByte("swa", safeParseInt(fieldSpawnAmmo, 1) === 1 ? 1 : 0)
+    tag.putDouble("ox", safeParseFloat(fieldOffsetX, 0))
+    tag.putDouble("oy", safeParseFloat(fieldOffsetY, 1))
+    tag.putDouble("oz", safeParseFloat(fieldOffsetZ, 0))
+    tag.putFloat("yaw", safeParseFloat(fieldYaw, 0))
+    tag.putFloat("pitch", safeParseFloat(fieldPitch, 0))
+    var nbtRaw = fieldDeployNBT.getText()
+    if (nbtRaw && nbtRaw !== '{}') { try { JSON.parse(nbtRaw) } catch(e) { return } }
+    tag.putString("nbt", nbtRaw || '{}')
+    btnSave.sendMessage("save_config", tag)
+  })
+  // 服务端：收到消息后持久化到方块 NBT
+  btnSave.onMessage("save_config", function(self, message) {
     var server = player.getServer()
     if (!server) { tell(player, '§c[部署台] 无法获取服务端'); return }
     var raw = global.vehicleDeployerCache.get(uuid)
@@ -257,23 +251,19 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
     if (!block || !block.entity) { tell(player, '§c[部署台] 方块已不存在'); return }
     var pd = block.entity.persistentData
-    var vt = fieldVals['vt'] !== undefined ? String(fieldVals['vt']) : fieldVehicleType.getText()
-    var rd = safeInt(fieldVals['rd'], fieldRespawnDelay)
-    var ar = safeInt(fieldVals['ar'], fieldAutoRespawn)
-    var swa = safeInt(fieldVals['swa'], fieldSpawnAmmo)
-    var ox = safeFloat(fieldVals['ox'], fieldOffsetX)
-    var oy = safeFloat(fieldVals['oy'], fieldOffsetY)
-    var oz = safeFloat(fieldVals['oz'], fieldOffsetZ)
-    var yaw = safeFloat(fieldVals['yaw'], fieldYaw)
-    var pitch = safeFloat(fieldVals['pitch'], fieldPitch)
-    var nbtRaw = fieldVals['nbt'] !== undefined ? String(fieldVals['nbt']) : fieldDeployNBT.getText()
-    if (nbtRaw && nbtRaw !== '{}') { try { JSON.parse(nbtRaw) } catch(e) { tell(player, '§cNBT格式错误'); return } }
-    pd.putString('vehicleType', vt)
-    pd.putInt('respawnDelay', Math.max(20, rd))
-    pd.putByte('autoRespawn', ar === 1 ? 1 : 0)
-    pd.putByte('spawnWithAmmo', swa === 1 ? 1 : 0)
-    pd.putDouble('offsetX', ox); pd.putDouble('offsetY', oy); pd.putDouble('offsetZ', oz)
-    pd.putFloat('yaw', yaw); pd.putFloat('pitch', pitch)
+    pd.putString('vehicleType', message.getString("vt"))
+    pd.putInt('respawnDelay', Math.max(20, message.getInt("rd")))
+    pd.putByte('autoRespawn', message.getByte("ar"))
+    pd.putByte('spawnWithAmmo', message.getByte("swa"))
+    pd.putDouble('offsetX', message.getDouble("ox"))
+    pd.putDouble('offsetY', message.getDouble("oy"))
+    pd.putDouble('offsetZ', message.getDouble("oz"))
+    pd.putFloat('yaw', message.getFloat("yaw"))
+    pd.putFloat('pitch', message.getFloat("pitch"))
+    var nbtRaw = message.getString("nbt")
+    if (nbtRaw && nbtRaw !== '{}') {
+      try { JSON.parse(nbtRaw) } catch(e) { tell(player, '§cNBT格式错误'); return }
+    }
     pd.putString('deployNBT', nbtRaw || '{}')
     block.entity.setChanged()
     tell(player, '§a✔ 已保存')
@@ -340,12 +330,10 @@ function makeSeparator() {
   return s
 }
 function sep() { return makeSeparator() }
-function safeInt(customVal, field) {
-  var text = customVal !== undefined ? String(customVal) : field.getText()
-  var v = parseInt(text, 10); return isNaN(v) ? 0 : Math.max(0, v)
+function safeParseInt(field, defaultVal) {
+  var v = parseInt(field.getText(), 10); return isNaN(v) ? defaultVal : Math.max(0, v)
 }
-function safeFloat(customVal, field) {
-  var text = customVal !== undefined ? String(customVal) : field.getText()
-  var v = parseFloat(text); return isNaN(v) ? 0 : v
+function safeParseFloat(field, defaultVal) {
+  var v = parseFloat(field.getText()); return isNaN(v) ? defaultVal : v
 }
 function tell(p, m) { try { p.displayClientMessage(Component.literal(m), false) } catch(_) {} }

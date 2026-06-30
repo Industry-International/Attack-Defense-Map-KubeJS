@@ -236,6 +236,64 @@ EntityEvents.death(event => {
 
 ---
 
+## [#9] C2S DataBinding 在 KubeJS 7 Rhino 下不可靠
+
+**错误现象：** GUI 中通过 `DataBindingBuilder` + `c2sStrategy(ALWAYS)` 将 TextField 值从客户端同步到服务端，但在 `setOnServerClick` 回调中 `fieldVals[name]` 可能为 `undefined`（值未同步到服务端）。保存操作因此写入的是旧值/默认值。
+
+**原因：** LDLib2 的 `DataBindingBuilder` C2S 同步机制在 KubeJS 7 (Rhino) 环境下不完全可靠。Rhino 的闭包捕获和 Java 桥接可能在某些情况下阻止 C2S 网络包正确发送或处理。LDLib2 开发指引已注明此问题。
+
+**修复：** 使用 LDLib2 Message 机制替代 C2S DataBinding：
+
+```javascript
+// ❌ 错误：依赖 C2S DataBinding
+var fieldVals = {}
+function bindField(field, name) {
+  fieldVals[name] = field.getText()
+  var binding = $DataBindingBuilder.string(
+    function() { return field.getText() },
+    function(val) { fieldVals[name] = val }
+  ).s2cStrategy("NONE").c2sStrategy("ALWAYS").name(name).build()
+  field.bind(binding)
+}
+btnSave.setOnServerClick(function(ce) {
+  // fieldVals['sr'] 可能 undefined！
+  var val = fieldVals['sr']  // ❌ 不可靠
+})
+
+// ✅ 正确：使用 Message 端到端通信
+btnSave.setOnClick(function(ce) {
+  // 客户端收集值（值一定是最新的）
+  var tag = new (Java.loadClass('net.minecraft.nbt.CompoundTag'))()
+  tag.putInt("sr", parseInt(fieldScanRange.getText(), 10))
+  btnSave.sendMessage("save_config", tag)
+})
+btnSave.onMessage("save_config", function(self, message) {
+  // 服务端收到消息，player 从闭包捕获
+  var server = player.getServer()
+  var pd = block.entity.persistentData
+  pd.putInt("scanRange", message.getInt("sr"))
+  block.entity.setChanged()
+})
+```
+
+**核心原理：**
+1. `setOnClick`（客户端）→ `sendMessage("name", compoundTag)` → LDLib2 网络包
+2. `onMessage("name", (self, message) => {...})`（服务端）→ 从闭包读取 player/cache → 持久化
+3. 不依赖隐式 C2S 同步，数据通过显式网络包传输，可靠
+
+**参考文件：**
+- `startup_scripts/src/blocks/vehicle_deployer/gui.js`（2026-06-30 重构）
+- `startup_scripts/src/blocks/ammo_crate/gui.js`（2026-06-30 重构）
+- LDLib2 官方文档：`ldlib2/ui/preliminary/data_bindings/` → Message 章节
+
+**可用 API 速查（ProbeJS 类型验证）：**
+- `Button.setOnClick(fn)` — 客户端点击处理器 ✅
+- `Button.setOnServerClick(fn)` — 服务端点击处理器 ✅（无需 fieldVals 时可继续使用）
+- `UIElement.onMessage(name, BiConsumer<UIElement, CompoundTag>)` — 消息处理器 ✅
+- `UIElement.sendMessage(name)` / `sendMessage(name, CompoundTag)` — 发送消息 ✅
+
+---
+
 ## 使用规则
 
 1. **编写新代码前**：快速浏览此文档，看当前要调用的 API 是否在踩坑列表中
