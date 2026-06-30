@@ -626,8 +626,17 @@ StartupEvents.registry('block', ...) 注册的方块：
     CREATE_CASINGS 方块 → explosionResistance = 14
     minecraft:netherite_block → explosionResistance = 4
 
-  startup_scripts/blast_resistance/taov_returned.js
-    taov_returned:player_cannon_controller → explosionResistance = 20
+  startup_scripts/blast_resistance/taov_returned.js（2026-06-30 全面升级）
+    全部4个方块 → explosionResistance = 3600000, destroySpeed = -1（基岩级）
+    taov_returned:player_cannon_controller
+    taov_returned:schematic_anchor
+    taov_returned:periscope_scope
+    taov_returned:player_helm
+
+  startup_scripts/blast_resistance/kubejs.js（2026-06-30 新增）
+    全部2个方块 → explosionResistance = 3600000, destroySpeed = -1（基岩级）
+    kubejs:vehicle_deployer
+    kubejs:ammo_crate
 
 ================================================================
  第十：语言文件（i18n）已有翻译键一览
