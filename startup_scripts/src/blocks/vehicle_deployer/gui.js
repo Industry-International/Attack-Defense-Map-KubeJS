@@ -34,7 +34,7 @@ const DEFAULT_SIMPLE_NBT = {
   DecoyReady: 1,
   ChargeProgress: 1,
   SimpleToggle: 1,
-  SpawnWithAmmo: 1
+  SpawnWithAmmo: 0
 }
 
 // ========== UI 构建 ==========

@@ -42,7 +42,7 @@ function ensurePD(block) {
     pd.putInt('nbtEnergy', 10000000)
     pd.putFloat('nbtHealth', 500.0)
     pd.putByte('nbtInvulnerable', 0)
-    pd.putByte('nbtSimpleToggle', 1)
+    pd.putByte('nbtSimpleToggle', 0)
     pd.putByte('nbtDecoyReady', 1)
     pd.putByte('nbtChargeProgress', 1)
     pd.putString('displayName', '')  // 部署台显示名称（可选）
