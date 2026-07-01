@@ -16,6 +16,13 @@ var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
 var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
 
+// ★ 默认配置（编辑此处即可修改默认值）
+const STATION_DEFAULT = {
+  scanRange: 12,    // 扫描范围（格）
+  cooldown: 5,      // 冷却时间（秒）
+  enterDelay: 3     // 驶入等待（秒）
+}
+
 const GUI_AMMO_TYPES = [
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },
   { key: 'large_shell_he',  label: '§c大口径HE',  default: 64 },
@@ -57,9 +64,9 @@ const MCSP_AMMO_TYPES2 = [
 // 工具函数：将配置对象转为 CompoundTag
 function cfgToTag(cfg) {
   var tag = new $CompoundTag()
-  tag.putInt('scanRange', ~~(cfg.scanRange || 0))
-  tag.putInt('cooldown', ~~(cfg.cooldown || 0))
-  tag.putInt('enterDelay', ~~(cfg.enterDelay || 3))
+  tag.putInt('scanRange', ~~(cfg.scanRange || STATION_DEFAULT.scanRange))
+  tag.putInt('cooldown', ~~(cfg.cooldown || STATION_DEFAULT.cooldown))
+  tag.putInt('enterDelay', ~~(cfg.enterDelay || STATION_DEFAULT.enterDelay))
   var slots = cfg.slots || {}
   var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
   for (var i = 0; i < allTypes.length; i++) {
@@ -141,15 +148,15 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   // ═══════════════════════════════════════════════════════════
   var fieldScanRange = new TextField().setNumbersOnlyInt(0, 999999)
   fieldScanRange.lss('width', 55)
-  queueS2CField(fieldScanRange, makeS2CGetter('scanRange', 0), 'scanRange')
+  queueS2CField(fieldScanRange, makeS2CGetter('scanRange', STATION_DEFAULT.scanRange), 'scanRange')
 
   var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999)
   fieldCooldown.lss('width', 55)
-  queueS2CField(fieldCooldown, makeS2CGetter('cooldown', 0), 'cooldown')
+  queueS2CField(fieldCooldown, makeS2CGetter('cooldown', STATION_DEFAULT.cooldown), 'cooldown')
 
   var fieldEnterDelay = new TextField().setNumbersOnlyInt(1, 999999)
   fieldEnterDelay.lss('width', 55)
-  queueS2CField(fieldEnterDelay, makeS2CGetter('enterDelay', 3), 'enterDelay')
+  queueS2CField(fieldEnterDelay, makeS2CGetter('enterDelay', STATION_DEFAULT.enterDelay), 'enterDelay')
 
   var slotFields = {}
   function initSlotFields() {
