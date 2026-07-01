@@ -57,7 +57,6 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
       let x = pos.getX(); let y = pos.getY(); let z = pos.getZ()
       // 用 setblock 强制刷新方块，触发新注册的 BlockEntity 创建
       server.runCommandSilent('setblock ' + x + ' ' + y + ' ' + z + ' kubejs:ammo_crate replace')
-      player.tell(Component.literal('§a[弹药补给站] 方块已升级！请再次右键打开 GUI'))
       console.log($LOG_PREFIX + ' 方块迁移完成 [' + x + ',' + y + ',' + z + ']')
     } catch (e) {
       console.log($LOG_PREFIX + ' 方块迁移失败: ' + e)

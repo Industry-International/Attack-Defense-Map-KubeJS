@@ -1,7 +1,14 @@
 // ============================================================
-// 弹药补给站 - LDLib2 配置GUI（Message 网络同步版）
-// ★ 调试版：大量聊天栏日志，用于排查专有服交互问题
-// ★ 已修复 $CompoundTag 未定义的问题
+// 弹药补给站 - LDLib2 配置GUI（S2C DataBinding + C2S Message）
+//   S2C：服务端读取方块 NBT → 一次性推送到客户端 TextField
+//   C2S：客户端"保存"按钮 → sendMessage → 服务端写入 NBT
+// 架构要点：
+//   1. TextField 仅创建 + 设置样式（不设初始文本，不绑定）
+//   2. 通过 queueS2CField() 入队，等 ModularUI.of() 建好后统一绑定
+//   3. 绑定用 stringS2C(getter) + CHANGED_PERIODIC 策略
+//   4. registerValueListener 内 setText() 刷新显示 + 切 NONE 停止轮询
+//   5. 服务端 getter 用 readServerConfig() 缓存，仅第一次读 NBT
+//   6. C2S 保存走原有 sendMessage 逻辑（独立于 S2C 绑定）
 // ============================================================
 
 // startup_scripts 作用域独立，需要自己加载 Java 类
@@ -85,9 +92,6 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var level = event.level
   var pos = event.pos
 
-  // 调试：打印 UI 构建时的端和坐标
-  player.displayClientMessage(Component.literal('§8[DEBUG] UI 构建开始, isClientSide=' + player.level.isClientSide() + ', pos=' + pos.toShortString()), false)
-
   // ═══════════════════════════════════════════════════════════
   //  S2C 服务端配置缓存（一次性读取 NBT，后续 getter 走缓存）
   // ═══════════════════════════════════════════════════════════
@@ -104,9 +108,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       var raw = b.entity.persistentData.getString('StationConfig')
       if (!raw) { s2cCache = {}; return s2cCache }
       s2cCache = JSON.parse(raw)
-      player.displayClientMessage(Component.literal('§a[S2C] 缓存读取成功: scanRange=' + s2cCache.scanRange), false)
     } catch (e) {
-      player.displayClientMessage(Component.literal('§c[S2C] 缓存读取异常: ' + e), false)
       s2cCache = {}
     }
     return s2cCache
@@ -361,57 +363,26 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存配置'))
   btnSave.lss('padding', '3 10')
-  // ★ 细粒度调试：保存按钮点击
   btnSave.setOnClick(function(clickEvent) {
     try {
-      player.displayClientMessage(Component.literal('§e[客户端] 保存按钮被点击'), false);
-
-      // ---- 1. 读取字段 ----
-      player.displayClientMessage(Component.literal('§7[1/6] 开始读取字段...'), false);
       var sr = safeParseField(null, fieldScanRange);
-      player.displayClientMessage(Component.literal('§7   scanRange=' + sr), false);
       var cd = safeParseField(null, fieldCooldown);
-      player.displayClientMessage(Component.literal('§7   cooldown=' + cd), false);
       var ed = safeParseField(null, fieldEnterDelay);
-      player.displayClientMessage(Component.literal('§7   enterDelay=' + ed), false);
-
-      // ---- 2. 创建 CompoundTag ----
-      player.displayClientMessage(Component.literal('§7[2/6] 创建 CompoundTag...'), false);
       var tag = new $CompoundTag();
       tag.putInt('scanRange', ~~sr);
       tag.putInt('cooldown', ~~cd);
       tag.putInt('enterDelay', ~~ed);
-
-      // ---- 3. 循环添加 slot 值 ----
-      player.displayClientMessage(Component.literal('§7[3/6] 添加弹药槽位...'), false);
       var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2);
       for (var i = 0; i < allTypes.length; i++) {
         var ak = allTypes[i].key;
         var field = slotFields[ak];
-        if (!field) {
-          player.displayClientMessage(Component.literal('§c[错误] slotFields 中没有 ' + ak), false);
-          continue;
-        }
+        if (!field) continue;
         var amt = safeParseField(null, field);
-        if (amt > 0) {
-          tag.putInt('slot_' + ak, ~~amt);
-        }
+        if (amt > 0) tag.putInt('slot_' + ak, ~~amt);
       }
-      player.displayClientMessage(Component.literal('§7   slot 添加完毕'), false);
-
-      // ---- 4. 打包完成 ----
-      player.displayClientMessage(Component.literal('§e[客户端] 打包完成，即将发送 save_config'), false);
-
-      // ---- 5. 发送消息 ----
-      player.displayClientMessage(Component.literal('§7[5/6] 调用 root.sendMessage...'), false);
       root.sendMessage('save_config', tag);
-
-      // ---- 6. 发送成功 ----
-      player.displayClientMessage(Component.literal('§e[客户端] save_config 消息已发送'), false);
-
     } catch (e) {
-      player.displayClientMessage(Component.literal('§c[客户端] 保存过程异常: ' + e), false);
-      if (e.message) player.displayClientMessage(Component.literal('§c  详情: ' + e.message), false);
+      player.displayClientMessage(Component.literal('§c[弹药补给站] 保存异常: ' + e), false);
     }
   })
   btnRow.addChild(btnSave)
@@ -420,10 +391,7 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   btnReset.setText(Component.literal('§e↻ 重置默认'))
   btnReset.lss('padding', '3 10')
   btnReset.setOnClick(function(clickEvent) {
-    player.displayClientMessage(Component.literal('§e[客户端] 重置按钮被点击'), false)
-    var tag = new $CompoundTag()
-    root.sendMessage('reset_config', tag)
-    player.displayClientMessage(Component.literal('§e[客户端] reset_config 消息已发送'), false)
+    root.sendMessage('reset_config', new $CompoundTag())
   })
   btnRow.addChild(btnReset)
 
@@ -469,32 +437,12 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   // ═══════════════════════════════════════════════════════════════
 
   root.onMessage('save_config', function(self, msg) {
-    player.displayClientMessage(Component.literal('§b[服务端] save_config 消息到达, isServer=' + (player.getServer() !== null)), false)
-    if (player.getServer() === null) {
-      player.displayClientMessage(Component.literal('§c[服务端] 错误：当前不是服务端！'), false)
-      return
-    }
-    player.displayClientMessage(Component.literal('§b[服务端] 收到配置: scanRange=' + msg.getInt('scanRange') + ', cooldown=' + msg.getInt('cooldown') + ', enterDelay=' + msg.getInt('enterDelay')), false)
+    if (player.getServer() === null) return
     try {
-      var dimension = level.getDimension()
-      player.displayClientMessage(Component.literal('§b[服务端] 维度: ' + dimension), false)
-      var lvl = player.getServer().getLevel(dimension)
-      if (!lvl) {
-        player.displayClientMessage(Component.literal('§c[服务端] 错误：getLevel 返回 null'), false)
-        return
-      }
-      var bx = pos.getX(), by = pos.getY(), bz = pos.getZ()
-      player.displayClientMessage(Component.literal('§b[服务端] 目标方块坐标: ' + bx + ', ' + by + ', ' + bz), false)
-      var b = lvl.getBlock(bx, by, bz)
-      if (!b) {
-        player.displayClientMessage(Component.literal('§c[服务端] 错误：getBlock 返回 null'), false)
-        return
-      }
-      if (!b.entity) {
-        player.displayClientMessage(Component.literal('§c[服务端] 错误：方块实体不存在'), false)
-        return
-      }
-      player.displayClientMessage(Component.literal('§b[服务端] 方块实体存在，准备写入'), false)
+      var lvl = player.getServer().getLevel(level.getDimension())
+      if (!lvl) return
+      var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
+      if (!b || !b.entity) return
       var newCfg = {
         scanRange: msg.getInt('scanRange'),
         cooldown: msg.getInt('cooldown'),
@@ -508,23 +456,15 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
           newCfg.slots[ak] = msg.getInt('slot_' + ak)
         }
       }
-      var jsonStr = JSON.stringify(newCfg)
-      player.displayClientMessage(Component.literal('§b[服务端] 写入 JSON: ' + jsonStr.substring(0, 100) + '...'), false)
-      b.entity.persistentData.putString('StationConfig', jsonStr)
+      b.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
       b.entity.persistentData.putLong('CooldownEnd', 0)
       b.entity.setChanged()
-      player.displayClientMessage(Component.literal('§a[服务端] ✔ 配置写入成功！'), false)
-
-      // 验证读取
-      var readBack = b.entity.persistentData.getString('StationConfig')
-      player.displayClientMessage(Component.literal('§b[服务端] 回读验证: ' + (readBack ? '有数据' : '空')), false)
     } catch (e) {
-      player.displayClientMessage(Component.literal('§c[服务端] 保存异常: ' + e), false)
+      player.displayClientMessage(Component.literal('§c[弹药补给站] 保存异常: ' + e), false)
     }
   })
 
   root.onMessage('reset_config', function(self, msg) {
-    player.displayClientMessage(Component.literal('§b[服务端] reset_config 到达, isServer=' + (player.getServer() !== null)), false)
     if (player.getServer() === null) return
     try {
       var lvl = player.getServer().getLevel(level.getDimension())
@@ -534,9 +474,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       b.entity.persistentData.remove('StationConfig')
       b.entity.persistentData.putLong('CooldownEnd', 0)
       b.entity.setChanged()
-      player.displayClientMessage(Component.literal('§a[服务端] 重置成功'), false)
     } catch (e) {
-      player.displayClientMessage(Component.literal('§c[服务端] 重置异常: ' + e), false)
+      player.displayClientMessage(Component.literal('§c[弹药补给站] 重置异常: ' + e), false)
     }
   })
 
@@ -547,7 +486,6 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   //  统一注册所有 S2C 绑定（必须等 ModularUI.of 之后执行）
   // ═══════════════════════════════════════════════════════════
   var syncMgr = event.modularUI.syncManager
-  player.displayClientMessage(Component.literal('§d[S2C] 开始统一绑定 ' + s2cQueue.length + ' 个字段...'), false)
   for (var qi = 0; qi < s2cQueue.length; qi++) {
     var item = s2cQueue[qi]
     ;(function(field, getter, name) {
@@ -576,7 +514,6 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       }
     })(item.field, item.getter, item.name)
   }
-  player.displayClientMessage(Component.literal('§a[S2C] 全部 ' + s2cQueue.length + ' 个字段绑定完成'), false)
 })
 
 function makeSeparator() {
