@@ -44,7 +44,6 @@ function ensurePD(block) {
     pd.putByte('nbtInvulnerable', 0)
     pd.putByte('nbtSimpleToggle', 0)
     pd.putByte('nbtDecoyReady', 1)
-    pd.putByte('nbtChargeProgress', 1)
     pd.putString('displayName', '')  // 部署台显示名称（可选）
     pd.putByte('spawnWithAmmo', 1)   // 生成载具时带弹药（1=是, 0=否）
     block.entity.setChanged()

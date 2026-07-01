@@ -32,7 +32,6 @@ const DEFAULT_SIMPLE_NBT = {
   Health: 500,
   Invulnerable: 0,
   DecoyReady: 1,
-  ChargeProgress: 1,
   SimpleToggle: 1,
   SpawnWithAmmo: 0
 }
@@ -89,7 +88,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       s2cCache.nbtHealth = pd.contains('nbtHealth') ? String(pd.getFloat('nbtHealth')) : ''
       s2cCache.nbtInvulnerable = pd.contains('nbtInvulnerable') ? String(pd.getByte('nbtInvulnerable')) : ''
       s2cCache.nbtDecoyReady = pd.contains('nbtDecoyReady') ? String(pd.getByte('nbtDecoyReady')) : ''
-      s2cCache.nbtChargeProgress = pd.contains('nbtChargeProgress') ? String(pd.getByte('nbtChargeProgress')) : ''
       s2cCache.nbtSimpleToggle = pd.contains('nbtSimpleToggle') ? String(pd.getByte('nbtSimpleToggle')) : '1'
       s2cCache.nbtMode = pd.contains('nbtMode') ? pd.getString('nbtMode') : ''
     } catch (e) {}
@@ -126,8 +124,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     Energy: 'nbtEnergy',
     Health: 'nbtHealth',
     Invulnerable: 'nbtInvulnerable',
-    DecoyReady: 'nbtDecoyReady',
-    ChargeProgress: 'nbtChargeProgress'
+    DecoyReady: 'nbtDecoyReady'
   }
   function makeSimpleNBTGetter(key) {
     var fieldName = SIMPLE_NBT_FIELDS[key]
@@ -473,16 +470,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   nbtInvRow.addChild(fieldNbtDecoy)
   page4.addChild(nbtInvRow)
 
-  // 充能进度
-  var nbtChargeRow = new UIElement()
-  nbtChargeRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.charge_progress')).append(Component.literal(':'))))
-  var fieldNbtCharge = new TextField().setNumbersOnlyInt(0, 1)
-  fieldNbtCharge.lss('width', 30)
-  queueS2CField(fieldNbtCharge, makeSimpleNBTGetter('ChargeProgress'), 'nbt_charge')
-  nbtChargeRow.addChild(fieldNbtCharge)
-  nbtChargeRow.addChild(new Label().setText(Component.literal(' (0=关, 1=开)')))
-  page4.addChild(nbtChargeRow)
-
   // 是否携带弹药
   var nbtAmmoRow = new UIElement()
   nbtAmmoRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.spawn_with_ammo')).append(Component.literal(':'))))
@@ -546,17 +533,15 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       var sh = fieldNbtHealth.getText().trim()
       var si = fieldNbtInv.getText().trim()
       var sd = fieldNbtDecoy.getText().trim()
-      var sc = fieldNbtCharge.getText().trim()
       var sa = fieldNbtAmmo.getText().trim()
 
-      if (simpleOn && (se !== '' || sh !== '' || si !== '' || sd !== '' || sc !== '')) {
+      if (simpleOn && (se !== '' || sh !== '' || si !== '' || sd !== '')) {
         // 简单 NBT：只保存用户修改过的字段（跳过与默认值一致的）
         var nbtObj = {}
         if (se !== '' && parseInt(se, 10) !== DEFAULT_SIMPLE_NBT.Energy) nbtObj.Energy = parseInt(se, 10) || 0
         if (sh !== '' && parseFloat(sh) !== DEFAULT_SIMPLE_NBT.Health) nbtObj.Health = parseFloat(sh) || 500
         if (si !== '' && parseInt(si, 10) !== DEFAULT_SIMPLE_NBT.Invulnerable) nbtObj.Invulnerable = parseInt(si, 10) === 1 ? 1 : 0
         if (sd !== '' && parseInt(sd, 10) !== DEFAULT_SIMPLE_NBT.DecoyReady) nbtObj.DecoyReady = parseInt(sd, 10) === 1 ? 1 : 0
-        if (sc !== '' && parseInt(sc, 10) !== DEFAULT_SIMPLE_NBT.ChargeProgress) nbtObj.ChargeProgress = parseInt(sc, 10) || 0
         tag.putString('nbt', JSON.stringify(nbtObj))
         tag.putString('nbtMode', 'simple')
       } else {
@@ -655,7 +640,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
           if (nbtObj.Health !== undefined) pd.putFloat('nbtHealth', nbtObj.Health)
           if (nbtObj.Invulnerable !== undefined) pd.putByte('nbtInvulnerable', nbtObj.Invulnerable)
           if (nbtObj.DecoyReady !== undefined) pd.putByte('nbtDecoyReady', nbtObj.DecoyReady)
-          if (nbtObj.ChargeProgress !== undefined) pd.putByte('nbtChargeProgress', nbtObj.ChargeProgress)
         } catch(e) {}
         pd.putString('deployNBT', '{}')
       } else if (nbtMode === 'advanced') {
@@ -696,7 +680,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pd.remove('nbtHealth')
       pd.remove('nbtInvulnerable')
       pd.remove('nbtDecoyReady')
-      pd.remove('nbtChargeProgress')
       pd.remove('nbtSimpleToggle')
       pd.putString('nbtMode', 'none')
       b.entity.setChanged()

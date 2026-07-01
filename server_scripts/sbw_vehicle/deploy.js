@@ -101,7 +101,6 @@ function spawnVehicleForBlock(block, server, pd) {
     if (pd.contains('nbtHealth')) simpleObj.Health = pd.getFloat('nbtHealth')
     if (pd.contains('nbtInvulnerable')) simpleObj.Invulnerable = pd.getByte('nbtInvulnerable')
     if (pd.contains('nbtDecoyReady')) simpleObj.DecoyReady = pd.getByte('nbtDecoyReady')
-    if (pd.contains('nbtChargeProgress')) simpleObj.ChargeProgress = pd.getByte('nbtChargeProgress')
     if (Object.keys(simpleObj).length > 0) {
       mergeDeployNBT(nbt, simpleObj)
       sbwLog('[部署] 合并简单 NBT')
