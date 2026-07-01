@@ -507,55 +507,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     }
   })
 
-  // ★ 客户端收到服务端推送的配置 → 更新 UI 字段
-  root.onMessage('init_config', function(self, msg) {
-    player.displayClientMessage(Component.literal('§e[客户端] 收到 init_config, isClient=' + player.level.isClientSide()), false)
-    try {
-      var scanRange = msg.getInt('scanRange')
-      var cooldown = msg.getInt('cooldown')
-      var enterDelay = msg.getInt('enterDelay')
-      player.displayClientMessage(Component.literal('§e[客户端] 解析: scanRange=' + scanRange + ', cooldown=' + cooldown), false)
-      fieldScanRange.setText(String(scanRange))
-      fieldCooldown.setText(String(cooldown))
-      fieldEnterDelay.setText(String(enterDelay))
-      var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
-      for (var i = 0; i < allTypes.length; i++) {
-        var ak = allTypes[i].key
-        if (slotFields[ak] && msg.contains('slot_' + ak)) {
-          slotFields[ak].setText(String(msg.getInt('slot_' + ak)))
-        }
-      }
-      player.displayClientMessage(Component.literal('§a[客户端] UI 字段已更新'), false)
-    } catch (e) {
-      player.displayClientMessage(Component.literal('§c[客户端] init_config 处理异常: ' + e), false)
-    }
-  })
-
   // ========== 构建 ModularUI ==========
   event.modularUI = ModularUI.of(UI.of(root), player)
-
-  // ★ 服务端：UI 打开后读取方块 NBT，推送给客户端
-  event.modularUI.setOnOpen(function(ui) {
-    if (!player.level.isClientSide()) {
-      player.displayClientMessage(Component.literal('§b[服务端] UI 已打开，准备推送 init_config'), false)
-      try {
-        var block = level.getBlock(pos.getX(), pos.getY(), pos.getZ())
-        var entity = block.entity
-        if (entity) {
-          var raw = entity.persistentData.getString('StationConfig')
-          player.displayClientMessage(Component.literal('§b[服务端] 读取 StationConfig: ' + (raw ? raw.substring(0, 60) : 'null')), false)
-          if (raw) {
-            var serverCfg = JSON.parse(raw)
-            player.displayClientMessage(Component.literal('§b[服务端] JSON 解析成功: scanRange=' + serverCfg.scanRange), false)
-            root.sendMessage('init_config', cfgToTag(serverCfg))
-            player.displayClientMessage(Component.literal('§b[服务端] init_config 消息已发送'), false)
-          }
-        }
-      } catch (e) {
-        player.displayClientMessage(Component.literal('§c[服务端] setOnOpen 出错: ' + e), false)
-      }
-    }
-  })
 })
 
 function makeSeparator() {
