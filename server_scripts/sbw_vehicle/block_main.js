@@ -39,7 +39,12 @@ function ensurePD(block) {
     pd.putString('deployedUUID', '')
     pd.putLong('cooldownEnd', 0)
     pd.putString('deployNBT', '{}')  // 高级 NBT（初始为空，严格走数据库模板）
-    pd.putString('simpleNBT', '{"Energy":10000000,"Health":500,"Invulnerable":0,"DecoyReady":1,"ChargeProgress":1.0,"SimpleToggle": 1}')  // 简单 NBT 独立字段（对齐 DEFAULT_SIMPLE_NBT）
+    pd.putInt('nbtEnergy', 10000000)
+    pd.putFloat('nbtHealth', 500.0)
+    pd.putByte('nbtInvulnerable', 0)
+    pd.putByte('nbtSimpleToggle', 1)
+    pd.putByte('nbtDecoyReady', 1)
+    pd.putByte('nbtChargeProgress', 1)
     pd.putString('displayName', '')  // 部署台显示名称（可选）
     pd.putByte('spawnWithAmmo', 1)   // 生成载具时带弹药（1=是, 0=否）
     block.entity.setChanged()

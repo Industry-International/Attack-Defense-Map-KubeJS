@@ -10,7 +10,7 @@
 //   1. 从数据库取 vehicleData.nbtTemplate（含 Energy, Health, Inventory, WeaponState...）
 //      ★ nbtMode='advanced' 时跳过此步，直接用 deployNBT 字段
 //   2. 叠加 Rotation / Tags
-//   3. nbtMode='simple' 时叠加 simpleNBT 字段覆盖数据库模板
+//   3. nbtMode='simple' 时叠加独立 NBT 字段（nbtEnergy/Health/...）覆盖数据库模板
 //      nbtMode='none' 时不叠加任何额外字段
 // ============================================================
 
@@ -95,16 +95,16 @@ function spawnVehicleForBlock(block, server, pd) {
     } else {
       sbwWarn('[部署] 数据库未找到车辆 ' + vehicleType + '，使用空白模板')
     }
-    // 叠加用户简单 NBT（从独立字段 simpleNBT 读取）
-    var simpleNBTStr = pd.getString('simpleNBT')
-    if (simpleNBTStr && simpleNBTStr !== '' && simpleNBTStr !== '{}') {
-      try {
-        var simpleObj = JSON.parse(simpleNBTStr)
-        if (simpleObj && typeof simpleObj === 'object') {
-          mergeDeployNBT(nbt, simpleObj)
-          sbwLog('[部署] 合并简单 NBT: ' + simpleNBTStr)
-        }
-      } catch (e) { sbwWarn('[部署] simpleNBT JSON 解析失败: ' + e) }
+    // 叠加用户简单 NBT（从独立 NBT 字段读取）
+    var simpleObj = {}
+    if (pd.contains('nbtEnergy')) simpleObj.Energy = pd.getInt('nbtEnergy')
+    if (pd.contains('nbtHealth')) simpleObj.Health = pd.getFloat('nbtHealth')
+    if (pd.contains('nbtInvulnerable')) simpleObj.Invulnerable = pd.getByte('nbtInvulnerable')
+    if (pd.contains('nbtDecoyReady')) simpleObj.DecoyReady = pd.getByte('nbtDecoyReady')
+    if (pd.contains('nbtChargeProgress')) simpleObj.ChargeProgress = pd.getByte('nbtChargeProgress')
+    if (Object.keys(simpleObj).length > 0) {
+      mergeDeployNBT(nbt, simpleObj)
+      sbwLog('[部署] 合并简单 NBT')
     }
   }
 

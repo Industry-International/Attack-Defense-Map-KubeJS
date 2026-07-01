@@ -32,7 +32,7 @@ const DEFAULT_SIMPLE_NBT = {
   Health: 500,
   Invulnerable: 0,
   DecoyReady: 1,
-  ChargeProgress: 1.0,
+  ChargeProgress: 1,
   SimpleToggle: 1,
   SpawnWithAmmo: 1
 }
@@ -85,7 +85,12 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       s2cCache.yaw = pd.contains('yaw') ? String(pd.getFloat('yaw')) : '0'
       s2cCache.pitch = pd.contains('pitch') ? String(pd.getFloat('pitch')) : '0'
       s2cCache.deployNBT = pd.getString('deployNBT') || '{}'
-      s2cCache.simpleNBT = pd.getString('simpleNBT') || '{}'
+      s2cCache.nbtEnergy = pd.contains('nbtEnergy') ? String(pd.getInt('nbtEnergy')) : ''
+      s2cCache.nbtHealth = pd.contains('nbtHealth') ? String(pd.getFloat('nbtHealth')) : ''
+      s2cCache.nbtInvulnerable = pd.contains('nbtInvulnerable') ? String(pd.getByte('nbtInvulnerable')) : ''
+      s2cCache.nbtDecoyReady = pd.contains('nbtDecoyReady') ? String(pd.getByte('nbtDecoyReady')) : ''
+      s2cCache.nbtChargeProgress = pd.contains('nbtChargeProgress') ? String(pd.getByte('nbtChargeProgress')) : ''
+      s2cCache.nbtSimpleToggle = pd.contains('nbtSimpleToggle') ? String(pd.getByte('nbtSimpleToggle')) : '1'
       s2cCache.nbtMode = pd.contains('nbtMode') ? pd.getString('nbtMode') : ''
     } catch (e) {}
     return s2cCache
@@ -116,17 +121,20 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     }
   }
 
-  // ── 三层 fallback Getter：已保存 simpleNBT > 数据库模板 > DEFAULT_SIMPLE_NBT ──
+  // ── 三层 fallback Getter：独立 NBT 字段 > 数据库模板 > DEFAULT_SIMPLE_NBT ──
+  var SIMPLE_NBT_FIELDS = {
+    Energy: 'nbtEnergy',
+    Health: 'nbtHealth',
+    Invulnerable: 'nbtInvulnerable',
+    DecoyReady: 'nbtDecoyReady',
+    ChargeProgress: 'nbtChargeProgress'
+  }
   function makeSimpleNBTGetter(key) {
+    var fieldName = SIMPLE_NBT_FIELDS[key]
     return function() {
-      // 第一层：从 persistentData simpleNBT 读取（用户已保存的值）
-      try {
-        var raw = readServerConfig().simpleNBT
-        if (raw && raw !== '{}') {
-          var obj = JSON.parse(raw)
-          if (obj[key] !== undefined) return String(obj[key])
-        }
-      } catch(e) {}
+      // 第一层：从独立 NBT 字段读取（用户已保存的值）
+      var val = fieldName ? readServerConfig()[fieldName] : undefined
+      if (val !== undefined && val !== '') return String(val)
       // 第二层：从数据库模板读取
       try {
         var cacheRaw = global.vehicleDeployerCache.get(player.uuid)
@@ -422,8 +430,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var fieldSimpleToggle = new TextField().setNumbersOnlyInt(0, 1)
   fieldSimpleToggle.lss('width', 25)
   queueS2CField(fieldSimpleToggle, function() {
-    var mode = readServerConfig().nbtMode
-    return mode === 'simple' ? '1' : '0'
+    return readServerConfig().nbtSimpleToggle || '0'
   }, 'simple_toggle')
   toggleRow.addChild(fieldSimpleToggle)
   toggleRow.addChild(new Label().setText(Component.literal(' (1=开, 0=关)')))
@@ -469,12 +476,11 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   // 充能进度
   var nbtChargeRow = new UIElement()
   nbtChargeRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.charge_progress')).append(Component.literal(':'))))
-  var fieldNbtCharge = new TextField()
-  fieldNbtCharge.setAnyString()
-  fieldNbtCharge.lss('width', 70)
+  var fieldNbtCharge = new TextField().setNumbersOnlyInt(0, 1)
+  fieldNbtCharge.lss('width', 30)
   queueS2CField(fieldNbtCharge, makeSimpleNBTGetter('ChargeProgress'), 'nbt_charge')
   nbtChargeRow.addChild(fieldNbtCharge)
-  nbtChargeRow.addChild(new Label().setText(Component.literal(' (0.0~1.0)')))
+  nbtChargeRow.addChild(new Label().setText(Component.literal(' (0=关, 1=开)')))
   page4.addChild(nbtChargeRow)
 
   // 是否携带弹药
@@ -550,7 +556,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
         if (sh !== '' && parseFloat(sh) !== DEFAULT_SIMPLE_NBT.Health) nbtObj.Health = parseFloat(sh) || 500
         if (si !== '' && parseInt(si, 10) !== DEFAULT_SIMPLE_NBT.Invulnerable) nbtObj.Invulnerable = parseInt(si, 10) === 1 ? 1 : 0
         if (sd !== '' && parseInt(sd, 10) !== DEFAULT_SIMPLE_NBT.DecoyReady) nbtObj.DecoyReady = parseInt(sd, 10) === 1 ? 1 : 0
-        if (sc !== '' && parseFloat(sc) !== DEFAULT_SIMPLE_NBT.ChargeProgress) nbtObj.ChargeProgress = parseFloat(sc) || 0.0
+        if (sc !== '' && parseInt(sc, 10) !== DEFAULT_SIMPLE_NBT.ChargeProgress) nbtObj.ChargeProgress = parseInt(sc, 10) || 0
         tag.putString('nbt', JSON.stringify(nbtObj))
         tag.putString('nbtMode', 'simple')
       } else {
@@ -568,6 +574,8 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       }
       // spawnWithAmmo：始终从简单 NBT 页取值，留空则用 tab2 的值
       if (sa !== '') tag.putString('swa', sa)
+      // 同步 toggle 状态
+      tag.putString('tog', fieldSimpleToggle.getText() || '0')
       root.sendMessage('save_config', tag)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 保存出错: ' + e), false)
@@ -640,16 +648,25 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       // 根据 nbtMode 分流到独立字段
       var nbtMode = msg.getString('nbtMode') || 'advanced'
       if (nbtMode === 'simple') {
-        pd.putString('simpleNBT', nbtRaw || '{}')
+        // 解析 nbtRaw JSON → 写入独立 NBT 字段
+        try {
+          var nbtObj = JSON.parse(nbtRaw || '{}')
+          if (nbtObj.Energy !== undefined) pd.putInt('nbtEnergy', nbtObj.Energy)
+          if (nbtObj.Health !== undefined) pd.putFloat('nbtHealth', nbtObj.Health)
+          if (nbtObj.Invulnerable !== undefined) pd.putByte('nbtInvulnerable', nbtObj.Invulnerable)
+          if (nbtObj.DecoyReady !== undefined) pd.putByte('nbtDecoyReady', nbtObj.DecoyReady)
+          if (nbtObj.ChargeProgress !== undefined) pd.putByte('nbtChargeProgress', nbtObj.ChargeProgress)
+        } catch(e) {}
         pd.putString('deployNBT', '{}')
       } else if (nbtMode === 'advanced') {
         pd.putString('deployNBT', nbtRaw || '{}')
-        pd.putString('simpleNBT', '{}')
       } else {
         pd.putString('deployNBT', '{}')
-        pd.putString('simpleNBT', '{}')
       }
       pd.putString('nbtMode', nbtMode)
+      // 持久化 toggle 状态
+      var tog = msg.getString('tog')
+      if (tog) pd.putByte('nbtSimpleToggle', tog === '1' ? 1 : 0)
       b.entity.setChanged()
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 保存失败: ' + e), false)
@@ -675,7 +692,12 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pd.putFloat('yaw', 0.0)
       pd.putFloat('pitch', 0.0)
       pd.putString('deployNBT', '{}')
-      pd.putString('simpleNBT', '{}')
+      pd.remove('nbtEnergy')
+      pd.remove('nbtHealth')
+      pd.remove('nbtInvulnerable')
+      pd.remove('nbtDecoyReady')
+      pd.remove('nbtChargeProgress')
+      pd.remove('nbtSimpleToggle')
       pd.putString('nbtMode', 'none')
       b.entity.setChanged()
     } catch (e) {
