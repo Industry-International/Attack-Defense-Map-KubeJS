@@ -8,9 +8,10 @@
 //
 // 部署 NBT 构建顺序：
 //   1. 从数据库取 vehicleData.nbtTemplate（含 Energy, Health, Inventory, WeaponState...）
-//      ★ 高级 NBT 模式时跳过此步，直接用用户 JSON
+//      ★ nbtMode='advanced' 时跳过此步，直接用 deployNBT 字段
 //   2. 叠加 Rotation / Tags
-//   3. 叠加用户 deployNBT（简单 NBT 的覆盖字段，高级模式时跳过）
+//   3. nbtMode='simple' 时叠加 simpleNBT 字段覆盖数据库模板
+//      nbtMode='none' 时不叠加任何额外字段
 // ============================================================
 
 // ══════════════════════════════════════════════════════════════
@@ -72,8 +73,19 @@ function spawnVehicleForBlock(block, server, pd) {
         sbwLog('[部署] 高级 NBT 模式，使用用户自定义 JSON')
       }
     } catch (e) { sbwWarn('[部署] deployNBT JSON 解析失败: ' + e) }
+  } else if (nbtMode === 'none') {
+    // ★ 无用户 NBT：严格使用数据库模板，不叠加任何额外字段
+    if (vehicleInfo && vehicleInfo.nbtTemplate) {
+      nbt = toNBT(vehicleInfo.nbtTemplate)
+      sbwLog('[部署] 数据库模板模式: ' + vehicleType + ' Energy=' + vehicleInfo.maxEnergy + ' Health=' + vehicleInfo.maxHealth)
+      if (vehicleInfo.category) {
+        pd.putString('vehicleCategory', vehicleInfo.category)
+      }
+    } else {
+      sbwWarn('[部署] 数据库未找到车辆 ' + vehicleType + '，使用空白模板')
+    }
   } else {
-    // 简单 NBT / 未标记：以数据库模板为基础，叠加用户配置
+    // 简单 NBT / 兼容旧数据：以数据库模板为基础，叠加用户配置
     if (vehicleInfo && vehicleInfo.nbtTemplate) {
       nbt = toNBT(vehicleInfo.nbtTemplate)
       sbwLog('[部署] 使用数据库模板: ' + vehicleType + ' Energy=' + vehicleInfo.maxEnergy + ' Health=' + vehicleInfo.maxHealth)
@@ -83,15 +95,16 @@ function spawnVehicleForBlock(block, server, pd) {
     } else {
       sbwWarn('[部署] 数据库未找到车辆 ' + vehicleType + '，使用空白模板')
     }
-    // 叠加用户 deployNBT（简单 NBT 的覆盖字段）
-    if (deployNBTStr && deployNBTStr !== '' && deployNBTStr !== '{}') {
+    // 叠加用户简单 NBT（从独立字段 simpleNBT 读取）
+    var simpleNBTStr = pd.getString('simpleNBT')
+    if (simpleNBTStr && simpleNBTStr !== '' && simpleNBTStr !== '{}') {
       try {
-        var deployObj = JSON.parse(deployNBTStr)
-        if (deployObj && typeof deployObj === 'object') {
-          mergeDeployNBT(nbt, deployObj)
-          sbwLog('[部署] 合并用户 deployNBT: ' + deployNBTStr)
+        var simpleObj = JSON.parse(simpleNBTStr)
+        if (simpleObj && typeof simpleObj === 'object') {
+          mergeDeployNBT(nbt, simpleObj)
+          sbwLog('[部署] 合并简单 NBT: ' + simpleNBTStr)
         }
-      } catch (e) { sbwWarn('[部署] deployNBT JSON 解析失败: ' + e) }
+      } catch (e) { sbwWarn('[部署] simpleNBT JSON 解析失败: ' + e) }
     }
   }
 

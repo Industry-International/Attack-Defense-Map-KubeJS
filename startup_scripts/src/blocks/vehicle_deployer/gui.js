@@ -20,18 +20,21 @@ global.vehicleDeployerCache = global.vehicleDeployerCache || new $HashMap()
 
 // ★ 默认配置
 const DEPLOYER_DEFAULT = {
-  vehicleType: '', respawnDelay: 600, autoRespawn: 1, spawnWithAmmo: 1,
+  vehicleType: '', respawnDelay: 600, autoRespawn: 0,
   offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
   deployNBT: '{}'
 }
 
 // ★ 简单 NBT 默认值（当数据库模板没有对应字段时使用）
+//   同时也管理"简单开关"和"是否填充弹药"等 UI 级默认
 const DEFAULT_SIMPLE_NBT = {
   Energy: 10000000,
   Health: 500,
   Invulnerable: 0,
   DecoyReady: 1,
-  ChargeProgress: 1.0
+  ChargeProgress: 1.0,
+  SimpleToggle: 1,
+  SpawnWithAmmo: 1
 }
 
 // ========== UI 构建 ==========
@@ -75,7 +78,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       s2cCache.vehicleType = pd.getString('vehicleType') || ''
       s2cCache.respawnDelay = pd.contains('respawnDelay') ? String(pd.getInt('respawnDelay')) : '600'
       s2cCache.autoRespawn = pd.contains('autoRespawn') ? String(pd.getByte('autoRespawn')) : '1'
-      s2cCache.spawnWithAmmo = pd.contains('spawnWithAmmo') ? String(pd.getByte('spawnWithAmmo')) : '1'
+      s2cCache.spawnWithAmmo = pd.contains('spawnWithAmmo') ? String(pd.getByte('spawnWithAmmo')) : String(DEFAULT_SIMPLE_NBT.SpawnWithAmmo)
       s2cCache.offsetX = pd.contains('offsetX') ? String(pd.getDouble('offsetX')) : '0'
       s2cCache.offsetY = pd.contains('offsetY') ? String(pd.getDouble('offsetY')) : '1'
       s2cCache.offsetZ = pd.contains('offsetZ') ? String(pd.getDouble('offsetZ')) : '0'
@@ -390,7 +393,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   toggleRow.addChild(new Label().setText(Component.literal('§a简单 NBT 开关:')))
   var fieldSimpleToggle = new TextField().setNumbersOnlyInt(0, 1)
   fieldSimpleToggle.lss('width', 25)
-  fieldSimpleToggle.setText('1')
+  fieldSimpleToggle.setText(String(DEFAULT_SIMPLE_NBT.SimpleToggle))
   toggleRow.addChild(fieldSimpleToggle)
   toggleRow.addChild(new Label().setText(Component.literal(' (1=开, 0=关)')))
   page4.addChild(toggleRow)
@@ -493,7 +496,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       tag.putString('vt', fieldVehicleType.getText() || '')
       tag.putString('rd', fieldRespawnDelay.getText() || '600')
       tag.putString('ar', fieldAutoRespawn.getText() || '1')
-      tag.putString('swa', fieldSpawnAmmo.getText() || '1')
+      tag.putString('swa', fieldSpawnAmmo.getText() || String(DEFAULT_SIMPLE_NBT.SpawnWithAmmo))
       tag.putString('ox', fieldOffsetX.getText() || '0')
       tag.putString('oy', fieldOffsetY.getText() || '1')
       tag.putString('oz', fieldOffsetZ.getText() || '0')
@@ -520,9 +523,17 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
         tag.putString('nbt', JSON.stringify(nbtObj))
         tag.putString('nbtMode', 'simple')
       } else {
-        // 开关关闭或无简单 NBT 字段 → 高级 NBT：完全用用户 JSON 覆盖
-        tag.putString('nbt', fieldDeployNBT.getText() || '{}')
-        tag.putString('nbtMode', 'advanced')
+        // 简单 NBT 关闭 → 判断高级 NBT 是否被用户修改
+        var advText = fieldDeployNBT.getText()
+        if (advText && advText !== '' && advText !== '{}') {
+          // 高级 NBT 已被用户修改 → 用高级 NBT
+          tag.putString('nbt', advText)
+          tag.putString('nbtMode', 'advanced')
+        } else {
+          // 高级 NBT 未修改 → 严格使用数据库模板
+          tag.putString('nbt', '{}')
+          tag.putString('nbtMode', 'none')
+        }
       }
       // spawnWithAmmo：始终从简单 NBT 页取值，留空则用 tab2 的值
       if (sa !== '') tag.putString('swa', sa)
@@ -595,8 +606,19 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pd.putDouble('offsetZ', isNaN(oz) ? 0 : oz)
       pd.putFloat('yaw', isNaN(yaw) ? 0 : yaw)
       pd.putFloat('pitch', isNaN(pitch) ? 0 : pitch)
-      pd.putString('deployNBT', nbtRaw || '{}')
-      pd.putString('nbtMode', msg.getString('nbtMode') || 'advanced')
+      // 根据 nbtMode 分流到独立字段
+      var nbtMode = msg.getString('nbtMode') || 'advanced'
+      if (nbtMode === 'simple') {
+        pd.putString('simpleNBT', nbtRaw || '{}')
+        pd.putString('deployNBT', '{}')
+      } else if (nbtMode === 'advanced') {
+        pd.putString('deployNBT', nbtRaw || '{}')
+        pd.putString('simpleNBT', '{}')
+      } else {
+        pd.putString('deployNBT', '{}')
+        pd.putString('simpleNBT', '{}')
+      }
+      pd.putString('nbtMode', nbtMode)
       b.entity.setChanged()
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 保存失败: ' + e), false)
@@ -615,13 +637,15 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       var pd = b.entity.persistentData
       pd.putInt('respawnDelay', 600)
       pd.putByte('autoRespawn', 1)
-      pd.putByte('spawnWithAmmo', 1)
+      pd.putByte('spawnWithAmmo', DEFAULT_SIMPLE_NBT.SpawnWithAmmo)
       pd.putDouble('offsetX', 0.0)
       pd.putDouble('offsetY', 1.0)
       pd.putDouble('offsetZ', 0.0)
       pd.putFloat('yaw', 0.0)
       pd.putFloat('pitch', 0.0)
       pd.putString('deployNBT', '{}')
+      pd.putString('simpleNBT', '{}')
+      pd.putString('nbtMode', 'none')
       b.entity.setChanged()
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 重置失败: ' + e), false)
