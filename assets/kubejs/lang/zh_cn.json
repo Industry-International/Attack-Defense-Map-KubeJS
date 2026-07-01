@@ -309,5 +309,11 @@
   "msg.kubejs.vehicle_deployer.system_enabled": "§a[部署台] 系统已启用",
   "msg.kubejs.vehicle_deployer.system_disabled": "§e[部署台] 系统已禁用",
   "msg.kubejs.vehicle_deployer.usage": "§c/sbw_vehicle <start|stop|status|clear>",
-  "msg.kubejs.vehicle_deployer.cleared": "§a[部署台] 已清除 %s 辆已部署载具"
+  "msg.kubejs.vehicle_deployer.cleared": "§a[部署台] 已清除 %s 辆已部署载具",
+  "nbt.kubejs.energy": "能量",
+  "nbt.kubejs.health": "生命值",
+  "nbt.kubejs.invulnerable": "无敌",
+  "nbt.kubejs.decoy_ready": "诱饵弹",
+  "nbt.kubejs.charge_progress": "充能",
+  "nbt.kubejs.spawn_with_ammo": "是否携带弹药"
 }

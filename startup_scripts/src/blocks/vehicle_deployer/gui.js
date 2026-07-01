@@ -157,7 +157,8 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       var raw = global.vehicleDeployerCache.get(player.uuid)
       if (raw) {
         var obj = JSON.parse(raw)
-        return JSON.stringify(obj.categories || {})
+        // 把 nbtTemplate 也打包进同一个 JSON，用 __nbt 键标识
+        return JSON.stringify({ cats: obj.categories || {}, nbt: obj.nbtTemplate || {} })
       }
     } catch(e) {}
     return '{}'
@@ -353,22 +354,83 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   tabView.addTab(tab3, page3)
 
   // ════════════════════════════════════════════════════════════
-  //  第4页：NBT 原始 JSON
+  //  第4页：NBT 简单预设
   // ════════════════════════════════════════════════════════════
   var page4 = new UIElement()
   page4.lss('padding', 4)
 
-  page4.addChild(new Label().setText(Component.literal('§e── deployNBT 原始 JSON ──')))
-  page4.addChild(new Label().setText(Component.literal('§7完全自定义的部署 NBT 模板')))
+  page4.addChild(new Label().setText(Component.literal('§e── 简单 NBT 预设 ──')))
+  page4.addChild(new Label().setText(Component.literal('§7填写后保存时自动生效，留空则用高级 NBT')))
   page4.addChild(new Label().setText(Component.literal(' ')))
-  page4.addChild(new Label().setText(Component.literal('§8留空 {} 则使用数据库完整默认值。')))
-  page4.addChild(new Label().setText(Component.literal('§8填写部分字段则会与数据库模板合并。')))
-  page4.addChild(new Label().setText(Component.literal(' ')))
-  page4.addChild(fieldDeployNBT)
+
+  // 能量
+  var nbtEnergyRow = new UIElement()
+  nbtEnergyRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.energy')).append(Component.literal(':'))))
+  var fieldNbtEnergy = new TextField().setNumbersOnlyInt(0, 99999999)
+  fieldNbtEnergy.lss('width', 70)
+  nbtEnergyRow.addChild(fieldNbtEnergy)
+  page4.addChild(nbtEnergyRow)
+
+  // 生命值
+  var nbtHealthRow = new UIElement()
+  nbtHealthRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.health')).append(Component.literal(':'))))
+  var fieldNbtHealth = new TextField().setNumbersOnlyInt(0, 99999)
+  fieldNbtHealth.lss('width', 70)
+  nbtHealthRow.addChild(fieldNbtHealth)
+  page4.addChild(nbtHealthRow)
+
+  // 无敌 + 诱饵弹 同一行
+  var nbtInvRow = new UIElement()
+  nbtInvRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.invulnerable')).append(Component.literal(':'))))
+  var fieldNbtInv = new TextField().setNumbersOnlyInt(0, 1)
+  fieldNbtInv.lss('width', 30)
+  nbtInvRow.addChild(fieldNbtInv)
+  nbtInvRow.addChild(new Label().setText(Component.literal('  ')))
+  nbtInvRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.decoy_ready')).append(Component.literal(':'))))
+  var fieldNbtDecoy = new TextField().setNumbersOnlyInt(0, 1)
+  fieldNbtDecoy.lss('width', 30)
+  nbtInvRow.addChild(fieldNbtDecoy)
+  page4.addChild(nbtInvRow)
+
+  // 充能进度
+  var nbtChargeRow = new UIElement()
+  nbtChargeRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.charge_progress')).append(Component.literal(':'))))
+  var fieldNbtCharge = new TextField()
+  fieldNbtCharge.setAnyString()
+  fieldNbtCharge.lss('width', 70)
+  nbtChargeRow.addChild(fieldNbtCharge)
+  nbtChargeRow.addChild(new Label().setText(Component.literal(' (0.0~1.0)')))
+  page4.addChild(nbtChargeRow)
+
+  // 是否携带弹药
+  var nbtAmmoRow = new UIElement()
+  nbtAmmoRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.spawn_with_ammo')).append(Component.literal(':'))))
+  var fieldNbtAmmo = new TextField().setNumbersOnlyInt(0, 1)
+  fieldNbtAmmo.lss('width', 30)
+  nbtAmmoRow.addChild(fieldNbtAmmo)
+  nbtAmmoRow.addChild(new Label().setText(Component.literal(' (1=是, 0=否)')))
+  page4.addChild(nbtAmmoRow)
 
   var tab4 = new Tab()
-  tab4.setText('⚡NBT')
+  tab4.setText('§a简单NBT')
   tabView.addTab(tab4, page4)
+
+  // ════════════════════════════════════════════════════════════
+  //  第5页：高级 NBT JSON
+  // ════════════════════════════════════════════════════════════
+  var page5 = new UIElement()
+  page5.lss('padding', 4)
+
+  page5.addChild(new Label().setText(Component.literal('§e── deployNBT 高级 JSON ──')))
+  page5.addChild(new Label().setText(Component.literal('§7简单 NBT 为空时生效，否则被覆盖')))
+  page5.addChild(new Label().setText(Component.literal(' ')))
+  page5.addChild(new Label().setText(Component.literal('§8留空 {} 则使用数据库模板。')))
+  page5.addChild(new Label().setText(Component.literal(' ')))
+  page5.addChild(fieldDeployNBT)
+
+  var tab5 = new Tab()
+  tab5.setText('⚡高级NBT')
+  tabView.addTab(tab5, page5)
 
   root.addChild(tabView)
 
@@ -395,7 +457,30 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       tag.putString('oz', fieldOffsetZ.getText() || '0')
       tag.putString('yaw', fieldYaw.getText() || '0')
       tag.putString('pitch', fieldPitch.getText() || '0')
-      tag.putString('nbt', fieldDeployNBT.getText() || '{}')
+
+      // 判断：简单 NBT 是否有值
+      var se = fieldNbtEnergy.getText().trim()
+      var sh = fieldNbtHealth.getText().trim()
+      var si = fieldNbtInv.getText().trim()
+      var sd = fieldNbtDecoy.getText().trim()
+      var sc = fieldNbtCharge.getText().trim()
+      var sa = fieldNbtAmmo.getText().trim()
+      var hasSimple = se !== '' || sh !== '' || si !== '' || sd !== '' || sc !== '' || sa !== ''
+
+      if (hasSimple) {
+        // 简单 NBT 优先：只取填了值的字段
+        var nbtObj = {}
+        if (se !== '') nbtObj.Energy = parseInt(se, 10) || 0
+        if (sh !== '') nbtObj.Health = parseFloat(sh) || 500
+        if (si !== '') nbtObj.Invulnerable = parseInt(si, 10) === 1 ? 1 : 0
+        if (sd !== '') nbtObj.DecoyReady = parseInt(sd, 10) === 1 ? 1 : 0
+        if (sc !== '') nbtObj.ChargeProgress = parseFloat(sc) || 0.0
+        tag.putString('nbt', JSON.stringify(nbtObj))
+        // 弹药也走简单 NBT 模式
+        if (sa !== '') tag.putString('swa', sa)
+      } else {
+        tag.putString('nbt', fieldDeployNBT.getText() || '{}')
+      }
       root.sendMessage('save_config', tag)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 保存出错: ' + e), false)
@@ -546,10 +631,13 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
             fired = true
             try {
               if (name === 'db_categories') {
-                // 数据库分类：解析 JSON 更新下拉菜单
-                var cats = JSON.parse(val)
+                // 数据库分类 + NBT模板：解析 {cats, nbt}
+                var dbData = JSON.parse(val)
+                var cats = dbData.cats || {}
                 var keys = Object.keys(cats)
                 if (keys.length > 0) {
+                  // 存储 nbtTemplate 供简单 NBT 模式使用
+                  global.__vdNbtTemplate = dbData.nbt || {}
                   // 根据当前 vehicleType 找到正确分类
                   var currentVT = fieldVehicleType.getText()
                   var targetCat = keys[0]

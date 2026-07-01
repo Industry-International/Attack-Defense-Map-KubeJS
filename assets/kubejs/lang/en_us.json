@@ -291,5 +291,11 @@
   "msg.kubejs.vehicle_deployer.system_enabled": "§a[Deployer] System enabled",
   "msg.kubejs.vehicle_deployer.system_disabled": "§e[Deployer] System disabled",
   "msg.kubejs.vehicle_deployer.usage": "§c/sbw_vehicle <start|stop|status|clear>",
-  "msg.kubejs.vehicle_deployer.cleared": "§a[Deployer] Cleared %s deployed vehicles"
+  "msg.kubejs.vehicle_deployer.cleared": "§a[Deployer] Cleared %s vehicles",
+  "nbt.kubejs.energy": "§7Energy",
+  "nbt.kubejs.health": "§7Health",
+  "nbt.kubejs.invulnerable": "§7Invul",
+  "nbt.kubejs.decoy_ready": "§7Decoy",
+  "nbt.kubejs.charge_progress": "§7Charge",
+  "nbt.kubejs.spawn_with_ammo": "§7Spawn with ammo"
 }
