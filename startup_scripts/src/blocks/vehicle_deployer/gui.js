@@ -550,11 +550,30 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
                 var cats = JSON.parse(val)
                 var keys = Object.keys(cats)
                 if (keys.length > 0) {
+                  // 根据当前 vehicleType 找到正确分类
+                  var currentVT = fieldVehicleType.getText()
+                  var targetCat = keys[0]
+                  var targetVeh = ''
+                  if (currentVT && currentVT !== '') {
+                    for (var ci = 0; ci < keys.length; ci++) {
+                      var vehList = cats[keys[ci]] || []
+                      for (var vj = 0; vj < vehList.length; vj++) {
+                        if (vehList[vj] === currentVT) {
+                          targetCat = keys[ci]
+                          targetVeh = currentVT
+                          break
+                        }
+                      }
+                      if (targetVeh) break
+                    }
+                  }
                   categorySelector.setCandidates(keys)
-                  vehicleSelector.setCandidates(cats[keys[0]] || [])
-                  categorySelector.setSelected(keys[0])
-                  if (cats[keys[0]] && cats[keys[0]].length > 0) {
-                    vehicleSelector.setSelected(cats[keys[0]][0])
+                  categorySelector.setSelected(targetCat)
+                  vehicleSelector.setCandidates(cats[targetCat] || [])
+                  if (targetVeh) {
+                    vehicleSelector.setSelected(targetVeh)
+                  } else if (cats[targetCat] && cats[targetCat].length > 0) {
+                    vehicleSelector.setSelected(cats[targetCat][0])
                   }
                   global.__vdCategories = cats
                 }
