@@ -1,25 +1,28 @@
 // ============================================================
-// 载具部署台 - LDLib2 智能配置 GUI（Message 网络同步版）
-//
-// C2S：客户端 setOnClick → root.sendMessage → 服务端 onMessage
-// S2C：暂无（服务端 NBT 无法推送至客户端）
-//
-// 车辆数据库通过 global 缓存传入（仅单机有效）
+// 载具部署台 - LDLib2 配置GUI（S2C DataBinding + C2S Message）
+//   S2C：服务端读取方块 NBT → 一次性推送到客户端 TextField
+//   C2S：客户端"保存"按钮 → sendMessage → 服务端写入 NBT
+// 架构：
+//   1. TextField 仅创建 + 设置样式，通过 queueS2CField() 入队
+//   2. ModularUI.of() 建好后统一绑定 stringS2C + CHANGED_PERIODIC
+//   3. registerValueListener 内 setText() + 切 NONE 停止轮询
+//   4. 服务端 getter 用 readServerConfig() 缓存，仅第一次读 NBT
+//   5. C2S 保存走原有 sendMessage 逻辑
 // ============================================================
 
 // ========== Java 类引用 ==========
 
 var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 var $HashMap = Java.loadClass('java.util.HashMap')
+var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
+var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
 global.vehicleDeployerCache = global.vehicleDeployerCache || new $HashMap()
 
-// ========== 默认配置 ==========
-
-const DEPLOYER_DEFAULT_CFG = {
-  vehicleType: '', respawnDelay: 600, autoRespawn: 1,
+// ★ 默认配置
+const DEPLOYER_DEFAULT = {
+  vehicleType: '', respawnDelay: 600, autoRespawn: 1, spawnWithAmmo: 1,
   offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
-  deployNBT: '{}', displayName: '', deployedUUID: '', cooldownEnd: 0,
-  spawnWithAmmo: 1
+  deployNBT: '{}'
 }
 
 // ========== UI 构建 ==========
@@ -36,8 +39,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     if (raw) cacheData = JSON.parse(raw)
   } catch (e) {}
   if (!cacheData) cacheData = {}
-
-  var cfg = cacheData.config || {}
   var vehicleData = cacheData.categories || {}
   var categoryList = Object.keys(vehicleData)
   if (categoryList.length === 0) {
@@ -46,62 +47,106 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   }
   var nbtTemplate = cacheData.nbtTemplate || {}
 
+  // ═══════════════════════════════════════════════════════════
+  //  S2C 服务端配置缓存（一次性读取 NBT，后续 getter 走缓存）
+  // ═══════════════════════════════════════════════════════════
+  var s2cCache = null
+  function readServerConfig() {
+    if (s2cCache !== null) return s2cCache
+    s2cCache = {}
+    try {
+      var server = player.getServer()
+      if (!server) return s2cCache
+      var lvl = server.getLevel(level.getDimension())
+      if (!lvl) return s2cCache
+      var b = lvl.getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ())
+      if (!b || !b.entity) return s2cCache
+      var pd = b.entity.persistentData
+      s2cCache.vehicleType = pd.getString('vehicleType') || ''
+      s2cCache.respawnDelay = pd.contains('respawnDelay') ? String(pd.getInt('respawnDelay')) : '600'
+      s2cCache.autoRespawn = pd.contains('autoRespawn') ? String(pd.getByte('autoRespawn')) : '1'
+      s2cCache.spawnWithAmmo = pd.contains('spawnWithAmmo') ? String(pd.getByte('spawnWithAmmo')) : '1'
+      s2cCache.offsetX = pd.contains('offsetX') ? String(pd.getDouble('offsetX')) : '0'
+      s2cCache.offsetY = pd.contains('offsetY') ? String(pd.getDouble('offsetY')) : '1'
+      s2cCache.offsetZ = pd.contains('offsetZ') ? String(pd.getDouble('offsetZ')) : '0'
+      s2cCache.yaw = pd.contains('yaw') ? String(pd.getFloat('yaw')) : '0'
+      s2cCache.pitch = pd.contains('pitch') ? String(pd.getFloat('pitch')) : '0'
+      s2cCache.deployNBT = pd.getString('deployNBT') || '{}'
+    } catch (e) {}
+    return s2cCache
+  }
+
+  // ── Getter 工厂 ──
+  function makeS2CGetter(key) {
+    return function() {
+      var cfg = readServerConfig()
+      return cfg[key] !== undefined ? String(cfg[key]) : ''
+    }
+  }
+
+  // ── S2C 字段队列 ──
+  var s2cQueue = []
+  function queueS2CField(field, getter, name) {
+    s2cQueue.push({ field: field, getter: getter, name: name })
+    return field
+  }
+
   // ════════════════════════════════════════════════════════════
-  //  创建所有输入字段
+  //  创建所有输入字段（仅设置样式，不绑定，不设初始文本）
   // ════════════════════════════════════════════════════════════
 
   // ── Tab 1: 车辆类型 ──
   var fieldVehicleType = new TextField()
-  fieldVehicleType.setText(cfg.vehicleType || DEPLOYER_DEFAULT_CFG.vehicleType)
   fieldVehicleType.lss('width', 180)
+  queueS2CField(fieldVehicleType, makeS2CGetter('vehicleType'), 'vehicleType')
 
   // ── Tab 2: 基础设置 ──
   var fieldRespawnDelay = new TextField()
   fieldRespawnDelay.setNumbersOnlyInt(20, 72000)
-  fieldRespawnDelay.setText(String(cfg.respawnDelay || DEPLOYER_DEFAULT_CFG.respawnDelay))
   fieldRespawnDelay.lss('width', 55)
+  queueS2CField(fieldRespawnDelay, makeS2CGetter('respawnDelay'), 'respawnDelay')
 
   var fieldAutoRespawn = new TextField()
   fieldAutoRespawn.setNumbersOnlyInt(0, 1)
-  fieldAutoRespawn.setText(cfg.autoRespawn === 0 ? '0' : '1')
   fieldAutoRespawn.lss('width', 40)
+  queueS2CField(fieldAutoRespawn, makeS2CGetter('autoRespawn'), 'autoRespawn')
 
   var fieldSpawnAmmo = new TextField()
   fieldSpawnAmmo.setNumbersOnlyInt(0, 1)
-  fieldSpawnAmmo.setText(cfg.spawnWithAmmo === 0 ? '0' : '1')
   fieldSpawnAmmo.lss('width', 40)
+  queueS2CField(fieldSpawnAmmo, makeS2CGetter('spawnWithAmmo'), 'spawnWithAmmo')
 
   // ── Tab 3: 坐标偏移 ──
   var fieldOffsetX = new TextField()
   fieldOffsetX.setNumbersOnlyInt(-999, 999)
-  fieldOffsetX.setText(String(cfg.offsetX !== undefined ? cfg.offsetX : 0))
   fieldOffsetX.lss('width', 50)
+  queueS2CField(fieldOffsetX, makeS2CGetter('offsetX'), 'offsetX')
 
   var fieldOffsetY = new TextField()
   fieldOffsetY.setNumbersOnlyInt(-999, 999)
-  fieldOffsetY.setText(String(cfg.offsetY !== undefined ? cfg.offsetY : 1))
   fieldOffsetY.lss('width', 50)
+  queueS2CField(fieldOffsetY, makeS2CGetter('offsetY'), 'offsetY')
 
   var fieldOffsetZ = new TextField()
   fieldOffsetZ.setNumbersOnlyInt(-999, 999)
-  fieldOffsetZ.setText(String(cfg.offsetZ !== undefined ? cfg.offsetZ : 0))
   fieldOffsetZ.lss('width', 50)
+  queueS2CField(fieldOffsetZ, makeS2CGetter('offsetZ'), 'offsetZ')
 
   var fieldYaw = new TextField()
   fieldYaw.setNumbersOnlyInt(-180, 180)
-  fieldYaw.setText(String(cfg.yaw !== undefined ? cfg.yaw : 0))
   fieldYaw.lss('width', 50)
+  queueS2CField(fieldYaw, makeS2CGetter('yaw'), 'yaw')
 
   var fieldPitch = new TextField()
   fieldPitch.setNumbersOnlyInt(-90, 90)
-  fieldPitch.setText(String(cfg.pitch !== undefined ? cfg.pitch : 0))
   fieldPitch.lss('width', 50)
+  queueS2CField(fieldPitch, makeS2CGetter('pitch'), 'pitch')
 
   // ── Tab 4: NBT 编辑 ──
   var fieldDeployNBT = new TextField()
-  fieldDeployNBT.setText(cfg.deployNBT || '{}')
   fieldDeployNBT.lss('width', 250)
   fieldDeployNBT.lss('height', 100)
+  queueS2CField(fieldDeployNBT, makeS2CGetter('deployNBT'), 'deployNBT')
 
   // ════════════════════════════════════════════════════════════
   //  根容器
@@ -132,7 +177,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   page1.addChild(new Label().setText(Component.literal('§e── 选择载具 ──')))
 
-  // 确定当前已保存的类型所属的分类
+  // 确定当前已保存的类型所属的分类（缓存数据，仅 GUI 打开时有效）
   var currentVT = fieldVehicleType.getText()
   var initialCategory = categoryList.length > 0 ? categoryList[0] : ''
   var initialVehicle = ''
@@ -291,7 +336,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   tabView.addTab(tab3, page3)
 
   // ════════════════════════════════════════════════════════════
-  //  第4页：NBT 原始 JSON（简化版，移除不可用的 NBT 简单模式）
+  //  第4页：NBT 原始 JSON
   // ════════════════════════════════════════════════════════════
   var page4 = new UIElement()
   page4.lss('padding', 4)
@@ -323,8 +368,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnSave.lss('padding', '3 10')
   btnSave.setOnClick(function(clickEvent) {
     try {
-      player.displayClientMessage(Component.literal('§7[部署台] 保存中...'), false)
-
       var tag = new $CompoundTag()
       tag.putString('vt', fieldVehicleType.getText() || '')
       tag.putString('rd', fieldRespawnDelay.getText() || '600')
@@ -336,9 +379,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       tag.putString('yaw', fieldYaw.getText() || '0')
       tag.putString('pitch', fieldPitch.getText() || '0')
       tag.putString('nbt', fieldDeployNBT.getText() || '{}')
-
       root.sendMessage('save_config', tag)
-      player.displayClientMessage(Component.literal('§e[部署台] 保存请求已发送'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 保存出错: ' + e), false)
     }
@@ -350,9 +391,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnReset.setText(Component.literal('§e↻ 重置'))
   btnReset.lss('padding', '3 10')
   btnReset.setOnClick(function(clickEvent) {
-    player.displayClientMessage(Component.literal('§e[部署台] 重置请求已发送'), false)
-    var tag = new $CompoundTag()
-    root.sendMessage('reset_config', tag)
+    root.sendMessage('reset_config', new $CompoundTag())
   })
   btnRow.addChild(btnReset)
 
@@ -361,9 +400,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   btnDeployNow.setText(Component.literal('§6⚡ 立即部署'))
   btnDeployNow.lss('padding', '3 10')
   btnDeployNow.setOnClick(function(clickEvent) {
-    player.displayClientMessage(Component.literal('§e[部署台] 部署请求已发送'), false)
-    var tag = new $CompoundTag()
-    root.sendMessage('deploy_config', tag)
+    root.sendMessage('deploy_config', new $CompoundTag())
   })
   btnRow.addChild(btnDeployNow)
 
@@ -377,7 +414,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   // ── 保存配置 ──
   root.onMessage('save_config', function(self, msg) {
     if (player.getServer() === null) return
-    player.displayClientMessage(Component.literal('§b[服务端] save_config 到达'), false)
     try {
       var lvl = player.getServer().getLevel(level.getDimension())
       if (!lvl) return
@@ -414,8 +450,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pd.putFloat('pitch', isNaN(pitch) ? 0 : pitch)
       pd.putString('deployNBT', nbtRaw || '{}')
       b.entity.setChanged()
-
-      player.displayClientMessage(Component.literal('§a[部署台] ✔ 配置已保存！'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 保存失败: ' + e), false)
     }
@@ -441,7 +475,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pd.putFloat('pitch', 0.0)
       pd.putString('deployNBT', '{}')
       b.entity.setChanged()
-      player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 重置失败: ' + e), false)
     }
@@ -470,8 +503,41 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     }
   })
 
-  // 构建 ModularUI
+  // ========== 构建 ModularUI ==========
   event.modularUI = ModularUI.of(UI.of(root), player)
+
+  // ═══════════════════════════════════════════════════════════
+  //  统一注册所有 S2C 绑定（必须等 ModularUI.of 之后执行）
+  // ═══════════════════════════════════════════════════════════
+  var syncMgr = event.modularUI.syncManager
+  for (var qi = 0; qi < s2cQueue.length; qi++) {
+    var item = s2cQueue[qi]
+    ;(function(field, getter, name) {
+      try {
+        var binding = $DataBindingBuilder.stringS2C(getter)
+          .s2cStrategy($SyncStrategy.CHANGED_PERIODIC)
+          .name('s2c_' + name)
+          .build()
+        field.bind(binding)
+        syncMgr.registerSyncValue(binding.getSyncValue())
+
+        var fired = false
+        field.registerValueListener(function(val) {
+          if (!fired) {
+            fired = true
+            try {
+              field.setText(String(val))
+              binding.getSyncValue().setSyncStrategy($SyncStrategy.NONE)
+            } catch (e) {
+              console.log('[SBW部署台] S2C 更新异常 ' + name + ': ' + e)
+            }
+          }
+        })
+      } catch (e) {
+        console.log('[SBW部署台] S2C 绑定异常 ' + name + ': ' + e)
+      }
+    })(item.field, item.getter, item.name)
+  }
 })
 
 // ══════════════════════════════════════════════════════════════
