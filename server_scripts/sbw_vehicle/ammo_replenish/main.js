@@ -68,18 +68,6 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
   }
 
   try {
-    let cfg = readBlockConfig(block)
-    // 读取作弊模式状态，传给 GUI 控制按钮显隐
-    let cheatMode = block.entity.persistentData.CheatMode === true
-
-    let cacheData = JSON.stringify({
-      pos: { x: pos.getX(), y: pos.getY(), z: pos.getZ() },
-      dim: event.level.getDimension().toString(),
-      config: cfg,
-      cheatMode: cheatMode
-    })
-    global.ammoStationGuiCache.put(player.uuid, cacheData)
-
     LDLib2UIFactory.openBlockUI(player, pos, 'kubejs:ammo_station_cfg')
   } catch (e) {
     console.log($LOG_PREFIX + ' GUI打开失败: ' + e)

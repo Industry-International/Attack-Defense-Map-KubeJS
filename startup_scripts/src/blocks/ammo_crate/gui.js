@@ -1,52 +1,25 @@
 // ============================================================
-// 弹药补给站 - LDLib2 配置GUI（分页优化版）
-//
-// 优化说明：
-//   1. 根容器固定宽度，所有元素受约束，不会满屏乱飞
-//   2. 使用 TabView 分页，每页元素精简不拥挤
-//   3. 标题居中置顶
-//   4. 保存/重置按钮 + 玩家物品栏在所有页面下方共享
+// 弹药补给站 - LDLib2 配置GUI（Message 网络同步版）
+// ★ 调试版：大量聊天栏日志，用于排查专有服交互问题
+// ★ 已修复 $CompoundTag 未定义的问题
 // ============================================================
 
-var $HashMap = Java.loadClass('java.util.HashMap')
-global.ammoStationGuiCache = new $HashMap()
-var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
-var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
-// 用枚举值设置 C2S 通道
-var fieldVals = {}
-function bindField(field, name) {
-  fieldVals[name] = field.getText()
-  try {
-    var binding = $DataBindingBuilder.string(
-      function() { return field.getText() },
-      function(val) { fieldVals[name] = val }
-    ).s2cStrategy($SyncStrategy.NONE).c2sStrategy($SyncStrategy.ALWAYS).name(name).build()
-    field.bind(binding)
-  } catch (e) {
-    console.log('[弹药补给站] 绑定失败(' + name + '): ' + e)
-  }
-}
+// startup_scripts 作用域独立，需要自己加载 Java 类
+var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 
-// ★ 注意：这些列表必须与 data/sbw_vehicle_db/_ammo_types.json 保持同步
-//   key 对应 _ammo_types.json 中的弹药短名
-//   label 对应其中的 displayName（需手动同步）
 const GUI_AMMO_TYPES = [
-  // ── 大口径炮弹 ──
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },
   { key: 'large_shell_he',  label: '§c大口径HE',  default: 64 },
   { key: 'large_shell_gs',  label: '§a大口径葡萄', default: 64 },
   { key: 'mortar_shell',    label: '§6迫击炮弹',   default: 32 },
-  // ── 小口径机炮弹 ──
   { key: 'small_shell_ap',  label: '§b小口径AP',  default: 64 },
   { key: 'small_shell_he',  label: '§d小口径HE',  default: 64 },
   { key: 'small_shell_gs',  label: '§a小口径葡萄', default: 64 },
   { key: 'small_shell_aa',  label: '§b防空弹',    default: 64 },
-  // ── 枪弹/火箭弹 ──
   { key: 'rifle_ammo',      label: '§7步枪弹',    default: 192 },
   { key: 'heavy_ammo',      label: '§9重弹',      default: 128 },
   { key: 'small_rocket',    label: '§e小型火箭',   default: 32 },
   { key: 'rocket',          label: '§e火箭弹',     default: 16 },
-  // ── 导弹/航弹 ──
   { key: 'missile',         label: '§a导弹',       default: 8 },
   { key: 'medium_anti_ground_missile', label: '§a中型对地导弹', default: 8 },
   { key: 'large_anti_ground_missile',  label: '§a大型对地导弹', default: 8 },
@@ -55,7 +28,6 @@ const GUI_AMMO_TYPES = [
   { key: 'small_aerial_bomb',   label: '§c小型航弹', default: 8 }
 ]
 
-// MCSP 附属 - 坦克炮/导弹类
 const MCSP_AMMO_TYPES1 = [
   { key: 'mcsp_125mm_ap',           label: '§6125mm穿甲', default: 32 },
   { key: 'mcsp_125mm_he',           label: '§c125mm高爆', default: 32 },
@@ -64,7 +36,6 @@ const MCSP_AMMO_TYPES1 = [
   { key: 'mcsp_mlrs_shells',        label: '§eMLRS火箭',  default: 32 }
 ]
 
-// MCSP 附属 - 机关炮/机枪类
 const MCSP_AMMO_TYPES2 = [
   { key: 'mcsp_25mm_ap',            label: '§b25mm机炮',   default: 128 },
   { key: 'mcsp_30mm_ap',            label: '§d30mm机炮',   default: 128 },
@@ -74,147 +45,132 @@ const MCSP_AMMO_TYPES2 = [
   { key: 'mcsp_smallarmscartridge', label: '§7小口径弹药', default: 256 }
 ]
 
+// 工具函数：将配置对象转为 CompoundTag
+function cfgToTag(cfg) {
+  var tag = new $CompoundTag()
+  tag.putInt('scanRange', ~~(cfg.scanRange || 0))
+  tag.putInt('cooldown', ~~(cfg.cooldown || 0))
+  tag.putInt('enterDelay', ~~(cfg.enterDelay || 3))
+  var slots = cfg.slots || {}
+  var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
+  for (var i = 0; i < allTypes.length; i++) {
+    var key = allTypes[i].key
+    var val = slots[key] !== undefined ? slots[key] : allTypes[i].default
+    tag.putInt('slot_' + key, ~~val)
+  }
+  return tag
+}
+
+function tagToCfg(tag) {
+  var cfg = {
+    scanRange: tag.getInt('scanRange'),
+    cooldown: tag.getInt('cooldown'),
+    enterDelay: tag.getInt('enterDelay'),
+    slots: {}
+  }
+  var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
+  for (var i = 0; i < allTypes.length; i++) {
+    var key = allTypes[i].key
+    cfg.slots[key] = tag.getInt('slot_' + key)
+  }
+  return cfg
+}
+
 // ========== LDLib2 UI 注册 ==========
 
 LDLib2UI.block('kubejs:ammo_station_cfg', event => {
-  let player = event.player
-  let uuid = player.uuid
+  var player = event.player
+  var level = event.level
+  var pos = event.pos
 
-  var cacheData = null
+  // 调试：打印 UI 构建时的端和坐标
+  player.displayClientMessage(Component.literal('§8[DEBUG] UI 构建开始, isClientSide=' + player.level.isClientSide() + ', pos=' + pos.toShortString()), false)
+
+  // ★ 直接从方块 NBT 读取配置
+  var savedCfg = null
   try {
-    var raw = global.ammoStationGuiCache.get(uuid)
-    if (raw) cacheData = JSON.parse(raw)
-  } catch (e) { }
+    var block = level.getBlock(pos.getX(), pos.getY(), pos.getZ())
+    if (block && block.entity) {
+      var raw = block.entity.persistentData.getString('StationConfig')
+      if (raw) {
+        savedCfg = JSON.parse(raw)
+        player.displayClientMessage(Component.literal('§a[DEBUG] 成功读取 StationConfig: scanRange=' + savedCfg.scanRange + ', cooldown=' + savedCfg.cooldown), false)
+      }
+    }
+  } catch (e) {
+    player.displayClientMessage(Component.literal('§c[DEBUG] 读取方块NBT失败: ' + e), false)
+  }
 
-  if (!cacheData) {
-    cacheData = {
-      pos: { x: 0, y: 0, z: 0 },
-      dim: 'minecraft:overworld',
-      config: { scanRange: 12, cooldown: 5, enterDelay: 3, slots: {
-        large_shell_ap: 64, large_shell_he: 64, large_shell_gs: 64,
-        small_shell_ap: 64, small_shell_he: 64, small_shell_gs: 64, small_shell_aa: 64,
-        rifle_ammo: 192, heavy_ammo: 128, small_rocket: 32,
-        missile: 8, rocket: 16,
-        medium_anti_ground_missile: 8, large_anti_ground_missile: 8,
-        medium_anti_air_missile: 8,
-        mortar_shell: 32, medium_aerial_bomb: 8, small_aerial_bomb: 8,
-        mcsp_25mm_ap: 128, mcsp_30mm_ap: 128,
-        mcsp_40mm_explosive: 64, mcsp_40mm_smoke: 32,
-        mcsp_120mm_bulletmortar: 32,
-        mcsp_125mm_ap: 32, mcsp_125mm_he: 32,
-        mcsp_bullet762: 256, mcsp_smallarmscartridge: 256,
-        mcsp_tow_2: 16, mcsp_mlrs_shells: 32
-      }}
+  function readCfgVal(key, fallback) {
+    if (savedCfg && savedCfg[key] !== undefined && savedCfg[key] !== null) return String(savedCfg[key])
+    return String(fallback)
+  }
+  function readSlotVal(key, fallback) {
+    if (savedCfg && savedCfg.slots && savedCfg.slots[key] !== undefined) return String(savedCfg.slots[key])
+    return String(fallback)
+  }
+
+  var fieldScanRange = new TextField().setNumbersOnlyInt(0, 999999).setText(readCfgVal('scanRange', 0))
+  fieldScanRange.lss('width', 55)
+  var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999).setText(readCfgVal('cooldown', 0))
+  fieldCooldown.lss('width', 55)
+  var fieldEnterDelay = new TextField().setNumbersOnlyInt(1, 999999).setText(readCfgVal('enterDelay', 0))
+  fieldEnterDelay.lss('width', 55)
+
+  var slotFields = {}
+  function initSlotFields() {
+    var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
+    for (var i = 0; i < allTypes.length; i++) {
+      var at = allTypes[i]
+      var field = new TextField().setNumbersOnlyInt(0, 999999).setText(readSlotVal(at.key, 0))
+      field.lss('width', 55)
+      slotFields[at.key] = field
     }
   }
+  initSlotFields()
 
-  var cfg = cacheData.config
-  // 作弊模式状态（控制手动补给按钮显隐）
-  var cheatMode = cacheData.cheatMode === true
-
-  // ──── 创建所有共享的输入字段 ────
-
-  // 基础参数字段
-  var fieldScanRange = new TextField().setNumbersOnlyInt(0, 999999).setText(String(cfg.scanRange))
-  fieldScanRange.lss('width', 55)
-  bindField(fieldScanRange, 'sr')
-  var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999).setText(String(cfg.cooldown))
-  fieldCooldown.lss('width', 55)
-  bindField(fieldCooldown, 'cd')
-  var fieldEnterDelay = new TextField().setNumbersOnlyInt(1, 999999).setText(String(cfg.enterDelay || 3))
-  fieldEnterDelay.lss('width', 55)
-  bindField(fieldEnterDelay, 'ed')
-
-  // 弹药字段（每个弹药类型一个输入框）
-  var slotFields = {}
-  for (var si = 0; si < GUI_AMMO_TYPES.length; si++) {
-    var at = GUI_AMMO_TYPES[si]
-    var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
-    var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
-    field.lss('width', 55)
-    bindField(field, at.key)
-    slotFields[at.key] = field
-  }
-  // MCSP 弹药字段
-  for (var si = 0; si < MCSP_AMMO_TYPES1.length; si++) {
-    var at = MCSP_AMMO_TYPES1[si]
-    var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
-    var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
-    field.lss('width', 55)
-    bindField(field, at.key)
-    slotFields[at.key] = field
-  }
-  for (var si = 0; si < MCSP_AMMO_TYPES2.length; si++) {
-    var at = MCSP_AMMO_TYPES2[si]
-    var val = cfg.slots && cfg.slots[at.key] !== undefined ? cfg.slots[at.key] : at.default
-    var field = new TextField().setNumbersOnlyInt(0, 999999).setText(String(val))
-    field.lss('width', 55)
-    bindField(field, at.key)
-    slotFields[at.key] = field
-  }
-
-  // ================================================================
-  //  根容器：固定宽度，所有子元素受其约束
-  // ================================================================
   var root = new UIElement()
   root.lss('width', 270)
   root.lss('padding', 6)
 
-  // ──── 标题（居中置顶） ────
   var titleLabel = new Label().setText(Component.literal('§6╔══ 弹药补给站配置 ══╗'))
   titleLabel.lss('width', '100%')
   titleLabel.textStyle(function(style) { style.textAlignHorizontal('center') })
   root.addChild(titleLabel)
 
-  // ──── 分隔线（占满容器宽度） ────
   root.addChild(makeSeparator())
 
-  // ================================================================
-  //  分页：TabView
-  // ================================================================
   var tabView = new TabView()
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第1页：基础设置（扫描范围 + 冷却时间 + 驶入等待）
-  // ═══════════════════════════════════════════════════════════════
+  // 第1页：基础设置
   var page1 = new UIElement()
   page1.lss('padding', 4)
-
   var srRow = new UIElement()
   srRow.addChild(new Label().setText(Component.literal('§7扫描范围:')))
   srRow.addChild(fieldScanRange)
   srRow.addChild(new Label().setText(Component.literal(' §7格')))
   page1.addChild(srRow)
-
-  page1.addChild(new Label().setText(Component.literal(' '))) // 间距
-
+  page1.addChild(new Label().setText(Component.literal(' ')))
   var cdRow = new UIElement()
   cdRow.addChild(new Label().setText(Component.literal('§7冷却时间:')))
   cdRow.addChild(fieldCooldown)
   cdRow.addChild(new Label().setText(Component.literal(' §7秒')))
   page1.addChild(cdRow)
-
-  page1.addChild(new Label().setText(Component.literal(' '))) // 间距
-
+  page1.addChild(new Label().setText(Component.literal(' ')))
   var edRow = new UIElement()
   edRow.addChild(new Label().setText(Component.literal('§7驶入等待:')))
   edRow.addChild(fieldEnterDelay)
   edRow.addChild(new Label().setText(Component.literal(' §7秒')))
   page1.addChild(edRow)
-
-  page1.addChild(new Label().setText(Component.literal(' '))) // 间距
+  page1.addChild(new Label().setText(Component.literal(' ')))
   page1.addChild(new Label().setText(Component.literal('§8← 切换标签页配置弹药')))
-
   var tab1 = new Tab()
   tab1.setText('基础')
   tabView.addTab(tab1, page1)
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第2页：弹药配置 — 大口径炮弹
-  // ═══════════════════════════════════════════════════════════════
+  // 第2页：大口径炮弹
   var page2 = new UIElement()
   page2.lss('padding', 4)
-
   page2.addChild(new Label().setText(Component.literal('§e── 大口径炮弹 ──')))
   for (var pi = 0; pi < 4; pi++) {
     var at = GUI_AMMO_TYPES[pi]
@@ -224,17 +180,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     row.addChild(new Label().setText(Component.literal(' 个')))
     page2.addChild(row)
   }
-
   var tab2 = new Tab()
   tab2.setText('炮弹')
   tabView.addTab(tab2, page2)
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第3页：弹药配置 — 小口径机炮弹
-  // ═══════════════════════════════════════════════════════════════
+  // 第3页：小口径机炮弹
   var page3 = new UIElement()
   page3.lss('padding', 4)
-
   page3.addChild(new Label().setText(Component.literal('§e── 小口径机炮弹 ──')))
   for (var pi = 4; pi < 8; pi++) {
     var at = GUI_AMMO_TYPES[pi]
@@ -244,17 +196,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     row.addChild(new Label().setText(Component.literal(' 个')))
     page3.addChild(row)
   }
-
   var tab3 = new Tab()
   tab3.setText('小口径')
   tabView.addTab(tab3, page3)
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第4页：弹药配置 — 枪弹/火箭弹
-  // ═══════════════════════════════════════════════════════════════
+  // 第4页：枪弹/火箭弹
   var page4guns = new UIElement()
   page4guns.lss('padding', 4)
-
   page4guns.addChild(new Label().setText(Component.literal('§e── 枪弹/火箭弹 ──')))
   for (var pi = 8; pi < 12; pi++) {
     var at = GUI_AMMO_TYPES[pi]
@@ -264,17 +212,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     row.addChild(new Label().setText(Component.literal(' 个')))
     page4guns.addChild(row)
   }
-
   var tab4guns = new Tab()
   tab4guns.setText('枪/火箭')
   tabView.addTab(tab4guns, page4guns)
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第5页：弹药配置 — 导弹/航弹
-  // ═══════════════════════════════════════════════════════════════
+  // 第5页：导弹/航弹
   var page5miss = new UIElement()
   page5miss.lss('padding', 4)
-
   page5miss.addChild(new Label().setText(Component.literal('§e── 导弹/航弹 ──')))
   for (var pi = 12; pi < GUI_AMMO_TYPES.length; pi++) {
     var at = GUI_AMMO_TYPES[pi]
@@ -284,17 +228,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     row.addChild(new Label().setText(Component.literal(' 个')))
     page5miss.addChild(row)
   }
-
   var tab5miss = new Tab()
   tab5miss.setText('导弹/航弹')
   tabView.addTab(tab5miss, page5miss)
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第6页：MCSP附属 — 坦克炮/导弹（125mm/120mm/TOW/MLRS）
-  // ═══════════════════════════════════════════════════════════════
+  // 第6页：MCSP坦克炮/导弹
   var page5 = new UIElement()
   page5.lss('padding', 4)
-
   page5.addChild(new Label().setText(Component.literal('§e── 坦克炮/导弹 ──')))
   for (var pi = 0; pi < MCSP_AMMO_TYPES1.length; pi++) {
     var at = MCSP_AMMO_TYPES1[pi]
@@ -304,17 +244,13 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     row.addChild(new Label().setText(Component.literal(' 个')))
     page5.addChild(row)
   }
-
   var tab5 = new Tab()
   tab5.setText('§aMCSP(上)')
   tabView.addTab(tab5, page5)
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第7页：MCSP附属 — 机关炮/机枪（25mm/30mm/40mm/机枪）
-  // ═══════════════════════════════════════════════════════════════
+  // 第7页：MCSP机关炮/机枪
   var page6 = new UIElement()
   page6.lss('padding', 4)
-
   page6.addChild(new Label().setText(Component.literal('§e── 机关炮/机枪 ──')))
   for (var pi = 0; pi < MCSP_AMMO_TYPES2.length; pi++) {
     var at = MCSP_AMMO_TYPES2[pi]
@@ -324,170 +260,125 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     row.addChild(new Label().setText(Component.literal(' 个')))
     page6.addChild(row)
   }
-
   var tab6 = new Tab()
   tab6.setText('§aMCSP(下)')
   tabView.addTab(tab6, page6)
 
-  // ═══════════════════════════════════════════════════════════════
-  //  第8页：作弊功能 — 非OP完全无法交互
-  // ═══════════════════════════════════════════════════════════════
-
+  // 第8页：作弊
   var page4 = new UIElement()
   page4.lss('padding', 4)
-
-  // 检查玩家 OP 权限（UI 构建时在服务端执行）
   var isOP = player.hasPermissions(2)
-
   if (!isOP) {
-    // 非 OP → 只显示"无权限"消息，不渲染任何按钮
     page4.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
     page4.addChild(new Label().setText(Component.literal(' ')))
     page4.addChild(new Label().setText(Component.literal('§c你没有权限使用作弊功能')))
   } else {
-    // OP → 显示完整作弊页
     page4.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
-    page4.addChild(new Label().setText(Component.literal(' '))) // 间距
-
-    // 切换作弊模式按钮
+    page4.addChild(new Label().setText(Component.literal(' ')))
     var btnToggleCheat = new Button()
     btnToggleCheat.setText(Component.literal('§6⇄ 切换作弊模式'))
     btnToggleCheat.lss('padding', '3 10')
     btnToggleCheat.setOnServerClick(function(clickEvent) {
       var server = player.getServer()
       if (!server) return
-      var puuid = player.uuid
-      var raw = global.ammoStationGuiCache.get(puuid)
-      if (!raw) { player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false); return }
       try {
-        var data = JSON.parse(raw)
-        var level = server.getLevel(data.dim || 'minecraft:overworld')
-        if (!level) return
-        var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-        if (!block || block.getId() === 'minecraft:air') return
-        var current = block.entity.persistentData.CheatMode === true
-        block.entity.persistentData.putBoolean('CheatMode', !current)
-        block.entity.setChanged()
+        var lvl = server.getLevel(level.getDimension())
+        if (!lvl) return
+        var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
+        if (!b || !b.entity) return
+        var current = b.entity.persistentData.CheatMode === true
+        b.entity.persistentData.putBoolean('CheatMode', !current)
+        b.entity.setChanged()
         player.displayClientMessage(Component.literal('§6[弹药补给站] ' + (!current ? '§c作弊模式已开启' : '§a作弊模式已关闭')), false)
       } catch (e) {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 切换失败: ' + e), false)
       }
     })
     page4.addChild(btnToggleCheat)
-
-    // 状态指示
-    var statusLabel = new Label().setText(Component.literal(cheatMode ? '§a✔ 作弊模式已开启' : '§7作弊模式已关闭'))
+    var statusLabel = new Label().setText(Component.literal('§7作弊模式已关闭'))
     page4.addChild(statusLabel)
-
-    // 手动触发扫描补给按钮（仅作弊模式开启时显示）
-    if (cheatMode) {
-      page4.addChild(new Label().setText(Component.literal(' '))) // 间距
-
-      var btnManualTrigger = new Button()
-      btnManualTrigger.setText(Component.literal('§4⚡ 立即扫描补给'))
-      btnManualTrigger.lss('padding', '4 12')
-      btnManualTrigger.setOnServerClick(function(clickEvent) {
-        var server = player.getServer()
-        if (!server) return
-        var puuid = player.uuid
-        var raw = global.ammoStationGuiCache.get(puuid)
-        if (!raw) {
-          player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false)
-          return
-        }
-        try {
-          var data = JSON.parse(raw)
-          var level = server.getLevel(data.dim || 'minecraft:overworld')
-          if (!level) {
-            player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取维度'), false)
-            return
-          }
-          var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-          if (!block || block.getId() === 'minecraft:air') {
-            player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
-            return
-          }
-          // 写入 PendingReplenish 标记，由 server 侧的 blockEntityTick 执行
-          block.entity.persistentData.putBoolean('PendingReplenish', true)
-          block.entity.setChanged()
-          player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
-        } catch (e) {
-          player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false)
-        }
-      })
-      page4.addChild(btnManualTrigger)
-    }
+    var btnManualTrigger = new Button()
+    btnManualTrigger.setText(Component.literal('§4⚡ 立即扫描补给'))
+    btnManualTrigger.lss('padding', '4 12')
+    btnManualTrigger.setOnServerClick(function(clickEvent) {
+      var server = player.getServer()
+      if (!server) return
+      try {
+        var lvl = server.getLevel(level.getDimension())
+        if (!lvl) return
+        var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
+        if (!b || !b.entity) return
+        b.entity.persistentData.putBoolean('PendingReplenish', true)
+        b.entity.setChanged()
+        player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
+      } catch (e) { player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false) }
+    })
+    page4.addChild(btnManualTrigger)
   }
-
   var tab4 = new Tab()
   tab4.setText('§c作弊')
   tabView.addTab(tab4, page4)
 
   root.addChild(tabView)
-
-  // ──── 分隔线（占满容器宽度） ────
   root.addChild(makeSeparator())
 
-  // ================================================================
-  //  共享底部：按钮行 + 玩家物品栏
-  // ================================================================
-
-  // ──── 按钮行 ────
+  // ──── 底部按钮 ────
   var btnRow = new UIElement()
 
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存配置'))
   btnSave.lss('padding', '3 10')
-  btnSave.setOnServerClick(function(clickEvent) {
-    var server = player.getServer()
-    if (!server) return
-    var puuid = player.uuid
-    var raw = global.ammoStationGuiCache.get(puuid)
-    if (!raw) {
-      player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效，请重新打开GUI'), false)
-      return
-    }
+  // ★ 细粒度调试：保存按钮点击
+  btnSave.setOnClick(function(clickEvent) {
     try {
-      var data = JSON.parse(raw)
-      var level = server.getLevel(data.dim || 'minecraft:overworld')
-      if (!level) {
-        player.displayClientMessage(Component.literal('§c[弹药补给站] 无法获取维度'), false)
-        return
+      player.displayClientMessage(Component.literal('§e[客户端] 保存按钮被点击'), false);
+
+      // ---- 1. 读取字段 ----
+      player.displayClientMessage(Component.literal('§7[1/6] 开始读取字段...'), false);
+      var sr = safeParseField(null, fieldScanRange);
+      player.displayClientMessage(Component.literal('§7   scanRange=' + sr), false);
+      var cd = safeParseField(null, fieldCooldown);
+      player.displayClientMessage(Component.literal('§7   cooldown=' + cd), false);
+      var ed = safeParseField(null, fieldEnterDelay);
+      player.displayClientMessage(Component.literal('§7   enterDelay=' + ed), false);
+
+      // ---- 2. 创建 CompoundTag ----
+      player.displayClientMessage(Component.literal('§7[2/6] 创建 CompoundTag...'), false);
+      var tag = new $CompoundTag();
+      tag.putInt('scanRange', ~~sr);
+      tag.putInt('cooldown', ~~cd);
+      tag.putInt('enterDelay', ~~ed);
+
+      // ---- 3. 循环添加 slot 值 ----
+      player.displayClientMessage(Component.literal('§7[3/6] 添加弹药槽位...'), false);
+      var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2);
+      for (var i = 0; i < allTypes.length; i++) {
+        var ak = allTypes[i].key;
+        var field = slotFields[ak];
+        if (!field) {
+          player.displayClientMessage(Component.literal('§c[错误] slotFields 中没有 ' + ak), false);
+          continue;
+        }
+        var amt = safeParseField(null, field);
+        if (amt > 0) {
+          tag.putInt('slot_' + ak, ~~amt);
+        }
       }
-      var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-      if (!block || block.getId() === 'minecraft:air') {
-        player.displayClientMessage(Component.literal('§c[弹药补给站] 方块已不存在'), false)
-        return
-      }
-      // 从 fieldVals（C2S 同步值）读取，fallback 到 field.getText()
-      var newCfg = {
-        scanRange: safeParseField(fieldVals['sr'], fieldScanRange),
-        cooldown: safeParseField(fieldVals['cd'], fieldCooldown),
-        enterDelay: safeParseField(fieldVals['ed'], fieldEnterDelay),
-        slots: {}
-      }
-      for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
-        var ak = GUI_AMMO_TYPES[fi].key
-        var amt = safeParseField(fieldVals[ak], slotFields[ak])
-        if (amt > 0) newCfg.slots[ak] = amt
-      }
-      for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
-        var ak = MCSP_AMMO_TYPES1[fi].key
-        var amt = safeParseField(fieldVals[ak], slotFields[ak])
-        if (amt > 0) newCfg.slots[ak] = amt
-      }
-      for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
-        var ak = MCSP_AMMO_TYPES2[fi].key
-        var amt = safeParseField(fieldVals[ak], slotFields[ak])
-        if (amt > 0) newCfg.slots[ak] = amt
-      }
-      console.log('[弹药补给站] 保存 fieldVals=' + JSON.stringify(fieldVals) + ' newCfg=' + JSON.stringify(newCfg))
-      block.entity.persistentData.putString('StationConfig', JSON.stringify(newCfg))
-      block.entity.persistentData.putLong('CooldownEnd', 0)
-      block.entity.setChanged()
-      player.displayClientMessage(Component.literal('§a✔ 配置已保存！冷却已重置'), false)
+      player.displayClientMessage(Component.literal('§7   slot 添加完毕'), false);
+
+      // ---- 4. 打包完成 ----
+      player.displayClientMessage(Component.literal('§e[客户端] 打包完成，即将发送 save_config'), false);
+
+      // ---- 5. 发送消息 ----
+      player.displayClientMessage(Component.literal('§7[5/6] 调用 root.sendMessage...'), false);
+      root.sendMessage('save_config', tag);
+
+      // ---- 6. 发送成功 ----
+      player.displayClientMessage(Component.literal('§e[客户端] save_config 消息已发送'), false);
+
     } catch (e) {
-      player.displayClientMessage(Component.literal('§c[弹药补给站] 保存失败: ' + e), false)
+      player.displayClientMessage(Component.literal('§c[客户端] 保存过程异常: ' + e), false);
+      if (e.message) player.displayClientMessage(Component.literal('§c  详情: ' + e.message), false);
     }
   })
   btnRow.addChild(btnSave)
@@ -495,115 +386,178 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var btnReset = new Button()
   btnReset.setText(Component.literal('§e↻ 重置默认'))
   btnReset.lss('padding', '3 10')
-  btnReset.setOnServerClick(function(clickEvent) {
-    var server = player.getServer()
-    if (!server) return
-    var puuid = player.uuid
-    var raw = global.ammoStationGuiCache.get(puuid)
-    if (!raw) {
-      player.displayClientMessage(Component.literal('§c[弹药补给站] 缓存失效'), false)
-      return
-    }
-    try {
-      var data = JSON.parse(raw)
-      var level = server.getLevel(data.dim || 'minecraft:overworld')
-      if (!level) return
-      var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-      if (!block || block.getId() === 'minecraft:air') return
-      // 清除 StationConfig，服务器下次读取时自动返回默认值
-      block.entity.persistentData.remove('StationConfig')
-      block.entity.persistentData.putLong('CooldownEnd', 0)
-      block.entity.setChanged()
-      player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置'), false)
-    } catch (e) {
-      player.displayClientMessage(Component.literal('§c[弹药补给站] 重置失败: ' + e), false)
-    }
+  btnReset.setOnClick(function(clickEvent) {
+    player.displayClientMessage(Component.literal('§e[客户端] 重置按钮被点击'), false)
+    var tag = new $CompoundTag()
+    root.sendMessage('reset_config', tag)
+    player.displayClientMessage(Component.literal('§e[客户端] reset_config 消息已发送'), false)
   })
   btnRow.addChild(btnReset)
 
   root.addChild(btnRow)
-
-  // ═══════════════════════════════════════════════════════════════
-  //  命令复制区 — 纯客户端，绕过 C2S DataBinding
-  // ═══════════════════════════════════════════════════════════════
   root.addChild(makeSeparator())
 
-  // 命令预览 TextField（可选中文本手动 Ctrl+C 复制）
+  // 命令复制区
   var cmdField = new TextField()
   cmdField.setAnyString()
-  cmdField.setText('§7点击下方按钮生成命令')
+  cmdField.setText('§7点下方按钮生成命令')
   cmdField.lss('width', '100%')
-
   root.addChild(cmdField)
 
   var cmdCopyBtn = new Button()
   cmdCopyBtn.setText(Component.literal('§6⚡ 生成命令'))
   cmdCopyBtn.lss('padding', '3 10')
-  // ★ 使用 setOnClick（纯客户端），不涉及 C2S
   cmdCopyBtn.setOnClick(function(clickEvent) {
-    // 从所有 TextField 读取当前值（纯客户端操作）
-    var sr = safeParseField(fieldVals['sr'], fieldScanRange)
-    var cd = safeParseField(fieldVals['cd'], fieldCooldown)
-    var ed = safeParseField(fieldVals['ed'], fieldEnterDelay)
-
-    // 构建 StationConfig JSON
+    var sr = safeParseField(null, fieldScanRange)
+    var cd = safeParseField(null, fieldCooldown)
+    var ed = safeParseField(null, fieldEnterDelay)
     var slotsJson = {}
-    for (var fi = 0; fi < GUI_AMMO_TYPES.length; fi++) {
-      var ak = GUI_AMMO_TYPES[fi].key
-      var amt = safeParseField(fieldVals[ak], slotFields[ak])
+    var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
+    for (var i = 0; i < allTypes.length; i++) {
+      var ak = allTypes[i].key
+      var amt = safeParseField(null, slotFields[ak])
       if (amt > 0) slotsJson[ak] = amt
     }
-    for (var fi = 0; fi < MCSP_AMMO_TYPES1.length; fi++) {
-      var ak = MCSP_AMMO_TYPES1[fi].key
-      var amt = safeParseField(fieldVals[ak], slotFields[ak])
-      if (amt > 0) slotsJson[ak] = amt
-    }
-    for (var fi = 0; fi < MCSP_AMMO_TYPES2.length; fi++) {
-      var ak = MCSP_AMMO_TYPES2[fi].key
-      var amt = safeParseField(fieldVals[ak], slotFields[ak])
-      if (amt > 0) slotsJson[ak] = amt
-    }
-
     var configObj = { scanRange: sr, cooldown: cd, enterDelay: ed, slots: slotsJson }
-    var configJsonStr = JSON.stringify(configObj)
-    // 转义 SNBT 字符串中的双引号和反斜杠
-    var escapedJson = configJsonStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
-
-    // 获取方块坐标（优先 event.pos，回退 cacheData）
-    var bx = 0, by = 0, bz = 0
-    try {
-      if (event && event.pos) {
-        bx = event.pos.getX()
-        by = event.pos.getY()
-        bz = event.pos.getZ()
-      } else if (cacheData && cacheData.pos) {
-        bx = cacheData.pos.x
-        by = cacheData.pos.y
-        bz = cacheData.pos.z
-      }
-    } catch (e) {}
-
+    var escapedJson = JSON.stringify(configObj).replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+    var bx = pos.getX(), by = pos.getY(), bz = pos.getZ()
     var cmd = '/data merge block ' + bx + ' ' + by + ' ' + bz +
       ' {StationConfig:"' + escapedJson + '"}'
-
-    // 更新 TextField 内容，并全选文本方便玩家直接 Ctrl+C
     cmdField.setText(cmd)
     try { cmdField.setSelection(0, cmd.length) } catch (e) {}
   })
   root.addChild(cmdCopyBtn)
-
   root.addChild(new Label().setText(Component.literal('§7点按钮 → 全选 → Ctrl+C → 聊天栏粘贴执行')))
 
-  // ──── 玩家物品栏 ────
   root.addChild(new InventorySlots())
 
-  // 构建 ModularUI
+  // ═══════════════════════════════════════════════════════════════
+  //  Message 系统：网络同步
+  // ═══════════════════════════════════════════════════════════════
+
+  root.onMessage('save_config', function(self, msg) {
+    player.displayClientMessage(Component.literal('§b[服务端] save_config 消息到达, isServer=' + (player.getServer() !== null)), false)
+    if (player.getServer() === null) {
+      player.displayClientMessage(Component.literal('§c[服务端] 错误：当前不是服务端！'), false)
+      return
+    }
+    player.displayClientMessage(Component.literal('§b[服务端] 收到配置: scanRange=' + msg.getInt('scanRange') + ', cooldown=' + msg.getInt('cooldown') + ', enterDelay=' + msg.getInt('enterDelay')), false)
+    try {
+      var dimension = level.getDimension()
+      player.displayClientMessage(Component.literal('§b[服务端] 维度: ' + dimension), false)
+      var lvl = player.getServer().getLevel(dimension)
+      if (!lvl) {
+        player.displayClientMessage(Component.literal('§c[服务端] 错误：getLevel 返回 null'), false)
+        return
+      }
+      var bx = pos.getX(), by = pos.getY(), bz = pos.getZ()
+      player.displayClientMessage(Component.literal('§b[服务端] 目标方块坐标: ' + bx + ', ' + by + ', ' + bz), false)
+      var b = lvl.getBlock(bx, by, bz)
+      if (!b) {
+        player.displayClientMessage(Component.literal('§c[服务端] 错误：getBlock 返回 null'), false)
+        return
+      }
+      if (!b.entity) {
+        player.displayClientMessage(Component.literal('§c[服务端] 错误：方块实体不存在'), false)
+        return
+      }
+      player.displayClientMessage(Component.literal('§b[服务端] 方块实体存在，准备写入'), false)
+      var newCfg = {
+        scanRange: msg.getInt('scanRange'),
+        cooldown: msg.getInt('cooldown'),
+        enterDelay: msg.getInt('enterDelay'),
+        slots: {}
+      }
+      var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
+      for (var i = 0; i < allTypes.length; i++) {
+        var ak = allTypes[i].key
+        if (msg.contains('slot_' + ak)) {
+          newCfg.slots[ak] = msg.getInt('slot_' + ak)
+        }
+      }
+      var jsonStr = JSON.stringify(newCfg)
+      player.displayClientMessage(Component.literal('§b[服务端] 写入 JSON: ' + jsonStr.substring(0, 100) + '...'), false)
+      b.entity.persistentData.putString('StationConfig', jsonStr)
+      b.entity.persistentData.putLong('CooldownEnd', 0)
+      b.entity.setChanged()
+      player.displayClientMessage(Component.literal('§a[服务端] ✔ 配置写入成功！'), false)
+
+      // 验证读取
+      var readBack = b.entity.persistentData.getString('StationConfig')
+      player.displayClientMessage(Component.literal('§b[服务端] 回读验证: ' + (readBack ? '有数据' : '空')), false)
+    } catch (e) {
+      player.displayClientMessage(Component.literal('§c[服务端] 保存异常: ' + e), false)
+    }
+  })
+
+  root.onMessage('reset_config', function(self, msg) {
+    player.displayClientMessage(Component.literal('§b[服务端] reset_config 到达, isServer=' + (player.getServer() !== null)), false)
+    if (player.getServer() === null) return
+    try {
+      var lvl = player.getServer().getLevel(level.getDimension())
+      if (!lvl) return
+      var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
+      if (!b || !b.entity) return
+      b.entity.persistentData.remove('StationConfig')
+      b.entity.persistentData.putLong('CooldownEnd', 0)
+      b.entity.setChanged()
+      player.displayClientMessage(Component.literal('§a[服务端] 重置成功'), false)
+    } catch (e) {
+      player.displayClientMessage(Component.literal('§c[服务端] 重置异常: ' + e), false)
+    }
+  })
+
+  // ★ 客户端收到服务端推送的配置 → 更新 UI 字段
+  root.onMessage('init_config', function(self, msg) {
+    player.displayClientMessage(Component.literal('§e[客户端] 收到 init_config, isClient=' + player.level.isClientSide()), false)
+    try {
+      var scanRange = msg.getInt('scanRange')
+      var cooldown = msg.getInt('cooldown')
+      var enterDelay = msg.getInt('enterDelay')
+      player.displayClientMessage(Component.literal('§e[客户端] 解析: scanRange=' + scanRange + ', cooldown=' + cooldown), false)
+      fieldScanRange.setText(String(scanRange))
+      fieldCooldown.setText(String(cooldown))
+      fieldEnterDelay.setText(String(enterDelay))
+      var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
+      for (var i = 0; i < allTypes.length; i++) {
+        var ak = allTypes[i].key
+        if (slotFields[ak] && msg.contains('slot_' + ak)) {
+          slotFields[ak].setText(String(msg.getInt('slot_' + ak)))
+        }
+      }
+      player.displayClientMessage(Component.literal('§a[客户端] UI 字段已更新'), false)
+    } catch (e) {
+      player.displayClientMessage(Component.literal('§c[客户端] init_config 处理异常: ' + e), false)
+    }
+  })
+
+  // ========== 构建 ModularUI ==========
   event.modularUI = ModularUI.of(UI.of(root), player)
+
+  // ★ 服务端：UI 打开后读取方块 NBT，推送给客户端
+  event.modularUI.setOnOpen(function(ui) {
+    if (!player.level.isClientSide()) {
+      player.displayClientMessage(Component.literal('§b[服务端] UI 已打开，准备推送 init_config'), false)
+      try {
+        var block = level.getBlock(pos.getX(), pos.getY(), pos.getZ())
+        var entity = block.entity
+        if (entity) {
+          var raw = entity.persistentData.getString('StationConfig')
+          player.displayClientMessage(Component.literal('§b[服务端] 读取 StationConfig: ' + (raw ? raw.substring(0, 60) : 'null')), false)
+          if (raw) {
+            var serverCfg = JSON.parse(raw)
+            player.displayClientMessage(Component.literal('§b[服务端] JSON 解析成功: scanRange=' + serverCfg.scanRange), false)
+            root.sendMessage('init_config', cfgToTag(serverCfg))
+            player.displayClientMessage(Component.literal('§b[服务端] init_config 消息已发送'), false)
+          }
+        }
+      } catch (e) {
+        player.displayClientMessage(Component.literal('§c[服务端] setOnOpen 出错: ' + e), false)
+      }
+    }
+  })
 })
 
-// ========== 辅助函数 ==========
-
-// 创建占满容器宽度的分隔线
 function makeSeparator() {
   var sep = new Label().setText(Component.literal('§8━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'))
   sep.lss('width', '100%')
@@ -617,7 +571,5 @@ function safeParseField(customVal, field) {
     if (text === null || text === undefined) return 0
     var val = parseInt(text, 10)
     return isNaN(val) ? 0 : Math.max(0, val)
-  } catch (e) {
-    return 0
-  }
+  } catch (e) { return 0 }
 }
