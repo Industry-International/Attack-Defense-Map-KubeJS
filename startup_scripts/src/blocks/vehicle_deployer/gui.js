@@ -85,6 +85,8 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       s2cCache.yaw = pd.contains('yaw') ? String(pd.getFloat('yaw')) : '0'
       s2cCache.pitch = pd.contains('pitch') ? String(pd.getFloat('pitch')) : '0'
       s2cCache.deployNBT = pd.getString('deployNBT') || '{}'
+      s2cCache.simpleNBT = pd.getString('simpleNBT') || '{}'
+      s2cCache.nbtMode = pd.contains('nbtMode') ? pd.getString('nbtMode') : ''
     } catch (e) {}
     return s2cCache
   }
@@ -109,6 +111,32 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
         }
       } catch(e) {}
       // 数据库模板没有该字段 → 用默认值
+      var defVal = DEFAULT_SIMPLE_NBT[key]
+      return defVal !== undefined ? String(defVal) : ''
+    }
+  }
+
+  // ── 三层 fallback Getter：已保存 simpleNBT > 数据库模板 > DEFAULT_SIMPLE_NBT ──
+  function makeSimpleNBTGetter(key) {
+    return function() {
+      // 第一层：从 persistentData simpleNBT 读取（用户已保存的值）
+      try {
+        var raw = readServerConfig().simpleNBT
+        if (raw && raw !== '{}') {
+          var obj = JSON.parse(raw)
+          if (obj[key] !== undefined) return String(obj[key])
+        }
+      } catch(e) {}
+      // 第二层：从数据库模板读取
+      try {
+        var cacheRaw = global.vehicleDeployerCache.get(player.uuid)
+        if (cacheRaw) {
+          var obj = JSON.parse(cacheRaw)
+          var tmpl = obj.nbtTemplate || {}
+          if (tmpl[key] !== undefined) return String(tmpl[key])
+        }
+      } catch(e) {}
+      // 第三层：DEFAULT_SIMPLE_NBT
       var defVal = DEFAULT_SIMPLE_NBT[key]
       return defVal !== undefined ? String(defVal) : ''
     }
@@ -393,7 +421,10 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   toggleRow.addChild(new Label().setText(Component.literal('§a简单 NBT 开关:')))
   var fieldSimpleToggle = new TextField().setNumbersOnlyInt(0, 1)
   fieldSimpleToggle.lss('width', 25)
-  fieldSimpleToggle.setText(String(DEFAULT_SIMPLE_NBT.SimpleToggle))
+  queueS2CField(fieldSimpleToggle, function() {
+    var mode = readServerConfig().nbtMode
+    return mode === 'simple' ? '1' : '0'
+  }, 'simple_toggle')
   toggleRow.addChild(fieldSimpleToggle)
   toggleRow.addChild(new Label().setText(Component.literal(' (1=开, 0=关)')))
   page4.addChild(toggleRow)
@@ -407,7 +438,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   nbtEnergyRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.energy')).append(Component.literal(':'))))
   var fieldNbtEnergy = new TextField().setNumbersOnlyInt(0, 99999999)
   fieldNbtEnergy.lss('width', 70)
-  queueS2CField(fieldNbtEnergy, makeTemplateGetter('Energy'), 'nbt_energy')
+  queueS2CField(fieldNbtEnergy, makeSimpleNBTGetter('Energy'), 'nbt_energy')
   nbtEnergyRow.addChild(fieldNbtEnergy)
   page4.addChild(nbtEnergyRow)
 
@@ -416,7 +447,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   nbtHealthRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.health')).append(Component.literal(':'))))
   var fieldNbtHealth = new TextField().setNumbersOnlyInt(0, 99999)
   fieldNbtHealth.lss('width', 70)
-  queueS2CField(fieldNbtHealth, makeTemplateGetter('Health'), 'nbt_health')
+  queueS2CField(fieldNbtHealth, makeSimpleNBTGetter('Health'), 'nbt_health')
   nbtHealthRow.addChild(fieldNbtHealth)
   page4.addChild(nbtHealthRow)
 
@@ -425,13 +456,13 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   nbtInvRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.invulnerable')).append(Component.literal(':'))))
   var fieldNbtInv = new TextField().setNumbersOnlyInt(0, 1)
   fieldNbtInv.lss('width', 30)
-  queueS2CField(fieldNbtInv, makeTemplateGetter('Invulnerable'), 'nbt_inv')
+  queueS2CField(fieldNbtInv, makeSimpleNBTGetter('Invulnerable'), 'nbt_inv')
   nbtInvRow.addChild(fieldNbtInv)
   nbtInvRow.addChild(new Label().setText(Component.literal('  ')))
   nbtInvRow.addChild(new Label().setText(Component.literal('').append(Text.translate('nbt.kubejs.decoy_ready')).append(Component.literal(':'))))
   var fieldNbtDecoy = new TextField().setNumbersOnlyInt(0, 1)
   fieldNbtDecoy.lss('width', 30)
-  queueS2CField(fieldNbtDecoy, makeTemplateGetter('DecoyReady'), 'nbt_decoy')
+  queueS2CField(fieldNbtDecoy, makeSimpleNBTGetter('DecoyReady'), 'nbt_decoy')
   nbtInvRow.addChild(fieldNbtDecoy)
   page4.addChild(nbtInvRow)
 
@@ -441,7 +472,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var fieldNbtCharge = new TextField()
   fieldNbtCharge.setAnyString()
   fieldNbtCharge.lss('width', 70)
-  queueS2CField(fieldNbtCharge, makeTemplateGetter('ChargeProgress'), 'nbt_charge')
+  queueS2CField(fieldNbtCharge, makeSimpleNBTGetter('ChargeProgress'), 'nbt_charge')
   nbtChargeRow.addChild(fieldNbtCharge)
   nbtChargeRow.addChild(new Label().setText(Component.literal(' (0.0~1.0)')))
   page4.addChild(nbtChargeRow)
@@ -515,7 +546,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       if (simpleOn && (se !== '' || sh !== '' || si !== '' || sd !== '' || sc !== '')) {
         // 简单 NBT：只保存用户修改过的字段（跳过与默认值一致的）
         var nbtObj = {}
-        if (se !== '' && parseFloat(se) !== DEFAULT_SIMPLE_NBT.Energy) nbtObj.Energy = parseInt(se, 10) || 0
+        if (se !== '' && parseInt(se, 10) !== DEFAULT_SIMPLE_NBT.Energy) nbtObj.Energy = parseInt(se, 10) || 0
         if (sh !== '' && parseFloat(sh) !== DEFAULT_SIMPLE_NBT.Health) nbtObj.Health = parseFloat(sh) || 500
         if (si !== '' && parseInt(si, 10) !== DEFAULT_SIMPLE_NBT.Invulnerable) nbtObj.Invulnerable = parseInt(si, 10) === 1 ? 1 : 0
         if (sd !== '' && parseInt(sd, 10) !== DEFAULT_SIMPLE_NBT.DecoyReady) nbtObj.DecoyReady = parseInt(sd, 10) === 1 ? 1 : 0
