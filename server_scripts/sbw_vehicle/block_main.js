@@ -38,7 +38,7 @@ function ensurePD(block) {
     pd.putFloat('pitch', 0.0)
     pd.putString('deployedUUID', '')
     pd.putLong('cooldownEnd', 0)
-    pd.putString('deployNBT', '{}')
+    pd.putString('deployNBT', '{"Energy":10000000,"Health":500,"Invulnerable":0,"DecoyReady":1,"ChargeProgress":1.0}')
     pd.putString('displayName', '')  // 部署台显示名称（可选）
     pd.putByte('spawnWithAmmo', 1)   // 生成载具时带弹药（1=是, 0=否）
     block.entity.setChanged()

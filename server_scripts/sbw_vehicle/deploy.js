@@ -6,10 +6,11 @@
 // 载具数据库由 tools/database.js 自动发现加载（数据包格式），
 // 通过 getVehicleDB() / getVehicleById() 访问。
 //
-// 部署 NBT 构建顺序（后面的覆盖前面的）：
+// 部署 NBT 构建顺序：
 //   1. 从数据库取 vehicleData.nbtTemplate（含 Energy, Health, Inventory, WeaponState...）
+//      ★ 高级 NBT 模式时跳过此步，直接用用户 JSON
 //   2. 叠加 Rotation / Tags
-//   3. 叠加用户 deployNBT（手动输入的 JSON）
+//   3. 叠加用户 deployNBT（简单 NBT 的覆盖字段，高级模式时跳过）
 // ============================================================
 
 // ══════════════════════════════════════════════════════════════
@@ -56,21 +57,42 @@ function spawnVehicleForBlock(block, server, pd) {
   var x = pos[0], y = pos[1], z = pos[2], yaw = pos[3], pitch = pos[4]
   var tag = makeDeployTag(block.getX(), block.getY(), block.getZ())
 
-  // ★ 修复：从数据库获取车辆信息，使用 nbtTemplate 作为基础 NBT
+  // ── 根据 nbtMode 决定 NBT 来源 ──
   var vehicleInfo = getVehicleById(vehicleType)
   var nbt = new $CompoundTag()
+  var deployNBTStr = pd.getString('deployNBT')
+  var nbtMode = pd.contains('nbtMode') ? pd.getString('nbtMode') : 'advanced'
 
-  if (vehicleInfo && vehicleInfo.nbtTemplate) {
-    // 将数据库中的 nbtTemplate（JSON 对象）转换为 NBT CompoundTag
-    nbt = toNBT(vehicleInfo.nbtTemplate)
-    sbwLog('[部署] 使用数据库模板: ' + vehicleType + ' Energy=' + vehicleInfo.maxEnergy + ' Health=' + vehicleInfo.maxHealth)
-
-    // 同时将 category 写入部署台，方便后续分类识别
-    if (vehicleInfo.category) {
-      pd.putString('vehicleCategory', vehicleInfo.category)
-    }
+  if (nbtMode === 'advanced' && deployNBTStr && deployNBTStr !== '' && deployNBTStr !== '{}') {
+    // ★ 高级 NBT：完全用用户自定义 JSON，跳过数据库模板
+    try {
+      var deployObj = JSON.parse(deployNBTStr)
+      if (deployObj && typeof deployObj === 'object') {
+        nbt = toNBT(deployObj)
+        sbwLog('[部署] 高级 NBT 模式，使用用户自定义 JSON')
+      }
+    } catch (e) { sbwWarn('[部署] deployNBT JSON 解析失败: ' + e) }
   } else {
-    sbwWarn('[部署] 数据库未找到车辆 ' + vehicleType + '，使用空白模板')
+    // 简单 NBT / 未标记：以数据库模板为基础，叠加用户配置
+    if (vehicleInfo && vehicleInfo.nbtTemplate) {
+      nbt = toNBT(vehicleInfo.nbtTemplate)
+      sbwLog('[部署] 使用数据库模板: ' + vehicleType + ' Energy=' + vehicleInfo.maxEnergy + ' Health=' + vehicleInfo.maxHealth)
+      if (vehicleInfo.category) {
+        pd.putString('vehicleCategory', vehicleInfo.category)
+      }
+    } else {
+      sbwWarn('[部署] 数据库未找到车辆 ' + vehicleType + '，使用空白模板')
+    }
+    // 叠加用户 deployNBT（简单 NBT 的覆盖字段）
+    if (deployNBTStr && deployNBTStr !== '' && deployNBTStr !== '{}') {
+      try {
+        var deployObj = JSON.parse(deployNBTStr)
+        if (deployObj && typeof deployObj === 'object') {
+          mergeDeployNBT(nbt, deployObj)
+          sbwLog('[部署] 合并用户 deployNBT: ' + deployNBTStr)
+        }
+      } catch (e) { sbwWarn('[部署] deployNBT JSON 解析失败: ' + e) }
+    }
   }
 
   // ── 叠加 Rotation 和 Tags（始终覆盖，因为这是部署位置相关的） ──
@@ -80,7 +102,6 @@ function spawnVehicleForBlock(block, server, pd) {
 
   var tagsList = new $ListTag()
   tagsList.add($StringTag.valueOf(tag))
-  // 如果有旧标签先获取并保留（如 sbw_deploy_ 前缀）
   if (nbt.contains('Tags')) {
     var oldTags = nbt.getList('Tags', 8)
     var otIter = oldTags.iterator()
@@ -90,18 +111,6 @@ function spawnVehicleForBlock(block, server, pd) {
     }
   }
   nbt.put('Tags', tagsList)
-
-  // ── 叠加用户 deployNBT（配置项覆盖，手动输入的 JSON） ──
-  var deployNBTStr = pd.getString('deployNBT')
-  if (deployNBTStr && deployNBTStr !== '' && deployNBTStr !== '{}') {
-    try {
-      var deployObj = JSON.parse(deployNBTStr)
-      if (deployObj && typeof deployObj === 'object') {
-        mergeDeployNBT(nbt, deployObj)
-        sbwLog('[部署] 合并用户 deployNBT: ' + deployNBTStr)
-      }
-    } catch (e) { sbwWarn('[部署] deployNBT JSON 解析失败: ' + e) }
-  }
 
   // ── spawnWithAmmo 控制：0=不生成弹药，清除 Inventory ──
   var spawnWithAmmo = pd.contains('spawnWithAmmo') ? pd.getByte('spawnWithAmmo') : 1
