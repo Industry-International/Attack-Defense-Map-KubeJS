@@ -138,9 +138,14 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
   var pd = ensurePD(block)
   if (!pd) { event.cancel(); return }
 
-  // OP → 打开 GUI
-  if (player.hasPermissions(2)) {
-    try {
+  // 仅 OP + 创造模式可打开 GUI，其他情况全部拦截
+  if (!player.hasPermissions(2) || !player.isCreative()) {
+    event.cancel()
+    return
+  }
+
+  // ── 打开 GUI ──
+  try {
       // ★ 修复：将数据库分类信息 + nbt模板传入缓存
       var vehicleDB = getVehicleDB()
       var catData = {}
@@ -175,13 +180,10 @@ BlockEvents.rightClicked('kubejs:vehicle_deployer', event => {
       sbwError('[部署台] GUI 打开失败: ' + e)
       player.tell(Component.literal('§c[部署台] GUI 加载失败: ' + e))
     }
-  } else {
-    tellStatus(block, player, pd)
-  }
-  event.cancel()
-})
+    event.cancel()
+  })
 
-/**
+  /**
  * 从方块读取部署台完整配置（供 GUI 使用）
  * 
  * ★ 注意：不命名为 readBlockConfig 以避免与 ammo_replenish/a_config.js

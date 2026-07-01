@@ -70,6 +70,12 @@ BlockEvents.rightClicked('kubejs:ammo_crate', event => {
     return
   }
 
+  // 仅 OP + 创造模式可打开 GUI
+  if (!player.hasPermissions(2) || !player.isCreative()) {
+    event.cancel()
+    return
+  }
+
   try {
     LDLib2UIFactory.openBlockUI(player, pos, 'kubejs:ammo_station_cfg')
   } catch (e) {
