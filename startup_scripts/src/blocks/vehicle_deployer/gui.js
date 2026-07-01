@@ -1,80 +1,50 @@
 // ============================================================
-// 载具部署台 - LDLib2 智能配置 GUI
+// 载具部署台 - LDLib2 智能配置 GUI（Message 网络同步版）
 //
-// 功能：
-//   1. 从车辆数据库自动读取所有可用载具
-//   2. 按模组/类型分组展示
-//   3. 基础参数配置（队伍、重生延迟、自动重生）
-//   4. 部署坐标/朝向设置
-//   5. deployNBT 配置（核心属性、弹药）
+// C2S：客户端 setOnClick → root.sendMessage → 服务端 onMessage
+// S2C：暂无（服务端 NBT 无法推送至客户端）
+//
+// 车辆数据库通过 global 缓存传入（仅单机有效）
 // ============================================================
-
-// ========== 全局缓存 ==========
-
-var $HashMap = Java.loadClass('java.util.HashMap')
-global.vehicleDeployerCache = new $HashMap()
 
 // ========== Java 类引用 ==========
 
-var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
-var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
+var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
+var $HashMap = Java.loadClass('java.util.HashMap')
+global.vehicleDeployerCache = global.vehicleDeployerCache || new $HashMap()
+
+// ========== 默认配置 ==========
+
+const DEPLOYER_DEFAULT_CFG = {
+  vehicleType: '', respawnDelay: 600, autoRespawn: 1,
+  offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
+  deployNBT: '{}', displayName: '', deployedUUID: '', cooldownEnd: 0,
+  spawnWithAmmo: 1
+}
 
 // ========== UI 构建 ==========
 
 LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var player = event.player
-  var uuid = player.uuid
+  var level = event.level
+  var blockPos = event.pos
 
-  // ── 从缓存读取数据 ──
+  // ── 从缓存读取数据（用于下拉菜单等 S2C 替代方案） ──
   var cacheData = null
   try {
-    var raw = global.vehicleDeployerCache.get(uuid)
+    var raw = global.vehicleDeployerCache.get(player.uuid)
     if (raw) cacheData = JSON.parse(raw)
   } catch (e) {}
-
-  // ── 缓存失效 → 用默认值（弹药补给站模式） ──
-  if (!cacheData) {
-    cacheData = {
-      pos: { x: 0, y: 0, z: 0 },
-      dim: 'minecraft:overworld',
-      config: {
-        vehicleType: '', respawnDelay: 600, autoRespawn: 1,
-        offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
-        deployNBT: '{}', displayName: '', deployedUUID: '', cooldownEnd: 0,
-        spawnWithAmmo: 1
-      }
-    }
-  }
+  if (!cacheData) cacheData = {}
 
   var cfg = cacheData.config || {}
-  var pos = cacheData.pos || { x: 0, y: 0, z: 0 }
-  var dim = cacheData.dim || 'minecraft:overworld'
-
-  // ── 准备车辆数据库 ──
-  // 从 cacheData.categories 读取（由 server 侧 block_main.js 的右键事件传入）
-  // ★ 修复：不再使用硬编码列表，而是使用数据包自动生成的分类数据
   var vehicleData = cacheData.categories || {}
   var categoryList = Object.keys(vehicleData)
-  // 如果缓存中无分类数据（旧方块或缓存失效），提供兜底告示
   if (categoryList.length === 0) {
-    vehicleData = { '§c数据库未加载': ['§c请保存配置后重启'] }
+    vehicleData = { '§c数据库未加载': ['§c仅限单人可用'] }
     categoryList = Object.keys(vehicleData)
   }
-
-  // ── 跨上下文同步数据 ──
-  var fieldVals = {}
-  function bindField(field, name) {
-    fieldVals[name] = field.getText()
-    try {
-      var binding = $DataBindingBuilder.string(
-        function() { return field.getText() },
-        function(val) { fieldVals[name] = val }
-      ).s2cStrategy($SyncStrategy.NONE).c2sStrategy($SyncStrategy.ALWAYS).name(name).build()
-      field.bind(binding)
-    } catch (e) {
-      console.log('[部署台GUI] 绑定失败(' + name + '): ' + e)
-    }
-  }
+  var nbtTemplate = cacheData.nbtTemplate || {}
 
   // ════════════════════════════════════════════════════════════
   //  创建所有输入字段
@@ -82,66 +52,56 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   // ── Tab 1: 车辆类型 ──
   var fieldVehicleType = new TextField()
-  fieldVehicleType.setText(cfg.vehicleType || '')
+  fieldVehicleType.setText(cfg.vehicleType || DEPLOYER_DEFAULT_CFG.vehicleType)
   fieldVehicleType.lss('width', 180)
-  bindField(fieldVehicleType, 'vt')
 
   // ── Tab 2: 基础设置 ──
   var fieldRespawnDelay = new TextField()
   fieldRespawnDelay.setNumbersOnlyInt(20, 72000)
-  fieldRespawnDelay.setText(String(cfg.respawnDelay || 600))
+  fieldRespawnDelay.setText(String(cfg.respawnDelay || DEPLOYER_DEFAULT_CFG.respawnDelay))
   fieldRespawnDelay.lss('width', 55)
-  bindField(fieldRespawnDelay, 'rd')
 
   var fieldAutoRespawn = new TextField()
   fieldAutoRespawn.setNumbersOnlyInt(0, 1)
   fieldAutoRespawn.setText(cfg.autoRespawn === 0 ? '0' : '1')
   fieldAutoRespawn.lss('width', 40)
-  bindField(fieldAutoRespawn, 'ar')
 
   var fieldSpawnAmmo = new TextField()
   fieldSpawnAmmo.setNumbersOnlyInt(0, 1)
   fieldSpawnAmmo.setText(cfg.spawnWithAmmo === 0 ? '0' : '1')
   fieldSpawnAmmo.lss('width', 40)
-  bindField(fieldSpawnAmmo, 'swa')
 
   // ── Tab 3: 坐标偏移 ──
   var fieldOffsetX = new TextField()
   fieldOffsetX.setNumbersOnlyInt(-999, 999)
-  fieldOffsetX.setText(String(cfg.offsetX || 0))
+  fieldOffsetX.setText(String(cfg.offsetX !== undefined ? cfg.offsetX : 0))
   fieldOffsetX.lss('width', 50)
-  bindField(fieldOffsetX, 'ox')
 
   var fieldOffsetY = new TextField()
   fieldOffsetY.setNumbersOnlyInt(-999, 999)
-  fieldOffsetY.setText(String(cfg.offsetY || 1))
+  fieldOffsetY.setText(String(cfg.offsetY !== undefined ? cfg.offsetY : 1))
   fieldOffsetY.lss('width', 50)
-  bindField(fieldOffsetY, 'oy')
 
   var fieldOffsetZ = new TextField()
   fieldOffsetZ.setNumbersOnlyInt(-999, 999)
-  fieldOffsetZ.setText(String(cfg.offsetZ || 0))
+  fieldOffsetZ.setText(String(cfg.offsetZ !== undefined ? cfg.offsetZ : 0))
   fieldOffsetZ.lss('width', 50)
-  bindField(fieldOffsetZ, 'oz')
 
   var fieldYaw = new TextField()
   fieldYaw.setNumbersOnlyInt(-180, 180)
-  fieldYaw.setText(String(cfg.yaw || 0))
+  fieldYaw.setText(String(cfg.yaw !== undefined ? cfg.yaw : 0))
   fieldYaw.lss('width', 50)
-  bindField(fieldYaw, 'yaw')
 
   var fieldPitch = new TextField()
   fieldPitch.setNumbersOnlyInt(-90, 90)
-  fieldPitch.setText(String(cfg.pitch || 0))
+  fieldPitch.setText(String(cfg.pitch !== undefined ? cfg.pitch : 0))
   fieldPitch.lss('width', 50)
-  bindField(fieldPitch, 'pitch')
 
   // ── Tab 4: NBT 编辑 ──
   var fieldDeployNBT = new TextField()
   fieldDeployNBT.setText(cfg.deployNBT || '{}')
   fieldDeployNBT.lss('width', 250)
   fieldDeployNBT.lss('height', 100)
-  bindField(fieldDeployNBT, 'nbt')
 
   // ════════════════════════════════════════════════════════════
   //  根容器
@@ -167,10 +127,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   // ════════════════════════════════════════════════════════════
   //  第1页：车辆选择（两级联动下拉 + ID 输入）
   // ════════════════════════════════════════════════════════════
-  //
-  // ★ 修复：Selector 支持 setSelected() 和 setOnValueChanged()，
-  //   现在正确实现初始值设定和联动更新。
-  //
   var page1 = new UIElement()
   page1.lss('padding', 4)
 
@@ -207,32 +163,27 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var vehicleSelector = new Selector()
   vehicleSelector.lss('width', '100%')
 
-  // ★ 修复：类别切换时更新载具下拉
   categorySelector.setOnValueChanged(function(newCat) {
     if (newCat && vehicleData[newCat]) {
       vehicleSelector.setCandidates(vehicleData[newCat])
-      // 默认选中第一个
       if (vehicleData[newCat].length > 0) {
         vehicleSelector.setSelected(vehicleData[newCat][0])
       }
     }
   })
 
-  // ★ 修复：选中载具时同步更新 ID 输入框
   vehicleSelector.setOnValueChanged(function(newVid) {
     if (newVid) {
       fieldVehicleType.setText(newVid)
     }
   })
 
-  // ★ 修复：设置初始选中值（先设分类，回调会自动更新载具列表和选中）
   categorySelector.setSelected(initialCategory)
   if (initialVehicle) {
     vehicleSelector.setSelected(initialVehicle)
     fieldVehicleType.setText(initialVehicle)
   }
 
-  // 类别行
   var catRow = new UIElement()
   catRow.addChild(new Label().setText(Component.literal('§7类别:')))
   catRow.addChild(categorySelector)
@@ -240,7 +191,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   page1.addChild(new Label().setText(Component.literal(' ')))
 
-  // 载具行
   var vehRow = new UIElement()
   vehRow.addChild(new Label().setText(Component.literal('§7载具:')))
   vehRow.addChild(vehicleSelector)
@@ -248,7 +198,6 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   page1.addChild(new Label().setText(Component.literal(' ')))
 
-  // ID 输入框（手动输入，与下拉联动）
   var vtRow = new UIElement()
   vtRow.addChild(new Label().setText(Component.literal('§7ID:')))
   vtRow.addChild(fieldVehicleType)
@@ -341,125 +290,23 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   tab3.setText('坐标')
   tabView.addTab(tab3, page3)
 
-  // ── 缓存中的 nbtTemplate（来自数据库，用于简单模式预填） ──
-  var nbtTemplate = cacheData.nbtTemplate || {}
-
   // ════════════════════════════════════════════════════════════
-  //  第4页：NBT 简单模式 — 参数化配置（独立页签）
+  //  第4页：NBT 原始 JSON（简化版，移除不可用的 NBT 简单模式）
   // ════════════════════════════════════════════════════════════
-
   var page4 = new UIElement()
   page4.lss('padding', 4)
 
-  page4.addChild(new Label().setText(Component.literal('§e── NBT 参数配置 ──')))
-  page4.addChild(new Label().setText(Component.literal('§7修改部署时的核心属性，留空则使用数据库默认值')))
-
+  page4.addChild(new Label().setText(Component.literal('§e── deployNBT 原始 JSON ──')))
+  page4.addChild(new Label().setText(Component.literal('§7完全自定义的部署 NBT 模板')))
   page4.addChild(new Label().setText(Component.literal(' ')))
-
-  var fieldNbtEnergy = new TextField()
-  fieldNbtEnergy.setNumbersOnlyInt(0, 999999999)
-  fieldNbtEnergy.setText(String(nbtTemplate.Energy !== undefined ? nbtTemplate.Energy : ''))
-  fieldNbtEnergy.lss('width', 80)
-  bindField(fieldNbtEnergy, 'nbt_en')
-
-  var fieldNbtHealth = new TextField()
-  fieldNbtHealth.setNumbersOnlyInt(0, 999999)
-  fieldNbtHealth.setText(String(nbtTemplate.Health !== undefined ? nbtTemplate.Health : ''))
-  fieldNbtHealth.lss('width', 80)
-  bindField(fieldNbtHealth, 'nbt_hp')
-
-  var fieldNbtInvul = new TextField()
-  fieldNbtInvul.setNumbersOnlyInt(0, 1)
-  fieldNbtInvul.setText(String(nbtTemplate.Invulnerable !== undefined ? nbtTemplate.Invulnerable : '0'))
-  fieldNbtInvul.lss('width', 40)
-  bindField(fieldNbtInvul, 'nbt_inv')
-
-  var fieldNbtDecoy = new TextField()
-  fieldNbtDecoy.setNumbersOnlyInt(0, 1)
-  fieldNbtDecoy.setText(String(nbtTemplate.DecoyReady !== undefined ? nbtTemplate.DecoyReady : '0'))
-  fieldNbtDecoy.lss('width', 40)
-  bindField(fieldNbtDecoy, 'nbt_dc')
-
-  var enRow = new UIElement()
-  enRow.addChild(new Label().setText(Component.literal('§eEnergy  §7能量:')))
-  enRow.addChild(fieldNbtEnergy)
-  page4.addChild(enRow)
-  page4.addChild(new Label().setText(Component.literal('  §8载具总能量，影响武器可用性（0=没电）')))
-
-  var hpRow = new UIElement()
-  hpRow.addChild(new Label().setText(Component.literal('§eHealth  §7生命值:')))
-  hpRow.addChild(fieldNbtHealth)
-  page4.addChild(hpRow)
-  page4.addChild(new Label().setText(Component.literal('  §8载具总生命值，归零则摧毁')))
-
-  var invRow = new UIElement()
-  invRow.addChild(new Label().setText(Component.literal('§eInvulnerable  §7无敌:')))
-  invRow.addChild(fieldNbtInvul)
-  invRow.addChild(new Label().setText(Component.literal('  §8(1=是, 0=否)')))
-  page4.addChild(invRow)
-
-  var dcRow = new UIElement()
-  dcRow.addChild(new Label().setText(Component.literal('§eDecoyReady  §7诱饵弹:')))
-  dcRow.addChild(fieldNbtDecoy)
-  dcRow.addChild(new Label().setText(Component.literal('  §8(1=就绪, 0=未装填)')))
-  page4.addChild(dcRow)
-
+  page4.addChild(new Label().setText(Component.literal('§8留空 {} 则使用数据库完整默认值。')))
+  page4.addChild(new Label().setText(Component.literal('§8填写部分字段则会与数据库模板合并。')))
   page4.addChild(new Label().setText(Component.literal(' ')))
-
-  // ── 应用默认值按钮 ──
-  var btnApplyDefaults = new Button()
-  btnApplyDefaults.setText(Component.literal('§b⟳ 应用数据库默认值'))
-  btnApplyDefaults.lss('padding', '3 8')
-  btnApplyDefaults.setOnServerClick(function(clickEvent) {
-    var server = player.getServer()
-    if (!server) return
-    var puuid = player.uuid
-    var raw = global.vehicleDeployerCache.get(puuid)
-    if (!raw) { player.displayClientMessage(Component.literal('§c[部署台] 缓存失效'), false); return }
-    try {
-      var data = JSON.parse(raw)
-      if (data.nbtTemplate && Object.keys(data.nbtTemplate).length > 0) {
-        var defJSON = JSON.stringify(data.nbtTemplate, null, 2)
-        var level = server.getLevel(data.dim || 'minecraft:overworld')
-        if (level) {
-          var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-          if (block && block.entity) {
-            block.entity.persistentData.putString('deployNBT', defJSON)
-            block.entity.setChanged()
-            player.displayClientMessage(Component.literal('§a✔ 已应用数据库默认 NBT！请切换至⚡NBT高级查看'), false)
-          }
-        }
-      } else {
-        player.displayClientMessage(Component.literal('§e提示: 未找到该载具的数据库模板'), false)
-      }
-    } catch (e) {
-      player.displayClientMessage(Component.literal('§c[部署台] 应用默认值失败: ' + e), false)
-    }
-  })
-  page4.addChild(btnApplyDefaults)
+  page4.addChild(fieldDeployNBT)
 
   var tab4 = new Tab()
-  tab4.setText('⚙NBT简单')
+  tab4.setText('⚡NBT')
   tabView.addTab(tab4, page4)
-
-  // ════════════════════════════════════════════════════════════
-  //  第5页：NBT 高级模式 — 原始 JSON（独立页签）
-  // ════════════════════════════════════════════════════════════
-
-  var page5 = new UIElement()
-  page5.lss('padding', 4)
-
-  page5.addChild(new Label().setText(Component.literal('§e── deployNBT 原始 JSON ──')))
-  page5.addChild(new Label().setText(Component.literal('§7完全自定义的部署 NBT 模板')))
-  page5.addChild(new Label().setText(Component.literal(' ')))
-  page5.addChild(new Label().setText(Component.literal('§8留空 {} 则使用数据库完整默认值。')))
-  page5.addChild(new Label().setText(Component.literal('§8填写部分字段则会与数据库模板合并。')))
-  page5.addChild(new Label().setText(Component.literal(' ')))
-  page5.addChild(fieldDeployNBT)
-
-  var tab5 = new Tab()
-  tab5.setText('⚡NBT高级')
-  tabView.addTab(tab5, page5)
 
   root.addChild(tabView)
 
@@ -470,76 +317,30 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
 
   var btnRow = new UIElement()
 
-  // ── 保存按钮 ──
+  // ── 保存按钮（C2S：客户端 → 服务端） ──
   var btnSave = new Button()
   btnSave.setText(Component.literal('§a✔ 保存'))
   btnSave.lss('padding', '3 10')
-  btnSave.setOnServerClick(function(clickEvent) {
-    var server = player.getServer()
-    if (!server) return
-    var puuid = player.uuid
-    var raw = global.vehicleDeployerCache.get(puuid)
-    if (!raw) {
-      player.displayClientMessage(Component.literal('§c[部署台] 缓存失效，请重新打开GUI'), false)
-      return
-    }
+  btnSave.setOnClick(function(clickEvent) {
     try {
-      var data = JSON.parse(raw)
-      var level = server.getLevel(data.dim || 'minecraft:overworld')
-      if (!level) {
-        player.displayClientMessage(Component.literal('§c[部署台] 无法获取维度'), false)
-        return
-      }
-      var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-      if (!block || block.getId() === 'minecraft:air') {
-        player.displayClientMessage(Component.literal('§c[部署台] 方块已不存在'), false)
-        return
-      }
-      if (!block.entity) {
-        player.displayClientMessage(Component.literal('§c[部署台] 方块数据异常'), false)
-        return
-      }
+      player.displayClientMessage(Component.literal('§7[部署台] 保存中...'), false)
 
-      var pd = block.entity.persistentData
+      var tag = new $CompoundTag()
+      tag.putString('vt', fieldVehicleType.getText() || '')
+      tag.putString('rd', fieldRespawnDelay.getText() || '600')
+      tag.putString('ar', fieldAutoRespawn.getText() || '1')
+      tag.putString('swa', fieldSpawnAmmo.getText() || '1')
+      tag.putString('ox', fieldOffsetX.getText() || '0')
+      tag.putString('oy', fieldOffsetY.getText() || '1')
+      tag.putString('oz', fieldOffsetZ.getText() || '0')
+      tag.putString('yaw', fieldYaw.getText() || '0')
+      tag.putString('pitch', fieldPitch.getText() || '0')
+      tag.putString('nbt', fieldDeployNBT.getText() || '{}')
 
-      // 从 fieldVals 读取值，fallback 到 field.getText()
-      var vt = fieldVals['vt'] !== undefined ? String(fieldVals['vt']) : fieldVehicleType.getText()
-      var rd = safeParseField(fieldVals['rd'], fieldRespawnDelay)
-      var ar = safeParseField(fieldVals['ar'], fieldAutoRespawn)
-      var swa = safeParseField(fieldVals['swa'], fieldSpawnAmmo)
-      var ox = safeParseField(fieldVals['ox'], fieldOffsetX)
-      var oy = safeParseField(fieldVals['oy'], fieldOffsetY)
-      var oz = safeParseField(fieldVals['oz'], fieldOffsetZ)
-      var yaw = safeParseField(fieldVals['yaw'], fieldYaw)
-      var pitch = safeParseField(fieldVals['pitch'], fieldPitch)
-      var nbtRaw = fieldVals['nbt'] !== undefined ? String(fieldVals['nbt']) : fieldDeployNBT.getText()
-
-      // 验证 NBT JSON 格式
-      if (nbtRaw && nbtRaw !== '{}') {
-        try { JSON.parse(nbtRaw) } catch (e) {
-          player.displayClientMessage(Component.literal('§c[部署台] deployNBT JSON 格式错误: ' + e), false)
-          return
-        }
-      }
-
-      // 写入持久化数据
-      pd.putString('vehicleType', vt)
-      pd.putInt('respawnDelay', Math.max(20, rd))
-      pd.putByte('autoRespawn', ar === 1 ? 1 : 0)
-      pd.putByte('spawnWithAmmo', swa === 1 ? 1 : 0)
-      pd.putDouble('offsetX', ox)
-      pd.putDouble('offsetY', oy)
-      pd.putDouble('offsetZ', oz)
-      pd.putFloat('yaw', yaw)
-      pd.putFloat('pitch', pitch)
-      pd.putString('deployNBT', nbtRaw || '{}')
-      block.entity.setChanged()
-
-      player.displayClientMessage(Component.literal('§a✔ 配置已保存！'), false)
-      console.log('[部署台GUI] 配置已保存到 @[' + data.pos.x + ',' + data.pos.y + ',' + data.pos.z + ']')
+      root.sendMessage('save_config', tag)
+      player.displayClientMessage(Component.literal('§e[部署台] 保存请求已发送'), false)
     } catch (e) {
-      player.displayClientMessage(Component.literal('§c[部署台] 保存失败: ' + e), false)
-      console.log('[部署台GUI] 保存失败: ' + e)
+      player.displayClientMessage(Component.literal('§c[部署台] 保存出错: ' + e), false)
     }
   })
   btnRow.addChild(btnSave)
@@ -548,24 +349,88 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var btnReset = new Button()
   btnReset.setText(Component.literal('§e↻ 重置'))
   btnReset.lss('padding', '3 10')
-  btnReset.setOnServerClick(function(clickEvent) {
-    var server = player.getServer()
-    if (!server) return
-    var puuid = player.uuid
-    var raw = global.vehicleDeployerCache.get(puuid)
-    if (!raw) {
-      player.displayClientMessage(Component.literal('§c[部署台] 缓存失效'), false)
-      return
-    }
-    try {
-      var data = JSON.parse(raw)
-      var level = server.getLevel(data.dim || 'minecraft:overworld')
-      if (!level) return
-      var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-      if (!block || block.getId() === 'minecraft:air' || !block.entity) return
+  btnReset.setOnClick(function(clickEvent) {
+    player.displayClientMessage(Component.literal('§e[部署台] 重置请求已发送'), false)
+    var tag = new $CompoundTag()
+    root.sendMessage('reset_config', tag)
+  })
+  btnRow.addChild(btnReset)
 
-      var pd = block.entity.persistentData
-      // 清空所有配置（保留 vehicleType 和 team，其余恢复默认）
+  // ── 立即部署按钮 ──
+  var btnDeployNow = new Button()
+  btnDeployNow.setText(Component.literal('§6⚡ 立即部署'))
+  btnDeployNow.lss('padding', '3 10')
+  btnDeployNow.setOnClick(function(clickEvent) {
+    player.displayClientMessage(Component.literal('§e[部署台] 部署请求已发送'), false)
+    var tag = new $CompoundTag()
+    root.sendMessage('deploy_config', tag)
+  })
+  btnRow.addChild(btnDeployNow)
+
+  root.addChild(btnRow)
+  root.addChild(new InventorySlots())
+
+  // ════════════════════════════════════════════════════════════
+  //  Message 系统：网络同步（C2S）
+  // ════════════════════════════════════════════════════════════
+
+  // ── 保存配置 ──
+  root.onMessage('save_config', function(self, msg) {
+    if (player.getServer() === null) return
+    player.displayClientMessage(Component.literal('§b[服务端] save_config 到达'), false)
+    try {
+      var lvl = player.getServer().getLevel(level.getDimension())
+      if (!lvl) return
+      var b = lvl.getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ())
+      if (!b || !b.entity) return
+
+      var pd = b.entity.persistentData
+      var vt = msg.getString('vt')
+      var rd = parseInt(msg.getString('rd'), 10)
+      var ar = parseInt(msg.getString('ar'), 10)
+      var swa = parseInt(msg.getString('swa'), 10)
+      var ox = parseInt(msg.getString('ox'), 10)
+      var oy = parseInt(msg.getString('oy'), 10)
+      var oz = parseInt(msg.getString('oz'), 10)
+      var yaw = parseInt(msg.getString('yaw'), 10)
+      var pitch = parseInt(msg.getString('pitch'), 10)
+      var nbtRaw = msg.getString('nbt')
+
+      if (nbtRaw && nbtRaw !== '{}') {
+        try { JSON.parse(nbtRaw) } catch (e) {
+          player.displayClientMessage(Component.literal('§c[部署台] deployNBT 格式错误'), false)
+          return
+        }
+      }
+
+      pd.putString('vehicleType', vt)
+      pd.putInt('respawnDelay', Math.max(20, isNaN(rd) ? 600 : rd))
+      pd.putByte('autoRespawn', ar === 1 ? 1 : 0)
+      pd.putByte('spawnWithAmmo', swa === 1 ? 1 : 0)
+      pd.putDouble('offsetX', isNaN(ox) ? 0 : ox)
+      pd.putDouble('offsetY', isNaN(oy) ? 1 : oy)
+      pd.putDouble('offsetZ', isNaN(oz) ? 0 : oz)
+      pd.putFloat('yaw', isNaN(yaw) ? 0 : yaw)
+      pd.putFloat('pitch', isNaN(pitch) ? 0 : pitch)
+      pd.putString('deployNBT', nbtRaw || '{}')
+      b.entity.setChanged()
+
+      player.displayClientMessage(Component.literal('§a[部署台] ✔ 配置已保存！'), false)
+    } catch (e) {
+      player.displayClientMessage(Component.literal('§c[部署台] 保存失败: ' + e), false)
+    }
+  })
+
+  // ── 重置配置 ──
+  root.onMessage('reset_config', function(self, msg) {
+    if (player.getServer() === null) return
+    try {
+      var lvl = player.getServer().getLevel(level.getDimension())
+      if (!lvl) return
+      var b = lvl.getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ())
+      if (!b || !b.entity) return
+
+      var pd = b.entity.persistentData
       pd.putInt('respawnDelay', 600)
       pd.putByte('autoRespawn', 1)
       pd.putByte('spawnWithAmmo', 1)
@@ -575,119 +440,35 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
       pd.putFloat('yaw', 0.0)
       pd.putFloat('pitch', 0.0)
       pd.putString('deployNBT', '{}')
-      block.entity.setChanged()
-
-      player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置（保留车辆类型和队伍）'), false)
+      b.entity.setChanged()
+      player.displayClientMessage(Component.literal('§a✔ 已重置为默认配置'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 重置失败: ' + e), false)
     }
   })
-  btnRow.addChild(btnReset)
 
-  // ── 立即部署按钮 ──
-  var btnDeployNow = new Button()
-  btnDeployNow.setText(Component.literal('§6⚡ 立即部署'))
-  btnDeployNow.lss('padding', '3 10')
-  btnDeployNow.setOnServerClick(function(clickEvent) {
-    var server = player.getServer()
-    if (!server) return
-    var puuid = player.uuid
-    var raw = global.vehicleDeployerCache.get(puuid)
-    if (!raw) {
-      player.displayClientMessage(Component.literal('§c[部署台] 缓存失效'), false)
-      return
-    }
+  // ── 立即部署 ──
+  root.onMessage('deploy_config', function(self, msg) {
+    if (player.getServer() === null) return
     try {
-      var data = JSON.parse(raw)
-      var level = server.getLevel(data.dim || 'minecraft:overworld')
-      if (!level) return
-      var block = level.getBlock(data.pos.x, data.pos.y, data.pos.z)
-      if (!block || block.getId() === 'minecraft:air' || !block.entity) {
-        player.displayClientMessage(Component.literal('§c[部署台] 方块已不存在'), false)
-        return
-      }
+      var lvl = player.getServer().getLevel(level.getDimension())
+      if (!lvl) return
+      var b = lvl.getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ())
+      if (!b || !b.entity) return
 
-      var pd = block.entity.persistentData
+      var pd = b.entity.persistentData
       if (!pd.contains('vehicleType') || pd.getString('vehicleType') === '') {
         player.displayClientMessage(Component.literal('§c[部署台] 请先配置载具类型'), false)
         return
       }
 
-      // 写入 PendingDeploy 标记，由 server 侧的 blockEntityTick 检测执行
-      block.entity.persistentData.putBoolean('PendingDeploy', true)
-      block.entity.setChanged()
+      pd.putBoolean('PendingDeploy', true)
+      b.entity.setChanged()
       player.displayClientMessage(Component.literal('§e⏳ 部署命令已提交，将在下次 Tick 执行'), false)
     } catch (e) {
       player.displayClientMessage(Component.literal('§c[部署台] 部署失败: ' + e), false)
     }
   })
-  btnRow.addChild(btnDeployNow)
-
-  root.addChild(btnRow)
-
-  // ════════════════════════════════════════════════════════════════
-  //  命令复制区 — 纯客户端，绕过 C2S DataBinding
-  // ════════════════════════════════════════════════════════════════
-  root.addChild(makeSeparator())
-
-  // 命令预览 TextField（可选中文本手动 Ctrl+C 复制）
-  var cmdField = new TextField()
-  cmdField.setAnyString()
-  cmdField.setText('§7点击下方按钮生成命令')
-  cmdField.lss('width', '100%')
-  root.addChild(cmdField)
-
-  var cmdCopyBtn = new Button()
-  cmdCopyBtn.setText(Component.literal('§6⚡ 生成命令'))
-  cmdCopyBtn.lss('padding', '3 10')
-  // ★ 使用 setOnClick（纯客户端），不涉及 C2S
-  cmdCopyBtn.setOnClick(function(clickEvent) {
-    // 从所有 TextField 读取当前值（纯客户端操作）
-    var vt = fieldVals['vt'] !== undefined ? String(fieldVals['vt']) : fieldVehicleType.getText()
-    var rd = safeParseField(fieldVals['rd'], fieldRespawnDelay)
-    var ar = safeParseField(fieldVals['ar'], fieldAutoRespawn)
-    var swa = safeParseField(fieldVals['swa'], fieldSpawnAmmo)
-    var ox = safeParseField(fieldVals['ox'], fieldOffsetX)
-    var oy = safeParseField(fieldVals['oy'], fieldOffsetY)
-    var oz = safeParseField(fieldVals['oz'], fieldOffsetZ)
-    var yaw = safeParseField(fieldVals['yaw'], fieldYaw)
-    var pitch = safeParseField(fieldVals['pitch'], fieldPitch)
-    var nbtRaw = fieldVals['nbt'] !== undefined ? String(fieldVals['nbt']) : fieldDeployNBT.getText()
-
-    // 转义字符串字段中的 SNBT 特殊字符
-    var escapedVT = vt.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
-    var escapedNBT = nbtRaw.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
-
-    // 获取方块坐标（优先 event.pos，回退 cacheData）
-    var bx = 0, by = 0, bz = 0
-    try {
-      if (event && event.pos) {
-        bx = event.pos.getX()
-        by = event.pos.getY()
-        bz = event.pos.getZ()
-      } else if (cacheData && cacheData.pos) {
-        bx = cacheData.pos.x
-        by = cacheData.pos.y
-        bz = cacheData.pos.z
-      }
-    } catch (e) {}
-
-    var cmd = '/data merge block ' + bx + ' ' + by + ' ' + bz +
-      ' {vehicleType:"' + escapedVT + '",respawnDelay:' + Math.max(20, rd) +
-      ',autoRespawn:' + (ar === 1 ? 1 : 0) + 'b,spawnWithAmmo:' + (swa === 1 ? 1 : 0) +
-      'b,offsetX:' + ox + 'd,offsetY:' + oy + 'd,offsetZ:' + oz +
-      'd,yaw:' + yaw + 'f,pitch:' + pitch + 'f,deployNBT:"' + escapedNBT + '"}'
-
-    // 更新 TextField 内容，并全选文本方便玩家直接 Ctrl+C
-    cmdField.setText(cmd)
-    try { cmdField.setSelection(0, cmd.length) } catch (e) {}
-  })
-  root.addChild(cmdCopyBtn)
-
-  root.addChild(new Label().setText(Component.literal('§7点按钮 → 全选 → Ctrl+C → 聊天栏粘贴执行')))
-
-  // ── 玩家物品栏 ──
-  root.addChild(new InventorySlots())
 
   // 构建 ModularUI
   event.modularUI = ModularUI.of(UI.of(root), player)
@@ -702,15 +483,4 @@ function makeSeparator() {
   sep.lss('width', '100%')
   sep.lss('overflow', 'hidden')
   return sep
-}
-
-function safeParseField(customVal, field) {
-  try {
-    var text = customVal !== undefined && customVal !== null ? String(customVal) : field.getText()
-    if (text === null || text === undefined) return 0
-    var val = parseInt(text, 10)
-    return isNaN(val) ? 0 : val
-  } catch (e) {
-    return 0
-  }
 }
