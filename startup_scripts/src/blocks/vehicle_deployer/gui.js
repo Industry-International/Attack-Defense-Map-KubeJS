@@ -32,7 +32,7 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   var level = event.level
   var blockPos = event.pos
 
-  // ── 从缓存读取数据（用于下拉菜单等 S2C 替代方案） ──
+  // ── 从缓存读取数据（服务端 GUI 构建时可用，客户端为占位） ──
   var cacheData = null
   try {
     var raw = global.vehicleDeployerCache.get(player.uuid)
@@ -41,8 +41,9 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   if (!cacheData) cacheData = {}
   var vehicleData = cacheData.categories || {}
   var categoryList = Object.keys(vehicleData)
+  // 客户端无缓存时显示占位（等待服务端推送 init_db）
   if (categoryList.length === 0) {
-    vehicleData = { '§c数据库未加载': ['§c仅限单人可用'] }
+    vehicleData = { '§7正在加载数据库...': ['§7请稍候'] }
     categoryList = Object.keys(vehicleData)
   }
   var nbtTemplate = cacheData.nbtTemplate || {}
@@ -148,6 +149,20 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   fieldDeployNBT.lss('height', 100)
   queueS2CField(fieldDeployNBT, makeS2CGetter('deployNBT'), 'deployNBT')
 
+  // ── 隐藏字段：数据库分类（S2C stringS2C 推送） ──
+  var dbCategoryField = new TextField()
+  dbCategoryField.setAnyString()
+  queueS2CField(dbCategoryField, function() {
+    try {
+      var raw = global.vehicleDeployerCache.get(player.uuid)
+      if (raw) {
+        var obj = JSON.parse(raw)
+        return JSON.stringify(obj.categories || {})
+      }
+    } catch(e) {}
+    return '{}'
+  }, 'db_categories')
+
   // ════════════════════════════════════════════════════════════
   //  根容器
   // ════════════════════════════════════════════════════════════
@@ -209,10 +224,12 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
   vehicleSelector.lss('width', '100%')
 
   categorySelector.setOnValueChanged(function(newCat) {
-    if (newCat && vehicleData[newCat]) {
-      vehicleSelector.setCandidates(vehicleData[newCat])
-      if (vehicleData[newCat].length > 0) {
-        vehicleSelector.setSelected(vehicleData[newCat][0])
+    // 优先用全局缓存（服务端推送的），其次用闭包变量
+    var cats = global.__vdCategories || vehicleData
+    if (newCat && cats[newCat]) {
+      vehicleSelector.setCandidates(cats[newCat])
+      if (cats[newCat].length > 0) {
+        vehicleSelector.setSelected(cats[newCat][0])
       }
     }
   })
@@ -503,7 +520,9 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
     }
   })
 
-  // ========== 构建 ModularUI ==========
+  // ═══════════════════════════════════════════════════════════════
+  //  构建 ModularUI
+  // ═══════════════════════════════════════════════════════════════
   event.modularUI = ModularUI.of(UI.of(root), player)
 
   // ═══════════════════════════════════════════════════════════
@@ -526,7 +545,22 @@ LDLib2UI.block('kubejs:vehicle_deployer_cfg', event => {
           if (!fired) {
             fired = true
             try {
-              field.setText(String(val))
+              if (name === 'db_categories') {
+                // 数据库分类：解析 JSON 更新下拉菜单
+                var cats = JSON.parse(val)
+                var keys = Object.keys(cats)
+                if (keys.length > 0) {
+                  categorySelector.setCandidates(keys)
+                  vehicleSelector.setCandidates(cats[keys[0]] || [])
+                  categorySelector.setSelected(keys[0])
+                  if (cats[keys[0]] && cats[keys[0]].length > 0) {
+                    vehicleSelector.setSelected(cats[keys[0]][0])
+                  }
+                  global.__vdCategories = cats
+                }
+              } else {
+                field.setText(String(val))
+              }
               binding.getSyncValue().setSyncStrategy($SyncStrategy.NONE)
             } catch (e) {
               console.log('[SBW部署台] S2C 更新异常 ' + name + ': ' + e)
