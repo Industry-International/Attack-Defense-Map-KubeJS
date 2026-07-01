@@ -6,6 +6,8 @@
 
 // startup_scripts 作用域独立，需要自己加载 Java 类
 var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
+var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
+var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
 
 const GUI_AMMO_TYPES = [
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },
@@ -86,45 +88,76 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   // 调试：打印 UI 构建时的端和坐标
   player.displayClientMessage(Component.literal('§8[DEBUG] UI 构建开始, isClientSide=' + player.level.isClientSide() + ', pos=' + pos.toShortString()), false)
 
-  // ★ 直接从方块 NBT 读取配置
-  var savedCfg = null
-  try {
-    var block = level.getBlock(pos.getX(), pos.getY(), pos.getZ())
-    if (block && block.entity) {
-      var raw = block.entity.persistentData.getString('StationConfig')
-      if (raw) {
-        savedCfg = JSON.parse(raw)
-        player.displayClientMessage(Component.literal('§a[DEBUG] 成功读取 StationConfig: scanRange=' + savedCfg.scanRange + ', cooldown=' + savedCfg.cooldown), false)
-      }
+  // ═══════════════════════════════════════════════════════════
+  //  S2C 服务端配置缓存（一次性读取 NBT，后续 getter 走缓存）
+  // ═══════════════════════════════════════════════════════════
+  var s2cCache = null
+  function readServerConfig() {
+    if (s2cCache !== null) return s2cCache
+    try {
+      var server = player.getServer()
+      if (!server) { s2cCache = {}; return s2cCache }
+      var lvl = server.getLevel(level.getDimension())
+      if (!lvl) { s2cCache = {}; return s2cCache }
+      var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
+      if (!b || !b.entity) { s2cCache = {}; return s2cCache }
+      var raw = b.entity.persistentData.getString('StationConfig')
+      if (!raw) { s2cCache = {}; return s2cCache }
+      s2cCache = JSON.parse(raw)
+      player.displayClientMessage(Component.literal('§a[S2C] 缓存读取成功: scanRange=' + s2cCache.scanRange), false)
+    } catch (e) {
+      player.displayClientMessage(Component.literal('§c[S2C] 缓存读取异常: ' + e), false)
+      s2cCache = {}
     }
-  } catch (e) {
-    player.displayClientMessage(Component.literal('§c[DEBUG] 读取方块NBT失败: ' + e), false)
+    return s2cCache
   }
 
-  function readCfgVal(key, fallback) {
-    if (savedCfg && savedCfg[key] !== undefined && savedCfg[key] !== null) return String(savedCfg[key])
-    return String(fallback)
+  // ── Getter 工厂 ──
+  function makeS2CGetter(key, defVal) {
+    return function() {
+      var cfg = readServerConfig()
+      return String(cfg[key] !== undefined ? cfg[key] : defVal)
+    }
   }
-  function readSlotVal(key, fallback) {
-    if (savedCfg && savedCfg.slots && savedCfg.slots[key] !== undefined) return String(savedCfg.slots[key])
-    return String(fallback)
+  function makeSlotS2CGetter(slotKey, defVal) {
+    return function() {
+      var cfg = readServerConfig()
+      var v = (cfg && cfg.slots) ? cfg.slots[slotKey] : undefined
+      return String(v !== undefined ? v : defVal)
+    }
   }
 
-  var fieldScanRange = new TextField().setNumbersOnlyInt(0, 999999).setText(readCfgVal('scanRange', 0))
+  // ── S2C 字段队列（延迟绑定，等 ModularUI.of 之后） ──
+  var s2cQueue = []
+  function queueS2CField(field, getter, name) {
+    s2cQueue.push({ field: field, getter: getter, name: name })
+    return field
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  创建所有 TextField（仅设置样式/占位，绑定稍后统一执行）
+  // ═══════════════════════════════════════════════════════════
+  var fieldScanRange = new TextField().setNumbersOnlyInt(0, 999999)
   fieldScanRange.lss('width', 55)
-  var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999).setText(readCfgVal('cooldown', 0))
+  queueS2CField(fieldScanRange, makeS2CGetter('scanRange', 0), 'scanRange')
+
+  var fieldCooldown = new TextField().setNumbersOnlyInt(0, 999999)
   fieldCooldown.lss('width', 55)
-  var fieldEnterDelay = new TextField().setNumbersOnlyInt(1, 999999).setText(readCfgVal('enterDelay', 0))
+  queueS2CField(fieldCooldown, makeS2CGetter('cooldown', 0), 'cooldown')
+
+  var fieldEnterDelay = new TextField().setNumbersOnlyInt(1, 999999)
   fieldEnterDelay.lss('width', 55)
+  queueS2CField(fieldEnterDelay, makeS2CGetter('enterDelay', 3), 'enterDelay')
 
   var slotFields = {}
   function initSlotFields() {
     var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
     for (var i = 0; i < allTypes.length; i++) {
       var at = allTypes[i]
-      var field = new TextField().setNumbersOnlyInt(0, 999999).setText(readSlotVal(at.key, 0))
+      var field = new TextField().setNumbersOnlyInt(0, 999999)
       field.lss('width', 55)
       slotFields[at.key] = field
+      queueS2CField(field, makeSlotS2CGetter(at.key, at.default), 'slot_' + at.key)
     }
   }
   initSlotFields()
@@ -509,6 +542,41 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   // ========== 构建 ModularUI ==========
   event.modularUI = ModularUI.of(UI.of(root), player)
+
+  // ═══════════════════════════════════════════════════════════
+  //  统一注册所有 S2C 绑定（必须等 ModularUI.of 之后执行）
+  // ═══════════════════════════════════════════════════════════
+  var syncMgr = event.modularUI.syncManager
+  player.displayClientMessage(Component.literal('§d[S2C] 开始统一绑定 ' + s2cQueue.length + ' 个字段...'), false)
+  for (var qi = 0; qi < s2cQueue.length; qi++) {
+    var item = s2cQueue[qi]
+    ;(function(field, getter, name) {
+      try {
+        var binding = $DataBindingBuilder.stringS2C(getter)
+          .s2cStrategy($SyncStrategy.CHANGED_PERIODIC)
+          .name('s2c_' + name)
+          .build()
+        field.bind(binding)
+        syncMgr.registerSyncValue(binding.getSyncValue())
+
+        var fired = false
+        field.registerValueListener(function(val) {
+          if (!fired) {
+            fired = true
+            try {
+              field.setText(String(val))
+              binding.getSyncValue().setSyncStrategy($SyncStrategy.NONE)
+            } catch (e) {
+              player.displayClientMessage(Component.literal('§c[S2C] ' + name + ' 更新异常: ' + e), false)
+            }
+          }
+        })
+      } catch (e) {
+        player.displayClientMessage(Component.literal('§c[S2C] ' + name + ' 绑定异常: ' + e), false)
+      }
+    })(item.field, item.getter, item.name)
+  }
+  player.displayClientMessage(Component.literal('§a[S2C] 全部 ' + s2cQueue.length + ' 个字段绑定完成'), false)
 })
 
 function makeSeparator() {
