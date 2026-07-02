@@ -37,15 +37,15 @@
 
 ## 数据包架构
 
-数据包根目录：`kubejs/data/sbw_vehicle_db/`
+数据包根目录：`kubejs/data/kubejs/db/sbw_vehicle_db/`
 
 ### 目录结构
 
 ```
-kubejs/data/sbw_vehicle_db/
+kubejs/data/kubejs/db/sbw_vehicle_db/
 ├── _registry.json                        ← 注册声明文件
-├── _ammo_types.json                      ← 弹药类型注册表（31种弹药）
-├── main_battle_tank/                     ← 主战坦克 (23辆)
+├── _ammo_types.json                      ← 弹药类型注册表（v2：ammoCategories 嵌套分类，含 default/tabName/color）
+├── guide.md                              ← 本文件
 ├── infantry_fighting_vehicle/            ← 步兵战车/装甲车 (14辆)
 ├── utility_vehicle/                      ← 多功能车/运输车 (14辆)
 ├── artillery/                            ← 火炮/火箭炮 (8辆)
@@ -323,9 +323,10 @@ node extract_vehicle_data.js
 | 文件 | 说明 |
 |------|------|
 | `.agents/scripts/extract_vehicle_data.js` | **数据提取脚本**（Node.js，从 JAR 生成数据包） |
-| `data/sbw_vehicle_db/_registry.json` | **注册声明文件**（声明允许的分类和文件列表） |
-| `data/sbw_vehicle_db/_ammo_types.json` | **弹药类型注册表**（31种弹药，含显示名/enName/maxStack） |
-| `data/sbw_vehicle_db/各分类目录/*.json` | **单个载具数据**（自包含，含 nbtTemplate + ammoSlots） |
+| `data/kubejs/db/sbw_vehicle_db/_registry.json` | **注册声明文件**（声明允许的分类和文件列表） |
+| `data/kubejs/db/sbw_vehicle_db/_ammo_types.json` | **弹药类型注册表**（v2 ammoCategories 嵌套分类格式，含 default/tabName/color，共 29 种弹药 6 个分类） |
+| `data/kubejs/db/sbw_vehicle_db/guide.md` | **数据库填写指南** |
+| `data/kubejs/db/sbw_vehicle_db/各分类目录/*.json` | **单个载具数据**（自包含，含 nbtTemplate + ammoSlots） |
 | `server_scripts/sbw_vehicle/main.js` | 模块入口 + 死亡事件监听 |
 | `server_scripts/sbw_vehicle/block_main.js` | **方块行为逻辑**（放置、右键、Tick） |
 | `server_scripts/sbw_vehicle/deploy.js` | **部署工具**（查数据库 → 构建 NBT → summon） |
@@ -335,6 +336,8 @@ node extract_vehicle_data.js
 | `server_scripts/sbw_vehicle/tools/nbt.js` | JSON → NBT 转换工具 |
 | `server_scripts/sbw_vehicle/tools/log.js` | 日志工具 |
 | `server_scripts/sbw_vehicle/ammo_replenish/` | **弹药补给站**子系统 |
+| `data/kubejs/blocks/ammo_crate.json` | **弹药补给站默认配置**（scanRange/cooldown/enterDelay） |
+| `data/kubejs/blocks/vehicle_deployer.json` | **载具部署台默认配置**（deployer_default + default_simple_nbt） |
 | `startup_scripts/src/blocks/vehicle_deployer/gui.js` | **LDLib2 GUI**（5个页签） |
 | `startup_scripts/src/item/vehicle_deployer_block.js` | 方块注册 |
 

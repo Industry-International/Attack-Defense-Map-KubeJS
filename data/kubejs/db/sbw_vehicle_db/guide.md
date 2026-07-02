@@ -3,9 +3,9 @@
 ## 目录结构
 
 ```
-kubejs/data/sbw_vehicle_db/
+kubejs/data/kubejs/db/sbw_vehicle_db/
 ├── _registry.json                          ← 注册文件（分类 + 文件列表）
-├── _ammo_types.json                        ← 弹药类型定义
+├── _ammo_types.json                        ← 弹药类型注册（v2 嵌套分类格式）
 ├── guide.md                                ← 本文件
 │
 ├── main_battle_tank/                       ← 分类目录
@@ -70,45 +70,103 @@ kubejs/data/sbw_vehicle_db/
 
 ---
 
-## 二、`_ammo_types.json` — 弹药类型注册
+## 二、`_ammo_types.json` — 弹药类型注册（v2 格式）
 
-定义弹药补给系统识别的所有弹药类型。
+弹药补给站 GUI 和补给逻辑都从此文件读取。采用**嵌套分类结构**。
+
+### 格式概览
 
 ```json
 {
-  "version": 1,
-  "ammoTypes": {
-    "large_shell_ap": {
-      "id": "superbwarfare:large_shell_ap",
-      "displayName": "§6大口径AP弹",
-      "enName": "Large AP Shell",
-      "maxStack": 64
-    },
-    "missile": {
-      "id": "superbwarfare:missile",
-      "displayName": "§a导弹",
-      "enName": "Missile",
-      "maxStack": 8
+  "version": 2,
+  "_comment": "...",
+  "ammoCategories": {
+    "large_cannon": {
+      "tabName": "大口径舰炮弹药",
+      "color": "§e",
+      "ammoList": {
+        "large_shell_ap": {
+          "id": "superbwarfare:large_shell_ap",
+          "displayName": "§6大口径AP弹",
+          "maxStack": 64,
+          "default": 64
+        }
+      }
     }
   }
 }
 ```
 
-| 字段 | 必填 | 说明 |
-|------|------|------|
-| Key（短名） | ✓ | 如 `large_shell_ap`，作为内部引用标识 |
-| `id` | ✓ | 完整 Minecraft 物品 ID，如 `superbwarfare:large_shell_ap` |
-| `displayName` | ✓ | 带颜色代码的中文显示名（支持 § 颜色码） |
-| `enName` | ✓ | 英文显示名（不需要颜色码） |
-| `maxStack` | ✓ | 该弹药物品的最大堆叠数 |
+### 分类字段（ammoCategories 的 value）
 
-> 载具文件中 `weapons[].ammoTypes` 和 `ammoSlots` 引用的所有弹药 ID 都必须在此注册。
+| 字段 | 必填 | 类型 | 说明 |
+|------|------|------|------|
+| Key | ✓ | string | 分类内部标识，如 `large_cannon`，全局唯一 |
+| `tabName` | ✓ | string | GUI 中该分类 Tab 的显示名称 |
+| `color` | ✗ | string | 颜色代码（`§e` 黄色，`§a` 绿色等），默认 `§e` |
+| `ammoList` | ✓ | object | 该分类下的弹药列表 |
+
+> Key 顺序 = Tab 在导航栏的显示顺序。GUI 每页显示 4 个分类 Tab，通过 ← → 翻页。
+
+### 弹药字段（ammoList 的 value）
+
+| 字段 | 必填 | 类型 | 说明 |
+|------|------|------|------|
+| Key（短名） | ✓ | string | 如 `large_shell_ap`，作为内部引用标识 |
+| `id` | ✓ | string | 完整 Minecraft 物品 ID，如 `superbwarfare:large_shell_ap` |
+| `displayName` | ✓ | string | 带颜色代码的中文显示名（支持 § 颜色码） |
+| `maxStack` | ✓ | int | 该弹药物品的最大堆叠数 |
+| `default` | ✓ | int | 方块放置时 NBT 中该弹药槽的默认数量 |
+
+> `default` 字段在方块初始化时写入 persistentData，后续可通过 GUI 修改。
+> ammoList 中 key 的排列顺序 = 该 Tab 内弹药行的显示顺序。
+
+### 示例：完整结构
+
+```json
+{
+  "version": 2,
+  "_comment": "弹药类型注册表。",
+  "ammoCategories": {
+    "large_cannon": {
+      "tabName": "大口径舰炮弹药",
+      "color": "§e",
+      "ammoList": {
+        "large_shell_ap": {
+          "id": "superbwarfare:large_shell_ap",
+          "displayName": "§6大口径AP弹",
+          "maxStack": 64,
+          "default": 64
+        },
+        "large_shell_he": {
+          "id": "superbwarfare:large_shell_he",
+          "displayName": "§c大口径HE弹",
+          "maxStack": 64,
+          "default": 64
+        }
+      }
+    },
+    "small_arms": {
+      "tabName": "轻武器弹药",
+      "color": "§e",
+      "ammoList": {
+        "rifle_ammo": {
+          "id": "superbwarfare:rifle_ammo",
+          "displayName": "§7步枪弹",
+          "maxStack": 64,
+          "default": 192
+        }
+      }
+    }
+  }
+}
+```
 
 ---
 
 ## 三、载具 JSON 文件 — `分类名/*.json`
 
-每辆载变体一个独立 JSON 文件，存放在分类目录下。
+每辆载具一个独立 JSON 文件，存放在分类目录下。
 
 ```json
 {
@@ -250,7 +308,57 @@ kubejs/data/sbw_vehicle_db/
 
 ---
 
-## 四、新增载具
+## 四、方块默认配置 JSON — `data/kubejs/blocks/`
+
+方块初始化时的默认值从此读取，不再硬编码。
+
+### 4.1 `ammo_crate.json` — 弹药补给站基础参数
+
+```json
+{
+    "station_Default": {
+        "scanRange": 12,
+        "cooldown": 5,
+        "enterDelay": 3
+    }
+}
+```
+
+弹药补给站的默认弹药配置（`default` 字段）在 `_ammo_types.json` 的 `ammoList[].default` 中定义。
+
+### 4.2 `vehicle_deployer.json` — 载具部署台默认配置
+
+```json
+{
+    "deployer_default": {
+        "vehicleType": "",
+        "team": "",
+        "respawnDelay": 600,
+        "autoRespawn": 0,
+        "offsetX": 0,
+        "offsetY": 1,
+        "offsetZ": 0,
+        "yaw": 0,
+        "pitch": 0,
+        "deployNBT": "{}",
+        "displayName": ""
+    },
+    "default_simple_nbt": {
+        "Energy": 10000000,
+        "Health": 500,
+        "Invulnerable": 0,
+        "DecoyReady": 1,
+        "SimpleToggle": 0,
+        "SpawnWithAmmo": 1
+    }
+}
+```
+
+`deployer_default` 控制基础部署参数，`default_simple_nbt` 为 GUI「简单 NBT」页签的默认值。
+
+---
+
+## 五、新增载具
 
 1. 在对应分类目录下创建 JSON 文件，如 `main_battle_tank/mcsp--new_tank.json`
 2. 将文件名添加到 `_registry.json` 对应分类的 `files` 数组中
@@ -259,7 +367,7 @@ kubejs/data/sbw_vehicle_db/
 
 ---
 
-## 五、新增分类
+## 六、新增分类
 
 1. 在 `sbw_vehicle_db/` 下创建新目录，如 `recon_vehicle/`
 2. 在 `_registry.json` 的 `categories` 中添加新条目：
@@ -276,12 +384,13 @@ kubejs/data/sbw_vehicle_db/
 
 ---
 
-## 六、注意事项
+## 七、注意事项
 
 1. **`_registry.json` 是唯一入口** — 未列出的文件不会被加载
 2. **`vehicleId` 必须全局唯一** — 所有分类文件之间不可重复
-3. **`weapons[].ammoTypes` 和 `ammoSlots` 中的弹药 ID** 必须在 `_ammo_types.json` 中注册
+3. **`weapons[].ammoTypes` 和 `ammoSlots` 中的弹药 ID** 必须在 `_ammo_types.json` 的 `ammoCategories[*].ammoList` 中注册
 4. **载具 JSON 中的 `category`** 必须精确匹配 `_registry.json` 中的 key
 5. **修改后执行 `/kubejs reload`** 重载所有脚本
 6. **文件编码**：UTF-8 without BOM
 7. **`enabled: false`** 会跳过整个分类
+8. **`_ammo_types.json` 的 `ammoCategories` key 顺序** = GUI 导航栏 Tab 顺序，每页 4 个分类
