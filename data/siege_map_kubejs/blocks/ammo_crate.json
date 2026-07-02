@@ -1,0 +1,7 @@
+{
+    "station_Default": {
+        "scanRange": 12, 
+        "cooldown": 5, 
+        "enterDelay": 3 
+    }
+}

@@ -32,8 +32,8 @@ const DEFAULT_SIMPLE_NBT = {
   Health: 500,
   Invulnerable: 0,
   DecoyReady: 1,
-  SimpleToggle: 1,
-  SpawnWithAmmo: 0
+  SimpleToggle: 0,
+  SpawnWithAmmo: 1
 }
 
 // ========== UI 构建 ==========
