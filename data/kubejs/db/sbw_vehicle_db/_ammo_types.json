@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "_comment": "弹药类型注册表 — 补给站和数据库共享。所有可被弹药补给站识别的弹药类型在此注册。",
+  "_comment": "弹药类型注册表。tools/database.js 和 ammo_replenish 通过遍历 ammoCategories → ammoList 加载弹药 id/default。tabName + color 为 GUI 分页信息，ammoList 的 key 顺序即 Tab 内弹药排列顺序。",
   "ammoCategories": {
     "large_cannon": {
-      "name": "大口径舰炮弹药",
+      "tabName": "大口径舰炮弹药",
+      "color": "§e",
       "ammoList": {
         "large_shell_ap": {
           "id": "superbwarfare:large_shell_ap",
@@ -26,7 +27,8 @@
       }
     },
     "small_cannon": {
-      "name": "小口径舰炮弹药",
+      "tabName": "小口径舰炮弹药",
+      "color": "§e",
       "ammoList": {
         "small_shell_ap": {
           "id": "superbwarfare:small_shell_ap",
@@ -55,36 +57,38 @@
       }
     },
     "small_arms": {
-      "name": "轻武器弹药",
+      "tabName": "轻武器弹药",
+      "color": "§e",
       "ammoList": {
         "rifle_ammo": {
           "id": "superbwarfare:rifle_ammo",
           "displayName": "§7步枪弹",
           "maxStack": 64,
-          "default": 64
+          "default": 192
         },
         "heavy_ammo": {
           "id": "superbwarfare:heavy_ammo",
           "displayName": "§9重弹",
           "maxStack": 64,
-          "default": 64
+          "default": 128
         },
         "mcsp_bullet762": {
           "id": "mcsp:bullet762",
           "displayName": "§77.62mm机枪弹",
           "maxStack": 64,
-          "default": 64
+          "default": 256
         },
         "mcsp_smallarmscartridge": {
           "id": "mcsp:smallarmscartridge",
           "displayName": "§7小口径弹药",
           "maxStack": 64,
-          "default": 64
+          "default": 256
         }
       }
     },
     "rocket_missile": {
-      "name": "火箭与导弹",
+      "tabName": "火箭与导弹",
+      "color": "§e",
       "ammoList": {
         "missile": {
           "id": "superbwarfare:missile",
@@ -139,7 +143,8 @@
       }
     },
     "mortar_bomb": {
-      "name": "迫击炮弹与航弹",
+      "tabName": "迫击炮弹与航弹",
+      "color": "§e",
       "ammoList": {
         "mortar_shell": {
           "id": "superbwarfare:mortar_shell",
@@ -168,19 +173,20 @@
       }
     },
     "vehicle_cannon": {
-      "name": "车载/机载机炮弹药",
+      "tabName": "车载/机载机炮弹药",
+      "color": "§a",
       "ammoList": {
         "mcsp_25mm_ap": {
           "id": "mcsp:25mm_ap",
           "displayName": "§b25mm机炮弹",
           "maxStack": 64,
-          "default": 64
+          "default": 128
         },
         "mcsp_30mm_ap": {
           "id": "mcsp:30mm_ap",
           "displayName": "§d30mm机炮弹",
           "maxStack": 64,
-          "default": 64
+          "default": 128
         },
         "mcsp_40mm_explosive": {
           "id": "mcsp:40mm_explosive",

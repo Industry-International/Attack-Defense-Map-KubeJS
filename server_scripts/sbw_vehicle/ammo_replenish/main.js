@@ -36,9 +36,10 @@ BlockEvents.placed('kubejs:ammo_crate', event => {
   if (event.level.isClientSide()) return
   let pd = event.block.entity.persistentData
   if (!pd.contains('StationConfig')) {
-    // 从 JSON 数据文件读取默认配置（scanRange / cooldown / enterDelay）
-    // 弹药 slots 默认值由 GUI 维护，放置时不写入 slots
+    // 从 JSON 数据文件读取默认配置 + 默认弹药 slots
     var defCfg = getStationDefaultConfig()
+    var defSlots = getStationDefaultSlots()
+    defCfg.slots = defSlots
     pd.putString('StationConfig', JSON.stringify(defCfg))
     event.block.entity.setChanged()
     console.log($LOG_PREFIX + ' 方块放置，写入默认配置')

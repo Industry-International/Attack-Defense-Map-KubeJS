@@ -1,10 +1,15 @@
 // ============================================================
 // 弹药补给站 - LDLib2 配置GUI（S2C DataBinding + C2S Message）
 //
-// 默认配置来源：
-//   基础参数（scanRange / cooldown / enterDelay）→ 数据文件
-//     kubejs/data/kubejs/blocks/ammo_crate.json → station_Default
-//   弹药 slots 默认 → 本文件中的 GUI_AMMO_TYPES / MCSP_AMMO_TYPES 数组
+// 全部数据驱动：
+//   基础参数（scanRange / cooldown / enterDelay）→ ammo_crate.json
+//   弹药类型 & 分类 → _ammo_types.json / ammoCategories
+//     - 分类 key 顺序 = Tab 顺序
+//     - 各分类的 tabName / color 控制 Tab 显示
+//     - ammoList 的 key 顺序 = Tab 内弹药行顺序
+//     - 各弹药条目的 displayName / default 控制显示和默认值
+//
+// 新增弹药只改 JSON，不动 JS。
 //
 // S2C：服务端读取方块 NBT → 一次性推送到客户端 TextField
 // C2S：客户端"保存"按钮 → sendMessage → 服务端写入 NBT
@@ -22,9 +27,72 @@ var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
 var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
 
-// ★ 数据化默认配置：从 JSON 数据文件读取
-// 文件路径：kubejs/data/kubejs/blocks/ammo_crate.json → station_Default
-// 此处仅缓存基础字段（scanRange / cooldown / enterDelay），弹药 slots 默认值在各 AMMO_TYPES 数组中定义
+// ════════════════════════════════════════════════════════════
+//  数据化读取：从 _ammo_types.json / ammoCategories 加载分类和弹药
+// ════════════════════════════════════════════════════════════
+
+var $AMMO_DB_PATH = 'kubejs/data/kubejs/db/sbw_vehicle_db/_ammo_types.json'
+
+/**
+ * 从 JSON 加载弹药类型和 GUI 分类信息
+ *
+ * 遍历 ammoCategories（key 顺序 = Tab 顺序），
+ * 每个分类内遍历 ammoList（key 顺序 = 弹药行顺序）。
+ *
+ * 输出：
+ *   catList: [ { key, tabName, color, ammoOrder: [...] } ] — 按 JSON key 顺序
+ *   flatList: [ { key, label, default }, ... ] — 全弹药平铺，供 cfgToTag/tagToCfg
+ *   ammoMap: { key: { displayName, default }, ... } — 快速查表
+ */
+var $AMMO_DATA = (function() {
+  var empty = { catList: [], flatList: [], ammoMap: {} }
+  try {
+    var raw = JsonIO.read($AMMO_DB_PATH)
+    if (!raw || !raw.ammoCategories) {
+      console.log('[弹药补给站-GUI] _ammo_types.json 缺少 ammoCategories')
+      return empty
+    }
+    var cats = raw.ammoCategories
+    var catKeys = Object.keys(cats)
+    var catList = []
+    var flatList = []
+    var ammoMap = {}
+    for (var ci = 0; ci < catKeys.length; ci++) {
+      var catKey = catKeys[ci]
+      var cat = cats[catKey]
+      if (!cat || !cat.ammoList) continue
+      var ammoKeys = Object.keys(cat.ammoList)
+      var ammoOrder = []
+      for (var ai = 0; ai < ammoKeys.length; ai++) {
+        var ak = ammoKeys[ai]
+        var info = cat.ammoList[ak]
+        if (!info) continue
+        ammoOrder.push(ak)
+        var label = info.displayName || ak
+        var defVal = (typeof info.default === 'number') ? info.default : 64
+        flatList.push({ key: ak, label: label, default: defVal })
+        ammoMap[ak] = { label: label, default: defVal }
+      }
+      if (ammoOrder.length === 0) continue
+      catList.push({
+        key: catKey,
+        tabName: cat.tabName || catKey,
+        color: cat.color || '§e',
+        ammoOrder: ammoOrder
+      })
+    }
+    console.log('[弹药补给站-GUI] 加载完成: ' + catList.length + ' 个分类, ' + flatList.length + ' 种弹药')
+    return { catList: catList, flatList: flatList, ammoMap: ammoMap }
+  } catch (e) {
+    console.log('[弹药补给站-GUI] 读取 ' + $AMMO_DB_PATH + ' 失败: ' + e)
+    return empty
+  }
+})()
+
+var $CAT_LIST = $AMMO_DATA.catList
+var $FLAT_LIST = $AMMO_DATA.flatList
+
+// ★ 基础默认配置：从 ammo_crate.json 读取
 var STATION_DEFAULT = (function() {
   try {
     var raw = JsonIO.read('kubejs/data/kubejs/blocks/ammo_crate.json')
@@ -42,56 +110,18 @@ var STATION_DEFAULT = (function() {
   return { scanRange: 12, cooldown: 5, enterDelay: 3 }
 })()
 
-const GUI_AMMO_TYPES = [
-  { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },
-  { key: 'large_shell_he',  label: '§c大口径HE',  default: 64 },
-  { key: 'large_shell_gs',  label: '§a大口径葡萄', default: 64 },
-  { key: 'mortar_shell',    label: '§6迫击炮弹',   default: 32 },
-  { key: 'small_shell_ap',  label: '§b小口径AP',  default: 64 },
-  { key: 'small_shell_he',  label: '§d小口径HE',  default: 64 },
-  { key: 'small_shell_gs',  label: '§a小口径葡萄', default: 64 },
-  { key: 'small_shell_aa',  label: '§b防空弹',    default: 64 },
-  { key: 'rifle_ammo',      label: '§7步枪弹',    default: 192 },
-  { key: 'heavy_ammo',      label: '§9重弹',      default: 128 },
-  { key: 'small_rocket',    label: '§e小型火箭',   default: 32 },
-  { key: 'rocket',          label: '§e火箭弹',     default: 16 },
-  { key: 'missile',         label: '§a导弹',       default: 8 },
-  { key: 'medium_anti_ground_missile', label: '§a中型对地导弹', default: 8 },
-  { key: 'large_anti_ground_missile',  label: '§a大型对地导弹', default: 8 },
-  { key: 'medium_anti_air_missile',    label: '§a防空导弹',     default: 8 },
-  { key: 'medium_aerial_bomb',  label: '§c中型航弹', default: 8 },
-  { key: 'small_aerial_bomb',   label: '§c小型航弹', default: 8 }
-]
+// ========== 工具函数：配置 ↔ CompoundTag ==========
 
-const MCSP_AMMO_TYPES1 = [
-  { key: 'mcsp_125mm_ap',           label: '§6125mm穿甲', default: 32 },
-  { key: 'mcsp_125mm_he',           label: '§c125mm高爆', default: 32 },
-  { key: 'mcsp_120mm_bulletmortar', label: '§5120mm迫击', default: 32 },
-  { key: 'mcsp_tow_2',              label: '§aTOW-2导弹', default: 16 },
-  { key: 'mcsp_mlrs_shells',        label: '§eMLRS火箭',  default: 32 }
-]
-
-const MCSP_AMMO_TYPES2 = [
-  { key: 'mcsp_25mm_ap',            label: '§b25mm机炮',   default: 128 },
-  { key: 'mcsp_30mm_ap',            label: '§d30mm机炮',   default: 128 },
-  { key: 'mcsp_40mm_explosive',     label: '§c40mm高爆',   default: 64 },
-  { key: 'mcsp_40mm_smoke',         label: '§740mm烟雾',   default: 32 },
-  { key: 'mcsp_bullet762',          label: '§77.62mm机枪', default: 256 },
-  { key: 'mcsp_smallarmscartridge', label: '§7小口径弹药', default: 256 }
-]
-
-// 工具函数：将配置对象转为 CompoundTag
 function cfgToTag(cfg) {
   var tag = new $CompoundTag()
   tag.putInt('scanRange', ~~(cfg.scanRange || STATION_DEFAULT.scanRange))
   tag.putInt('cooldown', ~~(cfg.cooldown || STATION_DEFAULT.cooldown))
   tag.putInt('enterDelay', ~~(cfg.enterDelay || STATION_DEFAULT.enterDelay))
   var slots = cfg.slots || {}
-  var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
-  for (var i = 0; i < allTypes.length; i++) {
-    var key = allTypes[i].key
-    var val = slots[key] !== undefined ? slots[key] : allTypes[i].default
-    tag.putInt('slot_' + key, ~~val)
+  for (var i = 0; i < $FLAT_LIST.length; i++) {
+    var entry = $FLAT_LIST[i]
+    var val = slots[entry.key] !== undefined ? slots[entry.key] : entry.default
+    tag.putInt('slot_' + entry.key, ~~val)
   }
   return tag
 }
@@ -103,9 +133,8 @@ function tagToCfg(tag) {
     enterDelay: tag.getInt('enterDelay'),
     slots: {}
   }
-  var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
-  for (var i = 0; i < allTypes.length; i++) {
-    var key = allTypes[i].key
+  for (var i = 0; i < $FLAT_LIST.length; i++) {
+    var key = $FLAT_LIST[i].key
     cfg.slots[key] = tag.getInt('slot_' + key)
   }
   return cfg
@@ -179,13 +208,12 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   var slotFields = {}
   function initSlotFields() {
-    var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
-    for (var i = 0; i < allTypes.length; i++) {
-      var at = allTypes[i]
+    for (var i = 0; i < $FLAT_LIST.length; i++) {
+      var entry = $FLAT_LIST[i]
       var field = new TextField().setNumbersOnlyInt(0, 999999)
       field.lss('width', 55)
-      slotFields[at.key] = field
-      queueS2CField(field, makeSlotS2CGetter(at.key, at.default), 'slot_' + at.key)
+      slotFields[entry.key] = field
+      queueS2CField(field, makeSlotS2CGetter(entry.key, entry.default), 'slot_' + entry.key)
     }
   }
   initSlotFields()
@@ -203,139 +231,69 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
 
   var tabView = new TabView()
 
-  // 第1页：基础设置
-  var page1 = new UIElement()
-  page1.lss('padding', 4)
+  // ─── 第1页：基础设置（固定） ───
+  var pageBasic = new UIElement()
+  pageBasic.lss('padding', 4)
   var srRow = new UIElement()
   srRow.addChild(new Label().setText(Component.literal('§7扫描范围:')))
   srRow.addChild(fieldScanRange)
   srRow.addChild(new Label().setText(Component.literal(' §7格')))
-  page1.addChild(srRow)
-  page1.addChild(new Label().setText(Component.literal(' ')))
+  pageBasic.addChild(srRow)
+  pageBasic.addChild(new Label().setText(Component.literal(' ')))
   var cdRow = new UIElement()
   cdRow.addChild(new Label().setText(Component.literal('§7冷却时间:')))
   cdRow.addChild(fieldCooldown)
   cdRow.addChild(new Label().setText(Component.literal(' §7秒')))
-  page1.addChild(cdRow)
-  page1.addChild(new Label().setText(Component.literal(' ')))
+  pageBasic.addChild(cdRow)
+  pageBasic.addChild(new Label().setText(Component.literal(' ')))
   var edRow = new UIElement()
   edRow.addChild(new Label().setText(Component.literal('§7驶入等待:')))
   edRow.addChild(fieldEnterDelay)
   edRow.addChild(new Label().setText(Component.literal(' §7秒')))
-  page1.addChild(edRow)
-  page1.addChild(new Label().setText(Component.literal(' ')))
-  page1.addChild(new Label().setText(Component.literal('§8← 切换标签页配置弹药')))
-  var tab1 = new Tab()
-  tab1.setText('基础')
-  tabView.addTab(tab1, page1)
+  pageBasic.addChild(edRow)
+  pageBasic.addChild(new Label().setText(Component.literal(' ')))
+  pageBasic.addChild(new Label().setText(Component.literal('§8← 切换标签页配置弹药')))
+  var tabBasic = new Tab()
+  tabBasic.setText('基础')
+  tabView.addTab(tabBasic, pageBasic)
 
-  // 第2页：大口径炮弹
-  var page2 = new UIElement()
-  page2.lss('padding', 4)
-  page2.addChild(new Label().setText(Component.literal('§e── 大口径炮弹 ──')))
-  for (var pi = 0; pi < 4; pi++) {
-    var at = GUI_AMMO_TYPES[pi]
-    var row = new UIElement()
-    row.addChild(new Label().setText(Component.literal(at.label + ':')))
-    row.addChild(slotFields[at.key])
-    row.addChild(new Label().setText(Component.literal(' 个')))
-    page2.addChild(row)
+  // ─── 弹药分类 Tab：从 $CAT_LIST 动态生成 ───
+  for (var ci = 0; ci < $CAT_LIST.length; ci++) {
+    var cat = $CAT_LIST[ci]
+    var page = new UIElement()
+    page.lss('padding', 4)
+    // 分类标题（使用 color 字段）
+    var titleText = cat.color + '── ' + cat.tabName.replace(/§./g, '') + ' ──'
+    page.addChild(new Label().setText(Component.literal(titleText)))
+    // 该分类下的弹药行
+    for (var ai = 0; ai < cat.ammoOrder.length; ai++) {
+      var ak = cat.ammoOrder[ai]
+      var field = slotFields[ak]
+      if (!field) continue
+      var info = $AMMO_DATA.ammoMap[ak]
+      var label = info ? info.label : ak
+      var row = new UIElement()
+      row.addChild(new Label().setText(Component.literal(label + ':')))
+      row.addChild(field)
+      row.addChild(new Label().setText(Component.literal(' 个')))
+      page.addChild(row)
+    }
+    var tab = new Tab()
+    tab.setText(cat.tabName)
+    tabView.addTab(tab, page)
   }
-  var tab2 = new Tab()
-  tab2.setText('炮弹')
-  tabView.addTab(tab2, page2)
 
-  // 第3页：小口径机炮弹
-  var page3 = new UIElement()
-  page3.lss('padding', 4)
-  page3.addChild(new Label().setText(Component.literal('§e── 小口径机炮弹 ──')))
-  for (var pi = 4; pi < 8; pi++) {
-    var at = GUI_AMMO_TYPES[pi]
-    var row = new UIElement()
-    row.addChild(new Label().setText(Component.literal(at.label + ':')))
-    row.addChild(slotFields[at.key])
-    row.addChild(new Label().setText(Component.literal(' 个')))
-    page3.addChild(row)
-  }
-  var tab3 = new Tab()
-  tab3.setText('小口径')
-  tabView.addTab(tab3, page3)
-
-  // 第4页：枪弹/火箭弹
-  var page4guns = new UIElement()
-  page4guns.lss('padding', 4)
-  page4guns.addChild(new Label().setText(Component.literal('§e── 枪弹/火箭弹 ──')))
-  for (var pi = 8; pi < 12; pi++) {
-    var at = GUI_AMMO_TYPES[pi]
-    var row = new UIElement()
-    row.addChild(new Label().setText(Component.literal(at.label + ':')))
-    row.addChild(slotFields[at.key])
-    row.addChild(new Label().setText(Component.literal(' 个')))
-    page4guns.addChild(row)
-  }
-  var tab4guns = new Tab()
-  tab4guns.setText('枪/火箭')
-  tabView.addTab(tab4guns, page4guns)
-
-  // 第5页：导弹/航弹
-  var page5miss = new UIElement()
-  page5miss.lss('padding', 4)
-  page5miss.addChild(new Label().setText(Component.literal('§e── 导弹/航弹 ──')))
-  for (var pi = 12; pi < GUI_AMMO_TYPES.length; pi++) {
-    var at = GUI_AMMO_TYPES[pi]
-    var row = new UIElement()
-    row.addChild(new Label().setText(Component.literal(at.label + ':')))
-    row.addChild(slotFields[at.key])
-    row.addChild(new Label().setText(Component.literal(' 个')))
-    page5miss.addChild(row)
-  }
-  var tab5miss = new Tab()
-  tab5miss.setText('导弹/航弹')
-  tabView.addTab(tab5miss, page5miss)
-
-  // 第6页：MCSP坦克炮/导弹
-  var page5 = new UIElement()
-  page5.lss('padding', 4)
-  page5.addChild(new Label().setText(Component.literal('§e── 坦克炮/导弹 ──')))
-  for (var pi = 0; pi < MCSP_AMMO_TYPES1.length; pi++) {
-    var at = MCSP_AMMO_TYPES1[pi]
-    var row = new UIElement()
-    row.addChild(new Label().setText(Component.literal(at.label + ':')))
-    row.addChild(slotFields[at.key])
-    row.addChild(new Label().setText(Component.literal(' 个')))
-    page5.addChild(row)
-  }
-  var tab5 = new Tab()
-  tab5.setText('§aMCSP(上)')
-  tabView.addTab(tab5, page5)
-
-  // 第7页：MCSP机关炮/机枪
-  var page6 = new UIElement()
-  page6.lss('padding', 4)
-  page6.addChild(new Label().setText(Component.literal('§e── 机关炮/机枪 ──')))
-  for (var pi = 0; pi < MCSP_AMMO_TYPES2.length; pi++) {
-    var at = MCSP_AMMO_TYPES2[pi]
-    var row = new UIElement()
-    row.addChild(new Label().setText(Component.literal(at.label + ':')))
-    row.addChild(slotFields[at.key])
-    row.addChild(new Label().setText(Component.literal(' 个')))
-    page6.addChild(row)
-  }
-  var tab6 = new Tab()
-  tab6.setText('§aMCSP(下)')
-  tabView.addTab(tab6, page6)
-
-  // 第8页：作弊
-  var page4 = new UIElement()
-  page4.lss('padding', 4)
+  // ─── 作弊页（固定） ───
+  var cheatPage = new UIElement()
+  cheatPage.lss('padding', 4)
   var isOP = player.hasPermissions(2)
   if (!isOP) {
-    page4.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
-    page4.addChild(new Label().setText(Component.literal(' ')))
-    page4.addChild(new Label().setText(Component.literal('§c你没有权限使用作弊功能')))
+    cheatPage.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
+    cheatPage.addChild(new Label().setText(Component.literal(' ')))
+    cheatPage.addChild(new Label().setText(Component.literal('§c你没有权限使用作弊功能')))
   } else {
-    page4.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
-    page4.addChild(new Label().setText(Component.literal(' ')))
+    cheatPage.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
+    cheatPage.addChild(new Label().setText(Component.literal(' ')))
     var btnToggleCheat = new Button()
     btnToggleCheat.setText(Component.literal('§6⇄ 切换作弊模式'))
     btnToggleCheat.lss('padding', '3 10')
@@ -355,9 +313,9 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         player.displayClientMessage(Component.literal('§c[弹药补给站] 切换失败: ' + e), false)
       }
     })
-    page4.addChild(btnToggleCheat)
+    cheatPage.addChild(btnToggleCheat)
     var statusLabel = new Label().setText(Component.literal('§7作弊模式已关闭'))
-    page4.addChild(statusLabel)
+    cheatPage.addChild(statusLabel)
     var btnManualTrigger = new Button()
     btnManualTrigger.setText(Component.literal('§4⚡ 立即扫描补给'))
     btnManualTrigger.lss('padding', '4 12')
@@ -374,11 +332,11 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
       } catch (e) { player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false) }
     })
-    page4.addChild(btnManualTrigger)
+    cheatPage.addChild(btnManualTrigger)
   }
-  var tab4 = new Tab()
-  tab4.setText('§c作弊')
-  tabView.addTab(tab4, page4)
+  var tabCheat = new Tab()
+  tabCheat.setText('§c作弊')
+  tabView.addTab(tabCheat, cheatPage)
 
   root.addChild(tabView)
   root.addChild(makeSeparator())
@@ -398,12 +356,11 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       tag.putInt('scanRange', ~~sr);
       tag.putInt('cooldown', ~~cd);
       tag.putInt('enterDelay', ~~ed);
-      var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2);
-      for (var i = 0; i < allTypes.length; i++) {
-        var ak = allTypes[i].key;
-        var field = slotFields[ak];
-        if (!field) continue;
-        var amt = safeParseField(null, field);
+      for (var i = 0; i < $FLAT_LIST.length; i++) {
+        var ak = $FLAT_LIST[i].key;
+        var f = slotFields[ak];
+        if (!f) continue;
+        var amt = safeParseField(null, f);
         if (amt > 0) tag.putInt('slot_' + ak, ~~amt);
       }
       root.sendMessage('save_config', tag);
@@ -439,17 +396,16 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     var cd = safeParseField(null, fieldCooldown)
     var ed = safeParseField(null, fieldEnterDelay)
     var slotsJson = {}
-    var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
-    for (var i = 0; i < allTypes.length; i++) {
-      var ak = allTypes[i].key
+    for (var i = 0; i < $FLAT_LIST.length; i++) {
+      var ak = $FLAT_LIST[i].key
       var amt = safeParseField(null, slotFields[ak])
       if (amt > 0) slotsJson[ak] = amt
     }
     var configObj = { scanRange: sr, cooldown: cd, enterDelay: ed, slots: slotsJson }
-    var escapedJson = JSON.stringify(configObj).replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+    var escapedJson = JSON.stringify(configObj).replace(/\\\\/g, '\\\\\\\\').replace(/\"/g, '\\\\\"')
     var bx = pos.getX(), by = pos.getY(), bz = pos.getZ()
     var cmd = '/data merge block ' + bx + ' ' + by + ' ' + bz +
-      ' {StationConfig:"' + escapedJson + '"}'
+      ' {StationConfig:\"' + escapedJson + '\"}'
     cmdField.setText(cmd)
     try { cmdField.setSelection(0, cmd.length) } catch (e) {}
   })
@@ -475,9 +431,8 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
         enterDelay: msg.getInt('enterDelay'),
         slots: {}
       }
-      var allTypes = GUI_AMMO_TYPES.concat(MCSP_AMMO_TYPES1).concat(MCSP_AMMO_TYPES2)
-      for (var i = 0; i < allTypes.length; i++) {
-        var ak = allTypes[i].key
+      for (var i = 0; i < $FLAT_LIST.length; i++) {
+        var ak = $FLAT_LIST[i].key
         if (msg.contains('slot_' + ak)) {
           newCfg.slots[ak] = msg.getInt('slot_' + ak)
         }

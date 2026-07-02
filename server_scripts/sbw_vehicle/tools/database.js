@@ -41,20 +41,25 @@ var $ammoDB = null     // 弹药类型缓存
  */
 function loadAmmoTypes() {
   var raw = JsonIO.read($DB_ROOT + '/_ammo_types.json')
-  if (!raw || !raw.ammoTypes) {
-    sbwWarn('[数据库] _ammo_types.json 读取失败或格式错误')
+  if (!raw || !raw.ammoCategories) {
+    sbwWarn('[数据库] _ammo_types.json 读取失败或缺少 ammoCategories')
     $ammoDB = { loaded: false, byShortName: {}, byFullId: {} }
     return $ammoDB
   }
 
   var db = { loaded: true, byShortName: {}, byFullId: {} }
-  var keys = Object.keys(raw.ammoTypes)
-  for (var ki = 0; ki < keys.length; ki++) {
-    var shortName = keys[ki]
-    var info = raw.ammoTypes[shortName]
-    if (!info || !info.id) continue
-    db.byShortName[shortName] = info
-    db.byFullId[info.id] = shortName
+  var catKeys = Object.keys(raw.ammoCategories)
+  for (var ci = 0; ci < catKeys.length; ci++) {
+    var cat = raw.ammoCategories[catKeys[ci]]
+    if (!cat || !cat.ammoList) continue
+    var ammoKeys = Object.keys(cat.ammoList)
+    for (var ai = 0; ai < ammoKeys.length; ai++) {
+      var shortName = ammoKeys[ai]
+      var info = cat.ammoList[shortName]
+      if (!info || !info.id) continue
+      db.byShortName[shortName] = info
+      db.byFullId[info.id] = shortName
+    }
   }
 
   $ammoDB = db

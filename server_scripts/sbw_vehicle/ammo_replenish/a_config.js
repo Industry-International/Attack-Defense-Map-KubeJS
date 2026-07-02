@@ -6,7 +6,8 @@
 //
 // 默认配置数据文件：kubejs/data/kubejs/blocks/ammo_crate.json
 //   → station_Default 下定义 scanRange / cooldown / enterDelay
-//   → 弹药默认储量在 GUI 代码中定义（暂未数据化）
+// 弹药默认储量数据文件：kubejs/data/kubejs/db/sbw_vehicle_db/_ammo_types.json
+//   → ammoCategories.<分类>.ammoList.<短名>.default 字段
 //
 // ⚠ 所有 NBT 读写统一使用 block.entity.persistentData
 //   block.persistentData 在 LevelBlock 上不存在！
@@ -39,6 +40,54 @@ var $STATION_DEFAULT_JSON = 'kubejs/data/kubejs/blocks/ammo_crate.json'
 //   getAmmoFullIdMap()           → { fullId: shortName, ... }
 //
 // 新增弹药类型只需修改 _ammo_types.json，无需改动 JS 代码。
+
+// ========== 数据化默认 slots 读取（从 _ammo_types.json）==========
+
+/**
+ * 弹药类型 JSON 文件路径
+ */
+var $AMMO_TYPES_JSON = 'kubejs/data/kubejs/db/sbw_vehicle_db/_ammo_types.json'
+
+/**
+ * 从 _ammo_types.json 读取所有弹药类型的默认储量
+ *
+ * 遍历 ammoCategories → <分类>.ammoList → <短名> 中的 default 字段，
+ * 只提取 id（供参考）和 default（实际储量值）。
+ * 返回 { shortName: defaultAmount } 的映射对象。
+ * 放置方块时将此映射写入 StationConfig.slots。
+ *
+ * @returns {Object} { large_shell_ap: 64, rifle_ammo: 192, ... }
+ */
+function getStationDefaultSlots() {
+  try {
+    var raw = JsonIO.read($AMMO_TYPES_JSON)
+    if (!raw || !raw.ammoCategories) {
+      console.log('[弹药补给站] [警告] _ammo_types.json 读取失败或缺少 ammoCategories')
+      return {}
+    }
+    var cats = raw.ammoCategories
+    var catKeys = Object.keys(cats)
+    var slots = {}
+    for (var ci = 0; ci < catKeys.length; ci++) {
+      var cat = cats[catKeys[ci]]
+      if (!cat || !cat.ammoList) continue
+      var ammoKeys = Object.keys(cat.ammoList)
+      for (var ai = 0; ai < ammoKeys.length; ai++) {
+        var shortName = ammoKeys[ai]
+        var info = cat.ammoList[shortName]
+        // 只取 id 和 default，忽略 name/displayName 等 UI 字段
+        if (info && typeof info.default === 'number' && info.default > 0) {
+          slots[shortName] = info.default
+        }
+      }
+    }
+    console.log('[弹药补给站] 默认弹药 slots 加载完成: ' + Object.keys(slots).length + ' 种')
+    return slots
+  } catch (e) {
+    console.log('[弹药补给站] [警告] 读取 _ammo_types.json 失败: ' + e)
+    return {}
+  }
+}
 
 // ========== 数据化默认配置读取 ==========
 
