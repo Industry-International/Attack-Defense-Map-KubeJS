@@ -2,11 +2,11 @@
 // SBW 载具数据库 - 自动发现加载器
 //
 // 功能：
-//   从 kubejs/data/sbw_vehicle_db/ 数据包目录自动发现并加载
+//   从 kubejs/data/siege_map_kubejs/db/sbw_vehicle_db/ 数据包目录自动发现并加载
 //   所有已注册分类下的载具 JSON 文件，构建运行时数据库。
 //
 // 数据包结构：
-//   kubejs/data/sbw_vehicle_db/
+//   kubejs/data/siege_map_kubejs/db/sbw_vehicle_db/
 //   ├── _registry.json              ← 注册文件（含分类和文件列表）
 //   ├── main_battle_tank/           ← 分类目录
 //   │   ├── superbwarfare--t_90a.json
@@ -21,7 +21,7 @@
 //  数据库根路径 & 内部存储
 // ══════════════════════════════════════════════════════════════
 
-var $DB_ROOT = 'kubejs/data/sbw_vehicle_db'
+var $DB_ROOT = 'kubejs/data/siege_map_kubejs/db/sbw_vehicle_db'
 var $vehicleDB = null  // 内部缓存，不写入 global
 var $ammoDB = null     // 弹药类型缓存
 
