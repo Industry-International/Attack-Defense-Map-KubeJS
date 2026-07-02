@@ -4,7 +4,7 @@
 // 文件结构：职业根目录下平铺 config/*.json + tacz/*.json
 // ============================================================
 
-var $DB_ROOT = 'kubejs/data/siege_map_kubejs/db/profession_db'
+var $DB_ROOT = 'kubejs/data/kubejs/db/profession_db'
 var $professionDB = null
 
 // ========== 工具函数（本地） ==========

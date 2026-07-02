@@ -21,7 +21,7 @@
 //  数据库根路径 & 内部存储
 // ══════════════════════════════════════════════════════════════
 
-var $DB_ROOT = 'kubejs/data/siege_map_kubejs/db/sbw_vehicle_db'
+var $DB_ROOT = 'kubejs/data/kubejs/db/sbw_vehicle_db'
 var $vehicleDB = null  // 内部缓存，不写入 global
 var $ammoDB = null     // 弹药类型缓存
 
