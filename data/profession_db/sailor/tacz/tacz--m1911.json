@@ -1,1 +1,0 @@
-{"weaponId": "m1911", "gunId": "tacz:m1911", "mod": "tacz", "displayName": "M1911", "gunFireMode": "SEMI", "gunCurrentAmmoCount": 7, "ammo": {"ammoId": "tacz:45acp", "main": 70, "level": 2}, "attachments": {"muzzle": ["tacz:muzzle_silencer_knight_qd", "tacz:muzzle_silencer_mirage"], "extended_mag": ["tacz:extended_mag_1", "tacz:extended_mag_2"]}}
