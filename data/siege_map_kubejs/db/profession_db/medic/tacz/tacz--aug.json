@@ -1,0 +1,1 @@
+{"weaponId": "aug", "gunId": "tacz:aug", "mod": "tacz", "displayName": "AUG", "gunFireMode": "AUTO", "gunCurrentAmmoCount": 30, "ammo": {"ammoId": "tacz:556x45", "main": 210, "level": 2}, "attachments": {"scope": ["tacz:scope_aug_default"], "extended_mag": ["tacz:extended_mag_1", "tacz:extended_mag_2", "tacz:extended_mag_3"], "laser": ["tacz:laser_compact", "tacz:laser_lopro"]}}

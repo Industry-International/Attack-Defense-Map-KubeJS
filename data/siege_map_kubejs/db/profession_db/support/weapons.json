@@ -1,0 +1,43 @@
+{
+  "weaponLists": {
+    "primary": {
+      "rifle": [],
+      "smg": [],
+      "shotgun": [],
+      "sniper": [],
+      "mg": [
+        "m249",
+        "rpk",
+        "bf1lewis",
+        "mg42",
+        "chauchat",
+        "lavendermg0815"
+      ],
+      "pistol": [],
+      "other": [],
+      "heavy": []
+    },
+    "secondary": {
+      "rifle": [],
+      "smg": [],
+      "shotgun": [],
+      "sniper": [],
+      "mg": [],
+      "pistol": [
+        "deagle"
+      ],
+      "other": [],
+      "heavy": []
+    },
+    "tertiary": {
+      "rifle": [],
+      "smg": [],
+      "shotgun": [],
+      "sniper": [],
+      "mg": [],
+      "pistol": [],
+      "other": [],
+      "heavy": ["igla_9k38","javelin","rpg"]
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"weaponId": "cz75", "gunId": "tacz:cz75", "mod": "tacz", "displayName": "CZ75", "gunFireMode": "AUTO", "gunCurrentAmmoCount": 12, "ammo": {"ammoId": "tacz:9mm", "main": 100, "level": 1}, "attachments": {"scope": ["tacz:sight_rmr_dot", "tacz:sight_acro_pistol", "tacz:sight_fastfire_pistol"], "extended_mag": ["tacz:extended_mag_1", "tacz:extended_mag_2"]}}
