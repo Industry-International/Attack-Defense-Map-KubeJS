@@ -256,26 +256,33 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
     return page
   }
 
-  /** 构建单个弹药分类页 */
+  /** 构建单个弹药分类页 — ScrollerView 可滚动视口 + displayName(id) + 输入框 */
   function buildCatPage(cat) {
     var page = new UIElement()
     page.lss('padding', 4)
-    // 分类标题（使用 color 字段）
+    // 分类标题（使用 color 字段，始终可见，不滚动）
     var titleText = cat.color + '── ' + cat.tabName.replace(/§./g, '') + ' ──'
     page.addChild(new Label().setText(Component.literal(titleText)))
-    // 该分类下的弹药行
+    // 可滚动视口：固定大小，超出内容自动滚动
+    var scroller = new ScrollerView()
+    scroller.lss('width', 258)
+    scroller.lss('height', 140)
+    scroller.scrollerStyle(function(s) {
+      s.mode('vertical')
+      s.adaptiveWidth(true)
+      s.adaptiveHeight(true)
+      s.verticalScrollDisplay('auto')
+    })
+    // 弹药行：displayName + (id) + 输入框
     for (var ai = 0; ai < cat.ammoOrder.length; ai++) {
       var ak = cat.ammoOrder[ai]
       var field = slotFields[ak]
       if (!field) continue
       var info = $AMMO_DATA.ammoMap[ak]
       var label = info ? info.label : ak
-      var row = new UIElement()
-      row.addChild(new Label().setText(Component.literal(label + ':')))
-      row.addChild(field)
-      row.addChild(new Label().setText(Component.literal(' 个')))
-      page.addChild(row)
+      scroller.addScrollViewChild(makeAmmoRow(label, ak, field))
     }
+    page.addChild(scroller)
     return page
   }
 
@@ -680,6 +687,31 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   selectedTapGlobalIdx = 0
   renderUI()
 })
+
+/**
+ * 构建弹药行容器：displayName + (id) + 输入框
+ * 各自分配固定宽度，组成紧凑小容器，避免互相挤压
+ */
+function makeAmmoRow(displayName, ammoId, field) {
+  var row = new UIElement()
+  row.lss('width', 240)
+  row.lss('flex-direction', 'row')
+  row.lss('align-items', 'center')
+  row.lss('gap', 4)
+  // displayName（自带颜色代码）
+  var nameLbl = new Label().setText(Component.literal(displayName))
+  nameLbl.lss('width', 100)
+  nameLbl.lss('overflow', 'hidden')
+  row.addChild(nameLbl)
+  // id（灰色小字）
+  var idLbl = new Label().setText(Component.literal('§7(' + ammoId + ')'))
+  idLbl.lss('width', 75)
+  idLbl.lss('overflow', 'hidden')
+  row.addChild(idLbl)
+  // 输入框（已有 width: 55）
+  row.addChild(field)
+  return row
+}
 
 function makeSeparator() {
   var sep = new Label().setText(Component.literal('§8━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'))
