@@ -2,9 +2,13 @@
 // 载具部署台 - 方块行为逻辑
 //
 // 事件：
-//   BlockEvents.placed       — 初始化默认配置
+//   BlockEvents.placed       — 初始化默认配置（从 JSON 数据文件读取）
 //   BlockEvents.rightClicked — 打开 GUI（OP）/ 状态查看（普通玩家）
 //   BlockEvents.blockEntityTick — 管理载具生命周期
+//
+// 默认配置数据文件：kubejs/data/kubejs/blocks/vehicle_deployer.json
+//   → deployer_default       — 基础部署参数
+//   → default_simple_nbt     — 简单 NBT 默认值
 //
 // ★ 持久化核心原则：
 //   1. 使用独立的 inited 标记判断是否初始化（而非 vehicleType）
@@ -12,6 +16,66 @@
 //   3. 每次写入 NBT 后立即 setChanged()
 //   4. cooldownEnd 重启后做范围校验（防止 gameTime 不连续）
 // ============================================================
+
+// ========== 默认配置路径常量 ==========
+
+var $DEPLOYER_DEFAULT_JSON = 'kubejs/data/kubejs/blocks/vehicle_deployer.json'
+
+/**
+ * 从 JSON 数据文件读取部署台默认配置
+ *
+ * 读取 deployer_default 和 default_simple_nbt 两个段，
+ * 返回合并后的完整默认配置对象。
+ * 所有字段均有硬编码兜底，JSON 缺失字段不会导致崩溃。
+ *
+ * @returns {Object} { vehicleType, team, respawnDelay, autoRespawn, offsetX/Y/Z, yaw, pitch,
+ *                      deployNBT, displayName, nbtEnergy, nbtHealth, nbtInvulnerable,
+ *                      nbtSimpleToggle, nbtDecoyReady, spawnWithAmmo }
+ */
+function getDeployerDefaultConfig() {
+  try {
+    var raw = JsonIO.read($DEPLOYER_DEFAULT_JSON)
+    if (!raw) {
+      sbwWarn('[部署台] vehicle_deployer.json 读取失败，使用硬编码兜底')
+      return getHardcodedDefaults()
+    }
+    var dd = raw.deployer_default || {}
+    var sn = raw.default_simple_nbt || {}
+    return {
+      vehicleType:    dd.vehicleType || '',
+      team:           dd.team || '',
+      respawnDelay:   (typeof dd.respawnDelay  === 'number') ? dd.respawnDelay : 600,
+      autoRespawn:    (typeof dd.autoRespawn   === 'number') ? dd.autoRespawn  : 0,
+      offsetX:        (typeof dd.offsetX       === 'number') ? dd.offsetX      : 0,
+      offsetY:        (typeof dd.offsetY       === 'number') ? dd.offsetY      : 1,
+      offsetZ:        (typeof dd.offsetZ       === 'number') ? dd.offsetZ      : 0,
+      yaw:            (typeof dd.yaw           === 'number') ? dd.yaw          : 0,
+      pitch:          (typeof dd.pitch         === 'number') ? dd.pitch        : 0,
+      deployNBT:      dd.deployNBT || '{}',
+      displayName:    dd.displayName || '',
+      nbtEnergy:      (typeof sn.Energy        === 'number') ? sn.Energy       : 10000000,
+      nbtHealth:      (typeof sn.Health        === 'number') ? sn.Health       : 500,
+      nbtInvulnerable:(typeof sn.Invulnerable  === 'number') ? sn.Invulnerable : 0,
+      nbtSimpleToggle:(typeof sn.SimpleToggle  === 'number') ? sn.SimpleToggle : 0,
+      nbtDecoyReady:  (typeof sn.DecoyReady    === 'number') ? sn.DecoyReady   : 1,
+      spawnWithAmmo:  (typeof sn.SpawnWithAmmo === 'number') ? sn.SpawnWithAmmo: 1
+    }
+  } catch (e) {
+    sbwError('[部署台] 读取默认配置 JSON 出错: ' + e)
+    return getHardcodedDefaults()
+  }
+}
+
+/** 硬编码兜底（确保 JSON 完全缺失时也不崩溃） */
+function getHardcodedDefaults() {
+  return {
+    vehicleType: '', team: '', respawnDelay: 600, autoRespawn: 0,
+    offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
+    deployNBT: '{}', displayName: '',
+    nbtEnergy: 10000000, nbtHealth: 500, nbtInvulnerable: 0,
+    nbtSimpleToggle: 0, nbtDecoyReady: 1, spawnWithAmmo: 1
+  }
+}
 
 // ══════════════════════════════════════════════════════════════
 //  读取/写入持久化数据的辅助函数
@@ -22,30 +86,28 @@ function ensurePD(block) {
   if (!block.entity) return null
   var pd = block.entity.persistentData
 
-  // ★ 修复：使用独立标记 inited 判断是否已初始化
-  //   不再依赖 vehicleType 是否为空，因为用户可能配置后清空，
-  //   或重启后 vehicleType 为空字符串导致数据被重置。
   if (!pd.contains('inited') || pd.getByte('inited') !== 1) {
+    var def = getDeployerDefaultConfig()
     pd.putByte('inited', 1)
-    pd.putString('vehicleType', '')
-    pd.putString('team', '')
-    pd.putInt('respawnDelay', 600)   // 30 秒
-    pd.putByte('autoRespawn', 0)     // 默认开启自动重生（对齐 DEPLOYER_DEFAULT）
-    pd.putDouble('offsetX', 0.0)
-    pd.putDouble('offsetY', 1.0)     // 方块上方 1 格
-    pd.putDouble('offsetZ', 0.0)
-    pd.putFloat('yaw', 0.0)
-    pd.putFloat('pitch', 0.0)
+    pd.putString('vehicleType', def.vehicleType)
+    pd.putString('team', def.team)
+    pd.putInt('respawnDelay', def.respawnDelay)
+    pd.putByte('autoRespawn', def.autoRespawn)
+    pd.putDouble('offsetX', def.offsetX)
+    pd.putDouble('offsetY', def.offsetY)
+    pd.putDouble('offsetZ', def.offsetZ)
+    pd.putFloat('yaw', def.yaw)
+    pd.putFloat('pitch', def.pitch)
     pd.putString('deployedUUID', '')
     pd.putLong('cooldownEnd', 0)
-    pd.putString('deployNBT', '{}')  // 高级 NBT（初始为空，严格走数据库模板）
-    pd.putInt('nbtEnergy', 10000000)
-    pd.putFloat('nbtHealth', 500.0)
-    pd.putByte('nbtInvulnerable', 0)
-    pd.putByte('nbtSimpleToggle', 0)
-    pd.putByte('nbtDecoyReady', 1)
-    pd.putString('displayName', '')  // 部署台显示名称（可选）
-    pd.putByte('spawnWithAmmo', 1)   // 生成载具时带弹药（1=是, 0=否）
+    pd.putString('deployNBT', def.deployNBT)
+    pd.putInt('nbtEnergy', def.nbtEnergy)
+    pd.putFloat('nbtHealth', def.nbtHealth)
+    pd.putByte('nbtInvulnerable', def.nbtInvulnerable)
+    pd.putByte('nbtSimpleToggle', def.nbtSimpleToggle)
+    pd.putByte('nbtDecoyReady', def.nbtDecoyReady)
+    pd.putString('displayName', def.displayName)
+    pd.putByte('spawnWithAmmo', def.spawnWithAmmo)
     block.entity.setChanged()
     sbwLog('[部署台] 方块初始化完成 @[' + block.getX() + ',' + block.getY() + ',' + block.getZ() + ']')
   }

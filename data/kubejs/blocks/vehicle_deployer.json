@@ -1,14 +1,16 @@
 {
     "deployer_default": {
         "vehicleType": "",
+        "team": "",
         "respawnDelay": 600,
         "autoRespawn": 0,
         "offsetX": 0,
-        "offsetY": 0,
+        "offsetY": 1,
         "offsetZ": 0,
         "yaw": 0,
         "pitch": 0,
-        "deployNBT": "{}"
+        "deployNBT": "{}",
+        "displayName": ""
     },
     "default_simple_nbt": {
         "Energy": 10000000,

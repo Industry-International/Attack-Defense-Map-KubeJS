@@ -18,23 +18,46 @@ var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bin
 var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
 global.vehicleDeployerCache = global.vehicleDeployerCache || new $HashMap()
 
-// ★ 默认配置
-const DEPLOYER_DEFAULT = {
-  vehicleType: '', respawnDelay: 600, autoRespawn: 0,
-  offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0,
-  deployNBT: '{}'
-}
+// ★ 数据化默认配置：从 vehicle_deployer.json 读取
+var $V_DEPLOYER_JSON = 'kubejs/data/kubejs/blocks/vehicle_deployer.json'
+var DEPLOYER_DEFAULT = (function() {
+  try {
+    var raw = JsonIO.read($V_DEPLOYER_JSON)
+    if (raw && raw.deployer_default) {
+      var d = raw.deployer_default
+      return {
+        vehicleType: d.vehicleType || '',
+        respawnDelay: (typeof d.respawnDelay === 'number') ? d.respawnDelay : 600,
+        autoRespawn: (typeof d.autoRespawn === 'number') ? d.autoRespawn : 0,
+        offsetX: (typeof d.offsetX === 'number') ? d.offsetX : 0,
+        offsetY: (typeof d.offsetY === 'number') ? d.offsetY : 1,
+        offsetZ: (typeof d.offsetZ === 'number') ? d.offsetZ : 0,
+        yaw: (typeof d.yaw === 'number') ? d.yaw : 0,
+        pitch: (typeof d.pitch === 'number') ? d.pitch : 0,
+        deployNBT: d.deployNBT || '{}'
+      }
+    }
+  } catch(e) { console.log('[部署台-GUI] 读取默认配置 JSON 失败: ' + e) }
+  return { vehicleType: '', respawnDelay: 600, autoRespawn: 0, offsetX: 0, offsetY: 1, offsetZ: 0, yaw: 0, pitch: 0, deployNBT: '{}' }
+})()
 
-// ★ 简单 NBT 默认值（当数据库模板没有对应字段时使用）
-//   同时也管理"简单开关"和"是否填充弹药"等 UI 级默认
-const DEFAULT_SIMPLE_NBT = {
-  Energy: 10000000,
-  Health: 500,
-  Invulnerable: 0,
-  DecoyReady: 1,
-  SimpleToggle: 0,
-  SpawnWithAmmo: 1
-}
+var DEFAULT_SIMPLE_NBT = (function() {
+  try {
+    var raw = JsonIO.read($V_DEPLOYER_JSON)
+    if (raw && raw.default_simple_nbt) {
+      var n = raw.default_simple_nbt
+      return {
+        Energy: (typeof n.Energy === 'number') ? n.Energy : 10000000,
+        Health: (typeof n.Health === 'number') ? n.Health : 500,
+        Invulnerable: (typeof n.Invulnerable === 'number') ? n.Invulnerable : 0,
+        DecoyReady: (typeof n.DecoyReady === 'number') ? n.DecoyReady : 1,
+        SimpleToggle: (typeof n.SimpleToggle === 'number') ? n.SimpleToggle : 0,
+        SpawnWithAmmo: (typeof n.SpawnWithAmmo === 'number') ? n.SpawnWithAmmo : 1
+      }
+    }
+  } catch(e) { console.log('[部署台-GUI] 读取默认 NBT JSON 失败: ' + e) }
+  return { Energy: 10000000, Health: 500, Invulnerable: 0, DecoyReady: 1, SimpleToggle: 0, SpawnWithAmmo: 1 }
+})()
 
 // ========== UI 构建 ==========
 
