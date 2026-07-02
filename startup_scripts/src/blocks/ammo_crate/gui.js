@@ -698,16 +698,11 @@ function makeAmmoRow(displayName, ammoId, field) {
   row.lss('flex-direction', 'row')
   row.lss('align-items', 'center')
   row.lss('gap', 4)
-  // displayName（自带颜色代码）
-  var nameLbl = new Label().setText(Component.literal(displayName))
-  nameLbl.lss('width', 100)
-  nameLbl.lss('overflow', 'hidden')
-  row.addChild(nameLbl)
-  // id（灰色小字）
-  var idLbl = new Label().setText(Component.literal('§7(' + ammoId + ')'))
-  idLbl.lss('width', 75)
-  idLbl.lss('overflow', 'hidden')
-  row.addChild(idLbl)
+  // displayName + id 合为一个字段（displayName自带颜色 + §7灰色id紧贴）
+  var label = new Label().setText(Component.literal(displayName + '§7(' + ammoId + ')'))
+  label.lss('width', 175)
+  label.lss('overflow', 'hidden')
+  row.addChild(label)
   // 输入框（已有 width: 55）
   row.addChild(field)
   return row
