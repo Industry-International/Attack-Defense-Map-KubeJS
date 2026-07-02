@@ -11,6 +11,7 @@
 // ============================================================
 
 const MODULE_REGISTRY = [
-  { id: 'team_revive', name: '队伍复活券', default: false },
-  { id: 'team',        name: '队伍选择器', default: false }
+  { id: 'team_revive',  name: '队伍复活券',    default: false },
+  { id: 'team',         name: '队伍选择器',    default: false },
+  { id: 'spawn_compass', name: '出生点选择器', default: false }
 ]

@@ -14,6 +14,14 @@ ItemEvents.rightClicked('kubejs:spawn_selector', function(event) {
   var player = event.player
   if (event.hand !== 'main_hand') return
 
+  var server = player.server
+
+  // 检查模块是否启用
+  if (!isModuleEnabled(server, 'spawn_compass')) {
+    player.tell(Text.translate('msg.kubejs.spawn_selector.module_disabled'))
+    return
+  }
+
   // 检查玩家是否属于某个队伍
   var teamTag = getPlayerTeamTag(player)
   if (!teamTag) {
@@ -28,8 +36,15 @@ ItemEvents.rightClicked('kubejs:spawn_selector', function(event) {
 EntityEvents.death(event => {
   var entity = event.entity
   if (!entity || !entity.isPlayer()) return
-  var name = entity.username
+
   var server = entity.server
+
+  // 检查模块是否启用（禁用时关闭死亡监测）
+  if (!isModuleEnabled(server, 'spawn_compass')) {
+    return
+  }
+
+  var name = entity.username
   var cooldownMs = SPAWN_DEATH_COOLDOWN_SECONDS * 1000
 
   DEATH_TIME_MAP[name] = Date.now()

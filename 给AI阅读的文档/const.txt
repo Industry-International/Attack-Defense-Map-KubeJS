@@ -1,6 +1,6 @@
 ================================================================
  KubeJS 全局/局部声明参考（避免重复声明错误）
- 更新日期: 2026-06-28
+ 更新日期: 2026-07-02
 ================================================================
 
 在 KubeJS 7 (Rhino) 中：
@@ -77,7 +77,7 @@ startup 中的 const 不会与 server 中的 const 冲突。
 
 来源文件: server_scripts/module_manager/a_registry.js
 
-  const MODULE_REGISTRY = [ { id: 'team_revive', ... }, { id: 'team', ... } ]
+  const MODULE_REGISTRY = [ { id: 'team_revive', ... }, { id: 'team', ... }, { id: 'spawn_compass', ... } ]
                                                                   // 模块注册表
 
 来源文件: server_scripts/module_manager/main.js
@@ -411,6 +411,10 @@ StartupEvents.registry('block', ...) 注册的方块：
     setPlayerAllowRespawn(player, allow)        — 设置允许他人复活开关
     getAvailableRespawnPlayers(server, exclude) — 获取可复活的在线玩家列表
 
+  文件: main.js（2026-07-02 添加模块守卫）
+    右键事件 ItemEvents.rightClicked：新增 isModuleEnabled('spawn_compass') 检测
+    死亡事件 EntityEvents.death：新增 isModuleEnabled('spawn_compass') 检测，禁用时跳过
+
   文件: gui.js
     getPlayerTeamTag(player)                    — 获取玩家队伍标签
     getPlayerSelectedId(player)                 — 获取玩家选择的出生点ID
@@ -703,7 +707,8 @@ StartupEvents.registry('block', ...) 注册的方块：
     msg.kubejsadmin.*                 — 管理命令消息
     msg.kubejs.ammo_replenish.*       — 弹药补充消息（旧版，en_us有）
     msg.kubejs.ammo_station.*         — 弹药补给站消息（仅zh_cn！）
-    msg.kubejs.spawn_selector.*       — 出生点选择器消息（传送/指令提示等）
+    msg.kubejs.spawn_selector.*       — 出生点选择器消息（传送/指令提示/模块禁用等）
+                                      module_disabled — 模块禁用时右键物品的提示
 
   队伍 (team):
     team.attack, team.defense, team.none, team.cleared

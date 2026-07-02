@@ -285,6 +285,7 @@
   "msg.kubejs.spawn_selector.usage": "§cUsage: /spawn_selector visible <pointId> <team> | invisible <pointId> | list",
   "msg.kubejs.spawn_selector.no_team_players": "§cNo teammates available for teleport",
   "msg.kubejs.spawn_selector.death_cooldown": "Death cooldown %ss remaining",
+  "msg.kubejs.spawn_selector.module_disabled": "§cSpawn Selector is currently disabled",
 
   "block.kubejs.vehicle_deployer": "§6Vehicle Deployer",
 
