@@ -4,12 +4,18 @@
 // 全部数据驱动：
 //   基础参数（scanRange / cooldown / enterDelay）→ ammo_crate.json
 //   弹药类型 & 分类 → _ammo_types.json / ammoCategories
-//     - 分类 key 顺序 = Tab 顺序
-//     - 各分类的 tabName / color 控制 Tab 显示
-//     - ammoList 的 key 顺序 = Tab 内弹药行顺序
+//     - 分类 key 顺序 = Tap 顺序
+//     - 各分类的 tabName / color 控制 Tap 显示
+//     - ammoList 的 key 顺序 = Tap 内弹药行顺序
 //     - 各弹药条目的 displayName / default 控制显示和默认值
 //
 // 新增弹药只改 JSON，不动 JS。
+//
+// 标签页系统（类似原版创造物品栏）：
+//   所有内容页（基础设置 + 弹药分类 + 作弊）平铺为 flatTapList，
+//   每 $PAGE_SIZE（=4）个 tap 自动编为一组标签页。
+//   顶部导航栏 ◀/▶ 切换标签页，点击横排 tap 按钮切换内容区渲染。
+//   完全数据驱动：新增弹药分类自动生成新 tap，超过 4 个自动分页。
 //
 // S2C：服务端读取方块 NBT → 一次性推送到客户端 TextField
 // C2S：客户端"保存"按钮 → sendMessage → 服务端写入 NBT
@@ -36,7 +42,7 @@ var $AMMO_DB_PATH = 'kubejs/data/kubejs/db/sbw_vehicle_db/_ammo_types.json'
 /**
  * 从 JSON 加载弹药类型和 GUI 分类信息
  *
- * 遍历 ammoCategories（key 顺序 = Tab 顺序），
+ * 遍历 ammoCategories（key 顺序 = Tap 顺序），
  * 每个分类内遍历 ammoList（key 顺序 = 弹药行顺序）。
  *
  * 输出：
@@ -142,6 +148,8 @@ function tagToCfg(tag) {
 
 // ========== LDLib2 UI 注册 ==========
 
+var $PAGE_SIZE = 4  // 每个标签页最多容纳 4 个 tap
+
 LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   var player = event.player
   var level = event.level
@@ -218,48 +226,38 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   }
   initSlotFields()
 
-  var root = new UIElement()
-  root.lss('width', 270)
-  root.lss('padding', 6)
+  // ═══════════════════════════════════════════════════════════
+  //  构建所有页面内容
+  // ═══════════════════════════════════════════════════════════
 
-  var titleLabel = new Label().setText(Component.literal('§6╔══ 弹药补给站配置 ══╗'))
-  titleLabel.lss('width', '100%')
-  titleLabel.textStyle(function(style) { style.textAlignHorizontal('center') })
-  root.addChild(titleLabel)
+  /** 构建"基础设置"页 */
+  function buildBasicPage() {
+    var page = new UIElement()
+    page.lss('padding', 4)
+    var srRow = new UIElement()
+    srRow.addChild(new Label().setText(Component.literal('§7扫描范围:')))
+    srRow.addChild(fieldScanRange)
+    srRow.addChild(new Label().setText(Component.literal(' §7格')))
+    page.addChild(srRow)
+    page.addChild(new Label().setText(Component.literal(' ')))
+    var cdRow = new UIElement()
+    cdRow.addChild(new Label().setText(Component.literal('§7冷却时间:')))
+    cdRow.addChild(fieldCooldown)
+    cdRow.addChild(new Label().setText(Component.literal(' §7秒')))
+    page.addChild(cdRow)
+    page.addChild(new Label().setText(Component.literal(' ')))
+    var edRow = new UIElement()
+    edRow.addChild(new Label().setText(Component.literal('§7驶入等待:')))
+    edRow.addChild(fieldEnterDelay)
+    edRow.addChild(new Label().setText(Component.literal(' §7秒')))
+    page.addChild(edRow)
+    page.addChild(new Label().setText(Component.literal(' ')))
+    page.addChild(new Label().setText(Component.literal('§8← 点击上方 tap 配置弹药')))
+    return page
+  }
 
-  root.addChild(makeSeparator())
-
-  var tabView = new TabView()
-
-  // ─── 第1页：基础设置（固定） ───
-  var pageBasic = new UIElement()
-  pageBasic.lss('padding', 4)
-  var srRow = new UIElement()
-  srRow.addChild(new Label().setText(Component.literal('§7扫描范围:')))
-  srRow.addChild(fieldScanRange)
-  srRow.addChild(new Label().setText(Component.literal(' §7格')))
-  pageBasic.addChild(srRow)
-  pageBasic.addChild(new Label().setText(Component.literal(' ')))
-  var cdRow = new UIElement()
-  cdRow.addChild(new Label().setText(Component.literal('§7冷却时间:')))
-  cdRow.addChild(fieldCooldown)
-  cdRow.addChild(new Label().setText(Component.literal(' §7秒')))
-  pageBasic.addChild(cdRow)
-  pageBasic.addChild(new Label().setText(Component.literal(' ')))
-  var edRow = new UIElement()
-  edRow.addChild(new Label().setText(Component.literal('§7驶入等待:')))
-  edRow.addChild(fieldEnterDelay)
-  edRow.addChild(new Label().setText(Component.literal(' §7秒')))
-  pageBasic.addChild(edRow)
-  pageBasic.addChild(new Label().setText(Component.literal(' ')))
-  pageBasic.addChild(new Label().setText(Component.literal('§8← 切换标签页配置弹药')))
-  var tabBasic = new Tab()
-  tabBasic.setText('基础')
-  tabView.addTab(tabBasic, pageBasic)
-
-  // ─── 弹药分类 Tab：从 $CAT_LIST 动态生成 ───
-  for (var ci = 0; ci < $CAT_LIST.length; ci++) {
-    var cat = $CAT_LIST[ci]
+  /** 构建单个弹药分类页 */
+  function buildCatPage(cat) {
     var page = new UIElement()
     page.lss('padding', 4)
     // 分类标题（使用 color 字段）
@@ -278,70 +276,162 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       row.addChild(new Label().setText(Component.literal(' 个')))
       page.addChild(row)
     }
-    var tab = new Tab()
-    tab.setText(cat.tabName)
-    tabView.addTab(tab, page)
+    return page
   }
 
-  // ─── 作弊页（固定） ───
-  var cheatPage = new UIElement()
-  cheatPage.lss('padding', 4)
-  var isOP = player.hasPermissions(2)
-  if (!isOP) {
-    cheatPage.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
-    cheatPage.addChild(new Label().setText(Component.literal(' ')))
-    cheatPage.addChild(new Label().setText(Component.literal('§c你没有权限使用作弊功能')))
-  } else {
-    cheatPage.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
-    cheatPage.addChild(new Label().setText(Component.literal(' ')))
-    var btnToggleCheat = new Button()
-    btnToggleCheat.setText(Component.literal('§6⇄ 切换作弊模式'))
-    btnToggleCheat.lss('padding', '3 10')
-    btnToggleCheat.setOnServerClick(function(clickEvent) {
-      var server = player.getServer()
-      if (!server) return
-      try {
-        var lvl = server.getLevel(level.getDimension())
-        if (!lvl) return
-        var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
-        if (!b || !b.entity) return
-        var current = b.entity.persistentData.CheatMode === true
-        b.entity.persistentData.putBoolean('CheatMode', !current)
-        b.entity.setChanged()
-        player.displayClientMessage(Component.literal('§6[弹药补给站] ' + (!current ? '§c作弊模式已开启' : '§a作弊模式已关闭')), false)
-      } catch (e) {
-        player.displayClientMessage(Component.literal('§c[弹药补给站] 切换失败: ' + e), false)
-      }
-    })
-    cheatPage.addChild(btnToggleCheat)
-    var statusLabel = new Label().setText(Component.literal('§7作弊模式已关闭'))
-    cheatPage.addChild(statusLabel)
-    var btnManualTrigger = new Button()
-    btnManualTrigger.setText(Component.literal('§4⚡ 立即扫描补给'))
-    btnManualTrigger.lss('padding', '4 12')
-    btnManualTrigger.setOnServerClick(function(clickEvent) {
-      var server = player.getServer()
-      if (!server) return
-      try {
-        var lvl = server.getLevel(level.getDimension())
-        if (!lvl) return
-        var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
-        if (!b || !b.entity) return
-        b.entity.persistentData.putBoolean('PendingReplenish', true)
-        b.entity.setChanged()
-        player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
-      } catch (e) { player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false) }
-    })
-    cheatPage.addChild(btnManualTrigger)
+  /** 构建作弊页 */
+  function buildCheatPage() {
+    var page = new UIElement()
+    page.lss('padding', 4)
+    var isOP = player.hasPermissions(2)
+    if (!isOP) {
+      page.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
+      page.addChild(new Label().setText(Component.literal(' ')))
+      page.addChild(new Label().setText(Component.literal('§c你没有权限使用作弊功能')))
+    } else {
+      page.addChild(new Label().setText(Component.literal('§c── 作弊功能 ──')))
+      page.addChild(new Label().setText(Component.literal(' ')))
+      var btnToggleCheat = new Button()
+      btnToggleCheat.setText(Component.literal('§6⇄ 切换作弊模式'))
+      btnToggleCheat.lss('padding', '3 10')
+      btnToggleCheat.setOnServerClick(function(clickEvent) {
+        var server = player.getServer()
+        if (!server) return
+        try {
+          var lvl = server.getLevel(level.getDimension())
+          if (!lvl) return
+          var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
+          if (!b || !b.entity) return
+          var current = b.entity.persistentData.CheatMode === true
+          b.entity.persistentData.putBoolean('CheatMode', !current)
+          b.entity.setChanged()
+          player.displayClientMessage(Component.literal('§6[弹药补给站] ' + (!current ? '§c作弊模式已开启' : '§a作弊模式已关闭')), false)
+        } catch (e) {
+          player.displayClientMessage(Component.literal('§c[弹药补给站] 切换失败: ' + e), false)
+        }
+      })
+      page.addChild(btnToggleCheat)
+      var statusLabel = new Label().setText(Component.literal('§7作弊模式已关闭'))
+      page.addChild(statusLabel)
+      var btnManualTrigger = new Button()
+      btnManualTrigger.setText(Component.literal('§4⚡ 立即扫描补给'))
+      btnManualTrigger.lss('padding', '4 12')
+      btnManualTrigger.setOnServerClick(function(clickEvent) {
+        var server = player.getServer()
+        if (!server) return
+        try {
+          var lvl = server.getLevel(level.getDimension())
+          if (!lvl) return
+          var b = lvl.getBlock(pos.getX(), pos.getY(), pos.getZ())
+          if (!b || !b.entity) return
+          b.entity.persistentData.putBoolean('PendingReplenish', true)
+          b.entity.setChanged()
+          player.displayClientMessage(Component.literal('§e⏳ 补给请求已提交，将在下次Tick执行'), false)
+        } catch (e) { player.displayClientMessage(Component.literal('§c[弹药补给站] 手动触发失败: ' + e), false) }
+      })
+      page.addChild(btnManualTrigger)
+    }
+    return page
   }
-  var tabCheat = new Tab()
-  tabCheat.setText('§c作弊')
-  tabView.addTab(tabCheat, cheatPage)
 
-  root.addChild(tabView)
+  // ── 构建扁平 tap 列表（自动生成，数据驱动）──
+  var flatTapList = []
+
+  // 第 0 个 tap：基础设置（固定）
+  flatTapList.push({
+    name: '基础',
+    color: '§e',
+    content: buildBasicPage()
+  })
+
+  // 中间 tap：弹药分类（来自 JSON，自动生成）
+  for (var ci = 0; ci < $CAT_LIST.length; ci++) {
+    var cat = $CAT_LIST[ci]
+    flatTapList.push({
+      name: cat.tabName,
+      color: cat.color,
+      content: buildCatPage(cat)
+    })
+  }
+
+  // 最后 1 个 tap：作弊（固定）
+  flatTapList.push({
+    name: '作弊',
+    color: '§c',
+    content: buildCheatPage()
+  })
+
+  // ── 自动分页：每 $PAGE_SIZE 个 tap 一组 ──
+  var tagPages = []
+  for (var ti = 0; ti < flatTapList.length; ti += $PAGE_SIZE) {
+    tagPages.push(flatTapList.slice(ti, ti + $PAGE_SIZE))
+  }
+  var totalTagPages = tagPages.length
+
+  // ═══════════════════════════════════════════════════════════
+  //  状态变量
+  // ═══════════════════════════════════════════════════════════
+  var currentTagPageIdx = 0       // 当前标签页索引（0 ~ totalTagPages-1）
+  var selectedTapGlobalIdx = 0    // 当前选中 tap 的全局索引（0 ~ flatTapList.length-1）
+
+  // ═══════════════════════════════════════════════════════════
+  //  UI 构建
+  // ═══════════════════════════════════════════════════════════
+
+  var root = new UIElement()
+  root.lss('width', 270)
+  root.lss('padding', 6)
+
+  // ── 标题 ──
+  var titleLabel = new Label().setText(Component.literal('§6╔══ 弹药补给站配置 ══╗'))
+  titleLabel.lss('width', '100%')
+  titleLabel.textStyle(function(style) { style.textAlignHorizontal('center') })
+  root.addChild(titleLabel)
+
   root.addChild(makeSeparator())
 
+  // ── 导航栏：◀ 页码 ▶ ──
+  var navRow = new UIElement()
+  navRow.lss('width', '100%')
+  navRow.lss('flex-direction', 'row')
+  navRow.lss('justify-content', 'center')
+  navRow.lss('align-items', 'center')
+
+  var btnPrev = new Button()
+  btnPrev.setText(Component.literal('§7◀'))
+  btnPrev.lss('padding', '2 6')
+
+  var pageNumLabel = new Label()
+  pageNumLabel.lss('padding', '0 8')
+  pageNumLabel.textStyle(function(style) { style.textAlignHorizontal('center') })
+
+  var btnNext = new Button()
+  btnNext.setText(Component.literal('▶§7'))
+  btnNext.lss('padding', '2 6')
+
+  navRow.addChild(btnPrev)
+  navRow.addChild(pageNumLabel)
+  navRow.addChild(btnNext)
+
+  root.addChild(navRow)
+
+  // ── Tap 行（横排按钮，动态渲染） ──
+  var tapRow = new UIElement()
+  tapRow.lss('width', '100%')
+  tapRow.lss('flex-direction', 'row')
+  tapRow.lss('justify-content', 'center')
+  tapRow.lss('align-items', 'center')
+  tapRow.lss('gap', 4)
+  root.addChild(tapRow)
+
+  // ── 内容区 ──
+  var contentContainer = new UIElement()
+  contentContainer.lss('padding', 4)
+  root.addChild(contentContainer)
+
   // ──── 底部按钮 ────
+  root.addChild(makeSeparator())
+
   var btnRow = new UIElement()
 
   var btnSave = new Button()
@@ -413,6 +503,95 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
   root.addChild(new Label().setText(Component.literal('§7点按钮 → 全选 → Ctrl+C → 聊天栏粘贴执行')))
 
   root.addChild(new InventorySlots())
+
+  // ═══════════════════════════════════════════════════════════
+  //  renderUI()：重新渲染 tap 行 + 内容区
+  // ═══════════════════════════════════════════════════════════
+  function renderUI() {
+    var pageTaps = tagPages[currentTagPageIdx]
+
+    // 更新页码
+    pageNumLabel.setText(Component.literal('§7' + (currentTagPageIdx + 1) + '/' + totalTagPages))
+
+    // 更新翻页按钮状态（到边界时禁用）
+    if (currentTagPageIdx <= 0) {
+      btnPrev.setActive(false)
+    } else {
+      btnPrev.setActive(true)
+    }
+    if (currentTagPageIdx >= totalTagPages - 1) {
+      btnNext.setActive(false)
+    } else {
+      btnNext.setActive(true)
+    }
+
+    // 清空并重建 tap 行
+    tapRow.clearAllChildren()
+    var globalStartIdx = currentTagPageIdx * $PAGE_SIZE
+    for (var i = 0; i < pageTaps.length; i++) {
+      var tapInfo = pageTaps[i]
+      var globalIdx = globalStartIdx + i
+      var isSelected = (globalIdx === selectedTapGlobalIdx)
+
+      var tapBtn = new Button()
+      // 过长名称截断
+      var displayName = tapInfo.name
+      if (displayName.length > 6) {
+        displayName = displayName.substring(0, 6) + '..'
+      }
+      if (isSelected) {
+        tapBtn.setText(Component.literal(tapInfo.color + '『' + displayName + '』'))
+      } else {
+        tapBtn.setText(Component.literal('§7' + displayName))
+      }
+      tapBtn.lss('padding', '2 6')
+
+      // 闭包捕获 globalIdx
+      ;(function(capturedIdx) {
+        tapBtn.setOnClick(function(clickEvent) {
+          if (selectedTapGlobalIdx !== capturedIdx) {
+            selectedTapGlobalIdx = capturedIdx
+            // 如果点击的 tap 不在当前标签页，自动切换标签页
+            var newPageIdx = Math.floor(capturedIdx / $PAGE_SIZE)
+            if (newPageIdx !== currentTagPageIdx) {
+              currentTagPageIdx = newPageIdx
+            }
+            renderUI()
+          }
+        })
+      })(globalIdx)
+
+      tapRow.addChild(tapBtn)
+    }
+
+    // 重建内容区
+    var selectedTap = flatTapList[selectedTapGlobalIdx]
+    contentContainer.clearAllChildren()
+    if (selectedTap) {
+      contentContainer.addChild(selectedTap.content)
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  绑定导航按钮
+  // ═══════════════════════════════════════════════════════════
+
+  btnPrev.setOnClick(function(clickEvent) {
+    if (currentTagPageIdx > 0) {
+      currentTagPageIdx--
+      // 切换到新标签页后，默认选中该标签页的第一个 tap
+      selectedTapGlobalIdx = currentTagPageIdx * $PAGE_SIZE
+      renderUI()
+    }
+  })
+
+  btnNext.setOnClick(function(clickEvent) {
+    if (currentTagPageIdx < totalTagPages - 1) {
+      currentTagPageIdx++
+      selectedTapGlobalIdx = currentTagPageIdx * $PAGE_SIZE
+      renderUI()
+    }
+  })
 
   // ═══════════════════════════════════════════════════════════════
   //  Message 系统：网络同步
@@ -495,6 +674,11 @@ LDLib2UI.block('kubejs:ammo_station_cfg', event => {
       }
     })(item.field, item.getter, item.name)
   }
+
+  // ── 初始渲染 ──
+  currentTagPageIdx = 0
+  selectedTapGlobalIdx = 0
+  renderUI()
 })
 
 function makeSeparator() {
