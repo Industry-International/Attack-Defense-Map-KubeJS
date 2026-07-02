@@ -1,7 +1,13 @@
 // ============================================================
 // 弹药补给站 - LDLib2 配置GUI（S2C DataBinding + C2S Message）
-//   S2C：服务端读取方块 NBT → 一次性推送到客户端 TextField
-//   C2S：客户端"保存"按钮 → sendMessage → 服务端写入 NBT
+//
+// 默认配置来源：
+//   基础参数（scanRange / cooldown / enterDelay）→ 数据文件
+//     kubejs/data/kubejs/blocks/ammo_crate.json → station_Default
+//   弹药 slots 默认 → 本文件中的 GUI_AMMO_TYPES / MCSP_AMMO_TYPES 数组
+//
+// S2C：服务端读取方块 NBT → 一次性推送到客户端 TextField
+// C2S：客户端"保存"按钮 → sendMessage → 服务端写入 NBT
 // 架构要点：
 //   1. TextField 仅创建 + 设置样式（不设初始文本，不绑定）
 //   2. 通过 queueS2CField() 入队，等 ModularUI.of() 建好后统一绑定
@@ -16,12 +22,25 @@ var $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 var $DataBindingBuilder = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder')
 var $SyncStrategy = Java.loadClass('com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy')
 
-// ★ 默认配置（编辑此处即可修改默认值）
-const STATION_DEFAULT = {
-  scanRange: 12,    // 扫描范围（格）
-  cooldown: 5,      // 冷却时间（秒）
-  enterDelay: 3     // 驶入等待（秒）
-}
+// ★ 数据化默认配置：从 JSON 数据文件读取
+// 文件路径：kubejs/data/kubejs/blocks/ammo_crate.json → station_Default
+// 此处仅缓存基础字段（scanRange / cooldown / enterDelay），弹药 slots 默认值在各 AMMO_TYPES 数组中定义
+var STATION_DEFAULT = (function() {
+  try {
+    var raw = JsonIO.read('kubejs/data/kubejs/blocks/ammo_crate.json')
+    if (raw && raw.station_Default) {
+      var c = raw.station_Default
+      return {
+        scanRange: (typeof c.scanRange  === 'number') ? c.scanRange  : 12,
+        cooldown:  (typeof c.cooldown   === 'number') ? c.cooldown   : 5,
+        enterDelay:(typeof c.enterDelay === 'number') ? c.enterDelay : 3
+      }
+    }
+  } catch (e) {
+    console.log('[弹药补给站-GUI] 读取默认配置 JSON 失败: ' + e)
+  }
+  return { scanRange: 12, cooldown: 5, enterDelay: 3 }
+})()
 
 const GUI_AMMO_TYPES = [
   { key: 'large_shell_ap',  label: '§6大口径AP',  default: 64 },

@@ -87,8 +87,14 @@ startup 中的 const 不会与 server 中的 const 冲突。
 来源文件: server_scripts/sbw_vehicle/ammo_replenish/a_config.js
 （字段：scanRange / cooldown(秒) / enterDelay(秒) / slots）
 
-  const DEFAULT_STATION_CONFIG = { ... }          // 弹药补给站默认配置（含 enterDelay: 3）
-  // ★ 2026-06-29 数据化改造：AMMO_ID_MAP / AMMO_KEY_MAP / getAmmoDisplayName 已删除，
+  var $STATION_DEFAULT_JSON = 'kubejs/data/kubejs/blocks/ammo_crate.json'
+  // ★ 2026-07-02 数据化改造 Step2：DEFAULT_STATION_CONFIG 已删除，
+  //   基础默认配置（scanRange / cooldown / enterDelay）移至数据文件
+  //     kubejs/data/kubejs/blocks/ammo_crate.json → station_Default
+  //   弹药 slots 默认值仍在 GUI 代码中维护（暂未数据化）
+  function getStationDefaultConfig()              // 从 JSON 读取默认配置
+  function readBlockConfig(block)                 // 读取方块 persistentData 配置
+  // ★ 2026-06-29 数据化改造：AMMO_ID_MAP / AMMO_KEY_MAP 已删除，
   //   改用 data/sbw_vehicle_db/_ammo_types.json 数据包 + tools/database.js 函数：
   //   getAmmoType(shortName) / getAmmoShortName(fullId) / getAmmoDisplayName(fullId)
 
@@ -544,10 +550,14 @@ StartupEvents.registry('block', ...) 注册的方块：
     9. UUID获取：使用 entity.uuid.toString()（★ getStringUUID() 在KubeJS7 Rhino中不存在）
     10. NBT列表：CompoundTag.getList(key) 需两个参数 getList(key, 10)（10=TAG_COMPOUND）
 
-  a_config.js — 配置定义 & 方块配置读写工具
-    const DEFAULT_STATION_CONFIG    — 默认配置（scanRange, cooldown秒, enterDelay秒, slots）
-    function readBlockConfig(block)               — 读取方块配置（返回深拷贝默认值）
-    ★ 2026-06-29 数据化改造：AMMO_ID_MAP / AMMO_KEY_MAP / getAmmoDisplayName 已删除，
+  a_config.js — 方块配置读写工具（数据化驱动）
+    var $STATION_DEFAULT_JSON                     — 默认配置 JSON 路径常量
+    function getStationDefaultConfig()            — 从 JSON 文件读取默认配置（scanRange/cooldown/enterDelay）
+    function readBlockConfig(block)               — 读取方块 persistentData 配置，缺失字段从 JSON 兜底
+    ★ 2026-07-02 数据化改造 Step2：DEFAULT_STATION_CONFIG 已删除，基础默认配置移至
+      kubejs/data/kubejs/blocks/ammo_crate.json → station_Default
+    弹药 slots 默认值仍在 GUI 代码中维护（暂未数据化）
+    ★ 2026-06-29 数据化改造：AMMO_ID_MAP / AMMO_KEY_MAP 已删除，
       改用 data/sbw_vehicle_db/_ammo_types.json + tools/database.js 函数：
       getAmmoType(shortName) / getAmmoShortName(fullId) / getAmmoDisplayName(fullId)
 
@@ -727,7 +737,7 @@ StartupEvents.registry('block', ...) 注册的方块：
      JOIN_BATTLE_TARGET, JOIN_BATTLE_FUNCTION, CLEAR_DELAY_TICKS,
      VEHICLE_STATE, VEHICLE_STATE_TRANSITIONS, VEHICLE_STATE_LIST,
      MODULE_REGISTRY, MODULE_FLAG_PREFIX,
-     DEFAULT_STATION_CONFIG,                ← ammo_replenish/a_config.js
+     // ★ 2026-07-02 数据化改造 Step2: DEFAULT_STATION_CONFIG 已从 a_config.js 删除（移至 JSON 数据文件）
      // ★ 2026-06-29: AMMO_ID_MAP / AMMO_KEY_MAP 已从 a_config.js 删除（数据化）
      SAVE_INTERVAL,                                     ← replenish.js 新增
      VEHICLE_CFG, SBW_PREFIX,                           ← main.js
@@ -816,7 +826,7 @@ StartupEvents.registry('block', ...) 注册的方块：
        LDLib2 UI ID 变更：kubejs:ammo_crate_gui → kubejs:ammo_station_cfg
        const 名变更：AMMO_TYPE_CFG → GUI_AMMO_TYPES
      - server_scripts/sbw_vehicle/ammo_replenish/ → 2026-06-25 完全重写
-       a_config.js：保留 DEFAULT_STATION_CONFIG / AMMO_ID_MAP / readBlockConfig / writeBlockConfig
+       a_config.js：DEFAULT_STATION_CONFIG 等 → 2026-07-02 已删除（数据化到 JSON 文件）
        main.js：从临时测试版重写为完整方块驱动版
      - startup_scripts/ammo_station_gui.js → 2026-06-25 GUI优化
        移除：入场延时、武器弹阈值、载具过滤字段
