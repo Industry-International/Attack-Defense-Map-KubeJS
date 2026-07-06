@@ -15,6 +15,10 @@
         {
             "item": "create_tweaked_controllers:tweaked_linked_controller",
             "count": 2
+        },
+        {
+            "item": "kubejs:suicide_note",
+            "count": 1
         }
     ]
 }

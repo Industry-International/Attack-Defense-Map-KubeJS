@@ -26,6 +26,10 @@
         {
             "item": "taov_returned:repair_part",
             "count": 128
+        },
+        {
+            "item": "kubejs:suicide_note",
+            "count": 1
         }
     ]
 }

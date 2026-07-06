@@ -7,6 +7,10 @@
         {
             "item": "kubejs:spawn_selector",
             "count": 1
+        },
+        {
+            "item": "kubejs:suicide_note",
+            "count": 1
         }
     ]
 }

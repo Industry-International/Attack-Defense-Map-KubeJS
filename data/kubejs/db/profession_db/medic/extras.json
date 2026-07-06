@@ -11,6 +11,10 @@
         {
             "item": "superbwarfare:medical_kit",
             "count": 32
+        },
+        {
+            "item": "kubejs:suicide_note",
+            "count": 1
         }
     ]
 }
