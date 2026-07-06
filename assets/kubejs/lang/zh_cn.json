@@ -307,6 +307,10 @@
   "msg.kubejs.spawn_selector.death_cooldown": "死亡冷却 剩余%s秒",
   "msg.kubejs.spawn_selector.module_disabled": "§c出生点选择器当前已禁用",
 
+  "item.kubejs.suicide_note": "§4自杀笔记",
+
+  "msg.kubejs.suicide_note.used": "§c你选择了结自己… §7生命已终结。",
+
   "block.kubejs.vehicle_deployer": "§6载具部署台",
 
   "msg.kubejs.vehicle_deployer.system_enabled": "§a[部署台] 系统已启用",

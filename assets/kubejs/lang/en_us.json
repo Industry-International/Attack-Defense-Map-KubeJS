@@ -289,6 +289,10 @@
   "msg.kubejs.spawn_selector.death_cooldown": "Death cooldown %ss remaining",
   "msg.kubejs.spawn_selector.module_disabled": "§cSpawn Selector is currently disabled",
 
+  "item.kubejs.suicide_note": "§4Suicide Note",
+
+  "msg.kubejs.suicide_note.used": "§cYou chose to end it all... §7Life extinguished.",
+
   "block.kubejs.vehicle_deployer": "§6Vehicle Deployer",
 
   "msg.kubejs.vehicle_deployer.system_enabled": "§a[Deployer] System enabled",

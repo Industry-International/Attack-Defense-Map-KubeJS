@@ -289,6 +289,7 @@ StartupEvents.registry('item', ...) 注册的物品：
   - kubejs:team_selector        (队伍选择器)
   - kubejs:menu                 (菜单物品，纯翻译键注册)
   - kubejs:spawn_selector       (出生点选择器)
+  - kubejs:suicide_note         (自杀笔记，右键自杀)
 
 StartupEvents.registry('block', ...) 注册的方块：
 
