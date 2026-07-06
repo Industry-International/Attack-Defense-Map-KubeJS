@@ -292,7 +292,7 @@
   "item.kubejs.suicide_note": "§6Redeployer",
   "item.kubejs.suicide_note.tooltip": "§7Right-click to redeploy",
 
-  "msg.kubejs.suicide_note.used": "§cYou chose to end it all... §7Life extinguished.",
+  "msg.kubejs.suicide_note.used": "§eYou have been redeployed!",
 
   "block.kubejs.vehicle_deployer": "§6Vehicle Deployer",
 

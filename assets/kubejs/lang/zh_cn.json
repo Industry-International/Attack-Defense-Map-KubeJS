@@ -310,7 +310,7 @@
   "item.kubejs.suicide_note": "§6重新部署器",
   "item.kubejs.suicide_note.tooltip": "§7右键后可重新部署",
 
-  "msg.kubejs.suicide_note.used": "§c你选择了结自己… §7生命已终结。",
+  "msg.kubejs.suicide_note.used": "§e你已重新部署！",
 
   "block.kubejs.vehicle_deployer": "§6载具部署台",
 
