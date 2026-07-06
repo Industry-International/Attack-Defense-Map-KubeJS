@@ -8,4 +8,5 @@ StartupEvents.registry('item', event => {
     .translationKey('item.kubejs.suicide_note')
     .maxStackSize(1)
     .texture('kubejs:item/suicide_note')
+    .tooltip(Text.translate('item.kubejs.suicide_note.tooltip'))
 })

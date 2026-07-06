@@ -289,7 +289,8 @@
   "msg.kubejs.spawn_selector.death_cooldown": "Death cooldown %ss remaining",
   "msg.kubejs.spawn_selector.module_disabled": "§cSpawn Selector is currently disabled",
 
-  "item.kubejs.suicide_note": "§4Suicide Note",
+  "item.kubejs.suicide_note": "§6Redeployer",
+  "item.kubejs.suicide_note.tooltip": "§7Right-click to redeploy",
 
   "msg.kubejs.suicide_note.used": "§cYou chose to end it all... §7Life extinguished.",
 
