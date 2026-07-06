@@ -21,6 +21,24 @@
 //   slots      {Object}  弹药类型 → 最大储量（补到此值为止）
 // ============================================================
 
+// ========== 统一日志开关 ==========
+
+/**
+ * 弹药补给站统一日志开关（硬编码配置）
+ * true  = 输出所有日志
+ * false = 关闭所有 console.log 输出（保留错误堆栈除外）
+ */
+var $AMMO_LOG_ENABLED = false
+
+/**
+ * 弹药补给站内部日志输出函数
+ * 受 $AMMO_LOG_ENABLED 控制，关闭时不输出任何信息
+ */
+function ammoLog() {
+  if (!$AMMO_LOG_ENABLED) return
+  console.log('[弹药补给站] ' + Array.prototype.join.call(arguments, ' '))
+}
+
 // ========== 默认配置路径常量 ==========
 
 /**
@@ -62,7 +80,7 @@ function getStationDefaultSlots() {
   try {
     var raw = JsonIO.read($AMMO_TYPES_JSON)
     if (!raw || !raw.ammoCategories) {
-      console.log('[弹药补给站] [警告] _ammo_types.json 读取失败或缺少 ammoCategories')
+      ammoLog('[警告] _ammo_types.json 读取失败或缺少 ammoCategories')
       return {}
     }
     var cats = raw.ammoCategories
@@ -81,10 +99,10 @@ function getStationDefaultSlots() {
         }
       }
     }
-    console.log('[弹药补给站] 默认弹药 slots 加载完成: ' + Object.keys(slots).length + ' 种')
+    ammoLog('默认弹药 slots 加载完成: ' + Object.keys(slots).length + ' 种')
     return slots
   } catch (e) {
-    console.log('[弹药补给站] [警告] 读取 _ammo_types.json 失败: ' + e)
+    ammoLog('[警告] 读取 _ammo_types.json 失败: ' + e)
     return {}
   }
 }
@@ -112,10 +130,10 @@ function getStationDefaultConfig() {
         enterDelay:(typeof cfg.enterDelay=== 'number') ? cfg.enterDelay: 3
       }
     }
-    console.log('[弹药补给站] [警告] JSON 读取成功但缺少 station_Default 字段，使用硬编码兜底')
+    ammoLog('[警告] JSON 读取成功但缺少 station_Default 字段，使用硬编码兜底')
     return { scanRange: 12, cooldown: 5, enterDelay: 3 }
   } catch (e) {
-    console.log('[弹药补给站] [警告] 读取默认配置 JSON 失败: ' + e + '，使用硬编码兜底')
+    ammoLog('[警告] 读取默认配置 JSON 失败: ' + e + '，使用硬编码兜底')
     return { scanRange: 12, cooldown: 5, enterDelay: 3 }
   }
 }
@@ -137,7 +155,7 @@ function readBlockConfig(block) {
   try {
     let entity = block.entity
     if (!entity) {
-      console.log('[弹药补给站] [警告] 方块无 BlockEntity，返回默认配置')
+      ammoLog('[警告] 方块无 BlockEntity，返回默认配置')
       return {
         scanRange: 12, cooldown: 5, enterDelay: 3, slots: {}
       }
@@ -166,7 +184,7 @@ function readBlockConfig(block) {
       slots: {}
     }
   } catch (e) {
-    console.log('[弹药补给站] 读取配置出错: ' + e)
+    ammoLog('读取配置出错: ' + e)
     return { scanRange: 12, cooldown: 5, enterDelay: 3, slots: {} }
   }
 }
