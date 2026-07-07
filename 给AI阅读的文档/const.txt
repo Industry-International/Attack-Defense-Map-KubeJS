@@ -19,6 +19,16 @@ startup 中的 const 不会与 server 中的 const 冲突。
  第一：已用 const 声明的 NBT Java 类（不可再声明！）
 ================================================================
 
+来源文件: server_scripts/profession/config/c_storage.js
+加载顺序: 文件名以 c_ 开头，在 a_tacz_config.js 和 a_database.js 之后
+
+  const PROF_PLAYERDATA_DIR     = 'kubejs/data/kubejs/db/profession_playerdata_db'
+                                                                     // 外部存储根目录
+  const PROF_PLAYERDATA_SUBDIR  = 'kubejs/data/kubejs/db/profession_playerdata_db/playerdata'
+                                                                     // 玩家数据目录
+  const PROF_CONFIG_PATH        = 'kubejs/data/kubejs/db/profession_playerdata_db/config.json'
+                                                                     // 开关状态配置文件
+
 来源文件: server_scripts/profession/config/a_tacz_config.js
 加载顺序: 按文件名 a_ 前缀排第一，最先加载
 
@@ -56,6 +66,44 @@ startup 中的 const 不会与 server 中的 const 冲突。
 来源文件: server_scripts/profession/profession_gui.js
 
   const PROFESSIONS = [ { id: 'assault' }, { id: 'scout' }, ... , { id: 'sailor' }, { id: 'pilot' } ]
+
+来源文件: server_scripts/profession/config/c_storage.js
+    readStorageConfig()                         — 从 config.json 读取开关状态
+    writeStorageConfig(enabled)                 — 写入开关状态到 config.json
+    syncStorageConfig(server)                   — 同步 config.json → server.persistentData
+    isExternalStorageEnabled(server)            — 判断是否启用第三方全局存储
+    setExternalStorageEnabled(server, enabled)  — 设置第三方全局存储开关（双保险）
+    getExternalFilePath(uuid)                   — 获取外部文件路径 (playerdata/<uuid>.json)
+    readExternalData(uuid)                      — 读取外部玩家数据
+    writeExternalData(uuid, data)               — 写入外部玩家数据
+    collectPlayerData(player)                   — 收集玩家职业模块关键数据
+    backupPlayer(player)                        — 备份单个玩家到外部文件
+    backupAllOnline(server)                     — 备份所有在线玩家
+    restorePlayer(player)                       — 从外部文件恢复单个玩家
+    restoreAllOnline(server)                    — 恢复所有在线玩家
+    scheduleNextBackup(server)                  — 递归调度下一次备份
+    startBackupTimer(server)                    — 启动定时备份（每5分钟）
+    stopBackupTimer()                           — 停止定时备份
+    getExternalStorageStats(server)             — 获取存储状态统计
+
+  var 局部变量：
+    $backupTimerActive = false                  — 定时备份循环开关
+
+  持久化键（server.persistentData）：
+    profession_useExternal                      — 第三方全局存储开关（布尔值）
+
+  ServerEvents:
+    ServerEvents.loaded                         — 服务端加载时自动检查并启动定时器
+
+  新增文件 server_scripts/profession/profession_cmd.js：
+    注册指令 /profession（OP 2，独立命令注册）
+
+    /profession storage <on|off|status>         — 第三方全局存储开关管理
+    /profession backup [<targets>]              — 手动触发备份（支持 @a @p @s @r <玩家名>）
+    /profession restore [<targets>]             — 手动触发恢复
+
+  ⚠ 注意：storage/backup/restore 已从 kubejsadmin_cmd.js 移除，
+    转移到 profession_cmd.js 的 /profession 指令下。kubejsadmin 仅保留 profession 和 menu 子命令。
 
 来源文件: server_scripts/profession/profession_backpack.js
 

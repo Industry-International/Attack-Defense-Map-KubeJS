@@ -51,5 +51,13 @@ PlayerEvents.loggedIn(event => {
       // 无职业：自动添加 no_job 标签
       player.addTag('no_job')
     }
+
+    // ---- 第三方全局存储：登录时尝试恢复 ----
+    if (isExternalStorageEnabled(server)) {
+      var restored = restorePlayer(player)
+      if (restored) {
+        console.log('[职业存储] 玩家 ' + player.getName().getString() + ' 登录时自动恢复')
+      }
+    }
   })
 })
