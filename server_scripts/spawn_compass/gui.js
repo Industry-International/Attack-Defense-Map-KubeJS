@@ -330,3 +330,25 @@ function openSpawnSelector(player) {
     }
   )
 }
+
+// ========== 模块禁用清理 ==========
+// 当 /module spawn_compass off 时清空当前选择数据
+// 只清在线玩家（离线残留数据由模块守卫拦截，无影响）
+registerModuleDisableHandler('spawn_compass', function(server) {
+  // 1. 在线玩家：清空 persistentData
+  var iter = server.players.iterator()
+  while (iter.hasNext()) {
+    var p = iter.next()
+    delete p.persistentData[SPAWN_SELECTED_KEY]
+    delete p.persistentData[SPAWN_ALLOW_KEY]
+  }
+  console.log('[出生点选择器] 已清空在线玩家的选择数据')
+
+  // 2. 清空 server 级可见性配置（禁用所有出生点）
+  server.persistentData.putString(SPAWN_VISIBILITY_KEY, '{}')
+  console.log('[出生点选择器] 已重置出生点可见性配置')
+
+  // 3. 清空内存中的死亡倒计时
+  DEATH_TIME_MAP = {}
+  console.log('[出生点选择器] 已清空死亡倒计时内存表')
+})

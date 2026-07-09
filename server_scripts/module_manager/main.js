@@ -24,6 +24,20 @@ var $StringArgument = Java.loadClass('com.mojang.brigadier.arguments.StringArgum
 
 const MODULE_FLAG_PREFIX = 'module_'
 
+// ========== 模块禁用回调注册表 ==========
+// 各模块可在此注册回调函数，当模块被停用时自动调用以清理数据
+var MODULE_DISABLE_HANDLERS = {}
+
+/**
+ * 注册模块停用时的清理回调
+ * @param {string} moduleId - 模块ID
+ * @param {function} handler - 回调函数(server)
+ */
+function registerModuleDisableHandler(moduleId, handler) {
+  MODULE_DISABLE_HANDLERS[moduleId] = handler
+  console.log('[模块管理器] 注册停用回调: ' + moduleId)
+}
+
 // ========== 查找辅助 ==========
 
 /** 按 ID 查找模块注册记录 */
@@ -59,6 +73,19 @@ function isModuleEnabled(server, moduleId) {
 function setModuleEnabled(server, moduleId, enabled) {
   server.persistentData.putBoolean(MODULE_FLAG_PREFIX + moduleId, enabled)
   console.log('[模块管理器] ' + moduleId + ' 已' + (enabled ? '启用' : '停用'))
+
+  // 停用时调用已注册的清理回调
+  if (!enabled) {
+    var handler = MODULE_DISABLE_HANDLERS[moduleId]
+    if (typeof handler === 'function') {
+      try {
+        handler(server)
+        console.log('[模块管理器] ' + moduleId + ' 清理完成')
+      } catch(e) {
+        console.error('[模块管理器] ' + moduleId + ' 清理回调出错: ' + e)
+      }
+    }
+  }
 }
 
 // ========== 命令注册 ==========

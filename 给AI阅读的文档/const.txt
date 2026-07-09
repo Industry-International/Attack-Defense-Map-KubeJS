@@ -132,6 +132,12 @@ startup 中的 const 不会与 server 中的 const 冲突。
 
   const MODULE_FLAG_PREFIX = 'module_'                            // 模块持久化前缀
 
+  var MODULE_DISABLE_HANDLERS = {}                                // 模块禁用回调注册表
+                                                                  // { moduleId: function(server) }
+  function registerModuleDisableHandler(moduleId, handler)        // 注册模块禁用回调
+    // 当 /module <id> off 执行时，回调 handler(server) 被自动调用，用于模块清理数据
+    // 任何模块可在其任一脚本中调用此函数注册回调
+
 来源文件: server_scripts/sbw_vehicle/ammo_replenish/a_config.js
 （字段：scanRange / cooldown(秒) / enterDelay(秒) / slots）
 
@@ -435,7 +441,8 @@ StartupEvents.registry('block', ...) 注册的方块：
   ======== module_manager/main.js ========
     findModule(id)                             — 按ID查找模块注册记录
     isModuleEnabled(server, moduleId)          — 判断模块是否启用
-    setModuleEnabled(server, moduleId, enabled) — 设置模块启用状态
+    setModuleEnabled(server, moduleId, enabled) — 设置模块启用状态（停用时自动调用已注册的清理回调）
+    registerModuleDisableHandler(id, fn)       — 注册模块停用时的清理回调 fn(server)
 
   ======== team/team_selector_gui.js ========
     openTeamPage(player)                        — 打开队伍选择GUI
@@ -469,6 +476,12 @@ StartupEvents.registry('block', ...) 注册的方块：
     getPlayerSelectedId(player)                 — 获取玩家选择的出生点ID
     renderSpawnSelector(gui, player)            — 渲染出生点选择GUI
     openSpawnSelector(player)                   — 打开出生点选择GUI
+    ★ 注册了 registerModuleDisableHandler('spawn_compass', ...)
+      当 /module spawn_compass off 时自动清空：
+        - 在线玩家的 spawn_selected / spawn_allow_respawn
+        - server 级可见性配置（spawn_visibility）
+        - 内存死亡倒计时表（DEATH_TIME_MAP）
+      离线玩家的残留数据由模块守卫拦截，不影响功能
 
   文件: respawn.js
     teleportPlayerTo(player, dim, x, y, z)      — 传送玩家到坐标
