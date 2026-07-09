@@ -902,8 +902,8 @@ PlayerEvents.loggedOut(event => {
   p.removeTag('no_loadout')
 })
 
-/** 当 GUI 打开时阻止拾取地上的物品 */
-ItemEvents.pickedUp(event => {
+/** 当 GUI 打开时阻止拾取地上的物品（canPickUp 在拾取前触发，可取消） */
+ItemEvents.canPickUp(event => {
   if (event.getEntity().persistentData.guiOpen) {
     event.cancel()
   }
