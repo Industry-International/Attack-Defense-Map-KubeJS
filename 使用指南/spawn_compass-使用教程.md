@@ -108,6 +108,37 @@ const SPAWN_POINTS = {
 
 ---
 
+## 模块集成
+
+出生点选择器受 `/module` 命令管理，模块 ID 为 `spawn_compass`。
+
+### 模块禁用时的自动清理
+
+执行 `/module spawn_compass off` 后自动执行：
+
+| 清理项 | 说明 |
+|--------|------|
+| 在线玩家的 `spawn_selected` | 清空已选的出生点 |
+| 在线玩家的 `spawn_allow_respawn` | 关闭允许他人复活 |
+| server 级 `spawn_visibility` | 重置为 `{}`，所有出生点不可见 |
+| 内存死亡倒计时 | 清空倒计时表 |
+
+> 离线玩家的残留数据由模块守卫（`isModuleEnabled`）拦截，不会影响功能。
+
+### 使用示例
+
+```mcfunction
+# 游戏开始：启用模块
+/module spawn_compass on
+/spawn_selector visible attacker attack
+/spawn_selector visible defender defense
+
+# 游戏结束：停用模块（自动清理所有选择数据）
+/module spawn_compass off
+```
+
+---
+
 ## 相关文档
 
 | 文档 | 说明 |
