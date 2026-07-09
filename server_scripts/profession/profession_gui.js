@@ -814,8 +814,7 @@ function getTypeDisplayItem(type, profession, category) {
 function openPage(player, page) {
   // 空处理：page 为空时默认到职业选择
   if (!page) { player.tell(Component.literal('§c[配置错误] openPage 收到空页面')); return }
-  // 标记 GUI 已打开，禁用物品拾取
-  player.persistentData.guiOpen = true
+  // 标记玩家正在使用 GUI（禁止发放装备）
   player.addTag('no_loadout')
 
   // 解析页面参数（支持 "page:type:num" 三部分格式）
@@ -856,6 +855,10 @@ function openPage(player, page) {
   }
 
   player.openChestGUI(title, 6, gui => {
+    /** 容器关闭时自动清理 no_loadout 标签 */
+    gui.closed = function() {
+      player.removeTag('no_loadout')
+    }
 
     if (actualPage !== 'prof' && actualPage !== 'weapon_config') {
       drawSubPageFrame(gui)
@@ -887,23 +890,4 @@ ItemEvents.rightClicked('kubejs:profession_selector', event => {
   openPage(player, player.persistentData.profession ? 'weapon_config' : 'prof')
 })
 
-// ========== GUI 打开时禁用物品拾取 ==========
 
-/** 关闭 GUI 或退出时清除标记 + 移除 no_loadout 标签 */
-PlayerEvents.inventoryClosed(event => {
-  var p = event.getPlayer()
-  p.persistentData.guiOpen = false
-  p.removeTag('no_loadout')
-})
-
-PlayerEvents.loggedOut(event => {
-  var p = event.getPlayer()
-  p.persistentData.guiOpen = false
-  p.removeTag('no_loadout')
-})
-
-/** 当 GUI 打开时阻止拾取地上的物品 */
-ItemEvents.pickedUp(event => {
-  if (event.getEntity().persistentData.guiOpen) {
-  }
-})

@@ -196,7 +196,6 @@ function renderTeamSelect(gui, player, openPage) {
 // ========== 打开队伍选择 GUI ==========
 
 function openTeamPage(player) {
-  player.persistentData.guiOpen = true
   // 重置加入战场门控标志（每次打开 GUI 时清空，确保可再次点击）
   delete player.persistentData.joinBattleTriggered
 
@@ -217,18 +216,4 @@ ItemEvents.rightClicked('kubejs:team_selector', function(event) {
   openTeamPage(player)
 })
 
-// ========== GUI 打开时禁用物品拾取 ==========
 
-PlayerEvents.inventoryClosed(function(event) {
-  event.getPlayer().persistentData.guiOpen = false
-})
-
-PlayerEvents.loggedOut(function(event) {
-  event.getPlayer().persistentData.guiOpen = false
-})
-
-/** 当 GUI 打开时阻止拾取地上的物品 */
-ItemEvents.pickedUp(event => {
-  if (event.getEntity().persistentData.guiOpen) {
-  }
-})
