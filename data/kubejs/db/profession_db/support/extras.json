@@ -15,6 +15,13 @@
         {
             "item": "kubejs:suicide_note",
             "count": 1
+        },
+        {
+            "item": "superbwarfare:repair_tool",
+            "count": 1,
+            "tag": {
+                "superbwarfare:energy": 100000
+            }
         }
     ]
 }

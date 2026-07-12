@@ -30,6 +30,10 @@
         {
             "item": "kubejs:suicide_note",
             "count": 1
+        },
+        {
+            "item": "minecraft:spyglass",
+            "count": 1
         }
     ]
 }
