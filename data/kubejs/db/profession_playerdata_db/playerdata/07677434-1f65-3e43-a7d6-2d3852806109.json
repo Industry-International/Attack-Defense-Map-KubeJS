@@ -1,5 +1,5 @@
 {
 	"taczAttachments": "",
-	"professionBackpack": "{\"assault\":{\"1\":{\"mainWeapon\":\"scar_l\",\"offhandWeapon\":\"ruby\",\"specialWeapon\":\"snowball\",\"attachments\":{\"scar_l\":{\"scope\":\"lavender:scope_rifles_x4\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:stock_tactical_ar\",\"laser\":\"tacz:laser_lopro\",\"extended_mag\":\"tacz:extended_mag_3\"}}}}",
+	"professionBackpack": "{\"assault\":{\"1\":{\"mainWeapon\":\"scar_l\",\"offhandWeapon\":\"ruby\",\"specialWeapon\":\"snowball\",\"attachments\":{\"scar_l\":{\"scope\":\"lavender:scope_rifles_x4\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:stock_tactical_ar\",\"laser\":\"tacz:laser_lopro\",\"extended_mag\":\"tacz:extended_mag_3\"}}}}}",
 	"_savedAt": "2026-07-09T05:20:11.494Z"
 }

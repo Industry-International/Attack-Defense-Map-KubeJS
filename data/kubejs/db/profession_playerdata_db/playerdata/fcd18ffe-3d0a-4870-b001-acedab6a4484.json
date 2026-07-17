@@ -1,5 +1,5 @@
 {
-	"taczAttachments": "{\"assault\":{\"ak47\":{\"scope\":\"lavender:scope_rifles_x4\",\"extended_mag\":\"tacz:extended_mag_3\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:oem_stock_light\"}}}",
+	"taczAttachments": "{\"assault\":{\"ak47\":{\"scope\":\"lavender:scope_rifles_x4\",\"extended_mag\":\"tacz:extended_mag_3\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:oem_stock_light\"}},\"scout\":{\"p320\":{\"extended_mag\":\"tacz:extended_mag_2\",\"laser\":\"tacz:laser_lopro\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"scope\":\"tacz:sight_fastfire_pistol\"}},\"pilot\":{\"p320\":{\"scope\":\"tacz:sight_rmr_dot\",\"extended_mag\":\"tacz:extended_mag_1\",\"muzzle\":\"tacz:muzzle_silencer_mirage\",\"laser\":\"tacz:laser_compact\"}}}",
 	"professionBackpack": "{\"assault\":{\"1\":{\"mainWeapon\":\"ak47\",\"offhandWeapon\":\"mars\"}}}",
-	"_savedAt": "2026-07-17T05:09:44.529Z"
+	"_savedAt": "2026-07-17T05:21:02.860Z"
 }
