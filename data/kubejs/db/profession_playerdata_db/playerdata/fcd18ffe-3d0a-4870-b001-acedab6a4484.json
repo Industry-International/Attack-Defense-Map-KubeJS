@@ -1,6 +1,5 @@
 {
-	"profession": "",
-	"taczAttachments": "",
+	"taczAttachments": "{\"assault\":{\"ak47\":{\"scope\":\"lavender:scope_rifles_x4\",\"extended_mag\":\"tacz:extended_mag_3\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:oem_stock_light\"}}}",
 	"professionBackpack": "{\"assault\":{\"1\":{\"mainWeapon\":\"ak47\",\"offhandWeapon\":\"mars\"}}}",
-	"_savedAt": "2026-07-07T05:56:43.457Z"
+	"_savedAt": "2026-07-17T05:09:44.529Z"
 }

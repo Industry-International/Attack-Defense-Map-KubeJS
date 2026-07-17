@@ -145,12 +145,8 @@ function attachmentKey(slotKey) {
  */
 function applySavedAttachments(gunStack, player, weaponId) {
   var pureId = cleanId(weaponId)
-  var raw
-  try { raw = player.persistentData.getString('taczAttachments') } catch(e) { raw = null }
-  if (!raw || raw === '') return
-  var all
-  try { all = JSON.parse(raw) } catch(e) { return }
-  var attMap = all[pureId]
+  var data = _readTaczAttachments(player)
+  var attMap = (data.all[data.profession] || {})[pureId]
   if (!attMap || Object.keys(attMap).length === 0) return
 
   var custom = gunStack.getCustomData()

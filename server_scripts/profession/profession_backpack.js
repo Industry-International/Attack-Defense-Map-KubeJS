@@ -43,10 +43,10 @@ function saveToBackpackSlot(player, profession, slotIndex) {
   if (main) data.mainWeapon = main
   if (off)  data.offhandWeapon = off
   if (sp)   data.specialWeapon = sp
-  // 附件配置：保存 taczAttachments 的完整副本（每个背包槽位独立）
-  var attRaw = player.persistentData.getString('taczAttachments')
-  if (attRaw && attRaw !== '') {
-    try { data.attachments = JSON.parse(attRaw) } catch(e) {}
+  // 附件配置：保存 taczAttachments[当前职业] 的扁平 weaponId 快照
+  var tacData = _readTaczAttachments(player)
+  if (tacData.all[tacData.profession] && Object.keys(tacData.all[tacData.profession]).length > 0) {
+    data.attachments = JSON.parse(JSON.stringify(tacData.all[tacData.profession]))
   }
   all[profession][String(slotIndex)] = data
   setBackpackData(player, all)
@@ -203,9 +203,13 @@ function renderBackpackSelect(gui, player, openPage, mode, pageNum) {
             if (data.specialWeapon) player.persistentData.putString('specialWeapon', String(data.specialWeapon))
             else player.persistentData.putString('specialWeapon', '')
             if (data.attachments) {
-              player.persistentData.putString('taczAttachments', JSON.stringify(data.attachments))
+              var curTacz = _readTaczAttachments(player)
+              curTacz.all[prof] = JSON.parse(JSON.stringify(data.attachments))
+              _writeTaczAttachments(player, curTacz.all)
             } else {
-              player.persistentData.putString('taczAttachments', '{}')
+              var curTacz = _readTaczAttachments(player)
+              curTacz.all[prof] = {}
+              _writeTaczAttachments(player, curTacz.all)
             }
             player.tell(Text.translate('msg.kubejs.backpack.loaded', String(idx)))
             openPage(player, 'weapon_config')

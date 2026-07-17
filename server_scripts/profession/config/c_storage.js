@@ -110,8 +110,7 @@ function writeExternalData(uuid, data) {
 /** 收集玩家职业模块的关键 persistentData */
 function collectPlayerData(player) {
   return {
-    profession:          player.persistentData.getString('profession') || '',
-    // 主/副/特殊武器不保存——这些数据本身在玩家 NBT 中，且不需要恢复
+    // taczAttachments 按职业域存储（{ assault: {scar_l:...}, scout: {...} }），自带职业上下文
     taczAttachments:     player.persistentData.getString('taczAttachments') || '',
     professionBackpack:  player.persistentData.getString('professionBackpack') || '',
     _savedAt:            new Date().toISOString(),
@@ -168,17 +167,7 @@ function restorePlayer(player) {
 
   var restored = false
 
-  // profession 恢复（作为 taczAttachments 的上下文依据）
-  var profExt = external.profession
-  if (profExt) {
-    var profCur = player.persistentData.getString('profession') || ''
-    if (profExt !== profCur) {
-      player.persistentData.putString('profession', profExt)
-      restored = true
-    }
-  }
-
-  // taczAttachments 恢复
+  // taczAttachments 恢复（按职业域存储，自带职业上下文）
   var attExt = external.taczAttachments
   if (attExt) {
     var attCur = player.persistentData.getString('taczAttachments') || ''

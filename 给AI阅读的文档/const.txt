@@ -76,7 +76,7 @@ startup 中的 const 不会与 server 中的 const 冲突。
     getExternalFilePath(uuid)                   — 获取外部文件路径 (playerdata/<uuid>.json)
     readExternalData(uuid)                      — 读取外部玩家数据
     writeExternalData(uuid, data)               — 写入外部玩家数据
-    collectPlayerData(player)                   — 收集玩家职业模块关键数据（只存 profession + taczAttachments + professionBackpack）
+    collectPlayerData(player)                   — 收集玩家职业模块关键数据（只存 taczAttachments + professionBackpack）
     backupPlayer(player)                        — 备份单个玩家到外部文件
     backupAllOnline(server)                     — 备份所有在线玩家
     restorePlayer(player)                       — 从外部文件恢复单个玩家
@@ -364,10 +364,12 @@ StartupEvents.registry('block', ...) 注册的方块：
 ================================================================
 
   ======== a_tacz_config.js (profession/config) ========
+    _readTaczAttachments(player)                 — 读取 taczAttachments（职业域），检测到旧格式自动清空
+    _writeTaczAttachments(player, all)           — 写入 taczAttachments
     filler(color)                            — 玻璃板填充辅助
-    getGunAttachments(player, weaponId)      — 获取配件配置
-    setGunAttachment(player, weaponId, slotKey, attachmentId) — 设置配件
-    clearGunAttachments(player, weaponId)    — 清除配件
+    getGunAttachments(player, weaponId)      — 获取配件配置（按当前职业域）
+    setGunAttachment(player, weaponId, slotKey, attachmentId) — 设置配件（按当前职业域）
+    clearGunAttachments(player, weaponId)    — 清除配件（按当前职业域）
     saveGunAttachments(player, weaponId)     — 保存配件到持久化
     cleanId(raw)                             — 清洗ID（去引号）
     isTaczGun(wp)                            — 判断TACZ枪械

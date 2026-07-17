@@ -52,49 +52,71 @@ function resolveTaczGun(cfg) {
   })
 }
 
-// ========== 配件持久化 ==========
+// ========== 配件持久化（按职业域存储，旧格式自动迁移）==========
+// taczAttachments 格式：{ "assault": { "scar_l": {scope:...}, ... }, "scout": {...} }
+// 背包（快照）中的 data.attachments 为扁平 weaponId 对象
 
-function getGunAttachments(player, weaponId) {
-  var raw
+/** 读取 taczAttachments（职业域格式），检测到旧格式直接清空 */
+function _readTaczAttachments(player) {
+  var raw = ''
   try { raw = player.persistentData.getString('taczAttachments') } catch(e) { raw = null }
-  if (!raw || raw === '') return {}
-  try { return JSON.parse(raw)[weaponId] || {} } catch(e) { return {} }
+  if (!raw || raw === '') return { all: {}, profession: player.persistentData.getString('profession') || '' }
+
+  var all
+  try { all = JSON.parse(raw) } catch(e) { all = {} }
+  var profession = player.persistentData.getString('profession') || ''
+
+  // 检测旧格式（扁平 weaponId）→ 直接清空
+  var keys = Object.keys(all)
+  if (keys.length > 0) {
+    var profTagList = getProfTagList()
+    var isNew = false
+    for (var i = 0; i < keys.length; i++) {
+      if (profTagList.indexOf(keys[i]) !== -1) { isNew = true; break }
+    }
+    if (!isNew) {
+      all = {}
+      try { player.persistentData.putString('taczAttachments', '{}') } catch(e) {}
+    }
+  }
+
+  return { all: all, profession: profession }
 }
 
-function setGunAttachment(player, weaponId, slotKey, attachmentId) {
-  var existing = ''
-  try { existing = player.persistentData.getString('taczAttachments') } catch(e) {}
-  var all = {}
-  try { all = JSON.parse(existing || '{}') } catch(e) {}
-  if (!all[weaponId]) all[weaponId] = {}
-  if (attachmentId) all[weaponId][slotKey] = attachmentId
-  else delete all[weaponId][slotKey]
+/** 写入 taczAttachments */
+function _writeTaczAttachments(player, all) {
   try { player.persistentData.putString('taczAttachments', JSON.stringify(all)) } catch(e) {}
 }
 
+function getGunAttachments(player, weaponId) {
+  var data = _readTaczAttachments(player)
+  return (data.all[data.profession] || {})[weaponId] || {}
+}
+
+function setGunAttachment(player, weaponId, slotKey, attachmentId) {
+  var data = _readTaczAttachments(player)
+  if (!data.all[data.profession]) data.all[data.profession] = {}
+  if (!data.all[data.profession][weaponId]) data.all[data.profession][weaponId] = {}
+  if (attachmentId) data.all[data.profession][weaponId][slotKey] = attachmentId
+  else delete data.all[data.profession][weaponId][slotKey]
+  _writeTaczAttachments(player, data.all)
+}
+
 function clearGunAttachments(player, weaponId) {
-  try {
-    var existing = player.persistentData.getString('taczAttachments')
-    var all = JSON.parse(existing || '{}')
-    delete all[weaponId]
-    player.persistentData.putString('taczAttachments', JSON.stringify(all))
-  } catch(e) {}
+  var data = _readTaczAttachments(player)
+  if (data.all[data.profession]) delete data.all[data.profession][weaponId]
+  _writeTaczAttachments(player, data.all)
 }
 
 function saveGunAttachments(player, weaponId) {
   var pureId = cleanId(weaponId)
-  try {
-    var raw = player.persistentData.getString('taczAttachments')
-    if (!raw || raw === '') { player.tell(Component.translatable('msg.kubejs.attach.nothing_to_save')); return }
-    var all = JSON.parse(raw)
-    if (all[pureId] && Object.keys(all[pureId]).length > 0) {
-      player.persistentData.putString('taczAttachments', JSON.stringify(all))
-      player.tell(Component.translatable('msg.kubejs.attach.saved'))
-    } else {
-      player.tell(Component.translatable('msg.kubejs.attach.nothing_to_save'))
-    }
-  } catch(e) {
-    player.tell(Component.literal('§cSave failed'))
+  var data = _readTaczAttachments(player)
+  var profData = data.all[data.profession] || {}
+  if (profData[pureId] && Object.keys(profData[pureId]).length > 0) {
+    _writeTaczAttachments(player, data.all)
+    player.tell(Component.translatable('msg.kubejs.attach.saved'))
+  } else {
+    player.tell(Component.translatable('msg.kubejs.attach.nothing_to_save'))
   }
 }
 
