@@ -104,7 +104,9 @@ function openAttachmentMenu(player, weaponId, gunId, returnPage) {
   // 没传 returnPage 时默认返回武器配置页
   if (!returnPage) returnPage = 'weapon_config'
   player.persistentData.guiOpen = true
-  var cfg = getTaczConfig(weaponId)
+  // 传入玩家职业确保同名 weaponId 命中正确的职业配件配置
+  var profession = player.persistentData.getString('profession')
+  var cfg = getTaczConfig(weaponId, profession)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var gunName = Text.translate(gunId.split(':')[0] + '.gun.' + gunId.split(':')[1] + '.name')
   var slotDefs = getSlotDefinitions()
@@ -181,7 +183,9 @@ function makeSlotCb(sk, ins, player, weaponId, gunId, returnPage) {
 var ATTACH_PAGE_SIZE = 21
 function openAttachmentSelect(player, weaponId, gunId, slotKey, returnPage, pageNum) {
   player.persistentData.guiOpen = true
-  var cfg = getTaczConfig(weaponId)
+  // 传入玩家职业确保同名 weaponId 命中正确的职业配件配置
+  var profession = player.persistentData.getString('profession')
+  var cfg = getTaczConfig(weaponId, profession)
   if (!cfg) { player.tell(Component.literal('§c未找到枪械配置')); return }
   var list = cfg.attachments[slotKey]
   if (!list || list.length === 0) {

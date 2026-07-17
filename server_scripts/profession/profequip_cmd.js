@@ -68,7 +68,9 @@ function giveToBackpack(player, stack) {
 /** 给玩家发放 TACZ 弹药（有 level 给弹药盒，无 level 给散装弹药） */
 function giveTaczAmmo(player, weaponId, slot) {
   var pureId = cleanId(weaponId)
-  var cfg = getTaczConfig(pureId)
+  // 传入玩家职业确保同名 weaponId 命中正确的职业配置
+  var profession = player.persistentData.getString('profession')
+  var cfg = getTaczConfig(pureId, profession)
   if (!cfg || !cfg.ammo) return
 
   var ammo = cfg.ammo

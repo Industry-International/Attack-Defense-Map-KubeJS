@@ -30,7 +30,7 @@ function loadProfessionDB() {
   var db = {
     loaded: true,
     professions: {},          // professionId → merged config (armor, extras, weaponLists, nonTacz)
-    weapons: {},              // weaponId → weapon data (gunId, ammo, attachments)
+    weapons: {},              // professionId → { weaponId → weapon data }（按职业隔离）
     byProfession: {},         // professionId → [weaponId, ...]
     slotDefinitions: (slotDef && slotDef.slots) ? slotDef.slots : {},
     profTagList: [],          // 所有职业的 tag 列表
@@ -107,10 +107,10 @@ function loadProfessionDB() {
         }
       }
 
-      // --- tacz/*.json: TACZ 武器数据 ---
+      // --- tacz/*.json: TACZ 武器数据（按职业隔离存储，同名 weaponId 不会覆盖）---
       if (data.weaponId && data.gunId) {
-        db.weapons[data.weaponId] = data
-        db.weapons[data.weaponId]._profession = profKey
+        if (!db.weapons[profKey]) db.weapons[profKey] = {}
+        db.weapons[profKey][data.weaponId] = data
         weaponIds.push(data.weaponId)
       }
     }
@@ -144,16 +144,25 @@ function getProfessionConfig(professionId) {
   return db.professions[clean] || null
 }
 
-/** 获取武器数据（gunId、弹药、配件） */
-function getWeaponData(weaponId) {
+/** 获取武器数据（gunId、弹药、配件），支持按职业隔离查询 */
+function getWeaponData(weaponId, professionId) {
   var db = getProfessionDB()
   var clean = cleanId(weaponId)
-  return db.weapons[clean] || null
+  // 优先从指定职业查找（精确命中，解决同名 weaponId 冲突）
+  if (professionId) {
+    var profData = db.weapons[cleanId(professionId)]
+    if (profData && profData[clean]) return profData[clean]
+  }
+  // 回退：遍历所有职业（兼容无冲突场景 + 调用方未传职业的情况）
+  for (var pid in db.weapons) {
+    if (db.weapons[pid] && db.weapons[pid][clean]) return db.weapons[pid][clean]
+  }
+  return null
 }
 
-/** TACZ 兼容：根据 weaponId 获取枪械配置 */
-function getTaczConfig(weaponId) {
-  var data = getWeaponData(weaponId)
+/** TACZ 兼容：根据 weaponId 获取枪械配置，支持按职业隔离查询 */
+function getTaczConfig(weaponId, professionId) {
+  var data = getWeaponData(weaponId, professionId)
   if (!data || !data.gunId) return null
   return {
     gunId: data.gunId,
@@ -232,7 +241,7 @@ function getProfessionWeaponList(profession, category) {
   for (var i = 0; i < parsed.flatIds.length; i++) {
     var id = parsed.flatIds[i]
     var pureId = cleanId(id)
-    var weaponData = db.weapons[pureId]
+    var weaponData = getWeaponData(pureId, cleanProf)
     if (weaponData) {
       result.push({
         id: id,
@@ -251,6 +260,8 @@ function getProfessionWeaponList(profession, category) {
   }
   return result
 }
+
+/** 兼容旧接口：无职业上下文的武器列表查询（遍历所有职业） */
 
 /**
  * 获取某职业某分类下的所有武器类型
@@ -292,7 +303,7 @@ function getProfessionWeaponListByType(profession, category, type) {
     for (var i = 0; i < ids.length; i++) {
       var id = ids[i]
       var pureId = cleanId(id)
-      var weaponData = db.weapons[pureId]
+      var weaponData = getWeaponData(pureId, cleanProf)
       if (weaponData) {
         result.push({
           id: id,

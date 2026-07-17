@@ -20,10 +20,13 @@ if (db.loaded) {
   VANILLA_WEAPON_DISPLAY = db.VANILLA_WEAPON_DISPLAY
   VANILLA_WEAPON_AMMO = db.VANILLA_WEAPON_AMMO
 
-  // 构建 GUN_TACZ_FLAT
-  for (var wid in db.weapons) {
-    if (db.weapons.hasOwnProperty(wid)) {
-      var w = db.weapons[wid]
+  // 构建 GUN_TACZ_FLAT（db.weapons 现在是二维结构：职业 → 武器ID → 数据）
+  for (var pid in db.weapons) {
+    if (!db.weapons.hasOwnProperty(pid)) continue
+    var profWeapons = db.weapons[pid]
+    for (var wid in profWeapons) {
+      if (!profWeapons.hasOwnProperty(wid)) continue
+      var w = profWeapons[wid]
       GUN_TACZ_FLAT[wid] = {
         gunId: w.gunId,
         GunFireMode: w.gunFireMode || 'SEMI',
