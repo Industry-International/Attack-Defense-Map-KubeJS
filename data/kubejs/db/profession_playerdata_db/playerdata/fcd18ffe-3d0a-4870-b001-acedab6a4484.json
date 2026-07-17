@@ -1,8 +1,5 @@
 {
 	"profession": "",
-	"mainWeapon": "",
-	"offhandWeapon": "",
-	"specialWeapon": "",
 	"taczAttachments": "",
 	"professionBackpack": "{\"assault\":{\"1\":{\"mainWeapon\":\"ak47\",\"offhandWeapon\":\"mars\"}}}",
 	"_savedAt": "2026-07-07T05:56:43.457Z"

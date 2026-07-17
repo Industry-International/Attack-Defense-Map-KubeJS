@@ -1,9 +1,6 @@
 {
 	"profession": "scout",
-	"mainWeapon": "man_m95",
-	"offhandWeapon": "p320",
-	"specialWeapon": "snowball",
 	"taczAttachments": "{\"scar_l\":{\"scope\":\"lavender:scope_rifles_x4\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:stock_tactical_ar\",\"laser\":\"tacz:laser_lopro\",\"extended_mag\":\"tacz:extended_mag_3\"},\"sks_tactical\":{\"scope\":\"tacz:scope_mk5hd\",\"muzzle\":\"tacz:muzzle_brake_pioneer\",\"stock\":\"tacz:oem_stock_tactical\",\"grip\":\"tacz:grip_rk0\"},\"man_m95\":{\"scope\":\"tacz:scope_mk5hd\"}}",
-	"professionBackpack": "{\"assault\":{\"1\":{\"mainWeapon\":\"scar_l\",\"offhandWeapon\":\"ruby\",\"specialWeapon\":\"snowball\",\"attachments\":{\"scar_l\":{\"scope\":\"lavender:scope_rifles_x4\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:stock_tactical_ar\",\"laser\":\"tacz:laser_lopro\",\"extended_mag\":\"tacz:extended_mag_3\"}}}}}",
+	"professionBackpack": "{\"assault\":{\"1\":{\"mainWeapon\":\"scar_l\",\"offhandWeapon\":\"ruby\",\"specialWeapon\":\"snowball\",\"attachments\":{\"scar_l\":{\"scope\":\"lavender:scope_rifles_x4\",\"muzzle\":\"tacz:muzzle_silencer_knight_qd\",\"stock\":\"tacz:stock_tactical_ar\",\"laser\":\"tacz:laser_lopro\",\"extended_mag\":\"tacz:extended_mag_3\"}}}}",
 	"_savedAt": "2026-07-09T05:20:11.494Z"
 }

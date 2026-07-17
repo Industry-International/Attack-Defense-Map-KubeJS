@@ -111,9 +111,7 @@ function writeExternalData(uuid, data) {
 function collectPlayerData(player) {
   return {
     profession:          player.persistentData.getString('profession') || '',
-    mainWeapon:          player.persistentData.getString('mainWeapon') || '',
-    offhandWeapon:       player.persistentData.getString('offhandWeapon') || '',
-    specialWeapon:       player.persistentData.getString('specialWeapon') || '',
+    // 主/副/特殊武器不保存——这些数据本身在玩家 NBT 中，且不需要恢复
     taczAttachments:     player.persistentData.getString('taczAttachments') || '',
     professionBackpack:  player.persistentData.getString('professionBackpack') || '',
     _savedAt:            new Date().toISOString(),
@@ -170,21 +168,17 @@ function restorePlayer(player) {
 
   var restored = false
 
-  // 字符串字段（直接属性访问）
-  var strFields = ['profession', 'mainWeapon', 'offhandWeapon', 'specialWeapon']
-  for (var i = 0; i < strFields.length; i++) {
-    var key = strFields[i]
-    var extVal = external[key]
-    if (extVal) {
-      var curVal = player.persistentData[key] || ''
-      if (extVal !== curVal) {
-        player.persistentData[key] = extVal
-        restored = true
-      }
+  // profession 恢复（作为 taczAttachments 的上下文依据）
+  var profExt = external.profession
+  if (profExt) {
+    var profCur = player.persistentData.getString('profession') || ''
+    if (profExt !== profCur) {
+      player.persistentData.putString('profession', profExt)
+      restored = true
     }
   }
 
-  // taczAttachments（getString 访问）
+  // taczAttachments 恢复
   var attExt = external.taczAttachments
   if (attExt) {
     var attCur = player.persistentData.getString('taczAttachments') || ''
